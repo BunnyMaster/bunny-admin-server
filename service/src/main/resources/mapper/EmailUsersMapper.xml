@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.EmailUsersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.system.EmailUsers">
+        <id column="id" property="id"/>
+        <result column="email" property="email"/>
+        <result column="email_template" property="emailTemplate"/>
+        <result column="password" property="password"/>
+        <result column="host" property="host"/>
+        <result column="port" property="port"/>
+        <result column="smtp_agreement" property="smtpAgreement"/>
+        <result column="is_default" property="isDefault"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, email, email_template, password, host, port, smtp_agreement, is_default, create_time, update_time, create_user, update_user, is_deleted
+    </sql>
+
+</mapper>

@@ -1,0 +1,23 @@
+Configuration example
+
+mail:
+    host: smtp.qq.com # 邮箱地址
+    port: 465 # 邮箱端口号
+    username: xxx@qq.com # 设置发送邮箱
+    password: xx # 如果是纯数字要加引号
+    default-encoding: UTF-8 # 设置编码格式
+    protocol: smtps
+    properties:
+      mail:
+        debug: true # 是否开启debug模式发送邮件
+        smtp:
+          auth: true
+          connectionTimeout: 5000 # 设置连接延迟
+          timeout: 5000 # 延迟时间
+          writeTimeout: 5000 # 写入邮箱延迟
+          allow8BitMime: true
+          sendPartial: true
+          ssl:
+            enabled: true # 是否开启SSL连接
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory # 必要设置！！！

@@ -1,0 +1,96 @@
+server:
+  port: 7070
+
+spring:
+  profiles:
+    active: @profiles.active@
+  application:
+    name: bunny-service
+
+  datasource:
+    #    type: com.zaxxer.hikari.HikariDataSource
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://${bunny.datasource.host}:${bunny.datasource.port}/${bunny.datasource.sqlData}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+    #    username: ${bunny.datasource.username}
+    #    password: ${bunny.datasource.password}
+    dynamic:
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      grace-destroy: false #是否优雅关闭数据源，默认为false，设置为true时，关闭数据源时如果数据源中还存在活跃连接，至多等待10s后强制关闭
+      datasource:
+        master:
+          type: com.zaxxer.hikari.HikariDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${bunny.datasource1.host}:${bunny.datasource1.port}/${bunny.datasource1.sqlData}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+          username: ${bunny.datasource1.username}
+          password: ${bunny.datasource1.password}
+        i18n:
+          type: com.zaxxer.hikari.HikariDataSource
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${bunny.datasource2.host}:${bunny.datasource2.port}/${bunny.datasource2.sqlData}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+          username: ${bunny.datasource2.username}
+          password: ${bunny.datasource2.password}
+      aop:
+        enabled: true
+
+  data:
+    redis:
+      host: ${bunny.redis.host}
+      port: ${bunny.redis.port}
+      database: ${bunny.redis.database}
+      password: ${bunny.redis.password}
+      lettuce:
+        pool:
+          max-active: 20 #最大连接数
+          max-wait: -1    #最大阻塞等待时间(负数表示没限制)
+          max-idle: 5    #最大空闲
+          min-idle: 0     #最小空闲
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  rabbitmq:
+    host: ${bunny.rabbitmq.host}
+    port: ${bunny.rabbitmq.port}
+    username: ${bunny.rabbitmq.username}
+    password: ${bunny.rabbitmq.password}
+    virtual-host: ${bunny.rabbitmq.virtual-host}
+#    publisher-confirm-type: correlated # 交换机确认
+#    publisher-returns: true # 队列确认
+#    listener:
+#      simple:
+#        acknowledge-mode: manual # 手动处理消息
+#    connection-timeout: 1s # 设置MQ连接超时时间
+#    template:
+#      retry:
+#        enabled: true # 失败重试
+#        initial-interval: 1000ms # 失败后初始时间
+#        multiplier: 1 # 失败后下次等待时长倍数 initial-interval * multiplier
+#        max-attempts: 3 # 最大重试次数
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  global-config:
+    db-config:
+      logic-delete-field: isDelete
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
+
+logging:
+  level:
+    cn.bunny.service.mapper: info
+    cn.bunny.service.controller: info
+    cn.bunny.service.service: info
+    root: info
+  pattern:
+    dateformat: HH:mm:ss:SSS
+  file:
+    path: "logs/${spring.application.name}"
+
+bunny:
+  minio:
+    endpointUrl: ${bunny.minio.endpointUrl}
+    accessKey: ${bunny.minio.accessKey}
+    secretKey: ${bunny.minio.secretKey}
+    bucket-name: ${bunny.minio.bucket-name}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.system.Role">
+        <id column="id" property="id"/>
+        <result column="role_code" property="roleCode"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_code, description, create_time, update_time, create_user, update_user, is_deleted
+    </sql>
+
+    <!-- 根据用户id查询当前用户所有角色 -->
+    <select id="selectListByUserId" resultType="cn.bunny.dao.entity.system.Role">
+        SELECT r.*
+        FROM sys_user u,
+             sys_role r,
+             sys_user_role ur
+        WHERE u.id = ur.user_id
+          AND r.id = ur.role_id
+          AND r.id = #{userId}
+    </select>
+
+</mapper>

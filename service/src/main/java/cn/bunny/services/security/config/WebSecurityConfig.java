@@ -1,0 +1,102 @@
+package cn.bunny.services.security.config;
+
+import cn.bunny.services.security.custom.CustomPasswordEncoder;
+import cn.bunny.services.security.filter.NoTokenAuthenticationFilter;
+import cn.bunny.services.security.filter.TokenAuthenticationFilter;
+import cn.bunny.services.security.filter.TokenLoginFilterService;
+import cn.bunny.services.security.handelr.SecurityAccessDeniedHandler;
+import cn.bunny.services.security.handelr.SecurityAuthenticationEntryPoint;
+import cn.bunny.services.security.service.CustomUserDetailsService;
+import cn.bunny.services.security.service.iml.CustomAuthorizationManagerServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+public class WebSecurityConfig {
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+    // 自定义用户接口
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+    // 自定义密码加密器
+    @Autowired
+    private CustomPasswordEncoder customPasswordEncoder;
+    // 自定义验证码
+    @Autowired
+    private CustomAuthorizationManagerServiceImpl customAuthorizationManagerService;
+    @Autowired
+    private AuthenticationConfiguration authenticationConfiguration;
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                // 前端段分离不需要---禁用明文验证
+                .httpBasic(AbstractHttpConfigurer::disable)
+                // 前端段分离不需要---禁用默认登录页
+                .formLogin(AbstractHttpConfigurer::disable)
+                // 前端段分离不需要---禁用退出页
+                .logout(AbstractHttpConfigurer::disable)
+                // 前端段分离不需要---csrf攻击
+                .csrf(AbstractHttpConfigurer::disable)
+                // 跨域访问权限，如果需要可以关闭后自己配置跨域访问
+                .cors(AbstractHttpConfigurer::disable)
+                // 前后端分离不需要---因为是无状态的
+                .sessionManagement(AbstractHttpConfigurer::disable)
+                // 前后端分离不需要---记住我，e -> e.rememberMeParameter("rememberBunny").rememberMeCookieName("rememberBunny").key("BunnyKey")
+                .rememberMe(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> {
+                    // 有样式文件，不需要访问权限
+                    // authorize.requestMatchers(RegexRequestMatcher.regexMatcher("^\\S*[css|js]$")).permitAll();
+                    authorize.requestMatchers(RegexRequestMatcher.regexMatcher("^.*\\.(css|js)$")).permitAll();
+                    // 上面都不是需要鉴权访问
+                    authorize.anyRequest().access(customAuthorizationManagerService);
+                })
+                .exceptionHandling(exception -> {
+                    // 请求未授权接口
+                    exception.authenticationEntryPoint(new SecurityAuthenticationEntryPoint());
+                    // 没有权限访问
+                    exception.accessDeniedHandler(new SecurityAccessDeniedHandler());
+                })
+                // 登录验证过滤器
+                .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, redisTemplate, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
+                // 其它权限鉴权过滤器
+                .addFilterAt(new NoTokenAuthenticationFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(new TokenAuthenticationFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
+                // 自定义密码加密器和用户登录
+                .passwordManagement(customPasswordEncoder).userDetailsService(customUserDetailsService);
+
+        return httpSecurity.build();
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    // 排出鉴定路径
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        String[] annotations = {
+                "/", "/ws/**",
+                "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
+                "/media.ico", "/favicon.ico", "*.html",
+                "/swagger-resources/**", "/v3/**", "/swagger-ui/**"
+        };
+        return web -> web.ignoring().requestMatchers(annotations);
+    }
+}

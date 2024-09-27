@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.system.AdminUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="password" property="password"/>
+        <result column="avatar" property="avatar"/>
+        <result column="sex" property="sex"/>
+        <result column="summary" property="summary"/>
+        <result column="last_login_ip" property="lastLoginIp"/>
+        <result column="last_login_ip_address" property="lastLoginIpAddress"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, nick_name, email, phone, password, avatar, sex, summary, last_login_ip, last_login_ip_address, status, create_user, create_time, update_time, update_user, is_deleted
+    </sql>
+
+</mapper>

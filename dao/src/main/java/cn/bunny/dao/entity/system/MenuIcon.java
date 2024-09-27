@@ -1,0 +1,19 @@
+package cn.bunny.dao.entity.system;
+
+import cn.bunny.dao.entity.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@Accessors(chain = true)
+@TableName("sys_menu_icon")
+@Schema(name = "MenuIcon对象", title = "系统菜单图标", description = "系统菜单图标")
+public class MenuIcon extends BaseEntity {
+    @Schema(name = "iconName", title = "icon 名称")
+    private String iconName;
+
+}

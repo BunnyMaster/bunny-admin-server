@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="false"  xmlns="http://ch.qos.logback/xml/ns/logback"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback
+                https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd">
+
+    <appender name="STOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %cyan([%thread]) %yellow(%-5level) %green(%logger{100}).%boldRed(%method)-%boldMagenta(%line) - %blue(%msg%n)
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- additivity:false 禁止重复打印日志 -->
+
+    <!-- 让SpringBoot内部日志ERROR级别 减少日志输出 -->
+    <logger name="org.springframework" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- 让mybatis整合包日志ERROR 减少日志输出 -->
+    <logger name="org.mybatis" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- 让ibatis 日志ERROR 减少日志输出 -->
+    <logger name="org.apache.ibatis" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- 让 tomcat包打印日志 日志ERROR 减少日志输出 -->
+    <logger name="org.apache" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- 我们自己开发的程序为DEBUG -->
+    <logger name="com.redpig" level="DEBUG" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+
+    <logger name="com.baomidou" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <logger name="com.zaxxer" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- Activiti日志 -->
+    <logger name="org.activiti" level="ERROR" />
+    <logger name="org.activiti.engine.impl.persistence.entity" level="DEBUG" />
+    <logger name="_org.springframework" level="ERROR" />
+    <logger name="springfox.documentation" level="ERROR" />
+
+    <!-- root级别开debug 子目录根据需要关闭 -->
+    <root level="DEBUG">
+        <appender-ref ref="STOUT"/>
+    </root>
+</configuration>
