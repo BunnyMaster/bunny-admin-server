@@ -1,7 +1,7 @@
 package cn.bunny.services.service.process;
 
 import cn.bunny.dao.vo.common.TreeSelectVo;
-import cn.bunny.dao.vo.router.RouterControllerVo;
+import cn.bunny.dao.vo.router.RouterManageVo;
 import cn.bunny.dao.vo.router.UserRouterVo;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ public class RouterServiceProcess {
      * @param nodeList 返回VO列表
      * @return 返回路由列表
      */
-    public List<RouterControllerVo> handleGetChildrenWithRouterControllerVo(Long nodeId, List<RouterControllerVo> nodeList) {
+    public List<RouterManageVo> handleGetChildrenWithRouterControllerVo(Long nodeId, List<RouterManageVo> nodeList) {
         return nodeList.stream()
                 .filter(node -> node.getParentId().equals(nodeId))
                 .peek(node -> node.setChildren(handleGetChildrenWithRouterControllerVo(node.getId(), nodeList)))

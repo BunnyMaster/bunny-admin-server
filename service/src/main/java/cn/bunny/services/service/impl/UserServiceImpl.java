@@ -93,7 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      * 退出登录
      */
     @Override
-    public void logOut() {
+    public void logout() {
         LoginVo loginVo = BaseContext.getLoginVo();
         redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(loginVo.getUsername()));
     }

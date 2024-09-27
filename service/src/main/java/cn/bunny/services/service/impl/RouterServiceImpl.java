@@ -2,15 +2,21 @@ package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.dao.dto.router.RouterManageDto;
 import cn.bunny.dao.entity.system.Router;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
+import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.router.RouterManageVo;
 import cn.bunny.dao.vo.router.RouterMeta;
 import cn.bunny.dao.vo.router.UserRouterVo;
 import cn.bunny.dao.vo.user.LoginVo;
 import cn.bunny.services.mapper.RouterMapper;
 import cn.bunny.services.service.RouterService;
 import cn.bunny.services.service.process.RouterServiceProcess;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +69,8 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
         // 查询用户角色，判断是否是管理员角色
         boolean isAdmin = roleList.stream().anyMatch(authUserRole -> authUserRole.equals("admin"));
-        if (isAdmin) {
-            routerList = list();
-        } else {
+        if (isAdmin) routerList = list();
+        else {
             List<Long> routerIds = baseMapper.selectListByUserId(loginVo.getId());
             routerList = baseMapper.selectParentListByRouterId(routerIds);
         }
@@ -99,5 +104,55 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         });
 
         return list;
+    }
+
+    /**
+     * * 管理菜单列表
+     *
+     * @param pageParams 分页想去
+     * @param dto        路由查询表单
+     * @return 系统菜单表分页
+     */
+    @Override
+    public PageResult<RouterManageVo> getMenusByPage(Page<Router> pageParams, RouterManageDto dto) {
+        IPage<Router> page = baseMapper.selectListByPage(pageParams, dto);
+
+        // 构建返回对象
+        List<RouterManageVo> voList = page.getRecords().stream().map(router -> {
+            RouterManageVo routerManageVo = new RouterManageVo();
+            BeanUtils.copyProperties(router, routerManageVo);
+            return routerManageVo;
+        }).toList();
+
+        return PageResult.<RouterManageVo>builder()
+                .list(voList)
+                .pageNo(page.getCurrent())
+                .pageSize(page.getSize())
+                .total(page.getTotal())
+                .build();
+    }
+
+    /**
+     * * 管理菜单列表
+     *
+     * @param dto 路由查询表单
+     * @return 系统菜单表
+     */
+    @Override
+    public List<RouterManageVo> getMenu(RouterManageDto dto) {
+        String title = dto.getTitle();
+        Boolean visible = dto.getVisible();
+
+        // 构建查询条件
+        LambdaQueryWrapper<Router> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.like(title != null, Router::getTitle, title)
+                .or()
+                .eq(visible != null, Router::getVisible, visible);
+
+        return list().stream().map(router -> {
+            RouterManageVo routerManageVo = new RouterManageVo();
+            BeanUtils.copyProperties(router, routerManageVo);
+            return routerManageVo;
+        }).toList();
     }
 }

@@ -1,11 +1,7 @@
 package cn.bunny.dao.entity.system;
 
 import cn.bunny.dao.entity.BaseEntity;
-import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -14,17 +10,17 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- *
+ * 系统菜单表
  * </p>
  *
  * @author Bunny
- * @since 2024-09-27
+ * @since 2024-09-28
  */
 @Getter
 @Setter
 @Accessors(chain = true)
 @TableName("sys_router")
-@ApiModel(value = "Router对象", description = "系统路由表")
+@ApiModel(value = "Router对象", description = "系统菜单表")
 public class Router extends BaseEntity {
 
     @ApiModelProperty("在项目中路径")
@@ -34,10 +30,10 @@ public class Router extends BaseEntity {
     private String routeName;
 
     @ApiModelProperty("父级id")
-    @JsonProperty("parentId")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long parentId;
+
+    @ApiModelProperty("菜单类型 （`0`代表菜单、`1`代表`iframe`、`2`代表外链、`3`代表按钮）")
+    private Integer menuType;
 
     @ApiModelProperty("路由title")
     private String title;
@@ -45,10 +41,15 @@ public class Router extends BaseEntity {
     @ApiModelProperty("图标")
     private String icon;
 
+    @ApiModelProperty("进入动画")
+    private String enterTransition;
+
+    @ApiModelProperty("退出动画")
+    private String leaveTransition;
+
     @ApiModelProperty("等级")
     private Integer routerRank;
 
     @ApiModelProperty("是否显示")
     private Boolean visible;
-
 }

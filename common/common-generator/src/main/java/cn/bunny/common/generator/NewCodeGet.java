@@ -14,8 +14,8 @@ public class NewCodeGet {
     // 作者名称
     public static final String author = "Bunny";
     // 公共路径
-    public static final String outputDir = "D:\\MyFolder\\auth-admin\\auth-server-java\\service";
-    // public static final String outputDir = "D:\\Project\\web\\PC\\auth\\auth-server\\services";
+    // public static final String outputDir = "D:\\MyFolder\\auth-admin\\auth-server-java\\service";
+    public static final String outputDir = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service";
     // 实体类名称
     public static final String entity = "Bunny";
 

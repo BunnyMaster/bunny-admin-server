@@ -6,6 +6,8 @@ import cn.bunny.dao.entity.system.Power;
 import cn.bunny.services.mapper.PowerMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
@@ -24,9 +26,11 @@ import java.util.function.Supplier;
 @Component
 @Slf4j
 public class CustomAuthorizationManagerServiceImpl implements AuthorizationManager<RequestAuthorizationContext> {
-    private final PowerMapper powerMapper;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private PowerMapper powerMapper;
 
-    public CustomAuthorizationManagerServiceImpl(PowerMapper powerMapper) {this.powerMapper = powerMapper;}
 
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
@@ -47,16 +51,18 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         List<String> roleCodeList = authentication.get().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
         // 校验权限
-        return new AuthorizationDecision(hasAuth(requestURI, roleCodeList));
+        return new AuthorizationDecision(hasAuth(requestURI));
     }
 
     /**
      * 查询用户所属的角色信息
      *
-     * @param requestURI   请求url地址
-     * @param roleCodeList 角色列表
+     * @param requestURI 请求url地址
      */
-    private Boolean hasAuth(String requestURI, List<String> roleCodeList) {
+    private Boolean hasAuth(String requestURI) {
+        // 角色代码列表
+        List<String> roleCodeList = BaseContext.getLoginVo().getRoles();
+
         // 判断是否是 admin
         boolean isAdmin = roleCodeList.stream().anyMatch(role -> role.equals("admin"));
         if (isAdmin) return true;

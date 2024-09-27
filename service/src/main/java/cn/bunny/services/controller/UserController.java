@@ -38,9 +38,9 @@ public class UserController {
     }
 
     @Operation(summary = "退出登录", description = "退出登录")
-    @PostMapping("logOut")
-    public Result<String> logOut() {
-        userService.logOut();
+    @PostMapping("logout")
+    public Result<String> logout() {
+        userService.logout();
         return Result.success(ResultCodeEnum.LOGOUT_SUCCESS);
     }
 }

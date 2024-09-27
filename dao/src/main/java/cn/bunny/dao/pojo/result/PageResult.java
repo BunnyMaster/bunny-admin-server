@@ -17,11 +17,11 @@ import java.util.List;
 @Builder
 public class PageResult<T> implements Serializable {
     // 当前页
-    private Integer pageNo;
+    private Long pageNo;
     // 每页记录数
-    private Integer pageSize;
+    private Long pageSize;
     // 总记录数
-    private long total;
+    private Long total;
     // 当前页数据集合
     private List<T> list;
 }

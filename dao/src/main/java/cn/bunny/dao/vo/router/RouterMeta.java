@@ -30,4 +30,7 @@ public class RouterMeta {
 
     @ApiModelProperty(value = "权限列表")
     private List<String> auths;
+
+    @ApiModelProperty("路由动画")
+    private RouterTransition transition;
 }

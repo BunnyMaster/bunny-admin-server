@@ -35,5 +35,5 @@ public interface UserService extends IService<AdminUser> {
     /**
      * * 退出登录
      */
-    void logOut();
+    void logout();
 }

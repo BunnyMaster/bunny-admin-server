@@ -35,9 +35,15 @@ public class UserRouterVo {
     @ApiModelProperty("在项目中路径")
     private String path;
 
+    @ApiModelProperty("菜单类型")
+    private Integer menuType;
+
     @ApiModelProperty("路由名称")
     @JsonProperty("name")
     private String routeName;
+
+    @ApiModelProperty("路由动画")
+    private RouterTransition transition;
 
     @ApiModelProperty("meta内容")
     private RouterMeta meta;
