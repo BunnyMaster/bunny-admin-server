@@ -8,10 +8,12 @@ import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.user.LoginVo;
+import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -25,7 +27,7 @@ public class NoTokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         // 判断是否有 token
         String token = request.getHeader("token");
         if (token == null) {
@@ -40,10 +42,11 @@ public class NoTokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        // token 存在查找 Redis
+        // 查找 Redis
         String username = JwtHelper.getUsername(token);
         Long userId = JwtHelper.getUserId(token);
-        LoginVo loginVo = (LoginVo) redisTemplate.opsForValue().get(RedisUserConstant.getAdminLoginInfoPrefix(username));
+        Object loginVoObject = redisTemplate.opsForValue().get(RedisUserConstant.getAdminLoginInfoPrefix(username));
+        LoginVo loginVo = JSON.parseObject(JSON.toJSONString(loginVoObject), LoginVo.class);
 
         // 判断用户是否禁用
         if (loginVo != null && loginVo.getStatus() == 1) {

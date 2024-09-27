@@ -1,31 +1,22 @@
-package cn.bunny.dao.entity.system;
+package cn.bunny.dao.vo.router;
 
-import cn.bunny.dao.entity.BaseEntity;
+import cn.bunny.dao.vo.BaseVo;
 import com.alibaba.fastjson2.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.*;
 
-/**
- * <p>
- *
- * </p>
- *
- * @author Bunny
- * @since 2024-09-27
- */
-@Getter
-@Setter
-@Accessors(chain = true)
-@TableName("sys_router")
-@ApiModel(value = "Router对象", description = "系统路由表")
-public class Router extends BaseEntity {
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ApiModel(value = "RouterControllerVo对象", description = "路由管理端返回对象")
+public class RouterControllerVo extends BaseVo {
 
     @ApiModelProperty("在项目中路径")
     private String path;
@@ -34,12 +25,11 @@ public class Router extends BaseEntity {
     private String routeName;
 
     @ApiModelProperty("父级id")
-    @JsonProperty("parentId")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @JSONField(serializeUsing = ToStringSerializer.class)
     private Long parentId;
 
-    @ApiModelProperty("路由title")
+    @ApiModelProperty("title名称")
     private String title;
 
     @ApiModelProperty("图标")
@@ -51,4 +41,6 @@ public class Router extends BaseEntity {
     @ApiModelProperty("是否显示")
     private Boolean visible;
 
+    @ApiModelProperty("子路由")
+    private List<RouterControllerVo> children;
 }

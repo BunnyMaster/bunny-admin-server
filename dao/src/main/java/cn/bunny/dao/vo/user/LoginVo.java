@@ -4,6 +4,7 @@ import cn.bunny.dao.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,8 +17,8 @@ import java.util.List;
 @Builder
 @Schema(name = "LoginVo对象", title = "登录成功返回内容", description = "登录成功返回内容")
 public class LoginVo extends BaseVo {
-    @Schema(name = "nickName", title = "昵称")
-    private String nickName;
+    @Schema(name = "nickname", title = "昵称")
+    private String nickname;
 
     @Schema(name = "username", title = "用户名")
     private String username;
@@ -40,23 +41,11 @@ public class LoginVo extends BaseVo {
     @Schema(name = "personDescription", title = "个人描述")
     private String personDescription;
 
-    @Schema(name = "articleMode", title = "文章显示模式")
-    private String articleMode;
-
-    @Schema(name = "layout", title = "页面布局方式")
-    private String layout;
-
     @Schema(name = "lastLoginIp", title = "最后登录IP")
     private String lastLoginIp;
 
     @Schema(name = "lastLoginIpAddress", title = "最后登录ip地址")
     private String lastLoginIpAddress;
-
-    @Schema(name = "totalIntegral", title = "积分")
-    private Integer totalIntegral;
-
-    @Schema(name = "currentIntegral", title = "当前积分")
-    private Integer currentIntegral;
 
     @Schema(name = "status", title = "1:禁用 0:正常")
     private Byte status;
@@ -71,8 +60,9 @@ public class LoginVo extends BaseVo {
     private String expires;
 
     @Schema(name = "roleList", title = "角色列表")
-    private List<String> roleList;
+    private List<String> roles = new ArrayList<>();
 
     @Schema(name = "powerList", title = "权限列表")
-    private List<String> powerList;
+    private List<String> permissions = new ArrayList<>();
+
 }

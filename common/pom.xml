@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.bunny</groupId>
-        <artifactId>bunny-template</artifactId>
+        <artifactId>auth-server-java</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

@@ -1,10 +1,12 @@
 package cn.bunny.services.security.filter;
 
+import cn.bunny.common.service.context.BaseContext;
+import cn.bunny.dao.vo.user.LoginVo;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,16 +19,10 @@ import java.util.List;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final RedisTemplate<String, Object> redisTemplate;
-
-    public TokenAuthenticationFilter(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         // 自定义实现内容
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
+        UsernamePasswordAuthenticationToken authentication = getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         chain.doFilter(request, response);
@@ -35,21 +31,20 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     /**
      * 用户请求判断
      *
-     * @param request 请求
      * @return 验证码方法
      */
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+    private UsernamePasswordAuthenticationToken getAuthentication() {
         // 请求头是否有token
-        String token = request.getHeader("token");
-        String username = "admin";
-        List<SimpleGrantedAuthority> authList = new ArrayList<>();
+        LoginVo LoginVo = BaseContext.getLoginVo();
 
-        // 设置角色内容
-        if (token != null) {
-            List<String> roleList = new ArrayList<>();
-            return new UsernamePasswordAuthenticationToken(username, null, authList);
-        } else {
-            return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
-        }
+        // 通过username从redis获取权限数据
+        String username = LoginVo.getUsername();
+        List<String> roleList = LoginVo.getRoles();
+
+        // 角色列表
+        List<SimpleGrantedAuthority> authList = roleList.stream().map(SimpleGrantedAuthority::new).toList();
+
+        if (authList.isEmpty()) return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+        return new UsernamePasswordAuthenticationToken(username, null, authList);
     }
 }

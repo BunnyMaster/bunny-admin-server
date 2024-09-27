@@ -76,7 +76,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, redisTemplate, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
                 // 其它权限鉴权过滤器
                 .addFilterAt(new NoTokenAuthenticationFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAt(new TokenAuthenticationFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 // 自定义密码加密器和用户登录
                 .passwordManagement(customPasswordEncoder).userDetailsService(customUserDetailsService);
 

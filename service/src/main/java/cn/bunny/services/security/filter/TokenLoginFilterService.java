@@ -21,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
@@ -76,10 +77,15 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
         }
     }
 
+    /**
+     * * 验证成功
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) {
+        // 获取登录返回信息
         LoginVo loginVo = customUserDetailsService.login(loginDto);
 
+        // 判断用户是否禁用
         if (loginVo.getStatus() == 1) {
             out(response, Result.error(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED));
             return;
@@ -88,15 +94,17 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
         out(response, Result.success(loginVo));
     }
 
+    /**
+     * 验证失败
+     */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
         String password = loginDto.getPassword();
         String username = loginDto.getUsername();
 
-        if (password == null || username == null || password.isBlank() || username.isBlank()) {
+        if (!StringUtils.hasText(password) || !StringUtils.hasText(username))
             out(response, Result.error(ResultCodeEnum.USERNAME_OR_PASSWORD_NOT_EMPTY));
-        } else {
+        else
             out(response, Result.error(null, ResultCodeEnum.LOGIN_ERROR));
-        }
     }
 }

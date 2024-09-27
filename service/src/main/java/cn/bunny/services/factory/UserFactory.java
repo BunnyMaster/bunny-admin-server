@@ -18,8 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -51,15 +52,30 @@ public class UserFactory {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(LocalDateTimeConstant.YYYY_MM_DD_HH_MM_SS_SLASH);
         String expires = plusDay.format(dateTimeFormatter);
 
+        // 查找用户橘色
+        List<String> roles = roleMapper.selectListByUserId(userId).stream().map(Role::getRoleCode).toList();
+        List<String> permissions = new ArrayList<>();
+
+        boolean isAdmin = roles.stream().anyMatch(role -> role.equals("admin"));
+
+        if (isAdmin) {
+            permissions.add("*");
+            permissions.add("*::*");
+            permissions.add("*::*::*");
+        } else {
+            permissions = powerMapper.selectListByUserId(userId).stream().map(Power::getPowerCode).toList();
+        }
+
         // 构建返回对象
         LoginVo loginVo = new LoginVo();
         BeanUtils.copyProperties(user, loginVo);
+        loginVo.setNickname(user.getNickName());
         loginVo.setToken(token);
         loginVo.setRefreshToken(token);
         loginVo.setLastLoginIp(IpUtil.getCurrentUserIpAddress().getRemoteAddr());
         loginVo.setLastLoginIpAddress(IpUtil.getCurrentUserIpAddress().getIpRegion());
-        loginVo.setRoleList(roleMapper.selectListByUserId(userId).stream().map(Role::getRoleCode).collect(Collectors.toList()));
-        loginVo.setPowerList(powerMapper.selectListByUserId(userId).stream().map(Power::getPowerCode).collect(Collectors.toList()));
+        loginVo.setRoles(roles);
+        loginVo.setPermissions(permissions);
         loginVo.setUpdateUser(userId);
         loginVo.setExpires(expires);
 

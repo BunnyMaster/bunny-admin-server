@@ -1,8 +1,16 @@
 package cn.bunny.services.controller;
 
+import cn.bunny.dao.pojo.result.Result;
+import cn.bunny.dao.vo.router.UserRouterVo;
+import cn.bunny.services.service.RouterService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("admin/router")
 public class RouterController {
 
+    @Autowired
+    private RouterService routerService;
+
+    @Operation(summary = "获取用户菜单", description = "获取用户菜单")
+    @GetMapping("getRouterAsync")
+    public Result<List<UserRouterVo>> getRouterAsync() {
+        List<UserRouterVo> voList = routerService.getRouterAsync();
+        return Result.success(voList);
+    }
 }

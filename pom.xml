@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.bunny</groupId>
-    <artifactId>bunny-template</artifactId>
+    <artifactId>auth-server-java</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>bunny-template</name>
