@@ -60,7 +60,9 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
         Long readMeDay = loginDto.getReadMeDay();
 
         // 查询用户相关内容
-        LambdaQueryWrapper<AdminUser> queryWrapper = new LambdaQueryWrapper<AdminUser>().eq(AdminUser::getEmail, username).or()
+        LambdaQueryWrapper<AdminUser> queryWrapper = new LambdaQueryWrapper<AdminUser>()
+                .eq(AdminUser::getEmail, username)
+                .or()
                 .eq(AdminUser::getUsername, username);
         AdminUser user = userMapper.selectOne(queryWrapper);
 

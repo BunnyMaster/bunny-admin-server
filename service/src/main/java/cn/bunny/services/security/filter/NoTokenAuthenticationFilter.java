@@ -36,8 +36,7 @@ public class NoTokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // 判断 token 是否过期
-        boolean expired = JwtHelper.isExpired(token);
-        if (expired) {
+        if (JwtHelper.isExpired(token)) {
             ResponseUtil.out(response, Result.error(ResultCodeEnum.AUTHENTICATION_EXPIRED));
             return;
         }
