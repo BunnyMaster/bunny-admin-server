@@ -20,7 +20,7 @@ public class NewCodeGet {
     public static final String entity = "Bunny";
 
     public static void main(String[] args) {
-        Generation("sys_router");
+        Generation("sys_i18n", "sys_i18n_type");
     }
 
     /**

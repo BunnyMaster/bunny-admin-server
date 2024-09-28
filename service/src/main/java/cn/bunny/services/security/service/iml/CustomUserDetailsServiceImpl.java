@@ -22,7 +22,7 @@ import org.springframework.util.DigestUtils;
 import java.util.List;
 
 @Component
-public class CustomUserDetailsService implements cn.bunny.services.security.service.CustomUserDetailsService {
+public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.service.CustomUserDetailsService {
 
     @Autowired
     private UserMapper userMapper;

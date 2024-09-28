@@ -1,4 +1,4 @@
-package cn.bunny.services.service.process;
+package cn.bunny.services.factory;
 
 import cn.bunny.dao.vo.common.TreeSelectVo;
 import cn.bunny.dao.vo.router.RouterManageVo;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RouterServiceProcess {
+public class RouterServiceFactory {
 
     /**
      * * 递归调用设置子路由

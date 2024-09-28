@@ -2,7 +2,6 @@ package cn.bunny.services.security.handelr;
 
 import cn.bunny.dao.pojo.result.Result;
 import com.alibaba.fastjson2.JSON;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
@@ -11,7 +10,7 @@ import java.io.IOException;
 
 public class SecurityAuthenticationFailureHandler implements org.springframework.security.web.authentication.AuthenticationFailureHandler {
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         // 错误消息
         String localizedMessage = exception.getLocalizedMessage();
         Result<String> result = Result.error(localizedMessage);

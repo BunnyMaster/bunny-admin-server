@@ -11,9 +11,9 @@ import cn.bunny.dao.vo.router.RouterManageVo;
 import cn.bunny.dao.vo.router.RouterMeta;
 import cn.bunny.dao.vo.router.UserRouterVo;
 import cn.bunny.dao.vo.user.LoginVo;
+import cn.bunny.services.factory.RouterServiceFactory;
 import cn.bunny.services.mapper.RouterMapper;
 import cn.bunny.services.service.RouterService;
-import cn.bunny.services.service.process.RouterServiceProcess;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,7 +39,7 @@ import java.util.List;
 @Transactional
 public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> implements RouterService {
     @Autowired
-    private RouterServiceProcess routerServiceProcess;
+    private RouterServiceFactory routerServiceFactory;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -98,7 +98,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         // 构建树形结构
         routerVoList.forEach(routerVo -> {
             if (routerVo.getParentId() == 0) {
-                routerVo.setChildren(routerServiceProcess.handleGetChildrenWIthRouter(routerVo.getId(), routerVoList));
+                routerVo.setChildren(routerServiceFactory.handleGetChildrenWIthRouter(routerVo.getId(), routerVoList));
                 list.add(routerVo);
             }
         });

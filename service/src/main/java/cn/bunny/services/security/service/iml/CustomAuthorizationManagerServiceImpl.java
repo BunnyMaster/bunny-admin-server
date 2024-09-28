@@ -1,7 +1,6 @@
 package cn.bunny.services.security.service.iml;
 
 import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.services.mapper.PowerMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,10 +35,6 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
         // 用户的token和用户id、请求Url
         HttpServletRequest request = context.getRequest();
-        String token = request.getHeader("token");
-
-        // 用户id
-        Long userId = JwtHelper.getUserId(token);
 
         // 请求地址
         String requestURI = request.getRequestURI();
@@ -74,6 +69,6 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         List<Power> powerList = powerMapper.selectListByPowerCodes(powerCodes);
 
         // 判断是否与请求路径匹配
-        return powerList.stream().anyMatch(power -> power.getRequestUrl().equals(requestURI));
+        return powerList.stream().anyMatch(power -> requestURI.matches(power.getRequestUrl()));
     }
 }
