@@ -38,4 +38,11 @@ public interface I18nMapper extends BaseMapper<I18n> {
      * @return 分页结果
      */
     IPage<I18n> selectListByPage(@Param("page") Page<MenuIcon> pageParams, @Param("dto") I18nDto dto);
+
+    /**
+     * 物理删除多语言
+     *
+     * @param ids 删除 id 列表
+     */
+    void deleteBatchIdsWithPhysics(List<Long> ids);
 }

@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
         // 匹配到内容
         String patternString = "Request method '(\\w+)' is not supported";
         Matcher matcher = Pattern.compile(patternString).matcher(message);
-        if (matcher.find()) return Result.error(null, 500, "请求方法错误，不是 " + matcher.group(1));
+        if (matcher.find()) return Result.error(null, 500, "请求方法错误，不是 " + matcher.group(1) + "类型请求");
 
         // 请求API不存在
         String noStaticResource = "No static resource (.*)\\.";

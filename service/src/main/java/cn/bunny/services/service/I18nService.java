@@ -1,15 +1,18 @@
 package cn.bunny.services.service;
 
+import cn.bunny.dao.dto.i18n.I18nAddDto;
 import cn.bunny.dao.dto.i18n.I18nDto;
+import cn.bunny.dao.dto.i18n.I18nUpdateDto;
 import cn.bunny.dao.entity.i18n.I18n;
 import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.i18n.I18nVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.validation.Valid;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -26,7 +29,7 @@ public interface I18nService extends IService<I18n> {
      *
      * @return 多语言返回内容
      */
-    Map<String, Map<String, String>> getI18n();
+    HashMap<String, Object> getI18n();
 
     /**
      * * 获取管理多语言列表
@@ -40,14 +43,14 @@ public interface I18nService extends IService<I18n> {
      *
      * @param dto 添加表单
      */
-    void addI18n(I18nDto dto);
+    void addI18n(@Valid I18nAddDto dto);
 
     /**
      * * 更新多语言
      *
      * @param dto 更新表单
      */
-    void updateI18n(I18nDto dto);
+    void updateI18n(@Valid I18nUpdateDto dto);
 
     /**
      * * 删除多语言类型

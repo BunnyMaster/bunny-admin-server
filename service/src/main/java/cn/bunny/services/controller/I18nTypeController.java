@@ -8,6 +8,7 @@ import cn.bunny.dao.vo.i18n.I18nTypeVo;
 import cn.bunny.services.service.I18nTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -39,20 +40,20 @@ public class I18nTypeController {
 
     @Operation(summary = "添加多语言类型", description = "添加多语言类型")
     @PostMapping("addI18nType")
-    public Mono<Result<String>> addI18nType(@RequestBody I18nTypeAddDto dto) {
+    public Mono<Result<String>> addI18nType(@Valid @RequestBody I18nTypeAddDto dto) {
         i18nTypeService.addI18nType(dto);
         return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
 
     @Operation(summary = "更新多语言类型", description = "更新多语言类型")
-    @PostMapping("updateI18nType")
-    public Mono<Result<String>> updateI18nType(@RequestBody I18nTypeUpdateDto dto) {
+    @PutMapping("updateI18nType")
+    public Mono<Result<String>> updateI18nType(@Valid @RequestBody I18nTypeUpdateDto dto) {
         i18nTypeService.updateI18nType(dto);
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 
     @Operation(summary = "删除多语言类型", description = "删除多语言类型")
-    @PostMapping("deleteI18nType")
+    @DeleteMapping("deleteI18nType")
     public Mono<Result<String>> deleteI18nType(@RequestBody List<Long> ids) {
         i18nTypeService.deleteI18nType(ids);
         return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));

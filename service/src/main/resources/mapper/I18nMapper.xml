@@ -20,6 +20,16 @@
         id, key_name, translation, type_id, create_user, update_user, update_time, create_time, is_deleted
     </sql>
 
+    <!-- 物理删除多语言 -->
+    <delete id="deleteBatchIdsWithPhysics">
+        delete
+        from sys_i18n
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
     <!-- 多语言和多语言类型 -->
     <select id="selectListWithI18nType" resultType="cn.bunny.dao.entity.i18n.I18nWithI18nType">
         select i18n.*, i18n_type.type_name

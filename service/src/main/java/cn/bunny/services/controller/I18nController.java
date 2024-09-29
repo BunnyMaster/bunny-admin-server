@@ -1,6 +1,8 @@
 package cn.bunny.services.controller;
 
+import cn.bunny.dao.dto.i18n.I18nAddDto;
 import cn.bunny.dao.dto.i18n.I18nDto;
+import cn.bunny.dao.dto.i18n.I18nUpdateDto;
 import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
@@ -37,8 +39,8 @@ public class I18nController {
 
     @Operation(summary = "获取多语言内容", description = "获取多语言内容")
     @GetMapping("getI18n")
-    public Mono<Result<Map<String, Map<String, String>>>> getI18n() {
-        Map<String, Map<String, String>> vo = i18nService.getI18n();
+    public Mono<Result<Map<String, Object>>> getI18n() {
+        Map<String, Object> vo = i18nService.getI18n();
         return Mono.just(Result.success(vo));
     }
 
@@ -57,20 +59,20 @@ public class I18nController {
 
     @Operation(summary = "添加多语言", description = "添加多语言")
     @PostMapping("addI18n")
-    public Mono<Result<String>> addI18n(@Valid @RequestBody I18nDto dto) {
+    public Mono<Result<String>> addI18n(@Valid @RequestBody I18nAddDto dto) {
         i18nService.addI18n(dto);
         return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
 
     @Operation(summary = "更新多语言", description = "更新多语言")
-    @PostMapping("updateI18n")
-    public Mono<Result<String>> updateI18n(@Valid @RequestBody I18nDto dto) {
+    @PutMapping("updateI18n")
+    public Mono<Result<String>> updateI18n(@Valid @RequestBody I18nUpdateDto dto) {
         i18nService.updateI18n(dto);
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 
     @Operation(summary = "删除多语言类型", description = "删除多语言类型")
-    @PostMapping("deleteI18n")
+    @DeleteMapping("deleteI18n")
     public Mono<Result<String>> deleteI18n(@RequestBody List<Long> ids) {
         i18nService.deleteI18n(ids);
         return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));

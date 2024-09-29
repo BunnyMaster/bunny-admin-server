@@ -1,6 +1,7 @@
 package cn.bunny.dao.dto.i18n;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,14 +11,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "I18nDto对象", title = "多语言分页查询", description = "多语言分页查询")
-public class I18nDto {
+@Schema(name = "I18nAddDto对象", title = "多语言添加", description = "多语言添加")
+public class I18nAddDto {
 
     @Schema(name = "keyName", title = "多语言key")
+    @NotBlank(message = "多语言key不能为空")
     private String keyName;
 
     @Schema(name = "translation", title = "多语言翻译名称")
+    @NotBlank(message = "多语言翻译名称不能为空")
     private String translation;
+
+    @Schema(name = "typeId", title = "多语言类型id")
+    private Long typeId;
 
 }
 

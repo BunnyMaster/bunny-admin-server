@@ -8,7 +8,6 @@ import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.i18n.I18nTypeVo;
 import cn.bunny.services.mapper.I18nTypeMapper;
 import cn.bunny.services.service.I18nTypeService;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -52,6 +51,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
     public void addI18nType(I18nTypeAddDto dto) {
         String typeName = dto.getTypeName();
         Boolean isDefault = dto.getIsDefault();
+        I18nType i18nType = new I18nType();
 
         // 查询添加的数据是否之前添加过
         List<I18nType> i18nTypeList = list(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getTypeName, typeName));
@@ -59,12 +59,12 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
 
         // 如果是默认，将其它内容设为false
         if (isDefault) {
-            LambdaUpdateWrapper<I18nType> lambdaUpdateWrapper = Wrappers.<I18nType>update().lambda().set(I18nType::getIsDefault, false);
-            update(null, lambdaUpdateWrapper);
+            i18nType.setIsDefault(false);
+            update(i18nType, Wrappers.<I18nType>lambdaUpdate().eq(I18nType::getIsDefault, true));
         }
 
         // 保存数据
-        I18nType i18nType = new I18nType();
+        i18nType = new I18nType();
         BeanUtils.copyProperties(dto, i18nType);
         save(i18nType);
     }
@@ -78,6 +78,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
     public void updateI18nType(I18nTypeUpdateDto dto) {
         Long id = dto.getId();
         Boolean isDefault = dto.getIsDefault();
+        I18nType i18nType = new I18nType();
 
         // 查询更新的内容是否存在
         List<I18nType> i18nTypeList = list(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getId, id));
@@ -85,12 +86,12 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
 
         // 如果是默认，将其它内容设为false
         if (isDefault) {
-            LambdaUpdateWrapper<I18nType> lambdaUpdateWrapper = Wrappers.<I18nType>update().lambda().set(I18nType::getIsDefault, false);
-            update(null, lambdaUpdateWrapper);
+            i18nType.setIsDefault(false);
+            update(i18nType, Wrappers.<I18nType>lambdaUpdate().eq(I18nType::getIsDefault, true));
         }
 
         // 更新内容
-        I18nType i18nType = new I18nType();
+        i18nType = new I18nType();
         BeanUtils.copyProperties(dto, i18nType);
         updateById(i18nType);
     }
