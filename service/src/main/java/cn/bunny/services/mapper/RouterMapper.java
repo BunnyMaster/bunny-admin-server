@@ -52,5 +52,5 @@ public interface RouterMapper extends BaseMapper<Router> {
      *
      * @param ids 删除id列表
      */
-    void deletedMenuByIds(List<Long> ids);
+    void deleteBatchIdsWithPhysics(List<Long> ids);
 }

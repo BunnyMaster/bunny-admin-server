@@ -7,28 +7,23 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-/**
- * <p>
- * 多语言类型表
- * </p>
- *
- * @author Bunny
- * @since 2024-09-28
- */
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_i18n_type")
-@Schema(name = "I18nType对象", title = "多语言类型表", description = "多语言类型表")
-public class I18nType extends BaseEntity {
+@TableName("sys_i18n")
+@Schema(name = "I18nWithI18nType对象", title = "多语言和多语言类型", description = "多语言和多语言类型内容")
+public class I18nWithI18nType extends BaseEntity {
+
+    @Schema(name = "keyName", title = "多语言key")
+    private String keyName;
+
+    @Schema(name = "translation", title = "多语言翻译名称")
+    private String translation;
 
     @Schema(name = "typeName", title = "多语言类型(比如zh,en)")
     private String typeName;
 
     @Schema(name = "summary", title = "名称解释(比如中文,英文)")
     private String summary;
-
-    @Schema(name = "isDefault", title = "是否为默认")
-    private Boolean isDefault;
 
 }

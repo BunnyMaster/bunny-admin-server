@@ -21,6 +21,7 @@ import lombok.experimental.Accessors;
 @TableName("sys_email_template")
 @Schema(name = "EmailTemplate对象", title = "邮件模板表", description = "邮件模板表")
 public class EmailTemplate extends BaseEntity {
+
     @Schema(name = "templateName", title = "模板名称")
     private String templateName;
 
@@ -35,4 +36,5 @@ public class EmailTemplate extends BaseEntity {
 
     @Schema(name = "isDefault", title = "是否默认")
     private Boolean isDefault;
+
 }

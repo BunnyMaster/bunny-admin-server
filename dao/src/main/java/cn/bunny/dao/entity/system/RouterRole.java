@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 @TableName("sys_router_role")
 @Schema(name = "RouterRole对象", title = "路由角色关系", description = "路由角色关系")
 public class RouterRole extends BaseEntity {
+    
     @Schema(name = "routerId", title = "路由ID")
     private Long routerId;
 

@@ -2,8 +2,7 @@ package cn.bunny.dao.entity.i18n;
 
 import cn.bunny.dao.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -20,16 +19,16 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @TableName("sys_i18n")
-@ApiModel(value = "I18n对象", description = "多语言表")
+@Schema(name = "I18n对象", title = "多语言表", description = "多语言表")
 public class I18n extends BaseEntity {
 
-    @ApiModelProperty("多语言key")
-    private Integer keyName;
+    @Schema(name = "keyName", title = "多语言key")
+    private String keyName;
 
-    @ApiModelProperty("多语言翻译名称")
+    @Schema(name = "translation", title = "多语言翻译名称")
     private String translation;
 
-    @ApiModelProperty("多语言类型id")
+    @Schema(name = "typeId", title = "多语言类型id")
     private Long typeId;
 
 }

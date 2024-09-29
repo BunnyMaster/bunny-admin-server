@@ -2,8 +2,8 @@ package cn.bunny.dao.entity.system;
 
 import cn.bunny.dao.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -20,55 +20,56 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @TableName("sys_router")
-@ApiModel(value = "Router对象", description = "系统菜单表")
+@Schema(name = "Router对象", title = "系统菜单表", description = "系统菜单表")
 public class Router extends BaseEntity {
 
     @ApiModelProperty("父级id")
+    @Schema(name = "parentId", title = "父级id")
     private Long parentId;
 
-    @ApiModelProperty("在项目中路径")
+    @Schema(name = "path", title = "在项目中路径")
     private String path;
 
-    @ApiModelProperty("组件位置")
+    @Schema(name = "component", title = "组件位置")
     private String component;
 
-    @ApiModelProperty("frame路径")
+    @Schema(name = "frameSrc", title = "frame路径")
     private String frameSrc;
 
-    @ApiModelProperty("重定向")
+    @Schema(name = "redirect", title = "重定向")
     private String redirect;
 
-    @ApiModelProperty("路由名称")
+    @Schema(name = "routeName", title = "路由名称")
     private String routeName;
 
-    @ApiModelProperty("路由title")
+    @Schema(name = "title", title = "路由title")
     private String title;
 
-    @ApiModelProperty("菜单类型")
+    @Schema(name = "menuType", title = "菜单类型")
     private Integer menuType;
 
-    @ApiModelProperty("图标")
+    @Schema(name = "icon", title = "图标")
     private String icon;
 
-    @ApiModelProperty("进入动画")
+    @Schema(name = "enterTransition", title = "进入动画")
     private String enterTransition;
 
-    @ApiModelProperty("退出动画")
+    @Schema(name = "leaveTransition", title = "退出动画")
     private String leaveTransition;
 
-    @ApiModelProperty("等级")
+    @Schema(name = "routerRank", title = "等级")
     private Integer routerRank;
 
-    @ApiModelProperty("是否隐藏标签")
+    @Schema(name = "hiddenTag", title = "是否隐藏标签")
     private Boolean hiddenTag;
 
-    @ApiModelProperty("是否固定标签")
+    @Schema(name = "fixedTag", title = "是否固定标签")
     private Boolean fixedTag;
 
-    @ApiModelProperty("是否显示父级")
+    @Schema(name = "showParent", title = "是否显示父级")
     private Boolean showParent;
 
-    @ApiModelProperty("是否显示 返给前端为 showLink")
+    @Schema(name = "visible", title = "是否显示 返给前端为 showLink")
     private Boolean visible;
 
 }

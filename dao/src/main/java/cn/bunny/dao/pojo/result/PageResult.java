@@ -1,5 +1,6 @@
 package cn.bunny.dao.pojo.result;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,13 +16,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Schema(name = "PageResult 对象", title = "分页返回结果", description = "分页返回结果")
 public class PageResult<T> implements Serializable {
-    // 当前页
+
+    @Schema(name = "pageNo", title = "当前页")
     private Long pageNo;
-    // 每页记录数
+
+    @Schema(name = "pageSize", title = "每页记录数")
     private Long pageSize;
-    // 总记录数
+
+    @Schema(name = "total", title = "总记录数")
     private Long total;
-    // 当前页数据集合
+
+    @Schema(name = "list", title = "当前页数据集合")
     private List<T> list;
+
 }

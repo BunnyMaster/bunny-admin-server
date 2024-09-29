@@ -20,4 +20,24 @@
         id, key_name, translation, type_id, create_user, update_user, update_time, create_time, is_deleted
     </sql>
 
+    <!-- 多语言和多语言类型 -->
+    <select id="selectListWithI18nType" resultType="cn.bunny.dao.entity.i18n.I18nWithI18nType">
+        select i18n.*, i18n_type.type_name
+        from sys_i18n i18n,
+             sys_i18n_type i18n_type
+        where i18n.type_id = i18n_type.id
+    </select>
+
+    <!-- 分页查询多语言内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.i18n.I18n">
+        select *
+        from sys_i18n
+        <if test="dto.keyName != null and dto.keyName != ''">
+            key_name like CONCAT('%',#{dto.keyName},'%')
+        </if>
+        <if test="dto.translation != null and dto.translation != ''">
+            translation like CONCAT('%',#{dto.translation},'%')
+        </if>
+    </select>
+
 </mapper>

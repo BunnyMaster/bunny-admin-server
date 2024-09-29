@@ -34,7 +34,7 @@
     </sql>
 
     <!-- 物理删除路由菜单 -->
-    <delete id="deletedMenuByIds">
+    <delete id="deleteBatchIdsWithPhysics">
         delete
         from sys_router
         where id in

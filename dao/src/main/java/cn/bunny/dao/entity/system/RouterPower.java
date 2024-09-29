@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 @TableName("sys_router_power")
 @Schema(name = "RouterPower对象", title = "路由和权限关系表", description = "路由和权限关系表")
 public class RouterPower extends BaseEntity {
+    
     @Schema(name = "routerId", title = "路由ID")
     private Long routerId;
 

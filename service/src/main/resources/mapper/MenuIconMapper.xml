@@ -18,4 +18,16 @@
         id, icon_name, create_user, update_user, create_time, update_time, is_deleted
     </sql>
 
+    <!-- 分页查询菜单图标 -->
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.MenuIcon">
+        select *
+        from sys_menu_icon
+        <where>
+            <if test="dto.iconName != '' and dto.iconName != null">
+                icon_name like #{dto.iconName}
+            </if>
+        </where>
+        order by update_time
+    </select>
+
 </mapper>

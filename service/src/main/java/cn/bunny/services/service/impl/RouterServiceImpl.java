@@ -205,6 +205,6 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<Long> longList = list(Wrappers.<Router>lambdaQuery().in(Router::getParentId, ids)).stream().map(Router::getId).toList();
         ids.addAll(longList);
 
-        baseMapper.deletedMenuByIds(ids);
+        baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 }

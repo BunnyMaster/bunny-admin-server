@@ -12,11 +12,22 @@
         <result column="update_time" property="updateTime"/>
         <result column="create_time" property="createTime"/>
         <result column="is_deleted" property="isDeleted"/>
+        <result column="is_default" property="isDefault"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, type_name, summary, create_user, update_user, update_time, create_time, is_deleted
+        id, type_name, summary, create_user, update_user, update_time, create_time, is_deleted,is_default
     </sql>
+
+    <!-- 物理删除多语言类型 -->
+    <delete id="deleteBatchIdsWithPhysics">
+        delete
+        from sys_i18n_type
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>
