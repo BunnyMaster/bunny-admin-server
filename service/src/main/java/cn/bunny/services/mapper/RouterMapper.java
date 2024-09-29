@@ -46,4 +46,11 @@ public interface RouterMapper extends BaseMapper<Router> {
      * @return 分页结果
      */
     IPage<Router> selectListByPage(@Param("page") Page<Router> pageParams, @Param("dto") RouterManageDto dto);
+
+    /**
+     * * 物理删除路由菜单
+     *
+     * @param ids 删除id列表
+     */
+    void deletedMenuByIds(List<Long> ids);
 }

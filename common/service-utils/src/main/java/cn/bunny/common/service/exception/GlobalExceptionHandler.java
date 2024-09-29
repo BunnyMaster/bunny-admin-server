@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.io.FileNotFoundException;
 import java.nio.file.AccessDeniedException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.regex.Matcher;
@@ -34,10 +33,10 @@ public class GlobalExceptionHandler {
     // 运行时异常信息
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
-    public Result<Object> exceptionHandler(RuntimeException exception) throws FileNotFoundException {
+    public Result<Object> exceptionHandler(RuntimeException exception) {
         log.error("GlobalExceptionHandler===>运行时异常信息：{}", exception.getMessage());
         exception.printStackTrace();
-        return Result.error(null, 500, "出错了");
+        return Result.error(null, 500, "服务器异常");
     }
 
     // 捕获系统异常

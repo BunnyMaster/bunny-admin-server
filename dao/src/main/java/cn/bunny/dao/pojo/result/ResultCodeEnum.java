@@ -9,6 +9,12 @@ import lombok.Getter;
 public enum ResultCodeEnum {
     // 成功操作 200
     SUCCESS(200, "操作成功"),
+    ADD_SUCCESS(200, "添加成功"),
+    UPDATE_SUCCESS(200, "修改成功"),
+    DELETE_SUCCESS(200, "删除成功"),
+    SORT_SUCCESS(200, "排序成功"),
+    SUCCESS_UPLOAD(200, "上传成功"),
+    SUCCESS_LOGOUT(200, "退出成功"),
     LOGOUT_SUCCESS(200, "退出成功"),
     EMAIL_CODE_REFRESH(200, "邮箱验证码已刷新"),
     EMAIL_CODE_SEND_SUCCESS(200, "邮箱验证码已发送"),
@@ -23,6 +29,8 @@ public enum ResultCodeEnum {
     GET_BUCKET_EXCEPTION(201, "获取文件信息失败"),
     SEND_MAIL_CODE_ERROR(201, "邮件发送失败"),
     EMAIL_CODE_EMPTY(201, "邮箱验证码过期或不存在"),
+    DATA_EXIST(201, "数据已存在"),
+    DATA_NOT_EXIST(201, "数据不存在"),
 
     // 数据相关 206
     ILLEGAL_REQUEST(206, "非法请求"),

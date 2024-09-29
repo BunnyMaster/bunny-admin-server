@@ -47,7 +47,7 @@ public class UserFactory {
         String avatar = user.getAvatar();
 
         // 判断用户是否有头像，如果没有头像设置默认头像
-        avatar = StringUtils.hasText(avatar) ? UserConstant.USER_AVATAR : minioUtil.getObjectNameFullPath(avatar);
+        avatar = StringUtils.hasText(avatar) ? minioUtil.getObjectNameFullPath(avatar) : UserConstant.USER_AVATAR;
 
         // 设置用户IP地址，并更新用户信息
         AdminUser updateUser = new AdminUser();

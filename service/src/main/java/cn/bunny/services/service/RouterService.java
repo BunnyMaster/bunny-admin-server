@@ -1,6 +1,8 @@
 package cn.bunny.services.service;
 
+import cn.bunny.dao.dto.router.RouterAddDto;
 import cn.bunny.dao.dto.router.RouterManageDto;
+import cn.bunny.dao.dto.router.RouterUpdateDto;
 import cn.bunny.dao.entity.system.Router;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.router.RouterManageVo;
@@ -38,8 +40,28 @@ public interface RouterService extends IService<Router> {
     /**
      * * 管理菜单列表
      *
-     * @param dto 路由查询表单
      * @return 系统菜单表
      */
-    List<RouterManageVo> getMenu(RouterManageDto dto);
+    List<RouterManageVo> getMenu();
+
+    /**
+     * * 添加路由菜单
+     *
+     * @param dto 添加菜单表单
+     */
+    void addMenu(RouterAddDto dto);
+
+    /**
+     * * 更新路由菜单
+     *
+     * @param dto 更新表单
+     */
+    void updateMenu(RouterUpdateDto dto);
+
+    /**
+     * * 删除路由菜单
+     *
+     * @param ids 删除id列表
+     */
+    void deletedMenuByIds(List<Long> ids);
 }

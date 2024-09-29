@@ -20,11 +20,15 @@ import java.util.List;
 @Builder
 @ApiModel(value = "UserRouterVo对象", description = "系统菜单表")
 public class UserRouterVo {
+
     @Schema(name = "id", title = "主键")
     @JsonProperty("id")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @JSONField(serializeUsing = ToStringSerializer.class)
     private Long id;
+    
+    @ApiModelProperty("菜单类型")
+    private Integer menuType;
 
     @ApiModelProperty("父级id")
     @JsonProperty("parentId")
@@ -32,20 +36,27 @@ public class UserRouterVo {
     @JSONField(serializeUsing = ToStringSerializer.class)
     private Long parentId;
 
-    @ApiModelProperty("在项目中路径")
-    private String path;
-
-    @ApiModelProperty("菜单类型")
-    private Integer menuType;
+    @ApiModelProperty("菜单名称")
+    private String title;
 
     @ApiModelProperty("路由名称")
     @JsonProperty("name")
     private String routeName;
 
-    @ApiModelProperty("路由动画")
-    private RouterTransition transition;
+    @ApiModelProperty("在项目中路径")
+    private String path;
 
-    @ApiModelProperty("meta内容")
+    @ApiModelProperty("组件位置")
+    private String component;
+
+    @ApiModelProperty("等级")
+    @JsonProperty("rank")
+    private Integer routerRank;
+
+    @ApiModelProperty("重定向")
+    private String redirect;
+
+    @ApiModelProperty("路由Meta")
     private RouterMeta meta;
 
     @ApiModelProperty("子路由")

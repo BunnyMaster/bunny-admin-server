@@ -1,9 +1,12 @@
 package cn.bunny.services.controller;
 
+import cn.bunny.dao.dto.router.RouterAddDto;
 import cn.bunny.dao.dto.router.RouterManageDto;
+import cn.bunny.dao.dto.router.RouterUpdateDto;
 import cn.bunny.dao.entity.system.Router;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.router.RouterManageVo;
 import cn.bunny.dao.vo.router.UserRouterVo;
 import cn.bunny.services.service.RouterService;
@@ -12,10 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -59,9 +59,30 @@ public class RouterController {
 
     @Operation(summary = "管理菜单列表", description = "管理菜单列表")
     @GetMapping("getMenus")
-    public Mono<Result<List<RouterManageVo>>> getMenu(RouterManageDto dto) {
-        List<RouterManageVo> voPageResult = routerService.getMenu(dto);
+    public Mono<Result<List<RouterManageVo>>> getMenu() {
+        List<RouterManageVo> voPageResult = routerService.getMenu();
 
         return Mono.just(Result.success(voPageResult));
+    }
+
+    @Operation(summary = "添加路由菜单", description = "添加路由菜单")
+    @PostMapping("addMenu")
+    public Mono<Result<String>> addMenu(@RequestBody RouterAddDto dto) {
+        routerService.addMenu(dto);
+        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+    }
+
+    @Operation(summary = "更新路由菜单", description = "更新路由菜单")
+    @PutMapping("updateMenu")
+    public Mono<Result<String>> updateMenu(@RequestBody RouterUpdateDto dto) {
+        routerService.updateMenu(dto);
+        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+    }
+
+    @Operation(summary = "删除路由菜单", description = "删除路由菜单")
+    @DeleteMapping("deletedMenuByIds")
+    public Mono<Result<String>> deletedMenuByIds(@RequestBody List<Long> ids) {
+        routerService.deletedMenuByIds(ids);
+        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
     }
 }

@@ -22,4 +22,4 @@ bunny:
     endpointUrl: "http://192.168.3.98:9000"
     accessKey: bunny
     secretKey: "02120212"
-    bucket-name: bunny-bbs
+    bucket-name: auth-admin

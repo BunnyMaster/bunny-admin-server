@@ -2,20 +2,23 @@ package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.dao.dto.router.RouterAddDto;
 import cn.bunny.dao.dto.router.RouterManageDto;
+import cn.bunny.dao.dto.router.RouterUpdateDto;
 import cn.bunny.dao.entity.system.Router;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.router.RouterManageVo;
 import cn.bunny.dao.vo.router.RouterMeta;
+import cn.bunny.dao.vo.router.RouterTransition;
 import cn.bunny.dao.vo.router.UserRouterVo;
 import cn.bunny.dao.vo.user.LoginVo;
 import cn.bunny.services.factory.RouterServiceFactory;
 import cn.bunny.services.mapper.RouterMapper;
 import cn.bunny.services.service.RouterService;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -77,12 +81,16 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
         // 构建返回路由列表
         List<UserRouterVo> routerVoList = routerList.stream()
+                .sorted(Comparator.comparing(Router::getRouterRank))
                 .filter(Router::getVisible)
                 .map(router -> {
                     // 复制对象
                     UserRouterVo routerVo = new UserRouterVo();
                     BeanUtils.copyProperties(router, routerVo);
-                    routerVo.setPath(router.getPath().trim());
+
+                    // 复制路由动画
+                    RouterTransition transition = new RouterTransition();
+                    BeanUtils.copyProperties(router, transition);
 
                     // 设置
                     RouterMeta meta = RouterMeta.builder()
@@ -90,7 +98,10 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
                             .icon(router.getIcon())
                             .title(router.getTitle())
                             .roles(roleList)
-                            .auths(powerCodeList).build();
+                            .auths(powerCodeList)
+                            .transition(transition)
+                            .build();
+
                     routerVo.setMeta(meta);
                     return routerVo;
                 }).distinct().toList();
@@ -135,24 +146,65 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     /**
      * * 管理菜单列表
      *
-     * @param dto 路由查询表单
      * @return 系统菜单表
      */
     @Override
-    public List<RouterManageVo> getMenu(RouterManageDto dto) {
-        String title = dto.getTitle();
-        Boolean visible = dto.getVisible();
-
-        // 构建查询条件
-        LambdaQueryWrapper<Router> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.like(title != null, Router::getTitle, title)
-                .or()
-                .eq(visible != null, Router::getVisible, visible);
-
+    public List<RouterManageVo> getMenu() {
         return list().stream().map(router -> {
             RouterManageVo routerManageVo = new RouterManageVo();
             BeanUtils.copyProperties(router, routerManageVo);
             return routerManageVo;
         }).toList();
+    }
+
+    /**
+     * * 添加路由菜单
+     *
+     * @param dto 添加菜单表单
+     */
+    @Override
+    public void addMenu(RouterAddDto dto) {
+        // 查找是否添加过路由名称
+        String routeName = dto.getRouteName();
+        Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getRouteName, routeName));
+        if (router != null) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
+
+        // 添加路由
+        router = new Router();
+        BeanUtils.copyProperties(dto, router);
+
+        save(router);
+    }
+
+    /**
+     * * 更新路由菜单
+     *
+     * @param dto 更新表单
+     */
+    @Override
+    public void updateMenu(RouterUpdateDto dto) {
+        Long id = dto.getId();
+        Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, id));
+        if (router == null) {
+            throw new BunnyException(ResultCodeEnum.DATA_EXIST);
+        }
+
+        router = new Router();
+        BeanUtils.copyProperties(dto, router);
+        updateById(router);
+    }
+
+    /**
+     * * 删除路由菜单
+     *
+     * @param ids 删除id列表
+     */
+    @Override
+    public void deletedMenuByIds(List<Long> ids) {
+        // 查找子级菜单，一起删除
+        List<Long> longList = list(Wrappers.<Router>lambdaQuery().in(Router::getParentId, ids)).stream().map(Router::getId).toList();
+        ids.addAll(longList);
+
+        baseMapper.deletedMenuByIds(ids);
     }
 }

@@ -13,9 +13,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @ApiModel(value = "RouterTransition对象", description = "路由动画")
 public class RouterTransition {
+
     @ApiModelProperty("进入动画")
     private String enterTransition;
 
     @ApiModelProperty("退出动画")
     private String leaveTransition;
+    
 }
