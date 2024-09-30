@@ -50,12 +50,12 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-  rabbitmq:
-    host: ${bunny.rabbitmq.host}
-    port: ${bunny.rabbitmq.port}
-    username: ${bunny.rabbitmq.username}
-    password: ${bunny.rabbitmq.password}
-    virtual-host: ${bunny.rabbitmq.virtual-host}
+#  rabbitmq:
+#    host: ${bunny.rabbitmq.host}
+#    port: ${bunny.rabbitmq.port}
+#    username: ${bunny.rabbitmq.username}
+#    password: ${bunny.rabbitmq.password}
+#    virtual-host: ${bunny.rabbitmq.virtual-host}
 #    publisher-confirm-type: correlated # 交换机确认
 #    publisher-returns: true # 队列确认
 #    listener:

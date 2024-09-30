@@ -6,7 +6,6 @@ import cn.bunny.dao.dto.i18n.I18nDto;
 import cn.bunny.dao.dto.i18n.I18nUpdateDto;
 import cn.bunny.dao.entity.i18n.I18n;
 import cn.bunny.dao.entity.i18n.I18nType;
-import cn.bunny.dao.entity.i18n.I18nWithI18nType;
 import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -54,17 +53,13 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
     public HashMap<String, Object> getI18n() {
         // 查找默认语言内容
         I18nType i18nType = i18nTypeMapper.selectOne(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getIsDefault, true));
-        List<I18nWithI18nType> i18nWithI18nTypes = baseMapper.selectListWithI18nType();
+        List<I18n> i18nList = list();
 
         // 整理集合
-        Map<String, Map<String, String>> map = i18nWithI18nTypes.stream()
+        Map<String, Map<String, String>> map = i18nList.stream()
                 .collect(Collectors.groupingBy(
-                        I18nWithI18nType::getTypeName,
-                        Collectors.toMap(
-                                I18nWithI18nType::getKeyName,
-                                I18nWithI18nType::getTranslation
-                        )
-                ));
+                        I18n::getTypeName,
+                        Collectors.toMap(I18n::getKeyName, I18n::getTranslation)));
 
         // 返回集合
         HashMap<String, Object> hashMap = new HashMap<>(map);
@@ -102,10 +97,10 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
     @Override
     public void addI18n(@Valid I18nAddDto dto) {
         String keyName = dto.getKeyName();
-        Long typeId = dto.getTypeId();
+        String typeName = dto.getTypeName();
 
         // 查询数据是否存在
-        List<I18n> i18nList = list(Wrappers.<I18n>lambdaQuery().eq(I18n::getKeyName, keyName).eq(I18n::getTypeId, typeId));
+        List<I18n> i18nList = list(Wrappers.<I18n>lambdaQuery().eq(I18n::getKeyName, keyName).eq(I18n::getTypeName, typeName));
         if (!i18nList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
 
         // 保存内容
@@ -140,6 +135,9 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      */
     @Override
     public void deleteI18n(List<Long> ids) {
+        if (ids.isEmpty()) {
+            throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        }
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 }

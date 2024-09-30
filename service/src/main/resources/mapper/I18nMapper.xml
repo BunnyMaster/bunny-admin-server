@@ -7,7 +7,7 @@
         <id column="id" property="id"/>
         <result column="key_name" property="keyName"/>
         <result column="translation" property="translation"/>
-        <result column="type_id" property="typeId"/>
+        <result column="type_name" property="typeName"/>
         <result column="create_user" property="createUser"/>
         <result column="update_user" property="updateUser"/>
         <result column="update_time" property="updateTime"/>
@@ -17,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, key_name, translation, type_id, create_user, update_user, update_time, create_time, is_deleted
+        id, key_name, translation, type_name, create_user, update_user, update_time, create_time, is_deleted
     </sql>
 
     <!-- 物理删除多语言 -->
@@ -30,24 +30,23 @@
         </foreach>
     </delete>
 
-    <!-- 多语言和多语言类型 -->
-    <select id="selectListWithI18nType" resultType="cn.bunny.dao.entity.i18n.I18nWithI18nType">
-        select i18n.*, i18n_type.type_name
-        from sys_i18n i18n,
-             sys_i18n_type i18n_type
-        where i18n.type_id = i18n_type.id
-    </select>
-
     <!-- 分页查询多语言内容 -->
     <select id="selectListByPage" resultType="cn.bunny.dao.entity.i18n.I18n">
-        select *
+        select
+        <include refid="Base_Column_List"/>
         from sys_i18n
-        <if test="dto.keyName != null and dto.keyName != ''">
-            key_name like CONCAT('%',#{dto.keyName},'%')
-        </if>
-        <if test="dto.translation != null and dto.translation != ''">
-            translation like CONCAT('%',#{dto.translation},'%')
-        </if>
+        <where>
+            <if test="dto.keyName != null and dto.keyName != ''">
+                key_name like CONCAT('%',#{dto.keyName},'%')
+            </if>
+            <if test="dto.translation != null and dto.translation != ''">
+                translation like CONCAT('%',#{dto.translation},'%')
+            </if>
+            <if test="dto.typeName != null and dto.typeName != ''">
+                type_name like CONCAT('%',#{dto.typeName},'%')
+            </if>
+        </where>
+        order by update_time
     </select>
 
 </mapper>

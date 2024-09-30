@@ -31,6 +31,7 @@ public enum ResultCodeEnum {
     EMAIL_CODE_EMPTY(201, "邮箱验证码过期或不存在"),
     DATA_EXIST(201, "数据已存在"),
     DATA_NOT_EXIST(201, "数据不存在"),
+    REQUEST_IS_EMPTY(201, "请求数据为空"),
 
     // 数据相关 206
     ILLEGAL_REQUEST(206, "非法请求"),

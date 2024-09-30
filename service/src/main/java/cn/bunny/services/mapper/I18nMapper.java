@@ -2,7 +2,6 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.i18n.I18nDto;
 import cn.bunny.dao.entity.i18n.I18n;
-import cn.bunny.dao.entity.i18n.I18nWithI18nType;
 import cn.bunny.dao.entity.system.MenuIcon;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -22,13 +21,6 @@ import java.util.List;
  */
 @Mapper
 public interface I18nMapper extends BaseMapper<I18n> {
-
-    /**
-     * * 多语言和多语言类型
-     *
-     * @return 多语言和多语言类型列表
-     */
-    List<I18nWithI18nType> selectListWithI18nType();
 
     /**
      * * 分页查询多语言内容

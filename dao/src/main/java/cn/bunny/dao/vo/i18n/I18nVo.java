@@ -18,8 +18,8 @@ public class I18nVo extends BaseVo {
     @Schema(name = "translation", title = "多语言翻译名称")
     private String translation;
 
-    @Schema(name = "typeId", title = "多语言类型id")
-    private Long typeId;
+    @Schema(name = "typeName", title = "多语言类型id")
+    private String typeName;
 
 }
 

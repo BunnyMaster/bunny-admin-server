@@ -19,5 +19,8 @@ public class I18nDto {
     @Schema(name = "translation", title = "多语言翻译名称")
     private String translation;
 
+    @Schema(name = "typeName", title = "多语言类型名称")
+    private String typeName;
+
 }
 

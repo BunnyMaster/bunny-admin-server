@@ -22,8 +22,9 @@ public class I18nAddDto {
     @NotBlank(message = "多语言翻译名称不能为空")
     private String translation;
 
-    @Schema(name = "typeId", title = "多语言类型id")
-    private Long typeId;
+    @Schema(name = "typeName", title = "多语言类型名称")
+    @NotBlank(message = "多语言类型名称不能为空")
+    private String typeName;
 
 }
 

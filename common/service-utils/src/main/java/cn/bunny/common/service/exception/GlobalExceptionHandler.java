@@ -34,8 +34,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
     public Result<Object> exceptionHandler(RuntimeException exception) {
-        log.error("GlobalExceptionHandler===>运行时异常信息：{}", exception.getMessage());
+        String message = exception.getMessage();
+        log.error("GlobalExceptionHandler===>运行时异常信息：{}", message);
         exception.printStackTrace();
+
+        // 解析异常
+        String jsonParseError = "JSON parse error (.*)";
+        Matcher jsonParseErrorMatcher = Pattern.compile(jsonParseError).matcher(message);
+        if (jsonParseErrorMatcher.find())
+            return Result.error(null, 500, "JSON解析异常 " + jsonParseErrorMatcher.group(1));
+
         return Result.error(null, 500, "服务器异常");
     }
 
