@@ -3,6 +3,7 @@ package cn.bunny.services.service.impl;
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.common.service.utils.JwtHelper;
+import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.user.RefreshTokenDto;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.EmailUsers;
@@ -11,6 +12,7 @@ import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.user.LoginVo;
 import cn.bunny.dao.vo.user.RefreshTokenVo;
+import cn.bunny.dao.vo.user.UserVo;
 import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.EmailUsersMapper;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -47,6 +50,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private EmailFactory emailFactory;
+    @Autowired
+    private MinioUtil minioUtil;
 
     /**
      * 登录发送邮件验证码
@@ -96,5 +101,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     public void logout() {
         LoginVo loginVo = BaseContext.getLoginVo();
         redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(loginVo.getUsername()));
+    }
+
+    /**
+     * * 获取用户信息
+     *
+     * @param id 用户id
+     * @return 用户信息
+     */
+    @Override
+    public UserVo getUserinfoById(Long id) {
+        if (id == null) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        AdminUser user = getById(id);
+        String avatar = user.getAvatar();
+
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(user, userVo);
+
+        if (StringUtils.hasText(avatar)) userVo.setAvatar(minioUtil.getObjectNameFullPath(avatar));
+        return userVo;
     }
 }

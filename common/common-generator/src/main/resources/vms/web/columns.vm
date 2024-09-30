@@ -1,0 +1,56 @@
+// ${className}
+import { $t } from '@/plugins/i18n';
+import { reactive } from 'vue';
+import type { FormRules } from 'element-plus';
+
+// ${annotationName}表格列字段
+export const columns = [
+    { type: 'selection' },
+    { label: $t('table.id'), prop: 'id' },
+#foreach($item in $columnsField)
+    #if($item.name == 'avatar')
+        { label: $t('user.${item.getName()}'), prop: '${item.getName()}',slot: '${item.getName()}' },
+    #elseif($item.name == 'image')
+        { label: $t('user.${item.getName()}'), prop: '${item.getName()}',slot: '${item.getName()}' },
+    #elseif($item.name == 'status')
+        { label: $t('user.${item.getName()}'), prop: '${item.getName()}',slot: '${item.getName()}' },
+    #else
+        // ${item.getValue()}
+        { label: $t('${commonPreFix}.${item.getName()}'), prop: '${item.getName()}' },
+    #end
+#end
+    { label: $t('table.createTime'), prop: 'createTime', sortable: true, width: 160 },
+    { label: $t('table.updateTime'), prop: 'updateTime', sortable: true, width: 160 },
+    { label: $t('table.createUser'), prop: 'createUser', width: 100, slot: 'createUser' },
+    { label: $t('table.updateUser'), prop: 'updateUser', width: 100, slot: 'updateUser' },
+    { label: $t('table.operation'), prop: 'operation', slot: 'operation', width: 150, fixed: 'right' },
+    ];
+
+
+// ${annotationName}表格规则
+export const rules = reactive({
+#foreach($item in $addDtoFormList)
+    #if($item.require)
+        #if($item.name == 'email')
+            // 邮件不能为空
+            email: [
+                { required: true, message: '邮件不能为空', trigger: 'blur' },
+                { type: 'email', message: '邮箱格式错误' },
+            ],
+        #elseif($item.name == 'nickName')
+            // 昵称不能为空
+            nickName: [{ required: true, message: '昵称不能为空', trigger: 'blur' }],
+        #elseif($item.name == 'username')
+            username: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+        #elseif($item.name == 'status')
+            // 状态不能为空
+            status: [{ required: true, message: '状态不能为空', trigger: 'blur' }],
+        #else
+            // $item.annotation
+            $item.name: [{ required: true, message: '$item.requireMessage', trigger: 'blur' }],
+        #end
+    #end
+#end
+});
+
+

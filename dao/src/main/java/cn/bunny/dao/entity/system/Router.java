@@ -36,9 +36,6 @@ public class Router extends BaseEntity {
     @Schema(name = "frameSrc", title = "frame路径")
     private String frameSrc;
 
-    @Schema(name = "redirect", title = "重定向")
-    private String redirect;
-
     @Schema(name = "routeName", title = "路由名称")
     private String routeName;
 
@@ -51,23 +48,8 @@ public class Router extends BaseEntity {
     @Schema(name = "icon", title = "图标")
     private String icon;
 
-    @Schema(name = "enterTransition", title = "进入动画")
-    private String enterTransition;
-
-    @Schema(name = "leaveTransition", title = "退出动画")
-    private String leaveTransition;
-
     @Schema(name = "routerRank", title = "等级")
     private Integer routerRank;
-
-    @Schema(name = "hiddenTag", title = "是否隐藏标签")
-    private Boolean hiddenTag;
-
-    @Schema(name = "fixedTag", title = "是否固定标签")
-    private Boolean fixedTag;
-
-    @Schema(name = "showParent", title = "是否显示父级")
-    private Boolean showParent;
 
     @Schema(name = "visible", title = "是否显示 返给前端为 showLink")
     private Boolean visible;

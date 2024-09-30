@@ -9,17 +9,11 @@
         <result column="path" property="path"/>
         <result column="component" property="component"/>
         <result column="frame_src" property="frameSrc"/>
-        <result column="redirect" property="redirect"/>
         <result column="route_name" property="routeName"/>
         <result column="title" property="title"/>
         <result column="menu_type" property="menuType"/>
         <result column="icon" property="icon"/>
-        <result column="enter_transition" property="enterTransition"/>
-        <result column="leave_transition" property="leaveTransition"/>
         <result column="router_rank" property="routerRank"/>
-        <result column="hidden_tag" property="hiddenTag"/>
-        <result column="fixed_tag" property="fixedTag"/>
-        <result column="show_parent" property="showParent"/>
         <result column="visible" property="visible"/>
         <result column="create_user" property="createUser"/>
         <result column="update_user" property="updateUser"/>
@@ -30,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, parent_id, path, component, frame_src, redirect, route_name, title, menuType, icon, enter_transition, leave_transition, router_rank, hidden_tag, fixed_tag, show_parent, visible, create_user, update_user, update_time, create_time, is_deleted
+        id, parent_id, path, component, frame_src, route_name, title, menuType, icon, router_rank, visible, create_user, update_user, update_time, create_time, is_deleted
     </sql>
 
     <!-- 物理删除路由菜单 -->

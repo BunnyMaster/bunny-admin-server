@@ -11,7 +11,6 @@ import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.router.RouterManageVo;
 import cn.bunny.dao.vo.router.RouterMeta;
-import cn.bunny.dao.vo.router.RouterTransition;
 import cn.bunny.dao.vo.router.UserRouterVo;
 import cn.bunny.dao.vo.user.LoginVo;
 import cn.bunny.services.factory.RouterServiceFactory;
@@ -88,10 +87,6 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
                     UserRouterVo routerVo = new UserRouterVo();
                     BeanUtils.copyProperties(router, routerVo);
 
-                    // 复制路由动画
-                    RouterTransition transition = new RouterTransition();
-                    BeanUtils.copyProperties(router, transition);
-
                     // 设置
                     RouterMeta meta = RouterMeta.builder()
                             .rank(router.getRouterRank())
@@ -99,7 +94,6 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
                             .title(router.getTitle())
                             .roles(roleList)
                             .auths(powerCodeList)
-                            .transition(transition)
                             .build();
 
                     routerVo.setMeta(meta);

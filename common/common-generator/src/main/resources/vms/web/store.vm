@@ -1,0 +1,99 @@
+import { defineStore } from 'pinia';
+import { pageSizes } from '@/enum/baseConstant';
+import { storePagination } from '@/hooks/system/useStorePagination';
+import { ElMessage } from 'element-plus';
+import type { Option } from '../../../types/enum/options';
+import {fetchGet${className}ListByPage,fetchAdd${className},fetchUpdate${className},fetchDelete${className}ByIds} from "${apiPath}${lowercaseName}";
+import { ${className}AddDto, ${className}State, ${className}UpdateDto } from '${storeTypePath}${lowercaseName}';
+
+/**
+* * 前台用户相关
+*/
+export const use${className}Store = defineStore('${storeId}Store}', {
+state(): ${className}State {
+    return {
+    dataList: [],
+    // ? 表单内容
+    form: {
+    #foreach($item in $formList)
+    #if(${item.name})
+        // ? $!{item.annotation}
+        $!{item.name}: void 0,
+        #end
+#end
+    },
+    // ? 分页查询结果
+    pagination: {
+        currentPage: 1,
+        pageSize: 150,
+        total: 100,
+        pageSizes,
+    },
+    // ? 是否加载中
+    loading: false,
+    // ? 是否显示添加弹窗
+    addDialogVisible: false,
+    // ? 是否显示更新弹窗
+    updateDialogVisible: false,
+    };
+},
+getters: {},
+actions: {
+
+    /**
+    * * 查询内容${annotationName}
+    */
+    async get${className}List() {
+        const data = {
+        page: this.pagination.currentPage,
+        limit: this.pagination.pageSize,
+        ...this.form,
+        };
+        const response: any = await fetchGet${className}ListByPage(data);
+
+        // 公共页面函数hook
+        const pagination = storePagination.bind(this);
+        return pagination(response);
+    },
+
+    /**
+    * * 添加${annotationName}
+    * @param form
+    */
+    async add${className}(form: ${className}AddDto) {
+        const response: any = await fetchAdd${className}(form);
+
+            if (response.code == 200) {
+                ElMessage.success(response.message);
+                return true;
+            }
+        return false;
+    },
+
+    /**
+    * * 更新${annotationName}
+    * @param form
+    */
+    async update${className}(form: ${className}UpdateDto) {
+        const response: any = await fetchUpdate${className} (form);
+            if (response.code == 200) {
+                ElMessage.success(response.message);
+                return true;
+            }
+            return false;
+    },
+
+    /**
+    * * 删除用户${annotationName}
+    * @param ids
+    */
+    async delete${className}(ids: string[]) {
+        const response: any = await fetchDelete${className}ByIds(ids);
+            if (response.code == 200) {
+                ElMessage.success(response.message);
+                return true;
+            }
+            return false;
+        },
+    },
+});

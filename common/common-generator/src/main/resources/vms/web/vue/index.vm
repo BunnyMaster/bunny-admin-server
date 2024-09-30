@@ -1,0 +1,104 @@
+<script lang="ts" setup>
+    import TablePlusBar from '@/components/TableBar/src/TablePlusBar.vue';
+    import { onMounted, ref } from 'vue';
+    import { columns } from '${columnsPath}columns';
+    import { getDataList, handleSelectionChange, ids, onAdd, onCurrentPageChange, onDelete, onDeleteBatch, onPageSizeChange, onUpdate } from '${columnsPath}handler';
+    import TableImage from '@/components/Table/TableImage.vue';
+    import { DeleteFilled, Plus } from '@element-plus/icons-vue';
+    import ${className}Add from '${vuePath}${lowerHyphen}-add.vue';
+    import ${className}Update from '${vuePath}${lowerHyphen}-update.vue';
+    import { $t } from '@/plugins/i18n';
+    import { articleModeConstant, layoutConstant, userStatus } from '@/enum/views/userConstant';
+    import { sexConstant } from '@/enum/baseConstant';
+    import UserStatusTag from '@/components/Table/Userinfo/UserStatusTag.vue';
+    import { selectUserinfo } from '@/components/Table/Userinfo/columns';
+    import { use${className}Store } from '${storePath}${lowercaseName}';
+
+
+    const ${storeId}Store = use${className}Store();
+    const column = ref(columns);
+
+    onMounted(() => {
+        getDataList();
+    });
+</script>
+
+<template>
+    <div>
+        <${lowerHyphen}-add />
+        <${lowerHyphen}-update />
+        <TablePlusBar
+                :column="column"
+                :data-list="${storeId}Store.dataList"
+                :handle-current-change="onCurrentPageChange"
+                :handle-selection-change="handleSelectionChange"
+                :handle-size-change="onPageSizeChange"
+                :loading="${storeId}Store.loading"
+                :model="${storeId}Store.form"
+                :on-re-fresh="getDataList"
+                :on-search="getDataList"
+                :pagination="${storeId}Store.pagination"
+                :table-delete="onDelete"
+                :table-edit="onUpdate"
+                class="flex-1"
+                @change-column="args => (column = args)"
+        >
+<!-- 表单搜索 -->
+<template #tableForm>
+#foreach($item in $formList)
+
+    #if($item.name == 'status')
+        <el-form-item :label="$t('user.status')" prop="status" style="width: 240px">
+            <el-select v-model="${storeId}Store.form.status!" :placeholder="$t('user.status')" clearable filterable>
+                <el-option v-for="(item, index) in userStatus" :key="index" :label="item.label" :navigationBar="false" :value="item.value" />
+            </el-select>
+        </el-form-item>
+
+    #elseif($item.name == 'sex')
+        <el-form-item :label="$t('user.sex')" prop="sex" style="width: 240px">
+            <el-select v-model="${storeId}Store.form.sex!" :placeholder="$t('user.sex')" clearable filterable>
+                <el-option v-for="(item, index) in sexConstant" :key="index" :label="item.label" :navigationBar="false" :value="item.value" />
+            </el-select>
+        </el-form-item>
+
+    #else
+        <!-- $item.annotation -->
+        <el-form-item :label="$t('${commonPreFix}.$item.name')" prop="nickName">
+            <el-input v-model="${storeId}Store.form.$item.name!" :placeholder="$t('${commonPreFix}.$item.name')" clearable />
+        </el-form-item>
+    #end
+#end
+</template>
+
+            <!-- 表单头部操作按钮 -->
+            <template #tableButtons>
+                <el-button :icon="Plus" type="primary" @click="onAdd">{{ $t('buttons.add') }}</el-button>
+                <el-button v-show="ids.length > 0" :icon="DeleteFilled" type="danger" @click="onDeleteBatch">
+                    {{ $t('buttons.deleteBatches') }}
+                </el-button>
+            </template>
+
+#foreach($item in $columnsField)
+    #if($item.name == 'avatar')
+        <template #avatar="{ row }">
+            <TableImage :image="row.avatar" />
+        </template>
+    #elseif($item.name == 'image')
+        <template #image="{ row }">
+            <TableImage :image="row.image" />
+        </template>
+    #elseif($item.name == 'status')
+        <template #status="{ row }">
+            <UserStatusTag :status="row.status == 1" />
+        </template>
+    #end
+#end
+            <template #createUser="{ row }">
+                <el-button link type="primary" @click="selectUserinfo(row.createUser)">{{ $t('table.createUser') }}</el-button>
+            </template>
+            <template #updateUser="{ row }">
+                <el-button link type="primary" @click="selectUserinfo(row.updateUser)">{{ $t('table.updateUser') }}</el-button>
+            </template>
+        </TablePlusBar>
+    </div>
+</template>

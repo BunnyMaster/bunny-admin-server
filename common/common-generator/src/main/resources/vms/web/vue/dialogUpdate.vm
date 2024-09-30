@@ -1,0 +1,52 @@
+<script lang="ts" setup>
+import ${className}Dialog from '${vuePath}${lowerHyphen}-dialog.vue';
+import { updateForm } from '${columnsPath}handler';
+import type { FileDetails } from '@/types/common/file';
+import { ElMessage, FormInstance } from 'element-plus';
+import { $t } from '@/plugins/i18n';
+import { use${className}Store } from '${storePath}${lowercaseName}';
+
+const ${storeId}Store = use${className}Store();
+
+/**
+ * * 关闭弹窗
+ */
+const onClose = () => {
+	Object.assign(updateForm, {});
+	${storeId}Store.updateDialogVisible = false;
+};
+
+/**
+ * * 当提交更新用户
+ */
+const onSubmit = (formEl: FormInstance | undefined) => {
+	if (!formEl) return;
+	formEl.validate(async valid => {
+		if (valid) {
+			// 更新数据
+			const isSuccess = await ${storeId}Store.update${className}(updateForm);
+			if (!isSuccess) return;
+			// 关闭弹窗
+			Object.assign(updateForm, {});
+			${storeId}Store.updateDialogVisible = false;
+			// 获取用户数据
+			await ${storeId}Store.get${className}List();
+		} else {
+			ElMessage.closeAll();
+			ElMessage.warning($t('status.requiredFields'));
+		}
+	});
+};
+
+/**
+ * * 图片上传成功回调
+ * @param fileDetails
+ */
+const onUploadImage = (fileDetails: FileDetails) => {
+	updateForm.avatar = fileDetails.filepath;
+};
+</script>
+
+<template>
+	<${lowerHyphen}-dialog :form="updateForm" :on-close="onClose" :on-submit="onSubmit" :on-upload-callback="onUploadImage" :visible="${storeId}Store.updateDialogVisible" title="更新信息" />
+</template>

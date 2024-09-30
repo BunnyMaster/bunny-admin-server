@@ -32,22 +32,11 @@ public class RouterMeta {
     @ApiModelProperty(value = "权限列表")
     private List<String> auths;
 
-    @ApiModelProperty("是否显示父级")
-    private Boolean showParent;
-
     @ApiModelProperty("是否显示 返给前端为 showLink")
     @JsonProperty("showLink")
     private Boolean visible;
 
-    @ApiModelProperty("路由动画")
-    private RouterTransition transition;
-
     @ApiModelProperty("frame路径")
     private String frameSrc;
 
-    @ApiModelProperty("是否隐藏标签")
-    private Boolean hiddenTag;
-
-    @ApiModelProperty("是否固定标签")
-    private Boolean fixedTag;
 }

@@ -1,0 +1,22 @@
+import type { BaseStoreState } from '@/types/store/baseStoreState';
+import type { Option } from '@/types/enum/options';
+
+#foreach($item in $fields)
+
+// ${item.interfaceAnnotation}
+export interface ${item.interfaceName} {
+
+    #foreach($field in ${item.baseFieldList})
+    // $field.annotation【$field.description】
+        $field.name: $field.type;
+    #end
+}
+#end
+
+// ${interfaceDescription}State
+export interface ${className}State extends BaseStoreState {
+// 返回用户数据列表
+dataList: ${className}Vo[];
+// 查询表单信息
+form: ${className}Dto;
+}

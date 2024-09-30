@@ -35,9 +35,6 @@ public class RouterManageVo extends BaseVo {
     @ApiModelProperty("frame路径")
     private String frameSrc;
 
-    @ApiModelProperty("重定向")
-    private String redirect;
-
     @ApiModelProperty("路由名称")
     @NotBlank(message = "路由名称不能为空")
     @JsonProperty("name")
@@ -52,24 +49,9 @@ public class RouterManageVo extends BaseVo {
     @ApiModelProperty("图标")
     private String icon;
 
-    @ApiModelProperty("进入动画")
-    private String enterTransition;
-
-    @ApiModelProperty("退出动画")
-    private String leaveTransition;
-
     @ApiModelProperty("等级")
     @JsonProperty("rank")
     private Integer routerRank;
-
-    @ApiModelProperty("是否隐藏标签")
-    private Boolean hiddenTag;
-
-    @ApiModelProperty("是否固定标签")
-    private Boolean fixedTag;
-
-    @ApiModelProperty("是否显示父级")
-    private Boolean showParent;
 
     @ApiModelProperty("是否显示 返给前端为 showLink")
     private Boolean visible;

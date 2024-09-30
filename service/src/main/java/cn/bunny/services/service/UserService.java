@@ -3,6 +3,7 @@ package cn.bunny.services.service;
 import cn.bunny.dao.dto.user.RefreshTokenDto;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.vo.user.RefreshTokenVo;
+import cn.bunny.dao.vo.user.UserVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,4 +37,12 @@ public interface UserService extends IService<AdminUser> {
      * * 退出登录
      */
     void logout();
+
+    /**
+     * * 获取用户信息
+     *
+     * @param id 用户id
+     * @return 用户信息
+     */
+    UserVo getUserinfoById(Long id);
 }

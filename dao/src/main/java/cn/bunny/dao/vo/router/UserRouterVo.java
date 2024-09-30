@@ -26,7 +26,7 @@ public class UserRouterVo {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @JSONField(serializeUsing = ToStringSerializer.class)
     private Long id;
-    
+
     @ApiModelProperty("菜单类型")
     private Integer menuType;
 
@@ -52,9 +52,6 @@ public class UserRouterVo {
     @ApiModelProperty("等级")
     @JsonProperty("rank")
     private Integer routerRank;
-
-    @ApiModelProperty("重定向")
-    private String redirect;
 
     @ApiModelProperty("路由Meta")
     private RouterMeta meta;
