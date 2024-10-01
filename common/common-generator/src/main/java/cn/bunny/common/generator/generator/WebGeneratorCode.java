@@ -1,27 +1,27 @@
 package cn.bunny.common.generator.generator;
 
-import cn.bunny.admin.dto.admin.AdminPowerAddDto;
-import cn.bunny.admin.dto.admin.AdminPowerDto;
-import cn.bunny.admin.dto.admin.AdminPowerUpdateDto;
-import cn.bunny.admin.entity.admin.AdminPower;
-import cn.bunny.admin.vo.admin.AdminPowerVo;
-import cn.bunny.common.entity.BaseField;
-import cn.bunny.common.entity.ColumnsField;
-import cn.bunny.common.entity.StoreTypeField;
-import cn.bunny.common.utils.GeneratorCodeUtils;
+import cn.bunny.common.generator.entity.BaseField;
+import cn.bunny.common.generator.utils.GeneratorCodeUtils;
+import cn.bunny.dao.dto.menuIcon.MenuIconAddDto;
+import cn.bunny.dao.dto.menuIcon.MenuIconDto;
+import cn.bunny.dao.dto.menuIcon.MenuIconUpdateDto;
+import cn.bunny.dao.entity.system.MenuIcon;
+import cn.bunny.dao.vo.menuIcon.MenuIconVo;
 import com.google.common.base.CaseFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -32,42 +32,27 @@ import java.util.Properties;
 @Service
 public class WebGeneratorCode {
     // 公共路径
-    public static String commonPath = "D:\\MyFolder\\Bunny\\BunnyBBS\\BunnyBBS-admin\\";
-    // public static String commonPath = "D:\\Project\\web\\PC\\BunnyNote\\BunnyBBS-admin\\";
+    public static String commonPath = "D:\\Project\\web\\PC\\auth\\auth-web\\src";
     // 生成API请求路径
-    public static String apiPath = commonPath + "src\\api\\api-v1\\user\\";
-    // 生成的表格列表路径
-    public static String columnsPath = commonPath + "src\\views\\user\\admin\\admin-power-management\\utils\\";
+    public static String apiPath = commonPath + "\\api\\v1\\";
     // 生成vue路径
-    public static String vuePath = commonPath + "src\\views\\user\\admin\\admin-power-management\\";
+    public static String vuePath = commonPath + "\\views\\system\\";
     // 生成仓库路径
-    public static String storePath = commonPath + "src\\store\\user\\";
-    // 生成仓库类型
-    public static String storeTypePath = commonPath + "src\\types\\store\\user\\admin\\";
-    // 公共i18n字段前缀
-    public static String commonPreFix = "adminPower";
+    public static String storePath = commonPath + "\\store\\modules";
+    // 后端controller
+    public static String controllerPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
+    public static String servicePath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
+    public static String serviceImplPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
+    public static String mapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
+    public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> aClass = AdminPower.class;
-        Class<?> dtoClass = AdminPowerDto.class;
-        Class<?> addDtoClass = AdminPowerAddDto.class;
-        Class<?> updateDtoClass = AdminPowerUpdateDto.class;
-        Class<?> voClass = AdminPowerVo.class;
+        Class<MenuIcon> originalClass = MenuIcon.class;
+        Class<MenuIconDto> dtoClass = MenuIconDto.class;
+        Class<MenuIconAddDto> addDtoClass = MenuIconAddDto.class;
+        Class<MenuIconUpdateDto> updateDtoClass = MenuIconUpdateDto.class;
+        Class<MenuIconVo> voClass = MenuIconVo.class;
 
-        ArrayList<Class<?>> classList = new ArrayList<>();
-        classList.add(voClass);
-        classList.add(dtoClass);
-        classList.add(addDtoClass);
-        classList.add(updateDtoClass);
-
-        // 开始生成内容
-        generatorCode(aClass, voClass, dtoClass, addDtoClass, classList);
-    }
-
-    /**
-     * * 代码生成
-     */
-    public static void generatorCode(Class<?> aClass, Class<?> voClass, Class<?> dtoClass, Class<?> addDtoClass, ArrayList<Class<?>> classList) throws Exception {
         // 设置velocity资源加载器
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
@@ -76,130 +61,147 @@ public class WebGeneratorCode {
         VelocityContext context = new VelocityContext();
 
         // 原始类名称
-        String originalName = aClass.getSimpleName();
+        String originalName = originalClass.getSimpleName();
         // 转成开头小写类名称，作为文件名
         String lowercaseName = originalName.substring(0, 1).toLowerCase() + originalName.substring(1);
         // 转成中划线，做vue命名使用
         String lowerHyphen = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, originalName);
-        // 基础TS 的 interface 注释内容
-        String interfaceDescription = aClass.getAnnotation(ApiModel.class).description();
+        // 生成字段xxx管理
+        String classDescription = originalClass.getAnnotation(Schema.class).description();
+        // 类注解标题
+        String classTitle = originalClass.getAnnotation(Schema.class).title();
 
-        Field[] fields = voClass.getDeclaredFields();
-        // 生成 Columns 字段
-        List<ColumnsField> columnsField = Arrays.stream(fields)
-                .map(field -> ColumnsField.builder().name(field.getName()).value(field.getAnnotation(ApiModelProperty.class).value()).build())
-                .toList();
-        // 整合仓库集合 interface 集合列表
-        List<StoreTypeField> fieldList = classList.stream().map(GeneratorCodeUtils::handleGenerator).toList();
+        context.put("originalName", originalName);
+        context.put("lowercaseName", lowercaseName);
+        context.put("lowerHyphen", lowerHyphen);
+        context.put("classDescription", classDescription);
+        context.put("classTitle", classTitle);
+        context.put("leftBrace", "${");
+        context.put("date", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
+        generatorWebCode(dtoClass, addDtoClass, context);
+
+        // 写入文件
+        writeFiles(lowercaseName, lowerHyphen, originalName, context);
+    }
+
+    public static void generatorWebCode(Class<?> dtoClass, Class<?> addDtoClass, VelocityContext context) {
         // 生成 Store 中 form 表单内容
         List<BaseField> formList = Arrays.stream(dtoClass.getDeclaredFields())
                 .filter(field -> !field.getName().equals("id"))
-                .map(field -> BaseField.builder().name(field.getName()).annotation(field.getAnnotation(ApiModelProperty.class).name()).build())
+                .map(field -> BaseField.builder().name(field.getName()).annotation(field.getAnnotation(Schema.class).title()).build())
                 .toList();
 
-        // 生成dialog字段
-        List<BaseField> addDtoFormList = Arrays.stream(addDtoClass.getDeclaredFields())
-                .map(addDto -> {
-                    BaseField baseField = new BaseField();
-                    baseField.setName(addDto.getName());
-                    baseField.setAnnotation(addDto.getAnnotation(ApiModelProperty.class).name());
+        // 添加表单字段值
+        List<String> addFormList = Arrays.stream(addDtoClass.getDeclaredFields()).map(Field::getName).toList();
 
-                    // 是否有验证内容
-                    List<Annotation> validationList = Arrays.stream(addDto.getAnnotations())
-                            .filter(annotation -> {
-                                Class<? extends Annotation> annotationType = annotation.annotationType();
-                                return annotationType.getTypeName().contains("jakarta.validation.constraints");
-                            })
-                            .peek(annotation -> {
-                                try {
-                                    String message = annotation.annotationType().getMethod("message").invoke(annotation).toString();
-                                    baseField.setRequireMessage(message);
-                                    baseField.setRequire(true);
-                                } catch (Exception e) {
-                                    baseField.setRequireMessage(null);
-                                    baseField.setRequire(false);
-                                }
-                            }).toList();
+        // 是否必须字段设置
+        List<BaseField> baseFieldList = Arrays.stream(addDtoClass.getDeclaredFields()).map(field -> {
+            try {
+                // 验证消息
+                String message = field.getAnnotation(NotBlank.class).message();
+                boolean hasMessage = StringUtils.hasText(message);
+                if (!hasMessage) message = field.getAnnotation(NotNull.class).message();
 
-                    baseField.setRequire(!validationList.isEmpty());
+                // 设置基础字段注解和是否必填项
+                BaseField baseField = new BaseField();
+                baseField.setName(field.getName());
+                baseField.setType(baseField.getType());
+                baseField.setAnnotation(field.getAnnotation(Schema.class).title());
+                baseField.setType(GeneratorCodeUtils.convertJavaTypeToTypeScript(field.getType()));
+                baseField.setRequire(hasMessage);
+                if (hasMessage) baseField.setRequireMessage(message);
 
-                    return baseField;
-                })
-                .toList();
+                return baseField;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).toList();
 
-        context.put("columnsField", columnsField);
-        context.put("fields", fieldList);
-        context.put("annotationName", aClass.getAnnotation(ApiModel.class).description());
-        context.put("storeId", GeneratorCodeUtils.lowercaseFirstLetter(originalName));
+        // 生成查询表单字段
         context.put("formList", formList);
-        context.put("addDtoFormList", addDtoFormList);
-        context.put("className", originalName);
-        context.put("interfaceDescription", interfaceDescription);
-        context.put("lowerHyphen", lowerHyphen);
-        context.put("lowercaseName", lowercaseName);
-        context.put("commonPreFix", commonPreFix);
-
-        // 添加路径内
-        context.put("columnsPath", GeneratorCodeUtils.ReplacePathHandle(columnsPath));
-        context.put("vuePath", GeneratorCodeUtils.ReplacePathHandle(vuePath));
-        context.put("storePath", GeneratorCodeUtils.ReplacePathHandle(storePath));
-        context.put("storeTypePath", GeneratorCodeUtils.ReplacePathHandle(storeTypePath));
-        context.put("apiPath", GeneratorCodeUtils.ReplacePathHandle(apiPath));
-
-        // 写入文件
-        writeFiles(lowercaseName, lowerHyphen, context);
+        context.put("addFormList", addFormList);
+        context.put("baseFieldList", baseFieldList);
     }
 
-    /**
-     * * 写入文件
-     *
-     * @param lowercaseName 文件名称，开头小写
-     * @param context       VelocityContext上下文信息
-     */
-    public static void writeFiles(String lowercaseName, String lowerHyphen, VelocityContext context) throws IOException {
-        // 加载模板
-        Template columnsTemplate = Velocity.getTemplate("vms/web/columns.vm", "UTF-8");
-        Template handlerTemplate = Velocity.getTemplate("vms/web/handler.vm", "UTF-8");
-        Template apiFileTemplate = Velocity.getTemplate("vms/web/fetchAPi.vm", "UTF-8");
-        Template storeFileTemplate = Velocity.getTemplate("vms/web/store.vm", "UTF-8");
-        Template storeTypeTemplate = Velocity.getTemplate("vms/web/storeType.vm", "UTF-8");
-        Template indexTemplate = Velocity.getTemplate("vms/web/vue/index.vm", "UTF-8");
-        Template dialogTemplate = Velocity.getTemplate("vms/web/vue/dialog.vm", "UTF-8");
-        Template addDialogTemplate = Velocity.getTemplate("vms/web/vue/addDialog.vm", "UTF-8");
-        Template dialogUpdateTemplate = Velocity.getTemplate("vms/web/vue/dialogUpdate.vm", "UTF-8");
+    public static void writeFiles(String lowercaseName, String lowerHyphen, String originalName, VelocityContext context) throws IOException {
+        context.put("apiPath", GeneratorCodeUtils.ReplacePathHandle(apiPath) + lowercaseName);
+        context.put("typesPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/types");
+        context.put("hookPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/hook");
+        context.put("columnsPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/columns");
+        context.put("dialogPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/" + lowerHyphen + "-dialog.vue");
 
-        // 写入模板
-        FileWriter columnsTemplateFileWriter = new FileWriter(columnsPath + "columns.ts");
-        FileWriter handlerTemplateFileWriter = new FileWriter(columnsPath + "handler.ts");
-        FileWriter apiFileTemplateFileWrite = new FileWriter(apiPath + lowercaseName + ".ts");
-        FileWriter storeFileTemplateFileWriter = new FileWriter(storePath + lowercaseName + ".ts");
-        FileWriter storeTypeTemplateFileWriter = new FileWriter(storeTypePath + lowercaseName + ".ts");
-        FileWriter indexTemplateFileWriter = new FileWriter(vuePath + "index.vue");
-        FileWriter dialogTemplateFileWriter = new FileWriter(vuePath + lowerHyphen + "-dialog.vue");
-        FileWriter addDialogTemplateFileWriter = new FileWriter(vuePath + lowerHyphen + "-add.vue");
-        FileWriter dialogUpdateTemplateFileWriter = new FileWriter(vuePath + lowerHyphen + "-update.vue");
+        // 写入api模板
+        Template apiTemplate = Velocity.getTemplate("vms/web/api.vm", "UTF-8");
+        FileWriter apiTemplateFileWriter = new FileWriter(apiPath + lowercaseName + ".ts");
+        apiTemplate.merge(context, apiTemplateFileWriter);
+        apiTemplateFileWriter.close();
 
-        // 合并数据到模板
-        dialogUpdateTemplate.merge(context, dialogUpdateTemplateFileWriter);
-        addDialogTemplate.merge(context, addDialogTemplateFileWriter);
+        // 写入弹窗模板
+        Template dialogTemplate = Velocity.getTemplate("vms/web/dialog.vm", "UTF-8");
+        FileWriter dialogTemplateFileWriter = new FileWriter(vuePath + lowercaseName + "\\" + lowerHyphen + "-dialog.vue");
         dialogTemplate.merge(context, dialogTemplateFileWriter);
-        indexTemplate.merge(context, indexTemplateFileWriter);
-        columnsTemplate.merge(context, columnsTemplateFileWriter);
-        handlerTemplate.merge(context, handlerTemplateFileWriter);
-        apiFileTemplate.merge(context, apiFileTemplateFileWrite);
-        storeFileTemplate.merge(context, storeFileTemplateFileWriter);
-        storeTypeTemplate.merge(context, storeTypeTemplateFileWriter);
-
-        // 释放资源
-        columnsTemplateFileWriter.close();
-        handlerTemplateFileWriter.close();
-        apiFileTemplateFileWrite.close();
-        storeFileTemplateFileWriter.close();
-        storeTypeTemplateFileWriter.close();
-        indexTemplateFileWriter.close();
         dialogTemplateFileWriter.close();
-        addDialogTemplateFileWriter.close();
-        dialogUpdateTemplateFileWriter.close();
+
+        // 写入hook模板
+        Template hookTemplate = Velocity.getTemplate("vms/web/hook.vm", "UTF-8");
+        FileWriter hookTemplateFileWriter = new FileWriter(vuePath + lowercaseName + "\\utils\\hook.ts");
+        hookTemplate.merge(context, hookTemplateFileWriter);
+        hookTemplateFileWriter.close();
+
+        // 写入hook模板
+        Template storeTemplate = Velocity.getTemplate("vms/web/store.vm", "UTF-8");
+        FileWriter storeTemplateFileWriter = new FileWriter(storePath + "\\" + lowercaseName + ".ts");
+        storeTemplate.merge(context, storeTemplateFileWriter);
+        storeTemplateFileWriter.close();
+
+        // 写入types模板
+        Template typesTemplate = Velocity.getTemplate("vms/web/types.vm", "UTF-8");
+        FileWriter typesTemplateFileWriter = new FileWriter(vuePath + lowercaseName + "\\utils\\types.ts");
+        typesTemplate.merge(context, typesTemplateFileWriter);
+        typesTemplateFileWriter.close();
+
+        // 写入index模板
+        Template indexTemplate = Velocity.getTemplate("vms/web/index.vm", "UTF-8");
+        FileWriter indexTemplateFileWriter = new FileWriter(vuePath + lowercaseName + "\\index.vue");
+        indexTemplate.merge(context, indexTemplateFileWriter);
+        indexTemplateFileWriter.close();
+
+        // 写入columns模板
+        Template columnsTemplate = Velocity.getTemplate("vms/web/columns.vm", "UTF-8");
+        FileWriter columnsTemplateFileWriter = new FileWriter(vuePath + lowercaseName + "\\utils\\columns.ts");
+        columnsTemplate.merge(context, columnsTemplateFileWriter);
+        columnsTemplateFileWriter.close();
+
+        // 写入controller模板
+        Template controllerTemplate = Velocity.getTemplate("vms/server/controller.vm", "UTF-8");
+        FileWriter controllerTemplateFileWriter = new FileWriter(controllerPath + originalName + "Controller.java");
+        controllerTemplate.merge(context, controllerTemplateFileWriter);
+        controllerTemplateFileWriter.close();
+
+        // 写入servicePath模板
+        Template servicePathTemplate = Velocity.getTemplate("vms/server/service.vm", "UTF-8");
+        FileWriter servicePathTemplateFileWriter = new FileWriter(servicePath + originalName + "Service.java");
+        servicePathTemplate.merge(context, servicePathTemplateFileWriter);
+        servicePathTemplateFileWriter.close();
+
+        // 写入serviceImplPath模板
+        Template serviceImplPathTemplate = Velocity.getTemplate("vms/server/serviceImpl.vm", "UTF-8");
+        FileWriter serviceImplPathTemplateFileWriter = new FileWriter(serviceImplPath + originalName + "ServiceImpl.java");
+        serviceImplPathTemplate.merge(context, serviceImplPathTemplateFileWriter);
+        serviceImplPathTemplateFileWriter.close();
+
+        // 写入serviceImplPath模板
+        Template mapperPathTemplate = Velocity.getTemplate("vms/server/mapper.vm", "UTF-8");
+        FileWriter mapperPathTemplateFileWriter = new FileWriter(mapperPath + originalName + "Mapper.java");
+        mapperPathTemplate.merge(context, mapperPathTemplateFileWriter);
+        mapperPathTemplateFileWriter.close();
+
+        // 写入resourceMapperPath模板
+        Template resourceMapperPathTemplate = Velocity.getTemplate("vms/server/resourceMapper.vm", "UTF-8");
+        FileWriter resourceMapperPathTemplateFileWriter = new FileWriter(mapperPath + originalName + "Mapper.xml");
+        resourceMapperPathTemplate.merge(context, resourceMapperPathTemplateFileWriter);
+        resourceMapperPathTemplateFileWriter.close();
     }
 }
+

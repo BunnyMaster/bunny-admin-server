@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @TableName("sys_i18n")
-@Schema(name = "I18n对象", title = "多语言表", description = "多语言表")
+@Schema(name = "I18n对象", title = "多语言", description = "多语言管理")
 public class I18n extends BaseEntity {
 
     @Schema(name = "keyName", title = "多语言key")

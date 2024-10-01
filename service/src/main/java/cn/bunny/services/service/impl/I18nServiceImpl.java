@@ -6,7 +6,6 @@ import cn.bunny.dao.dto.i18n.I18nDto;
 import cn.bunny.dao.dto.i18n.I18nUpdateDto;
 import cn.bunny.dao.entity.i18n.I18n;
 import cn.bunny.dao.entity.i18n.I18nType;
-import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.i18n.I18nVo;
@@ -73,7 +72,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @return 多语言返回列表
      */
     @Override
-    public PageResult<I18nVo> getI18nList(Page<MenuIcon> pageParams, I18nDto dto) {
+    public PageResult<I18nVo> getI18nList(Page<I18n> pageParams, I18nDto dto) {
         IPage<I18n> page = baseMapper.selectListByPage(pageParams, dto);
 
         List<I18nVo> i18nVoList = page.getRecords().stream().map(i18n -> {

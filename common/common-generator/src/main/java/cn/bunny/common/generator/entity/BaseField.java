@@ -22,9 +22,6 @@ public class BaseField {
     @ApiModelProperty("TS类型")
     private String type;
 
-    @ApiModelProperty("注释解释")
-    private String description;
-
     @ApiModelProperty("是否必须参数")
     private Boolean require;
 

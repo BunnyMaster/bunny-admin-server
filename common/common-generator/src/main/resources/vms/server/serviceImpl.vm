@@ -1,0 +1,88 @@
+package cn.bunny.services.service.impl;
+
+import cn.bunny.dao.dto.${originalName}.${originalName}Dto;
+import cn.bunny.dao.entity.system.${originalName};
+import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.${originalName}.${originalName}Vo;
+import cn.bunny.services.mapper.${originalName}Mapper;
+import cn.bunny.services.service.${originalName}Service;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * <p>
+ * ${classTitle} 服务实现类
+ * </p>
+ *
+ * @author Bunny
+ * @since ${date}
+ */
+@Service
+public class ${originalName}ServiceImpl extends ServiceImpl<${originalName}Mapper, ${originalName}> implements ${originalName}Service {
+
+    /**
+     * * ${classTitle} 服务实现类
+     *
+     * @param pageParams ${classTitle}分页查询page对象
+     * @param dto        ${classTitle}分页查询对象
+     * @return 查询分页${classTitle}返回对象
+     */
+    @Override
+    PageResult<${originalName}Vo> get${originalName}List(Page<${originalName}> pageParams, ${originalName}Dto dto) {
+        // 分页查询菜单图标
+        IPage<${originalName}> page = baseMapper.selectListByPage(pageParams, dto);
+
+        List<${originalName}Vo> voList = page.getRecords().stream().map(${originalName} -> {
+            ${originalName}Vo ${originalName}Vo = new ${originalName}Vo();
+            BeanUtils.copyProperties(${originalName}, ${originalName}Vo);
+            return ${originalName}Vo;
+        }).toList();
+
+        return PageResult.<${originalName}Vo>builder()
+                .list(voList)
+                .pageNo(page.getCurrent())
+                .pageSize(page.getSize())
+                .total(page.getTotal())
+                .build();
+    }
+    /**
+     * 添加${classTitle}
+     *
+     * @param dto ${classTitle}添加
+     */
+    @Override
+    public void add${originalName}(@Valid ${originalName}AddDto dto) {
+        // 保存数据
+        ${originalName} ${lowercaseName} = new ${originalName}();
+        BeanUtils.copyProperties(dto, ${lowercaseName});
+        save(${lowercaseName});
+    }
+
+    /**
+     * 更新${classTitle}
+     *
+     * @param dto ${classTitle}更新
+     */
+    @Override
+    public void update${originalName}(@Valid ${originalName}UpdateDto dto) {
+        // 更新内容
+        ${originalName} ${lowercaseName} = new ${originalName}();
+        BeanUtils.copyProperties(dto, ${lowercaseName});
+        updateById(${lowercaseName});
+    }
+
+    /**
+     * 删除|批量删除${classTitle}
+     *
+     * @param ids 删除id列表
+     */
+    @Override
+    public void delete${originalName}(List<Long> ids) {
+        baseMapper.deleteBatchIdsWithPhysics(ids);
+    }
+}

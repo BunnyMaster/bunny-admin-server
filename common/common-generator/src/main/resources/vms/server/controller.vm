@@ -1,0 +1,65 @@
+package cn.bunny.services.controller;
+
+import cn.bunny.dao.pojo.result.Result;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
+import cn.bunny.dao.pojo.result.PageResult;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.List;
+
+/**
+ * <p>
+ * ${classTitle}表 前端控制器
+ * </p>
+ *
+ * @author Bunny
+ * @since ${date}
+ */
+@Tag(name = "${classTitle}", description = "${classTitle}相关接口")
+@RestController
+@RequestMapping("admin/${originalName}")
+public class ${originalName}Controller {
+
+    @Autowired
+    private ${originalName}Service ${lowercaseName}Service;
+
+    @Operation(summary = "分页查询${classTitle}", description = "分页查询${classTitle}")
+    @GetMapping("get${originalName}List/{page}/{limit}")
+    public Mono<Result<PageResult<${originalName}Vo>>> get${originalName}List(
+            @Parameter(name = "page", description = "当前页", required = true)
+            @PathVariable("page") Integer page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable("limit") Integer limit,
+            ${originalName}Dto dto) {
+        Page<${originalName}> pageParams = new Page<>(page, limit);
+        PageResult<${originalName}Vo> pageResult = ${lowercaseName}Service.get${originalName}List(pageParams, dto);
+        return Mono.just(Result.success(pageResult));
+    }
+
+    @Operation(summary = "添加${classTitle}", description = "添加${classTitle}")
+    @PostMapping("add${originalName}")
+    public Mono<Result<String>> add${originalName}(@Valid @RequestBody ${originalName}AddDto dto) {
+            ${lowercaseName}Service.add${originalName}(dto);
+        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+    }
+
+    @Operation(summary = "更新${classTitle}", description = "更新${classTitle}")
+    @PutMapping("update${originalName}")
+    public Mono<Result<String>> update${originalName}(@Valid @RequestBody ${originalName}UpdateDto dto) {
+            ${lowercaseName}Service.update${originalName}(dto);
+        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+    }
+
+    @Operation(summary = "删除${classTitle}", description = "删除${classTitle}")
+    @DeleteMapping("delete${originalName}")
+    public Mono<Result<String>> delete${originalName}(@RequestBody List<Long> ids) {
+            ${lowercaseName}Service.delete${originalName}(ids);
+        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
+    }
+}

@@ -1,14 +1,15 @@
 package cn.bunny.common.generator.utils;
 
-import cn.bunny.common.entity.BaseField;
-import cn.bunny.common.entity.StoreTypeField;
+import cn.bunny.common.generator.entity.BaseField;
+import cn.bunny.common.generator.entity.StoreTypeField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static cn.bunny.common.generator.WebGeneratorCode.commonPath;
+import static cn.bunny.common.generator.generator.WebGeneratorCode.commonPath;
+
 
 public class GeneratorCodeUtils {
     public static String convertJavaTypeToTypeScript(Class<?> javaType) {
@@ -37,18 +38,6 @@ public class GeneratorCodeUtils {
             case "char", "Character", "String" -> "string";
             default -> "any";
         };
-    }
-
-    /**
-     * * 将首字符变小写
-     *
-     * @param str 字符串
-     * @return 变小写后字符串
-     */
-    public static String lowercaseFirstLetter(String str) {
-        if (str == null || str.isEmpty()) return str;
-        // 将首字母转换为小写，其余部分保持原样
-        return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
     /**
@@ -85,7 +74,6 @@ public class GeneratorCodeUtils {
                     storeTypeField.setName(field.getName());
                     storeTypeField.setAnnotation(annotationName);
                     storeTypeField.setType(convertJavaTypeToTypeScript);
-                    storeTypeField.setDescription(value);
 
                     return storeTypeField;
                 }).toList();
@@ -105,6 +93,6 @@ public class GeneratorCodeUtils {
      * @return 处理好的路径
      */
     public static String ReplacePathHandle(String path) {
-        return path.replace(commonPath, "").replace("\\", "/").replace("src", "@");
+        return "@" + path.replace(commonPath, "").replace("\\", "/");
     }
 }

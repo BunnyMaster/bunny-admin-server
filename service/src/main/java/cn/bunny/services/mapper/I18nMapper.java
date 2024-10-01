@@ -2,7 +2,6 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.i18n.I18nDto;
 import cn.bunny.dao.entity.i18n.I18n;
-import cn.bunny.dao.entity.system.MenuIcon;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,7 +28,7 @@ public interface I18nMapper extends BaseMapper<I18n> {
      * @param dto        路由查询表单
      * @return 分页结果
      */
-    IPage<I18n> selectListByPage(@Param("page") Page<MenuIcon> pageParams, @Param("dto") I18nDto dto);
+    IPage<I18n> selectListByPage(@Param("page") Page<I18n> pageParams, @Param("dto") I18nDto dto);
 
     /**
      * 物理删除多语言

@@ -1,39 +1,42 @@
 package cn.bunny.services.controller;
 
+import cn.bunny.dao.dto.menuIcon.MenuIconAddDto;
 import cn.bunny.dao.dto.menuIcon.MenuIconDto;
+import cn.bunny.dao.dto.menuIcon.MenuIconUpdateDto;
 import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.menuIcon.MenuIconVo;
 import cn.bunny.services.service.MenuIconService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * <p>
- * 系统菜单图标 前端控制器
+ * 系统菜单图标表 前端控制器
  * </p>
  *
  * @author Bunny
- * @since 2024-09-26
+ * @since 2024-10-01T21:55:05.597965300
  */
-@Tag(name = "菜单Icon", description = "菜单Icon相关接口")
+@Tag(name = "系统菜单图标", description = "系统菜单图标相关接口")
 @RestController
-@RequestMapping("admin/menuIcon")
+@RequestMapping("admin/MenuIcon")
 public class MenuIconController {
 
     @Autowired
     private MenuIconService menuIconService;
 
-    @Operation(summary = "获取菜单Icon", description = "获取菜单Icon")
+    @Operation(summary = "分页查询系统菜单图标", description = "分页查询系统菜单图标")
     @GetMapping("getMenuIconList/{page}/{limit}")
     public Mono<Result<PageResult<MenuIconVo>>> getMenuIconList(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -44,5 +47,26 @@ public class MenuIconController {
         Page<MenuIcon> pageParams = new Page<>(page, limit);
         PageResult<MenuIconVo> pageResult = menuIconService.getMenuIconList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
+    }
+
+    @Operation(summary = "添加系统菜单图标", description = "添加系统菜单图标")
+    @PostMapping("addMenuIcon")
+    public Mono<Result<String>> addMenuIcon(@Valid @RequestBody MenuIconAddDto dto) {
+        menuIconService.addmenuIcon(dto);
+        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+    }
+
+    @Operation(summary = "更新系统菜单图标", description = "更新系统菜单图标")
+    @PutMapping("updateMenuIcon")
+    public Mono<Result<String>> updateMenuIcon(@Valid @RequestBody MenuIconUpdateDto dto) {
+        menuIconService.updateMenuIcon(dto);
+        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+    }
+
+    @Operation(summary = "删除系统菜单图标", description = "删除系统菜单图标")
+    @DeleteMapping("deleteMenuIcon")
+    public Mono<Result<String>> deleteMenuIcon(@RequestBody List<Long> ids) {
+        menuIconService.deleteMenuIcon(ids);
+        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
     }
 }

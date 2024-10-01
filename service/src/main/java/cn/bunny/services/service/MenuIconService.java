@@ -1,11 +1,16 @@
 package cn.bunny.services.service;
 
+import cn.bunny.dao.dto.menuIcon.MenuIconAddDto;
 import cn.bunny.dao.dto.menuIcon.MenuIconDto;
+import cn.bunny.dao.dto.menuIcon.MenuIconUpdateDto;
 import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.menuIcon.MenuIconVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.validation.Valid;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,16 +18,35 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author Bunny
- * @since 2024-09-26
+ * @since 2024-10-01T21:55:05.597965300
  */
 public interface MenuIconService extends IService<MenuIcon> {
 
     /**
-     * * 获取菜单Icon
+     * * 获取系统菜单图标列表
      *
-     * @param pageParams 分页查询结果
-     * @param dto        系统菜单图标分页查询对象
-     * @return 分页查询结果返回内容
+     * @return 系统菜单图标返回列表
      */
     PageResult<MenuIconVo> getMenuIconList(Page<MenuIcon> pageParams, MenuIconDto dto);
+
+    /**
+     * * 添加系统菜单图标
+     *
+     * @param dto 添加表单
+     */
+    void addMenuIcon(@Valid MenuIconAddDto dto);
+
+    /**
+     * * 更新系统菜单图标
+     *
+     * @param dto 更新表单
+     */
+    void updateMenuIcon(@Valid MenuIconUpdateDto dto);
+
+    /**
+     * * 删除系统菜单图标类型
+     *
+     * @param ids 删除id列表
+     */
+    void deleteMenuIcon(List<Long> ids);
 }

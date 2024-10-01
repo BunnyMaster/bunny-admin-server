@@ -1,0 +1,12 @@
+// 添加或者修改表单元素
+export interface FormItemProps {
+#foreach($field in $baseFieldList)
+    // $field.annotation
+    $field.name: $field.type;
+#end
+}
+
+// 添加或修改表单Props
+export interface FormProps {
+	formInline: FormItemProps;
+}

@@ -1,0 +1,35 @@
+<script lang="ts" setup>
+    import { ref } from 'vue';
+    import { FormInstance } from 'element-plus';
+    import { rules } from '@/views/i18n/i18n-type-setting/utils/columns';
+    import { FormProps } from '${typesPath}';
+    import { frameSureOptions } from '@/enums';
+    import Segmented from '@/components/ReSegmented';
+    import { $t } from '@/plugins/i18n';
+
+    const props = withDefaults(defineProps<FormProps>(), {
+        formInline: () => ({
+#foreach($item in $baseFieldList)
+    #if(${item.name})
+        // $!{item.annotation}
+        ${item.name}: undefined,
+    #end
+#end
+        }),
+    });
+
+    const formRef = ref<FormInstance>();
+    const form = ref(props.formInline);
+
+    defineExpose({ formRef });
+</script>
+
+<template>
+    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+#foreach($item in $baseFieldList)
+        <el-form-item :label="$t('${lowercaseName}_${item.name}')" prop="$item.name">
+            <el-input v-model="form.$item.name" autocomplete="off" type="text" />
+        </el-form-item>
+#end
+    </el-form>
+</template>

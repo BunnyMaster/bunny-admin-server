@@ -3,7 +3,7 @@ package cn.bunny.services.controller;
 import cn.bunny.dao.dto.i18n.I18nAddDto;
 import cn.bunny.dao.dto.i18n.I18nDto;
 import cn.bunny.dao.dto.i18n.I18nUpdateDto;
-import cn.bunny.dao.entity.system.MenuIcon;
+import cn.bunny.dao.entity.i18n.I18n;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -52,7 +52,7 @@ public class I18nController {
             @Parameter(name = "limit", description = "每页记录数", required = true)
             @PathVariable("limit") Integer limit,
             I18nDto dto) {
-        Page<MenuIcon> pageParams = new Page<>(page, limit);
+        Page<I18n> pageParams = new Page<>(page, limit);
         PageResult<I18nVo> vo = i18nService.getI18nList(pageParams, dto);
         return Mono.just(Result.success(vo));
     }

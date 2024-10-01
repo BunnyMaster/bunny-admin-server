@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -34,8 +33,10 @@ public class ControllerStringParamTrimConfig {
                     .deserializerByType(String.class, new StdScalarDeserializer<String>(String.class) {
                         @Override
                         public String deserialize(JsonParser jsonParser, DeserializationContext ctx) throws IOException {
-                            // 去除前后空格
-                            return StringUtils.trimAllWhitespace(jsonParser.getValueAsString());
+                            // // 去除全部空格
+                            // return StringUtils.trimAllWhitespace(jsonParser.getValueAsString());
+                            // 仅去除前后空格
+                            return jsonParser.getValueAsString().trim();
                         }
                     });
         };

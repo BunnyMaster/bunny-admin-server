@@ -4,7 +4,6 @@ import cn.bunny.dao.dto.i18n.I18nAddDto;
 import cn.bunny.dao.dto.i18n.I18nDto;
 import cn.bunny.dao.dto.i18n.I18nUpdateDto;
 import cn.bunny.dao.entity.i18n.I18n;
-import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.i18n.I18nVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -36,7 +35,7 @@ public interface I18nService extends IService<I18n> {
      *
      * @return 多语言返回列表
      */
-    PageResult<I18nVo> getI18nList(Page<MenuIcon> pageParams, I18nDto dto);
+    PageResult<I18nVo> getI18nList(Page<I18n> pageParams, I18nDto dto);
 
     /**
      * * 添加多语言

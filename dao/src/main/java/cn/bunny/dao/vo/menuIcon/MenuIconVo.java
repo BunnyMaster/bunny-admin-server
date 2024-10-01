@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "RouterControllerVo对象", title = "路由管理端返回对象", description = "路由管理端返回对象")
+@Schema(name = "MenuIconVo对象", title = "系统菜单图标", description = "系统菜单图标")
 public class MenuIconVo extends BaseVo {
 
     @Schema(name = "iconName", title = "icon 名称")
