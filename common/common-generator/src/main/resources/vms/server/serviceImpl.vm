@@ -1,9 +1,7 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.dao.dto.${originalName}.${originalName}Dto;
 import cn.bunny.dao.entity.system.${originalName};
 import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.dao.vo.${originalName}.${originalName}Vo;
 import cn.bunny.services.mapper.${originalName}Mapper;
 import cn.bunny.services.service.${originalName}Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -33,7 +31,7 @@ public class ${originalName}ServiceImpl extends ServiceImpl<${originalName}Mappe
      * @return 查询分页${classTitle}返回对象
      */
     @Override
-    PageResult<${originalName}Vo> get${originalName}List(Page<${originalName}> pageParams, ${originalName}Dto dto) {
+    public PageResult<${originalName}Vo> get${originalName}List(Page<${originalName}> pageParams, ${originalName}Dto dto) {
         // 分页查询菜单图标
         IPage<${originalName}> page = baseMapper.selectListByPage(pageParams, dto);
 

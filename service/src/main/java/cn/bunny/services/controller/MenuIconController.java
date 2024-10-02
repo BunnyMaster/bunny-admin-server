@@ -26,11 +26,11 @@ import java.util.List;
  * </p>
  *
  * @author Bunny
- * @since 2024-10-01T21:55:05.597965300
+ * @since 2024-10-02 12:18:29
  */
 @Tag(name = "系统菜单图标", description = "系统菜单图标相关接口")
 @RestController
-@RequestMapping("admin/MenuIcon")
+@RequestMapping("admin/menuIcon")
 public class MenuIconController {
 
     @Autowired
@@ -52,7 +52,7 @@ public class MenuIconController {
     @Operation(summary = "添加系统菜单图标", description = "添加系统菜单图标")
     @PostMapping("addMenuIcon")
     public Mono<Result<String>> addMenuIcon(@Valid @RequestBody MenuIconAddDto dto) {
-        menuIconService.addmenuIcon(dto);
+        menuIconService.addMenuIcon(dto);
         return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
 

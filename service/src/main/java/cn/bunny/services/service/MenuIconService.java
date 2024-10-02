@@ -18,7 +18,7 @@ import java.util.List;
  * </p>
  *
  * @author Bunny
- * @since 2024-10-01T21:55:05.597965300
+ * @since 2024-10-02 12:18:29
  */
 public interface MenuIconService extends IService<MenuIcon> {
 
@@ -44,7 +44,7 @@ public interface MenuIconService extends IService<MenuIcon> {
     void updateMenuIcon(@Valid MenuIconUpdateDto dto);
 
     /**
-     * * 删除系统菜单图标类型
+     * * 删除|批量删除系统菜单图标类型
      *
      * @param ids 删除id列表
      */

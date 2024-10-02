@@ -1,12 +1,12 @@
 package cn.bunny.common.generator.generator;
 
 import cn.bunny.common.generator.entity.BaseField;
+import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
 import cn.bunny.dao.dto.menuIcon.MenuIconAddDto;
 import cn.bunny.dao.dto.menuIcon.MenuIconDto;
-import cn.bunny.dao.dto.menuIcon.MenuIconUpdateDto;
 import cn.bunny.dao.entity.system.MenuIcon;
-import cn.bunny.dao.vo.menuIcon.MenuIconVo;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -25,6 +25,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * * 代码生成器入口点
@@ -50,8 +52,8 @@ public class WebGeneratorCode {
         Class<MenuIcon> originalClass = MenuIcon.class;
         Class<MenuIconDto> dtoClass = MenuIconDto.class;
         Class<MenuIconAddDto> addDtoClass = MenuIconAddDto.class;
-        Class<MenuIconUpdateDto> updateDtoClass = MenuIconUpdateDto.class;
-        Class<MenuIconVo> voClass = MenuIconVo.class;
+        // Class<MenuIconUpdateDto> updateDtoClass = MenuIconUpdateDto.class;
+        // Class<MenuIconVo> voClass = MenuIconVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();
@@ -79,12 +81,19 @@ public class WebGeneratorCode {
         context.put("leftBrace", "${");
         context.put("date", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
+        // 生成前端内容
         generatorWebCode(dtoClass, addDtoClass, context);
+
+        // 生成后端
+        generatorServerCode(originalClass, dtoClass, context);
 
         // 写入文件
         writeFiles(lowercaseName, lowerHyphen, originalName, context);
     }
 
+    /**
+     * * web端生成字段
+     */
     public static void generatorWebCode(Class<?> dtoClass, Class<?> addDtoClass, VelocityContext context) {
         // 生成 Store 中 form 表单内容
         List<BaseField> formList = Arrays.stream(dtoClass.getDeclaredFields())
@@ -124,6 +133,57 @@ public class WebGeneratorCode {
         context.put("baseFieldList", baseFieldList);
     }
 
+    /**
+     * 生成后端内容
+     */
+    public static void generatorServerCode(Class<MenuIcon> originalClass, Class<MenuIconDto> dtoClass, VelocityContext context) {
+        Field[] superFields = originalClass.getSuperclass().getDeclaredFields();
+        Field[] declaredFields = originalClass.getDeclaredFields();
+        Field[] mergedArray = new Field[superFields.length + declaredFields.length];
+        System.arraycopy(superFields, 0, mergedArray, 0, superFields.length);
+        System.arraycopy(declaredFields, 0, mergedArray, superFields.length, declaredFields.length);
+
+        // 添加BaseResultMap
+        List<BaseResultMap> baseResultMaps = Arrays.stream(mergedArray).map(field -> {
+            // 转成下划线
+            String fieldName = field.getName();
+            String lowerUnderscore = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, fieldName);
+
+            BaseResultMap baseResultMap = new BaseResultMap();
+            baseResultMap.setColumn(lowerUnderscore);
+            baseResultMap.setProperty(fieldName);
+            return baseResultMap;
+        }).toList();
+
+        // 分页查询内容
+        List<BaseResultMap> pageQueryMap = Arrays.stream(dtoClass.getDeclaredFields()).map(field -> {
+            String name = field.getName();
+            String column = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
+
+            return BaseResultMap.builder().column(column).property(name).build();
+        }).toList();
+
+        // 类型加包名
+        String name = originalClass.getName();
+
+        // 生层Base_Column_List
+        String baseColumnList = Stream.of(mergedArray)
+                .map(field -> CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()))
+                .collect(Collectors.joining(", "));
+
+        // 表名
+        String tableName = originalClass.getAnnotation(TableName.class).value();
+
+        context.put("baseResultMaps", baseResultMaps);
+        context.put("type", name);
+        context.put("baseColumnList", baseColumnList);
+        context.put("tableName", tableName);
+        context.put("pageQueryMap", pageQueryMap);
+    }
+
+    /**
+     * * 写入文件
+     */
     public static void writeFiles(String lowercaseName, String lowerHyphen, String originalName, VelocityContext context) throws IOException {
         context.put("apiPath", GeneratorCodeUtils.ReplacePathHandle(apiPath) + lowercaseName);
         context.put("typesPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/types");
@@ -199,7 +259,7 @@ public class WebGeneratorCode {
 
         // 写入resourceMapperPath模板
         Template resourceMapperPathTemplate = Velocity.getTemplate("vms/server/resourceMapper.vm", "UTF-8");
-        FileWriter resourceMapperPathTemplateFileWriter = new FileWriter(mapperPath + originalName + "Mapper.xml");
+        FileWriter resourceMapperPathTemplateFileWriter = new FileWriter(resourceMapperPath + originalName + "Mapper.xml");
         resourceMapperPathTemplate.merge(context, resourceMapperPathTemplateFileWriter);
         resourceMapperPathTemplateFileWriter.close();
     }

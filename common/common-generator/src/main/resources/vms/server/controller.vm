@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Tag(name = "${classTitle}", description = "${classTitle}相关接口")
 @RestController
-@RequestMapping("admin/${originalName}")
+@RequestMapping("admin/${lowercaseName}")
 public class ${originalName}Controller {
 
     @Autowired
