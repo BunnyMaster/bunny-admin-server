@@ -1,16 +1,16 @@
-package cn.bunny.dao.entity.system;
+package cn.bunny.dao.vo.system.rolePower;
 
-import cn.bunny.dao.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.bunny.dao.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
-@TableName("sys_power")
-@Schema(name = "Power对象", title = "权限", description = "权限")
-public class Power extends BaseEntity {
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Schema(name = "PowerVo对象", title = "权限", description = "权限管理")
+public class PowerVo extends BaseVo {
 
     @Schema(name = "parentId", title = "父级id")
     private Long parentId;
@@ -25,4 +25,3 @@ public class Power extends BaseEntity {
     private String requestUrl;
 
 }
-

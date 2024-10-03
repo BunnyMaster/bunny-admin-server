@@ -5,21 +5,53 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.system.Power">
         <id column="id" property="id"/>
-        <result column="parent_id" property="parentId"/>
-        <result column="power_code" property="powerCode"/>
-        <result column="power_name" property="powerName"/>
-        <result column="request_url" property="requestUrl"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="create_user" property="createUser"/>
-        <result column="update_user" property="updateUser"/>
-        <result column="is_deleted" property="isDeleted"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="create_user" property="createUser"/>
+        <id column="update_user" property="updateUser"/>
+        <id column="is_deleted" property="isDeleted"/>
+        <id column="parent_id" property="parentId"/>
+        <id column="power_code" property="powerCode"/>
+        <id column="power_name" property="powerName"/>
+        <id column="request_url" property="requestUrl"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, parent_id, power_code, power_name, request_url, create_time, update_time, create_user, update_user, is_deleted
+        id, create_time, update_time, create_user, update_user, is_deleted, parent_id, power_code, power_name, request_url
     </sql>
+
+    <!-- 分页查询权限内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Power">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_power
+        <where>
+            <if test="dto.parentId != null and dto.parentId != ''">
+                parent_id like CONCAT('%',#{dto.parentId},'%')
+            </if>
+            <if test="dto.powerCode != null and dto.powerCode != ''">
+                power_code like CONCAT('%',#{dto.powerCode},'%')
+            </if>
+            <if test="dto.powerName != null and dto.powerName != ''">
+                power_name like CONCAT('%',#{dto.powerName},'%')
+            </if>
+            <if test="dto.requestUrl != null and dto.requestUrl != ''">
+                request_url like CONCAT('%',#{dto.requestUrl},'%')
+            </if>
+        </where>
+        order by update_time
+    </select>
+
+    <!-- 物理删除权限 -->
+    <delete id="deleteBatchIdsWithPhysics">
+        delete
+        from sys_power
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 
     <!-- 根据用户id查询当前用户所有角色 -->
     <select id="selectListByUserId" resultType="cn.bunny.dao.entity.system.Power">
@@ -33,6 +65,8 @@
           AND rp.power_id = p.id
           AND u.id = #{userId}
     </select>
+
+    <!-- 根据权限码返回权限列表 -->
     <select id="selectListByPowerCodes" resultType="cn.bunny.dao.entity.system.Power">
         SELECT * FROM sys_power WHERE power_code IN
         <foreach collection="powerCodes" separator="," item="code" open="(" close=")">

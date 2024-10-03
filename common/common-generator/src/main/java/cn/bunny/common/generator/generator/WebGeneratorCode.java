@@ -3,11 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.system.role.RoleAddDto;
-import cn.bunny.dao.dto.system.role.RoleDto;
-import cn.bunny.dao.dto.system.role.RoleUpdateDto;
-import cn.bunny.dao.entity.system.Role;
-import cn.bunny.dao.vo.system.rolePower.RoleVo;
+import cn.bunny.dao.dto.system.rolePower.PowerAddDto;
+import cn.bunny.dao.dto.system.rolePower.PowerDto;
+import cn.bunny.dao.dto.system.rolePower.PowerUpdateDto;
+import cn.bunny.dao.entity.system.Power;
+import cn.bunny.dao.vo.system.rolePower.PowerVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,11 +51,11 @@ public class WebGeneratorCode {
     public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = Role.class;
-        Class<?> dtoClass = RoleDto.class;
-        Class<?> addDtoClass = RoleAddDto.class;
-        Class<?> updateDtoClass = RoleUpdateDto.class;
-        Class<?> voClass = RoleVo.class;
+        Class<?> originalClass = Power.class;
+        Class<?> dtoClass = PowerDto.class;
+        Class<?> addDtoClass = PowerAddDto.class;
+        Class<?> updateDtoClass = PowerUpdateDto.class;
+        Class<?> voClass = PowerVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();
@@ -109,10 +109,16 @@ public class WebGeneratorCode {
         // 是否必须字段设置
         List<BaseField> baseFieldList = Arrays.stream(addDtoClass.getDeclaredFields()).map(field -> {
             try {
+                String message = "";
+                boolean hasMessage = false;
                 // 验证消息
-                String message = field.getAnnotation(NotBlank.class).message();
-                boolean hasMessage = StringUtils.hasText(message);
-                if (!hasMessage) message = field.getAnnotation(NotNull.class).message();
+                NotBlank messageAnnotation = field.getAnnotation(NotBlank.class);
+                if (messageAnnotation != null) {
+                    message = messageAnnotation.message();
+                    hasMessage = StringUtils.hasText(message);
+                    if (!hasMessage) message = field.getAnnotation(NotNull.class).message();
+                }
+
 
                 // 设置基础字段注解和是否必填项
                 BaseField baseField = new BaseField();

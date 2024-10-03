@@ -1,8 +1,8 @@
 package cn.bunny.services.service;
 
-import cn.bunny.dao.dto.system.role.RoleAddDto;
-import cn.bunny.dao.dto.system.role.RoleDto;
-import cn.bunny.dao.dto.system.role.RoleUpdateDto;
+import cn.bunny.dao.dto.system.rolePower.RoleAddDto;
+import cn.bunny.dao.dto.system.rolePower.RoleDto;
+import cn.bunny.dao.dto.system.rolePower.RoleUpdateDto;
 import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.rolePower.RoleVo;
