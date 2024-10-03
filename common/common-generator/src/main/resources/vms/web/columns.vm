@@ -3,14 +3,15 @@ import { $t } from '@/plugins/i18n';
 
 // 表格列
 export const columns: TableColumnList = [
+	{ type: 'index', index: (index: number) => index + 1 },
+	// { type: 'selection', align: 'left' },
 	{ label: $t('id'), prop: 'id' },
 #foreach($field in $baseFieldList)
     // $field.annotation
 	{ label: $t('${lowercaseName}_$field.name'), prop: '$field.name' },
 #end
-	{ label: $t('i18n_typeName'), prop: 'typeName' },
-	{ label: $t('table.updateTime'), prop: 'updateTime' },
-	{ label: $t('table.createTime'), prop: 'createTime' },
+	{ label: $t('table.updateTime'), prop: 'updateTime', sortable: true },
+	{ label: $t('table.createTime'), prop: 'createTime', sortable: true },
 	{ label: $t('table.createUser'), prop: 'createUser', slot: 'createUser' },
 	{ label: $t('table.updateUser'), prop: 'updateUser', slot: 'updateUser' },
 	{ label: $t('table.operation'), fixed: 'right', width: 210, slot: 'operation' },
@@ -20,6 +21,6 @@ export const columns: TableColumnList = [
 export const rules = reactive({
 #foreach($field in $baseFieldList)
     // $field.annotation
-    $field.name: [{ required: true, message: `$leftBrace$t('input')}$leftBrace$t('$lowercaseName_$field.name')}`, trigger: 'blur' }],
+    $field.name: [{ required: true, message: `$leftBrace$t('input')}$leftBrace$t('${lowercaseName}_${field.name}')}`, trigger: 'blur' }],
 #end
 });

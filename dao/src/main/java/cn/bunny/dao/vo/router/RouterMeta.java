@@ -1,6 +1,5 @@
 package cn.bunny.dao.vo.router;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -31,10 +30,6 @@ public class RouterMeta {
 
     @ApiModelProperty(value = "权限列表")
     private List<String> auths;
-
-    @ApiModelProperty("是否显示 返给前端为 showLink")
-    @JsonProperty("showLink")
-    private Boolean visible;
 
     @ApiModelProperty("frame路径")
     private String frameSrc;

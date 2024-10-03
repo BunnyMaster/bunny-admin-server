@@ -9,6 +9,7 @@ import cn.bunny.dao.vo.router.RouterManageVo;
 import cn.bunny.dao.vo.router.UserRouterVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -42,21 +43,21 @@ public interface RouterService extends IService<Router> {
      *
      * @return 系统菜单表
      */
-    List<RouterManageVo> getMenu();
+    List<RouterManageVo> getMenusList(RouterManageDto dto);
 
     /**
      * * 添加路由菜单
      *
      * @param dto 添加菜单表单
      */
-    void addMenu(RouterAddDto dto);
+    void addMenu(@Valid RouterAddDto dto);
 
     /**
      * * 更新路由菜单
      *
      * @param dto 更新表单
      */
-    void updateMenu(RouterUpdateDto dto);
+    void updateMenu(@Valid RouterUpdateDto dto);
 
     /**
      * * 删除路由菜单

@@ -24,7 +24,7 @@ export async function onSearch() {
  */
 export function onAdd() {
 	addDialog({
-        title: `$leftBrace $t("add")} $leftBrace$t("${lowercaseName}}")}`,
+        title: `$leftBrace $t("add")} $leftBrace$t("${lowercaseName}")}`,
 		width: '30%',
 		props: {
 			formInline: {
@@ -58,7 +58,7 @@ export function onAdd() {
  */
 export function onUpdate(row: any) {
 	addDialog({
-		title: `$leftBrace$t("modify")} $leftBrace$t("${lowercaseName}}")}`,
+		title: `$leftBrace$t("modify")} $leftBrace$t("${lowercaseName}")}`,
 		width: '30%',
 		props: {
 		formInline: {

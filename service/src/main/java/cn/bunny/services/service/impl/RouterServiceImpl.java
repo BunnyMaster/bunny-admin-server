@@ -16,6 +16,7 @@ import cn.bunny.dao.vo.user.LoginVo;
 import cn.bunny.services.factory.RouterServiceFactory;
 import cn.bunny.services.mapper.RouterMapper;
 import cn.bunny.services.service.RouterService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -143,8 +145,12 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      * @return 系统菜单表
      */
     @Override
-    public List<RouterManageVo> getMenu() {
-        return list().stream().map(router -> {
+    public List<RouterManageVo> getMenusList(RouterManageDto dto) {
+        LambdaQueryWrapper<Router> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.like(StringUtils.hasText(dto.getTitle()), Router::getTitle, dto.getTitle());
+        lambdaQueryWrapper.eq(dto.getVisible() != null, Router::getVisible, dto.getVisible());
+
+        return list(lambdaQueryWrapper).stream().map(router -> {
             RouterManageVo routerManageVo = new RouterManageVo();
             BeanUtils.copyProperties(router, routerManageVo);
             return routerManageVo;
@@ -180,7 +186,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         Long id = dto.getId();
         Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, id));
         if (router == null) {
-            throw new BunnyException(ResultCodeEnum.DATA_EXIST);
+            throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
         }
 
         router = new Router();

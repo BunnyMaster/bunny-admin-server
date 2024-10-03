@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -44,7 +45,7 @@ public class RouterController {
     }
 
     @Operation(summary = "分页管理菜单列表", description = "分页管理菜单列表")
-    @GetMapping("getMenusByPage/{page}/{limit}")
+    @GetMapping("getMenusList/{page}/{limit}")
     public Mono<Result<PageResult<RouterManageVo>>> getMenusByPage(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,
@@ -58,23 +59,23 @@ public class RouterController {
     }
 
     @Operation(summary = "管理菜单列表", description = "管理菜单列表")
-    @GetMapping("getMenus")
-    public Mono<Result<List<RouterManageVo>>> getMenu() {
-        List<RouterManageVo> voPageResult = routerService.getMenu();
+    @GetMapping("getMenusList")
+    public Mono<Result<List<RouterManageVo>>> getMenusList(RouterManageDto dto) {
+        List<RouterManageVo> voPageResult = routerService.getMenusList(dto);
 
         return Mono.just(Result.success(voPageResult));
     }
 
     @Operation(summary = "添加路由菜单", description = "添加路由菜单")
     @PostMapping("addMenu")
-    public Mono<Result<String>> addMenu(@RequestBody RouterAddDto dto) {
+    public Mono<Result<String>> addMenu(@Valid @RequestBody RouterAddDto dto) {
         routerService.addMenu(dto);
         return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
 
     @Operation(summary = "更新路由菜单", description = "更新路由菜单")
     @PutMapping("updateMenu")
-    public Mono<Result<String>> updateMenu(@RequestBody RouterUpdateDto dto) {
+    public Mono<Result<String>> updateMenu(@Valid @RequestBody RouterUpdateDto dto) {
         routerService.updateMenu(dto);
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }

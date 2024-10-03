@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class RouterUpdateDto {
 
     @ApiModelProperty("唯一标识")
+    @NotNull(message = "id不能为空")
     private Long id;
 
     @ApiModelProperty("菜单类型")
@@ -45,34 +46,14 @@ public class RouterUpdateDto {
 
     @ApiModelProperty("等级")
     @JsonProperty("rank")
-    private Integer routerRank = 99;
-
-    @ApiModelProperty("重定向")
-    private String redirect;
+    private Integer routerRank;
 
     @ApiModelProperty("图标")
     private String icon;
 
-    @ApiModelProperty("进入动画")
-    private String enterTransition;
-
-    @ApiModelProperty("退出动画")
-    private String leaveTransition;
-
     @ApiModelProperty("frame路径")
     private String frameSrc;
 
-    @ApiModelProperty("是否隐藏标签")
-    private Boolean hiddenTag = false;
-
-    @ApiModelProperty("是否固定标签")
-    private Boolean fixedTag = false;
-
-    @ApiModelProperty("是否显示 返给前端为 showLink")
-    @JsonProperty("showLink")
-    private Boolean visible = false;
-
-    @ApiModelProperty("是否显示父级")
-    private Boolean showParent = false;
-
+    @ApiModelProperty("是否显示")
+    private Boolean visible;
 }

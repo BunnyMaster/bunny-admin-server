@@ -53,7 +53,7 @@ public class RouterManageVo extends BaseVo {
     @JsonProperty("rank")
     private Integer routerRank;
 
-    @ApiModelProperty("是否显示 返给前端为 showLink")
+    @ApiModelProperty("是否显示")
     private Boolean visible;
 
     @ApiModelProperty("子路由")

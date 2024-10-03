@@ -65,8 +65,7 @@ public class RouterAddDto {
     @ApiModelProperty("是否固定标签")
     private Boolean fixedTag = false;
 
-    @ApiModelProperty("是否显示 返给前端为 showLink")
-    @JsonProperty("showLink")
+    @ApiModelProperty("是否显示")
     private Boolean visible = false;
 
     @ApiModelProperty("是否显示父级")

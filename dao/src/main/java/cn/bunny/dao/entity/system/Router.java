@@ -51,7 +51,7 @@ public class Router extends BaseEntity {
     @Schema(name = "routerRank", title = "等级")
     private Integer routerRank;
 
-    @Schema(name = "visible", title = "是否显示 返给前端为 showLink")
+    @Schema(name = "visible", title = "是否显示")
     private Boolean visible;
 
 }

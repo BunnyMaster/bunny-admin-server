@@ -30,14 +30,14 @@
 
 <template>
     <div class="main">
-        <el-form ref="formRef" :inline="true" :model="i18nTypeStore.form" class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto">
+        <el-form ref="formRef" :inline="true" :model="${lowercaseName}Store.form" class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto">
 #foreach($item in $formList)
                 <el-form-item :label="$t('${lowercaseName}_${item.name}')" prop="${item.name}">
                 <el-input v-model="${lowercaseName}Store.form.${item.name}" :placeholder="`$leftBrace$t('input')} $leftBrace$t('${item.name}')}`" class="!w-[180px]" clearable />
             </el-form-item>
 #end
             <el-form-item>
-                <el-button :icon="useRenderIcon('ri:search-line')" :loading="i18nTypeStore.loading" type="primary" @click="onSearch"> {{ $t('search') }} </el-button>
+                <el-button :icon="useRenderIcon('ri:search-line')" :loading="${lowercaseName}Store.loading" type="primary" @click="onSearch"> {{ $t('search') }} </el-button>
                 <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)"> {{ $t('buttons.reset') }}</el-button>
             </el-form-item>
         </el-form>
@@ -52,9 +52,9 @@
                         ref="tableRef"
                         :adaptiveConfig="{ offsetBottom: 45 }"
                         :columns="dynamicColumns"
-                        :data="i18nTypeStore.datalist"
+                        :data="${lowercaseName}Store.datalist"
                         :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
-                        :loading="i18nTypeStore.loading"
+                        :loading="${lowercaseName}Store.loading"
                         :size="size"
                         adaptive
                         align-whole="center"

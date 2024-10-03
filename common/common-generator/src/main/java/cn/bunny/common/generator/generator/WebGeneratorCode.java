@@ -187,7 +187,7 @@ public class WebGeneratorCode {
     public static void writeFiles(String lowercaseName, String lowerHyphen, String originalName, VelocityContext context) throws IOException {
         context.put("apiPath", GeneratorCodeUtils.ReplacePathHandle(apiPath) + lowercaseName);
         context.put("typesPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/types");
-        context.put("hookPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/hook");
+        context.put("hookPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/hooks");
         context.put("columnsPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/columns");
         context.put("dialogPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/" + lowerHyphen + "-dialog.vue");
 
@@ -205,7 +205,7 @@ public class WebGeneratorCode {
 
         // 写入hook模板
         Template hookTemplate = Velocity.getTemplate("vms/web/hook.vm", "UTF-8");
-        FileWriter hookTemplateFileWriter = new FileWriter(vuePath + lowercaseName + "\\utils\\hook.ts");
+        FileWriter hookTemplateFileWriter = new FileWriter(vuePath + lowercaseName + "\\utils\\hooks.ts");
         hookTemplate.merge(context, hookTemplateFileWriter);
         hookTemplateFileWriter.close();
 

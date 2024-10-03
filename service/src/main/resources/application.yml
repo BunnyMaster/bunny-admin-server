@@ -74,8 +74,8 @@ mybatis-plus:
   global-config:
     db-config:
       logic-delete-field: isDelete
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
 
 logging:
   level:
