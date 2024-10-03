@@ -91,6 +91,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
                     // 设置
                     RouterMeta meta = RouterMeta.builder()
+                            .frameSrc(router.getFrameSrc())
                             .rank(router.getRouterRank())
                             .icon(router.getIcon())
                             .title(router.getTitle())

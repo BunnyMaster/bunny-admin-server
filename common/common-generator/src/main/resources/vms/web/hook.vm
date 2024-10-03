@@ -34,7 +34,6 @@ export function onAdd() {
 			},
 		},
 		draggable: true,
-		fullscreen: deviceDetection(),
 		fullscreenIcon: true,
 		closeOnClickModal: false,
 		contentRenderer: () => h(${originalName}Dialog, { ref: formRef }),
@@ -68,7 +67,6 @@ export function onUpdate(row: any) {
 	}
 },
 		draggable: true,
-		fullscreen: deviceDetection(),
 		fullscreenIcon: true,
 		closeOnClickModal: false,
 		contentRenderer: () => h(${originalName}Dialog, { ref: formRef }),
