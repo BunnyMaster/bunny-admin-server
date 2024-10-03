@@ -10,10 +10,10 @@ export const columns: TableColumnList = [
     // $field.annotation
 	{ label: $t('${lowercaseName}_$field.name'), prop: '$field.name' },
 #end
-	{ label: $t('table.updateTime'), prop: 'updateTime', sortable: true },
-	{ label: $t('table.createTime'), prop: 'createTime', sortable: true },
-	{ label: $t('table.createUser'), prop: 'createUser', slot: 'createUser' },
-	{ label: $t('table.updateUser'), prop: 'updateUser', slot: 'updateUser' },
+	{ label: $t('table.updateTime'), prop: 'updateTime', sortable: true, width: 160 },
+	{ label: $t('table.createTime'), prop: 'createTime', sortable: true, width: 160 },
+	{ label: $t('table.createUser'), prop: 'createUser', slot: 'createUser', width: 90 },
+	{ label: $t('table.updateUser'), prop: 'updateUser', slot: 'updateUser', width: 90 },
 	{ label: $t('table.operation'), fixed: 'right', width: 210, slot: 'operation' },
 ];
 

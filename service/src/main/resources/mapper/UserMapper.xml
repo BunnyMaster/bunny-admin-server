@@ -28,4 +28,45 @@
         id, username, nick_name, email, phone, password, avatar, sex, summary, last_login_ip, last_login_ip_address, status, create_user, create_time, update_time, update_user, is_deleted
     </sql>
 
+    <!-- 分页查询用户信息内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.AdminUser">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            <if test="dto.username != null and dto.username != ''">
+                username like CONCAT('%',#{dto.username},'%')
+            </if>
+            <if test="dto.nickName != null and dto.nickName != ''">
+                nick_name like CONCAT('%',#{dto.nickName},'%')
+            </if>
+            <if test="dto.email != null and dto.email != ''">
+                email like CONCAT('%',#{dto.email},'%')
+            </if>
+            <if test="dto.phone != null and dto.phone != ''">
+                phone like CONCAT('%',#{dto.phone},'%')
+            </if>
+            <if test="dto.sex != null and dto.sex != ''">
+                sex = #{dto.sex}
+            </if>
+            <if test="dto.summary != null and dto.summary != ''">
+                summary like CONCAT('%',#{dto.summary},'%')
+            </if>
+            <if test="dto.status != null and dto.status != ''">
+                status = #{dto.status}
+            </if>
+        </where>
+        order by update_time
+    </select>
+
+    <!-- 物理删除用户信息 -->
+    <delete id="deleteBatchIdsWithPhysics">
+        delete
+        from sys_user
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>

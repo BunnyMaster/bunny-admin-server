@@ -1,8 +1,14 @@
 package cn.bunny.services.mapper;
 
+import cn.bunny.dao.dto.system.user.AdminUserDto;
 import cn.bunny.dao.entity.system.AdminUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +21,19 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper extends BaseMapper<AdminUser> {
 
+    /**
+     * * 分页查询用户信息内容
+     *
+     * @param pageParams 用户信息分页参数
+     * @param dto        用户信息查询表单
+     * @return 用户信息分页结果
+     */
+    IPage<AdminUser> selectListByPage(@Param("page") Page<AdminUser> pageParams, @Param("dto") AdminUserDto dto);
+
+    /**
+     * 物理删除用户信息
+     *
+     * @param ids 删除 id 列表
+     */
+    void deleteBatchIdsWithPhysics(List<Long> ids);
 }

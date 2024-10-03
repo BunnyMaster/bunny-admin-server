@@ -1,6 +1,5 @@
 package cn.bunny.dao.dto.system.rolePower;
 
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +13,6 @@ import lombok.NoArgsConstructor;
 @Schema(name = "PowerDto对象", title = "权限", description = "权限管理")
 public class PowerDto {
 
-    @Schema(name = "parentId", title = "父级id")
-    private Long parentId;
-
-    @ApiModelProperty("权限编码")
     @Schema(name = "parentId", title = "权限编码")
     private String powerCode;
 

@@ -27,9 +27,6 @@
         <include refid="Base_Column_List"/>
         from sys_power
         <where>
-            <if test="dto.parentId != null and dto.parentId != ''">
-                parent_id like CONCAT('%',#{dto.parentId},'%')
-            </if>
             <if test="dto.powerCode != null and dto.powerCode != ''">
                 power_code like CONCAT('%',#{dto.powerCode},'%')
             </if>

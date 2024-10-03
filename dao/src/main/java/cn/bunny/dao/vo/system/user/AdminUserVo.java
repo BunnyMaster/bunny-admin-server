@@ -1,26 +1,16 @@
-package cn.bunny.dao.entity.system;
+package cn.bunny.dao.vo.system.user;
 
-import cn.bunny.dao.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.bunny.dao.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.*;
 
-/**
- * <p>
- * 管理员用户信息
- * </p>
- *
- * @author Bunny
- * @since 2024-06-26
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Accessors(chain = true)
-@TableName("sys_user")
-@Schema(name = "AdminUser对象", title = "用户信息", description = "用户信息")
-public class AdminUser extends BaseEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Schema(name = "AdminUserVo对象", title = "用户信息", description = "用户信息")
+public class AdminUserVo extends BaseVo {
     @Schema(name = "username", title = "用户名")
     private String username;
 
@@ -32,9 +22,6 @@ public class AdminUser extends BaseEntity {
 
     @Schema(name = "phone", title = "手机号")
     private String phone;
-
-    @Schema(name = "password", title = "密码")
-    private String password;
 
     @Schema(name = "avatar", title = "头像")
     private String avatar;
@@ -54,4 +41,3 @@ public class AdminUser extends BaseEntity {
     @Schema(name = "status", title = "状态", description = "1:禁用 0:正常")
     private Boolean status;
 }
-
