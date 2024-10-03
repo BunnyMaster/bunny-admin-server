@@ -3,9 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.menuIcon.MenuIconAddDto;
-import cn.bunny.dao.dto.menuIcon.MenuIconDto;
-import cn.bunny.dao.entity.system.MenuIcon;
+import cn.bunny.dao.dto.system.role.RoleAddDto;
+import cn.bunny.dao.dto.system.role.RoleDto;
+import cn.bunny.dao.dto.system.role.RoleUpdateDto;
+import cn.bunny.dao.entity.system.Role;
+import cn.bunny.dao.vo.system.rolePower.RoleVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,7 +42,7 @@ public class WebGeneratorCode {
     // 生成vue路径
     public static String vuePath = commonPath + "\\views\\system\\";
     // 生成仓库路径
-    public static String storePath = commonPath + "\\store\\modules";
+    public static String storePath = commonPath + "\\store\\system\\";
     // 后端controller
     public static String controllerPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
     public static String servicePath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
@@ -49,11 +51,11 @@ public class WebGeneratorCode {
     public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<MenuIcon> originalClass = MenuIcon.class;
-        Class<MenuIconDto> dtoClass = MenuIconDto.class;
-        Class<MenuIconAddDto> addDtoClass = MenuIconAddDto.class;
-        // Class<MenuIconUpdateDto> updateDtoClass = MenuIconUpdateDto.class;
-        // Class<MenuIconVo> voClass = MenuIconVo.class;
+        Class<?> originalClass = Role.class;
+        Class<?> dtoClass = RoleDto.class;
+        Class<?> addDtoClass = RoleAddDto.class;
+        Class<?> updateDtoClass = RoleUpdateDto.class;
+        Class<?> voClass = RoleVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();
@@ -136,7 +138,7 @@ public class WebGeneratorCode {
     /**
      * 生成后端内容
      */
-    public static void generatorServerCode(Class<MenuIcon> originalClass, Class<MenuIconDto> dtoClass, VelocityContext context) {
+    public static void generatorServerCode(Class<?> originalClass, Class<?> dtoClass, VelocityContext context) {
         Field[] superFields = originalClass.getSuperclass().getDeclaredFields();
         Field[] declaredFields = originalClass.getDeclaredFields();
         Field[] mergedArray = new Field[superFields.length + declaredFields.length];
@@ -186,6 +188,7 @@ public class WebGeneratorCode {
      */
     public static void writeFiles(String lowercaseName, String lowerHyphen, String originalName, VelocityContext context) throws IOException {
         context.put("apiPath", GeneratorCodeUtils.ReplacePathHandle(apiPath) + lowercaseName);
+        context.put("storePath", GeneratorCodeUtils.ReplacePathHandle(storePath) + lowercaseName + ".ts");
         context.put("typesPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/types");
         context.put("hookPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/hooks");
         context.put("columnsPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/columns");

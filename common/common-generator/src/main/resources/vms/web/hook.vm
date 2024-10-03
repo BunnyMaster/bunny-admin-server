@@ -1,7 +1,7 @@
 import { deviceDetection } from '@pureadmin/utils';
 import { addDialog } from '@/components/BaseDialog/index';
 import ${originalName}Dialog from '${dialogPath}';
-import { use${originalName}Store } from '@/store/modules/${lowercaseName}';
+import { use${originalName}Store } from '${storePath}';
 import { h, ref } from 'vue';
 import { messageBox } from '@/utils/message';
 import type { FormItemProps } from '${typesPath}';
@@ -20,11 +20,11 @@ export async function onSearch() {
 }
 
 /**
- * * 添加${${classTitle}}
+ * * 添加${classTitle}
  */
 export function onAdd() {
 	addDialog({
-        title: `$leftBrace $t("add")} $leftBrace$t("${lowercaseName}")}`,
+        title: `$leftBrace $t("add_new")}$leftBrace$t("${lowercaseName}")}`,
 		width: '30%',
 		props: {
 			formInline: {
@@ -58,7 +58,7 @@ export function onAdd() {
  */
 export function onUpdate(row: any) {
 	addDialog({
-		title: `$leftBrace$t("modify")} $leftBrace$t("${lowercaseName}")}`,
+		title: `$leftBrace$t("modify")}$leftBrace$t("${lowercaseName}")}`,
 		width: '30%',
 		props: {
 		formInline: {

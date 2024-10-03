@@ -1,4 +1,4 @@
-package cn.bunny.dao.dto.router;
+package cn.bunny.dao.dto.system.router;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,12 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "RouterManageDto对象", title = "路由更新表单", description = "路由更新表单")
-public class RouterUpdateDto {
-
-    @ApiModelProperty("唯一标识")
-    @NotNull(message = "id不能为空")
-    private Long id;
+@Schema(name = "RouterManageDto对象", title = "路由添加表单", description = "路由添加表单")
+public class RouterAddDto {
 
     @ApiModelProperty("菜单类型")
     @NotNull(message = "菜单类型不能为空")
@@ -46,14 +42,34 @@ public class RouterUpdateDto {
 
     @ApiModelProperty("等级")
     @JsonProperty("rank")
-    private Integer routerRank;
+    private Integer routerRank = 99;
+
+    @ApiModelProperty("重定向")
+    private String redirect;
 
     @ApiModelProperty("图标")
     private String icon;
 
+    @ApiModelProperty("进入动画")
+    private String enterTransition;
+
+    @ApiModelProperty("退出动画")
+    private String leaveTransition;
+
     @ApiModelProperty("frame路径")
     private String frameSrc;
 
+    @ApiModelProperty("是否隐藏标签")
+    private Boolean hiddenTag = false;
+
+    @ApiModelProperty("是否固定标签")
+    private Boolean fixedTag = false;
+
     @ApiModelProperty("是否显示")
-    private Boolean visible;
+    private Boolean visible = false;
+
+    @ApiModelProperty("是否显示父级")
+    private Boolean showParent = false;
+
 }
+

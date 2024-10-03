@@ -1,4 +1,4 @@
-package cn.bunny.dao.vo.router;
+package cn.bunny.dao.vo.system.router;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

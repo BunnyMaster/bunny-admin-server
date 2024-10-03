@@ -71,12 +71,6 @@ public class AdminCodeGenerator {
                             .controllerBuilder()
                             .enableRestStyle();
                 })
-                // .injectionConfig(consumer -> {
-                //     Map<String, String> customFile = new HashMap<>();
-                //     // 配置DTO（需要的话）但是需要有能配置Dto的模板引擎，比如freemarker，但是这里我们用的VelocityEngine，因此不多作介绍
-                //     customFile.put(outputDir, "/src/main/resources/templates/entityDTO.java.ftl");
-                //     consumer.customFile(customFile);
-                // })
                 .execute();
     }
 }

@@ -7,7 +7,7 @@ import cn.bunny.common.service.utils.ResponseUtil;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.user.LoginVo;
+import cn.bunny.dao.vo.system.user.LoginVo;
 import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

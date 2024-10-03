@@ -1,4 +1,4 @@
-package cn.bunny.dao.vo.user;
+package cn.bunny.dao.vo.system.user;
 
 import cn.bunny.dao.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;

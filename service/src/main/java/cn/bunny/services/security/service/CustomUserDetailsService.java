@@ -1,7 +1,7 @@
 package cn.bunny.services.security.service;
 
-import cn.bunny.dao.dto.user.LoginDto;
-import cn.bunny.dao.vo.user.LoginVo;
+import cn.bunny.dao.dto.system.user.LoginDto;
+import cn.bunny.dao.vo.system.user.LoginVo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

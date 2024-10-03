@@ -1,49 +1,44 @@
-package cn.bunny.dao.vo.router;
+package cn.bunny.dao.dto.system.router;
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value = "UserRouterVo对象", description = "系统菜单表")
-public class UserRouterVo {
+@Schema(name = "RouterManageDto对象", title = "路由更新表单", description = "路由更新表单")
+public class RouterUpdateDto {
 
-    @Schema(name = "id", title = "主键")
-    @JsonProperty("id")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @JSONField(serializeUsing = ToStringSerializer.class)
+    @ApiModelProperty("唯一标识")
+    @NotNull(message = "id不能为空")
     private Long id;
 
     @ApiModelProperty("菜单类型")
+    @NotNull(message = "菜单类型不能为空")
     private Integer menuType;
 
     @ApiModelProperty("父级id")
-    @JsonProperty("parentId")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long parentId;
 
     @ApiModelProperty("菜单名称")
+    @NotBlank(message = "菜单名称不能为空")
     private String title;
 
     @ApiModelProperty("路由名称")
+    @NotBlank(message = "路由名称不能为空")
     @JsonProperty("name")
     private String routeName;
 
     @ApiModelProperty("在项目中路径")
+    @NotBlank(message = "路由路径不能为空")
     private String path;
 
     @ApiModelProperty("组件位置")
@@ -53,9 +48,12 @@ public class UserRouterVo {
     @JsonProperty("rank")
     private Integer routerRank;
 
-    @ApiModelProperty("路由Meta")
-    private RouterMeta meta;
+    @ApiModelProperty("图标")
+    private String icon;
 
-    @ApiModelProperty("子路由")
-    private List<UserRouterVo> children;
+    @ApiModelProperty("frame路径")
+    private String frameSrc;
+
+    @ApiModelProperty("是否显示")
+    private Boolean visible;
 }

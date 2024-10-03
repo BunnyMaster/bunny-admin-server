@@ -9,7 +9,7 @@ import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.pojo.constant.LocalDateTimeConstant;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.constant.UserConstant;
-import cn.bunny.dao.vo.user.LoginVo;
+import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RoleMapper;
 import org.springframework.beans.BeanUtils;

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { fetchAdd${originalName}, fetchDelete${originalName}, fetchGet${originalName}List, fetchUpdate${originalName} } from '${apiPath}';
 import { pageSizes } from '@/enums/baseConstant';
 import { storeMessage } from '@/utils/message';
+import { storePagination } from '@/store/useStorePagination';
 
 /**
  * ${classTitle} Store
@@ -35,21 +36,18 @@ export const use${originalName}Store = defineStore('${lowercaseName}Store', {
 		 * * 获取${classTitle}
 		 */
 		async get${originalName}List() {
-            const data = { ...this.pagination, ...this.form };
+		    // 整理请求参数
+			const data = { ...this.pagination, ...this.form };
 			delete data.pageSizes;
 			delete data.total;
 			delete data.background;
 
+            // 获取${classTitle}列表
 			const result = await fetchGet${originalName}List(data);
 
-            if (result.code === 200) {
-				this.datalist = result.data.list;
-				this.pagination.currentPage = result.data.pageNo;
-				this.pagination.pageSize = result.data.pageSize;
-				this.pagination.total = result.data.total;
-				return true;
-			}
-			return false;
+			// 公共页面函数hook
+			const pagination = storePagination.bind(this);
+			return pagination(result);
 		},
 
 		/**

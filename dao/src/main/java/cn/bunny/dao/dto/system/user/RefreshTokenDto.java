@@ -1,4 +1,4 @@
-package cn.bunny.dao.dto.user;
+package cn.bunny.dao.dto.system.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

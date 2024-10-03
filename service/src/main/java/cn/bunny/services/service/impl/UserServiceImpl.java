@@ -4,15 +4,15 @@ import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.common.service.utils.minio.MinioUtil;
-import cn.bunny.dao.dto.user.RefreshTokenDto;
+import cn.bunny.dao.dto.system.user.RefreshTokenDto;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.pojo.common.EmailSendInit;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.user.LoginVo;
-import cn.bunny.dao.vo.user.RefreshTokenVo;
-import cn.bunny.dao.vo.user.UserVo;
+import cn.bunny.dao.vo.system.user.LoginVo;
+import cn.bunny.dao.vo.system.user.RefreshTokenVo;
+import cn.bunny.dao.vo.system.user.UserVo;
 import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.EmailUsersMapper;
@@ -80,7 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @NotNull
     @Override
-    public RefreshTokenVo refreshToken(RefreshTokenDto dto) {
+    public RefreshTokenVo refreshToken(@NotNull RefreshTokenDto dto) {
         Long userId = JwtHelper.getUserId(dto.getRefreshToken());
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
 
@@ -113,6 +113,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     public UserVo getUserinfoById(Long id) {
         if (id == null) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
         AdminUser user = getById(id);
+
+        if (user == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+
         String avatar = user.getAvatar();
 
         UserVo userVo = new UserVo();

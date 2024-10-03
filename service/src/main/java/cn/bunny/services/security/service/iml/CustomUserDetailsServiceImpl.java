@@ -1,11 +1,11 @@
 package cn.bunny.services.security.service.iml;
 
 import cn.bunny.common.service.exception.BunnyException;
-import cn.bunny.dao.dto.user.LoginDto;
+import cn.bunny.dao.dto.system.user.LoginDto;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.user.LoginVo;
+import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.mapper.UserMapper;

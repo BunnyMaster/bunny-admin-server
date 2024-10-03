@@ -1,4 +1,4 @@
-package cn.bunny.dao.vo.router;
+package cn.bunny.dao.vo.system.router;
 
 import cn.bunny.dao.vo.BaseVo;
 import com.alibaba.fastjson2.annotation.JSONField;

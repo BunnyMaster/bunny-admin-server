@@ -1,9 +1,9 @@
 package cn.bunny.services.service;
 
-import cn.bunny.dao.dto.user.RefreshTokenDto;
+import cn.bunny.dao.dto.system.user.RefreshTokenDto;
 import cn.bunny.dao.entity.system.AdminUser;
-import cn.bunny.dao.vo.user.RefreshTokenVo;
-import cn.bunny.dao.vo.user.UserVo;
+import cn.bunny.dao.vo.system.user.RefreshTokenVo;
+import cn.bunny.dao.vo.system.user.UserVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.jetbrains.annotations.NotNull;
 

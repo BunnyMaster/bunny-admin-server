@@ -1,4 +1,4 @@
-package cn.bunny.dao.dto.router;
+package cn.bunny.dao.dto.system.router;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

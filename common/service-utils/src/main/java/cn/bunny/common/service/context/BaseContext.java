@@ -1,10 +1,10 @@
 package cn.bunny.common.service.context;
 
-import cn.bunny.dao.vo.user.LoginVo;
+import cn.bunny.dao.vo.system.user.LoginVo;
 
 public class BaseContext {
     private static final ThreadLocal<Long> userId = new ThreadLocal<>();
-    private static final ThreadLocal<String> username = new ThreadLocal<String>();
+    private static final ThreadLocal<String> username = new ThreadLocal<>();
     private static final ThreadLocal<LoginVo> loginVo = new ThreadLocal<>();
 
     // 用户id相关

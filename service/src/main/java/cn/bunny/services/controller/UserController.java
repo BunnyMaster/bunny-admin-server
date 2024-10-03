@@ -1,10 +1,10 @@
 package cn.bunny.services.controller;
 
-import cn.bunny.dao.dto.user.RefreshTokenDto;
+import cn.bunny.dao.dto.system.user.RefreshTokenDto;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.user.RefreshTokenVo;
-import cn.bunny.dao.vo.user.UserVo;
+import cn.bunny.dao.vo.system.user.RefreshTokenVo;
+import cn.bunny.dao.vo.system.user.UserVo;
 import cn.bunny.services.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

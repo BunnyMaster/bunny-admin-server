@@ -2,7 +2,6 @@
     import { onMounted, ref } from 'vue';
     import { columns } from '${columnsPath}';
     import PureTableBar from '@/components/TableBar/src/bar';
-    import { useRenderIcon } from '@/components/ReIcon/src/hooks';
     import AddFill from '@iconify-icons/ri/add-circle-line';
     import PureTable from '@pureadmin/table';
     import { onAdd, onDelete, onSearch, onUpdate } from '${hookPath}';
@@ -11,7 +10,8 @@
     import Refresh from '@iconify-icons/ep/refresh';
     import { selectUserinfo } from '@/components/Table/Userinfo/columns';
     import { $t } from '@/plugins/i18n';
-    import { use${originalName}Store } from '@/store/modules/${lowercaseName}';
+    import { use${originalName}Store } from '${storePath}';
+    import { useRenderIcon } from '@/components/CommonIcon/src/hooks';
 
     const tableRef = ref();
     const formRef = ref();
@@ -33,7 +33,7 @@
         <el-form ref="formRef" :inline="true" :model="${lowercaseName}Store.form" class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto">
 #foreach($item in $formList)
                 <el-form-item :label="$t('${lowercaseName}_${item.name}')" prop="${item.name}">
-                <el-input v-model="${lowercaseName}Store.form.${item.name}" :placeholder="`$leftBrace$t('input')} $leftBrace$t('${item.name}')}`" class="!w-[180px]" clearable />
+                <el-input v-model="${lowercaseName}Store.form.${item.name}" :placeholder="`$leftBrace$t('input')}$leftBrace$t('${lowercaseName}_${item.name}')}`" class="!w-[180px]" clearable />
             </el-form-item>
 #end
             <el-form-item>

@@ -1,7 +1,7 @@
 package cn.bunny.services.security.filter;
 
 import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.dao.vo.user.LoginVo;
+import cn.bunny.dao.vo.system.user.LoginVo;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

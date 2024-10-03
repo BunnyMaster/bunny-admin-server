@@ -1,14 +1,14 @@
 package cn.bunny.services.controller;
 
-import cn.bunny.dao.dto.router.RouterAddDto;
-import cn.bunny.dao.dto.router.RouterManageDto;
-import cn.bunny.dao.dto.router.RouterUpdateDto;
+import cn.bunny.dao.dto.system.router.RouterAddDto;
+import cn.bunny.dao.dto.system.router.RouterManageDto;
+import cn.bunny.dao.dto.system.router.RouterUpdateDto;
 import cn.bunny.dao.entity.system.Router;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.router.RouterManageVo;
-import cn.bunny.dao.vo.router.UserRouterVo;
+import cn.bunny.dao.vo.system.router.RouterManageVo;
+import cn.bunny.dao.vo.system.router.UserRouterVo;
 import cn.bunny.services.service.RouterService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;

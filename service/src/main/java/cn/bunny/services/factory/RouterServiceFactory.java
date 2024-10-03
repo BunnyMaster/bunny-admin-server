@@ -1,8 +1,8 @@
 package cn.bunny.services.factory;
 
 import cn.bunny.dao.vo.common.TreeSelectVo;
-import cn.bunny.dao.vo.router.RouterManageVo;
-import cn.bunny.dao.vo.router.UserRouterVo;
+import cn.bunny.dao.vo.system.router.RouterManageVo;
+import cn.bunny.dao.vo.system.router.UserRouterVo;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 

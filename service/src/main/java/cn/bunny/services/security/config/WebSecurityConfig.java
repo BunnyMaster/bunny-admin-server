@@ -95,7 +95,8 @@ public class WebSecurityConfig {
                 "/", "/ws/**",
                 "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
                 "/media.ico", "/favicon.ico", "*.html", "/webjars/**",
-                "/swagger-resources/**", "/v3/**", "/swagger-ui/**"
+                "/swagger-resources/**", "/v3/**", "/swagger-ui/**",
+                "/*/i18n/getI18n"
         };
         return web -> web.ignoring().requestMatchers(annotations);
     }

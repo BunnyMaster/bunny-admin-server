@@ -1,4 +1,4 @@
-package cn.bunny.dao.dto.menuIcon;
+package cn.bunny.dao.dto.system.menuIcon;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

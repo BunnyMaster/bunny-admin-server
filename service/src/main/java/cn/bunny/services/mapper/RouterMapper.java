@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper;
 
 
-import cn.bunny.dao.dto.router.RouterManageDto;
+import cn.bunny.dao.dto.system.router.RouterManageDto;
 import cn.bunny.dao.entity.system.Router;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

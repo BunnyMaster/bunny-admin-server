@@ -1,10 +1,9 @@
 <script lang="ts" setup>
     import { ref } from 'vue';
     import { FormInstance } from 'element-plus';
-    import { rules } from '${hookPath}';
+    import { rules } from '${columnsPath}';
     import { FormProps } from '${typesPath}';
     import { frameSureOptions } from '@/enums';
-    import Segmented from '@/components/ReSegmented';
     import { $t } from '@/plugins/i18n';
 
     const props = withDefaults(defineProps<FormProps>(), {

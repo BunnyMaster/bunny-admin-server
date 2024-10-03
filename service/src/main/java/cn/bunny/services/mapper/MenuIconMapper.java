@@ -1,6 +1,6 @@
 package cn.bunny.services.mapper;
 
-import cn.bunny.dao.dto.menuIcon.MenuIconDto;
+import cn.bunny.dao.dto.system.menuIcon.MenuIconDto;
 import cn.bunny.dao.entity.system.MenuIcon;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

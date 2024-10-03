@@ -1,11 +1,11 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.dao.dto.menuIcon.MenuIconAddDto;
-import cn.bunny.dao.dto.menuIcon.MenuIconDto;
-import cn.bunny.dao.dto.menuIcon.MenuIconUpdateDto;
+import cn.bunny.dao.dto.system.menuIcon.MenuIconAddDto;
+import cn.bunny.dao.dto.system.menuIcon.MenuIconDto;
+import cn.bunny.dao.dto.system.menuIcon.MenuIconUpdateDto;
 import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.dao.vo.menuIcon.MenuIconVo;
+import cn.bunny.dao.vo.system.menuIcon.MenuIconVo;
 import cn.bunny.services.mapper.MenuIconMapper;
 import cn.bunny.services.service.MenuIconService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
