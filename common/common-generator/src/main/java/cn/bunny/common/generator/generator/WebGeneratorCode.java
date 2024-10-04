@@ -3,11 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.system.user.AdminUserAddDto;
-import cn.bunny.dao.dto.system.user.AdminUserDto;
-import cn.bunny.dao.dto.system.user.AdminUserUpdateDto;
-import cn.bunny.dao.entity.system.AdminUser;
-import cn.bunny.dao.vo.system.user.AdminUserVo;
+import cn.bunny.dao.dto.system.dept.DeptAddDto;
+import cn.bunny.dao.dto.system.dept.DeptDto;
+import cn.bunny.dao.dto.system.dept.DeptUpdateDto;
+import cn.bunny.dao.entity.system.Dept;
+import cn.bunny.dao.vo.system.dept.DeptVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,11 +51,11 @@ public class WebGeneratorCode {
     public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = AdminUser.class;
-        Class<?> dtoClass = AdminUserDto.class;
-        Class<?> addDtoClass = AdminUserAddDto.class;
-        Class<?> updateDtoClass = AdminUserUpdateDto.class;
-        Class<?> voClass = AdminUserVo.class;
+        Class<?> originalClass = Dept.class;
+        Class<?> dtoClass = DeptDto.class;
+        Class<?> addDtoClass = DeptAddDto.class;
+        Class<?> updateDtoClass = DeptUpdateDto.class;
+        Class<?> voClass = DeptVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();

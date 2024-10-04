@@ -10,17 +10,17 @@ import java.util.Collections;
 
 public class AdminCodeGenerator {
     // 数据连接
-    public static final String sqlHost = "jdbc:mysql://106.15.251.123:3305/bunny_docs?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true";
+    public static final String sqlHost = "jdbc:mysql://192.168.3.98:3304/auth_admin?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true";
     // 作者名称
     public static final String author = "Bunny";
     // 公共路径
-    public static final String outputDir = "D:\\MyFolder\\Bunny\\BunnyBBS\\BunnyBBS-server-admin\\service";
-    // public static final String outputDir = "D:\\Project\\web\\PC\\BunnyNote\\BunnyBBS-server-admin\\service";
+    // public static final String outputDir = "D:\\MyFolder\\Bunny\\BunnyBBS\\BunnyBBS-server-admin\\service";
+    public static final String outputDir = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service";
     // 实体类名称
     public static final String entity = "Bunny";
 
     public static void main(String[] args) {
-        Generation("system_menu_icon");
+        Generation("sys_dept", "sys_user_dept");
     }
 
     /**
@@ -41,17 +41,17 @@ public class AdminCodeGenerator {
                 })
                 .packageConfig(builder -> builder.entity(entity)// 实体类包名
                         // 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
-                        .parent("cn.bunny.service.admin")
-                        .controller("controller.main.system")// 控制层包名
-                        .mapper("mapper.main.system")// mapper层包名
-                        .service("service.main.system")// service层包名
-                        .serviceImpl("service.system.impl")// service实现类包名
+                        .parent("cn.bunny.services")
+                        .controller("controller")// 控制层包名
+                        .mapper("mapper")// mapper层包名
+                        .service("service")// service层包名
+                        .serviceImpl("service·impl")// service实现类包名
                         // 自定义mapper.xml文件输出目录
-                        .pathInfo(Collections.singletonMap(OutputFile.xml, outputDir + "/src/main/resources/mapper/main/system")))
+                        .pathInfo(Collections.singletonMap(OutputFile.xml, outputDir + "/src/main/resources/mapper")))
                 .strategyConfig(builder -> {
                     // 设置要生成的表名
                     builder.addInclude(tableName)
-                            //.addTablePrefix("sys_")// 设置表前缀过滤
+                            .addTablePrefix("sys_")
                             .entityBuilder()
                             .enableLombok()
                             .enableChainModel()

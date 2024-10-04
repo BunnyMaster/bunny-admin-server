@@ -21,6 +21,7 @@ import lombok.experimental.Accessors;
 @TableName("sys_user")
 @Schema(name = "AdminUser对象", title = "用户信息", description = "用户信息")
 public class AdminUser extends BaseEntity {
+
     @Schema(name = "username", title = "用户名")
     private String username;
 
@@ -53,5 +54,6 @@ public class AdminUser extends BaseEntity {
 
     @Schema(name = "status", title = "状态", description = "1:禁用 0:正常")
     private Boolean status;
+    
 }
 
