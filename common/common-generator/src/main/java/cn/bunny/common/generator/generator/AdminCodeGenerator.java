@@ -20,7 +20,7 @@ public class AdminCodeGenerator {
     public static final String entity = "Bunny";
 
     public static void main(String[] args) {
-        Generation("sys_dept", "sys_user_dept");
+        Generation("sys_files");
     }
 
     /**

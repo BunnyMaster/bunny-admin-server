@@ -32,6 +32,9 @@ public enum ResultCodeEnum {
     DATA_EXIST(201, "数据已存在"),
     DATA_NOT_EXIST(201, "数据不存在"),
     REQUEST_IS_EMPTY(201, "请求数据为空"),
+    DATA_TOO_LARGE(201, "请求数据为空"),
+    USER_IS_EMPTY(201, "用户不存在"),
+    UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD(201, "新密码与密码相同"),
 
     // 数据相关 206
     ILLEGAL_REQUEST(206, "非法请求"),

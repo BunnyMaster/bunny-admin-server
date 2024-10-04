@@ -56,7 +56,6 @@
                 status = #{dto.status}
             </if>
         </where>
-        order by update_time
     </select>
 
     <!-- 物理删除用户信息 -->

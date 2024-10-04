@@ -2,6 +2,7 @@ package cn.bunny.dao.dto.i18n;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class I18nUpdateDto {
 
     @Schema(name = "id", title = "主键")
-    @NotBlank(message = "id不能为空")
+    @NotNull(message = "id不能为空")
     private Long id;
 
     @Schema(name = "keyName", title = "多语言key")

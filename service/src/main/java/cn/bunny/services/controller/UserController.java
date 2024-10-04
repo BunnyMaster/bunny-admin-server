@@ -1,9 +1,6 @@
 package cn.bunny.services.controller;
 
-import cn.bunny.dao.dto.system.user.AdminUserAddDto;
-import cn.bunny.dao.dto.system.user.AdminUserDto;
-import cn.bunny.dao.dto.system.user.AdminUserUpdateDto;
-import cn.bunny.dao.dto.system.user.RefreshTokenDto;
+import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
@@ -64,6 +61,13 @@ public class UserController {
     public Mono<Result<String>> deleteAdminUser(@RequestBody List<Long> ids) {
         userService.deleteAdminUser(ids);
         return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
+    }
+
+    @Operation(summary = "管理员修改管理员用户密码", description = "管理员修改管理员用户密码")
+    @PutMapping("updateUserPasswordByAdmin")
+    public Result<String> updateUserPasswordByAdmin(@Valid @RequestBody UserUpdateWithPasswordDto dto) {
+        userService.updateUserPasswordByAdmin(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @Operation(summary = "登录发送邮件验证码", description = "登录发送邮件验证码")

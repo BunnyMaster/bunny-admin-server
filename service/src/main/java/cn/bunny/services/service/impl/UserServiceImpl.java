@@ -4,10 +4,7 @@ import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.common.service.utils.minio.MinioUtil;
-import cn.bunny.dao.dto.system.user.AdminUserAddDto;
-import cn.bunny.dao.dto.system.user.AdminUserDto;
-import cn.bunny.dao.dto.system.user.AdminUserUpdateDto;
-import cn.bunny.dao.dto.system.user.RefreshTokenDto;
+import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.pojo.common.EmailSendInit;
@@ -34,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -60,6 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private EmailFactory emailFactory;
+
     @Autowired
     private MinioUtil minioUtil;
 
@@ -136,6 +135,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     }
 
     /**
+     * * 管理员修改管理员用户密码
+     *
+     * @param dto 管理员用户修改密码
+     */
+    @Override
+    public void updateUserPasswordByAdmin(UserUpdateWithPasswordDto dto) {
+        Long userId = dto.getUserId();
+        String password = dto.getPassword();
+
+        // 对密码加密
+        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+
+        // 判断是否存在这个用户
+        if (adminUser == null) {
+            throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+        }
+
+        // 判断新密码是否与旧密码相同
+        if (adminUser.getPassword().equals(md5Password)) {
+            throw new BunnyException(ResultCodeEnum.UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD);
+        }
+
+        // 更新用户密码
+        adminUser = new AdminUser();
+        adminUser.setPassword(md5Password);
+        adminUser.setId(userId);
+        updateById(adminUser);
+    }
+
+    /**
      * * 用户信息 服务实现类
      *
      * @param pageParams 用户信息分页查询page对象
@@ -148,9 +178,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         IPage<AdminUser> page = baseMapper.selectListByPage(pageParams, dto);
 
         List<AdminUserVo> voList = page.getRecords().stream().map(AdminUser -> {
-            AdminUserVo AdminUserVo = new AdminUserVo();
-            BeanUtils.copyProperties(AdminUser, AdminUserVo);
-            return AdminUserVo;
+            // 如果存在用户头像，则设置用户头像
+            String avatar = AdminUser.getAvatar();
+            if (StringUtils.hasText(avatar)) {
+                avatar = minioUtil.getObjectNameFullPath(avatar);
+            }
+
+            AdminUserVo adminUserVo = new AdminUserVo();
+            BeanUtils.copyProperties(AdminUser, adminUserVo);
+            adminUserVo.setAvatar(avatar);
+            return adminUserVo;
         }).toList();
 
         return PageResult.<AdminUserVo>builder()
@@ -168,9 +205,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void addAdminUser(@Valid AdminUserAddDto dto) {
+        // 对密码加密
+        String password = dto.getPassword();
+
         // 保存数据
         AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
+
+        // 对密码加密
+        if (StringUtils.hasText(password)) {
+            password = DigestUtils.md5DigestAsHex(password.getBytes());
+            adminUser.setPassword(password);
+        }
+
         save(adminUser);
     }
 
@@ -181,7 +228,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void updateAdminUser(@Valid AdminUserUpdateDto dto) {
-        // 更新内容
         AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
         updateById(adminUser);

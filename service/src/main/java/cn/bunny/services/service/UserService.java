@@ -1,9 +1,6 @@
 package cn.bunny.services.service;
 
-import cn.bunny.dao.dto.system.user.AdminUserAddDto;
-import cn.bunny.dao.dto.system.user.AdminUserDto;
-import cn.bunny.dao.dto.system.user.AdminUserUpdateDto;
-import cn.bunny.dao.dto.system.user.RefreshTokenDto;
+import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.user.AdminUserVo;
@@ -82,4 +79,11 @@ public interface UserService extends IService<AdminUser> {
      * @return 用户信息
      */
     UserVo getUserinfoById(Long id);
+
+    /**
+     * * 管理员修改管理员用户密码
+     *
+     * @param dto 管理员用户修改密码
+     */
+    void updateUserPasswordByAdmin(UserUpdateWithPasswordDto dto);
 }

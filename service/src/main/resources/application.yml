@@ -6,6 +6,9 @@ spring:
     active: @profiles.active@
   application:
     name: bunny-service
+  servlet:
+    multipart:
+      max-file-size: 6MB
 
   datasource:
     #    type: com.zaxxer.hikari.HikariDataSource
