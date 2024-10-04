@@ -1,8 +1,8 @@
 package cn.bunny.services.service;
 
 import cn.bunny.dao.dto.system.files.FileUploadDto;
+import cn.bunny.dao.entity.system.Files;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
-import cn.bunny.services.Bunny.Files;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

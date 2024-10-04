@@ -86,4 +86,11 @@ public interface UserService extends IService<AdminUser> {
      * @param dto 管理员用户修改密码
      */
     void updateUserPasswordByAdmin(UserUpdateWithPasswordDto dto);
+
+    /**
+     * * 管理员上传用户头像
+     *
+     * @param dto 管理员用户修改头像
+     */
+    void uploadAvatarByAdmin(UserUpdateWithAvatarDto dto);
 }

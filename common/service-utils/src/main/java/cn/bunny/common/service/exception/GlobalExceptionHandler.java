@@ -76,7 +76,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         log.error("表单验证失败：{}", ex.getMessage());
-        String errorMessage = ex.getBindingResult().getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", "));
+        String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
         return Result.error(null, 201, errorMessage);
     }
 

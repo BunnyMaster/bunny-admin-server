@@ -70,6 +70,14 @@ public class UserController {
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
+    @Operation(summary = "管理员上传用户头像", description = "管理员上传用户头像")
+    @PutMapping("uploadAvatarByAdmin")
+    public Result<String> uploadAvatarByAdmin(@Valid UserUpdateWithAvatarDto dto) {
+        userService.uploadAvatarByAdmin(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
+
     @Operation(summary = "登录发送邮件验证码", description = "登录发送邮件验证码")
     @PostMapping("noAuth/sendLoginEmail")
     public Result<String> sendLoginEmail(String email) {

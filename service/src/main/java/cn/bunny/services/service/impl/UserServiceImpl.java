@@ -166,6 +166,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     }
 
     /**
+     * * 管理员上传用户头像
+     *
+     * @param dto 管理员用户修改头像
+     */
+    @Override
+    public void uploadAvatarByAdmin(UserUpdateWithAvatarDto dto) {
+        String avatar = dto.getAvatar();
+        Long userId = dto.getUserId();
+
+        // 判断是否存在这个用户
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+
+        // 更新用户
+        adminUser = new AdminUser();
+        adminUser.setId(userId);
+        adminUser.setAvatar(avatar);
+        updateById(adminUser);
+    }
+
+    /**
      * * 用户信息 服务实现类
      *
      * @param pageParams 用户信息分页查询page对象

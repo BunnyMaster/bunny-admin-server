@@ -1,4 +1,4 @@
-package cn.bunny.services.Bunny;
+package cn.bunny.dao.entity.system;
 
 import cn.bunny.dao.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;

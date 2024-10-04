@@ -13,17 +13,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "UserUpdateWithPasswordDto对象", title = "管理员用户修改密码", description = "管理员用户修改密码")
-public class UserUpdateWithPasswordDto {
+@Schema(name = "UserUpdateWithAvatarDto对象", title = "管理员用户修改头像", description = "管理员用户修改头像")
+public class UserUpdateWithAvatarDto {
 
     @Schema(name = "userId", title = "用户ID")
     @NotNull(message = "用户ID不能为空")
     private Long userId;
 
-    @Schema(name = "password", title = "用户密码")
-    @NotBlank(message = "密码不能为空")
+    @Schema(name = "avatar", title = "用户头像")
+    @NotBlank(message = "用户头像不能为空")
     @NotEmpty
-    private String password;
+    private String avatar;
 
 }
-

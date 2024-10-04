@@ -17,6 +17,27 @@
     const formRef = ref();
     const ${lowercaseName}Store = use${originalName}Store();
 
+    /**
+     * * 当前页改变时
+     */
+    const onCurrentPageChange = async (value: number) => {
+        ${lowercaseName}Store.pagination.currentPage = value;
+        await onSearch();
+    };
+
+    /**
+     * * 当分页发生变化
+     * @param value
+     */
+    const onPageSizeChange = async (value: number) => {
+        ${lowercaseName}Store.pagination.pageSize = value;
+        await onSearch();
+    };
+
+    /**
+     * 重置表单
+     * @param formEl
+     */
     const resetForm = async formEl => {
         if (!formEl) return;
         formEl.resetFields();
@@ -63,6 +84,9 @@
                         row-key="id"
                         showOverflowTooltip
                         table-layout="auto"
+                        :pagination="${lowercaseName}Store.pagination"
+                        @page-size-change="onPageSizeChange"
+					    @page-current-change="onCurrentPageChange"
                 >
 
                     <template #createUser="{ row }">

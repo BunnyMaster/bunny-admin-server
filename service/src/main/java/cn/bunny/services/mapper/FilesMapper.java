@@ -1,6 +1,6 @@
 package cn.bunny.services.mapper;
 
-import cn.bunny.services.Bunny.Files;
+import cn.bunny.dao.entity.system.Files;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
