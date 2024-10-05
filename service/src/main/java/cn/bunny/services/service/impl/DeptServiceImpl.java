@@ -7,13 +7,16 @@ import cn.bunny.dao.entity.system.Dept;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.dept.DeptVo;
 import cn.bunny.services.mapper.DeptMapper;
+import cn.bunny.services.mapper.UserDeptMapper;
 import cn.bunny.services.service.DeptService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,7 +29,11 @@ import java.util.List;
  * @since 2024-10-04 10:39:08
  */
 @Service
+@Transactional
 public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements DeptService {
+
+    @Autowired
+    private UserDeptMapper userDeptMapper;
 
     /**
      * * 部门 服务实现类
@@ -87,6 +94,9 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      */
     @Override
     public void deleteDept(List<Long> ids) {
+        // 删除当前部门
         baseMapper.deleteBatchIdsWithPhysics(ids);
+        // 删除用户部门关联
+        userDeptMapper.deleteBatchIdsByDeptIdWithPhysics(ids);
     }
 }

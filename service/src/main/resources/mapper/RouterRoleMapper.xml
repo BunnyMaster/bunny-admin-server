@@ -20,10 +20,23 @@
     </sql>
 
     <!-- 根据路由id删除所有角色和路由信息 -->
-    <delete id="deleteBatchIdsWithPhysicsByRouterId">
+    <delete id="deleteBatchIdsByRouterIdsWithPhysics">
         delete
         from sys_router_role
-        where router_id = #{routerId}
+        where router_id in
+        <foreach collection="routerIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据角色id列表删除角色和路由相关 -->
+    <delete id="deleteBatchIdsByRoleIdsWithPhysics">
+        delete
+        from sys_router_role
+        where role_id in
+        <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </delete>
 
 </mapper>

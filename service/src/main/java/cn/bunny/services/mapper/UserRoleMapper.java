@@ -4,6 +4,8 @@ import cn.bunny.dao.entity.system.UserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  * Mapper 接口
@@ -20,5 +22,12 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
      *
      * @param userId 用户id
      */
-    void deleteBatchIdsWithPhysicsByUserId(Long userId);
+    void deleteBatchIdsByUserIdsWithPhysics(List<Long> userId);
+
+    /**
+     * * 根据角色id删除用户和角色
+     *
+     * @param roleIds 角色id列表
+     */
+    void deleteBatchIdsByRoleIdsWithPhysics(List<Long> roleIds);
 }

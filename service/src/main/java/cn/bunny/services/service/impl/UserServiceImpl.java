@@ -21,7 +21,9 @@ import cn.bunny.dao.vo.system.user.UserVo;
 import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.EmailUsersMapper;
+import cn.bunny.services.mapper.UserDeptMapper;
 import cn.bunny.services.mapper.UserMapper;
+import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.FilesService;
 import cn.bunny.services.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -70,6 +72,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private FilesService filesService;
+
+    @Autowired
+    private UserDeptMapper userDeptMapper;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     /**
      * 登录发送邮件验证码
@@ -292,6 +300,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void deleteAdminUser(List<Long> ids) {
+        // 删除用户
         baseMapper.deleteBatchIdsWithPhysics(ids);
+
+        // 删除部门相关
+        userDeptMapper.deleteBatchIdsByUserIdWithPhysics(ids);
+
+        // 删除用户角色相关
+        userRoleMapper.deleteBatchIdsByUserIdsWithPhysics(ids);
     }
 }

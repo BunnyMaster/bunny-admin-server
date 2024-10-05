@@ -19,4 +19,24 @@
         id, role_id, power_id, create_time, update_time, create_user, update_user, is_deleted
     </sql>
 
+    <!-- 根据权限id列表删除角色权限相关 -->
+    <delete id="deleteBatchPowerIdsWithPhysics">
+        delete
+        from sys_role_power
+        where power_id in
+        <foreach collection="deptIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据角色id删除角色权限 -->
+    <delete id="deleteBatchRoleIdsWithPhysics">
+        delete
+        from sys_role_power
+        where role_id in
+        <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>

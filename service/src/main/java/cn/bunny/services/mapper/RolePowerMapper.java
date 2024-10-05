@@ -4,6 +4,8 @@ import cn.bunny.dao.entity.system.RolePower;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  * Mapper 接口
@@ -15,4 +17,17 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface RolePowerMapper extends BaseMapper<RolePower> {
 
+    /**
+     * * 根据权限id列表删除角色权限相关
+     *
+     * @param powerIds 权限id列表
+     */
+    void deleteBatchPowerIdsWithPhysics(List<Long> powerIds);
+
+    /**
+     * * 根据角色id删除角色权限
+     *
+     * @param roleIds 角色
+     */
+    void deleteBatchRoleIdsWithPhysics(List<Long> roleIds);
 }

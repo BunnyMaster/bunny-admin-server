@@ -46,7 +46,7 @@ public class RouterRoleServiceImpl extends ServiceImpl<RouterRoleMapper, RouterR
         List<Long> roleIds = dto.getRoleIds();
 
         // 删除这个用户下所有已经分配好的角色内容
-        baseMapper.deleteBatchIdsWithPhysicsByRouterId(routerId);
+        baseMapper.deleteBatchIdsByRouterIdsWithPhysics(List.of(routerId));
 
         // 保存分配好的角色信息
         List<RouterRole> roleList = roleIds.stream().map(roleId -> {

@@ -8,12 +8,14 @@ import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.rolePower.PowerVo;
 import cn.bunny.services.factory.PowerFactory;
 import cn.bunny.services.mapper.PowerMapper;
+import cn.bunny.services.mapper.RolePowerMapper;
 import cn.bunny.services.service.PowerService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,11 +32,11 @@ import java.util.List;
 @Service
 public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements PowerService {
 
-    private final PowerFactory powerFactory;
+    @Autowired
+    private PowerFactory powerFactory;
 
-    public PowerServiceImpl(PowerFactory powerFactory) {
-        this.powerFactory = powerFactory;
-    }
+    @Autowired
+    private RolePowerMapper rolePowerMapper;
 
     /**
      * * 权限 服务实现类
@@ -95,7 +97,11 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      */
     @Override
     public void deletePower(List<Long> ids) {
+        // 删除权限
         baseMapper.deleteBatchIdsWithPhysics(ids);
+
+        // 删除角色部门相关
+        rolePowerMapper.deleteBatchPowerIdsWithPhysics(ids);
     }
 
     /**

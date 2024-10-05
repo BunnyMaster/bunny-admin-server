@@ -20,10 +20,20 @@
     </sql>
 
     <!-- 删除这个用户id下所有的角色信息 -->
-    <delete id="deleteBatchIdsWithPhysicsByUserId">
+    <delete id="deleteBatchIdsByUserIdsWithPhysics">
         delete
         from sys_user_role
         where user_id = #{userId}
+    </delete>
+
+    <!-- 根据角色id删除用户和角色 -->
+    <delete id="deleteBatchIdsByRoleIdsWithPhysics">
+        delete
+        from sys_user_role
+        where role_id in
+        <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </delete>
 
 </mapper>

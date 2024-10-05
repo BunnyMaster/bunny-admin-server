@@ -54,7 +54,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         List<Long> roleIds = dto.getRoleIds();
 
         // 删除这个用户下所有已经分配好的角色内容
-        baseMapper.deleteBatchIdsWithPhysicsByUserId(userId);
+        baseMapper.deleteBatchIdsByUserIdsWithPhysics(List.of(userId));
 
         // 保存分配好的角色信息
         List<UserRole> roleList = roleIds.stream().map(roleId -> {

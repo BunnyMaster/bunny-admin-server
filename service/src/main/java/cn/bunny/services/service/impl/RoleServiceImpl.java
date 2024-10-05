@@ -7,12 +7,16 @@ import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.rolePower.RoleVo;
 import cn.bunny.services.mapper.RoleMapper;
+import cn.bunny.services.mapper.RolePowerMapper;
+import cn.bunny.services.mapper.RouterRoleMapper;
+import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.RoleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +31,16 @@ import java.util.List;
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private RolePowerMapper rolePowerMapper;
+
+    @Autowired
+    private RouterRoleMapper routerRoleMapper;
+
 
     /**
      * * 角色 服务实现类
@@ -87,7 +101,18 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public void deleteRole(List<Long> ids) {
+        // 删除角色
         baseMapper.deleteBatchIdsWithPhysics(ids);
+
+        // 删除角色权限相关
+        rolePowerMapper.deleteBatchRoleIdsWithPhysics(ids);
+
+        // 删除角色和用户相关
+        userRoleMapper.deleteBatchIdsByRoleIdsWithPhysics(ids);
+
+        // 删除角色和路由相关
+        routerRoleMapper.deleteBatchIdsByRoleIdsWithPhysics(ids);
+
     }
 
     /**
