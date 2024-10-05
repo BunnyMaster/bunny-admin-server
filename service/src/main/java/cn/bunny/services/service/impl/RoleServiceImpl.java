@@ -89,4 +89,18 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public void deleteRole(List<Long> ids) {
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }
+
+    /**
+     * * 获取所有角色
+     *
+     * @return 所有角色列表
+     */
+    @Override
+    public List<RoleVo> getAllRoles() {
+        return list().stream().map(role -> {
+            RoleVo roleVo = new RoleVo();
+            BeanUtils.copyProperties(role, roleVo);
+            return roleVo;
+        }).toList();
+    }
 }

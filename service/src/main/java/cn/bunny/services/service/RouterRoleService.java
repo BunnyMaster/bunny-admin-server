@@ -1,7 +1,10 @@
 package cn.bunny.services.service;
 
+import cn.bunny.dao.dto.system.router.AssignRolesToRoutersDto;
 import cn.bunny.dao.entity.system.RouterRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,18 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RouterRoleService extends IService<RouterRole> {
 
+    /**
+     * * 根据路由id获取所有角色
+     *
+     * @param routerId 路由id
+     * @return 角色列表
+     */
+    List<String> getRoleListByRouterId(Long routerId);
+
+    /**
+     * * 为菜单分配角色
+     *
+     * @param dto 路由分配角色
+     */
+    void assignRolesToRouter(AssignRolesToRoutersDto dto);
 }

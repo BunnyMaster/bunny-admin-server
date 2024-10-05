@@ -15,9 +15,9 @@ import lombok.experimental.Accessors;
 public class UserRole extends BaseEntity {
 
     @Schema(name = "userId", title = "用户id")
-    private String userId;
+    private Long userId;
 
     @Schema(name = "roleId", title = "角色id")
-    private String roleId;
-    
+    private Long roleId;
+
 }

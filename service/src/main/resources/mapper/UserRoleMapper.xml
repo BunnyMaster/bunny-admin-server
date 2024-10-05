@@ -19,4 +19,11 @@
         id, user_id, role_id, create_time, update_time, create_user, update_user, is_deleted
     </sql>
 
+    <!-- 删除这个用户id下所有的角色信息 -->
+    <delete id="deleteBatchIdsWithPhysicsByUserId">
+        delete
+        from sys_user_role
+        where user_id = #{userId}
+    </delete>
+
 </mapper>

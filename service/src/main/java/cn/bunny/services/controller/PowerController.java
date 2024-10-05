@@ -69,4 +69,11 @@ public class PowerController {
         powerService.deletePower(ids);
         return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
     }
+
+    @Operation(summary = "获取所有权限", description = "获取所有权限")
+    @GetMapping("getAllPowers")
+    public Mono<Result<List<PowerVo>>> getAllPowers() {
+        List<PowerVo> voList = powerService.getAllPowers();
+        return Mono.just(Result.success(voList));
+    }
 }

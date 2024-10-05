@@ -49,4 +49,12 @@ public interface PowerService extends IService<Power> {
      * @param ids 删除id列表
      */
     void deletePower(List<Long> ids);
+
+    /**
+     * * 获取所有权限
+     *
+     * @return 所有权限列表
+     */
+    List<PowerVo> getAllPowers();
+
 }

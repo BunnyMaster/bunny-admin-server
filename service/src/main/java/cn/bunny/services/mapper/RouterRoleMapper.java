@@ -15,4 +15,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface RouterRoleMapper extends BaseMapper<RouterRole> {
 
+    /**
+     * 根据路由id删除所有角色和路由信息
+     *
+     * @param routerId 路由id
+     */
+    void deleteBatchIdsWithPhysicsByRouterId(Long routerId);
 }

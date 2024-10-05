@@ -19,4 +19,11 @@
         id, router_id, role_id, create_user, update_time, update_user, create_time, is_deleted
     </sql>
 
+    <!-- 根据路由id删除所有角色和路由信息 -->
+    <delete id="deleteBatchIdsWithPhysicsByRouterId">
+        delete
+        from sys_router_role
+        where router_id = #{routerId}
+    </delete>
+
 </mapper>

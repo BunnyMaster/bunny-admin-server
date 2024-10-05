@@ -49,4 +49,11 @@ public interface RoleService extends IService<Role> {
      * @param ids 删除id列表
      */
     void deleteRole(List<Long> ids);
+
+    /**
+     * * 获取所有角色
+     *
+     * @return 所有角色列表
+     */
+    List<RoleVo> getAllRoles();
 }

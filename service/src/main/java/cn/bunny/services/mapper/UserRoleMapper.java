@@ -15,4 +15,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 
+    /**
+     * * 删除这个用户id下所有的角色信息
+     *
+     * @param userId 用户id
+     */
+    void deleteBatchIdsWithPhysicsByUserId(Long userId);
 }

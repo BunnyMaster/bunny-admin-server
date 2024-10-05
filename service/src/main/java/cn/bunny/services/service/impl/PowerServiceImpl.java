@@ -6,6 +6,7 @@ import cn.bunny.dao.dto.system.rolePower.PowerUpdateDto;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.rolePower.PowerVo;
+import cn.bunny.services.factory.PowerFactory;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.service.PowerService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -15,6 +16,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +29,12 @@ import java.util.List;
  */
 @Service
 public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements PowerService {
+
+    private final PowerFactory powerFactory;
+
+    public PowerServiceImpl(PowerFactory powerFactory) {
+        this.powerFactory = powerFactory;
+    }
 
     /**
      * * 权限 服务实现类
@@ -88,5 +96,31 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
     @Override
     public void deletePower(List<Long> ids) {
         baseMapper.deleteBatchIdsWithPhysics(ids);
+    }
+
+    /**
+     * * 获取所有权限
+     *
+     * @return 所有权限列表
+     */
+    @Override
+    public List<PowerVo> getAllPowers() {
+        List<Power> powerList = list();
+        ArrayList<PowerVo> powerVos = new ArrayList<>();
+
+        // 构建返回波对象
+        List<PowerVo> powerVoList = powerList.stream().map(power -> {
+            PowerVo powerVo = new PowerVo();
+            BeanUtils.copyProperties(power, powerVo);
+            return powerVo;
+        }).toList();
+
+        powerVoList.stream()
+                .filter(power -> power.getParentId() == 0)
+                .forEach(powerVo -> {
+                    powerVo.setChildren(powerFactory.handlePowerVoChildren(powerVo.getId(), powerVoList));
+                    powerVos.add(powerVo);
+                });
+        return powerVos;
     }
 }

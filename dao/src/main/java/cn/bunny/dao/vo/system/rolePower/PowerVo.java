@@ -4,6 +4,8 @@ import cn.bunny.dao.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
@@ -23,5 +25,8 @@ public class PowerVo extends BaseVo {
 
     @Schema(name = "requestUrl", title = "请求路径")
     private String requestUrl;
+
+    @Schema(name = "children", title = "子级")
+    private List<PowerVo> children;
 
 }
