@@ -93,4 +93,11 @@ public interface UserService extends IService<AdminUser> {
      * @param dto 管理员用户修改头像
      */
     void uploadAvatarByAdmin(UserUpdateWithAvatarDto dto);
+
+    /**
+     * * 强制退出
+     *
+     * @param id 用户id
+     */
+    void forcedOffline(Long id);
 }

@@ -33,8 +33,5 @@ public class DeptUpdateDto {
     @Schema(name = "summary", title = "部门简介")
     private String summary;
 
-    @Schema(name = "remarks", title = "备注信息")
-    private String remarks;
-
 }
 

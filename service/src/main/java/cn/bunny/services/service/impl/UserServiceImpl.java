@@ -201,6 +201,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     }
 
     /**
+     * * 强制退出
+     *
+     * @param id 用户id
+     */
+    @Override
+    public void forcedOffline(Long id) {
+        if (id == null) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
+        // 根据id查询用户登录前缀
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, id));
+        String email = adminUser.getEmail();
+        String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(email);
+
+        redisTemplate.delete(adminLoginInfoPrefix);
+    }
+
+    /**
      * * 用户信息 服务实现类
      *
      * @param pageParams 用户信息分页查询page对象

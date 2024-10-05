@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @Schema(name = "MenuIconDto对象", title = "系统菜单图标", description = "系统菜单图标管理")
 public class MenuIconDto {
 
+    @Schema(name = "iconCode", title = "icon类名")
+    private String iconCode;
+
     @Schema(name = "iconName", title = "icon 名称")
     private String iconName;
 

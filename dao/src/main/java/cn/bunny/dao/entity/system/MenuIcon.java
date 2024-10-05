@@ -14,6 +14,9 @@ import lombok.experimental.Accessors;
 @Schema(name = "MenuIcon对象", title = "系统菜单图标", description = "系统菜单图标")
 public class MenuIcon extends BaseEntity {
 
+    @Schema(name = "iconCode", title = "icon类名")
+    private String iconCode;
+
     @Schema(name = "iconName", title = "icon 名称")
     private String iconName;
 

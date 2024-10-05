@@ -92,6 +92,13 @@ public class UserController {
         return Result.success(vo);
     }
 
+    @Operation(summary = "强制退出", description = "强制退出")
+    @PutMapping("forcedOffline")
+    public Result<String> forcedOffline(@RequestBody Long id) {
+        userService.forcedOffline(id);
+        return Result.success();
+    }
+
     @Operation(summary = "退出登录", description = "退出登录")
     @PostMapping("logout")
     public Result<String> logout() {

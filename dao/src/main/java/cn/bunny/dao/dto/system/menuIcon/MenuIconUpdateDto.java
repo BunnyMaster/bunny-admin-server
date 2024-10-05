@@ -19,6 +19,10 @@ public class MenuIconUpdateDto {
     @NotNull(message = "id不能为空")
     private Long id;
 
+    @Schema(name = "iconCode", title = "icon类名")
+    @NotBlank(message = "iconCode不能为空")
+    private String iconCode;
+
     @Schema(name = "iconName", title = "icon 名称")
     @NotBlank(message = "icon 名称不能为空")
     private String iconName;

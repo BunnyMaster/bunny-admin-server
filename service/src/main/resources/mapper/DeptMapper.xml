@@ -14,34 +14,31 @@
         <id column="manager_id" property="managerId"/>
         <id column="dept_name" property="deptName"/>
         <id column="summary" property="summary"/>
-        <id column="remarks" property="remarks"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, parent_id, manager_id, dept_name, summary, remarks
+        id, create_time, update_time, create_user, update_user, is_deleted, parent_id, manager_id, dept_name, summary
     </sql>
 
     <!-- 分页查询部门内容 -->
     <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Dept">
-        select  <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from sys_dept
         <where>
-           <if test="dto.parentId != null and dto.parentId != ''">
+            <if test="dto.parentId != null and dto.parentId != ''">
                 parent_id like CONCAT('%',#{dto.parentId},'%')
-           </if>
-           <if test="dto.managerId != null and dto.managerId != ''">
+            </if>
+            <if test="dto.managerId != null and dto.managerId != ''">
                 manager_id like CONCAT('%',#{dto.managerId},'%')
-           </if>
-           <if test="dto.deptName != null and dto.deptName != ''">
+            </if>
+            <if test="dto.deptName != null and dto.deptName != ''">
                 dept_name like CONCAT('%',#{dto.deptName},'%')
-           </if>
-           <if test="dto.summary != null and dto.summary != ''">
+            </if>
+            <if test="dto.summary != null and dto.summary != ''">
                 summary like CONCAT('%',#{dto.summary},'%')
-           </if>
-           <if test="dto.remarks != null and dto.remarks != ''">
-                remarks like CONCAT('%',#{dto.remarks},'%')
-           </if>
+            </if>
         </where>
         order by update_time
     </select>

@@ -11,21 +11,26 @@
         <id column="update_user" property="updateUser"/>
         <id column="is_deleted" property="isDeleted"/>
         <id column="icon_name" property="iconName"/>
+        <id column="icon_code" property="iconCode"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, icon_name
+        id, create_time, update_time, create_user, update_user, is_deleted, icon_name, icon_code
     </sql>
 
     <!-- 分页查询系统菜单图标内容 -->
     <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.MenuIcon">
-        select  <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from sys_menu_icon
         <where>
-           <if test="dto.iconName != null and dto.iconName != ''">
+            <if test="dto.iconCode != null and dto.iconCode != ''">
+                icon_code like CONCAT('%',#{dto.iconCode},'%')
+            </if>
+            <if test="dto.iconName != null and dto.iconName != ''">
                 icon_name like CONCAT('%',#{dto.iconName},'%')
-           </if>
+            </if>
         </where>
         order by update_time
     </select>
