@@ -4,13 +4,16 @@ import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.common.service.utils.minio.MinioUtil;
+import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.pojo.common.EmailSendInit;
+import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.user.AdminUserVo;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.dao.vo.system.user.RefreshTokenVo;
@@ -19,12 +22,14 @@ import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.EmailUsersMapper;
 import cn.bunny.services.mapper.UserMapper;
+import cn.bunny.services.service.FilesService;
 import cn.bunny.services.service.UserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -61,6 +67,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private MinioUtil minioUtil;
+
+    @Autowired
+    private FilesService filesService;
 
     /**
      * 登录发送邮件验证码
@@ -170,19 +179,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      *
      * @param dto 管理员用户修改头像
      */
+    @SneakyThrows
     @Override
     public void uploadAvatarByAdmin(UserUpdateWithAvatarDto dto) {
-        String avatar = dto.getAvatar();
+        MultipartFile avatar = dto.getAvatar();
         Long userId = dto.getUserId();
 
         // 判断是否存在这个用户
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
         if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
 
+        // 上传头像
+        FileUploadDto uploadDto = FileUploadDto.builder().file(avatar).type(MinioConstant.avatar).build();
+        FileInfoVo fileInfoVo = filesService.upload(uploadDto);
+
         // 更新用户
         adminUser = new AdminUser();
         adminUser.setId(userId);
-        adminUser.setAvatar(avatar);
+        adminUser.setAvatar(fileInfoVo.getFilepath());
         updateById(adminUser);
     }
 

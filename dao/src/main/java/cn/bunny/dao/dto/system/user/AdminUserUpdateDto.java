@@ -34,9 +34,6 @@ public class AdminUserUpdateDto {
     @Schema(name = "phone", title = "手机号")
     private String phone;
 
-    @Schema(name = "avatar", title = "头像")
-    private String avatar;
-
     @Schema(name = "sex", title = "性别", description = "0:女 1:男")
     private Byte sex;
 

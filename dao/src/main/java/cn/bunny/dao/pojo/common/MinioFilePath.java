@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MinioFIlePath {
+public class MinioFilePath {
     private String filename;
     private String uuidFilename;
     private String timeUuidFilename;

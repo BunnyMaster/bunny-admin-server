@@ -1,7 +1,7 @@
 package cn.bunny.common.service.utils.minio;
 
 import cn.bunny.common.service.exception.BunnyException;
-import cn.bunny.dao.pojo.common.MinioFIlePath;
+import cn.bunny.dao.pojo.common.MinioFilePath;
 import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import io.minio.GetObjectArgs;
@@ -35,7 +35,7 @@ public class MinioUtil {
     /**
      * 获取Minio文件路径
      */
-    public static MinioFIlePath getMinioFilePath(String buckName, String minioPreType, MultipartFile file) {
+    public static MinioFilePath getMinioFilePath(String buckName, String minioPreType, MultipartFile file) {
         String uuid = UUID.randomUUID().toString();
         // 定义日期时间格式
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -61,7 +61,7 @@ public class MinioUtil {
         String buckNameFilepath = "/" + buckName + MinioConstant.getType(minioPreType) + timeUuidFilename;
 
         // 设置及Minio基础信息
-        MinioFIlePath minioFIlePath = new MinioFIlePath();
+        MinioFilePath minioFIlePath = new MinioFilePath();
         minioFIlePath.setFilename(filename);
         minioFIlePath.setUuidFilename(uuidFilename);
         minioFIlePath.setTimeUuidFilename(timeUuidFilename);
@@ -74,11 +74,11 @@ public class MinioUtil {
     /**
      * * 上传文件并返回处理信息
      */
-    public MinioFIlePath getUploadMinioObjectFilePath(MultipartFile file, String minioPreType) throws IOException {
+    public MinioFilePath getUploadMinioObjectFilePath(MultipartFile file, String minioPreType) throws IOException {
         // 如果buckName为空，设置为默认的桶
         String bucketName = properties.getBucketName();
         if (file != null) {
-            MinioFIlePath minioFile = getMinioFilePath(bucketName, minioPreType, file);
+            MinioFilePath minioFile = getMinioFilePath(bucketName, minioPreType, file);
             String filepath = minioFile.getFilepath();
 
             // 上传对象
