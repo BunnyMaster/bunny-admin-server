@@ -49,6 +49,13 @@ public class MenuIconController {
         return Mono.just(Result.success(pageResult));
     }
 
+    @Operation(summary = "获取查询图标名称列表", description = "获取查询图标名称列表")
+    @GetMapping("getIconNameList")
+    public Mono<Result<List<MenuIconVo>>> getIconNameList(String iconName) {
+        List<MenuIconVo> voList = menuIconService.getIconNameList(iconName);
+        return Mono.just(Result.success(voList));
+    }
+
     @Operation(summary = "添加系统菜单图标", description = "添加系统菜单图标")
     @PostMapping("addMenuIcon")
     public Mono<Result<String>> addMenuIcon(@Valid @RequestBody MenuIconAddDto dto) {

@@ -9,13 +9,16 @@ import cn.bunny.dao.vo.system.menuIcon.MenuIconVo;
 import cn.bunny.services.mapper.MenuIconMapper;
 import cn.bunny.services.service.MenuIconService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -88,5 +91,28 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
     @Override
     public void deleteMenuIcon(List<Long> ids) {
         baseMapper.deleteBatchIdsWithPhysics(ids);
+    }
+
+    /**
+     * * 获取查询图标名称列表
+     *
+     * @param iconName 查询图标名称
+     * @return 图标返回列表
+     */
+    @Override
+    public List<MenuIconVo> getIconNameList(String iconName) {
+        return list(Wrappers.<MenuIcon>lambdaQuery().like(MenuIcon::getIconName, iconName))
+                .stream().map(menuIcon -> {
+                    MenuIconVo menuIconVo = new MenuIconVo();
+                    BeanUtils.copyProperties(menuIcon, menuIconVo);
+                    return menuIconVo;
+                }).collect(Collectors.collectingAndThen(
+                        Collectors.toMap(
+                                MenuIconVo::getIconName,
+                                i -> i,
+                                (existing, replacement) -> existing
+                        ),
+                        map -> new ArrayList<>(map.values())
+                ));
     }
 }

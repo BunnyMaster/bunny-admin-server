@@ -49,4 +49,12 @@ public interface MenuIconService extends IService<MenuIcon> {
      * @param ids 删除id列表
      */
     void deleteMenuIcon(List<Long> ids);
+
+    /**
+     * * 获取查询图标名称列表
+     *
+     * @param iconName 查询图标名称
+     * @return 图标返回列表
+     */
+    List<MenuIconVo> getIconNameList(String iconName);
 }

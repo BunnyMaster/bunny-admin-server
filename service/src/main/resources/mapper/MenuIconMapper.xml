@@ -32,7 +32,7 @@
                 icon_name like CONCAT('%',#{dto.iconName},'%')
             </if>
         </where>
-        order by update_time
+        order by update_time desc
     </select>
 
     <!-- 物理删除系统菜单图标 -->
