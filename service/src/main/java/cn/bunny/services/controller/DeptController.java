@@ -49,6 +49,13 @@ public class DeptController {
         return Mono.just(Result.success(pageResult));
     }
 
+    @Operation(summary = "获取所有部门", description = "获取所有部门")
+    @GetMapping("getAllDeptList")
+    public Mono<Result<List<DeptVo>>> getAllDeptList() {
+        List<DeptVo> voList = deptService.getAllDeptList();
+        return Mono.just(Result.success(voList));
+    }
+
     @Operation(summary = "添加部门", description = "添加部门")
     @PostMapping("addDept")
     public Mono<Result<String>> addDept(@Valid @RequestBody DeptAddDto dto) {

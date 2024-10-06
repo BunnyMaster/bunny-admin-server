@@ -58,6 +58,20 @@
         </where>
     </select>
 
+    <!-- 查询用户 -->
+    <select id="queryUser" resultType="cn.bunny.dao.entity.system.AdminUser">
+        select *
+        from sys_user
+        <where>
+            <if test="keyword != null and keyword != ''">
+                username like CONCAT('%', #{keyword}, '%')
+                or nick_name like CONCAT('%', #{keyword}, '%')
+                or email like CONCAT('%', #{keyword}, '%')
+                or phone like CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+
     <!-- 物理删除用户信息 -->
     <delete id="deleteBatchIdsWithPhysics">
         delete

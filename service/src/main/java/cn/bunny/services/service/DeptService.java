@@ -49,4 +49,11 @@ public interface DeptService extends IService<Dept> {
      * @param ids 删除id列表
      */
     void deleteDept(List<Long> ids);
+
+    /**
+     * * 获取所有部门
+     *
+     * @return 所有部门列表
+     */
+    List<DeptVo> getAllDeptList();
 }

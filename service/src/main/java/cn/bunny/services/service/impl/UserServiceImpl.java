@@ -42,6 +42,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -223,6 +224,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(email);
 
         redisTemplate.delete(adminLoginInfoPrefix);
+    }
+
+    /**
+     * * 查询用户
+     *
+     * @param keyword 查询用户信息关键字
+     * @return 用户信息列表
+     */
+    @Override
+    public List<AdminUserVo> queryUser(String keyword) {
+        if (!StringUtils.hasText(keyword)) return new ArrayList<>();
+
+        List<AdminUser> list = baseMapper.queryUser(keyword);
+        return list.stream().map(adminUser -> {
+            AdminUserVo adminUserVo = new AdminUserVo();
+            BeanUtils.copyProperties(adminUser, adminUserVo);
+            return adminUserVo;
+        }).toList();
     }
 
     /**

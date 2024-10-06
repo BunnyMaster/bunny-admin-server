@@ -100,4 +100,12 @@ public interface UserService extends IService<AdminUser> {
      * @param id 用户id
      */
     void forcedOffline(Long id);
+
+    /**
+     * * 查询用户
+     *
+     * @param keyword 查询用户信息关键字
+     * @return 用户信息列表
+     */
+    List<AdminUserVo> queryUser(String keyword);
 }

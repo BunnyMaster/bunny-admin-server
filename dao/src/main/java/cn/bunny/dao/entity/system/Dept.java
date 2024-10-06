@@ -25,8 +25,8 @@ public class Dept extends BaseEntity {
     @Schema(name = "parentId", title = "父级id")
     private String parentId;
 
-    @Schema(name = "managerId", title = "管理者id")
-    private String managerId;
+    @Schema(name = "manager", title = "管理者")
+    private String manager;
 
     @Schema(name = "deptName", title = "部门名称")
     private String deptName;

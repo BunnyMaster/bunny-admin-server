@@ -42,11 +42,18 @@ public class UserController {
         return Mono.just(Result.success(pageResult));
     }
 
-    @Operation(summary = "添加用户信息", description = "添加用户信息")
-    @PostMapping("addAdminUser")
-    public Mono<Result<String>> addAdminUser(@Valid @RequestBody AdminUserAddDto dto) {
-        userService.addAdminUser(dto);
-        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+    @Operation(summary = "获取用户信息", description = "获取用户信息")
+    @GetMapping("getUserinfoById")
+    public Mono<Result<UserVo>> getUserinfoById(Long id) {
+        UserVo vo = userService.getUserinfoById(id);
+        return Mono.just(Result.success(vo));
+    }
+
+    @Operation(summary = "查询用户", description = "查询用户")
+    @GetMapping("queryUser")
+    public Mono<Result<List<AdminUserVo>>> queryUser(String keyword) {
+        List<AdminUserVo> voList = userService.queryUser(keyword);
+        return Mono.just(Result.success(voList));
     }
 
     @Operation(summary = "更新用户信息", description = "更新用户信息")
@@ -55,28 +62,6 @@ public class UserController {
         userService.updateAdminUser(dto);
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
-
-    @Operation(summary = "删除用户信息", description = "删除用户信息")
-    @DeleteMapping("deleteAdminUser")
-    public Mono<Result<String>> deleteAdminUser(@RequestBody List<Long> ids) {
-        userService.deleteAdminUser(ids);
-        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
-    }
-
-    @Operation(summary = "管理员修改管理员用户密码", description = "管理员修改管理员用户密码")
-    @PutMapping("updateUserPasswordByAdmin")
-    public Result<String> updateUserPasswordByAdmin(@Valid @RequestBody UserUpdateWithPasswordDto dto) {
-        userService.updateUserPasswordByAdmin(dto);
-        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
-    }
-
-    @Operation(summary = "管理员上传用户头像", description = "管理员上传用户头像")
-    @PutMapping("uploadAvatarByAdmin")
-    public Result<String> uploadAvatarByAdmin(@Valid UserUpdateWithAvatarDto dto) {
-        userService.uploadAvatarByAdmin(dto);
-        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
-    }
-
 
     @Operation(summary = "登录发送邮件验证码", description = "登录发送邮件验证码")
     @PostMapping("noAuth/sendLoginEmail")
@@ -92,11 +77,11 @@ public class UserController {
         return Result.success(vo);
     }
 
-    @Operation(summary = "强制退出", description = "强制退出")
-    @PutMapping("forcedOffline")
-    public Result<String> forcedOffline(@RequestBody Long id) {
-        userService.forcedOffline(id);
-        return Result.success();
+    @Operation(summary = "添加用户信息", description = "添加用户信息")
+    @PostMapping("addAdminUser")
+    public Mono<Result<String>> addAdminUser(@Valid @RequestBody AdminUserAddDto dto) {
+        userService.addAdminUser(dto);
+        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
 
     @Operation(summary = "退出登录", description = "退出登录")
@@ -106,10 +91,32 @@ public class UserController {
         return Result.success(ResultCodeEnum.LOGOUT_SUCCESS);
     }
 
-    @Operation(summary = "获取用户信息", description = "获取用户信息")
-    @GetMapping("getUserinfoById")
-    public Mono<Result<UserVo>> getUserinfoById(Long id) {
-        UserVo vo = userService.getUserinfoById(id);
-        return Mono.just(Result.success(vo));
+
+    @Operation(summary = "管理员修改管理员用户密码", description = "管理员修改管理员用户密码")
+    @PutMapping("updateUserPasswordByAdmin")
+    public Result<String> updateUserPasswordByAdmin(@Valid @RequestBody UserUpdateWithPasswordDto dto) {
+        userService.updateUserPasswordByAdmin(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "管理员上传用户头像", description = "管理员上传用户头像")
+    @PutMapping("uploadAvatarByAdmin")
+    public Result<String> uploadAvatarByAdmin(@Valid UserUpdateWithAvatarDto dto) {
+        userService.uploadAvatarByAdmin(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "强制退出", description = "强制退出")
+    @PutMapping("forcedOffline")
+    public Result<String> forcedOffline(@RequestBody Long id) {
+        userService.forcedOffline(id);
+        return Result.success();
+    }
+
+    @Operation(summary = "删除用户信息", description = "删除用户信息")
+    @DeleteMapping("deleteAdminUser")
+    public Mono<Result<String>> deleteAdminUser(@RequestBody List<Long> ids) {
+        userService.deleteAdminUser(ids);
+        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
     }
 }

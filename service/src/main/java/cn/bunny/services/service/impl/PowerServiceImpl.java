@@ -6,7 +6,6 @@ import cn.bunny.dao.dto.system.rolePower.PowerUpdateDto;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.rolePower.PowerVo;
-import cn.bunny.services.factory.PowerFactory;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RolePowerMapper;
 import cn.bunny.services.service.PowerService;
@@ -18,7 +17,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,9 +29,6 @@ import java.util.List;
  */
 @Service
 public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements PowerService {
-
-    @Autowired
-    private PowerFactory powerFactory;
 
     @Autowired
     private RolePowerMapper rolePowerMapper;
@@ -112,21 +107,10 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
     @Override
     public List<PowerVo> getAllPowers() {
         List<Power> powerList = list();
-        ArrayList<PowerVo> powerVos = new ArrayList<>();
-
-        // 构建返回波对象
-        List<PowerVo> powerVoList = powerList.stream().map(power -> {
+        return powerList.stream().map(power -> {
             PowerVo powerVo = new PowerVo();
             BeanUtils.copyProperties(power, powerVo);
             return powerVo;
         }).toList();
-
-        powerVoList.stream()
-                .filter(power -> power.getParentId() == 0)
-                .forEach(powerVo -> {
-                    powerVo.setChildren(powerFactory.handlePowerVoChildren(powerVo.getId(), powerVoList));
-                    powerVos.add(powerVo);
-                });
-        return powerVos;
     }
 }

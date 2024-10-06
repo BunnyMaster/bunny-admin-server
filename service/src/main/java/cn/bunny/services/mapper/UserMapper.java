@@ -36,4 +36,12 @@ public interface UserMapper extends BaseMapper<AdminUser> {
      * @param ids 删除 id 列表
      */
     void deleteBatchIdsWithPhysics(List<Long> ids);
+
+    /**
+     * * 查询用户
+     *
+     * @param keyword 查询关键字
+     * @return 用户信息列表
+     */
+    List<AdminUser> queryUser(String keyword);
 }

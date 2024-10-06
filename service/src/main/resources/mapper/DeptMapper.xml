@@ -11,14 +11,14 @@
         <id column="update_user" property="updateUser"/>
         <id column="is_deleted" property="isDeleted"/>
         <id column="parent_id" property="parentId"/>
-        <id column="manager_id" property="managerId"/>
+        <id column="manager" property="manager"/>
         <id column="dept_name" property="deptName"/>
         <id column="summary" property="summary"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, parent_id, manager_id, dept_name, summary
+        id, create_time, update_time, create_user, update_user, is_deleted, parent_id, manager, dept_name, summary
     </sql>
 
     <!-- 分页查询部门内容 -->
@@ -29,9 +29,6 @@
         <where>
             <if test="dto.parentId != null and dto.parentId != ''">
                 parent_id like CONCAT('%',#{dto.parentId},'%')
-            </if>
-            <if test="dto.managerId != null and dto.managerId != ''">
-                manager_id like CONCAT('%',#{dto.managerId},'%')
             </if>
             <if test="dto.deptName != null and dto.deptName != ''">
                 dept_name like CONCAT('%',#{dto.deptName},'%')

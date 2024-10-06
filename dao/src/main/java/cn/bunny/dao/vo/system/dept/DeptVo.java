@@ -4,6 +4,8 @@ import cn.bunny.dao.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
@@ -15,8 +17,8 @@ public class DeptVo extends BaseVo {
     @Schema(name = "parentId", title = "父级id")
     private String parentId;
 
-    @Schema(name = "managerId", title = "管理者id")
-    private String managerId;
+    @Schema(name = "manager", title = "管理者")
+    private List<String> manager;
 
     @Schema(name = "deptName", title = "部门名称")
     private String deptName;
