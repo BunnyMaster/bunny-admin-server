@@ -1,15 +1,19 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.rolePower.PowerAddDto;
 import cn.bunny.dao.dto.system.rolePower.PowerDto;
 import cn.bunny.dao.dto.system.rolePower.PowerUpdateDto;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.rolePower.PowerVo;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RolePowerMapper;
 import cn.bunny.services.service.PowerService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
@@ -66,6 +70,16 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      */
     @Override
     public void addPower(@Valid PowerAddDto dto) {
+        // 添加权限时确保权限码和请求地址是唯一的
+        LambdaQueryWrapper<Power> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Power::getPowerCode, dto.getPowerCode())
+                .or()
+                .eq(Power::getPowerName, dto.getPowerName())
+                .or()
+                .eq(Power::getRequestUrl, dto.getRequestUrl());
+        List<Power> powerList = list(wrapper);
+        if (!powerList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
+
         // 保存数据
         Power power = new Power();
         BeanUtils.copyProperties(dto, power);
@@ -79,6 +93,10 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      */
     @Override
     public void updatePower(@Valid PowerUpdateDto dto) {
+        Long id = dto.getId();
+        List<Power> powerList = list(Wrappers.<Power>lambdaQuery().eq(Power::getId, id));
+        if (powerList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+
         // 更新内容
         Power power = new Power();
         BeanUtils.copyProperties(dto, power);

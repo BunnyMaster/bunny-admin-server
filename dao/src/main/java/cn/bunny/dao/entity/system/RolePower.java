@@ -15,11 +15,11 @@ import lombok.experimental.Accessors;
 @TableName("sys_role_power")
 @Schema(name = "RolePower对象", title = "角色权限关系", description = "角色权限关系")
 public class RolePower extends BaseEntity {
-    
+
     @Schema(name = "roleId", title = "角色id")
-    private String roleId;
+    private Long roleId;
 
     @Schema(name = "powerId", title = "权限id")
-    private String powerId;
+    private Long powerId;
 
 }

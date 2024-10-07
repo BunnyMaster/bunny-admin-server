@@ -45,6 +45,7 @@ import java.util.List;
 public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> implements RouterService {
     @Autowired
     private RouterServiceFactory routerServiceFactory;
+
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 

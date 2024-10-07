@@ -1,6 +1,9 @@
 package cn.bunny.dao.vo.system.rolePower;
 
 import cn.bunny.dao.vo.BaseVo;
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -15,6 +18,8 @@ import java.util.List;
 public class PowerVo extends BaseVo {
 
     @Schema(name = "parentId", title = "父级id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private Long parentId;
 
     @Schema(name = "parentId", title = "权限编码")

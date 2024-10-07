@@ -39,4 +39,11 @@
         </foreach>
     </delete>
 
+    <!-- 根据角色id获取权限内容 -->
+    <select id="selectPowerListByRoleId" resultType="cn.bunny.dao.entity.system.RolePower">
+        select *
+        from sys_role_power
+        where role_id = #{roleId}
+    </select>
+
 </mapper>

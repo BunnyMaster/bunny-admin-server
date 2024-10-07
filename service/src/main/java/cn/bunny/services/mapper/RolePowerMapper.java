@@ -30,4 +30,12 @@ public interface RolePowerMapper extends BaseMapper<RolePower> {
      * @param roleIds 角色
      */
     void deleteBatchRoleIdsWithPhysics(List<Long> roleIds);
+
+    /**
+     * * 根据角色id获取权限内容
+     *
+     * @param roleId 角色id
+     * @return 已选择的权限列表
+     */
+    List<RolePower> selectPowerListByRoleId(Long roleId);
 }

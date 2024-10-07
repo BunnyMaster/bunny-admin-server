@@ -1,10 +1,12 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.rolePower.RoleAddDto;
 import cn.bunny.dao.dto.system.rolePower.RoleDto;
 import cn.bunny.dao.dto.system.rolePower.RoleUpdateDto;
 import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.rolePower.RoleVo;
 import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.mapper.RolePowerMapper;
@@ -12,6 +14,7 @@ import cn.bunny.services.mapper.RouterRoleMapper;
 import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.RoleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
@@ -75,6 +78,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public void addRole(@Valid RoleAddDto dto) {
+        // 判断角色码是否被添加过
+        List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getRoleCode, dto.getRoleCode()));
+        if (!roleList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
+
         // 保存数据
         Role role = new Role();
         BeanUtils.copyProperties(dto, role);
@@ -88,6 +95,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public void updateRole(@Valid RoleUpdateDto dto) {
+        List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, dto.getId()));
+        if (roleList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+
         // 更新内容
         Role role = new Role();
         BeanUtils.copyProperties(dto, role);
