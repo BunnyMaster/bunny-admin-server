@@ -187,9 +187,8 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     public void updateMenu(RouterUpdateDto dto) {
         Long id = dto.getId();
         Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, id));
-        if (router == null) {
-            throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
-        }
+        if (router == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+        if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
 
         router = new Router();
         BeanUtils.copyProperties(dto, router);

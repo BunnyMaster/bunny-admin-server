@@ -31,7 +31,6 @@ public class PowerUpdateDto {
     private String powerName;
 
     @Schema(name = "requestUrl", title = "请求路径")
-    @NotBlank(message = "请求路径 不能为空")
     private String requestUrl;
 
 }

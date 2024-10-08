@@ -86,7 +86,7 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
         LoginVo loginVo = customUserDetailsService.login(loginDto);
 
         // 判断用户是否禁用
-        if (loginVo.getStatus() == 1) {
+        if (loginVo.getStatus()) {
             out(response, Result.error(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED));
             return;
         }

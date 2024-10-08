@@ -1,6 +1,7 @@
 package cn.bunny.dao.dto.system.router;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,9 +17,11 @@ import java.util.List;
 public class AssignRolesToRoutersDto {
 
     @Schema(name = "routerId", title = "路由id")
+    @NotNull(message = "路由id不能为空")
     private Long routerId;
 
     @Schema(name = "roleIds", title = "角色id列表")
+    @NotNull(message = "角色id列表不能为空")
     private List<Long> roleIds;
 
 }

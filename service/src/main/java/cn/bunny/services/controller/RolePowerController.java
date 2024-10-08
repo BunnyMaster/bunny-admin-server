@@ -1,13 +1,13 @@
 package cn.bunny.services.controller;
 
+import cn.bunny.dao.dto.system.rolePower.AssignPowersToRoleDto;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.services.service.RolePowerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -33,5 +33,12 @@ public class RolePowerController {
     public Mono<Result<List<String>>> getPowerListByRoleId(Long id) {
         List<String> voList = rolePowerService.getPowerListByRoleId(id);
         return Mono.just(Result.success(voList));
+    }
+
+    @Operation(summary = "为角色分配权限", description = "为角色分配权限")
+    @PostMapping("assignPowersToRole")
+    public Mono<Result<String>> assignPowersToRole(@Valid @RequestBody AssignPowersToRoleDto dto) {
+        rolePowerService.assignPowersToRole(dto);
+        return Mono.just(Result.success());
     }
 }

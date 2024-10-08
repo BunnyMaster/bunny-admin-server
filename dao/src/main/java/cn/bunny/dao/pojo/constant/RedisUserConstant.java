@@ -24,11 +24,4 @@ public class RedisUserConstant {
         return ADMIN_EMAIL_CODE_PREFIX + adminUser;
     }
 
-    public static String getUserLoginInfoPrefix(String user) {
-        return USER_LOGIN_INFO_PREFIX + user;
-    }
-
-    public static String getUserEmailCodePrefix(String user) {
-        return USER_EMAIL_CODE_PREFIX + user;
-    }
 }

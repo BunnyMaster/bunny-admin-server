@@ -48,7 +48,7 @@ public class NoTokenAuthenticationFilter extends OncePerRequestFilter {
         LoginVo loginVo = JSON.parseObject(JSON.toJSONString(loginVoObject), LoginVo.class);
 
         // 判断用户是否禁用
-        if (loginVo != null && loginVo.getStatus() == 1) {
+        if (loginVo != null && loginVo.getStatus()) {
             ResponseUtil.out(response, Result.error(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED));
             return;
         }

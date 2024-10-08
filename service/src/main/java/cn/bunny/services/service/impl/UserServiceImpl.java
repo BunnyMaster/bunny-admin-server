@@ -306,7 +306,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      * @param dto 用户信息更新
      */
     @Override
-    public void updateAdminUser(@Valid AdminUserUpdateDto dto) {
+    public void updateAdminUser(AdminUserUpdateDto dto) {
+        // 判断更新内容是否存在
+        List<AdminUser> adminUserList = list(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, dto.getId()));
+        if (adminUserList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+
         AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
         updateById(adminUser);

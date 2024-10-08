@@ -48,7 +48,7 @@ public class LoginVo extends BaseVo {
     private String lastLoginIpAddress;
 
     @Schema(name = "status", title = "1:禁用 0:正常")
-    private Byte status;
+    private Boolean status;
 
     @Schema(name = "token", title = "令牌")
     private String token;

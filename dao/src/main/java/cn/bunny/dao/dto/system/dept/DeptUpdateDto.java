@@ -22,7 +22,7 @@ public class DeptUpdateDto {
     private Long id;
 
     @Schema(name = "parentId", title = "父级id")
-    private String parentId;
+    private Long parentId;
 
     @Schema(name = "managerId", title = "管理者")
     @NotNull(message = "管理者不能为空")

@@ -23,7 +23,10 @@
     <delete id="deleteBatchIdsByUserIdsWithPhysics">
         delete
         from sys_user_role
-        where user_id = #{userId}
+        where user_id in
+        <foreach collection="userIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </delete>
 
     <!-- 根据角色id删除用户和角色 -->

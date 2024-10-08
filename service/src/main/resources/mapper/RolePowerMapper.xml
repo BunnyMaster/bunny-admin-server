@@ -24,7 +24,7 @@
         delete
         from sys_role_power
         where power_id in
-        <foreach collection="deptIds" item="id" open="(" close=")" separator=",">
+        <foreach collection="powerIds" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
     </delete>

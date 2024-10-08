@@ -95,6 +95,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public void updateRole(@Valid RoleUpdateDto dto) {
+        // 查询更新的角色是否存在
         List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, dto.getId()));
         if (roleList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
 

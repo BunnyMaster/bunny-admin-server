@@ -96,7 +96,8 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
         Long id = dto.getId();
         List<Power> powerList = list(Wrappers.<Power>lambdaQuery().eq(Power::getId, id));
         if (powerList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
-
+        if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
+        
         // 更新内容
         Power power = new Power();
         BeanUtils.copyProperties(dto, power);

@@ -1,10 +1,12 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.dept.DeptAddDto;
 import cn.bunny.dao.dto.system.dept.DeptDto;
 import cn.bunny.dao.dto.system.dept.DeptUpdateDto;
 import cn.bunny.dao.entity.system.Dept;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.dept.DeptVo;
 import cn.bunny.services.mapper.DeptMapper;
 import cn.bunny.services.mapper.UserDeptMapper;
@@ -12,7 +14,6 @@ import cn.bunny.services.service.DeptService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,8 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      * @param dto 部门添加
      */
     @Override
-    public void addDept(@Valid DeptAddDto dto) {
+    public void addDept(DeptAddDto dto) {
+        // 整理管理者人员
         String mangerList = dto.getManager().stream().map(String::trim).collect(Collectors.joining(","));
 
         // 保存数据
@@ -90,8 +92,10 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      * @param dto 部门更新
      */
     @Override
-    public void updateDept(@Valid DeptUpdateDto dto) {
+    public void updateDept(DeptUpdateDto dto) {
+        // 判断所更新的部门是否存在
         String mangerList = dto.getManager().stream().map(String::trim).collect(Collectors.joining(","));
+        if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
 
         // 更新内容
         Dept dept = new Dept();
@@ -110,6 +114,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     public void deleteDept(List<Long> ids) {
         // 删除当前部门
         baseMapper.deleteBatchIdsWithPhysics(ids);
+        
         // 删除用户部门关联
         userDeptMapper.deleteBatchIdsByDeptIdWithPhysics(ids);
     }

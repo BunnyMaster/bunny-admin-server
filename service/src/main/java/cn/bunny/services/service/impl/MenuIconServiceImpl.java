@@ -63,7 +63,7 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
      * @param dto 系统菜单图标添加
      */
     @Override
-    public void addMenuIcon(@Valid MenuIconAddDto dto) {
+    public void addMenuIcon(MenuIconAddDto dto) {
         // 保存数据
         MenuIcon menuIcon = new MenuIcon();
         BeanUtils.copyProperties(dto, menuIcon);

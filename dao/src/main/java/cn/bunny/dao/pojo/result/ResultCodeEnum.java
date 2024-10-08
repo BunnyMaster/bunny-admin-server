@@ -56,6 +56,7 @@ public enum ResultCodeEnum {
     URL_ENCODE_ERROR(216, "URL编码失败"),
     ILLEGAL_CALLBACK_REQUEST_ERROR(217, "非法回调请求"),
     FETCH_USERINFO_ERROR(219, "获取用户信息失败"),
+    ILLEGAL_DATA_REQUEST(219, "非法数据请求"),
 
     // 无权访问 403
     FAIL_REQUEST_NOT_AUTH(403, "用户未认证"),

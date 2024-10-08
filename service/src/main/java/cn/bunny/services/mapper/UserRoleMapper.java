@@ -20,9 +20,9 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
     /**
      * * 删除这个用户id下所有的角色信息
      *
-     * @param userId 用户id
+     * @param userIds 用户id
      */
-    void deleteBatchIdsByUserIdsWithPhysics(List<Long> userId);
+    void deleteBatchIdsByUserIdsWithPhysics(List<Long> userIds);
 
     /**
      * * 根据角色id删除用户和角色
