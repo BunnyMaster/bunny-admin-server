@@ -23,9 +23,9 @@ import lombok.experimental.Accessors;
 public class UserDept extends BaseEntity {
 
     @Schema(name = "userId", title = "用户id")
-    private String userId;
+    private Long userId;
 
     @Schema(name = "deptId", title = "部门id")
-    private String deptId;
+    private Long deptId;
 
 }

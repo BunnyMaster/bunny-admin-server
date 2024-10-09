@@ -1,19 +1,27 @@
-package cn.bunny.dao.vo.system.user;
+package cn.bunny.dao.entity.system;
 
-import cn.bunny.dao.vo.BaseVo;
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import cn.bunny.dao.entity.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
+/**
+ * <p>
+ * 管理员用户信息
+ * </p>
+ *
+ * @author Bunny
+ * @since 2024-06-26
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Schema(name = "AdminUserVo对象", title = "用户信息", description = "用户信息")
-public class AdminUserVo extends BaseVo {
+@Accessors(chain = true)
+@TableName("sys_user")
+@Schema(name = "AdminUserAndDept对象", title = "用户信息和部门Id", description = "用户信息和部门Id")
+public class AdminUserAndDept extends BaseEntity {
+
     @Schema(name = "username", title = "用户名")
     private String username;
 
@@ -25,6 +33,9 @@ public class AdminUserVo extends BaseVo {
 
     @Schema(name = "phone", title = "手机号")
     private String phone;
+
+    @Schema(name = "password", title = "密码")
+    private String password;
 
     @Schema(name = "avatar", title = "头像")
     private String avatar;
@@ -41,11 +52,9 @@ public class AdminUserVo extends BaseVo {
     @Schema(name = "lastLoginIpAddress", title = "最后登录ip归属地")
     private String lastLoginIpAddress;
 
-    @Schema(name = "deptId", title = "部门")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @JSONField(serializeUsing = ToStringSerializer.class)
-    private Long deptId;
-
     @Schema(name = "status", title = "状态", description = "1:禁用 0:正常")
     private Boolean status;
+
+    @Schema(name = "deptId", title = "部门")
+    private Long deptId;
 }

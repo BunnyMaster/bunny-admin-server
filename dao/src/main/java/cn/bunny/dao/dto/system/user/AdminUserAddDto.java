@@ -2,6 +2,7 @@ package cn.bunny.dao.dto.system.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,10 +30,6 @@ public class AdminUserAddDto {
     @Schema(name = "phone", title = "手机号")
     private String phone;
 
-    @Schema(name = "password", title = "密码")
-    @NotBlank(message = "密码不能为空")
-    private String password;
-
     @Schema(name = "avatar", title = "头像")
     private String avatar;
 
@@ -41,6 +38,10 @@ public class AdminUserAddDto {
 
     @Schema(name = "summary", title = "个人描述")
     private String summary;
+
+    @Schema(name = "deptId", title = "部门")
+    @NotNull(message = "部门不能为空")
+    private Long deptId;
 
     @Schema(name = "status", title = "状态", description = "1:禁用 0:正常")
     private Boolean status = false;

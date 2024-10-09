@@ -91,7 +91,6 @@ public class UserController {
         return Result.success(ResultCodeEnum.LOGOUT_SUCCESS);
     }
 
-
     @Operation(summary = "管理员修改管理员用户密码", description = "管理员修改管理员用户密码")
     @PutMapping("updateUserPasswordByAdmin")
     public Result<String> updateUserPasswordByAdmin(@Valid @RequestBody UserUpdateWithPasswordDto dto) {

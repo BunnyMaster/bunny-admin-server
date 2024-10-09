@@ -16,6 +16,7 @@
         <result column="last_login_ip" property="lastLoginIp"/>
         <result column="last_login_ip_address" property="lastLoginIpAddress"/>
         <result column="status" property="status"/>
+        <result column="dept_Id" property="deptId"/>
         <result column="create_user" property="createUser"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -25,14 +26,14 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, nick_name, email, phone, password, avatar, sex, summary, last_login_ip, last_login_ip_address, status, create_user, create_time, update_time, update_user, is_deleted
+        id, username, nick_name, email, phone, password, avatar, sex, summary, last_login_ip, last_login_ip_address, status, dept_Id, create_user, create_time, update_time, update_user, is_deleted
     </sql>
 
     <!-- 分页查询用户信息内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.AdminUser">
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.AdminUserAndDept">
         select
-        <include refid="Base_Column_List"/>
-        from sys_user
+        user.*,user_dept.dept_id
+        from sys_user user left join sys_user_dept user_dept on user.id = user_dept.user_id
         <where>
             <if test="dto.username != null and dto.username != ''">
                 username like CONCAT('%',#{dto.username},'%')
@@ -56,6 +57,7 @@
                 status = #{dto.status}
             </if>
         </where>
+
     </select>
 
     <!-- 查询用户 -->

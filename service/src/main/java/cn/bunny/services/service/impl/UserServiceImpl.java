@@ -7,7 +7,9 @@ import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.system.AdminUser;
+import cn.bunny.dao.entity.system.AdminUserAndDept;
 import cn.bunny.dao.entity.system.EmailUsers;
+import cn.bunny.dao.entity.system.UserDept;
 import cn.bunny.dao.pojo.common.EmailSendInit;
 import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
@@ -254,7 +256,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public PageResult<AdminUserVo> getAdminUserList(Page<AdminUser> pageParams, AdminUserDto dto) {
         // 分页查询菜单图标
-        IPage<AdminUser> page = baseMapper.selectListByPage(pageParams, dto);
+        IPage<AdminUserAndDept> page = baseMapper.selectListByPage(pageParams, dto);
 
         List<AdminUserVo> voList = page.getRecords().stream().map(AdminUser -> {
             // 如果存在用户头像，则设置用户头像
@@ -284,20 +286,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void addAdminUser(@Valid AdminUserAddDto dto) {
-        // 对密码加密
-        String password = dto.getPassword();
-
         // 保存数据
         AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
-
-        // 对密码加密
-        if (StringUtils.hasText(password)) {
-            password = DigestUtils.md5DigestAsHex(password.getBytes());
-            adminUser.setPassword(password);
-        }
-
         save(adminUser);
+
+        // 插入用户部门关系表
+        Long userId = adminUser.getId();
+        Long deptId = dto.getDeptId();
+        UserDept userDept = new UserDept();
+        userDept.setDeptId(deptId);
+        userDept.setUserId(userId);
+
+        // 插入分配后的用户内容
+        userDeptMapper.insert(userDept);
     }
 
     /**
@@ -307,13 +309,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void updateAdminUser(AdminUserUpdateDto dto) {
+        // 部门Id
+        Long deptId = dto.getDeptId();
+        Long userId = dto.getId();
+
         // 判断更新内容是否存在
-        List<AdminUser> adminUserList = list(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, dto.getId()));
+        List<AdminUser> adminUserList = list(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
         if (adminUserList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
 
+        // 更新用户
         AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
         updateById(adminUser);
+
+        // 更新用户部门
+        UserDept userDept = new UserDept();
+        userDept.setDeptId(deptId);
+        userDept.setUserId(userId);
+
+        // 删除这个用户部门关系下所有
+        userDeptMapper.deleteBatchIdsByUserIdWithPhysics(List.of(userId));
+
+        // 插入分配后的用户内容
+        userDeptMapper.insert(userDept);
     }
 
     /**

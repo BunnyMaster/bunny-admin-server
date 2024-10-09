@@ -40,6 +40,10 @@ public class AdminUserUpdateDto {
     @Schema(name = "summary", title = "个人描述")
     private String summary;
 
+    @Schema(name = "deptId", title = "部门")
+    @NotNull(message = "部门不能为空")
+    private Long deptId;
+
     @Schema(name = "status", title = "状态", description = "1:禁用 0:正常")
     private Boolean status;
 
