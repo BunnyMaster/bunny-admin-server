@@ -1,4 +1,4 @@
-package cn.bunny.dao.vo.system.menuIcon;
+package cn.bunny.dao.vo.system;
 
 import cn.bunny.dao.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;

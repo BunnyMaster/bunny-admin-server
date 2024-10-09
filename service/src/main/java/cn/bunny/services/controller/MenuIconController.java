@@ -7,7 +7,7 @@ import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.system.menuIcon.MenuIconVo;
+import cn.bunny.dao.vo.system.MenuIconVo;
 import cn.bunny.services.service.MenuIconService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;

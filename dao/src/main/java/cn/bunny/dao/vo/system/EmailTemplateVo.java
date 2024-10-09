@@ -1,4 +1,4 @@
-package cn.bunny.dao.vo.system.email;
+package cn.bunny.dao.vo.system;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

@@ -7,7 +7,7 @@ import cn.bunny.dao.dto.system.dept.DeptUpdateDto;
 import cn.bunny.dao.entity.system.Dept;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.system.dept.DeptVo;
+import cn.bunny.dao.vo.system.DeptVo;
 import cn.bunny.services.mapper.DeptMapper;
 import cn.bunny.services.mapper.UserDeptMapper;
 import cn.bunny.services.service.DeptService;
@@ -114,7 +114,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     public void deleteDept(List<Long> ids) {
         // 删除当前部门
         baseMapper.deleteBatchIdsWithPhysics(ids);
-        
+
         // 删除用户部门关联
         userDeptMapper.deleteBatchIdsByDeptIdWithPhysics(ids);
     }

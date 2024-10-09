@@ -1,26 +1,16 @@
-package cn.bunny.dao.entity.system;
+package cn.bunny.dao.vo.system.files;
 
-import cn.bunny.dao.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.bunny.dao.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.*;
 
-/**
- * <p>
- * 系统文件表
- * </p>
- *
- * @author Bunny
- * @since 2024-10-04
- */
-@Getter
-@Setter
-@Accessors(chain = true)
-@TableName("sys_files")
-@Schema(name = "Files对象", title = "系统文件表", description = "系统文件管理")
-public class Files extends BaseEntity {
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Schema(name = "FilesVo对象", title = "系统文件", description = "管理端系统文件返回信息")
+public class FilesVo extends BaseVo {
 
     @Schema(name = "filename", title = "文件的名称")
     private String filename;

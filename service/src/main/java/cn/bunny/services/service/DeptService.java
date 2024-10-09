@@ -5,7 +5,7 @@ import cn.bunny.dao.dto.system.dept.DeptDto;
 import cn.bunny.dao.dto.system.dept.DeptUpdateDto;
 import cn.bunny.dao.entity.system.Dept;
 import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.dao.vo.system.dept.DeptVo;
+import cn.bunny.dao.vo.system.DeptVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

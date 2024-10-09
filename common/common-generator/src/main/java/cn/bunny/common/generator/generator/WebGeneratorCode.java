@@ -3,11 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.system.dept.DeptAddDto;
-import cn.bunny.dao.dto.system.dept.DeptDto;
-import cn.bunny.dao.dto.system.dept.DeptUpdateDto;
-import cn.bunny.dao.entity.system.Dept;
-import cn.bunny.dao.vo.system.dept.DeptVo;
+import cn.bunny.dao.dto.system.files.FilesAddDto;
+import cn.bunny.dao.dto.system.files.FilesDto;
+import cn.bunny.dao.dto.system.files.FilesUpdateDto;
+import cn.bunny.dao.entity.system.Files;
+import cn.bunny.dao.vo.system.files.FilesVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,7 +36,7 @@ import java.util.stream.Stream;
 @Service
 public class WebGeneratorCode {
     // 公共路径
-    public static String commonPath = "D:\\Project\\web\\PC\\auth\\auth-web\\src";
+    public static String commonPath = "D:\\MyFolder\\auth-admin\\auth-web\\src";
     // 生成API请求路径
     public static String apiPath = commonPath + "\\api\\v1\\";
     // 生成vue路径
@@ -44,18 +44,18 @@ public class WebGeneratorCode {
     // 生成仓库路径
     public static String storePath = commonPath + "\\store\\system\\";
     // 后端controller
-    public static String controllerPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
-    public static String servicePath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
-    public static String serviceImplPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
-    public static String mapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
-    public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
+    public static String controllerPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
+    public static String servicePath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
+    public static String serviceImplPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
+    public static String mapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
+    public static String resourceMapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = Dept.class;
-        Class<?> dtoClass = DeptDto.class;
-        Class<?> addDtoClass = DeptAddDto.class;
-        Class<?> updateDtoClass = DeptUpdateDto.class;
-        Class<?> voClass = DeptVo.class;
+        Class<?> originalClass = Files.class;
+        Class<?> dtoClass = FilesDto.class;
+        Class<?> addDtoClass = FilesAddDto.class;
+        Class<?> updateDtoClass = FilesUpdateDto.class;
+        Class<?> voClass = FilesVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();

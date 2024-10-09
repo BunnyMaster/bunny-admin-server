@@ -37,7 +37,7 @@ public class ${originalName}ServiceImpl extends ServiceImpl<${originalName}Mappe
 
         List<${originalName}Vo> voList = page.getRecords().stream().map(${lowercaseName} -> {
             ${originalName}Vo ${lowercaseName}Vo = new ${originalName}Vo();
-            BeanUtils.copyProperties(${originalName}, ${originalName}Vo);
+            BeanUtils.copyProperties(${lowercaseName}, ${lowercaseName}Vo);
             return ${lowercaseName}Vo;
         }).toList();
 
