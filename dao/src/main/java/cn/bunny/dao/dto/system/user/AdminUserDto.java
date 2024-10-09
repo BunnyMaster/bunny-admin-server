@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,5 +35,8 @@ public class AdminUserDto {
 
     @Schema(name = "status", title = "状态", description = "1:禁用 0:正常")
     private Boolean status;
+
+    @Schema(name = "deptId", title = "部门")
+    private List<Long> deptIds;
 
 }

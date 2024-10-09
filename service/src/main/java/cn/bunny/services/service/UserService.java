@@ -85,7 +85,7 @@ public interface UserService extends IService<AdminUser> {
      *
      * @param dto 管理员用户修改密码
      */
-    void updateUserPasswordByAdmin(UserUpdateWithPasswordDto dto);
+    void updateUserPasswordByAdmin(AdminUserUpdateWithPasswordDto dto);
 
     /**
      * * 管理员上传用户头像
@@ -108,4 +108,11 @@ public interface UserService extends IService<AdminUser> {
      * @return 用户信息列表
      */
     List<AdminUserVo> queryUser(String keyword);
+
+    /**
+     * * 修改用户状态
+     *
+     * @param dto 管理员用户修改密码
+     */
+    void updateUserStatusByAdmin(AdminUserUpdateUserStatusDto dto);
 }

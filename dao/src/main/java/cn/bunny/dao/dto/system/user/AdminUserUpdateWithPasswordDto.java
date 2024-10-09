@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Schema(name = "UserUpdateWithPasswordDto对象", title = "管理员用户修改密码", description = "管理员用户修改密码")
-public class UserUpdateWithPasswordDto {
+public class AdminUserUpdateWithPasswordDto {
 
     @Schema(name = "userId", title = "用户ID")
     @NotNull(message = "用户ID不能为空")

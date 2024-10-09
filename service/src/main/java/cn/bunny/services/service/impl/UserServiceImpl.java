@@ -160,7 +160,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      * @param dto 管理员用户修改密码
      */
     @Override
-    public void updateUserPasswordByAdmin(UserUpdateWithPasswordDto dto) {
+    public void updateUserPasswordByAdmin(AdminUserUpdateWithPasswordDto dto) {
         Long userId = dto.getUserId();
         String password = dto.getPassword();
 
@@ -244,6 +244,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
             BeanUtils.copyProperties(adminUser, adminUserVo);
             return adminUserVo;
         }).toList();
+    }
+
+    /**
+     * * 修改用户状态
+     *
+     * @param dto 管理员用户修改密码
+     */
+    @Override
+    public void updateUserStatusByAdmin(AdminUserUpdateUserStatusDto dto) {
+        AdminUser adminUser = new AdminUser();
+        adminUser.setId(dto.getUserId());
+        adminUser.setStatus(dto.getStatus());
+
+        updateById(adminUser);
     }
 
     /**
