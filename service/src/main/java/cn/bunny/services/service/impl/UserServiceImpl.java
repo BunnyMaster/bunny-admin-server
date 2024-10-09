@@ -300,9 +300,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void addAdminUser(@Valid AdminUserAddDto dto) {
+        // 对密码加密
+        String md5Password = DigestUtils.md5DigestAsHex(dto.getPassword().getBytes());
+
         // 保存数据
         AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
+        adminUser.setPassword(md5Password);
         save(adminUser);
 
         // 插入用户部门关系表
@@ -311,7 +315,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         UserDept userDept = new UserDept();
         userDept.setDeptId(deptId);
         userDept.setUserId(userId);
-
+        
         // 插入分配后的用户内容
         userDeptMapper.insert(userDept);
     }

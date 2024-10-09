@@ -30,6 +30,10 @@ public class AdminUserAddDto {
     @Schema(name = "phone", title = "手机号")
     private String phone;
 
+    @Schema(name = "password", title = "密码")
+    @NotBlank(message = "密码不能为空")
+    private String password = "123456";
+
     @Schema(name = "avatar", title = "头像")
     private String avatar;
 
@@ -37,7 +41,7 @@ public class AdminUserAddDto {
     private Byte sex = 1;
 
     @Schema(name = "summary", title = "个人描述")
-    private String summary;
+    private String summary = "这个人很懒,没有介绍";
 
     @Schema(name = "deptId", title = "部门")
     @NotNull(message = "部门不能为空")
