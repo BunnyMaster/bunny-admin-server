@@ -3,24 +3,24 @@ import { $t } from '@/plugins/i18n';
 
 // 表格列
 export const columns: TableColumnList = [
-	{ type: 'index', index: (index: number) => index + 1 },
-	// { type: 'selection', align: 'left' },
-	{ label: $t('id'), prop: 'id' },
+{ type: 'selection', align: 'left' },
+{ type: 'index', index: (index: number) => index + 1 },
+{ label: $t('id'), prop: 'id' },
 #foreach($field in $baseFieldList)
-    // $field.annotation
-	{ label: $t('${lowercaseName}_$field.name'), prop: '$field.name' },
+// $field.annotation
+{ label: $t('${lowercaseName}_$field.name'), prop: '$field.name' },
 #end
-	{ label: $t('table.updateTime'), prop: 'updateTime', sortable: true, width: 160 },
-	{ label: $t('table.createTime'), prop: 'createTime', sortable: true, width: 160 },
-	{ label: $t('table.createUser'), prop: 'createUser', slot: 'createUser', width: 90 },
-	{ label: $t('table.updateUser'), prop: 'updateUser', slot: 'updateUser', width: 90 },
-	{ label: $t('table.operation'), fixed: 'right', width: 210, slot: 'operation' },
+{ label: $t('table.updateTime'), prop: 'updateTime', sortable: true, width: 160 },
+{ label: $t('table.createTime'), prop: 'createTime', sortable: true, width: 160 },
+{ label: $t('table.createUser'), prop: 'createUser', slot: 'createUser', width: 90 },
+{ label: $t('table.updateUser'), prop: 'updateUser', slot: 'updateUser', width: 90 },
+{ label: $t('table.operation'), fixed: 'right', width: 210, slot: 'operation' },
 ];
 
 // 添加规则
 export const rules = reactive({
 #foreach($field in $baseFieldList)
-    // $field.annotation
+// $field.annotation
     $field.name: [{ required: true, message: `$leftBrace$t('input')}$leftBrace$t('${lowercaseName}_${field.name}')}`, trigger: 'blur' }],
 #end
 });

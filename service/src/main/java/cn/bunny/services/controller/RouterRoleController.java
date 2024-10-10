@@ -27,7 +27,7 @@ public class RouterRoleController {
     @Autowired
     private RouterRoleService routerRoleService;
 
-    @Operation(summary = "根据路由id获取所有角色", description = "根据路由id获取所有角色")
+    @Operation(summary = "根据菜单id获取所有角色", description = "根据菜单id获取所有角色")
     @GetMapping("getRoleListByRouterId")
     public Mono<Result<List<String>>> getRoleListByRouterId(Long routerId) {
         List<String> roleListByRouterId = routerRoleService.getRoleListByRouterId(routerId);

@@ -3,6 +3,7 @@ package cn.bunny.services.service.impl;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.rolePower.PowerAddDto;
 import cn.bunny.dao.dto.system.rolePower.PowerDto;
+import cn.bunny.dao.dto.system.rolePower.PowerUpdateBatchByParentIdDto;
 import cn.bunny.dao.dto.system.rolePower.PowerUpdateDto;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -20,6 +21,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ import java.util.List;
  * @since 2024-10-03 16:00:52
  */
 @Service
+@Transactional
 public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements PowerService {
 
     @Autowired
@@ -97,7 +100,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
         List<Power> powerList = list(Wrappers.<Power>lambdaQuery().eq(Power::getId, id));
         if (powerList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
         if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
-        
+
         // 更新内容
         Power power = new Power();
         BeanUtils.copyProperties(dto, power);
@@ -131,5 +134,22 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
             BeanUtils.copyProperties(power, powerVo);
             return powerVo;
         }).toList();
+    }
+
+    /**
+     * * 批量修改权限父级
+     *
+     * @param dto 批量修改权限表单
+     */
+    @Override
+    public void updateBatchByPowerWithParentId(PowerUpdateBatchByParentIdDto dto) {
+        List<Power> powerList = dto.getIds().stream().map(id -> {
+            Power power = new Power();
+            power.setId(id);
+            power.setParentId(dto.getParentId());
+            return power;
+        }).toList();
+
+        updateBatchById(powerList);
     }
 }

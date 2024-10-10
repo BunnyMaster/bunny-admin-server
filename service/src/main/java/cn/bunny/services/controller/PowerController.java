@@ -2,6 +2,7 @@ package cn.bunny.services.controller;
 
 import cn.bunny.dao.dto.system.rolePower.PowerAddDto;
 import cn.bunny.dao.dto.system.rolePower.PowerDto;
+import cn.bunny.dao.dto.system.rolePower.PowerUpdateBatchByParentIdDto;
 import cn.bunny.dao.dto.system.rolePower.PowerUpdateDto;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -49,6 +50,13 @@ public class PowerController {
         return Mono.just(Result.success(pageResult));
     }
 
+    @Operation(summary = "获取所有权限", description = "获取所有权限")
+    @GetMapping("getAllPowers")
+    public Mono<Result<List<PowerVo>>> getAllPowers() {
+        List<PowerVo> voList = powerService.getAllPowers();
+        return Mono.just(Result.success(voList));
+    }
+
     @Operation(summary = "添加权限", description = "添加权限")
     @PostMapping("addPower")
     public Mono<Result<String>> addPower(@Valid @RequestBody PowerAddDto dto) {
@@ -63,6 +71,13 @@ public class PowerController {
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 
+    @Operation(summary = "批量修改权限父级", description = "批量修改权限父级")
+    @PutMapping("updateBatchByPowerWithParentId")
+    public Mono<Result<String>> updateBatchByPowerWithParentId(@RequestBody @Valid PowerUpdateBatchByParentIdDto dto) {
+        powerService.updateBatchByPowerWithParentId(dto);
+        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+    }
+
     @Operation(summary = "删除权限", description = "删除权限")
     @DeleteMapping("deletePower")
     public Mono<Result<String>> deletePower(@RequestBody List<Long> ids) {
@@ -70,10 +85,4 @@ public class PowerController {
         return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
     }
 
-    @Operation(summary = "获取所有权限", description = "获取所有权限")
-    @GetMapping("getAllPowers")
-    public Mono<Result<List<PowerVo>>> getAllPowers() {
-        List<PowerVo> voList = powerService.getAllPowers();
-        return Mono.just(Result.success(voList));
-    }
 }

@@ -71,7 +71,7 @@ public class I18nController {
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 
-    @Operation(summary = "删除多语言类型", description = "删除多语言类型")
+    @Operation(summary = "删除多语言", description = "删除多语言")
     @DeleteMapping("deleteI18n")
     public Mono<Result<String>> deleteI18n(@RequestBody List<Long> ids) {
         i18nService.deleteI18n(ids);

@@ -2,6 +2,7 @@ package cn.bunny.services.service;
 
 import cn.bunny.dao.dto.system.rolePower.PowerAddDto;
 import cn.bunny.dao.dto.system.rolePower.PowerDto;
+import cn.bunny.dao.dto.system.rolePower.PowerUpdateBatchByParentIdDto;
 import cn.bunny.dao.dto.system.rolePower.PowerUpdateDto;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -57,4 +58,10 @@ public interface PowerService extends IService<Power> {
      */
     List<PowerVo> getAllPowers();
 
+    /**
+     * * 批量修改权限父级
+     *
+     * @param dto 批量修改权限表单
+     */
+    void updateBatchByPowerWithParentId(PowerUpdateBatchByParentIdDto dto);
 }
