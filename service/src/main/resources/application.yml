@@ -6,7 +6,7 @@ management:
     web:
       exposure:
         include: "*"
-      base-path: /bunny
+      base-path: /actuator
   info:
     env:
       enabled: true
@@ -17,6 +17,7 @@ management:
   endpoint:
     health:
       show-details: always
+
 spring:
   profiles:
     active: @profiles.active@
@@ -25,7 +26,12 @@ spring:
   servlet:
     multipart:
       max-file-size: 6MB
-
+  boot:
+    admin:
+      client:
+        url: "http://localhost:7070"
+        username: admin
+        password: admin
   datasource:
     #    type: com.zaxxer.hikari.HikariDataSource
     #    driver-class-name: com.mysql.cj.jdbc.Driver
@@ -68,6 +74,7 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+
 
 #  rabbitmq:
 #    host: ${bunny.rabbitmq.host}

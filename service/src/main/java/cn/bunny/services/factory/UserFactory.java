@@ -12,6 +12,7 @@ import cn.bunny.dao.pojo.constant.UserConstant;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RoleMapper;
+import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -62,16 +63,14 @@ public class UserFactory {
         String expires = plusDay.format(dateTimeFormatter);
 
         // 查找用户橘色
-        List<String> roles = roleMapper.selectListByUserId(userId).stream().map(Role::getRoleCode).toList();
+        List<String> roles = new ArrayList<>(roleMapper.selectListByUserId(userId).stream().map(Role::getRoleCode).toList());
         List<String> permissions = new ArrayList<>();
 
         // 判断是否是 admin 如果是admin 赋予所有权限
-        boolean isAdmin = roles.stream().anyMatch(role -> role.equals("admin"));
-        if (isAdmin) {
-            permissions.add("*");
-            permissions.add("*::*");
-            permissions.add("*::*::*");
-        } else permissions = powerMapper.selectListByUserId(userId).stream().map(Power::getPowerCode).toList();
+        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(roles, permissions, user);
+        if (!isAdmin) {
+            permissions = powerMapper.selectListByUserId(userId).stream().map(Power::getPowerCode).toList();
+        }
 
         // 构建返回对象，设置用户需要内容
         LoginVo loginVo = new LoginVo();

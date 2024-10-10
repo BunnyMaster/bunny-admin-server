@@ -1,5 +1,6 @@
 package cn.bunny.services;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("cn.bunny.services.mapper")
 @ComponentScan("cn.bunny")
 @EnableScheduling
+@EnableAdminServer
 @EnableCaching
 @EnableTransactionManagement
 @Slf4j

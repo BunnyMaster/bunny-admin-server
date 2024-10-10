@@ -24,7 +24,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         // 自定义实现内容
         UsernamePasswordAuthenticationToken authentication = getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         chain.doFilter(request, response);
     }
 

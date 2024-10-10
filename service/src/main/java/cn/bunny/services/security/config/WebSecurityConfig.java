@@ -1,13 +1,11 @@
 package cn.bunny.services.security.config;
 
 import cn.bunny.services.security.custom.CustomPasswordEncoder;
-import cn.bunny.services.security.filter.NoTokenAuthenticationFilter;
-import cn.bunny.services.security.filter.TokenAuthenticationFilter;
 import cn.bunny.services.security.filter.TokenLoginFilterService;
 import cn.bunny.services.security.handelr.SecurityAccessDeniedHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationEntryPoint;
 import cn.bunny.services.security.service.CustomUserDetailsService;
-import cn.bunny.services.security.service.iml.CustomAuthorizationManagerServiceImpl;
+import cn.bunny.services.security.service.impl.CustomAuthorizationManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +28,7 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 public class WebSecurityConfig {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-    
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
@@ -49,7 +47,7 @@ public class WebSecurityConfig {
                 // 前端段分离不需要---禁用明文验证
                 .httpBasic(AbstractHttpConfigurer::disable)
                 // 前端段分离不需要---禁用默认登录页
-                // .formLogin(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 // 前端段分离不需要---禁用退出页
                 .logout(AbstractHttpConfigurer::disable)
                 // 前端段分离不需要---csrf攻击
@@ -61,6 +59,8 @@ public class WebSecurityConfig {
                 // 前后端分离不需要---记住我，e -> e.rememberMeParameter("rememberBunny").rememberMeCookieName("rememberBunny").key("BunnyKey")
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
+                    // 有样式文件，不需要访问权限
+                    authorize.requestMatchers(RegexRequestMatcher.regexMatcher(".*\\.(css|js)$")).permitAll();
                     // 上面都不是需要鉴权访问
                     authorize.anyRequest().access(customAuthorizationManagerService);
                 })
@@ -73,8 +73,8 @@ public class WebSecurityConfig {
                 // 登录验证过滤器
                 .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, redisTemplate, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
                 // 其它权限鉴权过滤器
-                .addFilterAt(new NoTokenAuthenticationFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAt(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                // .addFilterAt(new NoTokenAuthenticationFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
+                // .addFilterAt(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 // 自定义密码加密器和用户登录
                 .passwordManagement(customPasswordEncoder).userDetailsService(customUserDetailsService);
 
@@ -92,10 +92,10 @@ public class WebSecurityConfig {
         String[] annotations = {
                 "/", "/ws/**",
                 "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
-                "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/error", "/*/api-docs/*",
+                "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/error",
                 "/*/i18n/getI18n",
         };
-        return web -> web.ignoring().requestMatchers(annotations)
-                .requestMatchers(RegexRequestMatcher.regexMatcher(".*\\.(css|js)$"));
+        return web -> web.ignoring().requestMatchers(annotations);
+        // .requestMatchers(RegexRequestMatcher.regexMatcher(".*\\.(css|js)$"));
     }
 }

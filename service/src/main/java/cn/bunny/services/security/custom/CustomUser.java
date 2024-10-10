@@ -17,7 +17,7 @@ public class CustomUser extends User {
     private AdminUser user;
 
     public CustomUser(AdminUser user, Collection<? extends GrantedAuthority> authorities) {
-        super(user.getEmail(), user.getPassword(), authorities);
+        super(user.getUsername(), user.getPassword(), authorities);
         this.user = user;
     }
 }

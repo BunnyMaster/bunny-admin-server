@@ -16,7 +16,7 @@ import java.util.List;
  * </p>
  *
  * @author Bunny
- * @since 2024-10-10 16:28:29
+ * @since 2024-10-10 21:24:08
  */
 @Mapper
 public interface EmailTemplateMapper extends BaseMapper<EmailTemplate> {

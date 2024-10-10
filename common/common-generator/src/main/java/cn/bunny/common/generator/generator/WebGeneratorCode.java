@@ -36,7 +36,7 @@ import java.util.stream.Stream;
 @Service
 public class WebGeneratorCode {
     // 公共路径
-    public static String commonPath = "D:\\MyFolder\\auth-admin\\auth-web\\src";
+    public static String commonPath = "D:\\Project\\web\\PC\\auth\\auth-web\\src";
     // 生成API请求路径
     public static String apiPath = commonPath + "\\api\\v1\\";
     // 生成vue路径
@@ -44,11 +44,11 @@ public class WebGeneratorCode {
     // 生成仓库路径
     public static String storePath = commonPath + "\\store\\system\\";
     // 后端controller
-    public static String controllerPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
-    public static String servicePath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
-    public static String serviceImplPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
-    public static String mapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
-    public static String resourceMapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
+    public static String controllerPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
+    public static String servicePath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
+    public static String serviceImplPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
+    public static String mapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
+    public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
         Class<?> originalClass = EmailTemplate.class;

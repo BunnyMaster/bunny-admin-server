@@ -15,6 +15,7 @@ import cn.bunny.dao.vo.system.router.UserRouterVo;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.factory.RouterServiceFactory;
 import cn.bunny.services.mapper.RouterMapper;
+import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import cn.bunny.services.service.RouterService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -64,6 +65,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
         // 角色列表
         List<String> roleList = loginVo.getRoles();
+
         // 权限列表
         List<String> powerCodeList = loginVo.getPermissions();
 
@@ -74,7 +76,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<UserRouterVo> list = new ArrayList<>();
 
         // 查询用户角色，判断是否是管理员角色
-        boolean isAdmin = roleList.stream().anyMatch(authUserRole -> authUserRole.equals("admin"));
+        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(roleList, loginVo);
         if (isAdmin) routerList = list();
         else {
             List<Long> routerIds = baseMapper.selectListByUserId(loginVo.getId());
