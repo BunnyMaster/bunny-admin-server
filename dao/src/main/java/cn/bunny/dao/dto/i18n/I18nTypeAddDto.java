@@ -2,6 +2,7 @@ package cn.bunny.dao.dto.i18n;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,10 +17,11 @@ public class I18nTypeAddDto {
 
     @Schema(name = "typeName", title = "多语言类型(比如zh,en)")
     @NotBlank(message = "多语言类型不能为空")
+    @NotNull(message = "多语言类型不能为空")
     private String typeName;
 
     @Schema(name = "summary", title = "名称解释(比如中文,英文)")
-    @NotBlank(message = "名称解释不能为空")
+    @NotNull(message = "名称解释不能为空")
     private String summary;
 
     @Schema(name = "isDefault", title = "是否为默认")

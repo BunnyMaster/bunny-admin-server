@@ -18,10 +18,11 @@ public class FileUploadDto {
 
     @Schema(name = "file", title = "文件")
     @NotNull(message = "文件不能为空")
-    MultipartFile file;
+    private MultipartFile file;
 
     @Schema(name = "type", title = "文件类型")
     @NotBlank(message = "文件类型不能为空")
-    String type;
+    @NotNull(message = "文件类型不能为空")
+    private String type;
 
 }

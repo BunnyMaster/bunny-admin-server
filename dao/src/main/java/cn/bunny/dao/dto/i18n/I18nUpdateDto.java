@@ -21,10 +21,12 @@ public class I18nUpdateDto {
 
     @Schema(name = "keyName", title = "多语言key")
     @NotBlank(message = "多语言key不能为空")
+    @NotNull(message = "多语言key不能为空")
     private String keyName;
 
     @Schema(name = "translation", title = "多语言翻译名称")
     @NotBlank(message = "多语言翻译名称不能为空")
+    @NotNull(message = "多语言翻译名称不能为空")
     private String translation;
 
 

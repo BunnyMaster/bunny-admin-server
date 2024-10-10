@@ -37,7 +37,7 @@
                 request_url like CONCAT('%',#{dto.requestUrl},'%')
             </if>
         </where>
-        order by update_time
+        order by update_time desc
     </select>
 
     <!-- 物理删除权限 -->

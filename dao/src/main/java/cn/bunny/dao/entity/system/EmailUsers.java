@@ -15,13 +15,13 @@ import lombok.experimental.Accessors;
  * @author Bunny
  * @since 2024-05-17
  */
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
 @TableName("sys_email_users")
-@Schema(name = "EmailUsers对象", title = "邮箱发送表", description = "邮箱发送表")
+@Schema(name = "EmailUsers对象", title = "邮箱用户发送配置", description = "邮箱用户发送配置管理")
 public class EmailUsers extends BaseEntity {
+
     @Schema(name = "email", title = "邮箱")
     private String email;
 
@@ -41,5 +41,8 @@ public class EmailUsers extends BaseEntity {
     private String smtpAgreement;
 
     @Schema(name = "isDefault", title = "是否为默认邮件")
-    private Byte isDefault;
+    private Boolean isDefault;
+
 }
+
+

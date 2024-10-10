@@ -3,11 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.system.files.FilesAddDto;
-import cn.bunny.dao.dto.system.files.FilesDto;
-import cn.bunny.dao.dto.system.files.FilesUpdateDto;
-import cn.bunny.dao.entity.system.Files;
-import cn.bunny.dao.vo.system.files.FilesVo;
+import cn.bunny.dao.dto.system.email.EmailTemplateAddDto;
+import cn.bunny.dao.dto.system.email.EmailTemplateDto;
+import cn.bunny.dao.dto.system.email.EmailTemplateUpdateDto;
+import cn.bunny.dao.entity.system.EmailTemplate;
+import cn.bunny.dao.vo.system.email.EmailTemplateVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,11 +51,11 @@ public class WebGeneratorCode {
     public static String resourceMapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = Files.class;
-        Class<?> dtoClass = FilesDto.class;
-        Class<?> addDtoClass = FilesAddDto.class;
-        Class<?> updateDtoClass = FilesUpdateDto.class;
-        Class<?> voClass = FilesVo.class;
+        Class<?> originalClass = EmailTemplate.class;
+        Class<?> dtoClass = EmailTemplateDto.class;
+        Class<?> addDtoClass = EmailTemplateAddDto.class;
+        Class<?> updateDtoClass = EmailTemplateUpdateDto.class;
+        Class<?> voClass = EmailTemplateVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();

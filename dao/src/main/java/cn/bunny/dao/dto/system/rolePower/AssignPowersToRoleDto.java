@@ -1,6 +1,7 @@
 package cn.bunny.dao.dto.system.rolePower;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class AssignPowersToRoleDto {
 
     @Schema(name = "powerIds", title = "权限id列表")
     @NotNull(message = "权限id列表不能为空")
+    @NotEmpty(message = "权限id列表不能为空")
     private List<Long> powerIds;
 
 }

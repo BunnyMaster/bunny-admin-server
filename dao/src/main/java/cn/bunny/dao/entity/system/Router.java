@@ -2,7 +2,6 @@ package cn.bunny.dao.entity.system;
 
 import cn.bunny.dao.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +22,6 @@ import lombok.experimental.Accessors;
 @Schema(name = "Router对象", title = "系统菜单表", description = "系统菜单表")
 public class Router extends BaseEntity {
 
-    @ApiModelProperty("父级id")
     @Schema(name = "parentId", title = "父级id")
     private Long parentId;
 

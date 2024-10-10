@@ -4,6 +4,7 @@ import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.services.mapper.PowerMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,6 +13,7 @@ import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,30 +33,25 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
     private PowerMapper powerMapper;
 
 
+    @SneakyThrows
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
         // 用户的token和用户id、请求Url
         HttpServletRequest request = context.getRequest();
 
-        // 请求地址
-        String requestURI = request.getRequestURI();
-
-        // 请求方式
-        String method = request.getMethod();
-
         // 角色代码列表
         List<String> roleCodeList = authentication.get().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
         // 校验权限
-        return new AuthorizationDecision(hasAuth(requestURI));
+        return new AuthorizationDecision(hasAuth(request));
     }
 
     /**
      * 查询用户所属的角色信息
      *
-     * @param requestURI 请求url地址
+     * @param request 请求url地址
      */
-    private Boolean hasAuth(String requestURI) {
+    private Boolean hasAuth(HttpServletRequest request) {
         // 角色代码列表
         List<String> roleCodeList = BaseContext.getLoginVo().getRoles();
 
@@ -69,6 +66,7 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         List<Power> powerList = powerMapper.selectListByPowerCodes(powerCodes);
 
         // 判断是否与请求路径匹配
-        return powerList.stream().anyMatch(power -> requestURI.matches(power.getRequestUrl()));
+        return powerList.stream().anyMatch(power -> AntPathRequestMatcher.antMatcher(power.getRequestUrl()).matches(request) ||
+                request.getRequestURI().matches(power.getRequestUrl()));
     }
 }

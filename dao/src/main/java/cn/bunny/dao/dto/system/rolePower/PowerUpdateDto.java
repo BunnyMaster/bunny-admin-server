@@ -24,10 +24,12 @@ public class PowerUpdateDto {
 
     @Schema(name = "parentId", title = "权限编码")
     @NotBlank(message = "权限编码 不能为空")
+    @NotNull(message = "权限编码 不能为空")
     private String powerCode;
 
     @Schema(name = "powerName", title = "权限名称")
     @NotBlank(message = "权限名称 不能为空")
+    @NotNull(message = "权限名称 不能为空")
     private String powerName;
 
     @Schema(name = "requestUrl", title = "请求路径")

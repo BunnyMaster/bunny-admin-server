@@ -21,14 +21,17 @@ public class AdminUserUpdateDto {
 
     @Schema(name = "username", title = "用户名")
     @NotBlank(message = "用户名不能为空")
+    @NotNull(message = "用户名不能为空")
     private String username;
 
     @Schema(name = "nickName", title = "昵称")
     @NotBlank(message = "昵称不能为空")
+    @NotNull(message = "昵称不能为空")
     private String nickName;
 
     @Schema(name = "email", title = "邮箱")
     @NotBlank(message = "邮箱不能为空")
+    @NotNull(message = "邮箱不能为空")
     private String email;
 
     @Schema(name = "phone", title = "手机号")

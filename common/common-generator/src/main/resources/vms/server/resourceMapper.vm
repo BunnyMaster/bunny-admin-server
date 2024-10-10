@@ -4,9 +4,9 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="$type">
-    #foreach($field in $baseResultMaps)
-        <id column="$field.column" property="$field.property"/>
-    #end
+        #foreach($field in $baseResultMaps)
+            <id column="$field.column" property="$field.property"/>
+        #end
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -16,16 +16,17 @@
 
     <!-- 分页查询${classTitle}内容 -->
     <select id="selectListByPage" resultType="$type">
-        select  <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from $tableName
         <where>
-#foreach($field in $pageQueryMap)
-           <if test="dto.${field.property} != null and dto.${field.property} != ''">
-                $field.column like CONCAT('%',#{dto.${field.property}},'%')
-           </if>
-#end
+            #foreach($field in $pageQueryMap)
+                <if test="dto.${field.property} != null and dto.${field.property} != ''">
+                    $field.column like CONCAT('%',#{dto.${field.property}},'%')
+                </if>
+            #end
         </where>
-        order by update_time
+        order by update_time desc
     </select>
 
     <!-- 物理删除${classTitle} -->

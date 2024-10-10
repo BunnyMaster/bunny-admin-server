@@ -30,15 +30,16 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 public class WebSecurityConfig {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-    // 自定义用户接口
+    
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
-    // 自定义密码加密器
+
     @Autowired
     private CustomPasswordEncoder customPasswordEncoder;
-    // 自定义验证码
+
     @Autowired
     private CustomAuthorizationManagerServiceImpl customAuthorizationManagerService;
+
     @Autowired
     private AuthenticationConfiguration authenticationConfiguration;
 
@@ -48,7 +49,7 @@ public class WebSecurityConfig {
                 // 前端段分离不需要---禁用明文验证
                 .httpBasic(AbstractHttpConfigurer::disable)
                 // 前端段分离不需要---禁用默认登录页
-                .formLogin(AbstractHttpConfigurer::disable)
+                // .formLogin(AbstractHttpConfigurer::disable)
                 // 前端段分离不需要---禁用退出页
                 .logout(AbstractHttpConfigurer::disable)
                 // 前端段分离不需要---csrf攻击
@@ -60,9 +61,6 @@ public class WebSecurityConfig {
                 // 前后端分离不需要---记住我，e -> e.rememberMeParameter("rememberBunny").rememberMeCookieName("rememberBunny").key("BunnyKey")
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
-                    // 有样式文件，不需要访问权限
-                    // authorize.requestMatchers(RegexRequestMatcher.regexMatcher("^\\S*[css|js]$")).permitAll();
-                    authorize.requestMatchers(RegexRequestMatcher.regexMatcher("^.*\\.(css|js)$")).permitAll();
                     // 上面都不是需要鉴权访问
                     authorize.anyRequest().access(customAuthorizationManagerService);
                 })
@@ -94,10 +92,10 @@ public class WebSecurityConfig {
         String[] annotations = {
                 "/", "/ws/**",
                 "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
-                "/media.ico", "/favicon.ico", "*.html", "/webjars/**",
-                "/swagger-resources/**", "/v3/**", "/swagger-ui/**",
-                "/*/i18n/getI18n"
+                "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/error", "/*/api-docs/*",
+                "/*/i18n/getI18n",
         };
-        return web -> web.ignoring().requestMatchers(annotations);
+        return web -> web.ignoring().requestMatchers(annotations)
+                .requestMatchers(RegexRequestMatcher.regexMatcher(".*\\.(css|js)$"));
     }
 }

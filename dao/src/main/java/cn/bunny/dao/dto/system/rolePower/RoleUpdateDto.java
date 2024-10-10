@@ -21,10 +21,12 @@ public class RoleUpdateDto {
 
     @Schema(name = "roleCode", title = "角色代码")
     @NotBlank(message = "roleCode 不能为空")
+    @NotNull(message = "roleCode 不能为空")
     private String roleCode;
 
     @Schema(name = "description", title = "描述")
     @NotBlank(message = "description 不能为空")
+    @NotNull(message = "description 不能为空")
     private String description;
 
 }

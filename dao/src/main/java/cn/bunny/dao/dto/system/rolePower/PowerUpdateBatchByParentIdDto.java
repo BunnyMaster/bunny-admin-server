@@ -1,6 +1,7 @@
 package cn.bunny.dao.dto.system.rolePower;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,7 @@ public class PowerUpdateBatchByParentIdDto {
 
     @Schema(name = "id", title = "主键")
     @NotNull(message = "id不能为空")
+    @NotEmpty(message = "id不能为空")
     private List<Long> ids;
 
     @Schema(name = "parentId", title = "父级id")

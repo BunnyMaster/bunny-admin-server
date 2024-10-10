@@ -2,7 +2,6 @@ package cn.bunny.dao.dto.system.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +21,7 @@ public class AdminUserUpdateWithPasswordDto {
 
     @Schema(name = "password", title = "用户密码")
     @NotBlank(message = "密码不能为空")
-    @NotEmpty
+    @NotNull(message = "密码不能为空")
     private String password;
 
 }

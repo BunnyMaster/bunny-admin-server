@@ -21,10 +21,12 @@ public class MenuIconUpdateDto {
 
     @Schema(name = "iconCode", title = "icon类名")
     @NotBlank(message = "iconCode不能为空")
+    @NotNull(message = "iconCode不能为空")
     private String iconCode;
 
     @Schema(name = "iconName", title = "icon 名称")
     @NotBlank(message = "icon 名称不能为空")
+    @NotNull(message = "icon 名称不能为空")
     private String iconName;
 
 }
