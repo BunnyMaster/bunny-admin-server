@@ -41,8 +41,16 @@ public class GlobalExceptionHandler {
         // 解析异常
         String jsonParseError = "JSON parse error (.*)";
         Matcher jsonParseErrorMatcher = Pattern.compile(jsonParseError).matcher(message);
-        if (jsonParseErrorMatcher.find())
+        if (jsonParseErrorMatcher.find()) {
             return Result.error(null, 500, "JSON解析异常 " + jsonParseErrorMatcher.group(1));
+        }
+
+        // 数据过大
+        String dataTooLongError = "Data too long for column (.*?) at row 1";
+        Matcher dataTooLongErrorMatcher = Pattern.compile(dataTooLongError).matcher(message);
+        if (dataTooLongErrorMatcher.find()) {
+            return Result.error(null, 500, dataTooLongErrorMatcher.group(1) + " 字段数据过大");
+        }
 
         return Result.error(null, 500, "服务器异常");
     }

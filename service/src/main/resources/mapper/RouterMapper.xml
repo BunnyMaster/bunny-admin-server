@@ -70,10 +70,10 @@
         from sys_router
         <where>
             <if test="dto.title != null and dto.title != ''">
-                title like CONCAT('%',#{dto.title},'%')
+                and title like CONCAT('%',#{dto.title},'%')
             </if>
             <if test="dto.visible != null">
-                visible = #{dto.visible}
+                and visible = #{dto.visible}
             </if>
         </where>
         order by router_rank

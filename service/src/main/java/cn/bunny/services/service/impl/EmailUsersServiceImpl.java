@@ -1,20 +1,26 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.email.EmailUserUpdateStatusDto;
 import cn.bunny.dao.dto.system.email.EmailUsersAddDto;
 import cn.bunny.dao.dto.system.email.EmailUsersDto;
 import cn.bunny.dao.dto.system.email.EmailUsersUpdateDto;
 import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.email.EmailUsersVo;
+import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.mapper.EmailUsersMapper;
 import cn.bunny.services.service.EmailUsersService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,7 +33,11 @@ import java.util.List;
  * @since 2024-10-10 15:19:22
  */
 @Service
+@Transactional
 public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUsers> implements EmailUsersService {
+
+    @Autowired
+    private EmailFactory emailFactory;
 
     /**
      * * 邮箱用户发送配置 服务实现类
@@ -62,11 +72,20 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      */
     @Override
     public void addEmailUsers(@Valid EmailUsersAddDto dto) {
+        // 判断邮箱是否添加
+        String email = dto.getEmail();
+        List<EmailUsers> emailUsersList = list(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getEmail, dto.getEmail()));
+        if (!emailUsersList.isEmpty()) throw new BunnyException(ResultCodeEnum.EMAIL_EXIST);
+
+        // 更新邮箱默认状态
+        emailFactory.updateEmailUserDefault(dto.getIsDefault());
+
         // 保存数据
         EmailUsers emailUsers = new EmailUsers();
         BeanUtils.copyProperties(dto, emailUsers);
         save(emailUsers);
     }
+
 
     /**
      * 更新邮箱用户发送配置
@@ -75,6 +94,9 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      */
     @Override
     public void updateEmailUsers(@Valid EmailUsersUpdateDto dto) {
+        // 更新邮箱默认状态
+        emailFactory.updateEmailUserDefault(dto.getIsDefault());
+
         // 更新内容
         EmailUsers emailUsers = new EmailUsers();
         BeanUtils.copyProperties(dto, emailUsers);
@@ -98,6 +120,9 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      */
     @Override
     public void updateEmailUserStatus(EmailUserUpdateStatusDto dto) {
+        // 更新邮箱默认状态
+        emailFactory.updateEmailUserDefault(dto.getIsDefault());
+
         EmailUsers emailUsers = new EmailUsers();
         BeanUtils.copyProperties(dto, emailUsers);
         updateById(emailUsers);

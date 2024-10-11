@@ -4,17 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.system.EmailTemplate">
-            <id column="id" property="id"/>
-            <id column="create_time" property="createTime"/>
-            <id column="update_time" property="updateTime"/>
-            <id column="create_user" property="createUser"/>
-            <id column="update_user" property="updateUser"/>
-            <id column="is_deleted" property="isDeleted"/>
-            <id column="template_name" property="templateName"/>
-            <id column="subject" property="subject"/>
-            <id column="body" property="body"/>
-            <id column="type" property="type"/>
-            <id column="is_default" property="isDefault"/>
+        <id column="id" property="id"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="create_user" property="createUser"/>
+        <id column="update_user" property="updateUser"/>
+        <id column="is_deleted" property="isDeleted"/>
+        <id column="template_name" property="templateName"/>
+        <id column="subject" property="subject"/>
+        <id column="body" property="body"/>
+        <id column="type" property="type"/>
+        <id column="is_default" property="isDefault"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -28,18 +28,18 @@
         <include refid="Base_Column_List"/>
         from sys_email_template
         <where>
-                <if test="dto.templateName != null and dto.templateName != ''">
-                    template_name like CONCAT('%',#{dto.templateName},'%')
-                </if>
-                <if test="dto.subject != null and dto.subject != ''">
-                    subject like CONCAT('%',#{dto.subject},'%')
-                </if>
-                <if test="dto.body != null and dto.body != ''">
-                    body like CONCAT('%',#{dto.body},'%')
-                </if>
-                <if test="dto.type != null and dto.type != ''">
-                    type like CONCAT('%',#{dto.type},'%')
-                </if>
+            <if test="dto.templateName != null and dto.templateName != ''">
+                and template_name like CONCAT('%',#{dto.templateName},'%')
+            </if>
+            <if test="dto.subject != null and dto.subject != ''">
+                and subject like CONCAT('%',#{dto.subject},'%')
+            </if>
+            <if test="dto.body != null and dto.body != ''">
+                and body like CONCAT('%',#{dto.body},'%')
+            </if>
+            <if test="dto.type != null and dto.type != ''">
+                and type like CONCAT('%',#{dto.type},'%')
+            </if>
         </where>
         order by update_time desc
     </select>

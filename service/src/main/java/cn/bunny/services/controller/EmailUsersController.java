@@ -66,9 +66,9 @@ public class EmailUsersController {
 
     @Operation(summary = "更新邮箱用户状态", description = "更新邮箱用户状态")
     @PutMapping("updateEmailUserStatus")
-    public Mono<Result<String>> updateEmailUserStatus(@Valid @RequestBody EmailUserUpdateStatusDto dto) {
+    public Result<String> updateEmailUserStatus(@Valid @RequestBody EmailUserUpdateStatusDto dto) {
         emailUsersService.updateEmailUserStatus(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @Operation(summary = "删除邮箱用户发送配置", description = "删除邮箱用户发送配置")

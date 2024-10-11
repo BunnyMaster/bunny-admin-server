@@ -24,21 +24,22 @@
 
     <!-- 分页查询系统文件表内容 -->
     <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Files">
-        select  <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from sys_files
         <where>
-           <if test="dto.filename != null and dto.filename != ''">
-                filename like CONCAT('%',#{dto.filename},'%')
-           </if>
-           <if test="dto.filepath != null and dto.filepath != ''">
-                filepath like CONCAT('%',#{dto.filepath},'%')
-           </if>
-           <if test="dto.fileType != null and dto.fileType != ''">
-                file_type like CONCAT('%',#{dto.fileType},'%')
-           </if>
-           <if test="dto.downloadCount != null and dto.downloadCount != ''">
-                download_count like CONCAT('%',#{dto.downloadCount},'%')
-           </if>
+            <if test="dto.filename != null and dto.filename != ''">
+                and filename like CONCAT('%',#{dto.filename},'%')
+            </if>
+            <if test="dto.filepath != null and dto.filepath != ''">
+                and filepath like CONCAT('%',#{dto.filepath},'%')
+            </if>
+            <if test="dto.fileType != null and dto.fileType != ''">
+                and file_type like CONCAT('%',#{dto.fileType},'%')
+            </if>
+            <if test="dto.downloadCount != null and dto.downloadCount != ''">
+                and download_count like CONCAT('%',#{dto.downloadCount},'%')
+            </if>
         </where>
         order by update_time
     </select>

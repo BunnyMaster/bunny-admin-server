@@ -28,13 +28,13 @@
         from sys_power
         <where>
             <if test="dto.powerCode != null and dto.powerCode != ''">
-                power_code like CONCAT('%',#{dto.powerCode},'%')
+                and power_code like CONCAT('%',#{dto.powerCode},'%')
             </if>
             <if test="dto.powerName != null and dto.powerName != ''">
-                power_name like CONCAT('%',#{dto.powerName},'%')
+                and power_name like CONCAT('%',#{dto.powerName},'%')
             </if>
             <if test="dto.requestUrl != null and dto.requestUrl != ''">
-                request_url like CONCAT('%',#{dto.requestUrl},'%')
+                and request_url like CONCAT('%',#{dto.requestUrl},'%')
             </if>
         </where>
         order by update_time desc

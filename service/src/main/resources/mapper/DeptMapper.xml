@@ -28,13 +28,13 @@
         from sys_dept
         <where>
             <if test="dto.parentId != null and dto.parentId != ''">
-                parent_id like CONCAT('%',#{dto.parentId},'%')
+                and parent_id like CONCAT('%',#{dto.parentId},'%')
             </if>
             <if test="dto.deptName != null and dto.deptName != ''">
-                dept_name like CONCAT('%',#{dto.deptName},'%')
+                and dept_name like CONCAT('%',#{dto.deptName},'%')
             </if>
             <if test="dto.summary != null and dto.summary != ''">
-                summary like CONCAT('%',#{dto.summary},'%')
+                and summary like CONCAT('%',#{dto.summary},'%')
             </if>
         </where>
         order by update_time

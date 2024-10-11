@@ -26,10 +26,10 @@
         from sys_role
         <where>
             <if test="dto.roleCode != null and dto.roleCode != ''">
-                role_code like CONCAT('%',#{dto.roleCode},'%')
+                and role_code like CONCAT('%',#{dto.roleCode},'%')
             </if>
             <if test="dto.description != null and dto.description != ''">
-                description like CONCAT('%',#{dto.description},'%')
+                and description like CONCAT('%',#{dto.description},'%')
             </if>
         </where>
         order by update_time

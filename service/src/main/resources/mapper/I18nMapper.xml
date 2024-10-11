@@ -37,13 +37,13 @@
         from sys_i18n
         <where>
             <if test="dto.keyName != null and dto.keyName != ''">
-                key_name like CONCAT('%',#{dto.keyName},'%')
+                and key_name like CONCAT('%',#{dto.keyName},'%')
             </if>
             <if test="dto.translation != null and dto.translation != ''">
-                translation like CONCAT('%',#{dto.translation},'%')
+                and translation like CONCAT('%',#{dto.translation},'%')
             </if>
             <if test="dto.typeName != null and dto.typeName != ''">
-                type_name like CONCAT('%',#{dto.typeName},'%')
+                and type_name like CONCAT('%',#{dto.typeName},'%')
             </if>
         </where>
         order by update_time

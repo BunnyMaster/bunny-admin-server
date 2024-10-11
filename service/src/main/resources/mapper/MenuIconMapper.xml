@@ -26,10 +26,10 @@
         from sys_menu_icon
         <where>
             <if test="dto.iconCode != null and dto.iconCode != ''">
-                icon_code like CONCAT('%',#{dto.iconCode},'%')
+                and icon_code like CONCAT('%',#{dto.iconCode},'%')
             </if>
             <if test="dto.iconName != null and dto.iconName != ''">
-                icon_name like CONCAT('%',#{dto.iconName},'%')
+                and icon_name like CONCAT('%',#{dto.iconName},'%')
             </if>
         </where>
         order by update_time desc

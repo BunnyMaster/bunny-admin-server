@@ -22,7 +22,7 @@
         <where>
             #foreach($field in $pageQueryMap)
                 <if test="dto.${field.property} != null and dto.${field.property} != ''">
-                    $field.column like CONCAT('%',#{dto.${field.property}},'%')
+                    and $field.column like CONCAT('%',#{dto.${field.property}},'%')
                 </if>
             #end
         </where>

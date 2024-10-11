@@ -35,28 +35,28 @@
         from sys_user user left join sys_user_dept user_dept on user.id = user_dept.user_id
         <where>
             <if test="dto.username != null and dto.username != ''">
-                username like CONCAT('%',#{dto.username},'%')
+                and username like CONCAT('%',#{dto.username},'%')
             </if>
             <if test="dto.nickName != null and dto.nickName != ''">
-                nick_name like CONCAT('%',#{dto.nickName},'%')
+                and nick_name like CONCAT('%',#{dto.nickName},'%')
             </if>
             <if test="dto.email != null and dto.email != ''">
-                email like CONCAT('%',#{dto.email},'%')
+                and email like CONCAT('%',#{dto.email},'%')
             </if>
             <if test="dto.phone != null and dto.phone != ''">
-                phone like CONCAT('%',#{dto.phone},'%')
+                and phone like CONCAT('%',#{dto.phone},'%')
             </if>
             <if test="dto.sex != null and dto.sex != ''">
-                sex = #{dto.sex}
+                and sex = #{dto.sex}
             </if>
             <if test="dto.summary != null and dto.summary != ''">
-                summary like CONCAT('%',#{dto.summary},'%')
+                and summary like CONCAT('%',#{dto.summary},'%')
             </if>
             <if test="dto.status != null and dto.status != ''">
-                status = #{dto.status}
+                and status = #{dto.status}
             </if>
             <if test="dto.deptIds != null and dto.deptIds.size() > 0">
-                user_dept.dept_id in
+                and user_dept.dept_id in
                 <foreach collection="dto.deptIds" item="id" open="(" close=")" separator=",">
                     #{id}
                 </foreach>
