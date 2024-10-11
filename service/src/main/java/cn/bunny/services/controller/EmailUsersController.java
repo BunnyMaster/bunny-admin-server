@@ -1,5 +1,6 @@
 package cn.bunny.services.controller;
 
+import cn.bunny.dao.dto.system.email.EmailUserUpdateStatusDto;
 import cn.bunny.dao.dto.system.email.EmailUsersAddDto;
 import cn.bunny.dao.dto.system.email.EmailUsersDto;
 import cn.bunny.dao.dto.system.email.EmailUsersUpdateDto;
@@ -60,6 +61,13 @@ public class EmailUsersController {
     @PutMapping("updateEmailUsers")
     public Mono<Result<String>> updateEmailUsers(@Valid @RequestBody EmailUsersUpdateDto dto) {
         emailUsersService.updateEmailUsers(dto);
+        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+    }
+
+    @Operation(summary = "更新邮箱用户状态", description = "更新邮箱用户状态")
+    @PutMapping("updateEmailUserStatus")
+    public Mono<Result<String>> updateEmailUserStatus(@Valid @RequestBody EmailUserUpdateStatusDto dto) {
+        emailUsersService.updateEmailUserStatus(dto);
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 

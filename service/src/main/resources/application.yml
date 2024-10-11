@@ -26,12 +26,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 6MB
-  boot:
-    admin:
-      client:
-        url: "http://localhost:7070"
-        username: admin
-        password: admin
+
   datasource:
     #    type: com.zaxxer.hikari.HikariDataSource
     #    driver-class-name: com.mysql.cj.jdbc.Driver
@@ -49,12 +44,6 @@ spring:
           url: jdbc:mysql://${bunny.datasource1.host}:${bunny.datasource1.port}/${bunny.datasource1.sqlData}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
           username: ${bunny.datasource1.username}
           password: ${bunny.datasource1.password}
-        i18n:
-          type: com.zaxxer.hikari.HikariDataSource
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://${bunny.datasource2.host}:${bunny.datasource2.port}/${bunny.datasource2.sqlData}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
-          username: ${bunny.datasource2.username}
-          password: ${bunny.datasource2.password}
       aop:
         enabled: true
 
@@ -74,7 +63,6 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-
 
 #  rabbitmq:
 #    host: ${bunny.rabbitmq.host}

@@ -48,3 +48,5 @@ public class EmailUsersUpdateDto {
     private Boolean isDefault;
 
 }
+
+

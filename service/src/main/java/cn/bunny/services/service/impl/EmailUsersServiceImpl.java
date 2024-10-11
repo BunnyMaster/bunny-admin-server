@@ -1,5 +1,6 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.dao.dto.system.email.EmailUserUpdateStatusDto;
 import cn.bunny.dao.dto.system.email.EmailUsersAddDto;
 import cn.bunny.dao.dto.system.email.EmailUsersDto;
 import cn.bunny.dao.dto.system.email.EmailUsersUpdateDto;
@@ -88,5 +89,17 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
     @Override
     public void deleteEmailUsers(List<Long> ids) {
         baseMapper.deleteBatchIdsWithPhysics(ids);
+    }
+
+    /**
+     * * 更新邮箱用户状态
+     *
+     * @param dto 邮箱用户更新状态表单
+     */
+    @Override
+    public void updateEmailUserStatus(EmailUserUpdateStatusDto dto) {
+        EmailUsers emailUsers = new EmailUsers();
+        BeanUtils.copyProperties(dto, emailUsers);
+        updateById(emailUsers);
     }
 }

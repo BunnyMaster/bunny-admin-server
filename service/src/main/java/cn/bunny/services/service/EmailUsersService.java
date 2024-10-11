@@ -1,5 +1,6 @@
 package cn.bunny.services.service;
 
+import cn.bunny.dao.dto.system.email.EmailUserUpdateStatusDto;
 import cn.bunny.dao.dto.system.email.EmailUsersAddDto;
 import cn.bunny.dao.dto.system.email.EmailUsersDto;
 import cn.bunny.dao.dto.system.email.EmailUsersUpdateDto;
@@ -49,4 +50,11 @@ public interface EmailUsersService extends IService<EmailUsers> {
      * @param ids 删除id列表
      */
     void deleteEmailUsers(List<Long> ids);
+
+    /**
+     * * 更新邮箱用户状态
+     *
+     * @param dto 邮箱用户更新状态表单
+     */
+    void updateEmailUserStatus(EmailUserUpdateStatusDto dto);
 }

@@ -5,12 +5,6 @@ bunny:
     sqlData: auth_admin
     username: root
     password: "02120212"
-  datasource2:
-    host: 106.15.251.123
-    port: 3305
-    sqlData: auth_i18n
-    username: root
-    password: "02120212"
 
   redis:
     host: 192.168.3.98

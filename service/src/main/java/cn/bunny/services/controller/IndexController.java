@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class IndexController {
 
-    // @Operation(summary = "访问首页", description = "访问首页")
-    // @GetMapping("")
-    // public String index() {
-    //     return "欢迎访问 Bunny Java Template，欢迎去Gitee：https://gitee.com/BunnyBoss/java_single.git";
-    // }
+    @Operation(summary = "访问首页", description = "访问首页")
+    @GetMapping("")
+    public String index() {
+        return "欢迎访问 Bunny Java Template，欢迎去Gitee：https://gitee.com/BunnyBoss/java_single.git";
+    }
 
     @Operation(summary = "生成验证码", description = "生成验证码")
     @GetMapping("noAuth/checkCode")

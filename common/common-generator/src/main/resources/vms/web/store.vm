@@ -32,9 +32,7 @@ export const use${originalName}Store = defineStore('${lowercaseName}Store', {
 	},
 	getters: {},
 	actions: {
-		/**
-		 * * 获取${classTitle}
-		 */
+		/** 获取${classTitle} */
 		async get${originalName}List() {
 		    // 整理请求参数
 			const data = { ...this.pagination, ...this.form };
@@ -50,25 +48,19 @@ export const use${originalName}Store = defineStore('${lowercaseName}Store', {
 			return pagination(result);
 		},
 
-		/**
-		 * * 添加${classTitle}
-		 */
+		/** 添加${classTitle} */
 		async add${originalName}(data: any) {
 			const result = await fetchAdd${originalName}(data);
 			return storeMessage(result);
 		},
 
-		/**
-		 * * 修改${classTitle}
-		 */
+		/** 修改${classTitle} */
 		async update${originalName}(data: any) {
 			const result = await fetchUpdate${originalName}(data);
 			return storeMessage(result);
 		},
 
-		/**
-		 * * 删除${classTitle}
-		 */
+		/** 删除${classTitle} */
 		async delete${originalName}(data: any) {
 			const result = await fetchDelete${originalName}(data);
 			return storeMessage(result);
