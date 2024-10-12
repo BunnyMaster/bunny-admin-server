@@ -1,14 +1,17 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.email.EmailTemplateAddDto;
 import cn.bunny.dao.dto.system.email.EmailTemplateDto;
 import cn.bunny.dao.dto.system.email.EmailTemplateUpdateDto;
 import cn.bunny.dao.entity.system.EmailTemplate;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.email.EmailTemplateVo;
 import cn.bunny.services.mapper.EmailTemplateMapper;
 import cn.bunny.services.service.EmailTemplateService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
@@ -61,6 +64,10 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      */
     @Override
     public void addEmailTemplate(@Valid EmailTemplateAddDto dto) {
+        // 查询是否添加过这个模板
+        List<EmailTemplate> emailTemplateList = list(Wrappers.<EmailTemplate>lambdaQuery().eq(EmailTemplate::getTemplateName, dto.getTemplateName()));
+        if (!emailTemplateList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
+
         // 保存数据
         EmailTemplate emailTemplate = new EmailTemplate();
         BeanUtils.copyProperties(dto, emailTemplate);
@@ -74,6 +81,10 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      */
     @Override
     public void updateEmailTemplate(@Valid EmailTemplateUpdateDto dto) {
+        // 查询是否有这个模板
+        List<EmailTemplate> emailTemplateList = list(Wrappers.<EmailTemplate>lambdaQuery().eq(EmailTemplate::getId, dto.getId()));
+        if (emailTemplateList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+
         // 更新内容
         EmailTemplate emailTemplate = new EmailTemplate();
         BeanUtils.copyProperties(dto, emailTemplate);
@@ -88,5 +99,19 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
     @Override
     public void deleteEmailTemplate(List<Long> ids) {
         baseMapper.deleteBatchIdsWithPhysics(ids);
+    }
+
+    /**
+     * * 查询所有邮件模板
+     *
+     * @return 邮箱模板返回内容列表
+     */
+    @Override
+    public List<EmailTemplateVo> getAllEmailTemplates() {
+        return list().stream().map(emailTemplate -> {
+            EmailTemplateVo emailTemplateVo = new EmailTemplateVo();
+            BeanUtils.copyProperties(emailTemplate, emailTemplateVo);
+            return emailTemplateVo;
+        }).toList();
     }
 }

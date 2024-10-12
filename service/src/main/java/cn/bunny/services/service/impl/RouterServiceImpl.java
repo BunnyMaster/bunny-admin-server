@@ -129,11 +129,14 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         IPage<Router> page = baseMapper.selectListByPage(pageParams, dto);
 
         // 构建返回对象
-        List<RouterManageVo> voList = page.getRecords().stream().map(router -> {
-            RouterManageVo routerManageVo = new RouterManageVo();
-            BeanUtils.copyProperties(router, routerManageVo);
-            return routerManageVo;
-        }).toList();
+        List<RouterManageVo> voList = page.getRecords().stream()
+                .map(router -> {
+                    RouterManageVo routerManageVo = new RouterManageVo();
+                    BeanUtils.copyProperties(router, routerManageVo);
+                    return routerManageVo;
+                })
+                .sorted(Comparator.comparing(RouterManageVo::getRouterRank))
+                .toList();
 
         return PageResult.<RouterManageVo>builder()
                 .list(voList)
@@ -154,11 +157,14 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         lambdaQueryWrapper.like(StringUtils.hasText(dto.getTitle()), Router::getTitle, dto.getTitle());
         lambdaQueryWrapper.eq(dto.getVisible() != null, Router::getVisible, dto.getVisible());
 
-        return list(lambdaQueryWrapper).stream().map(router -> {
-            RouterManageVo routerManageVo = new RouterManageVo();
-            BeanUtils.copyProperties(router, routerManageVo);
-            return routerManageVo;
-        }).toList();
+        return list(lambdaQueryWrapper).stream()
+                .map(router -> {
+                    RouterManageVo routerManageVo = new RouterManageVo();
+                    BeanUtils.copyProperties(router, routerManageVo);
+                    return routerManageVo;
+                })
+                .sorted(Comparator.comparing(RouterManageVo::getRouterRank))
+                .toList();
     }
 
     /**
@@ -169,8 +175,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     @Override
     public void addMenu(RouterAddDto dto) {
         // 查找是否添加过路由名称
-        String routeName = dto.getRouteName();
-        Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getRouteName, routeName));
+        Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getPath, dto.getPath()));
         if (router != null) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
 
         // 添加路由
@@ -187,9 +192,12 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     public void updateMenu(RouterUpdateDto dto) {
-        Long id = dto.getId();
-        Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, id));
+        Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, dto.getId()));
+
+        // 判断更新数据是否存在
         if (router == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+
+        // 判断更新数据id和父级id是否重复
         if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
 
         router = new Router();

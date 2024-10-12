@@ -82,7 +82,7 @@ public class WebSecurityConfig {
         String[] annotations = {
                 "/", "/ws/**",
                 "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
-                "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/v3/api-docs/**",
+                "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/v3/api-docs/**", "swagger-ui/**",
                 "/error", "/*/i18n/getI18n",
         };
         return web -> web.ignoring().requestMatchers(annotations)

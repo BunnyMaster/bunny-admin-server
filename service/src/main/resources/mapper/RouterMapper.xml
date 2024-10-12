@@ -76,6 +76,5 @@
                 and visible = #{dto.visible}
             </if>
         </where>
-        order by router_rank
     </select>
 </mapper>

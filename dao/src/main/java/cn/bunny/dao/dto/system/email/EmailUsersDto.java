@@ -16,9 +16,6 @@ public class EmailUsersDto {
     @Schema(name = "email", title = "邮箱")
     private String email;
 
-    @Schema(name = "emailTemplate", title = "使用邮件模板")
-    private Long emailTemplate;
-
     @Schema(name = "host", title = "Host地址")
     private String host;
 

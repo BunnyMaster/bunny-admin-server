@@ -33,9 +33,6 @@
             <if test="dto.email != null and dto.email != ''">
                 and email like CONCAT('%',#{dto.email},'%')
             </if>
-            <if test="dto.emailTemplate != null and dto.emailTemplate != ''">
-                and email_template like CONCAT('%',#{dto.emailTemplate},'%')
-            </if>
             <if test="dto.host != null and dto.host != ''">
                 and host like CONCAT('%',#{dto.host},'%')
             </if>
