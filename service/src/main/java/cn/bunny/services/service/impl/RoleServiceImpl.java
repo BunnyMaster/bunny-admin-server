@@ -112,6 +112,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public void deleteRole(List<Long> ids) {
+        // 判断数据请求是否为空
+        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
         // 删除角色
         baseMapper.deleteBatchIdsWithPhysics(ids);
 

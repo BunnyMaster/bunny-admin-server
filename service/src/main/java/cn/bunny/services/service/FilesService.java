@@ -10,6 +10,7 @@ import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.files.FilesVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -59,4 +60,12 @@ public interface FilesService extends IService<Files> {
      * @param ids 删除id列表
      */
     void deleteFiles(List<Long> ids);
+
+    /**
+     * * 下载文件
+     *
+     * @param fileId   文件名
+     * @param response response
+     */
+    void downloadFiles(HttpServletResponse response, Long fileId);
 }

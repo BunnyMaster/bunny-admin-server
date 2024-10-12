@@ -112,6 +112,9 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      */
     @Override
     public void deleteDept(List<Long> ids) {
+        // 判断数据请求是否为空
+        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
         // 删除当前部门
         baseMapper.deleteBatchIdsWithPhysics(ids);
 

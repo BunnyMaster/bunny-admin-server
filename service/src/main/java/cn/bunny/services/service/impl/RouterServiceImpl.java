@@ -212,6 +212,9 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     public void deletedMenuByIds(List<Long> ids) {
+        // 判断数据请求是否为空
+        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
         // 查找子级菜单，一起删除
         List<Long> longList = list(Wrappers.<Router>lambdaQuery().in(Router::getParentId, ids)).stream().map(Router::getId).toList();
         ids.addAll(longList);

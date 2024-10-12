@@ -114,6 +114,9 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      */
     @Override
     public void deletePower(List<Long> ids) {
+        // 判断数据请求是否为空
+        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
         // 删除权限
         baseMapper.deleteBatchIdsWithPhysics(ids);
 

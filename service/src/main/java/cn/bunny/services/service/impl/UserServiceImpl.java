@@ -315,7 +315,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         UserDept userDept = new UserDept();
         userDept.setDeptId(deptId);
         userDept.setUserId(userId);
-        
+
         // 插入分配后的用户内容
         userDeptMapper.insert(userDept);
     }
@@ -359,6 +359,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void deleteAdminUser(List<Long> ids) {
+        // 判断数据请求是否为空
+        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
         // 删除用户
         baseMapper.deleteBatchIdsWithPhysics(ids);
 

@@ -1,10 +1,12 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.menuIcon.MenuIconAddDto;
 import cn.bunny.dao.dto.system.menuIcon.MenuIconDto;
 import cn.bunny.dao.dto.system.menuIcon.MenuIconUpdateDto;
 import cn.bunny.dao.entity.system.MenuIcon;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.MenuIconVo;
 import cn.bunny.services.mapper.MenuIconMapper;
 import cn.bunny.services.service.MenuIconService;
@@ -90,6 +92,9 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
      */
     @Override
     public void deleteMenuIcon(List<Long> ids) {
+        // 判断数据请求是否为空
+        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 

@@ -134,9 +134,9 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      */
     @Override
     public void deleteI18n(List<Long> ids) {
-        if (ids.isEmpty()) {
-            throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
-        }
+        // 判断数据请求是否为空
+        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 }

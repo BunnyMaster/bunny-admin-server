@@ -29,12 +29,9 @@ public enum ResultCodeEnum {
     GET_BUCKET_EXCEPTION(201, "获取文件信息失败"),
     SEND_MAIL_CODE_ERROR(201, "邮件发送失败"),
     EMAIL_CODE_EMPTY(201, "邮箱验证码过期或不存在"),
-    DATA_EXIST(201, "数据已存在"),
-    DATA_NOT_EXIST(201, "数据不存在"),
     EMAIL_EXIST(201, "邮箱已存在"),
     REQUEST_IS_EMPTY(201, "请求数据为空"),
     DATA_TOO_LARGE(201, "请求数据为空"),
-    USER_IS_EMPTY(201, "用户不存在"),
     UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD(201, "新密码与密码相同"),
 
     // 数据相关 206
@@ -43,6 +40,10 @@ public enum ResultCodeEnum {
     DATA_ERROR(206, "数据异常"),
     EMAIL_USER_TEMPLATE_IS_EMPTY(206, "邮件模板为空"),
     EMAIL_TEMPLATE_IS_EMPTY(206, "邮件模板为空"),
+    DATA_EXIST(206, "数据已存在"),
+    DATA_NOT_EXIST(206, "数据不存在"),
+    USER_IS_EMPTY(206, "用户不存在"),
+    FILE_NOT_EXIST(206, "文件不存在"),
 
     // 身份过期 208
     LOGIN_AUTH(208, "请先登陆"),

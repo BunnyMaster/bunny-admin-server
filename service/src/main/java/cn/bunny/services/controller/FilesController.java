@@ -15,6 +15,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,11 +52,10 @@ public class FilesController {
         return Mono.just(Result.success(pageResult));
     }
 
-    @Operation(summary = "添加系统文件表", description = "添加系统文件表")
-    @PostMapping("addFiles")
-    public Mono<Result<String>> addFiles(@Valid @RequestBody FilesAddDto dto) {
-        filesService.addFiles(dto);
-        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+    @Operation(summary = "下载文件", description = "下载文件")
+    @GetMapping("downloadFiles/{fileId}")
+    public void downloadFiles(@PathVariable Long fileId, HttpServletResponse response) {
+        filesService.downloadFiles(response, fileId);
     }
 
     @Operation(summary = "更新系统文件表", description = "更新系统文件表")
@@ -63,6 +63,13 @@ public class FilesController {
     public Mono<Result<String>> updateFiles(@Valid @RequestBody FilesUpdateDto dto) {
         filesService.updateFiles(dto);
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+    }
+
+    @Operation(summary = "添加系统文件表", description = "添加系统文件表")
+    @PostMapping("addFiles")
+    public Mono<Result<String>> addFiles(@Valid @RequestBody FilesAddDto dto) {
+        filesService.addFiles(dto);
+        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
 
     @Operation(summary = "上传文件", description = "上传文件")

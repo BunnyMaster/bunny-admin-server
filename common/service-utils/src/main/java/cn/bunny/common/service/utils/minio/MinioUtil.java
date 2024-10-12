@@ -97,16 +97,14 @@ public class MinioUtil {
      * @return 文件流对象
      */
     public byte[] getBucketObjectByte(String objectName) {
-        // 如果buckName为空，设置为默认的桶
         String bucketName = properties.getBucketName();
 
         try {
-            objectName = objectName.replace("/" + bucketName, "");
             GetObjectResponse getObjectResponse = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(objectName).build());
 
             return getObjectResponse.readAllBytes();
         } catch (Exception exception) {
-            exception.getStackTrace();
+            exception.printStackTrace();
         }
         throw new BunnyException(ResultCodeEnum.GET_BUCKET_EXCEPTION);
     }
