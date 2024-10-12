@@ -15,9 +15,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -53,9 +53,15 @@ public class FilesController {
     }
 
     @Operation(summary = "下载文件", description = "下载文件")
-    @GetMapping("downloadFiles/{fileId}")
-    public void downloadFiles(@PathVariable Long fileId, HttpServletResponse response) {
-        filesService.downloadFiles(response, fileId);
+    @GetMapping("downloadFilesByFileId/{fileId}")
+    public ResponseEntity<byte[]> downloadFilesByFileId(@PathVariable Long fileId) {
+        return filesService.downloadFilesByFileId(fileId);
+    }
+
+    @Operation(summary = "根据文件名下载文件", description = "根据文件名下载文件")
+    @GetMapping("downloadFilesByFilepath")
+    public ResponseEntity<byte[]> downloadFilesByFilepath(String filepath) {
+        return filesService.downloadFilesByFilepath(filepath);
     }
 
     @Operation(summary = "更新系统文件表", description = "更新系统文件表")

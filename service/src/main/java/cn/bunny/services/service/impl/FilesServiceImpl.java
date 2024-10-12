@@ -18,15 +18,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -129,11 +130,11 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     /**
      * * 下载文件
      *
-     * @param response response
-     * @param fileId   文件名
+     * @param fileId 文件id
+     * @return 文件字节数组
      */
     @Override
-    public void downloadFiles(HttpServletResponse response, Long fileId) {
+    public ResponseEntity<byte[]> downloadFilesByFileId(Long fileId) {
         // 查询数据库文件信息
         Files files = getOne(Wrappers.<Files>lambdaQuery().eq(Files::getId, fileId));
 
@@ -144,18 +145,38 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         String filepath = files.getFilepath();
         int end = filepath.indexOf("/", 1);
         filepath = filepath.substring(end + 1);
-        byte[] buffer = minioUtil.getBucketObjectByte(filepath);
+        byte[] bytes = minioUtil.getBucketObjectByte(filepath);
 
         // 设置响应头
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + files.getFilename() + "\"");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", files.getFilename());
 
-        // 写入字节数组到输出流
-        try (OutputStream os = response.getOutputStream()) {
-            os.write(buffer);
-            os.flush();
-        } catch (IOException exception) {
-            throw new BunnyException(exception.getMessage());
-        }
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
+
+    /**
+     * * 下载文件
+     *
+     * @param filepath 文件路径
+     * @return 文件字节数组
+     */
+    @Override
+    public ResponseEntity<byte[]> downloadFilesByFilepath(String filepath) {
+        // 截取文件路径
+        int start = filepath.indexOf("/", 1);
+        filepath = filepath.substring(start + 1);
+        byte[] bytes = minioUtil.getBucketObjectByte(filepath);
+
+        // 设置文件名称
+        int end = filepath.lastIndexOf("/");
+        String filename = filepath.substring(end + 1);
+
+        // 设置响应头
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", filename);
+
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 }

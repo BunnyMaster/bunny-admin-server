@@ -10,8 +10,8 @@ import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.files.FilesVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -64,8 +64,16 @@ public interface FilesService extends IService<Files> {
     /**
      * * 下载文件
      *
-     * @param fileId   文件名
-     * @param response response
+     * @param fileId 文件id
+     * @return 文件字节数组
      */
-    void downloadFiles(HttpServletResponse response, Long fileId);
+    ResponseEntity<byte[]> downloadFilesByFileId(Long fileId);
+
+    /**
+     * * 下载文件
+     *
+     * @param filepath 文件路径
+     * @return 文件字节数组
+     */
+    ResponseEntity<byte[]> downloadFilesByFilepath(String filepath);
 }
