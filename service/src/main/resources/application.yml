@@ -48,27 +48,6 @@ spring:
     wait-for-jobs-to-complete-on-shutdown: true
     overwrite-existing-jobs: false
     scheduler-name: quartzScheduler
-    properties:
-      org:
-        quartz:
-          scheduler:
-            # 默认
-            instanceName: RedpigScheduler
-            # 如果使用集群，instanceId必须唯一，设置成AUTO
-            instanceId: AUTO
-          jobStore:
-            # 存储方式使用JobStoreTX 也就是数据库
-            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
-            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
-            # 表名前缀
-            tablePrefix: QRTZ_
-            useProperties: false
-            misfireThreshold: 5000
-          threadPool:
-            class: org.quartz.simpl.SimpleThreadPool
-            threadCount: 20
-            threadPriority: 5
-            threadsInheritContextClassLoaderOfInitializingThread: true
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

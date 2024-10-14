@@ -20,7 +20,7 @@ public class AdminCodeGenerator {
     public static final String entity = "Bunny";
 
     public static void main(String[] args) {
-        Generation("sys_files");
+        Generation("v_schedulers");
     }
 
     /**
@@ -51,7 +51,7 @@ public class AdminCodeGenerator {
                 .strategyConfig(builder -> {
                     // 设置要生成的表名
                     builder.addInclude(tableName)
-                            .addTablePrefix("sys_")
+                            .addTablePrefix("sys_", "v_")
                             .entityBuilder()
                             .enableLombok()
                             .enableChainModel()
