@@ -1,3 +1,28 @@
+server:
+  port: 7070
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  global-config:
+    db-config:
+      logic-delete-field: isDeleted
+
+logging:
+  level:
+    cn.bunny.service.mapper: warn
+    cn.bunny.service.controller: warn
+    cn.bunny.service.service: warn
+    root: warn
+  pattern:
+    dateformat: HH:mm:ss:SSS
+  file:
+    path: "logs/${spring.application.name}"
+
+# 线上禁用文档
+knife4j:
+  enable: true
+  production: true
+
 bunny:
   datasource1:
     host: 192.168.3.98

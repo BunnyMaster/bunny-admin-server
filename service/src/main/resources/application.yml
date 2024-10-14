@@ -1,23 +1,3 @@
-server:
-  port: 7070
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-      base-path: /admin
-  info:
-    env:
-      enabled: true
-    java:
-      enabled: true
-    os:
-      enabled: true
-  endpoint:
-    health:
-      show-details: always
-
 spring:
   profiles:
     active: @profiles.active@
@@ -60,40 +40,53 @@ spring:
           max-idle: 5    #最大空闲
           min-idle: 0     #最小空闲
 
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    auto-startup: true
+    wait-for-jobs-to-complete-on-shutdown: true
+    overwrite-existing-jobs: false
+    scheduler-name: quartzScheduler
+    properties:
+      org:
+        quartz:
+          scheduler:
+            # 默认
+            instanceName: RedpigScheduler
+            # 如果使用集群，instanceId必须唯一，设置成AUTO
+            instanceId: AUTO
+          jobStore:
+            # 存储方式使用JobStoreTX 也就是数据库
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            # 表名前缀
+            tablePrefix: QRTZ_
+            useProperties: false
+            misfireThreshold: 5000
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 20
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-  quartz:
-    job-store-type: jdbc
-    jdbc:
-      initialize-schema: embedded
-    auto-startup: true
-    wait-for-jobs-to-complete-on-shutdown: true
-    overwrite-existing-jobs: false
-
-mybatis-plus:
-  mapper-locations: classpath:mapper/*.xml
-  global-config:
-    db-config:
-      logic-delete-field: isDelete
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
-
-logging:
-  level:
-    cn.bunny.service.mapper: info
-    cn.bunny.service.controller: info
-    cn.bunny.service.service: info
-    root: info
-  pattern:
-    dateformat: HH:mm:ss:SSS
-  file:
-    path: "logs/${spring.application.name}"
-
-bunny:
-  minio:
-    endpointUrl: ${bunny.minio.endpointUrl}
-    accessKey: ${bunny.minio.accessKey}
-    secretKey: ${bunny.minio.secretKey}
-    bucket-name: ${bunny.minio.bucket-name}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /admin
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always

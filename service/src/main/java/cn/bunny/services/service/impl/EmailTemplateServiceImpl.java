@@ -117,8 +117,8 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
     public List<Map<String, String>> getEmailTypes() {
         return Arrays.stream(EmailTemplateTypes.values()).map(emailTemplateTypes -> {
             Map<String, String> map = new HashMap<>();
-            map.put("key", emailTemplateTypes.getType());
-            map.put("value", emailTemplateTypes.getSummary());
+            map.put("key", emailTemplateTypes.getSummary());
+            map.put("value", emailTemplateTypes.getType());
             return map;
         }).toList();
     }
