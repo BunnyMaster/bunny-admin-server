@@ -1,12 +1,14 @@
 package cn.bunny.dao.dto.system.files;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
@@ -24,17 +26,16 @@ public class FilesUpdateDto {
     @NotNull(message = "文件的名称不能为空")
     private String filename;
 
-    @Schema(name = "filepath", title = "文件在服务器上的存储路径")
-    @NotBlank(message = "存储路径不能为空")
-    @NotNull(message = "存储路径不能为空")
-    private String filepath;
-
     @Schema(name = "fileType", title = "文件的MIME类型")
     @NotBlank(message = "文件类型不能为空")
     @NotNull(message = "文件类型不能为空")
     private String fileType;
 
     @Schema(name = "downloadCount", title = "下载数量")
+    @Min(value = 0L, message = "最小值为0")
     private Integer downloadCount;
+
+    @Schema(name = "file", title = "文件")
+    private MultipartFile files;
 
 }

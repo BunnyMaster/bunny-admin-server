@@ -43,7 +43,7 @@ public class FileFactory {
         String filename = file.getOriginalFilename();
 
         // 上传文件
-        MinioFilePath minioFIlePath = minioUtil.getUploadMinioObjectFilePath(file, type);
+        MinioFilePath minioFIlePath = minioUtil.uploadObject4FilePath(file, type);
         String bucketNameFilepath = minioFIlePath.getBucketNameFilepath();
 
         // 盘读研数据是否过大

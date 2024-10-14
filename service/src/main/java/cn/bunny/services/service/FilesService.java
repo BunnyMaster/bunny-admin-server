@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -76,4 +77,12 @@ public interface FilesService extends IService<Files> {
      * @return 文件字节数组
      */
     ResponseEntity<byte[]> downloadFilesByFilepath(String filepath);
+
+    /**
+     * * 获取所有文件类型
+     *
+     * @return 媒体文件类型列表
+     */
+    Set<String> getAllMediaTypes();
+
 }

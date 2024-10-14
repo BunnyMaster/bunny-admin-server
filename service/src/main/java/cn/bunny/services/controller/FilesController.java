@@ -5,6 +5,7 @@ import cn.bunny.dao.dto.system.files.FilesAddDto;
 import cn.bunny.dao.dto.system.files.FilesDto;
 import cn.bunny.dao.dto.system.files.FilesUpdateDto;
 import cn.bunny.dao.entity.system.Files;
+import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -58,6 +61,22 @@ public class FilesController {
         return filesService.downloadFilesByFileId(fileId);
     }
 
+    @Operation(summary = "获取所有文件类型", description = "获取所有文件类型")
+    @GetMapping("getAllMediaTypes")
+    public Mono<Result<Set<String>>> getAllMediaTypes() {
+        Set<String> list = filesService.getAllMediaTypes();
+        return Mono.just(Result.success(list));
+    }
+
+    @Operation(summary = "获取所有文件存储基础路径", description = "获取所有文件存储基础路径")
+    @GetMapping("getAllFilesStoragePath")
+    public Mono<Result<List<String>>> getAllFilesStoragePath() {
+        Map<String, String> typeMap = MinioConstant.typeMap;
+        List<String> list = typeMap.keySet().stream().toList();
+
+        return Mono.just(Result.success(list));
+    }
+
     @Operation(summary = "根据文件名下载文件", description = "根据文件名下载文件")
     @GetMapping("downloadFilesByFilepath")
     public ResponseEntity<byte[]> downloadFilesByFilepath(String filepath) {
@@ -66,14 +85,14 @@ public class FilesController {
 
     @Operation(summary = "更新系统文件表", description = "更新系统文件表")
     @PutMapping("updateFiles")
-    public Mono<Result<String>> updateFiles(@Valid @RequestBody FilesUpdateDto dto) {
+    public Result<String> updateFiles(@Valid FilesUpdateDto dto) {
         filesService.updateFiles(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @Operation(summary = "添加系统文件表", description = "添加系统文件表")
     @PostMapping("addFiles")
-    public Mono<Result<String>> addFiles(@Valid @RequestBody FilesAddDto dto) {
+    public Mono<Result<String>> addFiles(@Valid FilesAddDto dto) {
         filesService.addFiles(dto);
         return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
@@ -87,8 +106,8 @@ public class FilesController {
 
     @Operation(summary = "删除系统文件表", description = "删除系统文件表")
     @DeleteMapping("deleteFiles")
-    public Mono<Result<String>> deleteFiles(@RequestBody List<Long> ids) {
+    public Result<String> deleteFiles(@RequestBody List<Long> ids) {
         filesService.deleteFiles(ids);
-        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
+        return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 }

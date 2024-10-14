@@ -4,10 +4,9 @@ import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.pojo.common.MinioFilePath;
 import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import io.minio.GetObjectArgs;
-import io.minio.GetObjectResponse;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+import io.minio.*;
+import io.minio.messages.DeleteError;
+import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -29,13 +29,14 @@ import java.util.UUID;
 public class MinioUtil {
     @Autowired
     private MinioProperties properties;
+
     @Autowired
     private MinioClient minioClient;
 
     /**
      * 获取Minio文件路径
      */
-    public static MinioFilePath getMinioFilePath(String buckName, String minioPreType, MultipartFile file) {
+    public static MinioFilePath initUploadFile4MinioFilePath(String buckName, String minioPreType, MultipartFile file) {
         String uuid = UUID.randomUUID().toString();
         // 定义日期时间格式
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -74,11 +75,10 @@ public class MinioUtil {
     /**
      * * 上传文件并返回处理信息
      */
-    public MinioFilePath getUploadMinioObjectFilePath(MultipartFile file, String minioPreType) throws IOException {
-        // 如果buckName为空，设置为默认的桶
+    public MinioFilePath uploadObject4FilePath(MultipartFile file, String minioPreType) throws IOException {
         String bucketName = properties.getBucketName();
         if (file != null) {
-            MinioFilePath minioFile = getMinioFilePath(bucketName, minioPreType, file);
+            MinioFilePath minioFile = initUploadFile4MinioFilePath(bucketName, minioPreType, file);
             String filepath = minioFile.getFilepath();
 
             // 上传对象
@@ -135,6 +135,41 @@ public class MinioUtil {
         } catch (Exception exception) {
             log.error("上传文件失败：{}", (Object) exception.getStackTrace());
             throw new BunnyException(ResultCodeEnum.UPDATE_ERROR);
+        }
+    }
+
+    /**
+     * * 删除目标文件
+     *
+     * @param list 对象文件列表
+     */
+    public void removeObjects(List<String> list) {
+        try {
+            String bucketName = properties.getBucketName();
+            List<DeleteObject> objectList = list.stream().map(DeleteObject::new).toList();
+
+            Iterable<Result<DeleteError>> results = minioClient.removeObjects(RemoveObjectsArgs.builder().bucket(bucketName).objects(objectList).build());
+            for (Result<DeleteError> result : results) {
+                DeleteError error = result.get();
+                throw new BunnyException("Error in deleting object " + error.objectName() + "; " + error.message());
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * * 更新文件
+     *
+     * @param bucketName 桶名称
+     * @param filepath   文件路径
+     * @param file       文件
+     */
+    public void updateFile(String bucketName, String filepath, MultipartFile file) {
+        try {
+            putObject(bucketName, filepath, file.getInputStream(), file.getSize());
+        } catch (IOException e) {
+            throw new BunnyException(e.getMessage());
         }
     }
 }

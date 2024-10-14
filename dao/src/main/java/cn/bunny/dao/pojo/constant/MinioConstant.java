@@ -14,7 +14,7 @@ public class MinioConstant {
     public static final String feedback = "feedback";
     public static final String articleCovers = "articleCovers";
     public static final String articleAttachment = "articleAttachment";
-    private static final Map<String, String> typeMap = new HashMap<>();
+    public static final Map<String, String> typeMap = new HashMap<>();
 
     static {
         typeMap.put(favicon, "/favicon/");

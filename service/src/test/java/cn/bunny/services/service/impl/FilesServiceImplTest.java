@@ -1,6 +1,13 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.dao.pojo.constant.MinioConstant;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
 
 class FilesServiceImplTest {
     @Test
@@ -15,4 +22,23 @@ class FilesServiceImplTest {
         System.out.println(filename);
     }
 
+    @SneakyThrows
+    @Test
+    void getAllMediaTypeTest() {
+        Class<?> mediaTypeClass = MediaType.class;
+        for (Field declaredField : mediaTypeClass.getDeclaredFields()) {
+            declaredField.setAccessible(true);
+            String value = declaredField.get(null).toString();
+            if (value.matches("\\w+/.*")) {
+                System.out.println(value);
+            }
+        }
+    }
+
+    @Test
+    void getAllPaths() {
+        Map<String, String> typeMap = MinioConstant.typeMap;
+        List<Map.Entry<String, String>> list = typeMap.entrySet().stream().toList();
+        System.out.println(list);
+    }
 }

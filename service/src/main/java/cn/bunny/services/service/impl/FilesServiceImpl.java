@@ -1,12 +1,14 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.utils.minio.MinioProperties;
 import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.files.FilesAddDto;
 import cn.bunny.dao.dto.system.files.FilesDto;
 import cn.bunny.dao.dto.system.files.FilesUpdateDto;
 import cn.bunny.dao.entity.system.Files;
+import cn.bunny.dao.pojo.common.MinioFilePath;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
@@ -21,14 +23,20 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -39,15 +47,17 @@ import java.util.List;
  * @since 2024-10-09 16:28:01
  */
 @Service
+@Transactional
 public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements FilesService {
 
-    private final FileFactory fileFactory;
-    private final MinioUtil minioUtil;
+    @Autowired
+    private MinioProperties properties;
 
-    public FilesServiceImpl(FileFactory fileFactory, MinioUtil minioUtil) {
-        this.fileFactory = fileFactory;
-        this.minioUtil = minioUtil;
-    }
+    @Autowired
+    private FileFactory fileFactory;
+
+    @Autowired
+    private MinioUtil minioUtil;
 
     /**
      * * 系统文件表 服务实现类
@@ -81,11 +91,25 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
      * @param dto 系统文件表添加
      */
     @Override
-    public void addFiles(@Valid FilesAddDto dto) {
+    public void addFiles(FilesAddDto dto) {
+        List<Files> list = dto.getFiles().stream().map(file -> {
+            try {
+                MinioFilePath minioFilePath = minioUtil.uploadObject4FilePath(file, dto.getFilepath());
+
+                Files files = new Files();
+                files.setFileType(file.getContentType());
+                files.setFileSize(file.getSize());
+                files.setFilepath("/" + properties.getBucketName() + minioFilePath.getFilepath());
+                files.setFilename(minioFilePath.getFilename());
+                files.setDownloadCount(dto.getDownloadCount());
+                return files;
+            } catch (IOException e) {
+                throw new BunnyException(e.getMessage());
+            }
+        }).toList();
+
         // 保存数据
-        Files files = new Files();
-        BeanUtils.copyProperties(dto, files);
-        save(files);
+        saveBatch(list);
     }
 
     /**
@@ -95,8 +119,23 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
      */
     @Override
     public void updateFiles(@Valid FilesUpdateDto dto) {
+        Long id = dto.getId();
+        MultipartFile file = dto.getFiles();
+        Files files = getOne(Wrappers.<Files>lambdaQuery().eq(Files::getId, id));
+
+        if (file != null) {
+            // 文件路径
+            String filePath = files.getFilepath().replace("/" + properties.getBucketName() + "/", "");
+            minioUtil.updateFile(properties.getBucketName(), filePath, file);
+
+            // 设置文件信息
+            files.setFileSize(file.getSize());
+            files.setFileType(file.getContentType());
+        }
+
+
         // 更新内容
-        Files files = new Files();
+        files = new Files();
         BeanUtils.copyProperties(dto, files);
         updateById(files);
     }
@@ -124,6 +163,19 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     @Override
     public void deleteFiles(List<Long> ids) {
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
+        // 查询文件路径
+        List<String> list = list(Wrappers.<Files>lambdaQuery().in(Files::getId, ids)).stream()
+                .map(files -> {
+                    String filepath = files.getFilepath();
+                    int end = filepath.indexOf("/", 1);
+                    return filepath.substring(end + 1);
+                }).toList();
+
+        // 删除目标文件
+        minioUtil.removeObjects(list);
+
+        // 删除数据库内容
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 
@@ -178,5 +230,31 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         headers.setContentDispositionFormData("attachment", filename);
 
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
+
+    /**
+     * * 获取所有文件类型
+     *
+     * @return 媒体文件类型列表
+     */
+    @Override
+    public Set<String> getAllMediaTypes() {
+        Set<String> valueList = new HashSet<>();
+        Class<?> mediaTypeClass = MediaType.class;
+
+        try {
+            for (Field declaredField : mediaTypeClass.getDeclaredFields()) {
+                // 获取字段属性值
+                declaredField.setAccessible(true);
+                String value = declaredField.get(null).toString();
+
+                if (value.matches("\\w+/.*")) {
+                    valueList.add(value);
+                }
+            }
+            return valueList;
+        } catch (Exception exception) {
+            return Set.of();
+        }
     }
 }

@@ -41,6 +41,8 @@
         <velocity-tools.version>3.1</velocity-tools.version>
         <HikariCP.version>5.1.0</HikariCP.version>
         <dynamic.datasource.version>4.3.1</dynamic.datasource.version>
+        <jackson-dataType.version>2.12.3</jackson-dataType.version>
+        <quartz-scheduler.version>2.3.2</quartz-scheduler.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -148,7 +150,13 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>2.12.3</version>
+                <version>${jackson-dataType.version}</version>
+            </dependency>
+            <!-- quartz定时任务 -->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz-scheduler.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
