@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -48,6 +49,13 @@ public class EmailUsersController {
         Page<EmailUsers> pageParams = new Page<>(page, limit);
         PageResult<EmailUsersVo> pageResult = emailUsersService.getEmailUsersList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
+    }
+
+    @Operation(summary = "获取所有邮箱配置用户", description = "获取所有邮箱配置用户")
+    @GetMapping("getAllMailboxConfigurationUsers")
+    public Mono<Result<List<Map<String, String>>>> getAllMailboxConfigurationUsers() {
+        List<Map<String, String>> list = emailUsersService.getAllMailboxConfigurationUsers();
+        return Mono.just(Result.success(list));
     }
 
     @Operation(summary = "添加邮箱用户发送配置", description = "添加邮箱用户发送配置")

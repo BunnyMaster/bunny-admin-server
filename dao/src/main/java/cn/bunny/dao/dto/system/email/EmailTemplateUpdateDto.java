@@ -18,11 +18,15 @@ public class EmailTemplateUpdateDto {
     @Schema(name = "id", title = "主键")
     @NotNull(message = "id不能为空")
     private Long id;
-    
+
     @Schema(name = "templateName", title = "模板名称")
     @NotBlank(message = "模板名称不能为空")
     @NotNull(message = "模板名称不能为空")
     private String templateName;
+
+    @Schema(name = "emailUser", title = "配置邮件用户")
+    @NotNull(message = "配置邮件用户不能为空")
+    private Long emailUser;
 
     @Schema(name = "subject", title = "主题")
     @NotBlank(message = "主题不能为空")

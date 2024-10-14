@@ -20,6 +20,10 @@ public class EmailTemplateAddDto {
     @NotNull(message = "模板名称不能为空")
     private String templateName;
 
+    @Schema(name = "emailUser", title = "配置邮件用户")
+    @NotNull(message = "配置邮件用户不能为空")
+    private Long emailUser;
+
     @Schema(name = "subject", title = "主题")
     @NotBlank(message = "主题不能为空")
     @NotNull(message = "主题不能为空")

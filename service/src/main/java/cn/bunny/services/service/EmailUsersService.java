@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -57,4 +58,12 @@ public interface EmailUsersService extends IService<EmailUsers> {
      * @param dto 邮箱用户更新状态表单
      */
     void updateEmailUserStatus(EmailUserUpdateStatusDto dto);
+
+    /**
+     * * 获取所有邮箱配置用户
+     *
+     * @return 邮件用户列表
+     */
+    List<Map<String, String>> getAllMailboxConfigurationUsers();
+
 }

@@ -22,7 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -71,9 +73,8 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      * @param dto 邮箱用户发送配置添加
      */
     @Override
-    public void addEmailUsers(@Valid EmailUsersAddDto dto) {
+    public void addEmailUsers(EmailUsersAddDto dto) {
         // 判断邮箱是否添加
-        String email = dto.getEmail();
         List<EmailUsers> emailUsersList = list(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getEmail, dto.getEmail()));
         if (!emailUsersList.isEmpty()) throw new BunnyException(ResultCodeEnum.EMAIL_EXIST);
 
@@ -112,7 +113,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
     public void deleteEmailUsers(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
-        
+
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 
@@ -129,5 +130,20 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
         EmailUsers emailUsers = new EmailUsers();
         BeanUtils.copyProperties(dto, emailUsers);
         updateById(emailUsers);
+    }
+
+    /**
+     * * 获取所有邮箱配置用户
+     *
+     * @return 邮件用户列表
+     */
+    @Override
+    public List<Map<String, String>> getAllMailboxConfigurationUsers() {
+        return list().stream().map(emailUsers -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("key", emailUsers.getEmail());
+            map.put("value", emailUsers.getId().toString());
+            return map;
+        }).toList();
     }
 }

@@ -25,6 +25,9 @@ public class EmailTemplate extends BaseEntity {
     @Schema(name = "templateName", title = "模板名称")
     private String templateName;
 
+    @Schema(name = "emailUser", title = "模板名称")
+    private Long emailUser;
+
     @Schema(name = "subject", title = "主题")
     private String subject;
 

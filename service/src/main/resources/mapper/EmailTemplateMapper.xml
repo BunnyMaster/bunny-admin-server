@@ -11,6 +11,7 @@
         <id column="update_user" property="updateUser"/>
         <id column="is_deleted" property="isDeleted"/>
         <id column="template_name" property="templateName"/>
+        <id column="email_user" property="emailUser"/>
         <id column="subject" property="subject"/>
         <id column="body" property="body"/>
         <id column="type" property="type"/>
@@ -19,7 +20,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, template_name, subject, body, type, is_default
+        id, create_time, update_time, create_user, update_user, is_deleted, template_name, email_user, subject, body, type, is_default
     </sql>
 
     <!-- 分页查询邮件模板表内容 -->
