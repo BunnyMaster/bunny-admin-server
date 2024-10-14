@@ -15,6 +15,7 @@ import cn.hutool.captcha.CircleCaptcha;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.mail.MessagingException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,17 +24,16 @@ public class EmailFactory {
 
     @Autowired
     private EmailTemplateMapper emailTemplateMapper;
-    
+
     @Autowired
     private EmailUsersMapper emailUsersMapper;
 
     /**
      * 生成邮箱验证码
      *
-     * @param email         接受者邮箱
-     * @param emailSendInit 初始化发送参数
+     * @param email 接受者邮箱
      */
-    public String sendmailCode(String email, EmailSendInit emailSendInit) {
+    public String sendmailCode(String email) {
         // 查询验证码邮件模板
         LambdaQueryWrapper<EmailTemplate> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(EmailTemplate::getIsDefault, true);
@@ -41,14 +41,31 @@ public class EmailFactory {
         EmailTemplate emailTemplate = emailTemplateMapper.selectOne(lambdaQueryWrapper);
 
         // 判断邮件模板是否为空
-        if (emailTemplate == null) {
-            throw new BunnyException(ResultCodeEnum.EMAIL_TEMPLATE_IS_EMPTY);
+        if (emailTemplate == null) throw new BunnyException(ResultCodeEnum.EMAIL_TEMPLATE_IS_EMPTY);
+
+        // 查询配置发送邮箱
+        Long emailUser = emailTemplate.getEmailUser();
+        EmailUsers emailUsers;
+        // 如果没有配置发件者邮箱改用用户列表中默认的
+        if (emailUser == null) {
+            emailUsers = emailUsersMapper.selectOne(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getIsDefault, true));
+            // 如果默认的也为空则报错
+            if (emailUsers == null) throw new BunnyException(ResultCodeEnum.EMAIL_USER_IS_EMPTY);
+        } else {
+            emailUsers = emailUsersMapper.selectOne(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getId, emailUser));
         }
+
+        // 查询发件者信息
+        EmailSendInit emailSendInit = new EmailSendInit();
+        BeanUtils.copyProperties(emailUsers, emailSendInit);
+        emailSendInit.setUsername(emailUsers.getEmail());
 
         // 生成验证码
         CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(150, 48, 4, 2);
         String code = captcha.getCode();
-        String htmlContent = emailTemplate.getBody().replace("${verifyCode}", code);
+        String htmlContent = emailTemplate.getBody()
+                .replace("${sendEmailUser}", emailUsers.getEmail())
+                .replace("${verifyCode}", code);
 
         // 发送验证码
         MailSenderUtil mailSenderUtil = new MailSenderUtil(emailSendInit);

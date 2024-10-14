@@ -40,6 +40,7 @@ public enum ResultCodeEnum {
     DATA_ERROR(206, "数据异常"),
     EMAIL_USER_TEMPLATE_IS_EMPTY(206, "邮件模板为空"),
     EMAIL_TEMPLATE_IS_EMPTY(206, "邮件模板为空"),
+    EMAIL_USER_IS_EMPTY(206, "关联邮件用户配置为空"),
     DATA_EXIST(206, "数据已存在"),
     DATA_NOT_EXIST(206, "数据不存在"),
     USER_IS_EMPTY(206, "用户不存在"),

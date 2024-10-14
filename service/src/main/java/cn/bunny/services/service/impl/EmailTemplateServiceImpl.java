@@ -5,6 +5,7 @@ import cn.bunny.dao.dto.system.email.EmailTemplateAddDto;
 import cn.bunny.dao.dto.system.email.EmailTemplateDto;
 import cn.bunny.dao.dto.system.email.EmailTemplateUpdateDto;
 import cn.bunny.dao.entity.system.EmailTemplate;
+import cn.bunny.dao.pojo.common.EmailTemplateTypes;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.email.EmailTemplateVo;
@@ -18,7 +19,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -102,5 +106,20 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         baseMapper.deleteBatchIdsWithPhysics(ids);
+    }
+
+    /**
+     * * 获取模板类型字段
+     *
+     * @return 枚举字段列表
+     */
+    @Override
+    public List<Map<String, String>> getEmailTypes() {
+        return Arrays.stream(EmailTemplateTypes.values()).map(emailTemplateTypes -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("key", emailTemplateTypes.getType());
+            map.put("value", emailTemplateTypes.getSummary());
+            return map;
+        }).toList();
     }
 }

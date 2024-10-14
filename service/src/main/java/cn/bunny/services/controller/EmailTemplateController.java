@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -28,7 +29,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-10 21:24:08
  */
-@Tag(name = "邮件模板表", description = "邮件模板表相关接口")
+@Tag(name = "邮件模板", description = "邮件模板相关接口")
 @RestController
 @RequestMapping("admin/emailTemplate")
 public class EmailTemplateController {
@@ -47,6 +48,13 @@ public class EmailTemplateController {
         Page<EmailTemplate> pageParams = new Page<>(page, limit);
         PageResult<EmailTemplateVo> pageResult = emailTemplateService.getEmailTemplateList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
+    }
+
+    @Operation(summary = "获取模板类型字段", description = "获取模板类型字段")
+    @GetMapping("getEmailTypes")
+    public Mono<Result<List<Map<String, String>>>> getEmailTypes() {
+        List<Map<String, String>> list = emailTemplateService.getEmailTypes();
+        return Mono.just(Result.success(list));
     }
 
     @Operation(summary = "添加邮件模板表", description = "添加邮件模板表")

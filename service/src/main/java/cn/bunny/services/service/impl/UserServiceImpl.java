@@ -8,9 +8,7 @@ import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.AdminUserAndDept;
-import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.entity.system.UserDept;
-import cn.bunny.dao.pojo.common.EmailSendInit;
 import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -22,7 +20,6 @@ import cn.bunny.dao.vo.system.user.RefreshTokenVo;
 import cn.bunny.dao.vo.system.user.UserVo;
 import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.factory.UserFactory;
-import cn.bunny.services.mapper.EmailUsersMapper;
 import cn.bunny.services.mapper.UserDeptMapper;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.mapper.UserRoleMapper;
@@ -65,9 +62,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     private RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
-    private EmailUsersMapper emailUsersMapper;
-
-    @Autowired
     private EmailFactory emailFactory;
 
     @Autowired
@@ -89,15 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void sendLoginEmail(@NotNull String email) {
-        EmailUsers emailUsers = emailUsersMapper.selectOne(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getIsDefault, true));
-        if (emailUsers == null) throw new BunnyException(ResultCodeEnum.EMAIL_USER_TEMPLATE_IS_EMPTY);
-
-        EmailSendInit emailSendInit = new EmailSendInit();
-        BeanUtils.copyProperties(emailUsers, emailSendInit);
-        emailSendInit.setUsername(emailUsers.getEmail());
-
-        String emailCode = emailFactory.sendmailCode(email, emailSendInit);
-
+        String emailCode = emailFactory.sendmailCode(email);
         redisTemplate.opsForValue().set(RedisUserConstant.getAdminUserEmailCodePrefix(email), emailCode);
     }
 
