@@ -6,7 +6,7 @@ import cn.bunny.common.generator.utils.GeneratorCodeUtils;
 import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
 import cn.bunny.dao.dto.schedulers.SchedulersDto;
 import cn.bunny.dao.dto.schedulers.SchedulersUpdateDto;
-import cn.bunny.dao.entity.view.Schedulers;
+import cn.bunny.dao.entity.schedulers.Schedulers;
 import cn.bunny.dao.vo.schedulers.SchedulersVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
@@ -40,9 +40,9 @@ public class WebGeneratorCode {
     // 生成API请求路径
     public static String apiPath = commonPath + "\\api\\v1\\";
     // 生成vue路径
-    public static String vuePath = commonPath + "\\views\\system\\";
+    public static String vuePath = commonPath + "\\views\\monitor\\";
     // 生成仓库路径
-    public static String storePath = commonPath + "\\store\\system\\";
+    public static String storePath = commonPath + "\\store\\monitor\\";
     // 后端controller
     public static String controllerPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
     public static String servicePath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
