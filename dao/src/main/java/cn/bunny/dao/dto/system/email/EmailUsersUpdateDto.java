@@ -24,9 +24,6 @@ public class EmailUsersUpdateDto {
     @NotNull(message = "邮箱不能为空")
     private String email;
 
-    @Schema(name = "emailTemplate", title = "邮件模板")
-    private Long emailTemplate;
-
     @Schema(name = "password", title = "密码")
     @NotBlank(message = "密码不能为空")
     @NotNull(message = "密码不能为空")

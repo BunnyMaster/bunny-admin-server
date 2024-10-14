@@ -25,9 +25,6 @@ public class EmailUsers extends BaseEntity {
     @Schema(name = "email", title = "邮箱")
     private String email;
 
-    @Schema(name = "emailTemplate", title = "使用邮件模板")
-    private Long emailTemplate;
-
     @Schema(name = "password", title = "密码")
     private String password;
 

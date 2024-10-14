@@ -49,13 +49,6 @@ public class EmailTemplateController {
         return Mono.just(Result.success(pageResult));
     }
 
-    @Operation(summary = "查询所有邮件模板", description = "查询所有邮件模板")
-    @GetMapping("getAllEmailTemplates")
-    public Mono<Result<List<EmailTemplateVo>>> getAllEmailTemplates() {
-        List<EmailTemplateVo> voList = emailTemplateService.getAllEmailTemplates();
-        return Mono.just(Result.success(voList));
-    }
-
     @Operation(summary = "添加邮件模板表", description = "添加邮件模板表")
     @PostMapping("addEmailTemplate")
     public Mono<Result<String>> addEmailTemplate(@Valid @RequestBody EmailTemplateAddDto dto) {

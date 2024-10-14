@@ -1,9 +1,6 @@
 package cn.bunny.dao.vo.system.email;
 
 import cn.bunny.dao.vo.BaseVo;
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -17,11 +14,6 @@ public class EmailUsersVo extends BaseVo {
 
     @Schema(name = "email", title = "邮箱")
     private String email;
-
-    @Schema(name = "emailTemplate", title = "使用邮件模板")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @JSONField(serializeUsing = ToStringSerializer.class)
-    private Long emailTemplate;
 
     @Schema(name = "password", title = "密码")
     private String password;

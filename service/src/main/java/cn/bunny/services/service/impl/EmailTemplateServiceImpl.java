@@ -100,21 +100,7 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
     public void deleteEmailTemplate(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
-        
-        baseMapper.deleteBatchIdsWithPhysics(ids);
-    }
 
-    /**
-     * * 查询所有邮件模板
-     *
-     * @return 邮箱模板返回内容列表
-     */
-    @Override
-    public List<EmailTemplateVo> getAllEmailTemplates() {
-        return list().stream().map(emailTemplate -> {
-            EmailTemplateVo emailTemplateVo = new EmailTemplateVo();
-            BeanUtils.copyProperties(emailTemplate, emailTemplateVo);
-            return emailTemplateVo;
-        }).toList();
+        baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 }

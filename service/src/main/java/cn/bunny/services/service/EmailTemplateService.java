@@ -49,11 +49,4 @@ public interface EmailTemplateService extends IService<EmailTemplate> {
      * @param ids 删除id列表
      */
     void deleteEmailTemplate(List<Long> ids);
-
-    /**
-     * * 查询所有邮件模板
-     *
-     * @return 邮箱模板返回内容列表
-     */
-    List<EmailTemplateVo> getAllEmailTemplates();
 }
