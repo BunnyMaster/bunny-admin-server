@@ -46,6 +46,5 @@
                 and job_method_name like CONCAT('%',#{dto.jobMethodName},'%')
             </if>
         </where>
-        order by update_time desc
     </select>
 </mapper>

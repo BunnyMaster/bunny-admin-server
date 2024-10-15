@@ -89,4 +89,18 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
     public void deleteSchedulersGroup(List<Long> ids) {
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }
+
+    /**
+     * * 获取所有任务调度分组
+     *
+     * @return 获取所有任务分组
+     */
+    @Override
+    public List<SchedulersGroupVo> getAllSchedulersGroup() {
+        return list().stream().map(schedulersGroup -> {
+            SchedulersGroupVo schedulersGroupVo = new SchedulersGroupVo();
+            BeanUtils.copyProperties(schedulersGroup, schedulersGroupVo);
+            return schedulersGroupVo;
+        }).toList();
+    }
 }

@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * Schedulers视图表 前端控制器
@@ -45,6 +48,13 @@ public class SchedulersController {
         Page<Schedulers> pageParams = new Page<>(page, limit);
         PageResult<SchedulersVo> pageResult = schedulersService.getSchedulersList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
+    }
+
+    @Operation(summary = "获取所有可用调度任务", description = "获取所有可用调度任务")
+    @GetMapping("getAllScheduleJobList")
+    public Mono<Result<List<Map<String, String>>>> getAllScheduleJobList() {
+        List<Map<String, String>> mapList = schedulersService.getAllScheduleJobList();
+        return Mono.just(Result.success(mapList));
     }
 
     @Operation(summary = "添加Schedulers任务", description = "添加Schedulers任务")

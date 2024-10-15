@@ -57,7 +57,7 @@ spring:
             # 如果使用集群，instanceId必须唯一，设置成AUTO
             instanceId: AUTO
           jobStore:
-            # 存储方式使用JobStoreTX 也就是数据库
+            # 存储方式使用JobStoreTX 也就是数据库 LocalDataSourceJobStore
             class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
             driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
             # 表名前缀

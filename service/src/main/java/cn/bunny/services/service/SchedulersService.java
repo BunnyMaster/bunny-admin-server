@@ -10,6 +10,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * Schedulers视图 服务类
@@ -54,4 +57,11 @@ public interface SchedulersService extends IService<Schedulers> {
      * @param dto Schedulers公共操作表单
      */
     void deleteSchedulers(SchedulersOperationDto dto);
+
+    /**
+     * * 获取所有可用调度任务
+     *
+     * @return 所有调度任务内容
+     */
+    List<Map<String, String>> getAllScheduleJobList();
 }

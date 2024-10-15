@@ -33,4 +33,7 @@ public class SchedulersVo {
     @Schema(name = "triggerState", title = "triggerState触发器状态")
     private String triggerState;
 
+    @Schema(name = "cronExpression", title = "corn表达式")
+    private String cronExpression;
+
 }

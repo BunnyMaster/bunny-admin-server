@@ -49,6 +49,13 @@ public class SchedulersGroupController {
         return Mono.just(Result.success(pageResult));
     }
 
+    @Operation(summary = "获取所有任务调度分组", description = "获取所有任务调度分组")
+    @GetMapping("getAllSchedulersGroup")
+    public Mono<Result<List<SchedulersGroupVo>>> getAllSchedulersGroup() {
+        List<SchedulersGroupVo> voList = schedulersGroupService.getAllSchedulersGroup();
+        return Mono.just(Result.success(voList));
+    }
+
     @Operation(summary = "添加任务调度分组", description = "添加任务调度分组")
     @PostMapping("addSchedulersGroup")
     public Mono<Result<String>> addSchedulersGroup(@Valid @RequestBody SchedulersGroupAddDto dto) {

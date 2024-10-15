@@ -49,4 +49,11 @@ public interface SchedulersGroupService extends IService<SchedulersGroup> {
      * @param ids 删除id列表
      */
     void deleteSchedulersGroup(List<Long> ids);
+
+    /**
+     * * 获取所有任务调度分组
+     *
+     * @return 获取所有任务分组
+     */
+    List<SchedulersGroupVo> getAllSchedulersGroup();
 }

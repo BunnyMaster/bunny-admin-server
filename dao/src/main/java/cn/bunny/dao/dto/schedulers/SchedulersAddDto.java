@@ -40,11 +40,6 @@ public class SchedulersAddDto {
     @NotNull(message = "corn表达式不能为空")
     private String cronExpression;
 
-    @Schema(name = "jobMethodName", title = "执行方法")
-    @NotBlank(message = "执行方法不能为空")
-    @NotNull(message = "执行方法不能为空")
-    private String jobMethodName;
-
 }
 
 
