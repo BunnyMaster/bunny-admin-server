@@ -18,7 +18,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Constructor;
 import java.util.List;
 
 /**
@@ -70,28 +69,25 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
     @Override
     public void addSchedulers(@Valid SchedulersAddDto dto) {
         try {
-            String jobGroup = dto.getJobGroup();
-            String jobName = dto.getJobName();
-            String cronExpression = dto.getCronExpression();
-            String description = dto.getDescription();
-            String jobMethodName = dto.getJobMethodName();
-            String jobClassName = dto.getJobClassName();
-
-
             // 动态创建Class对象
-            Class<?> className = Class.forName(jobClassName);
-            Constructor<?> constructor = className.getConstructor(); // 获取无参构造函数
-            constructor.newInstance(); // 创建实例
+            Class<?> className = Class.forName(dto.getJobClassName());
+
+            // 获取无参构造函数
+            className.getConstructor().newInstance();
 
             // 创建任务
-            JobDetail jobDetail = JobBuilder.newJob((Class<? extends Job>) className).withIdentity(jobName, jobGroup)
-                    .withDescription(description).build();
-            jobDetail.getJobDataMap().put("jobMethodName", jobMethodName);
+            JobDetail jobDetail = JobBuilder.newJob((Class<? extends Job>) className)
+                    .withIdentity(dto.getJobName(), dto.getJobGroup())
+                    .withDescription(dto.getDescription())
+                    .build();
+            jobDetail.getJobDataMap().put("jobMethodName", dto.getJobMethodName());
 
             // 执行任务
-            CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
-            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger" + jobName, jobGroup)
-                    .startNow().withSchedule(cronScheduleBuilder).build();
+            CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(dto.getCronExpression());
+            CronTrigger trigger = TriggerBuilder.newTrigger()
+                    .withIdentity("trigger" + dto.getJobName(), dto.getJobGroup())
+                    .startNow()
+                    .withSchedule(cronScheduleBuilder).build();
             scheduler.scheduleJob(jobDetail, trigger);
         } catch (Exception exception) {
             throw new BunnyException(exception.getMessage());

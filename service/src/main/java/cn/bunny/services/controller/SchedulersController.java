@@ -47,7 +47,7 @@ public class SchedulersController {
         return Mono.just(Result.success(pageResult));
     }
 
-    @Operation(summary = "添加Schedulers视图", description = "添加Schedulers视图")
+    @Operation(summary = "添加Schedulers任务", description = "添加Schedulers任务")
     @PostMapping("addSchedulers")
     public Mono<Result<String>> addSchedulers(@Valid @RequestBody SchedulersAddDto dto) {
         schedulersService.addSchedulers(dto);
