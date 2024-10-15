@@ -3,11 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
-import cn.bunny.dao.dto.schedulers.SchedulersDto;
-import cn.bunny.dao.dto.schedulers.SchedulersUpdateDto;
-import cn.bunny.dao.entity.schedulers.Schedulers;
-import cn.bunny.dao.vo.schedulers.SchedulersVo;
+import cn.bunny.dao.dto.schedulers.SchedulersGroupAddDto;
+import cn.bunny.dao.dto.schedulers.SchedulersGroupDto;
+import cn.bunny.dao.dto.schedulers.SchedulersGroupUpdateDto;
+import cn.bunny.dao.entity.schedulers.SchedulersGroup;
+import cn.bunny.dao.vo.schedulers.SchedulersGroupVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,11 +51,11 @@ public class WebGeneratorCode {
     public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = Schedulers.class;
-        Class<?> dtoClass = SchedulersDto.class;
-        Class<?> addDtoClass = SchedulersAddDto.class;
-        Class<?> updateDtoClass = SchedulersUpdateDto.class;
-        Class<?> voClass = SchedulersVo.class;
+        Class<?> originalClass = SchedulersGroup.class;
+        Class<?> dtoClass = SchedulersGroupDto.class;
+        Class<?> addDtoClass = SchedulersGroupAddDto.class;
+        Class<?> updateDtoClass = SchedulersGroupUpdateDto.class;
+        Class<?> voClass = SchedulersGroupVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();

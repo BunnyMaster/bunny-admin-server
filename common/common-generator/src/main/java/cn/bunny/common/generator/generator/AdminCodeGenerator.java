@@ -20,7 +20,7 @@ public class AdminCodeGenerator {
     public static final String entity = "Bunny";
 
     public static void main(String[] args) {
-        Generation("v_schedulers");
+        Generation("sys_schedulers_group");
     }
 
     /**
