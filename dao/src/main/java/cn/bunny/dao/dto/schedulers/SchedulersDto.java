@@ -33,5 +33,8 @@ public class SchedulersDto {
     @Schema(name = "triggerState", title = "triggerState触发器状态")
     private String triggerState;
 
+    @Schema(name = "jobMethodName", title = "执行方法")
+    private String jobMethodName;
+
 }
 

@@ -3,8 +3,7 @@ package cn.bunny.services.controller;
 import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
 import cn.bunny.dao.dto.schedulers.SchedulersDto;
 import cn.bunny.dao.dto.schedulers.SchedulersOperationDto;
-import cn.bunny.dao.dto.schedulers.SchedulersUpdateDto;
-import cn.bunny.dao.entity.schedulers.ViewSchedulers;
+import cn.bunny.dao.entity.schedulers.Schedulers;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -19,15 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 /**
  * <p>
  * Schedulers视图表 前端控制器
  * </p>
  *
  * @author Bunny
- * @since 2024-10-14 20:59:25
+ * @since 2024-10-15 16:35:10
  */
 @Tag(name = "Schedulers视图", description = "Schedulers视图相关接口")
 @RestController
@@ -45,7 +42,7 @@ public class SchedulersController {
             @Parameter(name = "limit", description = "每页记录数", required = true)
             @PathVariable("limit") Integer limit,
             SchedulersDto dto) {
-        Page<ViewSchedulers> pageParams = new Page<>(page, limit);
+        Page<Schedulers> pageParams = new Page<>(page, limit);
         PageResult<SchedulersVo> pageResult = schedulersService.getSchedulersList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
     }
@@ -55,20 +52,6 @@ public class SchedulersController {
     public Mono<Result<String>> addSchedulers(@Valid @RequestBody SchedulersAddDto dto) {
         schedulersService.addSchedulers(dto);
         return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
-    }
-
-    @Operation(summary = "更新Schedulers视图", description = "更新Schedulers视图")
-    @PutMapping("updateSchedulers")
-    public Mono<Result<String>> updateSchedulers(@Valid @RequestBody SchedulersUpdateDto dto) {
-        schedulersService.updateSchedulers(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
-    }
-
-    @Operation(summary = "删除Schedulers视图", description = "删除Schedulers视图")
-    @DeleteMapping("deleteSchedulers")
-    public Mono<Result<String>> deleteSchedulers(@RequestBody List<Long> ids) {
-        schedulersService.deleteSchedulers(ids);
-        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
     }
 
     @Operation(summary = "暂停Schedulers任务", description = "暂停任务")
@@ -85,10 +68,10 @@ public class SchedulersController {
         return Result.success();
     }
 
-    @Operation(summary = "移出Schedulers任务", description = "移出任务")
-    @DeleteMapping("/removeScheduler")
-    public Result<String> remove(@RequestBody SchedulersOperationDto dto) {
-        schedulersService.removeScheduler(dto);
-        return Result.success();
+    @Operation(summary = "删除Schedulers任务", description = "删除任务")
+    @DeleteMapping("/deleteSchedulers")
+    public Mono<Result<Object>> deleteSchedulers(@RequestBody SchedulersOperationDto dto) {
+        schedulersService.deleteSchedulers(dto);
+        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
     }
 }

@@ -1,10 +1,10 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
 import cn.bunny.dao.dto.schedulers.SchedulersDto;
 import cn.bunny.dao.dto.schedulers.SchedulersOperationDto;
-import cn.bunny.dao.dto.schedulers.SchedulersUpdateDto;
-import cn.bunny.dao.entity.schedulers.ViewSchedulers;
+import cn.bunny.dao.entity.schedulers.Schedulers;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.schedulers.SchedulersVo;
 import cn.bunny.services.mapper.SchedulersMapper;
@@ -13,9 +13,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
+import org.quartz.*;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 /**
@@ -24,10 +27,13 @@ import java.util.List;
  * </p>
  *
  * @author Bunny
- * @since 2024-10-14 20:59:25
+ * @since 2024-10-15 16:35:10
  */
 @Service
-public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, ViewSchedulers> implements SchedulersService {
+public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedulers> implements SchedulersService {
+
+    @Autowired
+    private Scheduler scheduler;
 
     /**
      * * Schedulers视图 服务实现类
@@ -37,9 +43,9 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, ViewSch
      * @return 查询分页Schedulers视图返回对象
      */
     @Override
-    public PageResult<SchedulersVo> getSchedulersList(Page<ViewSchedulers> pageParams, SchedulersDto dto) {
+    public PageResult<SchedulersVo> getSchedulersList(Page<Schedulers> pageParams, SchedulersDto dto) {
         // 分页查询菜单图标
-        IPage<ViewSchedulers> page = baseMapper.selectListByPage(pageParams, dto);
+        IPage<Schedulers> page = baseMapper.selectListByPage(pageParams, dto);
 
         List<SchedulersVo> voList = page.getRecords().stream().map(schedulers -> {
             SchedulersVo schedulersVo = new SchedulersVo();
@@ -60,35 +66,36 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, ViewSch
      *
      * @param dto Schedulers视图添加
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void addSchedulers(@Valid SchedulersAddDto dto) {
-        // 保存数据
-        ViewSchedulers viewSchedulers = new ViewSchedulers();
-        BeanUtils.copyProperties(dto, viewSchedulers);
-        save(viewSchedulers);
-    }
+        try {
+            String jobGroup = dto.getJobGroup();
+            String jobName = dto.getJobName();
+            String cronExpression = dto.getCronExpression();
+            String description = dto.getDescription();
+            String jobMethodName = dto.getJobMethodName();
+            String jobClassName = dto.getJobClassName();
 
-    /**
-     * 更新Schedulers视图
-     *
-     * @param dto Schedulers视图更新
-     */
-    @Override
-    public void updateSchedulers(@Valid SchedulersUpdateDto dto) {
-        // 更新内容
-        ViewSchedulers viewSchedulers = new ViewSchedulers();
-        BeanUtils.copyProperties(dto, viewSchedulers);
-        updateById(viewSchedulers);
-    }
 
-    /**
-     * 删除|批量删除Schedulers视图
-     *
-     * @param ids 删除id列表
-     */
-    @Override
-    public void deleteSchedulers(List<Long> ids) {
-        baseMapper.deleteBatchIdsWithPhysics(ids);
+            // 动态创建Class对象
+            Class<?> className = Class.forName(jobClassName);
+            Constructor<?> constructor = className.getConstructor(); // 获取无参构造函数
+            constructor.newInstance(); // 创建实例
+
+            // 创建任务
+            JobDetail jobDetail = JobBuilder.newJob((Class<? extends Job>) className).withIdentity(jobName, jobGroup)
+                    .withDescription(description).build();
+            jobDetail.getJobDataMap().put("jobMethodName", jobMethodName);
+
+            // 执行任务
+            CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger" + jobName, jobGroup)
+                    .startNow().withSchedule(cronScheduleBuilder).build();
+            scheduler.scheduleJob(jobDetail, trigger);
+        } catch (Exception exception) {
+            throw new BunnyException(exception.getMessage());
+        }
     }
 
     /**
@@ -98,7 +105,12 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, ViewSch
      */
     @Override
     public void pauseScheduler(SchedulersOperationDto dto) {
-
+        try {
+            JobKey key = new JobKey(dto.getJobName(), dto.getJobGroup());
+            scheduler.pauseJob(key);
+        } catch (SchedulerException exception) {
+            throw new BunnyException(exception.getMessage());
+        }
     }
 
     /**
@@ -108,7 +120,12 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, ViewSch
      */
     @Override
     public void resumeScheduler(SchedulersOperationDto dto) {
-
+        try {
+            JobKey key = new JobKey(dto.getJobName(), dto.getJobGroup());
+            scheduler.resumeJob(key);
+        } catch (SchedulerException exception) {
+            throw new BunnyException(exception.getMessage());
+        }
     }
 
     /**
@@ -117,7 +134,17 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, ViewSch
      * @param dto Schedulers公共操作表单
      */
     @Override
-    public void removeScheduler(SchedulersOperationDto dto) {
+    public void deleteSchedulers(SchedulersOperationDto dto) {
+        try {
+            String jobGroup = dto.getJobGroup();
+            String jobName = dto.getJobName();
 
+            TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
+            scheduler.pauseTrigger(triggerKey);
+            scheduler.unscheduleJob(triggerKey);
+            scheduler.deleteJob(JobKey.jobKey(jobName, jobGroup));
+        } catch (SchedulerException exception) {
+            throw new BunnyException(exception.getMessage());
+        }
     }
 }

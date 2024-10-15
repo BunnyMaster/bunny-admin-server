@@ -6,7 +6,7 @@ import cn.bunny.common.generator.utils.GeneratorCodeUtils;
 import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
 import cn.bunny.dao.dto.schedulers.SchedulersDto;
 import cn.bunny.dao.dto.schedulers.SchedulersUpdateDto;
-import cn.bunny.dao.entity.schedulers.ViewSchedulers;
+import cn.bunny.dao.entity.schedulers.Schedulers;
 import cn.bunny.dao.vo.schedulers.SchedulersVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
@@ -36,7 +36,7 @@ import java.util.stream.Stream;
 @Service
 public class WebGeneratorCode {
     // 公共路径
-    public static String commonPath = "D:\\Project\\web\\PC\\auth\\auth-web\\src";
+    public static String commonPath = "D:\\MyFolder\\auth-admin\\auth-web\\src";
     // 生成API请求路径
     public static String apiPath = commonPath + "\\api\\v1\\";
     // 生成vue路径
@@ -44,14 +44,14 @@ public class WebGeneratorCode {
     // 生成仓库路径
     public static String storePath = commonPath + "\\store\\monitor\\";
     // 后端controller
-    public static String controllerPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
-    public static String servicePath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
-    public static String serviceImplPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
-    public static String mapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
-    public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
+    public static String controllerPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
+    public static String servicePath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
+    public static String serviceImplPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
+    public static String mapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
+    public static String resourceMapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = ViewSchedulers.class;
+        Class<?> originalClass = Schedulers.class;
         Class<?> dtoClass = SchedulersDto.class;
         Class<?> addDtoClass = SchedulersAddDto.class;
         Class<?> updateDtoClass = SchedulersUpdateDto.class;
@@ -194,7 +194,7 @@ public class WebGeneratorCode {
      */
     public static void writeFiles(String lowercaseName, String lowerHyphen, String originalName, VelocityContext context) throws IOException {
         context.put("apiPath", GeneratorCodeUtils.ReplacePathHandle(apiPath) + lowercaseName);
-        context.put("storePath", GeneratorCodeUtils.ReplacePathHandle(storePath) + lowercaseName + ".ts");
+        context.put("storePath", GeneratorCodeUtils.ReplacePathHandle(storePath) + lowercaseName);
         context.put("typesPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/types");
         context.put("hookPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/hooks");
         context.put("columnsPath", GeneratorCodeUtils.ReplacePathHandle(vuePath) + lowercaseName + "/utils/columns");

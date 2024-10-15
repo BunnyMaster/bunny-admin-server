@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.SchedulersMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.schedulers.ViewSchedulers">
+    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.schedulers.Schedulers">
         <id column="job_name" property="jobName"/>
         <id column="job_group" property="jobGroup"/>
         <id column="description" property="description"/>
@@ -19,7 +19,7 @@
     </sql>
 
     <!-- 分页查询Schedulers视图内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.schedulers.ViewSchedulers">
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.schedulers.Schedulers">
         select
         <include refid="Base_Column_List"/>
         from qrtz_view_schedulers
@@ -42,18 +42,10 @@
             <if test="dto.triggerState != null and dto.triggerState != ''">
                 and trigger_state like CONCAT('%',#{dto.triggerState},'%')
             </if>
+            <if test="dto.jobMethodName != null and dto.jobMethodName != ''">
+                and job_method_name like CONCAT('%',#{dto.jobMethodName},'%')
+            </if>
         </where>
         order by update_time desc
     </select>
-
-    <!-- 物理删除Schedulers视图 -->
-    <delete id="deleteBatchIdsWithPhysics">
-        delete
-        from qrtz_view_schedulers
-        where id in
-        <foreach collection="ids" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
-    </delete>
-
 </mapper>

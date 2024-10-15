@@ -15,10 +15,6 @@ import lombok.NoArgsConstructor;
 @Schema(name = "SchedulersUpdateDto对象", title = "Schedulers更新表单", description = "Schedulers更新表单")
 public class SchedulersUpdateDto {
 
-    @Schema(name = "id", title = "主键")
-    @NotNull(message = "id不能为空")
-    private Long id;
-    
     @Schema(name = "jobName", title = "任务名称")
     @NotBlank(message = "任务名称不能为空")
     @NotNull(message = "任务名称不能为空")
@@ -44,14 +40,9 @@ public class SchedulersUpdateDto {
     @NotNull(message = "corn表达式不能为空")
     private String cronExpression;
 
-    @Schema(name = "triggerName", title = "触发器名称")
-    @NotBlank(message = "触发器名称不能为空")
-    @NotNull(message = "触发器名称不能为空")
-    private String triggerName;
-
-    @Schema(name = "triggerState", title = "triggerState触发器状态")
-    @NotBlank(message = "triggerState触发器状态不能为空")
-    @NotNull(message = "triggerState触发器状态不能为空")
-    private String triggerState;
+    @Schema(name = "jobMethodName", title = "执行方法")
+    @NotBlank(message = "执行方法不能为空")
+    @NotNull(message = "执行方法不能为空")
+    private String jobMethodName;
 
 }
