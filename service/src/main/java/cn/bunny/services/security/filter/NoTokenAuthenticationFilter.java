@@ -47,8 +47,14 @@ public class NoTokenAuthenticationFilter extends OncePerRequestFilter {
         Object loginVoObject = redisTemplate.opsForValue().get(RedisUserConstant.getAdminLoginInfoPrefix(username));
         LoginVo loginVo = JSON.parseObject(JSON.toJSONString(loginVoObject), LoginVo.class);
 
+        // 登录信息为空
+        if (loginVo == null) {
+            ResponseUtil.out(response, Result.error(ResultCodeEnum.LOGIN_AUTH));
+            return;
+        }
+
         // 判断用户是否禁用
-        if (loginVo != null && loginVo.getStatus()) {
+        if (loginVo.getStatus()) {
             ResponseUtil.out(response, Result.error(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED));
             return;
         }

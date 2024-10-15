@@ -10,8 +10,7 @@ logging:
   pattern:
     dateformat: HH:mm:ss:SSS
   file:
-    path: "logs/${spring.application.name}"
-
+    path: "/logs/${spring.application.name}"
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml

@@ -2,14 +2,9 @@ package cn.bunny.services.quartz;
 
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-
-import java.io.IOException;
-import java.util.Properties;
 
 @Configuration
 public class QuartzConfiguration {
@@ -28,24 +23,11 @@ public class QuartzConfiguration {
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean factoryBean = new SchedulerFactoryBean();
-        try {
-            factoryBean.setAutoStartup(true);
-            // 延时3秒启动
-            factoryBean.setStartupDelay(3);
-            factoryBean.setQuartzProperties(quartzProperties());
-            factoryBean.setJobFactory(quartzJobFactory);
-            return factoryBean;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Bean
-    public Properties quartzProperties() throws IOException {
-        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
-        propertiesFactoryBean.setLocation(new ClassPathResource("/quartz.properties"));
-        propertiesFactoryBean.afterPropertiesSet();
-        return propertiesFactoryBean.getObject();
+        factoryBean.setAutoStartup(true);
+        // 延时1秒启动
+        factoryBean.setStartupDelay(1);
+        factoryBean.setJobFactory(quartzJobFactory);
+        return factoryBean;
     }
 
     @Bean(name = "scheduler")

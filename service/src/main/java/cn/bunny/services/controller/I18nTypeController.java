@@ -32,7 +32,7 @@ public class I18nTypeController {
     private I18nTypeService i18nTypeService;
 
     @Operation(summary = "获取多语言类型", description = "获取多语言类型")
-    @GetMapping("getI18nTypeList")
+    @GetMapping("/noAuth/getI18nTypeList")
     public Mono<Result<List<I18nTypeVo>>> getI18nTypeList() {
         List<I18nTypeVo> voList = i18nTypeService.getI18nTypeList();
         return Mono.just(Result.success(voList));

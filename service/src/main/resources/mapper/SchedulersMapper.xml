@@ -3,14 +3,14 @@
 <mapper namespace="cn.bunny.services.mapper.SchedulersMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.schedulers.Schedulers">
-            <id column="job_name" property="jobName"/>
-            <id column="job_group" property="jobGroup"/>
-            <id column="description" property="description"/>
-            <id column="job_class_name" property="jobClassName"/>
-            <id column="cron_expression" property="cronExpression"/>
-            <id column="trigger_name" property="triggerName"/>
-            <id column="trigger_state" property="triggerState"/>
+    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.schedulers.ViewSchedulers">
+        <id column="job_name" property="jobName"/>
+        <id column="job_group" property="jobGroup"/>
+        <id column="description" property="description"/>
+        <id column="job_class_name" property="jobClassName"/>
+        <id column="cron_expression" property="cronExpression"/>
+        <id column="trigger_name" property="triggerName"/>
+        <id column="trigger_state" property="triggerState"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -19,29 +19,29 @@
     </sql>
 
     <!-- 分页查询Schedulers视图内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.schedulers.Schedulers">
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.schedulers.ViewSchedulers">
         select
         <include refid="Base_Column_List"/>
-        from v_schedulers
+        from qrtz_view_schedulers
         <where>
-                <if test="dto.jobName != null and dto.jobName != ''">
-                    and job_name like CONCAT('%',#{dto.jobName},'%')
-                </if>
-                <if test="dto.jobGroup != null and dto.jobGroup != ''">
-                    and job_group like CONCAT('%',#{dto.jobGroup},'%')
-                </if>
-                <if test="dto.description != null and dto.description != ''">
-                    and description like CONCAT('%',#{dto.description},'%')
-                </if>
-                <if test="dto.jobClassName != null and dto.jobClassName != ''">
-                    and job_class_name like CONCAT('%',#{dto.jobClassName},'%')
-                </if>
-                <if test="dto.triggerName != null and dto.triggerName != ''">
-                    and trigger_name like CONCAT('%',#{dto.triggerName},'%')
-                </if>
-                <if test="dto.triggerState != null and dto.triggerState != ''">
-                    and trigger_state like CONCAT('%',#{dto.triggerState},'%')
-                </if>
+            <if test="dto.jobName != null and dto.jobName != ''">
+                and job_name like CONCAT('%',#{dto.jobName},'%')
+            </if>
+            <if test="dto.jobGroup != null and dto.jobGroup != ''">
+                and job_group like CONCAT('%',#{dto.jobGroup},'%')
+            </if>
+            <if test="dto.description != null and dto.description != ''">
+                and description like CONCAT('%',#{dto.description},'%')
+            </if>
+            <if test="dto.jobClassName != null and dto.jobClassName != ''">
+                and job_class_name like CONCAT('%',#{dto.jobClassName},'%')
+            </if>
+            <if test="dto.triggerName != null and dto.triggerName != ''">
+                and trigger_name like CONCAT('%',#{dto.triggerName},'%')
+            </if>
+            <if test="dto.triggerState != null and dto.triggerState != ''">
+                and trigger_state like CONCAT('%',#{dto.triggerState},'%')
+            </if>
         </where>
         order by update_time desc
     </select>
@@ -49,7 +49,7 @@
     <!-- 物理删除Schedulers视图 -->
     <delete id="deleteBatchIdsWithPhysics">
         delete
-        from v_schedulers
+        from qrtz_view_schedulers
         where id in
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}

@@ -4,7 +4,7 @@ import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
 import cn.bunny.dao.dto.schedulers.SchedulersDto;
 import cn.bunny.dao.dto.schedulers.SchedulersOperationDto;
 import cn.bunny.dao.dto.schedulers.SchedulersUpdateDto;
-import cn.bunny.dao.entity.schedulers.Schedulers;
+import cn.bunny.dao.entity.schedulers.ViewSchedulers;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.schedulers.SchedulersVo;
 import cn.bunny.services.mapper.SchedulersMapper;
@@ -27,7 +27,7 @@ import java.util.List;
  * @since 2024-10-14 20:59:25
  */
 @Service
-public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedulers> implements SchedulersService {
+public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, ViewSchedulers> implements SchedulersService {
 
     /**
      * * Schedulers视图 服务实现类
@@ -37,9 +37,9 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      * @return 查询分页Schedulers视图返回对象
      */
     @Override
-    public PageResult<SchedulersVo> getSchedulersList(Page<Schedulers> pageParams, SchedulersDto dto) {
+    public PageResult<SchedulersVo> getSchedulersList(Page<ViewSchedulers> pageParams, SchedulersDto dto) {
         // 分页查询菜单图标
-        IPage<Schedulers> page = baseMapper.selectListByPage(pageParams, dto);
+        IPage<ViewSchedulers> page = baseMapper.selectListByPage(pageParams, dto);
 
         List<SchedulersVo> voList = page.getRecords().stream().map(schedulers -> {
             SchedulersVo schedulersVo = new SchedulersVo();
@@ -63,9 +63,9 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
     @Override
     public void addSchedulers(@Valid SchedulersAddDto dto) {
         // 保存数据
-        Schedulers schedulers = new Schedulers();
-        BeanUtils.copyProperties(dto, schedulers);
-        save(schedulers);
+        ViewSchedulers viewSchedulers = new ViewSchedulers();
+        BeanUtils.copyProperties(dto, viewSchedulers);
+        save(viewSchedulers);
     }
 
     /**
@@ -76,9 +76,9 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
     @Override
     public void updateSchedulers(@Valid SchedulersUpdateDto dto) {
         // 更新内容
-        Schedulers schedulers = new Schedulers();
-        BeanUtils.copyProperties(dto, schedulers);
-        updateById(schedulers);
+        ViewSchedulers viewSchedulers = new ViewSchedulers();
+        BeanUtils.copyProperties(dto, viewSchedulers);
+        updateById(viewSchedulers);
     }
 
     /**
@@ -98,7 +98,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      */
     @Override
     public void pauseScheduler(SchedulersOperationDto dto) {
-        
+
     }
 
     /**

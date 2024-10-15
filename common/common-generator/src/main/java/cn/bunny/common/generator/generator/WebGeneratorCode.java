@@ -6,7 +6,7 @@ import cn.bunny.common.generator.utils.GeneratorCodeUtils;
 import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
 import cn.bunny.dao.dto.schedulers.SchedulersDto;
 import cn.bunny.dao.dto.schedulers.SchedulersUpdateDto;
-import cn.bunny.dao.entity.schedulers.Schedulers;
+import cn.bunny.dao.entity.schedulers.ViewSchedulers;
 import cn.bunny.dao.vo.schedulers.SchedulersVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
@@ -51,7 +51,7 @@ public class WebGeneratorCode {
     public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = Schedulers.class;
+        Class<?> originalClass = ViewSchedulers.class;
         Class<?> dtoClass = SchedulersDto.class;
         Class<?> addDtoClass = SchedulersAddDto.class;
         Class<?> updateDtoClass = SchedulersUpdateDto.class;

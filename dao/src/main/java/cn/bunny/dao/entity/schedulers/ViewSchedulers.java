@@ -19,9 +19,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("v_schedulers")
+@TableName("qrtz_view_schedulers")
 @Schema(name = "Schedulers对象", title = "Schedulers视图", description = "Schedulers视图")
-public class Schedulers implements Serializable {
+public class ViewSchedulers implements Serializable {
 
     @Schema(name = "jobName", title = "任务名称")
     private String jobName;

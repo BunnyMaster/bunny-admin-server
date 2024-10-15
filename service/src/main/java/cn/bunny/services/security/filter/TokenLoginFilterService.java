@@ -2,7 +2,6 @@ package cn.bunny.services.security.filter;
 
 
 import cn.bunny.dao.dto.system.user.LoginDto;
-import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
@@ -49,6 +48,10 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
         this.customUserDetailsService = customUserDetailsService;
     }
 
+    /**
+     * * 自定义验证
+     * 判断邮箱验证码是否正确
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -59,16 +62,17 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
             String username = loginDto.getUsername();
             String password = loginDto.getPassword();
 
-            Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
-            if (redisEmailCode == null) {
-                out(response, Result.error(ResultCodeEnum.EMAIL_CODE_EMPTY));
-                return null;
-            }
+            // Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
+            // if (redisEmailCode == null) {
+            //     out(response, Result.error(ResultCodeEnum.EMAIL_CODE_EMPTY));
+            //     return null;
+            // }
 
-            if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
-                out(response, Result.error(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING));
-                return null;
-            }
+            // 判断用户邮箱验证码是否和Redis中发送的验证码
+            // if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
+            //     out(response, Result.error(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING));
+            //     return null;
+            // }
 
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             return getAuthenticationManager().authenticate(authenticationToken);

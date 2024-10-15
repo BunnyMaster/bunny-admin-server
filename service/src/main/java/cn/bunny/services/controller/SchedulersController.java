@@ -4,7 +4,7 @@ import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
 import cn.bunny.dao.dto.schedulers.SchedulersDto;
 import cn.bunny.dao.dto.schedulers.SchedulersOperationDto;
 import cn.bunny.dao.dto.schedulers.SchedulersUpdateDto;
-import cn.bunny.dao.entity.schedulers.Schedulers;
+import cn.bunny.dao.entity.schedulers.ViewSchedulers;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -45,7 +45,7 @@ public class SchedulersController {
             @Parameter(name = "limit", description = "每页记录数", required = true)
             @PathVariable("limit") Integer limit,
             SchedulersDto dto) {
-        Page<Schedulers> pageParams = new Page<>(page, limit);
+        Page<ViewSchedulers> pageParams = new Page<>(page, limit);
         PageResult<SchedulersVo> pageResult = schedulersService.getSchedulersList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
     }

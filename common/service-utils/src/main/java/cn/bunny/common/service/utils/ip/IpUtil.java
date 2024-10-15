@@ -1,6 +1,7 @@
 package cn.bunny.common.service.utils.ip;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.xdb.Searcher;
 import org.springframework.core.io.ClassPathResource;
@@ -9,6 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,13 +89,43 @@ public class IpUtil {
      * @return IP地址
      */
     public static IpEntity getCurrentUserIpAddress() {
-        // 获取用户IP地址
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        String remoteAddr = requestAttributes != null ? requestAttributes.getRequest().getRemoteAddr() : "0:0:0:0:0:0:0:1";
+        String remoteAddr = requestAttributes != null ? getIpAddr(requestAttributes.getRequest()) : "0:0:0:0:0:0:0:1";
         String ipRegion = IpUtil.getIpRegion(remoteAddr);
         return IpEntity.builder()
                 .remoteAddr(remoteAddr)
                 .ipRegion(ipRegion)
                 .build();
+    }
+
+    /**
+     * * 获取IP地址
+     *
+     * @param request 请求头
+     */
+    public static String getIpAddr(HttpServletRequest request) {
+        String ipAddress;
+        try {
+            ipAddress = request.getHeader("x-forwarded-for");
+            if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+                ipAddress = request.getHeader("Proxy-Client-IP");
+            }
+            if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+                ipAddress = request.getHeader("WL-Proxy-Client-IP");
+            }
+            if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+                ipAddress = request.getRemoteAddr();
+                if (ipAddress.equals("127.0.0.1")) ipAddress = InetAddress.getLocalHost().getHostAddress();
+            }
+            // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
+            if (ipAddress != null && ipAddress.length() > 15) {
+                if (ipAddress.indexOf(",") > 0) {
+                    ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
+                }
+            }
+        } catch (Exception e) {
+            ipAddress = null;
+        }
+        return ipAddress;
     }
 }

@@ -12,6 +12,7 @@ import cn.bunny.dao.pojo.constant.UserConstant;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RoleMapper;
+import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,11 @@ public class UserFactory {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
     @Autowired
     private MinioUtil minioUtil;
+    @Autowired
+    private UserMapper userMapper;
 
     public LoginVo buildUserVo(AdminUser user, long readMeDay) {
         // 创建token
@@ -46,6 +50,8 @@ public class UserFactory {
         String email = user.getEmail();
         String token = JwtHelper.createToken(userId, email, (int) readMeDay);
         String avatar = user.getAvatar();
+        String remoteAddr = IpUtil.getCurrentUserIpAddress().getRemoteAddr();
+        String ipRegion = IpUtil.getCurrentUserIpAddress().getIpRegion();
 
         // 判断用户是否有头像，如果没有头像设置默认头像
         avatar = StringUtils.hasText(avatar) ? minioUtil.getObjectNameFullPath(avatar) : UserConstant.USER_AVATAR;
@@ -53,8 +59,9 @@ public class UserFactory {
         // 设置用户IP地址，并更新用户信息
         AdminUser updateUser = new AdminUser();
         updateUser.setId(userId);
-        updateUser.setLastLoginIp(IpUtil.getCurrentUserIpAddress().getRemoteAddr());
-        updateUser.setLastLoginIpAddress(IpUtil.getCurrentUserIpAddress().getIpRegion());
+        updateUser.setLastLoginIp(remoteAddr);
+        updateUser.setLastLoginIpAddress(ipRegion);
+        userMapper.updateById(updateUser);
 
         // 计算过期时间，并格式化返回
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -79,8 +86,8 @@ public class UserFactory {
         loginVo.setAvatar(avatar);
         loginVo.setToken(token);
         loginVo.setRefreshToken(token);
-        loginVo.setLastLoginIp(IpUtil.getCurrentUserIpAddress().getRemoteAddr());
-        loginVo.setLastLoginIpAddress(IpUtil.getCurrentUserIpAddress().getIpRegion());
+        loginVo.setLastLoginIp(remoteAddr);
+        loginVo.setLastLoginIpAddress(ipRegion);
         loginVo.setRoles(roles);
         loginVo.setPermissions(permissions);
         loginVo.setUpdateUser(userId);

@@ -4,7 +4,7 @@ import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
 import cn.bunny.dao.dto.schedulers.SchedulersDto;
 import cn.bunny.dao.dto.schedulers.SchedulersOperationDto;
 import cn.bunny.dao.dto.schedulers.SchedulersUpdateDto;
-import cn.bunny.dao.entity.schedulers.Schedulers;
+import cn.bunny.dao.entity.schedulers.ViewSchedulers;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.schedulers.SchedulersVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,14 +21,14 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-14 20:59:25
  */
-public interface SchedulersService extends IService<Schedulers> {
+public interface SchedulersService extends IService<ViewSchedulers> {
 
     /**
      * * 获取Schedulers视图列表
      *
      * @return Schedulers视图返回列表
      */
-    PageResult<SchedulersVo> getSchedulersList(Page<Schedulers> pageParams, SchedulersDto dto);
+    PageResult<SchedulersVo> getSchedulersList(Page<ViewSchedulers> pageParams, SchedulersDto dto);
 
     /**
      * * 添加Schedulers视图
