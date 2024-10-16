@@ -27,7 +27,7 @@ public class UserRoleController {
     @Autowired
     private UserRoleService userRoleService;
 
-    @Operation(summary = "根据用户id获取角色列表", description = "根据用户id获取角色列表")
+    @Operation(summary = "根据用户id获取角色列", description = "根据用户id获取角色列")
     @GetMapping("getRoleListByUserId")
     public Mono<Result<List<String>>> getRoleListByUserId(Long userId) {
         List<String> roleVoList = userRoleService.getRoleListByUserId(userId);

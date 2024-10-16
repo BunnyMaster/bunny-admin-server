@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * <p>
- * 任务调度分组表 前端控制器
+ * 任务调度分组 前端控制器
  * </p>
  *
  * @author Bunny

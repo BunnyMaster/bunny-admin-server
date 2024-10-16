@@ -28,7 +28,7 @@ public class RolePowerController {
     @Autowired
     private RolePowerService rolePowerService;
 
-    @Operation(summary = "根据角色id获取权限内容", description = "角色列表获取已选择的权限")
+    @Operation(summary = "根据角色id获取权限内容", description = "角色列获取已选择的权限")
     @GetMapping("getPowerListByRoleId")
     public Mono<Result<List<String>>> getPowerListByRoleId(Long id) {
         List<String> voList = rolePowerService.getPowerListByRoleId(id);

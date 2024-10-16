@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 邮箱用户发送配置表 前端控制器
+ * 邮箱用户发送配置 前端控制器
  * </p>
  *
  * @author Bunny

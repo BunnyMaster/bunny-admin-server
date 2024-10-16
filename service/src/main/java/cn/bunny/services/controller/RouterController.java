@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * <p>
- * 系统菜单表 前端控制器
+ * 系统菜单 前端控制器
  * </p>
  *
  * @author Bunny
@@ -44,7 +44,7 @@ public class RouterController {
         return Mono.just(Result.success(voList));
     }
 
-    @Operation(summary = "分页管理菜单列表", description = "分页管理菜单列表")
+    @Operation(summary = "分页管理菜单列", description = "分页管理菜单列")
     @GetMapping("getMenusList/{page}/{limit}")
     public Mono<Result<PageResult<RouterManageVo>>> getMenusByPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -58,7 +58,7 @@ public class RouterController {
         return Mono.just(Result.success(voPageResult));
     }
 
-    @Operation(summary = "管理菜单列表", description = "管理菜单列表")
+    @Operation(summary = "管理菜单列", description = "管理菜单列")
     @GetMapping("getMenusList")
     public Mono<Result<List<RouterManageVo>>> getMenusList(RouterManageDto dto) {
         List<RouterManageVo> voPageResult = routerService.getMenusList(dto);

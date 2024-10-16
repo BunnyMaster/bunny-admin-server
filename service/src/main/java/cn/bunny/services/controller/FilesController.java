@@ -34,7 +34,7 @@ import java.util.Set;
  * @author Bunny
  * @since 2024-10-09 16:28:01
  */
-@Tag(name = "系统文件表", description = "系统文件表相关接口")
+@Tag(name = "系统文件表", description = "系统文件相关接口")
 @RestController
 @RequestMapping("admin/files")
 public class FilesController {
@@ -42,7 +42,7 @@ public class FilesController {
     @Autowired
     private FilesService filesService;
 
-    @Operation(summary = "分页查询系统文件表", description = "分页查询系统文件表")
+    @Operation(summary = "分页查询系统文件", description = "分页查询系统文件")
     @GetMapping("getFilesList/{page}/{limit}")
     public Mono<Result<PageResult<FilesVo>>> getFilesList(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -83,14 +83,14 @@ public class FilesController {
         return filesService.downloadFilesByFilepath(filepath);
     }
 
-    @Operation(summary = "更新系统文件表", description = "更新系统文件表")
+    @Operation(summary = "更新系统文件", description = "更新系统文件")
     @PutMapping("updateFiles")
     public Result<String> updateFiles(@Valid FilesUpdateDto dto) {
         filesService.updateFiles(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "添加系统文件表", description = "添加系统文件表")
+    @Operation(summary = "添加系统文件", description = "添加系统文件")
     @PostMapping("addFiles")
     public Mono<Result<String>> addFiles(@Valid FilesAddDto dto) {
         filesService.addFiles(dto);
@@ -104,7 +104,7 @@ public class FilesController {
         return Result.success(vo, ResultCodeEnum.SUCCESS_UPLOAD);
     }
 
-    @Operation(summary = "删除系统文件表", description = "删除系统文件表")
+    @Operation(summary = "删除系统文件", description = "删除系统文件")
     @DeleteMapping("deleteFiles")
     public Result<String> deleteFiles(@RequestBody List<Long> ids) {
         filesService.deleteFiles(ids);

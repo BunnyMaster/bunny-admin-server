@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * <p>
- * 多语言类型表 前端控制器
+ * 多语言类型 前端控制器
  * </p>
  *
  * @author Bunny

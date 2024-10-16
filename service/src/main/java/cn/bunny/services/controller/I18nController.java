@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 多语言表 前端控制器
+ * 多语言 前端控制器
  * </p>
  *
  * @author Bunny
@@ -44,7 +44,7 @@ public class I18nController {
         return Mono.just(Result.success(vo));
     }
 
-    @Operation(summary = "获取管理多语言列表", description = "获取管理多语言列表")
+    @Operation(summary = "获取管理多语言列", description = "获取管理多语言列")
     @GetMapping("getI18nList/{page}/{limit}")
     public Mono<Result<PageResult<I18nVo>>> getI18nList(
             @Parameter(name = "page", description = "当前页", required = true)

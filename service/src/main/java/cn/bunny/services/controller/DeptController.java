@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * <p>
- * 部门表 前端控制器
+ * 部门 前端控制器
  * </p>
  *
  * @author Bunny
