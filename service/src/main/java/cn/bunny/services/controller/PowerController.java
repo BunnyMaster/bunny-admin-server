@@ -59,9 +59,9 @@ public class PowerController {
 
     @Operation(summary = "添加权限", description = "添加权限")
     @PostMapping("addPower")
-    public Mono<Result<String>> addPower(@Valid @RequestBody PowerAddDto dto) {
+    public Result<String> addPower(@Valid @RequestBody PowerAddDto dto) {
         powerService.addPower(dto);
-        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+        return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @Operation(summary = "更新权限", description = "更新权限")

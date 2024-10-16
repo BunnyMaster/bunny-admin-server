@@ -24,8 +24,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BunnyException.class)
     @ResponseBody
     public Result<Object> exceptionHandler(BunnyException exception) {
-        log.error("GlobalExceptionHandler===>自定义异常信息：{}", exception.getMessage());
-
         Integer code = exception.getCode() != null ? exception.getCode() : 500;
         return Result.error(null, code, exception.getMessage());
     }
@@ -50,6 +48,13 @@ public class GlobalExceptionHandler {
         Matcher dataTooLongErrorMatcher = Pattern.compile(dataTooLongError).matcher(message);
         if (dataTooLongErrorMatcher.find()) {
             return Result.error(null, 500, dataTooLongErrorMatcher.group(1) + " 字段数据过大");
+        }
+
+        // 主键冲突
+        String primaryKeyError = "Duplicate entry '(.*?)' for key .*";
+        Matcher primaryKeyErrorMatcher = Pattern.compile(primaryKeyError).matcher(message);
+        if (primaryKeyErrorMatcher.find()) {
+            return Result.error(null, 500, "主键值" + primaryKeyErrorMatcher.group(1) + "已存在");
         }
 
         return Result.error(null, 500, "服务器异常");

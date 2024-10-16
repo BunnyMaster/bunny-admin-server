@@ -16,9 +16,8 @@ import lombok.NoArgsConstructor;
 public class PowerAddDto {
 
     @Schema(name = "id", title = "主键")
-    @NotNull(message = "id不能为空")
     private Long id;
-    
+
     @Schema(name = "parentId", title = "父级id")
     private Long parentId;
 
