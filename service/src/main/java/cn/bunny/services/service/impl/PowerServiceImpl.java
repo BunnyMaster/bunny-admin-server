@@ -96,8 +96,6 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
         LambdaQueryWrapper<Power> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Power::getPowerCode, dto.getPowerCode())
                 .or()
-                .eq(Power::getPowerName, dto.getPowerName())
-                .or()
                 .eq(Power::getRequestUrl, dto.getRequestUrl());
         List<Power> powerList = list(wrapper);
         if (!powerList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);

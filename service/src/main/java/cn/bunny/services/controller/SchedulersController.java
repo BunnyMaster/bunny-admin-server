@@ -37,7 +37,7 @@ public class SchedulersController {
     @Autowired
     private SchedulersService schedulersService;
 
-    @Operation(summary = "分页查询Schedulers视图", description = "分页查询Schedulers视图")
+    @Operation(summary = "分页查询视图", description = "分页查询视图")
     @GetMapping("getSchedulersList/{page}/{limit}")
     public Mono<Result<PageResult<SchedulersVo>>> getSchedulersList(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -57,28 +57,28 @@ public class SchedulersController {
         return Mono.just(Result.success(mapList));
     }
 
-    @Operation(summary = "添加Schedulers任务", description = "添加Schedulers任务")
+    @Operation(summary = "添加任务", description = "添加任务")
     @PostMapping("addSchedulers")
     public Mono<Result<String>> addSchedulers(@Valid @RequestBody SchedulersAddDto dto) {
         schedulersService.addSchedulers(dto);
         return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
 
-    @Operation(summary = "暂停Schedulers任务", description = "暂停任务")
+    @Operation(summary = "暂停任务", description = "暂停任务")
     @PutMapping("/pauseScheduler")
     public Result<String> pause(@RequestBody SchedulersOperationDto dto) {
         schedulersService.pauseScheduler(dto);
         return Result.success();
     }
 
-    @Operation(summary = "恢复Schedulers任务", description = "恢复任务")
+    @Operation(summary = "恢复任务", description = "恢复任务")
     @PutMapping("/resumeScheduler")
     public Result<String> resume(@RequestBody SchedulersOperationDto dto) {
         schedulersService.resumeScheduler(dto);
         return Result.success();
     }
 
-    @Operation(summary = "删除Schedulers任务", description = "删除任务")
+    @Operation(summary = "删除任务", description = "删除任务")
     @DeleteMapping("/deleteSchedulers")
     public Mono<Result<Object>> deleteSchedulers(@RequestBody SchedulersOperationDto dto) {
         schedulersService.deleteSchedulers(dto);
