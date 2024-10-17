@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.SchedulersMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.schedulers.Schedulers">
+    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.quartz.Schedulers">
         <id column="job_name" property="jobName"/>
         <id column="job_group" property="jobGroup"/>
         <id column="description" property="description"/>
@@ -19,10 +19,10 @@
     </sql>
 
     <!-- 分页查询Schedulers视图内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.schedulers.Schedulers">
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.quartz.Schedulers">
         select
         <include refid="Base_Column_List"/>
-        from qrtz_view_schedulers
+        from view_qrtz_schedulers
         <where>
             <if test="dto.jobName != null and dto.jobName != ''">
                 and job_name like CONCAT('%',#{dto.jobName},'%')

@@ -1,18 +1,27 @@
-package cn.bunny.dao.dto.schedulers;
+package cn.bunny.dao.entity.quartz;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Schema(name = "SchedulersDto对象", title = "Schedulers查询表单", description = "Schedulers查询表单")
-public class SchedulersDto {
+import java.io.Serializable;
+
+/**
+ * <p>
+ * VIEW
+ * </p>
+ *
+ * @author Bunny
+ * @since 2024-10-14
+ */
+@Getter
+@Setter
+@Accessors(chain = true)
+@TableName("view_qrtz_schedulers")
+@Schema(name = "Schedulers对象", title = "Schedulers视图", description = "Schedulers视图")
+public class Schedulers implements Serializable {
 
     @Schema(name = "jobName", title = "任务名称")
     private String jobName;
@@ -24,8 +33,10 @@ public class SchedulersDto {
     private String description;
 
     @Schema(name = "jobClassName", title = "任务类名称")
-    @NotNull(message = "corn表达式不能为空")
     private String jobClassName;
+
+    @Schema(name = "cronExpression", title = "corn表达式")
+    private String cronExpression;
 
     @Schema(name = "triggerName", title = "触发器名称")
     private String triggerName;
@@ -33,8 +44,4 @@ public class SchedulersDto {
     @Schema(name = "triggerState", title = "triggerState触发器状态")
     private String triggerState;
 
-    @Schema(name = "jobMethodName", title = "执行方法")
-    private String jobMethodName;
-
 }
-

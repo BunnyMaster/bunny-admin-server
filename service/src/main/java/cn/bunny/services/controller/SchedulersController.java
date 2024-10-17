@@ -1,13 +1,13 @@
 package cn.bunny.services.controller;
 
-import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
-import cn.bunny.dao.dto.schedulers.SchedulersDto;
-import cn.bunny.dao.dto.schedulers.SchedulersOperationDto;
-import cn.bunny.dao.entity.schedulers.Schedulers;
+import cn.bunny.dao.dto.quartz.SchedulersAddDto;
+import cn.bunny.dao.dto.quartz.SchedulersDto;
+import cn.bunny.dao.dto.quartz.SchedulersOperationDto;
+import cn.bunny.dao.entity.quartz.Schedulers;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.schedulers.SchedulersVo;
+import cn.bunny.dao.vo.quartz.SchedulersVo;
 import cn.bunny.services.service.SchedulersService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;

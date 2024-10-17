@@ -1,11 +1,11 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.dao.dto.schedulers.SchedulersGroupAddDto;
-import cn.bunny.dao.dto.schedulers.SchedulersGroupDto;
-import cn.bunny.dao.dto.schedulers.SchedulersGroupUpdateDto;
-import cn.bunny.dao.entity.schedulers.SchedulersGroup;
+import cn.bunny.dao.dto.quartz.SchedulersGroupAddDto;
+import cn.bunny.dao.dto.quartz.SchedulersGroupDto;
+import cn.bunny.dao.dto.quartz.SchedulersGroupUpdateDto;
+import cn.bunny.dao.entity.quartz.SchedulersGroup;
 import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.dao.vo.schedulers.SchedulersGroupVo;
+import cn.bunny.dao.vo.quartz.SchedulersGroupVo;
 import cn.bunny.services.mapper.SchedulersGroupMapper;
 import cn.bunny.services.service.SchedulersGroupService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,11 +57,27 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
     }
 
     /**
+     * * 获取所有任务调度分组
+     *
+     * @return 获取所有任务分组
+     */
+    @Override
+    @Cacheable(cacheNames = "schedulers", key = "'allSchedulersGroup'", cacheManager = "cacheManagerWithMouth")
+    public List<SchedulersGroupVo> getAllSchedulersGroup() {
+        return list().stream().map(schedulersGroup -> {
+            SchedulersGroupVo schedulersGroupVo = new SchedulersGroupVo();
+            BeanUtils.copyProperties(schedulersGroup, schedulersGroupVo);
+            return schedulersGroupVo;
+        }).toList();
+    }
+
+    /**
      * 添加任务调度分组
      *
      * @param dto 任务调度分组添加
      */
     @Override
+    @CacheEvict(cacheNames = "schedulers", key = "'allSchedulersGroup'", beforeInvocation = true)
     public void addSchedulersGroup(@Valid SchedulersGroupAddDto dto) {
         // 保存数据
         SchedulersGroup schedulersGroup = new SchedulersGroup();
@@ -73,6 +91,7 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
      * @param dto 任务调度分组更新
      */
     @Override
+    @CacheEvict(cacheNames = "schedulers", key = "'allSchedulersGroup'", beforeInvocation = true)
     public void updateSchedulersGroup(@Valid SchedulersGroupUpdateDto dto) {
         // 更新内容
         SchedulersGroup schedulersGroup = new SchedulersGroup();
@@ -86,21 +105,8 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
      * @param ids 删除id列表
      */
     @Override
+    @CacheEvict(cacheNames = "schedulers", key = "'allSchedulersGroup'", beforeInvocation = true)
     public void deleteSchedulersGroup(List<Long> ids) {
         baseMapper.deleteBatchIdsWithPhysics(ids);
-    }
-
-    /**
-     * * 获取所有任务调度分组
-     *
-     * @return 获取所有任务分组
-     */
-    @Override
-    public List<SchedulersGroupVo> getAllSchedulersGroup() {
-        return list().stream().map(schedulersGroup -> {
-            SchedulersGroupVo schedulersGroupVo = new SchedulersGroupVo();
-            BeanUtils.copyProperties(schedulersGroup, schedulersGroupVo);
-            return schedulersGroupVo;
-        }).toList();
     }
 }

@@ -1,11 +1,11 @@
 package cn.bunny.services.service;
 
-import cn.bunny.dao.dto.schedulers.SchedulersGroupAddDto;
-import cn.bunny.dao.dto.schedulers.SchedulersGroupDto;
-import cn.bunny.dao.dto.schedulers.SchedulersGroupUpdateDto;
-import cn.bunny.dao.entity.schedulers.SchedulersGroup;
+import cn.bunny.dao.dto.quartz.SchedulersGroupAddDto;
+import cn.bunny.dao.dto.quartz.SchedulersGroupDto;
+import cn.bunny.dao.dto.quartz.SchedulersGroupUpdateDto;
+import cn.bunny.dao.entity.quartz.SchedulersGroup;
 import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.dao.vo.schedulers.SchedulersGroupVo;
+import cn.bunny.dao.vo.quartz.SchedulersGroupVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

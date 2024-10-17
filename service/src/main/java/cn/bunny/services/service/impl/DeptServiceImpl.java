@@ -16,6 +16,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,11 +71,27 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     }
 
     /**
+     * * 获取所有部门
+     *
+     * @return 所有部门列表
+     */
+    @Override
+    @Cacheable(cacheNames = "dept", key = "'allDept'", cacheManager = "cacheManagerWithMouth")
+    public List<DeptVo> getAllDeptList() {
+        return list().stream().map(dept -> {
+            DeptVo deptVo = new DeptVo();
+            BeanUtils.copyProperties(dept, deptVo);
+            return deptVo;
+        }).toList();
+    }
+
+    /**
      * 添加部门
      *
      * @param dto 部门添加
      */
     @Override
+    @CacheEvict(cacheNames = "dept", key = "'allDept'", beforeInvocation = true)
     public void addDept(DeptAddDto dto) {
         // 整理管理者人员
         String mangerList = dto.getManager().stream().map(String::trim).collect(Collectors.joining(","));
@@ -92,6 +110,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      * @param dto 部门更新
      */
     @Override
+    @CacheEvict(cacheNames = "dept", key = "'allDept'", beforeInvocation = true)
     public void updateDept(DeptUpdateDto dto) {
         // 判断所更新的部门是否存在
         String mangerList = dto.getManager().stream().map(String::trim).collect(Collectors.joining(","));
@@ -111,6 +130,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      * @param ids 删除id列表
      */
     @Override
+    @CacheEvict(cacheNames = "dept", key = "'allDept'", beforeInvocation = true)
     public void deleteDept(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
@@ -122,17 +142,4 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
         userDeptMapper.deleteBatchIdsByDeptIdWithPhysics(ids);
     }
 
-    /**
-     * * 获取所有部门
-     *
-     * @return 所有部门列表
-     */
-    @Override
-    public List<DeptVo> getAllDeptList() {
-        return list().stream().map(dept -> {
-            DeptVo deptVo = new DeptVo();
-            BeanUtils.copyProperties(dept, deptVo);
-            return deptVo;
-        }).toList();
-    }
 }

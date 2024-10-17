@@ -57,7 +57,8 @@ public class RedisConfiguration {
     }
 
     /**
-     * * 配置Redis过期时间30天
+     * * 配置Redis过期时间
+     * 一个月
      * 解决cache(@Cacheable)把数据缓存到redis中的value是乱码问题
      */
     @Bean
@@ -74,19 +75,20 @@ public class RedisConfiguration {
     }
 
     /**
-     * * 配置redis过期时间3分钟
+     * * 配置redis过期时间
+     * 半个月
      *
      * @param factory
      * @return
      */
     @Bean
     @SuppressWarnings("all")
-    public CacheManager cacheManagerWithMinutes(RedisConnectionFactory factory) {
+    public CacheManager cacheManagerWithHalfOfMouth(RedisConnectionFactory factory) {
         // 配置序列化
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jsonRedisSerializer()))
-                .entryTtl(Duration.ofMinutes(3));
+                .entryTtl(Duration.ofDays(15));
 
         return RedisCacheManager.builder(factory).cacheDefaults(config).build();
     }
@@ -113,18 +115,23 @@ public class RedisConfiguration {
      * 指定的日期模式
      */
     public Jackson2JsonRedisSerializer<Object> jsonRedisSerializer() {
-        ObjectMapper mapper = new ObjectMapper();
-        // 设置ObjectMapper访问权限
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        // 记录序列化之后的数据类型，方便反序列化
-        mapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
         // LocalDatetime序列化，默认不兼容jdk8日期序列化
         JavaTimeModule timeModule = new JavaTimeModule();
         timeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         timeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
         timeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         timeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+        // 对象序列化
+        ObjectMapper mapper = new ObjectMapper();
+
+        // 设置ObjectMapper访问权限
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+
+        // 记录序列化之后的数据类型，方便反序列化
+        // mapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+        mapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.EVERYTHING);
+
         // 关闭默认的日期格式化方式，默认UTC日期格式 yyyy-MM-dd’T’HH:mm:ss.SSS
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.registerModule(timeModule);

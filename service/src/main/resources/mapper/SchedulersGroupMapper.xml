@@ -3,15 +3,15 @@
 <mapper namespace="cn.bunny.services.mapper.SchedulersGroupMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.schedulers.SchedulersGroup">
-            <id column="id" property="id"/>
-            <id column="create_time" property="createTime"/>
-            <id column="update_time" property="updateTime"/>
-            <id column="create_user" property="createUser"/>
-            <id column="update_user" property="updateUser"/>
-            <id column="is_deleted" property="isDeleted"/>
-            <id column="group_name" property="groupName"/>
-            <id column="description" property="description"/>
+    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.quartz.SchedulersGroup">
+        <id column="id" property="id"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="create_user" property="createUser"/>
+        <id column="update_user" property="updateUser"/>
+        <id column="is_deleted" property="isDeleted"/>
+        <id column="group_name" property="groupName"/>
+        <id column="description" property="description"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -20,17 +20,17 @@
     </sql>
 
     <!-- 分页查询任务调度分组内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.schedulers.SchedulersGroup">
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.quartz.SchedulersGroup">
         select
         <include refid="Base_Column_List"/>
-        from sys_schedulers_group
+        from qrtz_schedulers_group
         <where>
-                <if test="dto.groupName != null and dto.groupName != ''">
-                    and group_name like CONCAT('%',#{dto.groupName},'%')
-                </if>
-                <if test="dto.description != null and dto.description != ''">
-                    and description like CONCAT('%',#{dto.description},'%')
-                </if>
+            <if test="dto.groupName != null and dto.groupName != ''">
+                and group_name like CONCAT('%',#{dto.groupName},'%')
+            </if>
+            <if test="dto.description != null and dto.description != ''">
+                and description like CONCAT('%',#{dto.description},'%')
+            </if>
         </where>
         order by update_time desc
     </select>

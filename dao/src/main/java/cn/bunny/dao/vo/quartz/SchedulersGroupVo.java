@@ -1,4 +1,4 @@
-package cn.bunny.dao.vo.schedulers;
+package cn.bunny.dao.vo.quartz;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

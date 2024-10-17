@@ -1,12 +1,12 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.exception.BunnyException;
-import cn.bunny.dao.dto.schedulers.SchedulersAddDto;
-import cn.bunny.dao.dto.schedulers.SchedulersDto;
-import cn.bunny.dao.dto.schedulers.SchedulersOperationDto;
-import cn.bunny.dao.entity.schedulers.Schedulers;
+import cn.bunny.dao.dto.quartz.SchedulersAddDto;
+import cn.bunny.dao.dto.quartz.SchedulersDto;
+import cn.bunny.dao.dto.quartz.SchedulersOperationDto;
+import cn.bunny.dao.entity.quartz.Schedulers;
 import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.dao.vo.schedulers.SchedulersVo;
+import cn.bunny.dao.vo.quartz.SchedulersVo;
 import cn.bunny.services.aop.AnnotationScanner;
 import cn.bunny.services.aop.annotation.QuartzSchedulers;
 import cn.bunny.services.mapper.SchedulersMapper;
@@ -18,6 +18,8 @@ import jakarta.validation.Valid;
 import org.quartz.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -69,12 +71,36 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
     }
 
     /**
+     * * 获取所有可用调度任务
+     *
+     * @return 所有调度任务内容
+     */
+    @Override
+    @Cacheable(cacheNames = "schedulers", key = "'allSchedulers'", cacheManager = "cacheManagerWithMouth")
+    public List<Map<String, String>> getAllScheduleJobList() {
+        Set<Class<?>> classesWithAnnotation = annotationScanner.getClassesWithAnnotation(QuartzSchedulers.class);
+        return classesWithAnnotation.stream().map(cls -> {
+            Map<String, String> hashMap = new HashMap<>();
+
+            // 调度器引用路径
+            String classReference = cls.getName();
+            // 调度器详情
+            String description = cls.getAnnotation(QuartzSchedulers.class).description();
+
+            hashMap.put("value", classReference);
+            hashMap.put("label", description);
+            return hashMap;
+        }).toList();
+    }
+
+    /**
      * 添加Schedulers视图
      *
      * @param dto Schedulers视图添加
      */
     @SuppressWarnings("unchecked")
     @Override
+    @CacheEvict(cacheNames = "schedulers", key = "'allSchedulers'", beforeInvocation = true)
     public void addSchedulers(@Valid SchedulersAddDto dto) {
         try {
             // 动态创建Class对象
@@ -139,6 +165,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      * @param dto Schedulers公共操作表单
      */
     @Override
+    @CacheEvict(cacheNames = "schedulers", key = "'allSchedulers'", beforeInvocation = true)
     public void deleteSchedulers(SchedulersOperationDto dto) {
         try {
             String jobGroup = dto.getJobGroup();
@@ -151,27 +178,5 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
         } catch (SchedulerException exception) {
             throw new BunnyException(exception.getMessage());
         }
-    }
-
-    /**
-     * * 获取所有可用调度任务
-     *
-     * @return 所有调度任务内容
-     */
-    @Override
-    public List<Map<String, String>> getAllScheduleJobList() {
-        Set<Class<?>> classesWithAnnotation = annotationScanner.getClassesWithAnnotation(QuartzSchedulers.class);
-        return classesWithAnnotation.stream().map(cls -> {
-            Map<String, String> hashMap = new HashMap<>();
-
-            // 调度器引用路径
-            String classReference = cls.getName();
-            // 调度器详情
-            String description = cls.getAnnotation(QuartzSchedulers.class).description();
-
-            hashMap.put("value", classReference);
-            hashMap.put("label", description);
-            return hashMap;
-        }).toList();
     }
 }

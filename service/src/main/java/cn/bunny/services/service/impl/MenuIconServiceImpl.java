@@ -16,6 +16,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -60,51 +62,13 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
     }
 
     /**
-     * 添加系统菜单图标
-     *
-     * @param dto 系统菜单图标添加
-     */
-    @Override
-    public void addMenuIcon(MenuIconAddDto dto) {
-        // 保存数据
-        MenuIcon menuIcon = new MenuIcon();
-        BeanUtils.copyProperties(dto, menuIcon);
-        save(menuIcon);
-    }
-
-    /**
-     * 更新系统菜单图标
-     *
-     * @param dto 系统菜单图标更新
-     */
-    @Override
-    public void updateMenuIcon(@Valid MenuIconUpdateDto dto) {
-        // 更新内容
-        MenuIcon menuIcon = new MenuIcon();
-        BeanUtils.copyProperties(dto, menuIcon);
-        updateById(menuIcon);
-    }
-
-    /**
-     * 删除|批量删除系统菜单图标
-     *
-     * @param ids 删除id列表
-     */
-    @Override
-    public void deleteMenuIcon(List<Long> ids) {
-        // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
-
-        baseMapper.deleteBatchIdsWithPhysics(ids);
-    }
-
-    /**
      * * 获取查询图标名称列表
      *
      * @param iconName 查询图标名称
      * @return 图标返回列表
      */
     @Override
+    @Cacheable(cacheNames = "menuIcon", key = "'menuIconList'", cacheManager = "cacheManagerWithMouth")
     public List<MenuIconVo> getIconNameList(String iconName) {
         return list(Wrappers.<MenuIcon>lambdaQuery().like(MenuIcon::getIconName, iconName))
                 .stream().map(menuIcon -> {
@@ -119,5 +83,47 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
                         ),
                         map -> new ArrayList<>(map.values())
                 ));
+    }
+
+    /**
+     * 添加系统菜单图标
+     *
+     * @param dto 系统菜单图标添加
+     */
+    @Override
+    @CacheEvict(cacheNames = "menuIcon", key = "'menuIconList'", beforeInvocation = true)
+    public void addMenuIcon(MenuIconAddDto dto) {
+        // 保存数据
+        MenuIcon menuIcon = new MenuIcon();
+        BeanUtils.copyProperties(dto, menuIcon);
+        save(menuIcon);
+    }
+
+    /**
+     * 更新系统菜单图标
+     *
+     * @param dto 系统菜单图标更新
+     */
+    @Override
+    @CacheEvict(cacheNames = "menuIcon", key = "'menuIconList'", beforeInvocation = true)
+    public void updateMenuIcon(@Valid MenuIconUpdateDto dto) {
+        // 更新内容
+        MenuIcon menuIcon = new MenuIcon();
+        BeanUtils.copyProperties(dto, menuIcon);
+        updateById(menuIcon);
+    }
+
+    /**
+     * 删除|批量删除系统菜单图标
+     *
+     * @param ids 删除id列表
+     */
+    @Override
+    @CacheEvict(cacheNames = "menuIcon", key = "'menuIconList'", beforeInvocation = true)
+    public void deleteMenuIcon(List<Long> ids) {
+        // 判断数据请求是否为空
+        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
+        baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 }

@@ -19,6 +19,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +51,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @return 多语言返回内容
      */
     @Override
+    @Cacheable(cacheNames = "i18n", key = "'i18n'", cacheManager = "cacheManagerWithMouth")
     public HashMap<String, Object> getI18n() {
         // 查找默认语言内容
         I18nType i18nType = i18nTypeMapper.selectOne(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getIsDefault, true));
@@ -94,6 +97,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @param dto 添加表单
      */
     @Override
+    @CacheEvict(cacheNames = "i18n", key = "'i18n'", beforeInvocation = true)
     public void addI18n(@Valid I18nAddDto dto) {
         String keyName = dto.getKeyName();
         String typeName = dto.getTypeName();
@@ -114,6 +118,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @param dto 更新表单
      */
     @Override
+    @CacheEvict(cacheNames = "i18n", key = "'i18n'", beforeInvocation = true)
     public void updateI18n(@Valid I18nUpdateDto dto) {
         Long id = dto.getId();
 
@@ -133,10 +138,11 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @param ids 删除id列表
      */
     @Override
+    @CacheEvict(cacheNames = "i18n", key = "'i18n'", beforeInvocation = true)
     public void deleteI18n(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
-        
+
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 }

@@ -49,6 +49,13 @@ public class RoleController {
         return Mono.just(Result.success(pageResult));
     }
 
+    @Operation(summary = "获取所有角色", description = "获取所有角色")
+    @GetMapping("getAllRoles")
+    public Mono<Result<List<RoleVo>>> getAllRoles() {
+        List<RoleVo> roleVoList = roleService.getAllRoles();
+        return Mono.just(Result.success(roleVoList));
+    }
+
     @Operation(summary = "添加角色", description = "添加角色")
     @PostMapping("addRole")
     public Mono<Result<String>> addRole(@Valid @RequestBody RoleAddDto dto) {
@@ -68,12 +75,5 @@ public class RoleController {
     public Mono<Result<String>> deleteRole(@RequestBody List<Long> ids) {
         roleService.deleteRole(ids);
         return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
-    }
-
-    @Operation(summary = "获取所有角色", description = "获取所有角色")
-    @GetMapping("getAllRoles")
-    public Mono<Result<List<RoleVo>>> getAllRoles() {
-        List<RoleVo> roleVoList = roleService.getAllRoles();
-        return Mono.just(Result.success(roleVoList));
     }
 }

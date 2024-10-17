@@ -11,6 +11,8 @@ import cn.bunny.services.service.I18nTypeService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
      * @return 多语言类型列表
      */
     @Override
+    @Cacheable(cacheNames = "i18n", key = "'i18nType'", cacheManager = "cacheManagerWithMouth")
     public List<I18nTypeVo> getI18nTypeList() {
         return list().stream().map(i18nType -> {
             I18nTypeVo i18nTypeVo = new I18nTypeVo();
@@ -48,6 +51,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
      * @param dto 多语言类型添加
      */
     @Override
+    @CacheEvict(cacheNames = "i18n", key = "'i18nType'", beforeInvocation = true)
     public void addI18nType(I18nTypeAddDto dto) {
         String typeName = dto.getTypeName();
         Boolean isDefault = dto.getIsDefault();
@@ -75,6 +79,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
      * @param dto 多语言类型更新
      */
     @Override
+    @CacheEvict(cacheNames = "i18n", key = "'i18nType'", beforeInvocation = true)
     public void updateI18nType(I18nTypeUpdateDto dto) {
         Long id = dto.getId();
         Boolean isDefault = dto.getIsDefault();
@@ -102,6 +107,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
      * @param ids 删除id列表
      */
     @Override
+    @CacheEvict(cacheNames = "i18n", key = "'i18nType'", beforeInvocation = true)
     public void deleteI18nType(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
