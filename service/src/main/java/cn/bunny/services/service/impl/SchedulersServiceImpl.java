@@ -117,12 +117,12 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
             jobDetail.getJobDataMap().put("jobMethodName", "execute");
 
             // 执行任务
-            CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(dto.getCronExpression());
             CronTrigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity(dto.getJobName(), dto.getJobGroup())
                     .withDescription(dto.getDescription())
                     .startNow()
-                    .withSchedule(cronScheduleBuilder).build();
+                    .withSchedule(CronScheduleBuilder.cronSchedule(dto.getCronExpression()))
+                    .build();
             scheduler.scheduleJob(jobDetail, trigger);
         } catch (Exception exception) {
             throw new BunnyException(exception.getMessage());

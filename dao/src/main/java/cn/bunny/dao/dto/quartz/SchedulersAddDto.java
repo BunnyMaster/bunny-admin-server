@@ -26,8 +26,6 @@ public class SchedulersAddDto {
     private String jobGroup;
 
     @Schema(name = "description", title = "任务详情")
-    @NotBlank(message = "任务详情不能为空")
-    @NotNull(message = "任务详情不能为空")
     private String description;
 
     @Schema(name = "jobClassName", title = "任务类名称")

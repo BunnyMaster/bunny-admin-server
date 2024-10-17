@@ -1,4 +1,4 @@
-package cn.bunny.services.quartz.job;
+package cn.bunny.services.quartz;
 
 import cn.bunny.services.aop.annotation.QuartzSchedulers;
 import lombok.extern.slf4j.Slf4j;
