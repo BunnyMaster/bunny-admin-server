@@ -27,7 +27,7 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
 #foreach($item in $baseFieldList)
 
-        // $item.annotation
+        <!-- $item.annotation -->
         <el-form-item :label="$t('${lowercaseName}_${item.name}')" prop="$item.name">
             <el-input v-model="form.$item.name" autocomplete="off" type="text" :placeholder="$t('input') + $t('${lowercaseName}_${item.name}')" />
         </el-form-item>

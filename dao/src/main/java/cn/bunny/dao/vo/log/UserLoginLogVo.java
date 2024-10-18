@@ -1,26 +1,16 @@
-package cn.bunny.dao.entity.log;
+package cn.bunny.dao.vo.log;
 
-import cn.bunny.dao.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.bunny.dao.vo.common.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.*;
 
-/**
- * <p>
- * 用户登录日志
- * </p>
- *
- * @author Bunny
- * @since 2024-10-18
- */
-@Getter
-@Setter
-@Accessors(chain = true)
-@TableName("log_user_login")
-@Schema(name = "UserLogin对象", title = "用户登录日志", description = "用户登录日志")
-public class UserLoginLog extends BaseEntity {
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Schema(name = "UserLoginLogVo对象", title = "用户登录日志", description = "用户登录日志")
+public class UserLoginLogVo extends BaseVo {
 
     @Schema(name = "userId", title = "用户Id")
     private Long userId;

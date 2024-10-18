@@ -1,6 +1,5 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.dao.entity.system.${originalName};
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.services.mapper.${originalName}Mapper;
 import cn.bunny.services.service.${originalName}Service;
