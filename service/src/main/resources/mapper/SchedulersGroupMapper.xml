@@ -23,7 +23,7 @@
     <select id="selectListByPage" resultType="cn.bunny.dao.entity.quartz.SchedulersGroup">
         select
         <include refid="Base_Column_List"/>
-        from qrtz_schedulers_group
+        from quartz_schedulers_group
         <where>
             <if test="dto.groupName != null and dto.groupName != ''">
                 and group_name like CONCAT('%',#{dto.groupName},'%')
@@ -38,7 +38,7 @@
     <!-- 物理删除任务调度分组 -->
     <delete id="deleteBatchIdsWithPhysics">
         delete
-        from sys_schedulers_group
+        from quartz_schedulers_group
         where id in
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}

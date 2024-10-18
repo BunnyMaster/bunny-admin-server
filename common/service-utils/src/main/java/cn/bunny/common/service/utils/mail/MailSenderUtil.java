@@ -33,7 +33,7 @@ public class MailSenderUtil {
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
+        // message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("to1@example.com,to2@example.com"));
         helper.setFrom(username);
         helper.setTo(emailSend.getSendTo());
         helper.setSubject(emailSend.getSubject());

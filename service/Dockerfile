@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM openjdk:17-jdk-alpine
 MAINTAINER server
 
 #系统编码
@@ -13,6 +13,11 @@ WORKDIR /home/server
 
 # 复制jar包
 COPY target/*.jar /home/server/app.jar
+
+# 程序内部挂在目录
+VOLUME /usr/bin/docker
+VOLUME ["/var/run/docker.sock"]
+VOLUME /etc/docker/daemon.json
 
 # 启动容器时的进程
 ENTRYPOINT ["java","-jar","/home/server/app.jar"]

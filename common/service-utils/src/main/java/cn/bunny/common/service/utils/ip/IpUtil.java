@@ -59,8 +59,8 @@ public class IpUtil {
                 String[] splitIpInfo = searchIpInfo.split("\\|");
                 if (splitIpInfo.length > 0) {
                     if ("中国".equals(splitIpInfo[0])) {
-                        // 国内属地返回省份
-                        return splitIpInfo[2];
+                        // 国内属地返回省份和地区
+                        return splitIpInfo[2] + "," + splitIpInfo[3] + " " + splitIpInfo[4];
                     } else if ("0".equals(splitIpInfo[0])) {
                         if ("内网IP".equals(splitIpInfo[4])) {
                             // 内网 IP
@@ -92,10 +92,7 @@ public class IpUtil {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         String remoteAddr = requestAttributes != null ? getIpAddr(requestAttributes.getRequest()) : "0:0:0:0:0:0:0:1";
         String ipRegion = IpUtil.getIpRegion(remoteAddr);
-        return IpEntity.builder()
-                .remoteAddr(remoteAddr)
-                .ipRegion(ipRegion)
-                .build();
+        return IpEntity.builder().remoteAddr(remoteAddr).ipRegion(ipRegion).build();
     }
 
     /**
