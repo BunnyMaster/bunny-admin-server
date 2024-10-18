@@ -18,6 +18,7 @@ COPY target/*.jar /home/server/app.jar
 ENTRYPOINT ["java","-jar","/home/server/app.jar"]
 
 #暴露 7070 端口
-EXPOSE 7070
+EXPOSE 8000
 
 # mvn clean package -Pprod  -DskipTests
+

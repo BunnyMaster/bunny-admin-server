@@ -1,5 +1,5 @@
 server:
-  port: 7070
+  port: 8000
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
@@ -26,7 +26,7 @@ knife4j:
 bunny:
   datasource1:
     host: 106.15.251.123
-    port: 3305
+    port: 3306
     sqlData: auth_admin
     username: root
     password: "02120212"
