@@ -3,11 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.quartz.SchedulersGroupAddDto;
-import cn.bunny.dao.dto.quartz.SchedulersGroupDto;
-import cn.bunny.dao.dto.quartz.SchedulersGroupUpdateDto;
-import cn.bunny.dao.entity.quartz.SchedulersGroup;
-import cn.bunny.dao.vo.quartz.SchedulersGroupVo;
+import cn.bunny.dao.dto.quartz.executeLog.QuartzExecuteLogAddDto;
+import cn.bunny.dao.dto.quartz.executeLog.QuartzExecuteLogDto;
+import cn.bunny.dao.dto.quartz.executeLog.QuartzExecuteLogUpdateDto;
+import cn.bunny.dao.entity.quartz.QuartzExecuteLog;
+import cn.bunny.dao.vo.quartz.QuartzExecuteLogVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,26 +36,26 @@ import java.util.stream.Stream;
 @Service
 public class WebGeneratorCode {
     // 公共路径
-    public static String commonPath = "D:\\Project\\web\\PC\\auth\\auth-web\\src";
+    public static String commonPath = "D:\\MyFolder\\auth-admin\\auth-web\\src";
     // 生成API请求路径
     public static String apiPath = commonPath + "\\api\\v1\\";
     // 生成vue路径
-    public static String vuePath = commonPath + "\\views\\monitor\\";
+    public static String vuePath = commonPath + "\\views\\scheduler\\";
     // 生成仓库路径
-    public static String storePath = commonPath + "\\store\\monitor\\";
+    public static String storePath = commonPath + "\\store\\scheduler\\";
     // 后端controller
-    public static String controllerPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
-    public static String servicePath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
-    public static String serviceImplPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
-    public static String mapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
-    public static String resourceMapperPath = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
+    public static String controllerPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
+    public static String servicePath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
+    public static String serviceImplPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
+    public static String mapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
+    public static String resourceMapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = SchedulersGroup.class;
-        Class<?> dtoClass = SchedulersGroupDto.class;
-        Class<?> addDtoClass = SchedulersGroupAddDto.class;
-        Class<?> updateDtoClass = SchedulersGroupUpdateDto.class;
-        Class<?> voClass = SchedulersGroupVo.class;
+        Class<?> originalClass = QuartzExecuteLog.class;
+        Class<?> dtoClass = QuartzExecuteLogDto.class;
+        Class<?> addDtoClass = QuartzExecuteLogAddDto.class;
+        Class<?> updateDtoClass = QuartzExecuteLogUpdateDto.class;
+        Class<?> voClass = QuartzExecuteLogVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();

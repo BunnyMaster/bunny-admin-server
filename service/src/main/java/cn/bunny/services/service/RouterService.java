@@ -2,6 +2,7 @@ package cn.bunny.services.service;
 
 import cn.bunny.dao.dto.system.router.RouterAddDto;
 import cn.bunny.dao.dto.system.router.RouterManageDto;
+import cn.bunny.dao.dto.system.router.RouterUpdateByIdWithRankDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateDto;
 import cn.bunny.dao.entity.system.Router;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -65,4 +66,11 @@ public interface RouterService extends IService<Router> {
      * @param ids 删除id列表
      */
     void deletedMenuByIds(List<Long> ids);
+
+    /**
+     * * 快速更新菜单排序
+     *
+     * @param dto 根据菜单Id更新菜单排序
+     */
+    void updateMenuByIdWithRank(RouterUpdateByIdWithRankDto dto);
 }

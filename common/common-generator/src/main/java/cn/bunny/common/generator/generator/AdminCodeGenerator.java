@@ -14,13 +14,13 @@ public class AdminCodeGenerator {
     // 作者名称
     public static final String author = "Bunny";
     // 公共路径
-    // public static final String outputDir = "D:\\MyFolder\\Bunny\\BunnyBBS\\BunnyBBS-server-admin\\service";
-    public static final String outputDir = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service";
+    public static final String outputDir = "D:\\MyFolder\\auth-admin\\auth-server-java\\service";
+    // public static final String outputDir = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service";
     // 实体类名称
     public static final String entity = "Bunny";
 
     public static void main(String[] args) {
-        Generation("sys_schedulers_group");
+        Generation("quartz_execute_log");
     }
 
     /**
@@ -45,7 +45,7 @@ public class AdminCodeGenerator {
                         .controller("controller")// 控制层包名
                         .mapper("mapper")// mapper层包名
                         .service("service")// service层包名
-                        .serviceImpl("service·impl")// service实现类包名
+                        .serviceImpl("service.impl")// service实现类包名
                         // 自定义mapper.xml文件输出目录
                         .pathInfo(Collections.singletonMap(OutputFile.xml, outputDir + "/src/main/resources/mapper")))
                 .strategyConfig(builder -> {

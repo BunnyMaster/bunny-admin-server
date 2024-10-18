@@ -4,6 +4,7 @@ import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.router.RouterAddDto;
 import cn.bunny.dao.dto.system.router.RouterManageDto;
+import cn.bunny.dao.dto.system.router.RouterUpdateByIdWithRankDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateDto;
 import cn.bunny.dao.entity.system.Router;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
@@ -220,5 +221,24 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         ids.addAll(longList);
 
         baseMapper.deleteBatchIdsWithPhysics(ids);
+    }
+
+    /**
+     * * 快速更新菜单排序
+     *
+     * @param dto 根据菜单Id更新菜单排序
+     */
+    @Override
+    public void updateMenuByIdWithRank(RouterUpdateByIdWithRankDto dto) {
+        Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, dto.getId()));
+
+        // 判断更新数据是否存在
+        if (router == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+
+        // 更新排序
+        router = new Router();
+        router.setId(dto.getId());
+        router.setRouterRank(dto.getRouterRank());
+        updateById(router);
     }
 }

@@ -1,6 +1,6 @@
 package cn.bunny.services.mapper;
 
-import cn.bunny.dao.dto.quartz.SchedulersGroupDto;
+import cn.bunny.dao.dto.quartz.scheduleGroup.SchedulersGroupDto;
 import cn.bunny.dao.entity.quartz.SchedulersGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

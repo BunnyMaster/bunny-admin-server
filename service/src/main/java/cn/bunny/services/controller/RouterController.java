@@ -2,6 +2,7 @@ package cn.bunny.services.controller;
 
 import cn.bunny.dao.dto.system.router.RouterAddDto;
 import cn.bunny.dao.dto.system.router.RouterManageDto;
+import cn.bunny.dao.dto.system.router.RouterUpdateByIdWithRankDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateDto;
 import cn.bunny.dao.entity.system.Router;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -77,6 +78,13 @@ public class RouterController {
     @PutMapping("updateMenu")
     public Mono<Result<String>> updateMenu(@Valid @RequestBody RouterUpdateDto dto) {
         routerService.updateMenu(dto);
+        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+    }
+
+    @Operation(summary = "快速更新菜单排序", description = "快速更新菜单排序")
+    @PutMapping("updateMenuByIdWithRank")
+    public Mono<Result<String>> updateMenuByIdWithRank(@Valid @RequestBody RouterUpdateByIdWithRankDto dto) {
+        routerService.updateMenuByIdWithRank(dto);
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 
