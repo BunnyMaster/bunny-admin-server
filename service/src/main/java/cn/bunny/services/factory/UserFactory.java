@@ -67,7 +67,7 @@ public class UserFactory {
         setUpdateUser(userId, ipAddr, ipRegion);
 
         // 将用户登录保存在用户登录日志表中
-        userLoginLogMapper.insert(setUserLoginLog(user, token, ipAddr, ipRegion));
+        userLoginLogMapper.insert(setUserLoginLog(user, token, ipAddr, ipRegion, "login"));
 
         // 设置用户返回信息
         LoginVo loginVo = setLoginVo(user, token, readMeDay, ipAddr, ipRegion);
@@ -142,7 +142,7 @@ public class UserFactory {
     /**
      * * 设置用户登录日志内容
      */
-    public UserLoginLog setUserLoginLog(AdminUser user, String token, String ipAddr, String ipRegion) {
+    public UserLoginLog setUserLoginLog(AdminUser user, String token, String ipAddr, String ipRegion, String type) {
         Long userId = user.getId();
 
         UserLoginLog userLoginLog = new UserLoginLog();
@@ -151,7 +151,7 @@ public class UserFactory {
         userLoginLog.setIpAddress(ipAddr);
         userLoginLog.setIpRegion(ipRegion);
         userLoginLog.setToken(token);
-        userLoginLog.setType("login");
+        userLoginLog.setType(type);
         userLoginLog.setCreateUser(userId);
         userLoginLog.setUpdateUser(userId);
         userLoginLog.setCreateTime(LocalDateTime.now());
@@ -160,7 +160,6 @@ public class UserFactory {
         // 当前请求request
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) return userLoginLog;
-
         HttpServletRequest request = requestAttributes.getRequest();
 
         // 获取User-Agent

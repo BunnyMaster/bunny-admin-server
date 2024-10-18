@@ -3,6 +3,7 @@ package cn.bunny.services.service.impl;
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.common.service.utils.JwtHelper;
+import cn.bunny.common.service.utils.ip.IpUtil;
 import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.user.*;
@@ -120,6 +121,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public void logout() {
         LoginVo loginVo = BaseContext.getLoginVo();
+        Long id = loginVo.getId();
+
+        // 获取IP地址
+        String ipAddr = IpUtil.getCurrentUserIpAddress().getIpAddr();
+        String ipRegion = IpUtil.getCurrentUserIpAddress().getIpRegion();
+
+        // 查询用户信息
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, id));
+        UserLoginLog userLoginLog = userFactory.setUserLoginLog(adminUser, loginVo.getToken(), ipAddr, ipRegion, "logout");
+        userLoginLogMapper.insert(userLoginLog);
+
+        // 删除Redis中用户信息
         redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(loginVo.getUsername()));
     }
 
@@ -218,7 +231,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 将用户登录保存在用户登录日志表中
         UserLoginLog userLoginLog = new UserLoginLog();
-        BeanUtils.copyProperties(adminUser, userLoginLog);
         userLoginLog.setUserId(adminUser.getId());
         userLoginLog.setIpAddress(adminUser.getIpAddress());
         userLoginLog.setIpRegion(adminUser.getIpRegion());
@@ -226,6 +238,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         userLoginLog.setType("forcedOffline");
         userLoginLogMapper.insert(userLoginLog);
 
+        // 删除Redis中用户信息
         redisTemplate.delete(adminLoginInfoPrefix);
     }
 
