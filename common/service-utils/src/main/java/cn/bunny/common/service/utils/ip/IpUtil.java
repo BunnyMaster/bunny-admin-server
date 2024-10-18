@@ -90,8 +90,13 @@ public class IpUtil {
      */
     public static IpEntity getCurrentUserIpAddress() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+        // 判断IP地址归属地
         String remoteAddr = requestAttributes != null ? getIpAddr(requestAttributes.getRequest()) : "0:0:0:0:0:0:0:1";
         String ipRegion = IpUtil.getIpRegion(remoteAddr);
+
+        // 转成环回地址
+        remoteAddr = remoteAddr.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : remoteAddr;
         return IpEntity.builder().ipAddr(remoteAddr).ipRegion(ipRegion).build();
     }
 

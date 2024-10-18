@@ -25,7 +25,6 @@ public class LoginDto {
     @NotNull(message = "密码不能为空")
     private String password;
 
-
     @Schema(name = "emailCode", title = "邮箱验证码")
     @NotBlank(message = "邮箱验证码不能为空")
     @NotNull(message = "邮箱验证码不能为空")

@@ -13,8 +13,8 @@
         <result column="avatar" property="avatar"/>
         <result column="sex" property="sex"/>
         <result column="summary" property="summary"/>
-        <result column="last_login_ip" property="lastLoginIp"/>
-        <result column="last_login_ip_address" property="lastLoginIpAddress"/>
+        <result column="ip_address" property="ipAddress"/>
+        <result column="ip_region" property="ipRegion"/>
         <result column="status" property="status"/>
         <result column="create_user" property="createUser"/>
         <result column="create_time" property="createTime"/>
@@ -25,7 +25,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, nick_name, email, phone, password, avatar, sex, summary, last_login_ip, last_login_ip_address, status, create_user, create_time, update_time, update_user, is_deleted
+        id, username, nick_name, email, phone, password, avatar, sex, summary, ip_address, ip_region, status, create_user, create_time, update_time, update_user, is_deleted
     </sql>
 
     <!-- 分页查询用户信息内容 -->

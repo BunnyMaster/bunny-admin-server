@@ -220,8 +220,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         UserLoginLog userLoginLog = new UserLoginLog();
         BeanUtils.copyProperties(adminUser, userLoginLog);
         userLoginLog.setUserId(adminUser.getId());
-        userLoginLog.setIpAddress(adminUser.getLastLoginIp());
-        userLoginLog.setIpRegion(adminUser.getLastLoginIpAddress());
+        userLoginLog.setIpAddress(adminUser.getIpAddress());
+        userLoginLog.setIpRegion(adminUser.getIpRegion());
         userLoginLog.setToken(null);
         userLoginLog.setType("forcedOffline");
         userLoginLogMapper.insert(userLoginLog);

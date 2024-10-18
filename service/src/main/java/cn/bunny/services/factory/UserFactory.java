@@ -66,19 +66,11 @@ public class UserFactory {
         // 更新用户登录信息
         setUpdateUser(userId, ipAddr, ipRegion);
 
+        // 将用户登录保存在用户登录日志表中
+        userLoginLogMapper.insert(setUserLoginLog(user, token, ipAddr, ipRegion));
+
         // 设置用户返回信息
         LoginVo loginVo = setLoginVo(user, token, readMeDay, ipAddr, ipRegion);
-
-        // 将用户登录保存在用户登录日志表中
-        UserLoginLog userLoginLog = new UserLoginLog();
-        userLoginLog.setUsername(user.getUsername());
-        userLoginLog.setUserId(userId);
-        userLoginLog.setIpAddress(ipAddr);
-        userLoginLog.setIpRegion(ipRegion);
-        userLoginLog.setToken(token);
-        userLoginLog.setType("login");
-        setUserLoginLog(userLoginLog);
-        userLoginLogMapper.insert(userLoginLog);
 
         // 将信息保存在Redis中
         redisTemplate.opsForValue().set(RedisUserConstant.getAdminLoginInfoPrefix(email), loginVo, readMeDay, TimeUnit.DAYS);
@@ -123,8 +115,8 @@ public class UserFactory {
         loginVo.setAvatar(avatar);
         loginVo.setToken(token);
         loginVo.setRefreshToken(token);
-        loginVo.setLastLoginIp(ipAddr);
-        loginVo.setLastLoginIpAddress(ipRegion);
+        loginVo.setIpAddress(ipAddr);
+        loginVo.setIpRegion(ipRegion);
         loginVo.setRoles(roles);
         loginVo.setPermissions(permissions);
         loginVo.setUpdateUser(userId);
@@ -142,20 +134,32 @@ public class UserFactory {
         // 设置用户IP地址，并更新用户信息
         AdminUser updateUser = new AdminUser();
         updateUser.setId(userId);
-        updateUser.setLastLoginIp(ipAddr);
-        updateUser.setLastLoginIpAddress(ipRegion);
+        updateUser.setIpAddress(ipAddr);
+        updateUser.setIpRegion(ipRegion);
         userMapper.updateById(updateUser);
     }
 
     /**
      * * 设置用户登录日志内容
-     *
-     * @param userLoginLog 用户登录日志
      */
-    public void setUserLoginLog(UserLoginLog userLoginLog) {
+    public UserLoginLog setUserLoginLog(AdminUser user, String token, String ipAddr, String ipRegion) {
+        Long userId = user.getId();
+
+        UserLoginLog userLoginLog = new UserLoginLog();
+        userLoginLog.setUsername(user.getUsername());
+        userLoginLog.setUserId(userId);
+        userLoginLog.setIpAddress(ipAddr);
+        userLoginLog.setIpRegion(ipRegion);
+        userLoginLog.setToken(token);
+        userLoginLog.setType("login");
+        userLoginLog.setCreateUser(userId);
+        userLoginLog.setUpdateUser(userId);
+        userLoginLog.setCreateTime(LocalDateTime.now());
+        userLoginLog.setUpdateTime(LocalDateTime.now());
+
         // 当前请求request
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (requestAttributes == null) return;
+        if (requestAttributes == null) return userLoginLog;
 
         HttpServletRequest request = requestAttributes.getRequest();
 
@@ -178,5 +182,7 @@ public class UserFactory {
         // 获取Sec-CH-UA-Platform
         String secCHUAPlatform = request.getHeader("Sec-CH-UA-Platform");
         userLoginLog.setSecChUaPlatform(secCHUAPlatform);
+
+        return userLoginLog;
     }
 }

@@ -35,11 +35,11 @@ public class AdminUserVo extends BaseVo {
     @Schema(name = "summary", title = "个人描述")
     private String summary;
 
-    @Schema(name = "lastLoginIp", title = "最后登录IP")
-    private String lastLoginIp;
+    @Schema(name = "ipAddress", title = "登录Ip")
+    private String ipAddress;
 
-    @Schema(name = "lastLoginIpAddress", title = "最后登录ip归属地")
-    private String lastLoginIpAddress;
+    @Schema(name = "ipRegion", title = "登录Ip归属地")
+    private String ipRegion;
 
     @Schema(name = "deptId", title = "部门")
     @JsonFormat(shape = JsonFormat.Shape.STRING)

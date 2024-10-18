@@ -41,11 +41,11 @@ public class LoginVo extends BaseVo {
     @Schema(name = "personDescription", title = "个人描述")
     private String personDescription;
 
-    @Schema(name = "lastLoginIp", title = "最后登录IP")
-    private String lastLoginIp;
+    @Schema(name = "ipAddress", title = "登录Ip")
+    private String ipAddress;
 
-    @Schema(name = "lastLoginIpAddress", title = "最后登录ip地址")
-    private String lastLoginIpAddress;
+    @Schema(name = "ipRegion", title = "登录Ip归属地")
+    private String ipRegion;
 
     @Schema(name = "status", title = "1:禁用 0:正常")
     private Boolean status;
