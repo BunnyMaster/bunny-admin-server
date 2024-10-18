@@ -1,7 +1,6 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.dao.dto.log.UserLoginLogDto;
-import cn.bunny.dao.dto.log.UserLoginLogUpdateDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.log.UserLoginLogVo;
@@ -10,7 +9,6 @@ import cn.bunny.services.service.UserLoginLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +20,7 @@ import java.util.List;
  * </p>
  *
  * @author Bunny
- * @since 2024-10-18 22:36:07
+ * @since 2024-10-19 01:01:01
  */
 @Service
 public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, UserLoginLog> implements UserLoginLogService {
@@ -51,19 +49,6 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
                 .pageSize(page.getSize())
                 .total(page.getTotal())
                 .build();
-    }
-
-    /**
-     * 更新用户登录日志
-     *
-     * @param dto 用户登录日志更新
-     */
-    @Override
-    public void updateUserLoginLog(@Valid UserLoginLogUpdateDto dto) {
-        // 更新内容
-        UserLoginLog userLoginLog = new UserLoginLog();
-        BeanUtils.copyProperties(dto, userLoginLog);
-        updateById(userLoginLog);
     }
 
     /**

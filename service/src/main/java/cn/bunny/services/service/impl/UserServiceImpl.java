@@ -41,8 +41,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -211,9 +209,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void forcedOffline(Long id) {
-        // 当前请求request
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-
         if (id == null) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 根据id查询用户登录前缀

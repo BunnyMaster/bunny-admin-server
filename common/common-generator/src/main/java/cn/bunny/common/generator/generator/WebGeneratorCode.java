@@ -3,7 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
+import cn.bunny.dao.dto.log.UserLoginLogAddDto;
+import cn.bunny.dao.dto.log.UserLoginLogDto;
+import cn.bunny.dao.dto.log.UserLoginLogUpdateDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
+import cn.bunny.dao.vo.log.UserLoginLogVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -48,10 +52,10 @@ public class WebGeneratorCode {
 
     public static void main(String[] args) throws Exception {
         Class<?> originalClass = UserLoginLog.class;
-        Class<?> dtoClass = UserLoginLog.class;
-        Class<?> addDtoClass = UserLoginLog.class;
-        Class<?> updateDtoClass = UserLoginLog.class;
-        Class<?> voClass = UserLoginLog.class;
+        Class<?> dtoClass = UserLoginLogDto.class;
+        Class<?> addDtoClass = UserLoginLogAddDto.class;
+        Class<?> updateDtoClass = UserLoginLogUpdateDto.class;
+        Class<?> voClass = UserLoginLogVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();

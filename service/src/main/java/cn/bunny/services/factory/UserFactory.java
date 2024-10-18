@@ -53,36 +53,52 @@ public class UserFactory {
     @Autowired
     private MinioUtil minioUtil;
 
-
     public LoginVo buildUserVo(AdminUser user, long readMeDay) {
         // 创建token
         Long userId = user.getId();
         String email = user.getEmail();
         String token = JwtHelper.createToken(userId, email, (int) readMeDay);
-        String avatar = user.getAvatar();
 
         // 获取IP地址
         String ipAddr = IpUtil.getCurrentUserIpAddress().getIpAddr();
         String ipRegion = IpUtil.getCurrentUserIpAddress().getIpRegion();
 
-        // 当前请求request
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        // 更新用户登录信息
+        setUpdateUser(userId, ipAddr, ipRegion);
+
+        // 设置用户返回信息
+        LoginVo loginVo = setLoginVo(user, token, readMeDay, ipAddr, ipRegion);
+
+        // 将用户登录保存在用户登录日志表中
+        UserLoginLog userLoginLog = new UserLoginLog();
+        userLoginLog.setUsername(user.getUsername());
+        userLoginLog.setUserId(userId);
+        userLoginLog.setIpAddress(ipAddr);
+        userLoginLog.setIpRegion(ipRegion);
+        userLoginLog.setToken(token);
+        userLoginLog.setType("login");
+        setUserLoginLog(userLoginLog);
+        userLoginLogMapper.insert(userLoginLog);
+
+        // 将信息保存在Redis中
+        redisTemplate.opsForValue().set(RedisUserConstant.getAdminLoginInfoPrefix(email), loginVo, readMeDay, TimeUnit.DAYS);
+
+        // 将Redis中验证码删除
+        redisTemplate.delete(RedisUserConstant.getAdminUserEmailCodePrefix(email));
+
+        return loginVo;
+    }
+
+
+    /**
+     * * 设置更新用户设置内容
+     */
+    public LoginVo setLoginVo(AdminUser user, String token, long readMeDay, String ipAddr, String ipRegion) {
+        Long userId = user.getId();
 
         // 判断用户是否有头像，如果没有头像设置默认头像
+        String avatar = user.getAvatar();
         avatar = StringUtils.hasText(avatar) ? minioUtil.getObjectNameFullPath(avatar) : UserConstant.USER_AVATAR;
-
-        // 设置用户IP地址，并更新用户信息
-        AdminUser updateUser = new AdminUser();
-        updateUser.setId(userId);
-        updateUser.setLastLoginIp(ipAddr);
-        updateUser.setLastLoginIpAddress(ipRegion);
-        userMapper.updateById(updateUser);
-
-        // 计算过期时间，并格式化返回
-        LocalDateTime localDateTime = LocalDateTime.now();
-        LocalDateTime plusDay = localDateTime.plusDays(readMeDay);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(LocalDateTimeConstant.YYYY_MM_DD_HH_MM_SS_SLASH);
-        String expires = plusDay.format(dateTimeFormatter);
 
         // 查找用户橘色
         List<String> roles = new ArrayList<>(roleMapper.selectListByUserId(userId).stream().map(Role::getRoleCode).toList());
@@ -93,6 +109,12 @@ public class UserFactory {
         if (!isAdmin) {
             permissions = powerMapper.selectListByUserId(userId).stream().map(Power::getPowerCode).toList();
         }
+
+        // 计算过期时间，并格式化返回
+        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime plusDay = localDateTime.plusDays(readMeDay);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(LocalDateTimeConstant.YYYY_MM_DD_HH_MM_SS_SLASH);
+        String expires = plusDay.format(dateTimeFormatter);
 
         // 构建返回对象，设置用户需要内容
         LoginVo loginVo = new LoginVo();
@@ -108,27 +130,53 @@ public class UserFactory {
         loginVo.setUpdateUser(userId);
         loginVo.setExpires(expires);
 
-        // 将用户登录保存在用户登录日志表中
-        UserLoginLog userLoginLog = new UserLoginLog();
-        BeanUtils.copyProperties(user, userLoginLog);
-        userLoginLog.setUserId(userId);
-        userLoginLog.setIpAddress(ipAddr);
-        userLoginLog.setIpRegion(ipRegion);
-        userLoginLog.setToken(token);
-        userLoginLog.setType("login");
-        if (requestAttributes != null) {
-            HttpServletRequest request = requestAttributes.getRequest();
-            String userAgent = request.getHeader("User-Agent");
-            userLoginLog.setUserAgent(userAgent);
-        }
-        userLoginLogMapper.insert(userLoginLog);
-
-        // 将信息保存在Redis中
-        redisTemplate.opsForValue().set(RedisUserConstant.getAdminLoginInfoPrefix(email), loginVo, readMeDay, TimeUnit.DAYS);
-
-        // 将Redis中验证码删除
-        redisTemplate.delete(RedisUserConstant.getAdminUserEmailCodePrefix(email));
-
         return loginVo;
+    }
+
+    /**
+     * * 设置更新用户设置内容
+     *
+     * @param userId 用户ID
+     */
+    public void setUpdateUser(Long userId, String ipAddr, String ipRegion) {
+        // 设置用户IP地址，并更新用户信息
+        AdminUser updateUser = new AdminUser();
+        updateUser.setId(userId);
+        updateUser.setLastLoginIp(ipAddr);
+        updateUser.setLastLoginIpAddress(ipRegion);
+        userMapper.updateById(updateUser);
+    }
+
+    /**
+     * * 设置用户登录日志内容
+     *
+     * @param userLoginLog 用户登录日志
+     */
+    public void setUserLoginLog(UserLoginLog userLoginLog) {
+        // 当前请求request
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) return;
+
+        HttpServletRequest request = requestAttributes.getRequest();
+
+        // 获取User-Agent
+        String userAgent = request.getHeader("User-Agent");
+        userLoginLog.setUserAgent(userAgent);
+
+        // 获取X-Requested-With
+        String xRequestedWith = request.getHeader("X-Requested-With");
+        userLoginLog.setXRequestedWith(xRequestedWith);
+
+        // 获取Sec-CH-UA
+        String secCHUA = request.getHeader("sec-ch-ua");
+        userLoginLog.setSecChUa(secCHUA);
+
+        // 获取Sec-CH-UA-Mobile
+        String secCHUAMobile = request.getHeader("Sec-CH-UA-Mobile");
+        userLoginLog.setSecChUaMobile(secCHUAMobile);
+
+        // 获取Sec-CH-UA-Platform
+        String secCHUAPlatform = request.getHeader("Sec-CH-UA-Platform");
+        userLoginLog.setSecChUaPlatform(secCHUAPlatform);
     }
 }

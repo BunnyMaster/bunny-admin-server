@@ -1,7 +1,6 @@
 package cn.bunny.services.controller;
 
 import cn.bunny.dao.dto.log.UserLoginLogDto;
-import cn.bunny.dao.dto.log.UserLoginLogUpdateDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
@@ -12,7 +11,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -25,7 +23,7 @@ import java.util.List;
  * </p>
  *
  * @author Bunny
- * @since 2024-10-18 22:36:07
+ * @since 2024-10-19 01:01:01
  */
 @Tag(name = "用户登录日志", description = "用户登录日志相关接口")
 @RestController
@@ -46,13 +44,6 @@ public class UserLoginLogController {
         Page<UserLoginLog> pageParams = new Page<>(page, limit);
         PageResult<UserLoginLogVo> pageResult = userLoginLogService.getUserLoginLogList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
-    }
-
-    @Operation(summary = "更新用户登录日志", description = "更新用户登录日志")
-    @PutMapping("updateUserLoginLog")
-    public Mono<Result<String>> updateUserLoginLog(@Valid @RequestBody UserLoginLogUpdateDto dto) {
-        userLoginLogService.updateUserLoginLog(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 
     @Operation(summary = "删除用户登录日志", description = "删除用户登录日志")

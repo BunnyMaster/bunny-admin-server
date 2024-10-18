@@ -1,13 +1,11 @@
 package cn.bunny.services.service;
 
 import cn.bunny.dao.dto.log.UserLoginLogDto;
-import cn.bunny.dao.dto.log.UserLoginLogUpdateDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.log.UserLoginLogVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -17,7 +15,7 @@ import java.util.List;
  * </p>
  *
  * @author Bunny
- * @since 2024-10-18 22:36:07
+ * @since 2024-10-19 01:01:01
  */
 public interface UserLoginLogService extends IService<UserLoginLog> {
 
@@ -27,13 +25,6 @@ public interface UserLoginLogService extends IService<UserLoginLog> {
      * @return 用户登录日志返回列表
      */
     PageResult<UserLoginLogVo> getUserLoginLogList(Page<UserLoginLog> pageParams, UserLoginLogDto dto);
-
-    /**
-     * * 更新用户登录日志
-     *
-     * @param dto 更新表单
-     */
-    void updateUserLoginLog(@Valid UserLoginLogUpdateDto dto);
 
     /**
      * * 删除|批量删除用户登录日志类型

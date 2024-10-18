@@ -16,7 +16,7 @@ import java.util.List;
  * </p>
  *
  * @author Bunny
- * @since 2024-10-18 22:36:07
+ * @since 2024-10-19 01:01:01
  */
 @Mapper
 public interface UserLoginLogMapper extends BaseMapper<UserLoginLog> {
