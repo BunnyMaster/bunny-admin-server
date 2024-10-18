@@ -62,6 +62,8 @@ onMounted(() => {
     <div class="main">
         <el-form ref="formRef" :inline="true" :model="${lowercaseName}Store.form" class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto">
 #foreach($item in $formList)
+
+                <!-- $item.annotation -->
                 <el-form-item :label="$t('${lowercaseName}_${item.name}')" prop="${item.name}">
                 <el-input v-model="${lowercaseName}Store.form.${item.name}" :placeholder="`$leftBrace$t('input')}$leftBrace$t('${lowercaseName}_${item.name}')}`" class="!w-[180px]" clearable />
             </el-form-item>

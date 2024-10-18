@@ -1,6 +1,5 @@
 package cn.bunny.services.service;
 
-import cn.bunny.dao.dto.log.UserLoginLogAddDto;
 import cn.bunny.dao.dto.log.UserLoginLogDto;
 import cn.bunny.dao.dto.log.UserLoginLogUpdateDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
@@ -28,13 +27,6 @@ public interface UserLoginLogService extends IService<UserLoginLog> {
      * @return 用户登录日志返回列表
      */
     PageResult<UserLoginLogVo> getUserLoginLogList(Page<UserLoginLog> pageParams, UserLoginLogDto dto);
-
-    /**
-     * * 添加用户登录日志
-     *
-     * @param dto 添加表单
-     */
-    void addUserLoginLog(@Valid UserLoginLogAddDto dto);
 
     /**
      * * 更新用户登录日志

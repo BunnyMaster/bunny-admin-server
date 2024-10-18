@@ -6,6 +6,7 @@ import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.user.*;
+import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.AdminUserAndDept;
 import cn.bunny.dao.entity.system.UserDept;
@@ -21,6 +22,7 @@ import cn.bunny.dao.vo.system.user.UserVo;
 import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.UserDeptMapper;
+import cn.bunny.services.mapper.UserLoginLogMapper;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.FilesService;
@@ -39,6 +41,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -75,6 +79,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private UserLoginLogMapper userLoginLogMapper;
 
     /**
      * 登录发送邮件验证码
@@ -204,12 +211,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void forcedOffline(Long id) {
+        // 当前请求request
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
         if (id == null) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 根据id查询用户登录前缀
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, id));
         String email = adminUser.getEmail();
         String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(email);
+
+        // 将用户登录保存在用户登录日志表中
+        UserLoginLog userLoginLog = new UserLoginLog();
+        BeanUtils.copyProperties(adminUser, userLoginLog);
+        userLoginLog.setUserId(adminUser.getId());
+        userLoginLog.setIpAddress(adminUser.getLastLoginIp());
+        userLoginLog.setIpRegion(adminUser.getLastLoginIpAddress());
+        userLoginLog.setToken(null);
+        userLoginLog.setType("forcedOffline");
+        userLoginLogMapper.insert(userLoginLog);
 
         redisTemplate.delete(adminLoginInfoPrefix);
     }

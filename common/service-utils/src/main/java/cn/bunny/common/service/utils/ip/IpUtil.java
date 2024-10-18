@@ -92,7 +92,7 @@ public class IpUtil {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         String remoteAddr = requestAttributes != null ? getIpAddr(requestAttributes.getRequest()) : "0:0:0:0:0:0:0:1";
         String ipRegion = IpUtil.getIpRegion(remoteAddr);
-        return IpEntity.builder().remoteAddr(remoteAddr).ipRegion(ipRegion).build();
+        return IpEntity.builder().ipAddr(remoteAddr).ipRegion(ipRegion).build();
     }
 
     /**

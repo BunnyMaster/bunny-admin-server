@@ -1,6 +1,5 @@
 package cn.bunny.services.controller;
 
-import cn.bunny.dao.dto.log.UserLoginLogAddDto;
 import cn.bunny.dao.dto.log.UserLoginLogDto;
 import cn.bunny.dao.dto.log.UserLoginLogUpdateDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
@@ -47,13 +46,6 @@ public class UserLoginLogController {
         Page<UserLoginLog> pageParams = new Page<>(page, limit);
         PageResult<UserLoginLogVo> pageResult = userLoginLogService.getUserLoginLogList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
-    }
-
-    @Operation(summary = "添加用户登录日志", description = "添加用户登录日志")
-    @PostMapping("addUserLoginLog")
-    public Mono<Result<String>> addUserLoginLog(@Valid @RequestBody UserLoginLogAddDto dto) {
-        userLoginLogService.addUserLoginLog(dto);
-        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
 
     @Operation(summary = "更新用户登录日志", description = "更新用户登录日志")

@@ -31,13 +31,16 @@ public class UserLoginLog extends BaseEntity {
     @Schema(name = "token", title = "登录token")
     private String token;
 
-    @Schema(name = "ip", title = "登录Ip")
-    private String ip;
-
-    @Schema(name = "ipAddress", title = "登录Ip地点")
+    @Schema(name = "ipAddress", title = "登录Ip")
     private String ipAddress;
+
+    @Schema(name = "ipRegion", title = "登录Ip归属地")
+    private String ipRegion;
 
     @Schema(name = "userAgent", title = "登录时代理")
     private String userAgent;
+
+    @Schema(name = "type", title = "操作类型")
+    private String type;
 
 }

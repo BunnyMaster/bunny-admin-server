@@ -1,6 +1,5 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.dao.dto.log.UserLoginLogAddDto;
 import cn.bunny.dao.dto.log.UserLoginLogDto;
 import cn.bunny.dao.dto.log.UserLoginLogUpdateDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
@@ -52,19 +51,6 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
                 .pageSize(page.getSize())
                 .total(page.getTotal())
                 .build();
-    }
-
-    /**
-     * 添加用户登录日志
-     *
-     * @param dto 用户登录日志添加
-     */
-    @Override
-    public void addUserLoginLog(@Valid UserLoginLogAddDto dto) {
-        // 保存数据
-        UserLoginLog userLoginLog = new UserLoginLog();
-        BeanUtils.copyProperties(dto, userLoginLog);
-        save(userLoginLog);
     }
 
     /**
