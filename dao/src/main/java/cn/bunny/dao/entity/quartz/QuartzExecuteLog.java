@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("quartz_execute_log")
+@TableName("log_quartz_execute")
 @Schema(name = "QuartzExecuteLog对象", title = "调度任务执行日志", description = "调度任务执行日志")
 public class QuartzExecuteLog extends BaseEntity {
 

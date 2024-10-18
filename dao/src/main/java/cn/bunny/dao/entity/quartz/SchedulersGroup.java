@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("quartz_schedulers_group")
+@TableName("qrtz_schedulers_group")
 @Schema(name = "SchedulersGroup对象", title = "任务调度分组", description = "任务调度分组")
 public class SchedulersGroup extends BaseEntity {
 

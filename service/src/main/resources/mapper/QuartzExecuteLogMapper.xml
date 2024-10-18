@@ -4,20 +4,20 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.quartz.QuartzExecuteLog">
-            <id column="id" property="id"/>
-            <id column="create_time" property="createTime"/>
-            <id column="update_time" property="updateTime"/>
-            <id column="create_user" property="createUser"/>
-            <id column="update_user" property="updateUser"/>
-            <id column="is_deleted" property="isDeleted"/>
-            <id column="job_name" property="jobName"/>
-            <id column="job_group" property="jobGroup"/>
-            <id column="job_class_name" property="jobClassName"/>
-            <id column="cron_expression" property="cronExpression"/>
-            <id column="trigger_name" property="triggerName"/>
-            <id column="execute_result" property="executeResult"/>
-            <id column="duration" property="duration"/>
-            <id column="end_time" property="endTime"/>
+        <id column="id" property="id"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="create_user" property="createUser"/>
+        <id column="update_user" property="updateUser"/>
+        <id column="is_deleted" property="isDeleted"/>
+        <id column="job_name" property="jobName"/>
+        <id column="job_group" property="jobGroup"/>
+        <id column="job_class_name" property="jobClassName"/>
+        <id column="cron_expression" property="cronExpression"/>
+        <id column="trigger_name" property="triggerName"/>
+        <id column="execute_result" property="executeResult"/>
+        <id column="duration" property="duration"/>
+        <id column="end_time" property="endTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -29,26 +29,26 @@
     <select id="selectListByPage" resultType="cn.bunny.dao.entity.quartz.QuartzExecuteLog">
         select
         <include refid="Base_Column_List"/>
-        from quartz_execute_log
+        from log_quartz_execute
         <where>
-                <if test="dto.jobName != null and dto.jobName != ''">
-                    and job_name like CONCAT('%',#{dto.jobName},'%')
-                </if>
-                <if test="dto.jobGroup != null and dto.jobGroup != ''">
-                    and job_group like CONCAT('%',#{dto.jobGroup},'%')
-                </if>
-                <if test="dto.jobClassName != null and dto.jobClassName != ''">
-                    and job_class_name like CONCAT('%',#{dto.jobClassName},'%')
-                </if>
-                <if test="dto.cronExpression != null and dto.cronExpression != ''">
-                    and cron_expression like CONCAT('%',#{dto.cronExpression},'%')
-                </if>
-                <if test="dto.triggerName != null and dto.triggerName != ''">
-                    and trigger_name like CONCAT('%',#{dto.triggerName},'%')
-                </if>
-                <if test="dto.endTime != null and dto.endTime != ''">
-                    and end_time like CONCAT('%',#{dto.endTime},'%')
-                </if>
+            <if test="dto.jobName != null and dto.jobName != ''">
+                and job_name like CONCAT('%',#{dto.jobName},'%')
+            </if>
+            <if test="dto.jobGroup != null and dto.jobGroup != ''">
+                and job_group like CONCAT('%',#{dto.jobGroup},'%')
+            </if>
+            <if test="dto.jobClassName != null and dto.jobClassName != ''">
+                and job_class_name like CONCAT('%',#{dto.jobClassName},'%')
+            </if>
+            <if test="dto.cronExpression != null and dto.cronExpression != ''">
+                and cron_expression like CONCAT('%',#{dto.cronExpression},'%')
+            </if>
+            <if test="dto.triggerName != null and dto.triggerName != ''">
+                and trigger_name like CONCAT('%',#{dto.triggerName},'%')
+            </if>
+            <if test="dto.endTime != null and dto.endTime != ''">
+                and end_time like CONCAT('%',#{dto.endTime},'%')
+            </if>
         </where>
         order by update_time desc
     </select>
@@ -56,7 +56,7 @@
     <!-- 物理删除调度任务执行日志 -->
     <delete id="deleteBatchIdsWithPhysics">
         delete
-        from quartz_execute_log
+        from log_quartz_execute
         where id in
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}
