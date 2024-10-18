@@ -1,10 +1,10 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.exception.BunnyException;
-import cn.bunny.dao.dto.system.rolePower.PowerAddDto;
-import cn.bunny.dao.dto.system.rolePower.PowerDto;
-import cn.bunny.dao.dto.system.rolePower.PowerUpdateBatchByParentIdDto;
-import cn.bunny.dao.dto.system.rolePower.PowerUpdateDto;
+import cn.bunny.dao.dto.system.rolePower.power.PowerAddDto;
+import cn.bunny.dao.dto.system.rolePower.power.PowerDto;
+import cn.bunny.dao.dto.system.rolePower.power.PowerUpdateBatchByParentIdDto;
+import cn.bunny.dao.dto.system.rolePower.power.PowerUpdateDto;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;

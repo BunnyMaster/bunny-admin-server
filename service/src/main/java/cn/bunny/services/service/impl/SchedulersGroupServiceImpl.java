@@ -1,8 +1,8 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.dao.dto.quartz.scheduleGroup.SchedulersGroupAddDto;
-import cn.bunny.dao.dto.quartz.scheduleGroup.SchedulersGroupDto;
-import cn.bunny.dao.dto.quartz.scheduleGroup.SchedulersGroupUpdateDto;
+import cn.bunny.dao.dto.quartz.group.SchedulersGroupAddDto;
+import cn.bunny.dao.dto.quartz.group.SchedulersGroupDto;
+import cn.bunny.dao.dto.quartz.group.SchedulersGroupUpdateDto;
 import cn.bunny.dao.entity.quartz.SchedulersGroup;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.quartz.SchedulersGroupVo;

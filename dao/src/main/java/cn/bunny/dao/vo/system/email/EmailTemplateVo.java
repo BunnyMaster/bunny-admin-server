@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.email;
 
-import cn.bunny.dao.vo.BaseVo;
+import cn.bunny.dao.vo.common.BaseVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

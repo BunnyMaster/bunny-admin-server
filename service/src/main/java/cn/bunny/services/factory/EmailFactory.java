@@ -6,7 +6,7 @@ import cn.bunny.dao.entity.system.EmailTemplate;
 import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.pojo.common.EmailSend;
 import cn.bunny.dao.pojo.common.EmailSendInit;
-import cn.bunny.dao.pojo.common.EmailTemplateTypes;
+import cn.bunny.dao.pojo.enums.EmailTemplateEnums;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.services.mapper.EmailTemplateMapper;
 import cn.bunny.services.mapper.EmailUsersMapper;
@@ -37,7 +37,7 @@ public class EmailFactory {
         // 查询验证码邮件模板
         LambdaQueryWrapper<EmailTemplate> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(EmailTemplate::getIsDefault, true);
-        lambdaQueryWrapper.eq(EmailTemplate::getType, EmailTemplateTypes.VERIFICATION_CODE.getType());
+        lambdaQueryWrapper.eq(EmailTemplate::getType, EmailTemplateEnums.VERIFICATION_CODE.getType());
         EmailTemplate emailTemplate = emailTemplateMapper.selectOne(lambdaQueryWrapper);
 
         // 判断邮件模板是否为空

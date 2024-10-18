@@ -3,11 +3,9 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.quartz.executeLog.QuartzExecuteLogAddDto;
-import cn.bunny.dao.dto.quartz.executeLog.QuartzExecuteLogDto;
-import cn.bunny.dao.dto.quartz.executeLog.QuartzExecuteLogUpdateDto;
-import cn.bunny.dao.entity.quartz.QuartzExecuteLog;
-import cn.bunny.dao.vo.quartz.QuartzExecuteLogVo;
+import cn.bunny.dao.dto.log.ScheduleExecuteLogDto;
+import cn.bunny.dao.entity.log.ScheduleExecuteLog;
+import cn.bunny.dao.vo.log.QuartzExecuteLogVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,8 +49,8 @@ public class WebGeneratorCode {
     public static String resourceMapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = QuartzExecuteLog.class;
-        Class<?> dtoClass = QuartzExecuteLogDto.class;
+        Class<?> originalClass = ScheduleExecuteLog.class;
+        Class<?> dtoClass = ScheduleExecuteLogDto.class;
         Class<?> addDtoClass = QuartzExecuteLogAddDto.class;
         Class<?> updateDtoClass = QuartzExecuteLogUpdateDto.class;
         Class<?> voClass = QuartzExecuteLogVo.class;

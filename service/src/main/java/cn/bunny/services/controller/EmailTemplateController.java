@@ -1,8 +1,8 @@
 package cn.bunny.services.controller;
 
-import cn.bunny.dao.dto.system.email.EmailTemplateAddDto;
-import cn.bunny.dao.dto.system.email.EmailTemplateDto;
-import cn.bunny.dao.dto.system.email.EmailTemplateUpdateDto;
+import cn.bunny.dao.dto.system.email.template.EmailTemplateAddDto;
+import cn.bunny.dao.dto.system.email.template.EmailTemplateDto;
+import cn.bunny.dao.dto.system.email.template.EmailTemplateUpdateDto;
 import cn.bunny.dao.entity.system.EmailTemplate;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;

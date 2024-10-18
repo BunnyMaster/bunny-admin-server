@@ -1,11 +1,11 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.exception.BunnyException;
-import cn.bunny.dao.dto.system.email.EmailTemplateAddDto;
-import cn.bunny.dao.dto.system.email.EmailTemplateDto;
-import cn.bunny.dao.dto.system.email.EmailTemplateUpdateDto;
+import cn.bunny.dao.dto.system.email.template.EmailTemplateAddDto;
+import cn.bunny.dao.dto.system.email.template.EmailTemplateDto;
+import cn.bunny.dao.dto.system.email.template.EmailTemplateUpdateDto;
 import cn.bunny.dao.entity.system.EmailTemplate;
-import cn.bunny.dao.pojo.common.EmailTemplateTypes;
+import cn.bunny.dao.pojo.enums.EmailTemplateEnums;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.email.EmailTemplateVo;
@@ -115,10 +115,10 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      */
     @Override
     public List<Map<String, String>> getEmailTypes() {
-        return Arrays.stream(EmailTemplateTypes.values()).map(emailTemplateTypes -> {
+        return Arrays.stream(EmailTemplateEnums.values()).map(emailTemplateEnums -> {
             Map<String, String> map = new HashMap<>();
-            map.put("key", emailTemplateTypes.getSummary());
-            map.put("value", emailTemplateTypes.getType());
+            map.put("key", emailTemplateEnums.getSummary());
+            map.put("value", emailTemplateEnums.getType());
             return map;
         }).toList();
     }

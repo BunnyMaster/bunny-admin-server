@@ -34,4 +34,5 @@ public class EmailSend {
 
     @Schema(name = "file", title = "发送的文件")
     private MultipartFile[] files;
+
 }

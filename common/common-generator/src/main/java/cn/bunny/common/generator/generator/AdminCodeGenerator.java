@@ -14,13 +14,13 @@ public class AdminCodeGenerator {
     // 作者名称
     public static final String author = "Bunny";
     // 公共路径
-    public static final String outputDir = "D:\\MyFolder\\auth-admin\\auth-server-java\\service";
-    // public static final String outputDir = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service";
+    // public static final String outputDir = "D:\\MyFolder\\auth-admin\\auth-server-java\\service";
+    public static final String outputDir = "D:\\Project\\web\\PC\\auth\\auth-server-java\\service";
     // 实体类名称
     public static final String entity = "Bunny";
 
     public static void main(String[] args) {
-        Generation("quartz_execute_log");
+        Generation("log_user_login");
     }
 
     /**
@@ -51,7 +51,7 @@ public class AdminCodeGenerator {
                 .strategyConfig(builder -> {
                     // 设置要生成的表名
                     builder.addInclude(tableName)
-                            .addTablePrefix("sys_", "v_")
+                            .addTablePrefix("sys_", "v_", "log_")
                             .entityBuilder()
                             .enableLombok()
                             .enableChainModel()

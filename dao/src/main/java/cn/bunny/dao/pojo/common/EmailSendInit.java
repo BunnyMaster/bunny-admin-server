@@ -27,4 +27,5 @@ public class EmailSendInit {
 
     @Schema(name = "password", title = "密码")
     private String password;
+
 }

@@ -1,6 +1,6 @@
 package cn.bunny.services.mapper;
 
-import cn.bunny.dao.dto.system.rolePower.PowerDto;
+import cn.bunny.dao.dto.system.rolePower.power.PowerDto;
 import cn.bunny.dao.entity.system.Power;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

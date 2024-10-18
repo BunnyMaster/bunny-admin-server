@@ -1,6 +1,6 @@
 package cn.bunny.services.mapper;
 
-import cn.bunny.dao.dto.system.email.EmailTemplateDto;
+import cn.bunny.dao.dto.system.email.template.EmailTemplateDto;
 import cn.bunny.dao.entity.system.EmailTemplate;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

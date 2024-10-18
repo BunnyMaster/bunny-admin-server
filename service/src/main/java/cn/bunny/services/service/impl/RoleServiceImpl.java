@@ -1,9 +1,9 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.exception.BunnyException;
-import cn.bunny.dao.dto.system.rolePower.RoleAddDto;
-import cn.bunny.dao.dto.system.rolePower.RoleDto;
-import cn.bunny.dao.dto.system.rolePower.RoleUpdateDto;
+import cn.bunny.dao.dto.system.rolePower.role.RoleAddDto;
+import cn.bunny.dao.dto.system.rolePower.role.RoleDto;
+import cn.bunny.dao.dto.system.rolePower.role.RoleUpdateDto;
 import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;

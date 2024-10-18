@@ -1,10 +1,10 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.exception.BunnyException;
-import cn.bunny.dao.dto.system.email.EmailUserUpdateStatusDto;
-import cn.bunny.dao.dto.system.email.EmailUsersAddDto;
-import cn.bunny.dao.dto.system.email.EmailUsersDto;
-import cn.bunny.dao.dto.system.email.EmailUsersUpdateDto;
+import cn.bunny.dao.dto.system.email.user.EmailUserUpdateStatusDto;
+import cn.bunny.dao.dto.system.email.user.EmailUsersAddDto;
+import cn.bunny.dao.dto.system.email.user.EmailUsersDto;
+import cn.bunny.dao.dto.system.email.user.EmailUsersUpdateDto;
 import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
