@@ -15,6 +15,12 @@ public class MailSenderUtil {
     private final String username;
     private final JavaMailSenderImpl javaMailSender;
 
+    /**
+     * * 设置邮件发送基础信息
+     * 设置发送邮件地址、端口、用户名和密码
+     *
+     * @param emailSendInit 初始化参数
+     */
     public MailSenderUtil(EmailSendInit emailSendInit) {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost(emailSendInit.getHost());
@@ -54,5 +60,7 @@ public class MailSenderUtil {
 
     private void check(EmailSend emailSend) {
         // 添加验证逻辑
+        Class<? super EmailSend> aClass = EmailSend.class;
+
     }
 }
