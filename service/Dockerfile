@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17
 MAINTAINER server
 
 #系统编码
@@ -22,7 +22,7 @@ VOLUME /etc/docker/daemon.json
 # 启动容器时的进程
 ENTRYPOINT ["java","-jar","/home/server/app.jar"]
 
-#暴露 7070 端口
+#暴露 8000 端口
 EXPOSE 8000
 
 # mvn clean package -Pprod  -DskipTests

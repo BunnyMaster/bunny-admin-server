@@ -10,9 +10,11 @@ import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.AdminUserAndDept;
+import cn.bunny.dao.entity.system.EmailTemplate;
 import cn.bunny.dao.entity.system.UserDept;
 import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
+import cn.bunny.dao.pojo.enums.EmailTemplateEnums;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
@@ -22,12 +24,12 @@ import cn.bunny.dao.vo.system.user.RefreshTokenVo;
 import cn.bunny.dao.vo.system.user.UserVo;
 import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.factory.UserFactory;
-import cn.bunny.services.mapper.UserDeptMapper;
-import cn.bunny.services.mapper.UserLoginLogMapper;
-import cn.bunny.services.mapper.UserMapper;
-import cn.bunny.services.mapper.UserRoleMapper;
+import cn.bunny.services.mapper.*;
 import cn.bunny.services.service.FilesService;
 import cn.bunny.services.service.UserService;
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.CircleCaptcha;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -45,6 +47,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -62,10 +65,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     private UserFactory userFactory;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private EmailFactory emailFactory;
 
     @Autowired
-    private EmailFactory emailFactory;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
     private MinioUtil minioUtil;
@@ -82,6 +85,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Autowired
     private UserLoginLogMapper userLoginLogMapper;
 
+    @Autowired
+    private EmailTemplateMapper emailTemplateMapper;
+
     /**
      * 登录发送邮件验证码
      *
@@ -89,7 +95,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void sendLoginEmail(@NotNull String email) {
-        String emailCode = emailFactory.sendmailCode(email);
+        // 查询验证码邮件模板
+        LambdaQueryWrapper<EmailTemplate> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(EmailTemplate::getIsDefault, true);
+        lambdaQueryWrapper.eq(EmailTemplate::getType, EmailTemplateEnums.VERIFICATION_CODE.getType());
+        EmailTemplate emailTemplate = emailTemplateMapper.selectOne(lambdaQueryWrapper);
+
+        // 生成验证码
+        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(150, 48, 4, 2);
+        String emailCode = captcha.getCode();
+
+        // 需要替换模板内容
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("#title#", "BunnyAdmin");
+        hashMap.put("#verifyCode#", emailCode);
+        hashMap.put("#expires#", 15);
+        hashMap.put("#sendEmailUser#", emailTemplate.getEmailUser());
+        hashMap.put("#companyName#", "BunnyAdmin");
+
+        // 发送邮件
+        emailFactory.sendEmailTemplate(email, emailTemplate, hashMap);
+
+        // 在Redis中存储验证码
         redisTemplate.opsForValue().set(RedisUserConstant.getAdminUserEmailCodePrefix(email), emailCode);
     }
 

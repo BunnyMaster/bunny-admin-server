@@ -1,17 +1,17 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : mysql(192.168.3.98)
+ Source Server         : 阿里云(正式)
  Source Server Type    : MySQL
  Source Server Version : 80033 (8.0.33)
- Source Host           : 192.168.3.98:3304
+ Source Host           : 106.15.251.123:3306
  Source Schema         : auth_admin
 
  Target Server Type    : MySQL
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 19/10/2024 16:39:06
+ Date: 19/10/2024 17:52:05
 */
 
 SET NAMES utf8mb4;
@@ -71,11 +71,10 @@ CREATE TABLE `log_user_login`  (
 -- ----------------------------
 -- Records of log_user_login
 -- ----------------------------
-INSERT INTO `log_user_login` VALUES (1847355954367836162, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRjImk0m6EnduvENiZkCh1bYGFPHuBtx93nv_A1srMMKxzfMbBpDXA0bkfYrRMYUB2ibrqXb2n-c8Sc_RYUrWIvnDsuwu96lfb89rNyqsrko0hJSNZ68m-0DGBi2WC4rWAN8fveZ32HcAAAA.3ojnO1B0cRHidpCTdMlHFGpY_ZPTC8AvMx4LhprjVrU', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"', '?0', '\"Windows\"', '2024-10-19 03:15:56', '2024-10-19 03:15:56', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1847355983346282498, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRjImk0m6EnduvENiZkCh1bYGFPHuBtx93nv_A1srMMKxzfMbBpDXA0bkfYrRMYUB2ibrqXb2n-c8Sc_RYUrWIvnDsuwu96lfb89rNyqsrko0hJSNZ68m-0DGBi2WC4rWAN8fveZ32HcAAAA.3ojnO1B0cRHidpCTdMlHFGpY_ZPTC8AvMx4LhprjVrU', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"', '?0', '\"Windows\"', '2024-10-19 03:16:03', '2024-10-19 03:16:03', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1847356167765635073, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRjJtks50Je668Q4m-YJCq7UGKuLdjbj7vPf-m9YSaaBDmecXNYTtTgP3rYp0YvuGyorHmCv7z-NpQs25Y1Vr2bv9suzSbarX6_PyMwIPwBlEhnGaookpqBHnUwj5nHMr9PkC8ofSBncAAAA.Hd5yqpx-oUCtt8EykNFcKm0EHRkKtrFrik4kXTad774', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"', '?0', '\"Windows\"', '2024-10-19 03:16:47', '2024-10-19 03:16:47', 1, 1, 0);
 INSERT INTO `log_user_login` VALUES (1847356246924734465, 1, NULL, NULL, '127.0.0.1', '内网IP', NULL, 'forcedOffline', NULL, NULL, NULL, NULL, '2024-10-19 03:17:06', '2024-10-19 03:17:06', 1, 1, 0);
 INSERT INTO `log_user_login` VALUES (1847356317057691650, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRmaSmXbSlXTnxjukcQoKrdY2oIh3N-Du8977H9jKCD0MZVne0IC9HtBT56NqUPYNlM2ep0tl_3lOs9WcAsWISMLHdT3k-1yvt_1aDbN46YScBhLHKbQuobXOcPIjTpo5G3x_bEMAvHcAAAA.hWcfG-ulaNVTFqKl1EGFeoJP6L3DtQMKCS3Hwo4JSLM', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"', '?0', '\"Windows\"', '2024-10-19 03:17:23', '2024-10-19 03:17:23', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1847569964447891458, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLMQ7CMAxF7-K5qRwcE9wJsbFwh8bx0EotlBKpFeLujcT29d77X1hLgg5uZZ53aMC2F3Q-nkQoxAs2UFZ733Nl__noJ6u5Jy-C6Dlcl6XV51Sv42eohhTNiNmZiLpAaC5xRBdSz6TxnDUL_A4r7Di_dwAAAA.DYH6L5ApfggqAPwcfTZ9whrBDidSLUODbf_4naFEppE', '112.22.102.78', '江苏省,无锡市 移动', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', NULL, NULL, NULL, '2024-10-19 17:26:20', '2024-10-19 17:26:20', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1847571032372215810, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLwQqDMBBE_2XPpmzcRDueSm9e-g8xJmBBW2sDltJ_74KHgeHNmy9tZaCOrmVZPlRR2p_U2bYGxLO4isqWXv2o7Ki3MCfVrViA2Xp3WddTfMx6vb8nXXLLHDRmHGIwLqIx55xgRADXINeePf3-HW6_BXcAAAA.b9oj6Y5gKeTmoAOI-hrOkkuoYODlO5gqGQHpvhigLxw', '112.22.102.78', '江苏省,无锡市 移动', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', 'login', 'XMLHttpRequest', NULL, NULL, NULL, '2024-10-19 17:30:35', '2024-10-19 17:30:35', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -442,10 +441,10 @@ CREATE TABLE `sys_files`  (
 -- ----------------------------
 -- Records of sys_files
 -- ----------------------------
-INSERT INTO `sys_files` VALUES (1842110808781082625, '5C7D14EDDC3ED2A9470F05FB60890431.png', '/auth-admin/avatar/2024/10-04/76ba1e92-4071-40da-ad1d-786c095caa83.png', 258720, 'image/png', 0, 1, NULL, NULL, '2024-10-04 15:53:36', 0);
-INSERT INTO `sys_files` VALUES (1842212956680331265, 'blob', '/auth-admin/avatar/2024/10-04/d06ce74a-4c20-44cc-92be-e2cee9af70df', 1148373, 'image/png', 0, 1, '2024-10-05 06:39:30', 1, '2024-10-04 22:39:30', 0);
-INSERT INTO `sys_files` VALUES (1845703953328300033, '1.jpg', '/auth-admin/avatar/2024/10-14/98b53ed4-f973-4d42-bdba-2c8760a5792c.jpg', 3338, 'image/jpeg', 4, 1, NULL, NULL, '2024-10-14 13:51:29', 0);
-INSERT INTO `sys_files` VALUES (1845703953336688641, '2.jpg', '/auth-admin/avatar/2024/10-14/649e0a3e-9b12-4995-be38-17c59db996c2.jpg', 1646, 'image/jpeg', 0, 1, '2024-10-14 21:51:29', 1, '2024-10-14 13:51:29', 0);
+INSERT INTO `sys_files` VALUES (1847572639960858626, 'blob', '/auth-admin/avatar/2024/10-19/d1e47ae9-9ca9-4ec5-a3d0-7208537e4df4', 20678, 'image/png', 0, 1, '2024-10-19 17:36:58', 1, '2024-10-19 17:36:58', 0);
+INSERT INTO `sys_files` VALUES (1847572757975990273, 'blob', '/auth-admin/avatar/2024/10-19/9642c319-70b5-45b3-a7ed-a816fcd2092c', 43442, 'image/png', 0, 1, '2024-10-19 17:37:26', 1, '2024-10-19 17:37:26', 0);
+INSERT INTO `sys_files` VALUES (1847572877920501762, 'blob', '/auth-admin/avatar/2024/10-19/da185724-906d-4f48-aaf5-4bbefd86f58e', 4319, 'image/png', 0, 1, '2024-10-19 17:37:55', 1, '2024-10-19 17:37:55', 0);
+INSERT INTO `sys_files` VALUES (1847572991925878785, 'blob', '/auth-admin/avatar/2024/10-19/445fa7f4-a165-46ec-8ea2-e4d00dd1b790', 13841, 'image/png', 0, 1, '2024-10-19 17:38:22', 1, '2024-10-19 17:38:22', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n
@@ -1354,7 +1353,7 @@ INSERT INTO `sys_i18n` VALUES (1847142538338353154, 'quartzExecuteLog_endTime', 
 INSERT INTO `sys_i18n` VALUES (1847142563105718274, 'quartzExecuteLog_endTime', '结束时间', 'zh', 1, 1, '2024-10-18 13:08:00', '2024-10-18 13:08:00', 0);
 INSERT INTO `sys_i18n` VALUES (1847149633842397185, 'confirm_update_sort', '是否确认更新排序', 'zh', 1, 1, '2024-10-18 13:36:06', '2024-10-18 13:36:06', 0);
 INSERT INTO `sys_i18n` VALUES (1847149685306507266, 'confirm_update_sort', 'confirm update sort', 'en', 1, 1, '2024-10-18 13:36:18', '2024-10-18 13:36:18', 0);
-INSERT INTO `sys_i18n` VALUES (1847292350901882881, 'userLoginLog', '用户登录日志', 'zh', 1, 1, '2024-10-18 23:03:12', '2024-10-18 23:03:12', 0);
+INSERT INTO `sys_i18n` VALUES (1847292350901882881, 'userLoginLog', '用户登录日志', 'zh', 1, 1, '2024-10-19 17:29:57', '2024-10-18 23:03:12', 0);
 INSERT INTO `sys_i18n` VALUES (1847292378651398146, 'userLoginLog', 'user login log', 'en', 1, 1, '2024-10-18 23:03:19', '2024-10-18 23:03:19', 0);
 INSERT INTO `sys_i18n` VALUES (1847292460075421698, 'userLoginLog_userId', 'user id', 'en', 1, 1, '2024-10-18 23:03:38', '2024-10-18 23:03:38', 0);
 INSERT INTO `sys_i18n` VALUES (1847292488735100930, 'userLoginLog_userId', '用户ID', 'zh', 1, 1, '2024-10-18 23:03:45', '2024-10-18 23:03:45', 0);
@@ -1713,7 +1712,7 @@ INSERT INTO `sys_router` VALUES (1845812113861079042, 1846804024660791298, '/sch
 INSERT INTO `sys_router` VALUES (1846166163060285441, 1846804024660791298, '/scheduler/schedulersGroup', '/scheduler/schedulersGroup/index', '', 'schedulersGroup', 'schedulersGroup', 0, 'uis:layer-group', 6, 1, 1, 1, '2024-10-18 13:39:03', '2024-10-16 04:28:08', 0);
 INSERT INTO `sys_router` VALUES (1846804024660791298, 0, '/scheduler', '', '', 'scheduler', 'scheduler', 0, 'mingcute:time-fill', 4, 1, 1, 1, '2024-10-18 10:17:55', '2024-10-17 14:42:46', 0);
 INSERT INTO `sys_router` VALUES (1847140225619992577, 1844644093987880962, '/monitor/schedulerExecuteLog', '/monitor/schedulerExecuteLog/index', '', 'quartzExecuteLog', 'quartzExecuteLog', 0, 'octicon:log-16', 7, 1, 1, 1, '2024-10-18 22:33:07', '2024-10-18 12:58:43', 0);
-INSERT INTO `sys_router` VALUES (1847291834822123521, 1844644093987880962, '/monitor/userLoginLog', '/monitor/userLoginLog/index', '', 'userLoginLog', 'userLoginLog', 0, 'ph:log-bold', 6, 1, 1, 1, '2024-10-18 23:08:53', '2024-10-18 23:01:09', 0);
+INSERT INTO `sys_router` VALUES (1847291834822123521, 1844644093987880962, '/monitor/userLoginLog', '/monitor/userLoginLog/index', '', 'userLoginLog', 'userLoginLog', 0, 'ph:log-bold', 6, 1, 1, 1, '2024-10-19 17:29:32', '2024-10-18 23:01:09', 0);
 
 -- ----------------------------
 -- Table structure for sys_router_role
@@ -1764,10 +1763,10 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'bunny', 'bunny', '1319900154@qq.com', '12345678910', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-13/b7508e5a-1e7c-4422-88a5-61f0431f2aaa', 1, 'admin123', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', '2024-10-19 03:17:23', 0, 1, 0);
-INSERT INTO `sys_user` VALUES (1842091082096930817, 'password', 'password', 'password@qq.com', '123456', 'd7cfe615ccf8fdcbec37ea905a7dab90', '/auth-admin/avatar/2024/10-13/b4dff57f-df93-496a-9a00-e6355ec8c5bc', 0, 'passwordpasswordpassword', NULL, NULL, 0, '2024-10-04 14:35:13', '2024-10-13 01:18:09', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1843477994034401281, '测试', '测试', '测试@qq.com', '测试', 'db06c78d1e24cf708a14ce81c9b617ec', '/auth-admin/avatar/2024/10-13/8f531e28-8bd3-456e-8ada-1b6fdb652ace', 0, '测试测试测试', NULL, NULL, 0, '2024-10-08 10:26:19', '2024-10-13 22:36:12', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1843908587394150402, '啊啊啊', '啊啊啊', '啊啊啊@qq.com', '2312312321', 'fc0ec9e6c7c3e1821db2254238e6a98e', NULL, 0, '这个人很懒,没有介绍', NULL, NULL, 1, '2024-10-09 14:57:20', '2024-10-10 10:22:21', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1, 'bunny', 'bunny', '1319900154@qq.com', '12345678910', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-19/d1e47ae9-9ca9-4ec5-a3d0-7208537e4df4', 1, 'admin123', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-09-26 14:29:33', '2024-10-19 17:36:58', 0, 1, 0);
+INSERT INTO `sys_user` VALUES (1842091082096930817, 'password', 'password', 'password@qq.com', '123456', 'd7cfe615ccf8fdcbec37ea905a7dab90', '/auth-admin/avatar/2024/10-19/9642c319-70b5-45b3-a7ed-a816fcd2092c', 0, 'passwordpasswordpassword', NULL, NULL, 0, '2024-10-04 14:35:13', '2024-10-19 17:37:26', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1843477994034401281, '测试', '测试', '测试@qq.com', '测试', 'db06c78d1e24cf708a14ce81c9b617ec', '/auth-admin/avatar/2024/10-19/da185724-906d-4f48-aaf5-4bbefd86f58e', 0, '测试测试测试', NULL, NULL, 0, '2024-10-08 10:26:19', '2024-10-19 17:37:55', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1843908587394150402, '啊啊啊', '啊啊啊', '啊啊啊@qq.com', '2312312321', 'fc0ec9e6c7c3e1821db2254238e6a98e', '/auth-admin/avatar/2024/10-19/445fa7f4-a165-46ec-8ea2-e4d00dd1b790', 0, '这个人很懒,没有介绍', NULL, NULL, 1, '2024-10-09 14:57:20', '2024-10-19 17:38:22', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
