@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM openjdk:24-ea-17-jdk-oraclelinux9
 MAINTAINER server
 
 #系统编码
@@ -18,6 +18,7 @@ COPY target/*.jar /home/server/app.jar
 VOLUME /usr/bin/docker
 VOLUME ["/var/run/docker.sock"]
 VOLUME /etc/docker/daemon.json
+VOLUME ["/bunny/docker_data/mysql/slave_3304/backup"]
 
 # 启动容器时的进程
 ENTRYPOINT ["java","-jar","/home/server/app.jar"]
@@ -25,5 +26,5 @@ ENTRYPOINT ["java","-jar","/home/server/app.jar"]
 #暴露 8000 端口
 EXPOSE 8000
 
-# mvn clean package -Pprod  -DskipTests
+# mvn clean package -Pprod -DskipTests
 

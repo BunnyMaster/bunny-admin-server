@@ -86,9 +86,12 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
             String classReference = cls.getName();
             // 调度器详情
             String description = cls.getAnnotation(QuartzSchedulers.class).description();
+            // 调度器类型
+            String type = cls.getAnnotation(QuartzSchedulers.class).type();
 
             hashMap.put("value", classReference);
             hashMap.put("label", description);
+            hashMap.put("type", type);
             return hashMap;
         }).toList();
     }
@@ -100,8 +103,12 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      */
     @SuppressWarnings("unchecked")
     @Override
-    @CacheEvict(cacheNames = "schedulers", key = "'allSchedulers'", beforeInvocation = true)
+    // @CacheEvict(cacheNames = "schedulers", key = "'allSchedulers'", beforeInvocation = true)
     public void addSchedulers(@Valid SchedulersAddDto dto) {
+        String jobName = dto.getJobName();
+        String jobGroup = dto.getJobGroup();
+        String cronExpression = dto.getCronExpression();
+
         try {
             // 动态创建Class对象
             Class<?> className = Class.forName(dto.getJobClassName());
@@ -111,18 +118,25 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
 
             // 创建任务
             JobDetail jobDetail = JobBuilder.newJob((Class<? extends Job>) className)
-                    .withIdentity(dto.getJobName(), dto.getJobGroup())
+                    .withIdentity(jobName, jobGroup)
                     .withDescription(dto.getDescription())
                     .build();
-            jobDetail.getJobDataMap().put("jobMethodName", "execute");
 
             // 执行任务
             CronTrigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(dto.getJobName(), dto.getJobGroup())
+                    .withIdentity(jobName, jobGroup)
                     .withDescription(dto.getDescription())
                     .startNow()
-                    .withSchedule(CronScheduleBuilder.cronSchedule(dto.getCronExpression()))
+                    .withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
                     .build();
+
+            // 设置任务map值
+            JobDataMap jobDataMap = jobDetail.getJobDataMap();
+            jobDataMap.put("jobName", jobName);
+            jobDataMap.put("jobGroup", jobGroup);
+            jobDataMap.put("cronExpression", cronExpression);
+            jobDataMap.put("triggerName", trigger.getKey().getName());
+
             scheduler.scheduleJob(jobDetail, trigger);
         } catch (Exception exception) {
             throw new BunnyException(exception.getMessage());

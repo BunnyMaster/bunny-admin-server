@@ -7,15 +7,10 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 @Slf4j
-@QuartzSchedulers(description = "Demo的类JobHello2")
+@QuartzSchedulers(type = "test", description = "Demo的类JobHello2")
 public class JobHello2 implements Job {
-    public void start() {
-        log.error("执行任务---JobHello2。。。。。。。。。");
-        System.out.print("执行任务--JobHello2。。。。。。。。。");
-    }
-
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        start();
+        System.out.print("执行任务--JobHello2。。。。。。。。。");
     }
 }

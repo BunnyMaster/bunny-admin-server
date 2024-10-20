@@ -17,10 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileFactory {
-    @Autowired
-    private FilesMapper filesMapper;
     @Value("${spring.servlet.multipart.max-file-size}")
     private String maxFileSize;
+
+    @Autowired
+    private FilesMapper filesMapper;
+
     @Autowired
     private MinioUtil minioUtil;
 

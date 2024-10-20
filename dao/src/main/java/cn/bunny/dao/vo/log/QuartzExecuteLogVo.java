@@ -1,6 +1,5 @@
 package cn.bunny.dao.vo.log;
 
-import cn.bunny.dao.entity.log.ScheduleExecuteLogJson;
 import cn.bunny.dao.vo.common.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -31,7 +30,7 @@ public class QuartzExecuteLogVo extends BaseVo {
     private String triggerName;
 
     @Schema(name = "executeResult", title = "执行结果")
-    private ScheduleExecuteLogJson executeResult;
+    private String executeResult;
 
     @Schema(name = "duration", title = "执行时间")
     private Integer duration;

@@ -21,9 +21,9 @@ spring:
         master:
           type: com.zaxxer.hikari.HikariDataSource
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://${bunny.datasource1.host}:${bunny.datasource1.port}/${bunny.datasource1.sqlData}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
-          username: ${bunny.datasource1.username}
-          password: ${bunny.datasource1.password}
+          url: jdbc:mysql://${bunny.master.host}:${bunny.master.port}/${bunny.master.database}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+          username: ${bunny.master.username}
+          password: ${bunny.master.password}
       aop:
         enabled: true
 

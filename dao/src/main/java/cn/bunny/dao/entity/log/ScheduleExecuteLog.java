@@ -43,7 +43,7 @@ public class ScheduleExecuteLog extends BaseEntity {
     private String executeResult;
 
     @Schema(name = "duration", title = "执行时间")
-    private Integer duration;
+    private Long duration;
 
     @Schema(name = "endTime", title = "结束时间")
     private LocalDateTime endTime;

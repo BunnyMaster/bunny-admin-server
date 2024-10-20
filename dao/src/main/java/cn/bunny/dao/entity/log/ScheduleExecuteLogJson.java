@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +28,5 @@ public class ScheduleExecuteLogJson {
     private String operationTime;
 
     @Schema(name = "executeParams", title = "执行任务参数")
-    private String executeParams;
+    private Map<String, Object> executeParams;
 }
