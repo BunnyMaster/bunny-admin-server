@@ -32,7 +32,6 @@ bunny:
     database: auth_admin
     username: root
     password: "02120212"
-    databaseBackupDir: "/home/backup/"
 
   redis:
     host: 47.120.65.66

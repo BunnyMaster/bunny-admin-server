@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
-
 /**
  * <p>
  * 调度任务执行日志
@@ -44,9 +42,6 @@ public class ScheduleExecuteLog extends BaseEntity {
 
     @Schema(name = "duration", title = "执行时间")
     private Long duration;
-
-    @Schema(name = "endTime", title = "结束时间")
-    private LocalDateTime endTime;
 
 }
 

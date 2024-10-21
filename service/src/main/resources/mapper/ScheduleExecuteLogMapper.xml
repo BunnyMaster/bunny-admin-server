@@ -17,12 +17,11 @@
         <id column="trigger_name" property="triggerName"/>
         <id column="execute_result" property="executeResult"/>
         <id column="duration" property="duration"/>
-        <id column="end_time" property="endTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, job_name, job_group, job_class_name, cron_expression, trigger_name, execute_result, duration, end_time
+        id, create_time, update_time, create_user, update_user, is_deleted, job_name, job_group, job_class_name, cron_expression, trigger_name, execute_result, duration
     </sql>
 
     <!-- 分页查询调度任务执行日志内容 -->
@@ -45,9 +44,6 @@
             </if>
             <if test="dto.triggerName != null and dto.triggerName != ''">
                 and trigger_name like CONCAT('%',#{dto.triggerName},'%')
-            </if>
-            <if test="dto.endTime != null and dto.endTime != ''">
-                and end_time like CONCAT('%',#{dto.endTime},'%')
             </if>
         </where>
         order by update_time desc

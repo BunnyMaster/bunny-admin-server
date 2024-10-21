@@ -65,14 +65,14 @@ public class SchedulersController {
     }
 
     @Operation(summary = "暂停任务", description = "暂停任务")
-    @PutMapping("/pauseScheduler")
+    @PutMapping("/pauseSchedulers")
     public Result<String> pause(@RequestBody SchedulersOperationDto dto) {
         schedulersService.pauseScheduler(dto);
         return Result.success();
     }
 
     @Operation(summary = "恢复任务", description = "恢复任务")
-    @PutMapping("/resumeScheduler")
+    @PutMapping("/resumeSchedulers")
     public Result<String> resume(@RequestBody SchedulersOperationDto dto) {
         schedulersService.resumeScheduler(dto);
         return Result.success();

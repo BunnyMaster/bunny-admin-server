@@ -18,7 +18,7 @@ COPY target/*.jar /home/server/app.jar
 VOLUME /usr/bin/docker
 VOLUME ["/var/run/docker.sock"]
 VOLUME /etc/docker/daemon.json
-VOLUME ["/bunny/docker_data/mysql/slave_3304/backup"]
+VOLUME ["/home/backup"]
 
 # 启动容器时的进程
 ENTRYPOINT ["java","-jar","/home/server/app.jar"]

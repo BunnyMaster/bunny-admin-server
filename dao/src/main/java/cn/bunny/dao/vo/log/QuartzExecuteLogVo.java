@@ -4,8 +4,6 @@ import cn.bunny.dao.vo.common.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
@@ -34,8 +32,5 @@ public class QuartzExecuteLogVo extends BaseVo {
 
     @Schema(name = "duration", title = "执行时间")
     private Integer duration;
-
-    @Schema(name = "endTime", title = "结束时间")
-    private LocalDateTime endTime;
 
 }

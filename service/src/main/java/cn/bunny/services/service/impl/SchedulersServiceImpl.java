@@ -18,8 +18,6 @@ import jakarta.validation.Valid;
 import org.quartz.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -76,7 +74,6 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      * @return 所有调度任务内容
      */
     @Override
-    @Cacheable(cacheNames = "schedulers", key = "'allSchedulers'", cacheManager = "cacheManagerWithMouth")
     public List<Map<String, String>> getAllScheduleJobList() {
         Set<Class<?>> classesWithAnnotation = annotationScanner.getClassesWithAnnotation(QuartzSchedulers.class);
         return classesWithAnnotation.stream().map(cls -> {
@@ -103,7 +100,6 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      */
     @SuppressWarnings("unchecked")
     @Override
-    // @CacheEvict(cacheNames = "schedulers", key = "'allSchedulers'", beforeInvocation = true)
     public void addSchedulers(@Valid SchedulersAddDto dto) {
         String jobName = dto.getJobName();
         String jobGroup = dto.getJobGroup();
@@ -179,7 +175,6 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      * @param dto Schedulers公共操作表单
      */
     @Override
-    @CacheEvict(cacheNames = "schedulers", key = "'allSchedulers'", beforeInvocation = true)
     public void deleteSchedulers(SchedulersOperationDto dto) {
         try {
             String jobGroup = dto.getJobGroup();

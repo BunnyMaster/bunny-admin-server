@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,8 +27,5 @@ public class ScheduleExecuteLogDto {
 
     @Schema(name = "triggerName", title = "触发器名称")
     private String triggerName;
-
-    @Schema(name = "endTime", title = "结束时间")
-    private LocalDateTime endTime;
 
 }
