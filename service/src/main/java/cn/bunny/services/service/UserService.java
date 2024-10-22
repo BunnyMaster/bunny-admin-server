@@ -122,4 +122,11 @@ public interface UserService extends IService<AdminUser> {
      * @return 用户信息
      */
     UserVo getUserinfo();
+
+    /**
+     * * 更新本地用户信息
+     *
+     * @param dto 用户信息
+     */
+    void updateAdminUserByLocalUser(AdminUserUpdateByLocalUserDto dto);
 }

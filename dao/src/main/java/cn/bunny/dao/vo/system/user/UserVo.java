@@ -31,9 +31,9 @@ public class UserVo extends BaseVo {
     private Byte sex;
 
     @Schema(name = "personDescription", title = "个人描述")
-    private String personDescription;
+    private String summary;
 
     @Schema(name = "status", title = "1:禁用 0:正常")
-    private Byte status;
+    private Boolean status;
 
 }

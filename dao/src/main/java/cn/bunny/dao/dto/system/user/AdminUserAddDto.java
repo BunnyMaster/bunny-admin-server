@@ -1,5 +1,6 @@
 package cn.bunny.dao.dto.system.user;
 
+import cn.bunny.dao.pojo.constant.UserConstant;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -45,7 +46,7 @@ public class AdminUserAddDto {
     private Byte sex = 1;
 
     @Schema(name = "summary", title = "个人描述")
-    private String summary = "这个人很懒,没有介绍";
+    private String summary = UserConstant.PERSON_DESCRIPTION;
 
     @Schema(name = "deptId", title = "部门")
     @NotNull(message = "部门不能为空")

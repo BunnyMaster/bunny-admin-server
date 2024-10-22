@@ -171,13 +171,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public UserVo getUserinfoById(Long id) {
+        // 判断请求Id是否为空
         if (id == null) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
         AdminUser user = getById(id);
 
+        // 用户是否存在
         if (user == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
 
+        // 用户头像
         String avatar = user.getAvatar();
-
         UserVo userVo = new UserVo();
         BeanUtils.copyProperties(user, userVo);
 
@@ -290,7 +292,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     /**
      * * 修改用户状态
      *
-     * @param dto 管理员用户修改密码
+     * @param dto 管理员用户修改状态
      */
     @Override
     public void updateUserStatusByAdmin(AdminUserUpdateUserStatusDto dto) {
@@ -320,6 +322,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         String avatar = adminUser.getAvatar();
         if (StringUtils.hasText(avatar)) userVo.setAvatar(minioUtil.getObjectNameFullPath(avatar));
         return userVo;
+    }
+
+    /**
+     * * 更新本地用户信息
+     *
+     * @param dto 用户信息
+     */
+    @Override
+    public void updateAdminUserByLocalUser(AdminUserUpdateByLocalUserDto dto) {
+        Long userId = BaseContext.getUserId();
+
+        // 判断是否存在这个用户
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+
+        // 检查用户头像
+        dto.setAvatar(userFactory.checkUserAvatar(dto.getAvatar()));
+
+        // 更新用户
+        adminUser = new AdminUser();
+        adminUser.setId(userId);
+        BeanUtils.copyProperties(dto, adminUser);
+
+        updateById(adminUser);
     }
 
     /**

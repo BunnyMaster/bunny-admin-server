@@ -31,6 +31,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 @Transactional
@@ -137,6 +139,25 @@ public class UserFactory {
         updateUser.setIpAddress(ipAddr);
         updateUser.setIpRegion(ipRegion);
         userMapper.updateById(updateUser);
+    }
+
+    /**
+     * 检查用户头像是否合规
+     *
+     * @param avatar 头像字符串
+     * @return 整理好的头像内容
+     */
+    public String checkUserAvatar(String avatar) {
+        if (!StringUtils.hasText(avatar)) return null;
+        String regex = "https?://.*?/(.*)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(avatar);
+
+        // 如果没有匹配
+        if (!matcher.matches()) return null;
+
+        // 匹配后返回内容
+        return "/" + matcher.group(1);
     }
 
     /**

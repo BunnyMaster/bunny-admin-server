@@ -70,6 +70,13 @@ public class UserController {
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
+    @Operation(summary = "更新本地用户信息", description = "更新本地用户信息")
+    @PutMapping("noManage/updateAdminUserByLocalUser")
+    public Result<String> updateAdminUserByLocalUser(@Valid @RequestBody AdminUserUpdateByLocalUserDto dto) {
+        userService.updateAdminUserByLocalUser(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
     @Operation(summary = "修改用户状态", description = "管理员修改用户状态")
     @PutMapping("updateUserStatusByAdmin")
     public Result<String> updateUserStatusByAdmin(@Valid @RequestBody AdminUserUpdateUserStatusDto dto) {
