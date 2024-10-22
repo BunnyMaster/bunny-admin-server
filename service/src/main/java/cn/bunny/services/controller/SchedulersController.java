@@ -51,7 +51,7 @@ public class SchedulersController {
     }
 
     @Operation(summary = "获取所有可用调度任务", description = "获取所有可用调度任务")
-    @GetMapping("getAllScheduleJobList")
+    @GetMapping("noManage/getAllScheduleJobList")
     public Mono<Result<List<Map<String, String>>>> getAllScheduleJobList() {
         List<Map<String, String>> mapList = schedulersService.getAllScheduleJobList();
         return Mono.just(Result.success(mapList));

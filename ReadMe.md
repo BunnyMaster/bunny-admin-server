@@ -1,4 +1,62 @@
-# 搭建后端运行环境
+# 接口说明
+
+## 请求接口
+
+请求接口都是`/admin`前缀，部分接口会被忽略，忽略接口看下面。
+
+所有分页请求内容都是通过路径传参方式
+
+请求时需要带有token，只要前端在请求头中添加`token:内容`即可
+
+采用SpringSecurity验证
+
+## 接口忽略
+
+### SpringSecurity接口忽略
+
+这是相关拦截请求内容，如果要访问接口必须携带token，但是有些接口是不需要token的，不需要token就配置在这里。但是放在这里后，如果用户请求的地址是被忽略的，那么也就拿不到token也就拿不到登录相关信息。
+
+获取用户自身的登录请求是不需要携带用户Id，只要有token去解析即可。
+
+```java
+// 排出鉴定路径
+@Bean
+public WebSecurityCustomizer webSecurityCustomizer() {
+    String[] annotations = {
+            "/", "/ws/**",
+            "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
+            "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/v3/api-docs/**", "swagger-ui/**",
+            "/*/files/**",
+            "/error", "/*/i18n/getI18n",
+    };
+    return web -> web.ignoring().requestMatchers(annotations)
+            .requestMatchers(RegexRequestMatcher.regexMatcher(".*\\.(css|js)$"));
+}
+```
+
+![image-20241022095731221](./data/images/image-20241022095731221.png)
+
+有些会被忽略的接口，凡是带有`noAuth`都是不需要验证的，但是要注意一点，不需要验证但是后端需要拿到登录相关信息是拿不到的。
+
+![image-20241022095311658](./data/images/image-20241022095311658.png)
+
+我是将用户相关请求使用SpringSecurity进行拦截，如果有相关匹配路径那么就会被拦截，此时接口参数中会带有token内容，拿到token进行解析，之后取出相关用户信息，比如用户Id、username等。
+
+将这些信息拿出来后放到ThreadLocal中，存储在线程中，如果微服务中需要需要放在请求头中，因为微服务不在同一个线程中。这个操作适合单体或者是微服务中不需要请求其它微服务的方式。
+
+![image-20241022095641040](./data/images/image-20241022095641040.png)
+
+### 不需要管理接口
+
+请求是会有不需要登录就能访问的接口，也需要不要被管理的接口
+
+## 验证码验证忽略
+
+为了公网上的展示，如果需要获取验证码比较的麻烦，如果你的需求和我一样那么可以在这里放开这些注释
+
+![image-20241022100317018](./data/images/image-20241022100317018.png)
+
+# 搭建后端环境
 
 1. 需要JDK17
 2. MySQL
@@ -42,6 +100,7 @@ docker rm slave_3304
 docker run --name slave_3304 -p 3304:3306 \
    -v /bunny/docker_data/mysql/slave_3304/etc/my.cnf:/etc/my.cnf \
    -v /bunny/docker_data/mysql/slave_3304/data:/var/lib/mysql \
+   -v /bunny/docker_data/mysql/slave_3304/backup:\
    --restart=always --privileged=true \
    -e MYSQL_ROOT_PASSWORD=02120212 \
    -e TZ=Asia/Shanghai \
@@ -62,11 +121,10 @@ FLUSH PRIVILEGES;
 
 ```shell
 [mysqld]
-datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
 skip-host-cache
 skip-name-resolve
 secure-file-priv=/var/lib/mysql-files
+user=mysql
 
 # 设置字符集
 character-set-server=utf8mb4
@@ -80,9 +138,6 @@ log-bin=mysql-bin
 
 # 设置表名不区分大小写
 lower_case_table_names = 1
-
-[client]
-socket=/var/run/mysqld/mysqld.sock
 ```
 
 ## 安装Redis
@@ -118,6 +173,30 @@ docker run -d \
   -e "MINIO_ROOT_PASSWORD=02120212" \
   minio/minio server /data --console-address ":9090"
 ```
+
+# 动态定时任务
+
+使用`Quartz `数据存储在数据库中持久化存储.
+
+所有的Quartz内容都放在这个目录中，因为前端需要知道有哪些定时任务，这时候又不能将数据添加到数据库中，如果以后需要更多的定时任务那么需要再数据库中添加，这样做很麻烦。
+
+我们可以通过反射只要约定好内容，通过反射扫描的方式来获取这些可以使用的定时任务，反射的注解是这个：`@QuartzSchedulers(type = "test", description = "JobHello任务内容")`
+
+![image-20241022101534393](./data/images/image-20241022101534393.png)
+
+## 注解说明
+
+扫描注解包，可以通过依赖注入的方式使用
+
+![image-20241022102210149](./data/images/image-20241022102210149.png)
+
+类型注解存放位置在下面。
+
+![image-20241022101742586](./data/images/image-20241022101742586.png)
+
+获取所有可用定时任务
+
+![image-20241022102510646](data/images/image-20241022102510646.png)
 
 # Quartz 方法
 

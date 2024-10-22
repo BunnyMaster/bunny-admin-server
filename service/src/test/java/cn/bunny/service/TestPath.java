@@ -26,7 +26,9 @@ public class TestPath {
         // 执行后读取内容
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line;
-        while ((line = reader.readLine()) != null) {System.out.println(line);}
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
     }
 
     @SneakyThrows

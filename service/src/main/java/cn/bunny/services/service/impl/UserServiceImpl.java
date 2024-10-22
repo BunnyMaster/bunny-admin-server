@@ -302,6 +302,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     }
 
     /**
+     * * 获取本地登录用户信息
+     *
+     * @return 用户信息
+     */
+    @Override
+    public UserVo getUserinfo() {
+        // 查询当前用户信息
+        Long userId = BaseContext.getUserId();
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+
+        // 赋值对象
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(adminUser, userVo);
+
+        // 设置用户头像内容
+        String avatar = adminUser.getAvatar();
+        if (StringUtils.hasText(avatar)) userVo.setAvatar(minioUtil.getObjectNameFullPath(avatar));
+        return userVo;
+    }
+
+    /**
      * * 用户信息 服务实现类
      *
      * @param pageParams 用户信息分页查询page对象

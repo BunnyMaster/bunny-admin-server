@@ -50,7 +50,7 @@ public class RoleController {
     }
 
     @Operation(summary = "获取所有角色", description = "获取所有角色")
-    @GetMapping("getAllRoles")
+    @GetMapping("noManage/getAllRoles")
     public Mono<Result<List<RoleVo>>> getAllRoles() {
         List<RoleVo> roleVoList = roleService.getAllRoles();
         return Mono.just(Result.success(roleVoList));

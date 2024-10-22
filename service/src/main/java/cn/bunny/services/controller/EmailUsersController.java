@@ -52,7 +52,7 @@ public class EmailUsersController {
     }
 
     @Operation(summary = "获取所有邮箱配置用户", description = "获取所有邮箱配置用户")
-    @GetMapping("getAllMailboxConfigurationUsers")
+    @GetMapping("noManage/getAllMailboxConfigurationUsers")
     public Mono<Result<List<Map<String, String>>>> getAllMailboxConfigurationUsers() {
         List<Map<String, String>> list = emailUsersService.getAllMailboxConfigurationUsers();
         return Mono.just(Result.success(list));

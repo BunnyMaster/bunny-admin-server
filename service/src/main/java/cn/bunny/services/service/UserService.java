@@ -115,4 +115,11 @@ public interface UserService extends IService<AdminUser> {
      * @param dto 管理员用户修改密码
      */
     void updateUserStatusByAdmin(AdminUserUpdateUserStatusDto dto);
+
+    /**
+     * * 获取本地登录用户信息
+     *
+     * @return 用户信息
+     */
+    UserVo getUserinfo();
 }

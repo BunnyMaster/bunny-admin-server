@@ -46,6 +46,18 @@ public class UserLoginLogController {
         return Mono.just(Result.success(pageResult));
     }
 
+    @Operation(summary = "获取本地用户登录日志", description = "获取本地用户登录日志")
+    @GetMapping("noManage/getUserLoginLogListByLocalUser/{page}/{limit}")
+    public Mono<Result<PageResult<UserLoginLogVo>>> getUserLoginLogListByLocalUser(
+            @Parameter(name = "page", description = "当前页", required = true)
+            @PathVariable("page") Integer page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable("limit") Integer limit) {
+        Page<UserLoginLog> pageParams = new Page<>(page, limit);
+        PageResult<UserLoginLogVo> voPageResult = userLoginLogService.getUserLoginLogListByLocalUser(pageParams);
+        return Mono.just(Result.success(voPageResult));
+    }
+
     @Operation(summary = "删除用户登录日志", description = "删除用户登录日志")
     @DeleteMapping("deleteUserLoginLog")
     public Mono<Result<String>> deleteUserLoginLog(@RequestBody List<Long> ids) {

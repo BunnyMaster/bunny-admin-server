@@ -62,14 +62,14 @@ public class FilesController {
     }
 
     @Operation(summary = "获取所有文件类型", description = "获取所有文件类型")
-    @GetMapping("getAllMediaTypes")
+    @GetMapping("noManage/getAllMediaTypes")
     public Mono<Result<Set<String>>> getAllMediaTypes() {
         Set<String> list = filesService.getAllMediaTypes();
         return Mono.just(Result.success(list));
     }
 
     @Operation(summary = "获取所有文件存储基础路径", description = "获取所有文件存储基础路径")
-    @GetMapping("getAllFilesStoragePath")
+    @GetMapping("noManage/getAllFilesStoragePath")
     public Mono<Result<List<String>>> getAllFilesStoragePath() {
         Map<String, String> typeMap = MinioConstant.typeMap;
         List<String> list = typeMap.keySet().stream().toList();

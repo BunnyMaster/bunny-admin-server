@@ -36,4 +36,12 @@ public interface UserLoginLogMapper extends BaseMapper<UserLoginLog> {
      * @param ids 删除 id 列表
      */
     void deleteBatchIdsWithPhysics(List<Long> ids);
+
+    /**
+     * * 分页查询根据用户Id用户登录日志内容
+     *
+     * @param pageParams 分页查询内容
+     * @return 用户登录日志返回列表
+     */
+    IPage<UserLoginLog> selectListByPageWithLocalUser(Page<UserLoginLog> pageParams, Long id);
 }

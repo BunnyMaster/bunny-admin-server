@@ -32,4 +32,12 @@ public interface UserLoginLogService extends IService<UserLoginLog> {
      * @param ids 删除id列表
      */
     void deleteUserLoginLog(List<Long> ids);
+
+    /**
+     * * 获取本地用户登录日志
+     *
+     * @param pageParams 分页查询内容
+     * @return 用户登录日志返回列表
+     */
+    PageResult<UserLoginLogVo> getUserLoginLogListByLocalUser(Page<UserLoginLog> pageParams);
 }

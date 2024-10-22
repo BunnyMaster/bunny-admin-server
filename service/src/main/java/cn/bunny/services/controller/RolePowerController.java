@@ -29,7 +29,7 @@ public class RolePowerController {
     private RolePowerService rolePowerService;
 
     @Operation(summary = "根据角色id获取权限内容", description = "角色列获取已选择的权限")
-    @GetMapping("getPowerListByRoleId")
+    @GetMapping("noManage/getPowerListByRoleId")
     public Mono<Result<List<String>>> getPowerListByRoleId(Long id) {
         List<String> voList = rolePowerService.getPowerListByRoleId(id);
         return Mono.just(Result.success(voList));

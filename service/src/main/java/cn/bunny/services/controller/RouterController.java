@@ -39,7 +39,7 @@ public class RouterController {
     private RouterService routerService;
 
     @Operation(summary = "获取用户菜单", description = "获取用户菜单")
-    @GetMapping("getRouterAsync")
+    @GetMapping("noManage/getRouterAsync")
     public Mono<Result<List<UserRouterVo>>> getRouterAsync() {
         List<UserRouterVo> voList = routerService.getRouterAsync();
         return Mono.just(Result.success(voList));

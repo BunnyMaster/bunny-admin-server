@@ -70,6 +70,13 @@
         </where>
     </select>
 
+    <!-- 分页查询根据用户Id用户登录日志内容 -->
+    <select id="selectListByPageWithLocalUser" resultType="cn.bunny.dao.entity.log.UserLoginLog">
+        select
+        <include refid="Base_Column_List"/>
+        from log_user_login where user_id = #{id} order by create_time desc
+    </select>
+
     <!-- 物理删除用户登录日志 -->
     <delete id="deleteBatchIdsWithPhysics">
         delete

@@ -42,6 +42,13 @@ public class UserController {
         return Mono.just(Result.success(pageResult));
     }
 
+    @Operation(summary = "获取本地登录用户信息", description = "获取本地登录用户信息")
+    @GetMapping("noManage/getUserinfo")
+    public Mono<Result<UserVo>> getUserinfo() {
+        UserVo vo = userService.getUserinfo();
+        return Mono.just(Result.success(vo));
+    }
+
     @Operation(summary = "获取用户信息", description = "获取用户信息")
     @GetMapping("getUserinfoById")
     public Mono<Result<UserVo>> getUserinfoById(Long id) {
@@ -50,7 +57,7 @@ public class UserController {
     }
 
     @Operation(summary = "多条件查询用户", description = "多条件查询用户")
-    @GetMapping("queryUser")
+    @GetMapping("noManage/queryUser")
     public Mono<Result<List<AdminUserVo>>> queryUser(String keyword) {
         List<AdminUserVo> voList = userService.queryUser(keyword);
         return Mono.just(Result.success(voList));
@@ -113,7 +120,7 @@ public class UserController {
     }
 
     @Operation(summary = "退出登录", description = "退出登录")
-    @PostMapping("logout")
+    @PostMapping("noManage/logout")
     public Result<String> logout() {
         userService.logout();
         return Result.success(ResultCodeEnum.LOGOUT_SUCCESS);

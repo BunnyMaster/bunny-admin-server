@@ -50,7 +50,7 @@ public class MenuIconController {
     }
 
     @Operation(summary = "获取查询图标名称列", description = "获取查询图标名称列")
-    @GetMapping("getIconNameList")
+    @GetMapping("noManage/getIconNameList")
     public Mono<Result<List<MenuIconVo>>> getIconNameList(String iconName) {
         List<MenuIconVo> voList = menuIconService.getIconNameList(iconName);
         return Mono.just(Result.success(voList));

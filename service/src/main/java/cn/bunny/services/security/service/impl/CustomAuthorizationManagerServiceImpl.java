@@ -55,14 +55,17 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         boolean checkedAdmin = CustomCheckIsAdmin.checkAdmin(roleCodeList, loginVo);
         if (checkedAdmin) return true;
 
-        // 不是 admin，查询角色权限关系表
-        List<String> powerCodes = loginVo.getPermissions();
+        // 判断请求地址是否是 noManage 不需要被验证的
+        String requestURI = request.getRequestURI();
+        if (requestURI.contains("noManage")) return true;
 
-        // 根据权限码查询可以访问URL
+        // 不是 admin，查询角色权限关系表,根据权限码查询可以访问URL
+        List<String> powerCodes = loginVo.getPermissions();
         List<Power> powerList = powerMapper.selectListByPowerCodes(powerCodes);
 
         // 判断是否与请求路径匹配
-        return powerList.stream().anyMatch(power -> AntPathRequestMatcher.antMatcher(power.getRequestUrl()).matches(request) ||
-                request.getRequestURI().matches(power.getRequestUrl()));
+        return powerList.stream()
+                .anyMatch(power -> AntPathRequestMatcher.antMatcher(power.getRequestUrl()).matches(request) ||
+                        requestURI.matches(power.getRequestUrl()));
     }
 }
