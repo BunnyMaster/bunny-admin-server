@@ -202,15 +202,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
 
         // 判断是否存在这个用户
-        if (adminUser == null) {
-            throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
-        }
+        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 判断新密码是否与旧密码相同
-        if (adminUser.getPassword().equals(md5Password)) {
+        if (adminUser.getPassword().equals(md5Password))
             throw new BunnyException(ResultCodeEnum.UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD);
-        }
 
+        // 删除Redis中登录用户信息
+        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getEmail()));
+        
         // 更新用户密码
         adminUser = new AdminUser();
         adminUser.setPassword(md5Password);
@@ -346,6 +346,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         BeanUtils.copyProperties(dto, adminUser);
 
         updateById(adminUser);
+    }
+
+    /**
+     * * 更新本地用户密码
+     *
+     * @param password 更新本地用户密码
+     */
+    @Override
+    public void updateUserPasswordByLocalUser(@Valid String password) {
+        // 根据当前用户查询用户信息
+        Long userId = BaseContext.getUserId();
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+
+        // 判断用户是否存在
+        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+
+        // 数据库中的密码
+        String dbPassword = adminUser.getPassword();
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+
+        // 判断数据库中密码是否和更新用户密码相同
+        if (dbPassword.equals(password)) throw new BunnyException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
+
+        // 删除Redis中登录用户信息
+        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getEmail()));
+
+        // 更新用户密码
+        adminUser = new AdminUser();
+        adminUser.setId(userId);
+        adminUser.setPassword(password);
+        updateById(adminUser);
+
+
     }
 
     /**

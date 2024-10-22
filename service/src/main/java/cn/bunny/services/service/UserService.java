@@ -129,4 +129,11 @@ public interface UserService extends IService<AdminUser> {
      * @param dto 用户信息
      */
     void updateAdminUserByLocalUser(AdminUserUpdateByLocalUserDto dto);
+
+    /**
+     * * 更新本地用户密码
+     *
+     * @param password 更新本地用户密码
+     */
+    void updateUserPasswordByLocalUser(@Valid String password);
 }

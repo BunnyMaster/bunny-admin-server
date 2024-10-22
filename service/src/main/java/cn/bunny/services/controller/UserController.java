@@ -77,17 +77,24 @@ public class UserController {
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
+    @Operation(summary = "更新本地用户密码", description = "更新本地用户密码")
+    @PutMapping("noManage/updateUserPasswordByLocalUser")
+    public Result<String> updateUserPasswordByLocalUser(String password) {
+        userService.updateUserPasswordByLocalUser(password);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "管理员修改用户密码", description = "管理员修改管理员用户密码")
+    @PutMapping("updateUserPasswordByAdmin")
+    public Result<String> updateUserPasswordByAdmin(@Valid @RequestBody AdminUserUpdateWithPasswordDto dto) {
+        userService.updateUserPasswordByAdmin(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
     @Operation(summary = "修改用户状态", description = "管理员修改用户状态")
     @PutMapping("updateUserStatusByAdmin")
     public Result<String> updateUserStatusByAdmin(@Valid @RequestBody AdminUserUpdateUserStatusDto dto) {
         userService.updateUserStatusByAdmin(dto);
-        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
-    }
-
-    @Operation(summary = "修改管理员用户密码", description = "管理员修改管理员用户密码")
-    @PutMapping("updateUserPasswordByAdmin")
-    public Result<String> updateUserPasswordByAdmin(@Valid @RequestBody AdminUserUpdateWithPasswordDto dto) {
-        userService.updateUserPasswordByAdmin(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 

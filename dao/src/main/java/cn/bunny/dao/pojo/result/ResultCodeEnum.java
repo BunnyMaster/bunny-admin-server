@@ -45,6 +45,7 @@ public enum ResultCodeEnum {
     DATA_NOT_EXIST(206, "数据不存在"),
     USER_IS_EMPTY(206, "用户不存在"),
     FILE_NOT_EXIST(206, "文件不存在"),
+    NEW_PASSWORD_SAME_OLD_PASSWORD(206, "新密码不能和旧密码相同"),
 
     // 身份过期 208
     LOGIN_AUTH(208, "请先登陆"),
