@@ -16,7 +16,7 @@ public class TestPath {
     @Test
     void testPath() {
         String scriptPath = Objects.requireNonNull(getClass().getClassLoader().getResource("static/backup.sh")).getPath();
-        String path = ScriptExecutor.class.getClassLoader().getResource("static/backup.sh").getPath();
+        String path = Objects.requireNonNull(ScriptExecutor.class.getClassLoader().getResource("static/backup.sh")).getPath();
         System.out.println(path);
         // 执行脚本
         ProcessBuilder processBuilder = new ProcessBuilder("bash", scriptPath);
@@ -36,6 +36,7 @@ public class TestPath {
     void test2() {
         ClassLoader classLoader = ResourceLoader.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("static/backup.sh");
+        assert inputStream != null;
         try (java.util.Scanner s = new java.util.Scanner(inputStream)) {
             while (s.hasNext()) {
                 System.out.println(s.nextLine());
