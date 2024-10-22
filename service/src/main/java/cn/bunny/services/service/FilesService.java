@@ -11,6 +11,7 @@ import cn.bunny.dao.vo.system.files.FilesVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -85,4 +86,11 @@ public interface FilesService extends IService<Files> {
      */
     Set<String> getAllMediaTypes();
 
+    /**
+     * * 根据文件名访问resource下文件
+     *
+     * @param filename 文件名
+     * @return Resource
+     */
+    Resource getResourceByFilename(String filename);
 }

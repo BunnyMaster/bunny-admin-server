@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -81,6 +82,13 @@ public class FilesController {
     @GetMapping("downloadFilesByFilepath")
     public ResponseEntity<byte[]> downloadFilesByFilepath(String filepath) {
         return filesService.downloadFilesByFilepath(filepath);
+    }
+
+    @Operation(summary = "根据文件名访问resource下文件", description = "根据文件名访问resource下文件")
+    @GetMapping("noManage/getResourceByFilename/{filename}")
+    public ResponseEntity<Resource> getResourceByFilename(@PathVariable String filename) {
+        Resource file = filesService.getResourceByFilename(filename);
+        return ResponseEntity.ok().body(file);
     }
 
     @Operation(summary = "更新系统文件", description = "更新系统文件")

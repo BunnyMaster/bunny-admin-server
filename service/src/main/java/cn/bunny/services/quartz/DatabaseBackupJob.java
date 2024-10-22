@@ -6,17 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
-import org.quartz.Scheduler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.init.ResourceReader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
@@ -25,21 +23,22 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class DatabaseBackupJob implements Job {
 
-    @Autowired
-    private Scheduler scheduler;
+    @Value("${bunny.bashPath}")
+    private String bashPath;
 
     @SneakyThrows
     @Override
     public void execute(JobExecutionContext context) {
-        InputStream inputStream = ResourceReader.class.getResourceAsStream("static/backup.sh");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+        // 读取资源目录下脚本文件并写入到主机中
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("static/backup.sh")) {
+            if (inputStream == null) return;
+            byte[] bytes = inputStream.readAllBytes();
+            Files.write(Path.of(bashPath + "/backup.sh"), bytes);
         }
+
         // 执行脚本
-        String scriptPath = Objects.requireNonNull(getClass().getClassLoader().getResource("static/backup.sh")).getPath();
-        ProcessBuilder processBuilder = new ProcessBuilder("bash", scriptPath);
+        System.setProperty("TERM", "xterm");
+        ProcessBuilder processBuilder = new ProcessBuilder("sh", bashPath + "/backup.sh");
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
 
@@ -63,9 +62,14 @@ public class DatabaseBackupJob implements Job {
             jobDataMap.put("existCode", waitedFor);
         } else process.destroyForcibly();
 
-        // // 执行后读取内容
-        // BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        // String line;
-        // while ((line = reader.readLine()) != null) {System.out.println(line);}
+        // 执行后读取内容
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        StringBuilder stringBuilder = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+            System.out.println(line);
+        }
+        jobDataMap.put("output", stringBuilder.toString());
     }
 }

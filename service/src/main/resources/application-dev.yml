@@ -58,3 +58,5 @@ bunny:
     accessKey: bunny
     secretKey: "02120212"
     bucket-name: auth-admin
+
+  bashPath: "H:\\资料"

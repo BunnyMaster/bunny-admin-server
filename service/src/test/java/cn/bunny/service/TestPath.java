@@ -42,8 +42,7 @@ public class TestPath {
                 System.out.println(s.nextLine());
             }
         }
-
-
+        
         byte[] bytes = inputStream.readAllBytes();
         String string = new String(bytes, StandardCharsets.UTF_8);
         System.out.println(string);
