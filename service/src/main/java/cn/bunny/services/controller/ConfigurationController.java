@@ -1,0 +1,31 @@
+package cn.bunny.services.controller;
+
+import cn.bunny.dao.dto.system.configuration.WebConfigurationDto;
+import cn.bunny.dao.pojo.result.Result;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.services.service.ConfigurationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
+
+@Tag(name = "配置", description = "系统配置相关接口")
+@RestController
+@RequestMapping("/admin/config")
+public class ConfigurationController {
+
+    @Autowired
+    private ConfigurationService configurationService;
+
+    @Operation(summary = "更新web配置", description = "更新web配置")
+    @PostMapping("updateWebConfiguration")
+    public Mono<Result<String>> updateWebConfiguration(@Valid @RequestBody WebConfigurationDto dto) {
+        configurationService.updateWebConfiguration(dto);
+        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+    }
+}
