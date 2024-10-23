@@ -3,6 +3,7 @@ package cn.bunny.services.aop;
 import cn.bunny.dao.entity.log.ScheduleExecuteLog;
 import cn.bunny.dao.entity.log.ScheduleExecuteLogJson;
 import cn.bunny.dao.pojo.constant.LocalDateTimeConstant;
+import cn.bunny.dao.pojo.enums.JobEnums;
 import cn.bunny.services.mapper.ScheduleExecuteLogMapper;
 import com.alibaba.fastjson2.JSON;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -58,9 +59,9 @@ public class JobExecuteAop {
             executeLog.setCronExpression(cronExpression);
             executeLog.setTriggerName(triggerName);
             // 设置状态结果
-            executeLogJson.setResult("unfinished");
-            executeLogJson.setStatus("running");
-            executeLogJson.setMessage("running...");
+            executeLogJson.setResult(JobEnums.UNFINISHED.getType());
+            executeLogJson.setStatus(JobEnums.RUNNING.getType());
+            executeLogJson.setMessage(JobEnums.RUNNING.getSummary());
             executeLogJson.setOperationTime(startExecuteTIme);
             executeLogJson.setExecuteParams(jobDataMap);
             executeLog.setExecuteResult(JSON.toJSONString(executeLogJson));
@@ -70,14 +71,14 @@ public class JobExecuteAop {
             result = joinPoint.proceed();
 
             // 设置执行结果-执行任务的日志
-            executeLogJson.setResult("finish");
-            executeLogJson.setStatus("finish");
-            executeLogJson.setMessage("finish");
+            executeLogJson.setResult(JobEnums.FINISH.getType());
+            executeLogJson.setStatus(JobEnums.FINISH.getType());
+            executeLogJson.setMessage(JobEnums.FINISH.getSummary());
             setEndExecuteLog(executeLogJson, executeLog, startLocalDateTime);
         } catch (Throwable e) {
             // 设置执行结果-执行任务的日志
-            executeLogJson.setResult("error");
-            executeLogJson.setStatus("error");
+            executeLogJson.setResult(JobEnums.ERROR.getType());
+            executeLogJson.setStatus(JobEnums.ERROR.getType());
             executeLogJson.setMessage(e.getMessage());
             setEndExecuteLog(executeLogJson, executeLog, startLocalDateTime);
             throw new RuntimeException(e);

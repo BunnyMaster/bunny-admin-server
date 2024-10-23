@@ -1,7 +1,6 @@
 package cn.bunny.common.service.exception;
 
 
-import cn.bunny.dao.pojo.constant.ExceptionConstant;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -121,13 +120,10 @@ public class GlobalExceptionHandler {
 
         String message = exception.getMessage();
         if (message.contains("Duplicate entry")) {
-            // 截取用户名
-            String username = message.split(" ")[2];
             // 错误信息
-            String errorMessage = username + ExceptionConstant.ALREADY_USER_EXCEPTION;
-            return Result.error(errorMessage);
+            return Result.error(ResultCodeEnum.USER_IS_EMPTY);
         } else {
-            return Result.error(ExceptionConstant.UNKNOWN_EXCEPTION);
+            return Result.error(ResultCodeEnum.UNKNOWN_EXCEPTION);
         }
     }
 }

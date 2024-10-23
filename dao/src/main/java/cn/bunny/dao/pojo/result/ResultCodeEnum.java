@@ -43,6 +43,7 @@ public enum ResultCodeEnum {
     EMAIL_USER_IS_EMPTY(206, "关联邮件用户配置为空"),
     DATA_EXIST(206, "数据已存在"),
     DATA_NOT_EXIST(206, "数据不存在"),
+    ALREADY_USER_EXCEPTION(206, "用户已存在"),
     USER_IS_EMPTY(206, "用户不存在"),
     FILE_NOT_EXIST(206, "文件不存在"),
     NEW_PASSWORD_SAME_OLD_PASSWORD(206, "新密码不能和旧密码相同"),
@@ -70,6 +71,7 @@ public enum ResultCodeEnum {
     LOGGED_IN_FROM_ANOTHER_DEVICE(403, "没有权限访问"),
 
     // 系统错误 500
+    UNKNOWN_EXCEPTION(500, "服务异常"),
     SERVICE_ERROR(500, "服务异常"),
     UPDATE_ERROR(500, "上传文件失败"),
     FAIL(500, "失败"),
