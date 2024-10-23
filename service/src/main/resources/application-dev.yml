@@ -17,27 +17,6 @@ mybatis-plus:
   global-config:
     db-config:
       logic-delete-field: isDeleted
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
-
-#  rabbitmq:
-#    host: ${bunny.rabbitmq.host}
-#    port: ${bunny.rabbitmq.port}
-#    username: ${bunny.rabbitmq.username}
-#    password: ${bunny.rabbitmq.password}
-#    virtual-host: ${bunny.rabbitmq.virtual-host}
-#    publisher-confirm-type: correlated # 交换机确认
-#    publisher-returns: true # 队列确认
-#    listener:
-#      simple:
-#        acknowledge-mode: manual # 手动处理消息
-#    connection-timeout: 1s # 设置MQ连接超时时间
-#    template:
-#      retry:
-#        enabled: true # 失败重试
-#        initial-interval: 1000ms # 失败后初始时间
-#        multiplier: 1 # 失败后下次等待时长倍数 initial-interval * multiplier
-#        max-attempts: 3 # 最大重试次数
 
 bunny:
   master:

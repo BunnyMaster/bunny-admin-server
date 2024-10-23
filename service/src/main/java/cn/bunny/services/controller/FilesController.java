@@ -1,5 +1,6 @@
 package cn.bunny.services.controller;
 
+import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.files.FilesAddDto;
 import cn.bunny.dao.dto.system.files.FilesDto;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -85,9 +87,10 @@ public class FilesController {
     }
 
     @Operation(summary = "根据文件名访问resource下文件", description = "根据文件名访问resource下文件")
-    @GetMapping("noManage/getResourceByFilename/{filename}")
+    @GetMapping("noManage/resourceFiles/{filename}")
     public ResponseEntity<Resource> getResourceByFilename(@PathVariable String filename) {
-        Resource file = filesService.getResourceByFilename(filename);
+        Resource file = new ClassPathResource("static/" + filename);
+        if (!file.exists()) throw new BunnyException(ResultCodeEnum.FILE_NOT_EXIST);
         return ResponseEntity.ok().body(file);
     }
 

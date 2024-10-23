@@ -191,18 +191,6 @@ public class UserFactory {
         String xRequestedWith = request.getHeader("X-Requested-With");
         userLoginLog.setXRequestedWith(xRequestedWith);
 
-        // 获取Sec-CH-UA
-        String secCHUA = request.getHeader("sec-ch-ua");
-        userLoginLog.setSecChUa(secCHUA);
-
-        // 获取Sec-CH-UA-Mobile
-        String secCHUAMobile = request.getHeader("Sec-CH-UA-Mobile");
-        userLoginLog.setSecChUaMobile(secCHUAMobile);
-
-        // 获取Sec-CH-UA-Platform
-        String secCHUAPlatform = request.getHeader("Sec-CH-UA-Platform");
-        userLoginLog.setSecChUaPlatform(secCHUAPlatform);
-
         return userLoginLog;
     }
 }

@@ -15,11 +15,13 @@ import java.io.IOException;
 @ControllerAdvice
 public class ControllerStringParamTrimConfig {
 
+    /**
+     * 创建 String trim 编辑器
+     * 构造方法中 boolean 参数含义为如果是空白字符串,是否转换为null
+     * 即如果为true,那么 " " 会被转换为 null,否者为 ""
+     */
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        // 创建 String trim 编辑器
-        // 构造方法中 boolean 参数含义为如果是空白字符串,是否转换为null
-        // 即如果为true,那么 " " 会被转换为 null,否者为 ""
         StringTrimmerEditor propertyEditor = new StringTrimmerEditor(false);
         // 为 String 类对象注册编辑器
         binder.registerCustomEditor(String.class, propertyEditor);
@@ -33,7 +35,7 @@ public class ControllerStringParamTrimConfig {
                     .deserializerByType(String.class, new StdScalarDeserializer<String>(String.class) {
                         @Override
                         public String deserialize(JsonParser jsonParser, DeserializationContext ctx) throws IOException {
-                            // // 去除全部空格
+                            // 去除全部空格
                             // return StringUtils.trimAllWhitespace(jsonParser.getValueAsString());
                             // 仅去除前后空格
                             return jsonParser.getValueAsString().trim();

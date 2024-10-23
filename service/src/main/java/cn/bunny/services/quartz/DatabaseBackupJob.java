@@ -1,6 +1,5 @@
 package cn.bunny.services.quartz;
 
-import cn.bunny.services.aop.annotation.QuartzSchedulers;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
@@ -19,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
-@QuartzSchedulers(type = "backup", description = "数据库备份任务")
+// @QuartzSchedulers(type = "backup", description = "数据库备份(仅限本地docker中MySQL)")
 @Component
 public class DatabaseBackupJob implements Job {
 

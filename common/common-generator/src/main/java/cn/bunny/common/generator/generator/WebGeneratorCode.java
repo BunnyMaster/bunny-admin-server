@@ -3,7 +3,6 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.log.UserLoginLogAddDto;
 import cn.bunny.dao.dto.log.UserLoginLogDto;
 import cn.bunny.dao.dto.log.UserLoginLogUpdateDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
@@ -53,7 +52,7 @@ public class WebGeneratorCode {
     public static void main(String[] args) throws Exception {
         Class<?> originalClass = UserLoginLog.class;
         Class<?> dtoClass = UserLoginLogDto.class;
-        Class<?> addDtoClass = UserLoginLogAddDto.class;
+        Class<?> addDtoClass = UserLoginLogDto.class;
         Class<?> updateDtoClass = UserLoginLogUpdateDto.class;
         Class<?> voClass = UserLoginLogVo.class;
 

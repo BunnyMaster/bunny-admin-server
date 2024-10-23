@@ -26,5 +26,9 @@ ENTRYPOINT ["java","-jar","/home/server/app.jar"]
 #暴露 8000 端口
 EXPOSE 8000
 
+# 开发环境
 # mvn clean package -Pprod -DskipTests
+
+# 测试环境
+# mvn clean package -Ptest -DskipTests
 

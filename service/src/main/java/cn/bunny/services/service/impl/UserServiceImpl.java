@@ -210,7 +210,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 删除Redis中登录用户信息
         redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getEmail()));
-        
+
         // 更新用户密码
         adminUser = new AdminUser();
         adminUser.setPassword(md5Password);
@@ -483,8 +483,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
-        // 删除用户
-        baseMapper.deleteBatchIdsWithPhysics(ids);
+        // 逻辑删除
+        baseMapper.deleteBatchIds(ids);
+
+        // 物理删除用户
+        // baseMapper.deleteBatchIdsWithPhysics(ids);
 
         // 删除部门相关
         userDeptMapper.deleteBatchIdsByUserIdWithPhysics(ids);

@@ -24,8 +24,6 @@ import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -258,18 +256,5 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         } catch (Exception exception) {
             return Set.of();
         }
-    }
-
-    /**
-     * * 根据文件名访问resource下文件
-     *
-     * @param filename 文件名
-     * @return Resource
-     */
-    @Override
-    public Resource getResourceByFilename(String filename) {
-        Resource file = new ClassPathResource("static/" + filename);
-        if (!file.exists()) throw new BunnyException(ResultCodeEnum.FILE_NOT_EXIST);
-        return file;
     }
 }

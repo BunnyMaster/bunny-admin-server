@@ -16,7 +16,7 @@ public class Knife4jConfig {
     @Bean
     public OpenAPI openAPI() {
         // 作者等信息
-        Contact contact = new Contact().name("Bunny").email("1319900154@qq.com").url("http://z-bunny.com");
+        Contact contact = new Contact().name("Bunny").email("1319900154@qq.com").url("http://z-bunny.cn");
         // 使用协议
         License license = new License().name("MIT").url("http://MUT.com");
         // 相关信息

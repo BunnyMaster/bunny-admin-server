@@ -140,7 +140,7 @@ public class UserController {
         return Result.success(ResultCodeEnum.LOGOUT_SUCCESS);
     }
 
-    @Operation(summary = "删除用户信息", description = "删除用户信息")
+    @Operation(summary = "删除用户", description = "删除用户")
     @DeleteMapping("deleteAdminUser")
     public Mono<Result<String>> deleteAdminUser(@RequestBody List<Long> ids) {
         userService.deleteAdminUser(ids);

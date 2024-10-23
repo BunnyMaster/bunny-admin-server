@@ -38,13 +38,4 @@ public class UserLoginLogVo extends BaseVo {
     @JsonProperty("xRequestedWith")
     private String xRequestedWith;
 
-    @Schema(name = "secChUa", title = "用户代理的品牌和版本")
-    private String secChUa;
-
-    @Schema(name = "secChUaMobile", title = "用户代理是否在手机设备上运行")
-    private String secChUaMobile;
-
-    @Schema(name = "secChUaPlatform", title = "用户代理的底层操作系统/平台")
-    private String secChUaPlatform;
-
 }

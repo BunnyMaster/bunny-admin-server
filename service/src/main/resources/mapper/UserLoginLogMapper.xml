@@ -18,14 +18,11 @@
         <id column="user_agent" property="userAgent"/>
         <id column="type" property="type"/>
         <id column="x_requested_with" property="xRequestedWith"/>
-        <id column="sec_ch_ua" property="secChUa"/>
-        <id column="sec_ch_ua_mobile" property="secChUaMobile"/>
-        <id column="sec_ch_ua_platform" property="secChUaPlatform"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, user_id, username, token, ip_address, ip_region, user_agent, type, x_requested_with, sec_ch_ua, sec_ch_ua_mobile, sec_ch_ua_platform
+        id, create_time, update_time, create_user, update_user, is_deleted, user_id, username, token, ip_address, ip_region, user_agent, type, x_requested_with
     </sql>
 
     <!-- 分页查询用户登录日志内容 -->
@@ -34,14 +31,8 @@
         <include refid="Base_Column_List"/>
         from log_user_login
         <where>
-            <if test="dto.userId != null and dto.userId != ''">
-                and user_id like CONCAT('%',#{dto.userId},'%')
-            </if>
             <if test="dto.username != null and dto.username != ''">
                 and username like CONCAT('%',#{dto.username},'%')
-            </if>
-            <if test="dto.token != null and dto.token != ''">
-                and token like CONCAT('%',#{dto.token},'%')
             </if>
             <if test="dto.ipAddress != null and dto.ipAddress != ''">
                 and ip_address like CONCAT('%',#{dto.ipAddress},'%')
@@ -49,23 +40,11 @@
             <if test="dto.ipRegion != null and dto.ipRegion != ''">
                 and ip_region like CONCAT('%',#{dto.ipRegion},'%')
             </if>
-            <if test="dto.userAgent != null and dto.userAgent != ''">
-                and user_agent like CONCAT('%',#{dto.userAgent},'%')
-            </if>
             <if test="dto.type != null and dto.type != ''">
                 and type like CONCAT('%',#{dto.type},'%')
             </if>
             <if test="dto.xRequestedWith != null and dto.xRequestedWith != ''">
                 and x_requested_with like CONCAT('%',#{dto.xRequestedWith},'%')
-            </if>
-            <if test="dto.secChUa != null and dto.secChUa != ''">
-                and sec_ch_ua like CONCAT('%',#{dto.secChUa},'%')
-            </if>
-            <if test="dto.secChUaMobile != null and dto.secChUaMobile != ''">
-                and sec_ch_ua_mobile like CONCAT('%',#{dto.secChUaMobile},'%')
-            </if>
-            <if test="dto.secChUaPlatform != null and dto.secChUaPlatform != ''">
-                and sec_ch_ua_platform like CONCAT('%',#{dto.secChUaPlatform},'%')
             </if>
         </where>
     </select>

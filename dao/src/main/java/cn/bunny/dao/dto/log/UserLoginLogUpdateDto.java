@@ -37,13 +37,4 @@ public class UserLoginLogUpdateDto {
     @Schema(name = "xRequestedWith", title = "标识客户端是否是通过Ajax发送请求的")
     private String xRequestedWith;
 
-    @Schema(name = "secChUa", title = "用户代理的品牌和版本")
-    private String secChUa;
-
-    @Schema(name = "secChUaMobile", title = "用户代理是否在手机设备上运行")
-    private String secChUaMobile;
-
-    @Schema(name = "secChUaPlatform", title = "用户代理的底层操作系统/平台")
-    private String secChUaPlatform;
-
 }
