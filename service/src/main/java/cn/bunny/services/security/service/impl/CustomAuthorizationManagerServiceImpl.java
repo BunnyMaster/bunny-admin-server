@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -73,8 +72,11 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         // 判断是否与请求路径匹配
         return powerList.stream().map(Power::getRequestUrl)
                 .anyMatch(requestUrl -> {
-                    boolean antMatcher = StringUtils.hasText(requestUrl) && new AntPathRequestMatcher(requestUrl).matches(request);
-                    return antMatcher || requestURI.matches(requestUrl);
+                    if (requestUrl.contains("/*") || requestUrl.contains("/**")) {
+                        return new AntPathRequestMatcher(requestUrl).matches(request);
+                    } else {
+                        return requestURI.matches(requestUrl);
+                    }
                 });
     }
 }
