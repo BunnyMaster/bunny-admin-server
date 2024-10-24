@@ -6,6 +6,8 @@ mybatis-plus:
   global-config:
     db-config:
       logic-delete-field: isDeleted
+  configuration:
+    map-underscore-to-camel-case: true
 
 logging:
   level:
@@ -22,9 +24,6 @@ logging:
 knife4j:
   enable: true
   production: true
-
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
 
 #  rabbitmq:
 #    host: ${bunny.rabbitmq.host}

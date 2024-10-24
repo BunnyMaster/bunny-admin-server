@@ -53,8 +53,10 @@
              sys_user_role ur
         WHERE u.id = ur.user_id
           AND r.id = ur.role_id
-          AND r.id = #{userId}
+          AND ur.user_id = #{userId}
     </select>
+
+    <!-- 根据用户Id列表查询用户角色 -->
     <select id="selectListByUserIds" resultType="cn.bunny.dao.entity.system.Role">
         SELECT r.*
         FROM sys_role r,

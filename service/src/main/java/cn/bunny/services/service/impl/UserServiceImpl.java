@@ -484,14 +484,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 根据用户Id列表查询用户角色
         List<Role> list = roleMapper.selectListByUserIds(ids);
-        List<Role> roleList = list.stream().filter(role -> !role.getRoleCode().equals("admin") || ids.contains(1L)).toList();
-        if (roleList.isEmpty()) throw new BunnyException(ResultCodeEnum.ADMIN_ROLE_CAN_NOT_DELETED);
-
-        // 如果有管理员不删除
-        ids.remove(1L);
+        List<Role> roleList = list.stream().filter(role -> role.getRoleCode().equals("admin") || ids.contains(1L)).toList();
+        if (!roleList.isEmpty()) throw new BunnyException(ResultCodeEnum.ADMIN_ROLE_CAN_NOT_DELETED);
 
         // 逻辑删除
-        baseMapper.deleteBatchIds(ids);
+        removeBatchByIds(ids);
 
         // 物理删除用户
         // baseMapper.deleteBatchIdsWithPhysics(ids);
