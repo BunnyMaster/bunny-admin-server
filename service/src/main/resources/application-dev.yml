@@ -38,4 +38,5 @@ bunny:
     secretKey: "02120212"
     bucket-name: auth-admin
 
+  backPath: "D:\\MyFolder\\backup"
   bashPath: "D:\\MyFolder"

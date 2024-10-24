@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class DatabaseBackupJob implements Job {
 
-    @Value("${bunny.bashPath}")
-    private String bashPath;
+    @Value("${bunny.backPath}")
+    private String backPath;
 
     @SneakyThrows
     @Override
@@ -32,12 +32,12 @@ public class DatabaseBackupJob implements Job {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("static/backup.sh")) {
             if (inputStream == null) return;
             byte[] bytes = inputStream.readAllBytes();
-            Files.write(Path.of(bashPath + "/backup.sh"), bytes);
+            Files.write(Path.of(backPath + "/backup.sh"), bytes);
         }
 
         // 执行脚本
         System.setProperty("TERM", "xterm");
-        ProcessBuilder processBuilder = new ProcessBuilder("sh", bashPath + "/backup.sh");
+        ProcessBuilder processBuilder = new ProcessBuilder("sh", backPath + "/backup.sh");
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
 

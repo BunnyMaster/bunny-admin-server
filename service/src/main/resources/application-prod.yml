@@ -16,7 +16,7 @@ logging:
   pattern:
     dateformat: HH:mm:ss:SSS
   file:
-    path: "logs/${spring.application.name}"  aaa
+    path: "logs/${spring.application.name}"
 
 # 线上禁用文档
 knife4j:
@@ -25,11 +25,11 @@ knife4j:
 
 bunny:
   master:
-    host: 106.15.251.123
+    host: rm-bp12z6hlv46vi6g8mro.mysql.rds.aliyuncs.com
     port: 3306
     database: auth_admin
-    username: root
-    password: "02120212"
+    username: auth_admin_prod
+    password: 0212auth_admin
 
   redis:
     host: 47.120.65.66
@@ -43,4 +43,5 @@ bunny:
     secretKey: "02120212"
     bucket-name: auth-admin
 
-  bashPath: "/home/server"
+  backPath: "/www/root/backup"
+  bashPath: "/www/root/server"

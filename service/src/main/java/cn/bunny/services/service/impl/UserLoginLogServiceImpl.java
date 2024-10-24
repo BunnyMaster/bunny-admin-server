@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ import java.util.List;
  * @since 2024-10-19 01:01:01
  */
 @Service
+@Transactional
 public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, UserLoginLog> implements UserLoginLogService {
 
     @Autowired
@@ -53,8 +55,8 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
     @Override
     public void deleteUserLoginLog(List<Long> ids) {
         // 逻辑删除
-        baseMapper.deleteBatchIds(ids);
-        
+        removeBatchByIds(ids);
+
         // 物理删除
         // baseMapper.deleteBatchIdsWithPhysics(ids);
     }
