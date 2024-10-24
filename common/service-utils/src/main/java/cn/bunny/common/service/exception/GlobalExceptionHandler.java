@@ -1,6 +1,7 @@
 package cn.bunny.common.service.exception;
 
 
+import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -87,7 +88,7 @@ public class GlobalExceptionHandler {
     // 表单验证字段
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        log.error("表单验证失败：{}", ex.getMessage());
+        log.error("表单验证失败，用户Id：{}", BaseContext.getUserId());
         String errorMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(", "));
