@@ -45,4 +45,12 @@ public interface RoleMapper extends BaseMapper<Role> {
      */
     @NotNull
     List<Role> selectListByUserId(long userId);
+
+    /**
+     * * 根据用户Id列表查询用户角色
+     *
+     * @param ids 用户Id列表
+     * @return 角色列表
+     */
+    List<Role> selectListByUserIds(List<Long> ids);
 }

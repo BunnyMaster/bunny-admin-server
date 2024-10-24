@@ -8,10 +8,7 @@ import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.log.UserLoginLog;
-import cn.bunny.dao.entity.system.AdminUser;
-import cn.bunny.dao.entity.system.AdminUserAndDept;
-import cn.bunny.dao.entity.system.EmailTemplate;
-import cn.bunny.dao.entity.system.UserDept;
+import cn.bunny.dao.entity.system.*;
 import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.enums.EmailTemplateEnums;
@@ -87,6 +84,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private EmailTemplateMapper emailTemplateMapper;
+    @Autowired
+    private RoleMapper roleMapper;
 
     /**
      * 登录发送邮件验证码
@@ -482,6 +481,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     public void deleteAdminUser(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+
+        // 根据用户Id列表查询用户角色
+        List<Role> list = roleMapper.selectListByUserIds(ids);
+        List<Role> roleList = list.stream().filter(role -> !role.getRoleCode().equals("admin") || ids.contains(1L)).toList();
+        if (roleList.isEmpty()) throw new BunnyException(ResultCodeEnum.ADMIN_ROLE_CAN_NOT_DELETED);
+
+        // 如果有管理员不删除
+        ids.remove(1L);
 
         // 逻辑删除
         baseMapper.deleteBatchIds(ids);

@@ -16,7 +16,7 @@ logging:
   pattern:
     dateformat: HH:mm:ss:SSS
   file:
-    path: "logs/${spring.application.name}"
+    path: "logs/${spring.application.name}"  aaa
 
 # 线上禁用文档
 knife4j:

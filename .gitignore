@@ -4,6 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 logs/
+!**/src/main/resources/application-prod.yml
+
 ### STS ###
 .apt_generated
 .classpath
@@ -12,6 +14,7 @@ logs/
 .settings
 .springBeans
 .sts4-cache
+
 
 ### IntelliJ IDEA ###
 .idea
