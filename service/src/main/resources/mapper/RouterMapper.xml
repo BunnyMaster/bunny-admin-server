@@ -44,7 +44,8 @@
                  LEFT JOIN sys_user user ON user_role.user_id = user.id
                  LEFT JOIN sys_router_role router_role ON user_role.role_id = router_role.role_id
                  LEFT JOIN sys_router router ON router_role.router_id = router.id
-        WHERE user.id = #{userId}
+        WHERE user.is_deleted = 0
+          AND user.id = #{userId}
     </select>
 
     <!-- 递归查询所有父级Id，直到查询到父级Id为0 -->
@@ -69,6 +70,7 @@
         select *
         from sys_router
         <where>
+            is_deleted = 0
             <if test="dto.title != null and dto.title != ''">
                 and title like CONCAT('%',#{dto.title},'%')
             </if>

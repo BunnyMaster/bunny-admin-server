@@ -25,6 +25,7 @@
         <include refid="Base_Column_List"/>
         from sys_role
         <where>
+            is_deleted = 0
             <if test="dto.roleCode != null and dto.roleCode != ''">
                 and role_code like CONCAT('%',#{dto.roleCode},'%')
             </if>
@@ -52,6 +53,7 @@
              sys_role r,
              sys_user_role ur
         WHERE u.id = ur.user_id
+          AND u.is_deleted = 0
           AND r.id = ur.role_id
           AND ur.user_id = #{userId}
     </select>

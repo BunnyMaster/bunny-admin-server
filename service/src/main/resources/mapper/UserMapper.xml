@@ -34,6 +34,7 @@
         user.*,user_dept.dept_id
         from sys_user user left join sys_user_dept user_dept on user.id = user_dept.user_id
         <where>
+            user.is_deleted = 0
             <if test="dto.username != null and dto.username != ''">
                 and username like CONCAT('%',#{dto.username},'%')
             </if>
@@ -62,7 +63,7 @@
                 </foreach>
             </if>
         </where>
-
+        order by update_time desc
     </select>
 
     <!-- 查询用户 -->

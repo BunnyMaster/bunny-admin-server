@@ -29,6 +29,7 @@
         <include refid="Base_Column_List"/>
         from sys_email_users
         <where>
+            is_deleted = 0
             <if test="dto.email != null and dto.email != ''">
                 and email like CONCAT('%',#{dto.email},'%')
             </if>

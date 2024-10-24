@@ -30,6 +30,7 @@
         <include refid="Base_Column_List"/>
         from log_quartz_execute
         <where>
+            is_deleted = 0
             <if test="dto.jobName != null and dto.jobName != ''">
                 and job_name like CONCAT('%',#{dto.jobName},'%')
             </if>

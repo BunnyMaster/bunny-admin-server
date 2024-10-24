@@ -2,8 +2,9 @@ package cn.bunny.services.security.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.dao.entity.system.Power;
-import cn.bunny.dao.vo.system.user.LoginVo;
+import cn.bunny.dao.entity.system.Role;
 import cn.bunny.services.mapper.PowerMapper;
+import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
@@ -15,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -30,6 +32,9 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
 
     @Autowired
     private PowerMapper powerMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     @SneakyThrows
     @Override
@@ -47,25 +52,29 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
      * @param request 请求url地址
      */
     private Boolean hasAuth(HttpServletRequest request) {
-        // 角色代码列表
-        LoginVo loginVo = BaseContext.getLoginVo();
-        List<String> roleCodeList = loginVo.getRoles();
+        // 根据用户ID查询角色数据
+        Long userId = BaseContext.getUserId();
+        List<Role> roleList = roleMapper.selectListByUserId(userId);
+
+        // 角色代码
+        List<String> roleCodeList = roleList.stream().map(Role::getRoleCode).toList();
 
         // 判断是否是管理员用户
-        boolean checkedAdmin = CustomCheckIsAdmin.checkAdmin(roleCodeList, loginVo);
+        boolean checkedAdmin = CustomCheckIsAdmin.checkAdmin(roleCodeList);
         if (checkedAdmin) return true;
 
         // 判断请求地址是否是 noManage 不需要被验证的
         String requestURI = request.getRequestURI();
         if (requestURI.contains("noManage")) return true;
 
-        // 不是 admin，查询角色权限关系表,根据权限码查询可以访问URL
-        List<String> powerCodes = loginVo.getPermissions();
-        List<Power> powerList = powerMapper.selectListByPowerCodes(powerCodes);
+        // 根据角色列表查询权限信息
+        List<Power> powerList = powerMapper.selectListByUserId(userId);
 
         // 判断是否与请求路径匹配
-        return powerList.stream()
-                .anyMatch(power -> AntPathRequestMatcher.antMatcher(power.getRequestUrl()).matches(request) ||
-                        requestURI.matches(power.getRequestUrl()));
+        return powerList.stream().map(Power::getRequestUrl)
+                .anyMatch(requestUrl -> {
+                    boolean antMatcher = StringUtils.hasText(requestUrl) && new AntPathRequestMatcher(requestUrl).matches(request);
+                    return antMatcher || requestURI.matches(requestUrl);
+                });
     }
 }

@@ -28,6 +28,7 @@
         <include refid="Base_Column_List"/>
         from sys_files
         <where>
+            is_deleted = 0
             <if test="dto.filename != null and dto.filename != ''">
                 and filename like CONCAT('%',#{dto.filename},'%')
             </if>

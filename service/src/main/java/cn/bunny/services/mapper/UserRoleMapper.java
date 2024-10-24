@@ -30,4 +30,5 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
      * @param roleIds 角色id列表
      */
     void deleteBatchIdsByRoleIdsWithPhysics(List<Long> roleIds);
+
 }

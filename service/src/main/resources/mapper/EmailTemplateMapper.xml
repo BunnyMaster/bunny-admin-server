@@ -29,6 +29,7 @@
         <include refid="Base_Column_List"/>
         from sys_email_template
         <where>
+            is_deleted = 0
             <if test="dto.templateName != null and dto.templateName != ''">
                 and template_name like CONCAT('%',#{dto.templateName},'%')
             </if>

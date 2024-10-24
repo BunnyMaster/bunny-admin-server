@@ -27,6 +27,7 @@
         <include refid="Base_Column_List"/>
         from sys_dept
         <where>
+            is_deleted = 0
             <if test="dto.parentId != null and dto.parentId != ''">
                 and parent_id like CONCAT('%',#{dto.parentId},'%')
             </if>

@@ -77,7 +77,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<UserRouterVo> list = new ArrayList<>();
 
         // 查询用户角色，判断是否是管理员角色
-        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(roleList, loginVo);
+        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(roleList);
         if (isAdmin) routerList = list();
         else {
             List<Long> routerIds = baseMapper.selectListByUserId(loginVo.getId());
@@ -220,7 +220,11 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<Long> longList = list(Wrappers.<Router>lambdaQuery().in(Router::getParentId, ids)).stream().map(Router::getId).toList();
         ids.addAll(longList);
 
-        baseMapper.deleteBatchIdsWithPhysics(ids);
+        // 逻辑删除
+        removeBatchByIds(ids);
+
+        // 物理删除
+        // baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 
     /**

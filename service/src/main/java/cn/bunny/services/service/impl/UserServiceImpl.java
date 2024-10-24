@@ -84,6 +84,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private EmailTemplateMapper emailTemplateMapper;
+    
     @Autowired
     private RoleMapper roleMapper;
 
@@ -392,18 +393,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         // 分页查询菜单图标
         IPage<AdminUserAndDept> page = baseMapper.selectListByPage(pageParams, dto);
 
-        List<AdminUserVo> voList = page.getRecords().stream().map(AdminUser -> {
-            // 如果存在用户头像，则设置用户头像
-            String avatar = AdminUser.getAvatar();
-            if (StringUtils.hasText(avatar)) {
-                avatar = minioUtil.getObjectNameFullPath(avatar);
-            }
+        List<AdminUserVo> voList = page.getRecords().stream()
+                .map(adminUser -> {
+                    // 如果存在用户头像，则设置用户头像
+                    String avatar = adminUser.getAvatar();
+                    if (StringUtils.hasText(avatar)) {
+                        avatar = minioUtil.getObjectNameFullPath(avatar);
+                    }
 
-            AdminUserVo adminUserVo = new AdminUserVo();
-            BeanUtils.copyProperties(AdminUser, adminUserVo);
-            adminUserVo.setAvatar(avatar);
-            return adminUserVo;
-        }).toList();
+                    AdminUserVo adminUserVo = new AdminUserVo();
+                    BeanUtils.copyProperties(adminUser, adminUserVo);
+                    adminUserVo.setAvatar(avatar);
+                    return adminUserVo;
+                })
+                .filter(adminUserVo -> !adminUserVo.getId().equals(1L))
+                .toList();
 
         return PageResult.<AdminUserVo>builder()
                 .list(voList)

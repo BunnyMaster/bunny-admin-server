@@ -17,7 +17,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -68,14 +67,14 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
      * @return 图标返回列表
      */
     @Override
-    @Cacheable(cacheNames = "menuIcon", key = "'menuIconList'", cacheManager = "cacheManagerWithMouth")
     public List<MenuIconVo> getIconNameList(String iconName) {
         return list(Wrappers.<MenuIcon>lambdaQuery().like(MenuIcon::getIconName, iconName))
                 .stream().map(menuIcon -> {
                     MenuIconVo menuIconVo = new MenuIconVo();
                     BeanUtils.copyProperties(menuIcon, menuIconVo);
                     return menuIconVo;
-                }).collect(Collectors.collectingAndThen(
+                })
+                .collect(Collectors.collectingAndThen(
                         Collectors.toMap(
                                 MenuIconVo::getIconName,
                                 i -> i,

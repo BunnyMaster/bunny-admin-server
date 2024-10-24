@@ -21,7 +21,7 @@ mybatis-plus:
       logic-not-delete-value: 0 # 逻辑未删除值
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
 
 bunny:
   master:
@@ -43,5 +43,5 @@ bunny:
     secretKey: "02120212"
     bucket-name: auth-admin
 
-  backPath: "D:\\MyFolder\\backup"
-  bashPath: "D:\\MyFolder"
+  backPath: "D:\\MyData\\backup"
+  bashPath: "D:\\MyData"

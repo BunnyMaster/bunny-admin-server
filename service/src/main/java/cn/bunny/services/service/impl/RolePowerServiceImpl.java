@@ -44,8 +44,8 @@ public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower
         List<Long> powerIds = dto.getPowerIds();
         Long roleId = dto.getRoleId();
 
-        // 删除所有权限
-        baseMapper.deleteBatchPowerIdsWithPhysics(powerIds);
+        // 删除这个角色下所有权限
+        baseMapper.deleteBatchRoleIdsWithPhysics(List.of(roleId));
 
         // 保存分配数据
         List<RolePower> rolePowerList = powerIds.stream().map(powerId -> {

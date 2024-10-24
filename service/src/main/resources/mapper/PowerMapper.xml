@@ -27,6 +27,7 @@
         <include refid="Base_Column_List"/>
         from sys_power
         <where>
+            is_deleted = 0
             <if test="dto.powerCode != null and dto.powerCode != ''">
                 and power_code like CONCAT('%',#{dto.powerCode},'%')
             </if>
@@ -50,7 +51,7 @@
         </foreach>
     </delete>
 
-    <!-- 根据用户id查询当前用户所有角色 -->
+    <!-- 根据用户id查询当前用户所有权限 -->
     <select id="selectListByUserId" resultType="cn.bunny.dao.entity.system.Power">
         SELECT p.*
         FROM sys_user u,
@@ -58,6 +59,7 @@
              sys_role_power rp,
              sys_power p
         WHERE u.id = ur.user_id
+          AND u.is_deleted = 0
           AND ur.role_id = rp.role_id
           AND rp.power_id = p.id
           AND u.id = #{userId}

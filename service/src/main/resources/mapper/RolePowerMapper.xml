@@ -46,4 +46,15 @@
         where role_id = #{roleId}
     </select>
 
+    <!-- 根据角色id列表获取权限内容 -->
+    <select id="selectPowerListByRoleIds" resultType="cn.bunny.dao.entity.system.Power">
+        SELECT power.*
+        FROM sys_role_power rp
+        LEFT JOIN sys_role role ON rp.role_id = role.id
+        LEFT JOIN sys_power power ON rp.power_id = power.id AND rp.role_id in
+        <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

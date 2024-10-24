@@ -39,7 +39,7 @@ public interface PowerMapper extends BaseMapper<Power> {
     void deleteBatchIdsWithPhysics(List<Long> ids);
 
     /**
-     * * 根据用户id查询当前用户所有角色
+     * * 根据用户id查询当前用户所有权限
      *
      * @param userId 用户id
      */

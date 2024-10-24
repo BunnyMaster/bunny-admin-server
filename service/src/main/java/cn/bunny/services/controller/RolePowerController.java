@@ -28,7 +28,7 @@ public class RolePowerController {
     @Autowired
     private RolePowerService rolePowerService;
 
-    @Operation(summary = "根据角色id获取权限内容", description = "角色列获取已选择的权限")
+    @Operation(summary = "根据角色id获取权限内容", description = "根据角色id获取权限内容")
     @GetMapping("noManage/getPowerListByRoleId")
     public Mono<Result<List<String>>> getPowerListByRoleId(Long id) {
         List<String> voList = rolePowerService.getPowerListByRoleId(id);
@@ -37,8 +37,8 @@ public class RolePowerController {
 
     @Operation(summary = "为角色分配权限", description = "为角色分配权限")
     @PostMapping("assignPowersToRole")
-    public Mono<Result<String>> assignPowersToRole(@Valid @RequestBody AssignPowersToRoleDto dto) {
+    public Result<String> assignPowersToRole(@Valid @RequestBody AssignPowersToRoleDto dto) {
         rolePowerService.assignPowersToRole(dto);
-        return Mono.just(Result.success());
+        return Result.success();
     }
 }

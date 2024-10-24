@@ -31,6 +31,7 @@
         <include refid="Base_Column_List"/>
         from log_user_login
         <where>
+            is_deleted = 0
             <if test="dto.username != null and dto.username != ''">
                 and username like CONCAT('%',#{dto.username},'%')
             </if>
