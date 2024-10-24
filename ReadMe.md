@@ -29,27 +29,27 @@ Gitee地址
 
 - 如果需要访问内部docker或者有这种需求访问宿主机docker，需要配置下面三个文件，这三个文件需要对应你的宿主机上的位置，下面展示的三个是服务容器中的地址，之后需要使用docker命令绑定映射这三个文件夹位置即可。
 
-    - ```
-  VOLUME /usr/bin/docker
-  VOLUME ["/var/run/docker.sock"]
-  VOLUME /etc/docker/daemon.json
-    ```
+``` dockerfile
+VOLUME /usr/bin/docker
+VOLUME ["/var/run/docker.sock"]
+VOLUME /etc/docker/daemon.json
+```
 
 - 备份资源和基础路径设置
 
-    - 备份资源如果是需要备份数据库，比如你的数据库就在本机那么可以使用这个文件夹，之后需要映射这个数据卷
+- 备份资源如果是需要备份数据库，比如你的数据库就在本机那么可以使用这个文件夹，之后需要映射这个数据卷
 
-        - ```
-      VOLUME ["/www/root/backup"]
-      ```
+```dockerfile
+VOLUME ["/www/root/backup"]
+```
 
-    - 基础路径，比如需要设置前端配置文件的，因为第一次启动项目肯定是没有这个配置文件，而且打成jar包之后是不可以修改resource下资源的，需要将资源放到外面目录中
+- 基础路径，比如需要设置前端配置文件的，因为第一次启动项目肯定是没有这个配置文件，而且打成jar包之后是不可以修改resource下资源的，需要将资源放到外面目录中
 
-    - 如果以后更新了服务，那么docker容器内容会被清空，比如备份的资源或者是配置的资源又要重新配置，这个地址挂载到数据卷中之后就可以映射，即使项目更新等文件也要，只要不把宿主机文件删除就可以。
+- 如果以后更新了服务，那么docker容器内容会被清空，比如备份的资源或者是配置的资源又要重新配置，这个地址挂载到数据卷中之后就可以映射，即使项目更新等文件也要，只要不把宿主机文件删除就可以。
 
-        - ```
-      VOLUME ["/www/root/server"]
-      ```
+```dockerfile
+VOLUME ["/www/root/server"]
+```
 
 ![image-20241023094711026](data/images/image-20241023094711026.png)
 
