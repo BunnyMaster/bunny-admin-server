@@ -23,8 +23,6 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
 
-
-
 bunny:
   master:
     host: 192.168.3.98

@@ -20,6 +20,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,6 +74,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      * @return 所有权限列表
      */
     @Override
+    @Cacheable(cacheNames = "power", key = "'allPower'", cacheManager = "cacheManagerWithMouth")
     public List<PowerVo> getAllPowers() {
         List<Power> powerList = list();
         return powerList.stream().map(power -> {
@@ -87,6 +90,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      * @param dto 权限添加
      */
     @Override
+    @CacheEvict(cacheNames = "power", key = "'allPower'", beforeInvocation = true)
     public void addPower(@Valid PowerAddDto dto) {
         // 添加权限时确保权限码和请求地址是唯一的
         LambdaQueryWrapper<Power> wrapper = new LambdaQueryWrapper<>();
@@ -108,6 +112,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      * @param dto 权限更新
      */
     @Override
+    @CacheEvict(cacheNames = "power", key = "'allPower'", beforeInvocation = true)
     public void updatePower(@Valid PowerUpdateDto dto) {
         Long id = dto.getId();
         List<Power> powerList = list(Wrappers.<Power>lambdaQuery().eq(Power::getId, id));
@@ -126,6 +131,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      * @param ids 删除id列表
      */
     @Override
+    @CacheEvict(cacheNames = "power", key = "'allPower'", beforeInvocation = true)
     public void deletePower(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
@@ -143,6 +149,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      * @param dto 批量修改权限表单
      */
     @Override
+    @CacheEvict(cacheNames = "power", key = "'allPower'", beforeInvocation = true)
     public void updateBatchByPowerWithParentId(PowerUpdateBatchByParentIdDto dto) {
         List<Power> powerList = dto.getIds().stream().map(id -> {
             Power power = new Power();

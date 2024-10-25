@@ -149,12 +149,12 @@ public class UserFactory {
      */
     public String checkUserAvatar(String avatar) {
         if (!StringUtils.hasText(avatar)) return null;
-        String regex = "https?://.*?/(.*)";
+        String regex = "^https?://.*?/(.*)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(avatar);
 
         // 如果没有匹配
-        if (!matcher.matches()) return null;
+        if (!matcher.matches()) return avatar;
 
         // 匹配后返回内容
         return "/" + matcher.group(1);

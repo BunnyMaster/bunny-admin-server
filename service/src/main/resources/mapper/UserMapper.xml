@@ -63,7 +63,6 @@
                 </foreach>
             </if>
         </where>
-        order by update_time desc
     </select>
 
     <!-- 查询用户 -->
