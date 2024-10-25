@@ -46,6 +46,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -84,7 +85,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private EmailTemplateMapper emailTemplateMapper;
-    
+
     @Autowired
     private RoleMapper roleMapper;
 
@@ -117,7 +118,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         emailFactory.sendEmailTemplate(email, emailTemplate, hashMap);
 
         // 在Redis中存储验证码
-        redisTemplate.opsForValue().set(RedisUserConstant.getAdminUserEmailCodePrefix(email), emailCode);
+        redisTemplate.opsForValue().set(RedisUserConstant.getAdminUserEmailCodePrefix(email), emailCode, RedisUserConstant.REDIS_EXPIRATION_TIME, TimeUnit.MINUTES);
     }
 
     /**

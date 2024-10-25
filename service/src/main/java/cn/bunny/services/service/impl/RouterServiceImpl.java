@@ -201,6 +201,9 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         // 判断更新数据id和父级id是否重复
         if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
 
+        // 如果设置的不是外部页面
+        if (!dto.getMenuType().equals(2)) router.setFrameSrc("");
+
         router = new Router();
         BeanUtils.copyProperties(dto, router);
         updateById(router);

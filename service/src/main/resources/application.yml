@@ -87,8 +87,6 @@ management:
       enabled: true
     os:
       enabled: true
-    git:
-      mode: full
 
   endpoint:
     health:
