@@ -20,8 +20,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -79,7 +77,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @return 所有角色列表
      */
     @Override
-    @Cacheable(cacheNames = "role", key = "'allRole'", cacheManager = "cacheManagerWithMouth")
     public List<RoleVo> getAllRoles() {
         return list().stream().map(role -> {
             RoleVo roleVo = new RoleVo();
@@ -94,7 +91,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @param dto 角色添加
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'allRole'", beforeInvocation = true)
     public void addRole(@Valid RoleAddDto dto) {
         // 判断角色码是否被添加过
         List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getRoleCode, dto.getRoleCode()));
@@ -112,7 +108,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @param dto 角色更新
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'allRole'", beforeInvocation = true)
     public void updateRole(@Valid RoleUpdateDto dto) {
         // 查询更新的角色是否存在
         List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, dto.getId()));
@@ -130,7 +125,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @param ids 删除id列表
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'allRole'", beforeInvocation = true)
     public void deleteRole(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
