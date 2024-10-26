@@ -30,4 +30,11 @@ public interface RouterRoleService extends IService<RouterRole> {
      * @param dto 路由分配角色
      */
     void assignRolesToRouter(AssignRolesToRoutersDto dto);
+
+    /**
+     * 清除选中菜单所有角色
+     *
+     * @param routerIds 路由id
+     */
+    void clearAllRolesSelect(List<Long> routerIds);
 }

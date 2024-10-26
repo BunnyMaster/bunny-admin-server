@@ -6,15 +6,17 @@ import cn.bunny.dao.dto.system.router.RouterAddDto;
 import cn.bunny.dao.dto.system.router.RouterManageDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateByIdWithRankDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateDto;
+import cn.bunny.dao.entity.system.Power;
+import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.entity.system.Router;
-import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.router.RouterManageVo;
 import cn.bunny.dao.vo.system.router.RouterMeta;
 import cn.bunny.dao.vo.system.router.UserRouterVo;
-import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.factory.RouterServiceFactory;
+import cn.bunny.services.mapper.PowerMapper;
+import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.mapper.RouterMapper;
 import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import cn.bunny.services.service.RouterService;
@@ -25,7 +27,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -49,7 +50,10 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     private RouterServiceFactory routerServiceFactory;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private PowerMapper powerMapper;
 
     /**
      * * 获取路由内容
@@ -58,17 +62,16 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     public List<UserRouterVo> getRouterAsync() {
-        // 当前用户id
-        String username = BaseContext.getUsername();
+        // 根据用户ID查询角色数据
+        Long userId = BaseContext.getUserId();
 
-        LoginVo loginVo = (LoginVo) redisTemplate.opsForValue().get(RedisUserConstant.getAdminLoginInfoPrefix(username));
-        if (loginVo == null) throw new BunnyException(ResultCodeEnum.FAIL);
+        // 查询角色信息
+        List<Role> roleList = roleMapper.selectListByUserId(userId);
+        List<String> roleCodeList = roleList.stream().map(Role::getRoleCode).toList();
 
-        // 角色列表
-        List<String> roleList = loginVo.getRoles();
-
-        // 权限列表
-        List<String> powerCodeList = loginVo.getPermissions();
+        // 根据角色列表查询权限信息
+        List<Power> powerList = powerMapper.selectListByUserId(userId);
+        List<String> powerCodeList = powerList.stream().map(Power::getPowerCode).toList();
 
         // 路由列表，根据用户角色判断
         List<Router> routerList;
@@ -77,10 +80,10 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<UserRouterVo> list = new ArrayList<>();
 
         // 查询用户角色，判断是否是管理员角色
-        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(roleList);
+        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(roleCodeList);
         if (isAdmin) routerList = list();
         else {
-            List<Long> routerIds = baseMapper.selectListByUserId(loginVo.getId());
+            List<Long> routerIds = baseMapper.selectListByUserId(userId);
             routerList = baseMapper.selectParentListByRouterId(routerIds);
         }
 
@@ -99,7 +102,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
                             .rank(router.getRouterRank())
                             .icon(router.getIcon())
                             .title(router.getTitle())
-                            .roles(roleList)
+                            .roles(roleCodeList)
                             .auths(powerCodeList)
                             .build();
 

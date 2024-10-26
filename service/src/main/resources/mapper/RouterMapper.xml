@@ -24,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, parent_id, path, component, frame_src, route_name, title, menuType, icon, router_rank, visible, create_user, update_user, update_time, create_time, is_deleted
+        id, parent_id, path, component, frame_src, route_name, title, menu_type, icon, router_rank, visible, create_user, update_user, update_time, create_time, is_deleted
     </sql>
 
     <!-- 物理删除路由菜单 -->

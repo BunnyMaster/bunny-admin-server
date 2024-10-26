@@ -40,4 +40,11 @@ public class RouterRoleController {
         routerRoleService.assignRolesToRouter(dto);
         return Mono.just(Result.success());
     }
+
+    @Operation(summary = "清除选中菜单所有角色", description = "清除选中菜单所有角色")
+    @DeleteMapping("clearAllRolesSelect")
+    public Mono<Result<String>> clearAllRolesSelect(@RequestBody List<Long> routerIds) {
+        routerRoleService.clearAllRolesSelect(routerIds);
+        return Mono.just(Result.success());
+    }
 }
