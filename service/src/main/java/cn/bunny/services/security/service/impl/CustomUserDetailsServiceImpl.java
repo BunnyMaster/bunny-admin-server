@@ -6,7 +6,6 @@ import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.factory.UserFactory;
-import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.security.custom.CustomUser;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -25,9 +24,6 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
 
     @Autowired
     private UserFactory userFactory;
-
-    @Autowired
-    private RoleMapper roleMapper;
 
     /**
      * 根据用户名获取用户对象（获取不到直接抛异常）

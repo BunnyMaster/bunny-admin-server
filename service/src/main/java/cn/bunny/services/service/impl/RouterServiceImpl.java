@@ -69,6 +69,9 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<Role> roleList = roleMapper.selectListByUserId(userId);
         List<String> roleCodeList = roleList.stream().map(Role::getRoleCode).toList();
 
+        // 如果没有分配角色直接返回空数组
+        if (roleCodeList.isEmpty()) return new ArrayList<>();
+
         // 根据角色列表查询权限信息
         List<Power> powerList = powerMapper.selectListByUserId(userId);
         List<String> powerCodeList = powerList.stream().map(Power::getPowerCode).toList();

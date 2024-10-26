@@ -9,6 +9,7 @@ import cn.bunny.services.service.UserRoleService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,10 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 
     @Autowired
     private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
 
     /**
      * * 根据用户id获取角色列表
