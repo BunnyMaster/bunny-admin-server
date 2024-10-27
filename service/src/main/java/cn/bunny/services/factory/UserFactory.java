@@ -35,7 +35,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-@Transactional
 public class UserFactory {
     @Autowired
     private PowerMapper powerMapper;
@@ -55,17 +54,18 @@ public class UserFactory {
     @Autowired
     private MinioUtil minioUtil;
 
-    public LoginVo buildUserVo(AdminUser user, long readMeDay) {
-        // 创建token
+    @Transactional
+    public LoginVo buildLoginUserVo(AdminUser user, long readMeDay) {
         Long userId = user.getId();
         String email = user.getEmail();
-        String token = JwtHelper.createToken(userId, email, (int) readMeDay);
+        String username = user.getUsername();
 
-        // 获取IP地址
+        // 使用用户名创建token
+        String token = JwtHelper.createToken(userId, username, (int) readMeDay);
+
+        // 获取IP地址并更新用户登录信息
         String ipAddr = IpUtil.getCurrentUserIpAddress().getIpAddr();
         String ipRegion = IpUtil.getCurrentUserIpAddress().getIpRegion();
-
-        // 更新用户登录信息
         setUpdateUser(userId, ipAddr, ipRegion);
 
         // 将用户登录保存在用户登录日志表中
@@ -74,13 +74,27 @@ public class UserFactory {
         // 设置用户返回信息
         LoginVo loginVo = setLoginVo(user, token, readMeDay, ipAddr, ipRegion);
 
-        // 将信息保存在Redis中
-        redisTemplate.opsForValue().set(RedisUserConstant.getAdminLoginInfoPrefix(email), loginVo, readMeDay, TimeUnit.DAYS);
+        // 将信息保存在Redis中，一定要确保用户名是唯一的
+        redisTemplate.opsForValue().set(RedisUserConstant.getAdminLoginInfoPrefix(username), loginVo, readMeDay, TimeUnit.DAYS);
 
         // 将Redis中验证码删除
         redisTemplate.delete(RedisUserConstant.getAdminUserEmailCodePrefix(email));
 
         return loginVo;
+    }
+
+    public void buildUserVo(AdminUser user, long readMeDay) {
+        Long userId = user.getId();
+        String username = user.getUsername();
+
+        // 使用用户名创建token
+        String token = JwtHelper.createToken(userId, username, (int) readMeDay);
+
+        // 设置用户返回信息
+        LoginVo loginVo = setLoginVo(user, token, readMeDay, user.getIpAddress(), user.getIpRegion());
+
+        // 将信息保存在Redis中，一定要确保用户名是唯一的
+        redisTemplate.opsForValue().set(RedisUserConstant.getAdminLoginInfoPrefix(username), loginVo, readMeDay, TimeUnit.DAYS);
     }
 
 
@@ -90,9 +104,10 @@ public class UserFactory {
     public LoginVo setLoginVo(AdminUser user, String token, long readMeDay, String ipAddr, String ipRegion) {
         Long userId = user.getId();
 
-        // 判断用户是否有头像，如果没有头像设置默认头像
+        // 判断用户是否有头像，如果没有头像设置默认头像，并且用户头像不能和默认头像相同
         String avatar = user.getAvatar();
-        avatar = StringUtils.hasText(avatar) ? minioUtil.getObjectNameFullPath(avatar) : UserConstant.USER_AVATAR;
+        String userAvatar = UserConstant.USER_AVATAR;
+        avatar = StringUtils.hasText(avatar) && !avatar.equals(userAvatar) ? minioUtil.getObjectNameFullPath(avatar) : userAvatar;
 
         // 查找用户橘色
         List<String> roles = new ArrayList<>(roleMapper.selectListByUserId(userId).stream().map(Role::getRoleCode).toList());
@@ -113,7 +128,7 @@ public class UserFactory {
         // 构建返回对象，设置用户需要内容
         LoginVo loginVo = new LoginVo();
         BeanUtils.copyProperties(user, loginVo);
-        loginVo.setNickname(user.getNickName());
+        loginVo.setNickname(user.getNickname());
         loginVo.setAvatar(avatar);
         loginVo.setToken(token);
         loginVo.setRefreshToken(token);
@@ -122,7 +137,9 @@ public class UserFactory {
         loginVo.setRoles(roles);
         loginVo.setPermissions(permissions);
         loginVo.setUpdateUser(userId);
+        loginVo.setPersonDescription(user.getSummary());
         loginVo.setExpires(expires);
+        loginVo.setReadMeDay(readMeDay);
 
         return loginVo;
     }
@@ -132,6 +149,7 @@ public class UserFactory {
      *
      * @param userId 用户ID
      */
+    @Transactional
     public void setUpdateUser(Long userId, String ipAddr, String ipRegion) {
         // 设置用户IP地址，并更新用户信息
         AdminUser updateUser = new AdminUser();
@@ -148,7 +166,11 @@ public class UserFactory {
      * @return 整理好的头像内容
      */
     public String checkUserAvatar(String avatar) {
-        if (!StringUtils.hasText(avatar)) return null;
+        // 如果用户没有头像或者用户头像和默认头像相同，返回默认头像
+        String userAvatar = UserConstant.USER_AVATAR;
+        if (!StringUtils.hasText(avatar) || avatar.equals(userAvatar)) return userAvatar;
+
+        // 替换前端发送的host前缀，将其删除，只保留路径名称
         String regex = "^https?://.*?/(.*)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(avatar);

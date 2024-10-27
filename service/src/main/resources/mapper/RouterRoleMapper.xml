@@ -39,4 +39,25 @@
         </foreach>
     </delete>
 
+    <!-- 查看所有路由的角色 -->
+    <select id="viewRouterRolesWithAll" resultType="cn.bunny.dao.view.ViewRouterRole">
+        SELECT rr.router_id,
+               router.parent_id,
+               router.path,
+               router.component,
+               router.frame_src,
+               router.route_name,
+               router.title,
+               router.menu_type,
+               router.icon,
+               router.router_rank,
+               router.visible,
+               rr.role_id,
+               role.role_code,
+               role.description
+        FROM sys_router_role rr
+                 LEFT JOIN sys_router router ON rr.router_id = router.id
+                 LEFT JOIN sys_role role ON rr.role_id = role.id
+    </select>
+
 </mapper>

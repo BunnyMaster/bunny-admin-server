@@ -47,7 +47,6 @@
                 and type_name like CONCAT('%',#{dto.typeName},'%')
             </if>
         </where>
-        order by update_time
     </select>
 
 </mapper>

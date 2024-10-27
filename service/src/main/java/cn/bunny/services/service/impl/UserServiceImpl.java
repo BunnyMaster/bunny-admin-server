@@ -8,12 +8,16 @@ import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.log.UserLoginLog;
-import cn.bunny.dao.entity.system.*;
+import cn.bunny.dao.entity.system.AdminUser;
+import cn.bunny.dao.entity.system.EmailTemplate;
+import cn.bunny.dao.entity.system.Role;
+import cn.bunny.dao.entity.system.UserDept;
 import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.enums.EmailTemplateEnums;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.view.ViewUserDept;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.user.AdminUserVo;
 import cn.bunny.dao.vo.system.user.LoginVo;
@@ -136,7 +140,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (adminUser == null) throw new BunnyException(ResultCodeEnum.FAIL_REQUEST_NOT_AUTH);
         if (adminUser.getStatus()) throw new BunnyException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
 
-        LoginVo buildUserVo = userFactory.buildUserVo(adminUser, dto.getReadMeDay());
+        LoginVo buildUserVo = userFactory.buildLoginUserVo(adminUser, dto.getReadMeDay());
         RefreshTokenVo refreshTokenVo = new RefreshTokenVo();
         BeanUtils.copyProperties(buildUserVo, refreshTokenVo);
 
@@ -148,20 +152,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void logout() {
+        // 获取上下文对象中的用户ID和用户token
         LoginVo loginVo = BaseContext.getLoginVo();
-        Long id = loginVo.getId();
+        String token = loginVo.getToken();
+        Long userId = BaseContext.getUserId();
 
         // 获取IP地址
         String ipAddr = IpUtil.getCurrentUserIpAddress().getIpAddr();
         String ipRegion = IpUtil.getCurrentUserIpAddress().getIpRegion();
 
         // 查询用户信息
-        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, id));
-        UserLoginLog userLoginLog = userFactory.setUserLoginLog(adminUser, loginVo.getToken(), ipAddr, ipRegion, "logout");
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+        UserLoginLog userLoginLog = userFactory.setUserLoginLog(adminUser, token, ipAddr, ipRegion, "logout");
         userLoginLogMapper.insert(userLoginLog);
 
         // 删除Redis中用户信息
-        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(loginVo.getUsername()));
+        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
     }
 
     /**
@@ -210,7 +216,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
             throw new BunnyException(ResultCodeEnum.UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD);
 
         // 删除Redis中登录用户信息
-        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getEmail()));
+        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
 
         // 更新用户密码
         adminUser = new AdminUser();
@@ -256,8 +262,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 根据id查询用户登录前缀
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, id));
-        String email = adminUser.getEmail();
-        String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(email);
+        String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername());
 
         // 将用户登录保存在用户登录日志表中
         UserLoginLog userLoginLog = new UserLoginLog();
@@ -310,19 +315,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      * @return 用户信息
      */
     @Override
-    public UserVo getUserinfo() {
-        // 查询当前用户信息
-        Long userId = BaseContext.getUserId();
-        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-
-        // 赋值对象
-        UserVo userVo = new UserVo();
-        BeanUtils.copyProperties(adminUser, userVo);
-
-        // 设置用户头像内容
-        String avatar = adminUser.getAvatar();
-        if (StringUtils.hasText(avatar)) userVo.setAvatar(minioUtil.getObjectNameFullPath(avatar));
-        return userVo;
+    public LoginVo getUserinfo() {
+        return BaseContext.getLoginVo();
     }
 
     /**
@@ -333,20 +327,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public void updateAdminUserByLocalUser(AdminUserUpdateByLocalUserDto dto) {
         Long userId = BaseContext.getUserId();
+        LoginVo loginVo = BaseContext.getLoginVo();
 
         // 判断是否存在这个用户
-        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+        AdminUser user = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+        if (user == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 检查用户头像
         dto.setAvatar(userFactory.checkUserAvatar(dto.getAvatar()));
 
         // 更新用户
-        adminUser = new AdminUser();
+        AdminUser adminUser = new AdminUser();
         adminUser.setId(userId);
         BeanUtils.copyProperties(dto, adminUser);
-
         updateById(adminUser);
+
+        // 重新生成用户信息到Redis中
+        BeanUtils.copyProperties(dto, user);
+        userFactory.buildUserVo(user, loginVo.getReadMeDay());
     }
 
     /**
@@ -371,15 +369,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (dbPassword.equals(password)) throw new BunnyException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
 
         // 删除Redis中登录用户信息
-        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getEmail()));
+        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
 
         // 更新用户密码
         adminUser = new AdminUser();
         adminUser.setId(userId);
         adminUser.setPassword(password);
         updateById(adminUser);
-
-
     }
 
     /**
@@ -392,7 +388,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public PageResult<AdminUserVo> getAdminUserList(Page<AdminUser> pageParams, AdminUserDto dto) {
         // 分页查询菜单图标
-        IPage<AdminUserAndDept> page = baseMapper.selectListByPage(pageParams, dto);
+        IPage<ViewUserDept> page = baseMapper.selectListByPage(pageParams, dto);
 
         List<AdminUserVo> voList = page.getRecords().stream()
                 .map(adminUser -> {
@@ -419,17 +415,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     }
 
     /**
-     * 添加用户信息
+     * * 添加用户信息
+     * 需要确认用户名-username是唯一的
+     * 需要确认邮箱-email是唯一的
      *
      * @param dto 用户信息添加
      */
     @Override
     public void addAdminUser(@Valid AdminUserAddDto dto) {
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery()
+                .eq(AdminUser::getEmail, dto.getEmail())
+                .or()
+                .eq(AdminUser::getUsername, dto.getUsername()));
+
+        // 确保邮箱和用户名不能重复
+        if (adminUser != null) {
+            throw new BunnyException(ResultCodeEnum.ALREADY_USER_EXCEPTION);
+        }
+
         // 对密码加密
         String md5Password = DigestUtils.md5DigestAsHex(dto.getPassword().getBytes());
 
         // 保存数据
-        AdminUser adminUser = new AdminUser();
+        adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
         adminUser.setPassword(md5Password);
         save(adminUser);
@@ -452,6 +460,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void updateAdminUser(AdminUserUpdateDto dto) {
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery()
+                .eq(AdminUser::getEmail, dto.getEmail())
+                .or()
+                .eq(AdminUser::getUsername, dto.getUsername()));
+
+        // 确保邮箱和用户名不能重复
+        if (adminUser != null) {
+            throw new BunnyException(ResultCodeEnum.ALREADY_USER_EXCEPTION);
+        }
+
         // 部门Id
         Long deptId = dto.getDeptId();
         Long userId = dto.getId();
@@ -461,7 +479,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (adminUserList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 更新用户
-        AdminUser adminUser = new AdminUser();
+        adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
         updateById(adminUser);
 

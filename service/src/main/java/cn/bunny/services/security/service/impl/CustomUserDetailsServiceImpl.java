@@ -3,18 +3,22 @@ package cn.bunny.services.security.service.impl;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.user.LoginDto;
 import cn.bunny.dao.entity.system.AdminUser;
+import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.security.custom.CustomUser;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
+
+import static cn.bunny.common.service.utils.ResponseUtil.out;
 
 @Component
 public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.service.CustomUserDetailsService {
@@ -40,7 +44,7 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
 
         // 根据邮箱查询用户名
         AdminUser adminUser = userMapper.selectOne(queryWrapper);
-        if (adminUser == null) throw new UsernameNotFoundException("用户不存在");
+        if (adminUser == null) throw new UsernameNotFoundException(ResultCodeEnum.USER_IS_EMPTY.getMessage());
 
         return new CustomUser(adminUser, AuthorityUtils.createAuthorityList());
     }
@@ -53,22 +57,28 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
      * @return 登录后结果返回
      */
     @Override
-    public LoginVo login(LoginDto loginDto) {
+    public LoginVo login(LoginDto loginDto, HttpServletResponse response) {
         String username = loginDto.getUsername();
         String password = loginDto.getPassword();
         Long readMeDay = loginDto.getReadMeDay();
 
         // 查询用户相关内容
         LambdaQueryWrapper<AdminUser> queryWrapper = new LambdaQueryWrapper<AdminUser>()
-                .eq(AdminUser::getEmail, username)
+                .eq(AdminUser::getUsername, username)
                 .or()
-                .eq(AdminUser::getUsername, username);
+                .eq(AdminUser::getEmail, username);
         AdminUser user = userMapper.selectOne(queryWrapper);
+
+        // 判断用户是否为空
+        if (user == null) {
+            out(response, Result.error(ResultCodeEnum.LOGIN_ERROR));
+            return null;
+        }
 
         // 对登录密码进行md5加密判断，是否与数据库中一致
         String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!user.getPassword().equals(md5Password)) throw new BunnyException(ResultCodeEnum.LOGIN_ERROR);
 
-        return userFactory.buildUserVo(user, readMeDay);
+        return userFactory.buildLoginUserVo(user, readMeDay);
     }
 }

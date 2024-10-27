@@ -1,4 +1,4 @@
-package cn.bunny.dao.entity.system;
+package cn.bunny.dao.view;
 
 import cn.bunny.dao.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -20,13 +20,13 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("sys_user")
 @Schema(name = "AdminUserAndDept对象", title = "用户信息和部门Id", description = "用户信息和部门Id")
-public class AdminUserAndDept extends BaseEntity {
+public class ViewUserDept extends BaseEntity {
 
     @Schema(name = "username", title = "用户名")
     private String username;
 
-    @Schema(name = "nickName", title = "昵称")
-    private String nickName;
+    @Schema(name = "nickname", title = "昵称")
+    private String nickname;
 
     @Schema(name = "email", title = "邮箱")
     private String email;

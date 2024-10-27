@@ -1,6 +1,7 @@
 package cn.bunny.services.mapper;
 
 import cn.bunny.dao.entity.system.RouterRole;
+import cn.bunny.dao.view.ViewRouterRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -30,4 +31,11 @@ public interface RouterRoleMapper extends BaseMapper<RouterRole> {
      * @param roleIds 角色id列表
      */
     void deleteBatchIdsByRoleIdsWithPhysics(List<Long> roleIds);
+
+    /**
+     * 查看所有路由关联角色
+     *
+     * @return 路由角色关系视图列表
+     */
+    List<ViewRouterRole> viewRouterRolesWithAll();
 }

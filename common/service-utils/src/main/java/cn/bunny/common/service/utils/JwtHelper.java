@@ -1,5 +1,7 @@
 package cn.bunny.common.service.utils;
 
+import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import io.jsonwebtoken.*;
 import io.micrometer.common.lang.Nullable;
 import org.springframework.util.StringUtils;
@@ -184,16 +186,16 @@ public class JwtHelper {
      * 根据用户名和ID创建token
      *
      * @param userId   用户ID
-     * @param userName 用户名
+     * @param username 用户名
      * @param day      过期时间
      * @return token值
      */
-    public static String createToken(Long userId, String userName, Integer day) {
+    public static String createToken(Long userId, String username, Integer day) {
         return Jwts.builder()
                 .setSubject(subject)
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration * day))
                 .claim("userId", userId)
-                .claim("userName", userName)
+                .claim("username", username)
                 .setId(UUID.randomUUID().toString())
                 .signWith(SignatureAlgorithm.HS256, tokenSignKey)
                 .compressWith(CompressionCodecs.GZIP)
@@ -208,14 +210,14 @@ public class JwtHelper {
      */
     public static Map<String, Object> getMapByToken(String token) {
         try {
-            if (!StringUtils.hasText(token)) return null;
+            if (!StringUtils.hasText(token)) throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
             Claims claims = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token).getBody();
 
             // 将 body 值转为map
             return new HashMap<>(claims);
 
         } catch (Exception exception) {
-            return null;
+            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 
@@ -228,14 +230,14 @@ public class JwtHelper {
      */
     public static Map<String, Object> getMapByToken(String token, String signKey) {
         try {
-            if (!StringUtils.hasText(token)) return null;
+            if (!StringUtils.hasText(token)) throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(signKey).parseClaimsJws(token);
             Claims body = claimsJws.getBody();
             // 将 body 值转为map
             return new HashMap<>(body);
 
         } catch (Exception exception) {
-            return null;
+            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 
@@ -252,14 +254,14 @@ public class JwtHelper {
     @Nullable
     private static String getSubjectByTokenHandler(String token, String tokenSignKey) {
         try {
-            if (!StringUtils.hasText(token)) return null;
+            if (!StringUtils.hasText(token)) throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
             Claims body = claimsJws.getBody();
 
             return body.getSubject();
 
         } catch (Exception exception) {
-            return null;
+            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 
@@ -281,14 +283,14 @@ public class JwtHelper {
      */
     public static Long getUserId(String token) {
         try {
-            if (!StringUtils.hasText(token)) return null;
+            if (!StringUtils.hasText(token)) throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
 
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
             Claims claims = claimsJws.getBody();
 
             return Long.valueOf(String.valueOf(claims.get("userId")));
         } catch (Exception exception) {
-            return null;
+            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 
@@ -304,9 +306,9 @@ public class JwtHelper {
 
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
             Claims claims = claimsJws.getBody();
-            return (String) claims.get("userName");
+            return (String) claims.get("username");
         } catch (Exception exception) {
-            return null;
+            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 

@@ -1,9 +1,15 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.user.AssignRolesToUsersDto;
+import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.UserRole;
+import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.system.user.LoginVo;
+import cn.bunny.services.factory.UserFactory;
+import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.UserRoleService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -14,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -31,8 +38,13 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     private UserRoleMapper userRoleMapper;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private UserFactory userFactory;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * * 根据用户id获取角色列表
@@ -58,6 +70,12 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         Long userId = dto.getUserId();
         List<Long> roleIds = dto.getRoleIds();
 
+        // 查询当前用户
+        AdminUser adminUser = userMapper.selectOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+        if (adminUser == null) {
+            throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+        }
+
         // 删除这个用户下所有已经分配好的角色内容
         baseMapper.deleteBatchIdsByUserIdsWithPhysics(List.of(userId));
 
@@ -69,5 +87,14 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
             return userRole;
         }).toList();
         saveBatch(roleList);
+
+        // 获取记住我时间
+        LoginVo loginVo = BaseContext.getLoginVo();
+        Long readMeDay = loginVo != null ? loginVo.getReadMeDay() : RedisUserConstant.REDIS_EXPIRATION_TIME;
+
+        // 重新设置Redis中的用户存储信息vo对象
+        String username = adminUser.getUsername();
+        loginVo = userFactory.buildLoginUserVo(adminUser, readMeDay);
+        redisTemplate.opsForValue().set(RedisUserConstant.getAdminLoginInfoPrefix(username), loginVo, readMeDay, TimeUnit.DAYS);
     }
 }

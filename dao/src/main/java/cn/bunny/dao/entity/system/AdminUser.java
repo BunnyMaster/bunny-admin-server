@@ -25,8 +25,8 @@ public class AdminUser extends BaseEntity {
     @Schema(name = "username", title = "用户名")
     private String username;
 
-    @Schema(name = "nickName", title = "昵称")
-    private String nickName;
+    @Schema(name = "nickname", title = "昵称")
+    private String nickname;
 
     @Schema(name = "email", title = "邮箱")
     private String email;

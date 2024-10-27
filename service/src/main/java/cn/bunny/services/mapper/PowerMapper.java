@@ -46,11 +46,4 @@ public interface PowerMapper extends BaseMapper<Power> {
     @NotNull
     List<Power> selectListByUserId(long userId);
 
-    /**
-     * * 根据权限码查询可以访问URL
-     *
-     * @param powerCodes 权限码
-     * @return 权限列表
-     */
-    List<Power> selectListByPowerCodes(List<String> powerCodes);
 }

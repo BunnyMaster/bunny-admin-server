@@ -6,18 +6,20 @@ import cn.bunny.dao.dto.system.router.RouterAddDto;
 import cn.bunny.dao.dto.system.router.RouterManageDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateByIdWithRankDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateDto;
-import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.entity.system.Router;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.view.ViewRolePower;
+import cn.bunny.dao.view.ViewRouterRole;
 import cn.bunny.dao.vo.system.router.RouterManageVo;
 import cn.bunny.dao.vo.system.router.RouterMeta;
 import cn.bunny.dao.vo.system.router.UserRouterVo;
 import cn.bunny.services.factory.RouterServiceFactory;
-import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RoleMapper;
+import cn.bunny.services.mapper.RolePowerMapper;
 import cn.bunny.services.mapper.RouterMapper;
+import cn.bunny.services.mapper.RouterRoleMapper;
 import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import cn.bunny.services.service.RouterService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -31,9 +33,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -53,7 +54,10 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     private RoleMapper roleMapper;
 
     @Autowired
-    private PowerMapper powerMapper;
+    private RouterRoleMapper routerRoleMapper;
+
+    @Autowired
+    private RolePowerMapper rolePowerMapper;
 
     /**
      * * 获取路由内容
@@ -66,35 +70,68 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         Long userId = BaseContext.getUserId();
 
         // 查询角色信息
-        List<Role> roleList = roleMapper.selectListByUserId(userId);
-        List<String> roleCodeList = roleList.stream().map(Role::getRoleCode).toList();
+        List<Role> roleList;
+        List<String> userRoleCodeList;
+        if (userId.equals(1L)) {
+            userRoleCodeList = List.of("admin");
+        } else {
+            roleList = roleMapper.selectListByUserId(userId);
+            userRoleCodeList = roleList.stream().map(Role::getRoleCode).toList();
+        }
 
         // 如果没有分配角色直接返回空数组
-        if (roleCodeList.isEmpty()) return new ArrayList<>();
-
-        // 根据角色列表查询权限信息
-        List<Power> powerList = powerMapper.selectListByUserId(userId);
-        List<String> powerCodeList = powerList.stream().map(Power::getPowerCode).toList();
-
-        // 路由列表，根据用户角色判断
-        List<Router> routerList;
+        if (userRoleCodeList.isEmpty()) return new ArrayList<>();
 
         // 返回路由列表
         List<UserRouterVo> list = new ArrayList<>();
 
         // 查询用户角色，判断是否是管理员角色
-        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(roleCodeList);
-        if (isAdmin) routerList = list();
-        else {
-            List<Long> routerIds = baseMapper.selectListByUserId(userId);
-            routerList = baseMapper.selectParentListByRouterId(routerIds);
-        }
+        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(userRoleCodeList);
+
+        // 查询路由和角色对应关系
+        List<ViewRouterRole> routerRoleList = routerRoleMapper.viewRouterRolesWithAll();
+        Map<Long, List<String>> routerIdWithRoleCodeMap = routerRoleList.stream()
+                .collect(Collectors.groupingBy(
+                        ViewRouterRole::getRouterId,
+                        Collectors.mapping(ViewRouterRole::getRoleCode, Collectors.toUnmodifiableList())
+                ));
+
+        // 角色和权限对应关系
+        List<ViewRolePower> rolePowerList = rolePowerMapper.viewRolePowerWithAll();
+        Map<String, Set<String>> roleCodeWithPowerCodeMap = rolePowerList.stream()
+                .collect(Collectors.groupingBy(
+                        ViewRolePower::getRoleCode,
+                        Collectors.mapping(ViewRolePower::getPowerCode, Collectors.toUnmodifiableSet())
+                ));
+
+        // 查询所有路由内容
+        List<Router> routerList = list();
 
         // 构建返回路由列表
         List<UserRouterVo> routerVoList = routerList.stream()
                 .sorted(Comparator.comparing(Router::getRouterRank))
                 .filter(Router::getVisible)
                 .map(router -> {
+                    // 角色码列表
+                    List<String> roleCodeList;
+
+                    // 权限码列表
+                    List<String> powerCodeList;
+
+                    // 判断是否是admin
+                    if (isAdmin) {
+                        roleCodeList = userRoleCodeList;
+                        powerCodeList = List.of("*", "*::*", "*::*::*");
+                    } else {
+                        roleCodeList = routerIdWithRoleCodeMap.getOrDefault(router.getId(), Collections.emptyList());
+                        powerCodeList = roleCodeList.stream()
+                                .map(roleCodeWithPowerCodeMap::get)
+                                .filter(Objects::nonNull)
+                                .flatMap(Set::stream)
+                                .collect(Collectors.toUnmodifiableSet())
+                                .stream().toList();
+                    }
+
                     // 复制对象
                     UserRouterVo routerVo = new UserRouterVo();
                     BeanUtils.copyProperties(router, routerVo);

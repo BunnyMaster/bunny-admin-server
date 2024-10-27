@@ -41,9 +41,11 @@ public class NoTokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 查找 Redis
+        // 解析JWT中的用户名
         String username = JwtHelper.getUsername(token);
         Long userId = JwtHelper.getUserId(token);
+
+        // 查找 Redis
         Object loginVoObject = redisTemplate.opsForValue().get(RedisUserConstant.getAdminLoginInfoPrefix(username));
         LoginVo loginVo = JSON.parseObject(JSON.toJSONString(loginVoObject), LoginVo.class);
 

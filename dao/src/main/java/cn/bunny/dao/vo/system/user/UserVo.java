@@ -12,8 +12,8 @@ import lombok.*;
 @Schema(name = "LoginVo对象", title = "登录成功返回内容", description = "登录成功返回内容")
 public class UserVo extends BaseVo {
 
-    @Schema(name = "nickName", title = "昵称")
-    private String nickName;
+    @Schema(name = "nickname", title = "昵称")
+    private String nickname;
 
     @Schema(name = "username", title = "用户名")
     private String username;

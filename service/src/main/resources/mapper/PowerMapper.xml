@@ -64,12 +64,4 @@
           AND rp.power_id = p.id
           AND u.id = #{userId}
     </select>
-
-    <!-- 根据权限码返回权限列表 -->
-    <select id="selectListByPowerCodes" resultType="cn.bunny.dao.entity.system.Power">
-        SELECT * FROM sys_power WHERE power_code IN
-        <foreach collection="powerCodes" separator="," item="code" open="(" close=")">
-            #{code}
-        </foreach>
-    </select>
 </mapper>

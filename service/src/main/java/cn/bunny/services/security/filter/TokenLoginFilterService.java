@@ -2,6 +2,7 @@ package cn.bunny.services.security.filter;
 
 
 import cn.bunny.dao.dto.system.user.LoginDto;
+import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
@@ -58,21 +59,25 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
         try {
             loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
 
-            String emailCode = loginDto.getEmailCode().toLowerCase();
+            String emailCode = loginDto.getEmailCode();
             String username = loginDto.getUsername();
             String password = loginDto.getPassword();
 
-            // Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
-            // if (redisEmailCode == null) {
-            //     out(response, Result.error(ResultCodeEnum.EMAIL_CODE_EMPTY));
-            //     return null;
-            // }
+            // 如果有邮箱验证码，表示是邮箱登录
+            if (StringUtils.hasText(emailCode)) {
+                emailCode = emailCode.toLowerCase();
+                Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
+                if (redisEmailCode == null) {
+                    out(response, Result.error(ResultCodeEnum.EMAIL_CODE_EMPTY));
+                    return null;
+                }
 
-            // 判断用户邮箱验证码是否和Redis中发送的验证码
-            // if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
-            //     out(response, Result.error(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING));
-            //     return null;
-            // }
+                // 判断用户邮箱验证码是否和Redis中发送的验证码
+                if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
+                    out(response, Result.error(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING));
+                    return null;
+                }
+            }
 
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             return getAuthenticationManager().authenticate(authenticationToken);
@@ -87,7 +92,8 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) {
         // 获取登录返回信息
-        LoginVo loginVo = customUserDetailsService.login(loginDto);
+        LoginVo loginVo = customUserDetailsService.login(loginDto, response);
+        if (loginVo == null) return;
 
         // 判断用户是否禁用
         if (loginVo.getStatus()) {

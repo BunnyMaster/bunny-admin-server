@@ -6,6 +6,7 @@ import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.AdminUserVo;
+import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.dao.vo.system.user.RefreshTokenVo;
 import cn.bunny.dao.vo.system.user.UserVo;
 import cn.bunny.services.service.UserService;
@@ -44,8 +45,8 @@ public class UserController {
 
     @Operation(summary = "获取本地登录用户信息", description = "获取本地登录用户信息")
     @GetMapping("noManage/getUserinfo")
-    public Mono<Result<UserVo>> getUserinfo() {
-        UserVo vo = userService.getUserinfo();
+    public Mono<Result<LoginVo>> getUserinfo() {
+        LoginVo vo = userService.getUserinfo();
         return Mono.just(Result.success(vo));
     }
 

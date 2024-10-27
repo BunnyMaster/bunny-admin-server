@@ -34,11 +34,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
      */
     private UsernamePasswordAuthenticationToken getAuthentication() {
         // 请求头是否有token
-        LoginVo LoginVo = BaseContext.getLoginVo();
-
-        // 通过username从redis获取权限数据
-        String username = LoginVo.getUsername();
-        List<String> roleList = LoginVo.getRoles();
+        LoginVo loginVo = BaseContext.getLoginVo();
+        String username = loginVo.getUsername();
+        List<String> roleList = loginVo.getRoles();
 
         // 角色列表
         List<SimpleGrantedAuthority> authList = roleList.stream().map(SimpleGrantedAuthority::new).toList();

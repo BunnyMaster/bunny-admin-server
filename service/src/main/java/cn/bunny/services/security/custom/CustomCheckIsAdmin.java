@@ -38,7 +38,7 @@ public class CustomCheckIsAdmin {
         boolean isAdmin = roleList.stream().anyMatch(role -> role.equals("admin"));
 
         // 判断是否是 admin
-        if (!isIdAdmin || !isAdmin) {
+        if (isIdAdmin || isAdmin) {
             roleList.add("admin");
             permissions.add("*");
             permissions.add("*::*");

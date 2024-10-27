@@ -2,7 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.user.AdminUserDto;
 import cn.bunny.dao.entity.system.AdminUser;
-import cn.bunny.dao.entity.system.AdminUserAndDept;
+import cn.bunny.dao.view.ViewUserDept;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,7 +29,7 @@ public interface UserMapper extends BaseMapper<AdminUser> {
      * @param dto        用户信息查询表单
      * @return 用户信息分页结果
      */
-    IPage<AdminUserAndDept> selectListByPage(@Param("page") Page<AdminUser> pageParams, @Param("dto") AdminUserDto dto);
+    IPage<ViewUserDept> selectListByPage(@Param("page") Page<AdminUser> pageParams, @Param("dto") AdminUserDto dto);
 
     /**
      * 物理删除用户信息

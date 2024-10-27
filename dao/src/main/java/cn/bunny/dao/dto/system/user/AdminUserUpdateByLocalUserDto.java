@@ -16,15 +16,10 @@ import lombok.NoArgsConstructor;
 @Schema(name = "AdminUserUpdateByLocalUserDto对象", title = "更新本地用户信息", description = "更新本地用户信息")
 public class AdminUserUpdateByLocalUserDto {
 
-    @Schema(name = "username", title = "用户名")
-    @NotBlank(message = "用户名不能为空")
-    @NotNull(message = "用户名不能为空")
-    private String username;
-
-    @Schema(name = "nickName", title = "昵称")
+    @Schema(name = "nickname", title = "昵称")
     @NotBlank(message = "昵称不能为空")
     @NotNull(message = "昵称不能为空")
-    private String nickName;
+    private String nickname;
 
     @Schema(name = "email", title = "邮箱")
     @NotBlank(message = "邮箱不能为空")

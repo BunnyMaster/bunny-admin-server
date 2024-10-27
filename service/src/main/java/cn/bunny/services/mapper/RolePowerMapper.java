@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper;
 
-import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.entity.system.RolePower;
+import cn.bunny.dao.view.ViewRolePower;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -41,10 +41,9 @@ public interface RolePowerMapper extends BaseMapper<RolePower> {
     List<RolePower> selectPowerListByRoleId(Long roleId);
 
     /**
-     * * 根据角色id列表获取权限内容
+     * 查看所有角色关联的权限
      *
-     * @param roleIds 角色id列表
-     * @return 已选择的权限列表
+     * @return 角色权限关系视图
      */
-    List<Power> selectPowerListByRoleIds(List<Long> roleIds);
+    List<ViewRolePower> viewRolePowerWithAll();
 }

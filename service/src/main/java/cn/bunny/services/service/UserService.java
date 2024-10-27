@@ -4,6 +4,7 @@ import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.user.AdminUserVo;
+import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.dao.vo.system.user.RefreshTokenVo;
 import cn.bunny.dao.vo.system.user.UserVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -121,7 +122,7 @@ public interface UserService extends IService<AdminUser> {
      *
      * @return 用户信息
      */
-    UserVo getUserinfo();
+    LoginVo getUserinfo();
 
     /**
      * * 更新本地用户信息

@@ -21,10 +21,10 @@ public class AdminUserAddDto {
     @NotNull(message = "用户名不能为空")
     private String username;
 
-    @Schema(name = "nickName", title = "昵称")
+    @Schema(name = "nickname", title = "昵称")
     @NotBlank(message = "昵称不能为空")
     @NotNull(message = "昵称不能为空")
-    private String nickName;
+    private String nickname;
 
     @Schema(name = "email", title = "邮箱")
     @NotBlank(message = "邮箱不能为空")

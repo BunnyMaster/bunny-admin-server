@@ -17,6 +17,7 @@ import java.util.List;
 @Builder
 @Schema(name = "LoginVo对象", title = "登录成功返回内容", description = "登录成功返回内容")
 public class LoginVo extends BaseVo {
+
     @Schema(name = "nickname", title = "昵称")
     private String nickname;
 
@@ -65,4 +66,7 @@ public class LoginVo extends BaseVo {
     @Schema(name = "powerList", title = "权限列表")
     private List<String> permissions = new ArrayList<>();
 
+    @Schema(name = "readMeDay", title = "记住我多久")
+    private Long readMeDay;
+    
 }
