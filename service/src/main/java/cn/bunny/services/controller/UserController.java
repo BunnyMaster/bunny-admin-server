@@ -43,14 +43,14 @@ public class UserController {
         return Mono.just(Result.success(pageResult));
     }
 
-    @Operation(summary = "获取本地登录用户信息", description = "获取本地登录用户信息")
+    @Operation(summary = "获取本地登录用户信息", description = "获取用户信息从Redis中获取")
     @GetMapping("noManage/getUserinfo")
     public Mono<Result<LoginVo>> getUserinfo() {
         LoginVo vo = userService.getUserinfo();
         return Mono.just(Result.success(vo));
     }
 
-    @Operation(summary = "获取用户信息", description = "获取用户信息")
+    @Operation(summary = "获取用户信息", description = "根据用户ID获取用户信息，不包含Redis中的信息")
     @GetMapping("getUserinfoById")
     public Mono<Result<UserVo>> getUserinfoById(Long id) {
         UserVo vo = userService.getUserinfoById(id);
@@ -64,14 +64,14 @@ public class UserController {
         return Mono.just(Result.success(voList));
     }
 
-    @Operation(summary = "更新用户信息", description = "更新用户信息")
+    @Operation(summary = "更新用户信息", description = "更新用户信息后需要更新Redis中的内容")
     @PutMapping("updateAdminUser")
     public Result<String> updateAdminUser(@Valid @RequestBody AdminUserUpdateDto dto) {
         userService.updateAdminUser(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "更新本地用户信息", description = "更新本地用户信息")
+    @Operation(summary = "更新本地用户信息", description = "更新本地用户信息，需要更新Redis中的内容")
     @PutMapping("noManage/updateAdminUserByLocalUser")
     public Result<String> updateAdminUserByLocalUser(@Valid @RequestBody AdminUserUpdateByLocalUserDto dto) {
         userService.updateAdminUserByLocalUser(dto);

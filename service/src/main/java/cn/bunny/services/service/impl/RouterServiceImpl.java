@@ -219,7 +219,10 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     @Override
     public void addMenu(RouterAddDto dto) {
         // 查找是否添加过路由名称
-        Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getPath, dto.getPath()));
+        Router router = getOne(Wrappers.<Router>lambdaQuery()
+                .eq(Router::getRouteName, dto.getRouteName())
+                .or()
+                .eq(Router::getPath, dto.getPath()));
         if (router != null) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
 
         // 添加路由
@@ -236,18 +239,20 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     public void updateMenu(RouterUpdateDto dto) {
-        Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, dto.getId()));
+        LambdaQueryWrapper<Router> wrapper = new LambdaQueryWrapper<>();
+        wrapper.ne(Router::getId, dto.getId())
+                .and(qw -> qw.eq(Router::getRouteName, dto.getRouteName())
+                        .or()
+                        .eq(Router::getPath, dto.getPath()));
+        List<Router> routerList = list(wrapper);
 
         // 判断更新数据是否存在
-        if (router == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
-
-        // 判断更新数据id和父级id是否重复
-        if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
+        if (!routerList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
 
         // 如果设置的不是外部页面
-        if (!dto.getMenuType().equals(2)) router.setFrameSrc("");
+        if (!dto.getMenuType().equals(2)) dto.setFrameSrc("");
 
-        router = new Router();
+        Router router = new Router();
         BeanUtils.copyProperties(dto, router);
         updateById(router);
     }
@@ -266,11 +271,11 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<Long> longList = list(Wrappers.<Router>lambdaQuery().in(Router::getParentId, ids)).stream().map(Router::getId).toList();
         ids.addAll(longList);
 
-        // 逻辑删除
-        removeBatchByIds(ids);
+        // // 逻辑删除
+        // removeBatchByIds(ids);
 
         // 物理删除
-        // baseMapper.deleteBatchIdsWithPhysics(ids);
+        baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 
     /**

@@ -54,11 +54,11 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
      */
     @Override
     public void deleteUserLoginLog(List<Long> ids) {
-        // 逻辑删除
-        removeBatchByIds(ids);
+        // // 逻辑删除
+        // removeBatchByIds(ids);
 
         // 物理删除
-        // baseMapper.deleteBatchIdsWithPhysics(ids);
+        baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 
     /**

@@ -33,7 +33,6 @@
                 and description like CONCAT('%',#{dto.description},'%')
             </if>
         </where>
-        order by update_time
     </select>
 
     <!-- 物理删除角色 -->

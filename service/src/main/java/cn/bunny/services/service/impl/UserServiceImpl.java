@@ -327,7 +327,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public void updateAdminUserByLocalUser(AdminUserUpdateByLocalUserDto dto) {
         Long userId = BaseContext.getUserId();
-        LoginVo loginVo = BaseContext.getLoginVo();
 
         // 判断是否存在这个用户
         AdminUser user = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
@@ -344,7 +343,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 重新生成用户信息到Redis中
         BeanUtils.copyProperties(dto, user);
-        userFactory.buildUserVo(user, loginVo.getReadMeDay());
+        userFactory.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
     }
 
     /**
@@ -460,13 +459,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void updateAdminUser(AdminUserUpdateDto dto) {
-        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery()
-                .eq(AdminUser::getEmail, dto.getEmail())
-                .or()
-                .eq(AdminUser::getUsername, dto.getUsername()));
+        List<AdminUser> userList = list(Wrappers.<AdminUser>lambdaQuery()
+                .ne(AdminUser::getId, dto.getId())
+                .and(queryWrapper -> queryWrapper.eq(AdminUser::getEmail, dto.getEmail())
+                        .or()
+                        .eq(AdminUser::getUsername, dto.getUsername()))
+        );
 
         // 确保邮箱和用户名不能重复
-        if (adminUser != null) {
+        if (!userList.isEmpty()) {
             throw new BunnyException(ResultCodeEnum.ALREADY_USER_EXCEPTION);
         }
 
@@ -479,7 +480,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (adminUserList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 更新用户
-        adminUser = new AdminUser();
+        AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
         updateById(adminUser);
 
@@ -493,6 +494,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 插入分配后的用户内容
         userDeptMapper.insert(userDept);
+
+        // 重新生成用户信息到Redis中
+        BeanUtils.copyProperties(dto, adminUser);
+        userFactory.buildUserVo(adminUser, RedisUserConstant.REDIS_EXPIRATION_TIME);
     }
 
     /**

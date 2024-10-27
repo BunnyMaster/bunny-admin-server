@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class RedisUserConstant {
     // 过期时间
-    public static final Long REDIS_EXPIRATION_TIME = 15L;// 15 天/分钟 Redis过期
+    public static final Long REDIS_EXPIRATION_TIME = 7L;// 7 天/分钟 Redis过期
     public static final Integer Cookie_EXPIRATION_TIME = 5 * 60 * 60;// cookies 过期时间 5 分钟
 
     private static final String ADMIN_LOGIN_INFO_PREFIX = "admin::login_info::";

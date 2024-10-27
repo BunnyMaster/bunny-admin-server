@@ -11,7 +11,7 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 24/10/2024 23:38:14
+ Date: 27/10/2024 22:07:06
 */
 
 SET NAMES utf8mb4;
@@ -47,7 +47,7 @@ CREATE TABLE `log_quartz_execute`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `log_user_login`;
 CREATE TABLE `log_user_login`  (
-  `id` bigint NOT NULL DEFAULT 0 COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `user_id` bigint NULL DEFAULT NULL COMMENT '用户Id',
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户名',
   `token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '登录token',
@@ -67,39 +67,6 @@ CREATE TABLE `log_user_login`  (
 -- ----------------------------
 -- Records of log_user_login
 -- ----------------------------
-INSERT INTO `log_user_login` VALUES (1847356246924734465, 1, NULL, NULL, '127.0.0.1', '内网IP', NULL, 'forcedOffline', NULL, '2024-10-19 03:17:06', '2024-10-19 03:17:06', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1847356317057691650, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRmaSmXbSlXTnxjukcQoKrdY2oIh3N-Du8977H9jKCD0MZVne0IC9HtBT56NqUPYNlM2ep0tl_3lOs9WcAsWISMLHdT3k-1yvt_1aDbN46YScBhLHKbQuobXOcPIjTpo5G3x_bEMAvHcAAAA.hWcfG-ulaNVTFqKl1EGFeoJP6L3DtQMKCS3Hwo4JSLM', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-19 03:17:23', '2024-10-24 21:23:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1847569964447891458, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLMQ7CMAxF7-K5qRwcE9wJsbFwh8bx0EotlBKpFeLujcT29d77X1hLgg5uZZ53aMC2F3Q-nkQoxAs2UFZ733Nl__noJ6u5Jy-C6Dlcl6XV51Sv42eohhTNiNmZiLpAaC5xRBdSz6TxnDUL_A4r7Di_dwAAAA.DYH6L5ApfggqAPwcfTZ9whrBDidSLUODbf_4naFEppE', '112.22.102.78', '江苏省,无锡市 移动', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-19 17:26:20', '2024-10-24 21:23:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1847571032372215810, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLwQqDMBBE_2XPpmzcRDueSm9e-g8xJmBBW2sDltJ_74KHgeHNmy9tZaCOrmVZPlRR2p_U2bYGxLO4isqWXv2o7Ki3MCfVrViA2Xp3WddTfMx6vb8nXXLLHDRmHGIwLqIx55xgRADXINeePf3-HW6_BXcAAAA.b9oj6Y5gKeTmoAOI-hrOkkuoYODlO5gqGQHpvhigLxw', '112.22.102.78', '江苏省,无锡市 移动', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', 'login', 'XMLHttpRequest', '2024-10-19 17:30:35', '2024-10-24 21:23:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848188755716407298, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCQAxF75J1R5LMpDPtSty58Q7RRFBotdYBRby7A-4-773_gbUeYYRdnec3dOCvO4yUI2LhSNRBXf2xt8b-86CTt5wiDQMiSdouy-Z0m9r1-rw005toTo4hC3tIVvqgZ7VAiUWNWYpn-P4AzlFVzXcAAAA.DMimYCer3eAjsfmhHxlv7QWLR2LSqVeuMWK_jvJm094', '223.88.80.11', '河南省,郑州市 移动', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-21 10:25:12', '2024-10-24 21:23:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848203624154988545, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCQAxF75J1R5LMpDPtSty58Q7RRFBotdYBRby7A-4-773_gbUeYYRdnec3dOCvO4yUI2LhSNRBXf2xt8b-86CTt5wiDQMiSdouy-Z0m9r1-rw005toTo4hC3tIVvqgZ7VAiUWNWYpn-P4AzlFVzXcAAAA.DMimYCer3eAjsfmhHxlv7QWLR2LSqVeuMWK_jvJm094', '223.88.80.11', '河南省,郑州市 移动', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-10-21 11:24:17', '2024-10-24 21:23:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848307394859827201, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLMQ6DMBAE_3I1RnfYxhxVREeTP3C2i0SChBhLIJS_Y4luNTN7QsoCPQx5WQ6oIO5f6MlpJELLroKc4m8Mhd3zOc2x5KSJGZGseaxr7T9zub63120kmEaUkJ6UCZYVU9Oq0IluO-_QGw__C2eJ2dF3AAAA.AceqGu-XCKLR9fxHDt80Q9SO7sC2am170Ix_-n8oe1Y', '115.196.2.215', '浙江省,杭州市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-21 18:16:37', '2024-10-24 21:23:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848315649531117569, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLywqDMBBF_2XWpmQckziuSndu-g95TEFB29QGFOm_N9Dd5ZxzT9hKgAFuZV0PaED2FwzoSCO2xpoGyibvMVX2n3e_SM2RkFlrNN0150t8LvU6f6Zq6OG4NdGqiMGrrk-sWJIoL0IUoustWfj-ABPgR-93AAAA.nNtP2c3JfoMD8b5LHQKaDbmXafIoedq_V4G_zcRjGLE', '112.22.102.78', '江苏省,无锡市 移动', 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_6_1 like Mac OS X; zh-cn) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/21G93 Quark/7.3.6.2241 Mobile', 'login', 'XMLHttpRequest', '2024-10-21 18:49:26', '2024-10-21 18:49:26', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848529028938006530, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRvIzY-10Jd114x2SJoJCq7ENVMS7G3D3ee_9D60lUE9DWZY3NZT2J_U4sUXLwtpQWdNrjJX958XPqeZgqFqLo5xzPkyPuV7v260aFkjrrTNgDUZ87EyH6E2ckPganDpm-v4AVdWehncAAAA.AsjJxl8uhd38NkzsKGV68alUFIKF-Z4Hff4YYSQZSOQ', '14.19.30.236', '广东省,广州市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-22 08:57:19', '2024-10-22 08:57:19', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848570726388924418, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScirNy6tU0lFKrShQsjI0NzYAYmMLAx2l0uLUIs8UoBiE6ZeYmwpUbmhsaGlpYGBoauJQWKiXnJ8L1JpVkgmUMU4xNbFMSzXVtTQ3MdA1MU9O1rUwMzLVTTNOsjAySjQ3NTU0U6oFAFxBksx3AAAA.x5fvu85BEA-VmCpV01GISyuZmM_WVTNjaN4TV2VGueU', '119.166.177.195', '山东省,青岛市 联通', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1 Safari/605.1.15', 'login', 'XMLHttpRequest', '2024-10-22 11:43:01', '2024-10-22 11:43:01', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848623723349344258, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCQAxF75J1R5JOYiddiTs33qHTZkCh1VoHFPHuBtx93nv_A1vN0MOxLssbGrDXHXrqIlLaI0kDdbPHaXL2n-dhNs8pkip6wId13Y232a_X58UN2ihWBAMLx8DEGoapa0MuraKKlJQTfH85odPedwAAAA.-2DcXU3UH_7PM3Jtp-G_eEIg1BUWSPmMfNPvwC4Jy5c', '121.18.104.170', '河北省,保定市 联通', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'login', 'XMLHttpRequest', '2024-10-22 15:13:36', '2024-10-22 15:13:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848623889003380737, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCQAxF75J1R5JOYiddiTs33qHTZkCh1VoHFPHuBtx93nv_A1vN0MOxLssbGrDXHXrqIlLaI0kDdbPHaXL2n-dhNs8pkip6wId13Y232a_X58UN2ihWBAMLx8DEGoapa0MuraKKlJQTfH85odPedwAAAA.-2DcXU3UH_7PM3Jtp-G_eEIg1BUWSPmMfNPvwC4Jy5c', '121.18.104.170', '河北省,保定市 联通', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'logout', 'XMLHttpRequest', '2024-10-22 15:14:16', '2024-10-22 15:14:16', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848623903008161794, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLywqDMBBF_2XWRmbysBNX4q4b_8HECAra-ghUpP_ege4O99xzw5ED1NDmdb2ggPR5Q00Pg8QVOi4gH2l_DrL9seuXJHcy5D0iOdtsWxlfi6TzOYkxA0oee8UJtbLWkgpVHJX2ZnTMwbGO8P0B9UDwCncAAAA.BdoQwWnI1gw9kfrsd7dJMY7kUwcQpdrB7jwCuyqhP9M', '121.18.104.170', '河北省,保定市 联通', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'login', 'XMLHttpRequest', '2024-10-22 15:14:19', '2024-10-22 15:14:19', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848632027354038273, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLywqDMBBF_2XWpmTQSTKuxF03_YckTqCCbwMt4r830N3lnHMvOHKAFvo8z1-oQD4rtGhrjc4yUwX5kP05FPafLz9JybFGZq2Rmm7bHnGZynU838XYmAYmSSpaItUYMio4H1TS7LwzzBgE7h_ZHeFpdwAAAA._T_kn6fd9tTDyQlwMHs_kEwrQooGQPyMtNWEhbBCM0w', '14.198.183.65', '香港,0 香港宽频', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-22 15:46:36', '2024-10-22 15:46:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848662261549826050, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLSwrDMAwF76J1XCRbxiir0F03vYOVaNFAfk0MLSF3r6G7x8y8E_ai0MK9zPMXGrDPCi2lgCTRIzdQdns_hsr-85knqzkFEkGkyN223fplqtfxeFVjqgmDkEtJ2TEP3kmfzWnMYuiNhAJcP2i4iAh3AAAA.0tR2AV4OgJzx4leOlinXS-leKkizj9BLiC3WU0XsmgI', '116.1.145.66', '广西,桂林市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'login', 'XMLHttpRequest', '2024-10-22 17:46:44', '2024-10-22 17:46:44', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848703181523582978, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLSw7CMAwF7-J1U9nkZ3eF2LHhDm6SRZFaKCUSCHH3RuruaWbeD7Y6wgCXuixf6KB8njBQtHhCJwE7qFt5XXNjx7zpXFpOlkQQybvzuvbpMbfr_T01Y5Uzc2LjvUvGEVnDwasRJQkx5iKjwn8HXI6ByncAAAA.HxSU0QrfDr6jwAT9EIDEE10YknZSGq8dRmlvae09JtI', '183.226.236.185', '重庆,重庆市 移动', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'login', 'XMLHttpRequest', '2024-10-22 20:29:20', '2024-10-22 20:29:20', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848745703411089409, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLSw7CMAwF7-J1U9nkZ3eF2LHhDm6SRZFaKCUSCHH3RuruaWbeD7Y6wgCXuixf6KB8njBQtHhCJwE7qFt5XXNjx7zpXFpOlkQQybvzuvbpMbfr_T01Y5Uzc2LjvUvGEVnDwasRJQkx5iKjwn8HXI6ByncAAAA.HxSU0QrfDr6jwAT9EIDEE10YknZSGq8dRmlvae09JtI', '112.22.102.78', '江苏省,无锡市 移动', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'logout', 'XMLHttpRequest', '2024-10-22 23:18:18', '2024-10-22 23:18:18', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848745710558183425, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRmaSaZt0Je7ceIfJTASFVmsNKOLdDbj7vPf-B7aaYYJDXZY3dFBed5hoDOipx5Q6qFt5HK2x_zzJXFpOgVJCpJ7367rT29yu1-elGZPo2TA7PbM6FjGXB45u1Eg-mA7iFb4_b5BMo3cAAAA.ioG55OYjCvBPljrd-3pDWyWHoYL627MwR8KlkCwtL50', '112.22.102.78', '江苏省,无锡市 移动', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'login', 'XMLHttpRequest', '2024-10-22 23:18:20', '2024-10-22 23:18:20', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848749876420608002, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLSwqDQBBE79JrR7qdH-0qZJeNd9CxBxLQxJgBRby7DalV8erVAWsZoIV7mecdKpDtAy1Fiw0FZFtBWeX7GJX9a9dPojpZYkYk727LUqf3pNfX76kLpugo-94EaZxxXsgwhmyEx5ByihqB8wI0f3KSdwAAAA.ZyCYhUesY4FotPH3gsuhK4UWtKGkzseRNZvfuOy2PY0', '27.211.51.107', '山东省,济南市 联通', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'login', 'XMLHttpRequest', '2024-10-22 23:34:53', '2024-10-22 23:34:53', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848886297722683394, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQ6CMBBF7zJrSjplOu2wMuzccAcLQ6JJUYQmGuPdbeLu5733P7CXBD0MZV3f0IC-HtBj6KyjyBgbKLs-z3Nl_zlestYcOxSxFj2dtq2d7rleb8e1mjAtHknJRJ-cIRUx4hYxiRE5MfPsLXx_RM4MfHcAAAA.NQua4-ylRIVieSIkWpFzekmdng9rALdm8iEyxETjgxM', '218.16.128.89', '广东省,清远市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-23 08:36:59', '2024-10-23 08:36:59', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848906752101777410, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLOw7CMBAF77J1jLz-xZsqoqPhDtnNFiAlkI8lUJS7Y4nuaWbeAVth6OBa5vkLDejnDR223rroA8UGyqbrbazsP-_DpDVHj0TWYgz9slzkNdXrc39U4ygxj4lMSm02QZBMdsJm8KKqQTKrg_MHJ7J0z3cAAAA.Euy-1BHSPvhvXix1CrOHpNnL8y86avZvnzvJqzVGKkg', '39.165.217.100', '河南省,郑州市 移动', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-23 09:58:15', '2024-10-23 09:58:15', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848907963672625153, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLyw6CMBBF_2XW1EwfQykr446N_zBlhkQTUMQmGOO_24TdzTnnfmErGXq4lGX5QAO6P6G30aMjH7vQQNn0NUhlx7zyrDW33qaEaCmc1_U0PuZ6vb9v1QixY0YxnUyjCZnJJKFsoldx2qrDNsHvD3drVXh3AAAA.Ex6trS148wzFToWYZJ3E94wNV59BTV_nZd5AYGqvlZg', '183.14.88.218', '广东省,深圳市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'login', 'XMLHttpRequest', '2024-10-23 10:03:04', '2024-10-23 10:03:04', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848908538527154178, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLyw6CMBBF_2XW1EwfQykr446N_zBlhkQTUMQmGOO_24TdzTnnfmErGXq4lGX5QAO6P6G30aMjH7vQQNn0NUhlx7zyrDW33qaEaCmc1_U0PuZ6vb9v1QixY0YxnUyjCZnJJKFsoldx2qrDNsHvD3drVXh3AAAA.Ex6trS148wzFToWYZJ3E94wNV59BTV_nZd5AYGqvlZg', '183.14.88.218', '广东省,深圳市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0', 'logout', 'XMLHttpRequest', '2024-10-23 10:05:21', '2024-10-23 10:05:21', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848920537389715458, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLMQ6DMAxF7-KZVHbiEJup6sbSO6RNhlaCFmikIsTdicT29d77GyzlAR3cyjiu0ED-f6Gj4ND6Ngg1UJY896myc97jkGtOjlQRyfN1mi7Pz1Cv79-rGrSSFKMzHlkM22yNtsjGBZWokVPwAvsB-gKgLHcAAAA.GMy1vZBZWJHTLs5Sz9u0vZEXE4pGMu-_uVUb9Dyb-J4', '192.168.2.113', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-23 10:53:02', '2024-10-23 10:53:02', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1848928468400144385, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLMQ7CMAxF7-K5QbHj1E4nxMbCHVLw0EottCUSqOrdicT29d77O2ylhw4uZZ6_0IB9XtChUBL2JNRA2Wy9Pir7z1uerOYYMCXvMfJ5WU7351Sv43uoRolFOIjrWxPHptEl0-yMomKLPmBWOH56BrZNdwAAAA.6D0RAWDCXnV7gx24scntSqjYJxCxGnu0vrXg6SXOif4', '185.220.236.34', '俄罗斯', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-23 11:24:33', '2024-10-23 11:24:33', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1849357176143413249, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRiaZydjpSty58Q5NzIBCq20NKOLdDbj7vPf-B7aaYIBjnec3dFBeDxj8npAE-547qFtZT5fG_vM8TqXlnrwqoo98WJZdvk_tentemxGjUUXZmVh2rIYupUyOQwiRJUUjgu8PakLNLXcAAAA.UQgTOIe-ryZoHnJ_nEdRzjIi6aAd8tgoBbm80q6sqp4', '218.16.128.89', '广东省,清远市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-24 15:48:05', '2024-10-24 15:48:05', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1849357211010662401, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCQAxF75J1RxKScZquxJ2b3mHaRFBota0DFvHuDrj7vPf-B7YyQAfnMs87NODvJ3SUGPmIrXIDZfP1YpX9Z58nrzkxqSJSlNOyHMbHVK_3160aHYXZogT1aEGyWlBMHGxgktavObnD9we74cSPdwAAAA.UG4dadWlUxaOV_N3OinvT8VRrPwLWHb1SgLlG6JLYXQ', '218.16.128.89', '广东省,清远市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-24 15:48:13', '2024-10-24 15:48:13', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1849362041900957697, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQ6CMBBF7zJrambolLGsjDs33KEt0wQTUMAmGuLdbeLu5733D9hLhB6uZVk-0IC-n9CTWLRdi8wNlF2321jZfw5h1pqTJe8RyfFlXU_pMdfr_TVVwzEljxKNYwmGNbMJQdGM7MTnfM5CLXx_1CcFJ3cAAAA.VS1sZ8llO3exCT20sIM6vXuJru9-yd_LDAjvlwgKoPA', '36.7.74.99', '安徽省,合肥市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-24 16:07:25', '2024-10-24 16:07:25', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1849366463427182594, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQoCMQxF75L1VNqmNsmsxJ0b7xBrCgozOo4FRby7BXef997_wNpOMMK-zfMbBrDXHcZA6DGjFx6grfY4nDv7z6NO1vOAQcT7sE27ZdmU29Sv1-elG2NhjUQOi0aXMmenUcnVaqxZCtZE8P0BVjVudHcAAAA.nA3CvADdLvBox-KleEKOrUi40t5hUI-GNeynL7uRoDU', '58.214.13.154', '江苏省,无锡市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-24 16:24:59', '2024-10-24 21:23:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1849367510723919874, 1, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRjKZxMl0Je668Q4xmYJCq20NWMS7G3D3ee_9D2z1Cj2c6zzv0IG-n9Ajk6UjkY8d1E3XoTT2n5c0acuRUMRaDP60LIf8mNr1_ro1Iy5wQY5GHTrjmUYjkpMpMQa0o02sGb4_ZzuNTHcAAAA.P5vNLGH2nxffxkdghD7C7WWFsuwH9IfQLJtEyvJGVsI', '1.202.225.46', '北京,北京市 电信', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-24 16:29:09', '2024-10-24 16:29:09', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1849445810954956802, 1, 'Administrator', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLQQrCMBBF7zLrRmaSmXbSlXTnxjukcQoKrdY2oIh3N-Du8977H9jKCD0MZVne0IC9HtBT56NqUPYNlM2ep0tl_3lOs9WcAsWISMLHdT3k-1yvt_1aDbN46YScBhLHKbQuobXOcPIjTpo5G3x_bEMAvHcAAAA.hWcfG-ulaNVTFqKl1EGFeoJP6L3DtQMKCS3Hwo4JSLM', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-10-24 21:40:17', '2024-10-24 21:40:17', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1849445848724664322, 1, 'Administrator', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWLywrCMBAA_2XPjeSxZEtP4s2L_7DpbqBCorUGLMV_N-BtGGYO2FqCCS6t1h0G0M8TJkfBhtFbHwdom76u0t0fb1y05yxlqed1Pc2P0q_7e-lS3JwUkQxhDgZzFMPZkUmWhTX6EYnh-wMBQi1DcgAAAA.II3lcc1R1pX8G6eaEVkCxxDXkscN4c6p89zn7FzFhaU', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-24 21:40:26', '2024-10-24 21:40:26', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1849448165704331266, 1849444494908125181, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQrCMBAA_7LnRnY3G7Pbk3jz4h_SmIJCq20NKOLfDTjHGZgPbHWAHo51nt_QQXk9oKfo0SuHqB3UraynS3MqJg0TQyUOpPSP5zSVNiBPZogU5LAsu3yf2uz2vLYSOY7JYnCCnJz4kt2AQdzepITRZ1Zm-P4AUKW6EIkAAAA.8MmynSUjFoD56MdArSKwV-2u7w98PaE1fp-KaNvKlH0', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-24 21:49:38', '2024-10-24 21:49:38', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -366,7 +333,7 @@ CREATE TABLE `qrtz_triggers`  (
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept`  (
   `id` bigint NOT NULL COMMENT '唯一id',
-  `parent_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '父级id',
+  `parent_id` bigint NOT NULL DEFAULT 0 COMMENT '父级id',
   `manager` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '管理者id',
   `dept_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '部门名称',
   `summary` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '部门简介',
@@ -381,15 +348,22 @@ CREATE TABLE `sys_dept`  (
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (1842844360640327682, '0', '梁子异,彭秀英,戴子韬,曾致远', '山东总公司', '山东总公司', '2024-10-06 16:28:29', '2024-10-06 19:41:21', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1842874908557541377, '1842844360640327682', 'bunny,史安琪,邱致远,秦詩涵', '深圳分公司', '深圳分公司', '2024-10-06 18:29:52', '2024-10-06 19:10:47', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1842877591473455106, '1842844360640327682', '程嘉伦,武嘉伦,孙震南', '郑州分公司', '郑州分公司', '2024-10-06 18:40:31', '2024-10-06 19:02:27', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1842882951345197057, '1842874908557541377', '彭致远,彭秀英,冯宇宁,黎子韬', '财务部门', '财务部门', '2024-10-06 19:01:49', '2024-10-09 10:40:22', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1842883239493881857, '1842877591473455106', '于致远,曹致远,李璐,戴子韬', '研发部门', '研发部门', '2024-10-06 19:02:58', '2024-10-06 19:02:58', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1842885275601981441, '1842874908557541377', '宋宇宁,彭秀英,刘子韬', '市场部门', '市场部门', '2024-10-06 19:11:04', '2024-10-06 19:11:04', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1842885316358033409, '1842877591473455106', '宋宇宁,曾致远,刘子韬', '财务部门', '财务部门', '2024-10-06 19:11:13', '2024-10-09 10:38:35', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1842885375015374850, '1842877591473455106', '冯宇宁,刘子韬,曾致远', '测试部门', '测试部门', '2024-10-06 19:11:27', '2024-10-06 19:11:52', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1842885831187877890, '1842877591473455106', '龚岚,杜安琪,李子异,彭睿,宋宇宁,bunny', '运维部门', '运维部门', '2024-10-06 19:13:16', '2024-10-06 19:13:16', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1842844360640327682, 0, '梁子异,彭秀英,戴子韬,曾致远', '山东总公司', '山东总公司', '2024-10-06 16:28:29', '2024-10-06 19:41:21', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1842874908557541377, 1842844360640327682, 'bunny,史安琪,邱致远,秦詩涵', '深圳分公司', '深圳分公司', '2024-10-06 18:29:52', '2024-10-06 19:10:47', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1842877591473455106, 1842844360640327682, '程嘉伦,武嘉伦,孙震南', '郑州分公司', '郑州分公司', '2024-10-06 18:40:31', '2024-10-06 19:02:27', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1842882951345197057, 1842874908557541377, '彭致远,彭秀英,冯宇宁,黎子韬', '财务部门', '财务部门', '2024-10-06 19:01:49', '2024-10-09 10:40:22', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1842883239493881857, 1842877591473455106, '于致远,曹致远,李璐,戴子韬', '研发部门', '研发部门', '2024-10-06 19:02:58', '2024-10-06 19:02:58', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1842885275601981441, 1842874908557541377, '宋宇宁,彭秀英,刘子韬', '市场部门', '市场部门', '2024-10-06 19:11:04', '2024-10-06 19:11:04', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1842885316358033409, 1842877591473455106, '宋宇宁,曾致远,刘子韬', '财务部门', '财务部门', '2024-10-06 19:11:13', '2024-10-09 10:38:35', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1842885375015374850, 1842877591473455106, '冯宇宁,刘子韬,曾致远', '测试部门', '测试部门', '2024-10-06 19:11:27', '2024-10-06 19:11:52', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1842885831187877890, 1842877591473455106, '龚岚,杜安琪,李子异,彭睿,宋宇宁,bunny', '运维部门', '运维部门', '2024-10-06 19:13:16', '2024-10-06 19:13:16', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1849676669473886209, 1842874908557541377, 'password,Administrator,bunny', '测试部门', '测试部门', '2024-10-25 12:57:38', '2024-10-25 12:57:46', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1849676767842897921, 1842874908557541377, 'Administrator', '研发部门', '研发部门', '2024-10-25 12:58:01', '2024-10-25 12:58:01', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850077538510016514, 1842844360640327682, 'Administrator', '江阴公司', '江阴公司', '2024-10-26 15:30:33', '2024-10-26 15:32:06', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850077710275153922, 1850077538510016514, 'Administrator,bunny', '运维部门', '运维部门', '2024-10-26 15:31:14', '2024-10-26 15:31:14', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850077827405287425, 1842874908557541377, 'Administrator,bunny', '运维部门', '运维部门', '2024-10-26 15:31:41', '2024-10-26 15:31:41', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850077890558922754, 1850077538510016514, 'Administrator,password,system', '测试部门', '测试部门', '2024-10-26 15:31:57', '2024-10-26 15:31:57', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850078051901214722, 1850077538510016514, 'Administrator,bunny', '系统研发部', '系统研发部', '2024-10-26 15:32:35', '2024-10-26 15:32:35', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_email_template
@@ -470,8 +444,8 @@ INSERT INTO `sys_files` VALUES (1848621329971597313, 'avatar', '/auth-admin/avat
 INSERT INTO `sys_files` VALUES (1848626424947855362, 'avatar', '/auth-admin/avatar/2024/10-22/3480af29-81f6-4640-a627-c66b9e6b3d11', 23279, 'application/octet-stream', 0, 1, 1, '2024-10-22 15:24:20', '2024-10-22 15:24:20', 0);
 INSERT INTO `sys_files` VALUES (1848626761318453249, 'avatar', '/auth-admin/avatar/2024/10-22/54608106-2d2c-4714-8ddf-f2c5affb995e', 23342, 'application/octet-stream', 0, 1, 1, '2024-10-22 15:25:40', '2024-10-22 15:25:40', 0);
 INSERT INTO `sys_files` VALUES (1848627027522539522, 'avatar', '/auth-admin/avatar/2024/10-22/a9f1794e-610a-471d-8f4f-75c8c738ef46', 16573, 'application/octet-stream', 0, 1, 1, '2024-10-22 15:26:44', '2024-10-22 15:26:44', 0);
-INSERT INTO `sys_files` VALUES (1849469662829309953, '作废.jpg', '/auth-admin/articleImages/2024/10-24/38cd7639-9b5b-468b-b75a-7370f6e7c9c4.jpg', 11336, 'image/jpeg', 0, 1, 1, '2024-10-24 23:15:04', '2024-10-24 23:15:04', 0);
-INSERT INTO `sys_files` VALUES (1849469830999941121, 'vue.png', '/auth-admin/articleImages/2024/10-24/a73ffa7d-b7b8-4a14-af77-5d8a36788e9a.png', 2469, 'image/png', 0, 1849444494908125181, 1849444494908125181, '2024-10-24 23:15:44', '2024-10-24 23:15:44', 0);
+INSERT INTO `sys_files` VALUES (1849680516304965634, 'avatar', '/auth-admin/avatar/2024/10-25/ebfe09f4-600f-4e85-a2c4-5d71bc341de4', 16573, 'application/octet-stream', 0, 1, 1, '2024-10-25 13:12:55', '2024-10-25 13:12:55', 0);
+INSERT INTO `sys_files` VALUES (1849681399784771586, 'blob', '/auth-admin/avatar/2024/10-25/8894ef6f-6206-4cc8-b2c9-595139f4f5f8', 15226, 'image/png', 0, 1, 1, '2024-10-25 13:16:26', '2024-10-25 13:16:26', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n
@@ -645,7 +619,7 @@ INSERT INTO `sys_i18n` VALUES (1840622817296236553, 'login.purePassword', '密�
 INSERT INTO `sys_i18n` VALUES (1840622817296236554, 'login.pureThirdLogin', '第三方登录', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622817359151105, 'menus.pureDrawer', '函数式抽屉', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622817359151106, 'menus.purePermissionButtonRouter', '路由返回按钮权限', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
-INSERT INTO `sys_i18n` VALUES (1840622817359151107, 'menus.pureEmpty', '无Layout页', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
+INSERT INTO `sys_i18n` VALUES (1840622817359151107, 'menus.pureEmpty', '无Layout页', 'zh', 1, 1, '2024-10-26 15:17:00', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622817359151108, 'menus.pureColorHuntDoc', '调色板', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622817359151109, 'buttons.pureCloseOtherTabs', '关闭其他标签页', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622817359151110, 'panel.pureStretch', '页宽', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
@@ -1053,8 +1027,8 @@ INSERT INTO `sys_i18n` VALUES (1840641784718966786, 'delete_success', 'Deletedsu
 INSERT INTO `sys_i18n` VALUES (1840641874405769217, 'cancel_delete', '取消删除', 'zh', 1, 1, '2024-09-30 22:36:35', '2024-09-30 22:36:35', 0);
 INSERT INTO `sys_i18n` VALUES (1840641902549549057, 'cancel_delete', 'Canceldeletion', 'en', 1, 1, '2024-09-30 22:36:42', '2024-09-30 22:36:42', 0);
 INSERT INTO `sys_i18n` VALUES (1840651619317489665, 'avatar', 'avatar', 'en', 1, 1, '2024-09-30 23:15:18', '2024-09-30 23:15:18', 0);
-INSERT INTO `sys_i18n` VALUES (1840651657141723137, 'nickName', 'nickName', 'en', 1, 1, '2024-09-30 23:15:27', '2024-09-30 23:15:27', 0);
-INSERT INTO `sys_i18n` VALUES (1840651675848318978, 'nickName', '昵称', 'zh', 1, 1, '2024-09-30 23:15:32', '2024-09-30 23:15:32', 0);
+INSERT INTO `sys_i18n` VALUES (1840651657141723137, 'nickname', 'nickname', 'en', 1, 1, '2024-10-27 15:59:30', '2024-09-30 23:15:27', 0);
+INSERT INTO `sys_i18n` VALUES (1840651675848318978, 'nickname', '昵称', 'zh', 1, 1, '2024-10-27 15:59:33', '2024-09-30 23:15:32', 0);
 INSERT INTO `sys_i18n` VALUES (1840651705091006465, 'username', '用户名', 'zh', 1, 1, '2024-09-30 23:15:39', '2024-09-30 23:15:39', 0);
 INSERT INTO `sys_i18n` VALUES (1840651716516290562, 'username', 'username', 'en', 1, 1, '2024-09-30 23:15:42', '2024-09-30 23:15:42', 0);
 INSERT INTO `sys_i18n` VALUES (1840651732572086273, 'email', 'email', 'en', 1, 1, '2024-09-30 23:15:45', '2024-09-30 23:15:45', 0);
@@ -1141,8 +1115,8 @@ INSERT INTO `sys_i18n` VALUES (1841812150026051586, 'adminUser_sex', 'sex', 'en'
 INSERT INTO `sys_i18n` VALUES (1841812176966066178, 'adminUser_sex', '性别', 'zh', 1, 1, '2024-10-04 04:06:57', '2024-10-04 04:06:57', 0);
 INSERT INTO `sys_i18n` VALUES (1841812201393692674, 'adminUser_status', 'status', 'en', 1, 1, '2024-10-04 04:07:03', '2024-10-04 04:07:03', 0);
 INSERT INTO `sys_i18n` VALUES (1841812220557467650, 'adminUser_status', '状态', 'zh', 1, 1, '2024-10-04 04:07:07', '2024-10-04 04:07:07', 0);
-INSERT INTO `sys_i18n` VALUES (1841812298995146754, 'adminUser_nickName', '昵称', 'zh', 1, 1, '2024-10-04 04:07:26', '2024-10-04 04:07:26', 0);
-INSERT INTO `sys_i18n` VALUES (1841812311011827713, 'adminUser_nickName', 'nickName', 'en', 1, 1, '2024-10-04 04:07:29', '2024-10-04 04:07:29', 0);
+INSERT INTO `sys_i18n` VALUES (1841812298995146754, 'adminUser_nickname', '昵称', 'zh', 1, 1, '2024-10-27 15:59:37', '2024-10-04 04:07:26', 0);
+INSERT INTO `sys_i18n` VALUES (1841812311011827713, 'adminUser_nickname', 'nickName', 'en', 1, 1, '2024-10-27 15:59:41', '2024-10-04 04:07:29', 0);
 INSERT INTO `sys_i18n` VALUES (1841812335980519425, 'adminUser_email', 'email', 'en', 1, 1, '2024-10-04 04:07:35', '2024-10-04 04:07:35', 0);
 INSERT INTO `sys_i18n` VALUES (1841812350509588482, 'adminUser_email', '邮箱', 'zh', 1, 1, '2024-10-04 04:07:38', '2024-10-04 04:07:38', 0);
 INSERT INTO `sys_i18n` VALUES (1841812376996618241, 'adminUser_password', '密码', 'zh', 1, 1, '2024-10-04 04:07:45', '2024-10-04 04:07:45', 0);
@@ -1531,6 +1505,18 @@ INSERT INTO `sys_i18n` VALUES (1849416399593480194, 'deleteBatchPlaceholder', '�
 INSERT INTO `sys_i18n` VALUES (1849416428479651841, 'deleteBatchPlaceholder', 'Type yes/YES/y/Y to confirm', 'en', 1, 1, '2024-10-24 19:43:32', '2024-10-24 19:43:32', 0);
 INSERT INTO `sys_i18n` VALUES (1849428393092521985, 'confirmText', '确认文字', 'zh', 1, 1, '2024-10-24 20:31:04', '2024-10-24 20:31:04', 0);
 INSERT INTO `sys_i18n` VALUES (1849428407277658113, 'confirmText', 'confirmText', 'en', 1, 1, '2024-10-24 20:31:08', '2024-10-24 20:31:08', 0);
+INSERT INTO `sys_i18n` VALUES (1850061137300516865, 'assignBatchRolesToRouter', '批量分配角色', 'zh', 1, 1, '2024-10-26 14:25:22', '2024-10-26 14:25:22', 0);
+INSERT INTO `sys_i18n` VALUES (1850061144988676097, 'assignBatchRolesToRouter', 'assignBatchRolesToRouter', 'en', 1, 1, '2024-10-26 14:25:24', '2024-10-26 14:25:24', 0);
+INSERT INTO `sys_i18n` VALUES (1850068922373324801, 'clearAllRolesSelect', '清除选中所以角色', 'zh', 1, 1, '2024-10-26 14:56:18', '2024-10-26 14:56:18', 0);
+INSERT INTO `sys_i18n` VALUES (1850068935086260226, 'clearAllRolesSelect', 'clearAllRolesSelect', 'en', 1, 1, '2024-10-26 14:56:21', '2024-10-26 14:56:21', 0);
+INSERT INTO `sys_i18n` VALUES (1850071107320528898, 'batchUpdates', '确认批量更新吗？', 'zh', 1, 1, '2024-10-26 15:05:38', '2024-10-26 15:04:59', 0);
+INSERT INTO `sys_i18n` VALUES (1850071126647881730, 'batchUpdates', 'Confirm batch update?', 'en', 1, 1, '2024-10-26 15:05:48', '2024-10-26 15:05:04', 0);
+INSERT INTO `sys_i18n` VALUES (1850537850115551234, 'assignBatchRolesToRouterTip', '批量分配角色，会清除已分配的角色并不会追加角色', 'zh', 1, 1, '2024-10-27 21:59:39', '2024-10-27 21:59:39', 0);
+INSERT INTO `sys_i18n` VALUES (1850537862069317634, 'assignBatchRolesToRouterTip', 'Bulk role allocation clears allocated roles and does not append them', 'en', 1, 1, '2024-10-27 21:59:42', '2024-10-27 21:59:42', 0);
+INSERT INTO `sys_i18n` VALUES (1850538229314187265, 'clearAllRolesSelectTip', '此操作会清除已经分配的菜单角色，如果确认此操作不可恢复，菜单下分配好的角色也将清除！！！', 'zh', 1, 1, '2024-10-27 22:01:10', '2024-10-27 22:01:10', 0);
+INSERT INTO `sys_i18n` VALUES (1850538260247179265, 'clearAllRolesSelectTip', 'This ACTION WILL CLEAR THE ASSIGNED MENU ROLES, AND IF IT IS CONFIRMED THAT THIS action is not recoverable, THE assigned ROLES under the MENU will also BE CLEARED!!', 'en', 1, 1, '2024-10-27 22:01:17', '2024-10-27 22:01:17', 0);
+INSERT INTO `sys_i18n` VALUES (1850538413012119553, 'doubleCheck', '再次确认是否继续？！', 'zh', 1, 1, '2024-10-27 22:01:54', '2024-10-27 22:01:54', 0);
+INSERT INTO `sys_i18n` VALUES (1850538424236077057, 'doubleCheck', 'Reconfirm whether to proceed? !', 'en', 1, 1, '2024-10-27 22:01:56', '2024-10-27 22:01:56', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n_type
@@ -1620,6 +1606,8 @@ INSERT INTO `sys_menu_icon` VALUES (1848233345497624578, 'eos-icons:cronjob', '�
 INSERT INTO `sys_menu_icon` VALUES (1848991874416324610, 'octicon:cache-16', '缓存', '2024-10-23 15:36:30', '2024-10-23 15:36:30', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1849000783751360513, 'logos:webstorm', 'web', '2024-10-23 16:11:54', '2024-10-23 16:11:54', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1849278944816918529, 'vscode-icons:file-type-jsconfig', '配置', '2024-10-24 10:37:13', '2024-10-24 10:37:13', 1, 1, 0);
+INSERT INTO `sys_menu_icon` VALUES (1849677540270116865, 'mingcute:web-fill', 'web', '2024-10-25 13:01:06', '2024-10-25 13:01:06', 1, 1, 0);
+INSERT INTO `sys_menu_icon` VALUES (1849677639935168514, 'mingcute:server-fill', 'server', '2024-10-25 13:01:29', '2024-10-25 13:01:29', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_power
@@ -1756,6 +1744,7 @@ INSERT INTO `sys_power` VALUES (1849466495798439937, 19, 'quartzExecuteLog::getQ
 INSERT INTO `sys_power` VALUES (1849466495844577282, 19, 'quartzExecuteLog::deleteQuartzExecuteLog', '删除调度任务执行日志', '/admin/quartzExecuteLog/deleteQuartzExecuteLog', '2024-10-24 23:02:29', '2024-10-24 23:02:29', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1849471636643618818, 0, 'admin::actuator', 'actuator端点访问', '', '2024-10-24 23:22:54', '2024-10-24 23:22:54', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1849471846698557442, 1849471636643618818, 'actuator::all', '端点全部可以访问', '/admin/actuator/**', '2024-10-24 23:23:44', '2024-10-24 23:23:44', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1850074578325442562, 4, 'router::clearAllRolesSelect', '清除选中菜单所有角色', '/admin/routerRole/clearAllRolesSelect', '2024-10-26 15:18:47', '2024-10-26 15:18:47', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -1780,6 +1769,8 @@ INSERT INTO `sys_role` VALUES (1, 'admin', '管理员用户', '2024-05-17 15:09:
 INSERT INTO `sys_role` VALUES (1838499178568450050, 'fuzhu', '辅助', '2024-09-24 16:42:16', '2024-09-24 16:42:16', 1, 1, 0);
 INSERT INTO `sys_role` VALUES (1838835872391942145, 'common', '公共权限', '2024-09-25 15:00:11', '2024-09-25 15:00:11', 1, 1, 0);
 INSERT INTO `sys_role` VALUES (1849447127379210241, 'test', '测试用户角色', '2024-10-24 21:45:31', '2024-10-24 21:45:31', 1, 1, 0);
+INSERT INTO `sys_role` VALUES (1850075282767187970, 'system', '系统配置角色', '2024-10-26 15:21:35', '2024-10-26 15:21:35', 1, 1, 0);
+INSERT INTO `sys_role` VALUES (1850080441735942146, 'timing', '定时任务角色', '2024-10-26 15:42:05', '2024-10-26 15:42:05', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_role_power
@@ -1800,58 +1791,115 @@ CREATE TABLE `sys_role_power`  (
 -- ----------------------------
 -- Records of sys_role_power
 -- ----------------------------
-INSERT INTO `sys_role_power` VALUES (1849472062889762818, 1849447127379210241, 1849466493026004993, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062889762819, 1849447127379210241, 1849466493055365121, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062889762820, 1849447127379210241, 1849466493080530945, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062893957121, 1849447127379210241, 1849466493101502465, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062893957122, 1849447127379210241, 1849466493126668290, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062893957123, 1849447127379210241, 1849466493147639809, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062893957124, 1849447127379210241, 1849466493256691714, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062898151425, 1849447127379210241, 1849466493281857538, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062898151426, 1849447127379210241, 1849466493307023361, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062898151427, 1849447127379210241, 1849466493441241089, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062898151428, 1849447127379210241, 1849466493466406914, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062898151429, 1849447127379210241, 1849466493583847426, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062898151430, 1849447127379210241, 1849466493604818946, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062898151431, 1849447127379210241, 1849466493629984770, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062898151432, 1849447127379210241, 1849466493768396801, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062902345729, 1849447127379210241, 1849466493789368321, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062902345730, 1849447127379210241, 1849466493936168961, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062902345731, 1849447127379210241, 1849466493952946177, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062902345732, 1849447127379210241, 1849466494061998082, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062902345733, 1849447127379210241, 1849466494087163905, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062902345734, 1849447127379210241, 1849466494108135425, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062902345735, 1849447127379210241, 1849466494246547457, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062902345736, 1849447127379210241, 1849466494372376578, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062902345737, 1849447127379210241, 1849466494389153793, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540034, 1849447127379210241, 1849466494410125313, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540035, 1849447127379210241, 1849466494615646210, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540036, 1849447127379210241, 1849466494640812034, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540037, 1849447127379210241, 1849466494665977858, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540038, 1849447127379210241, 1849466494686949377, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540039, 1849447127379210241, 1849466494712115202, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540040, 1849447127379210241, 1849466494846332930, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540041, 1849447127379210241, 1849466494867304450, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540042, 1849447127379210241, 1849466494892470273, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540043, 1849447127379210241, 1849466495009910786, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540044, 1849447127379210241, 1849466495035076610, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540045, 1849447127379210241, 1849466495056048129, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540046, 1849447127379210241, 1849466495160905730, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062906540047, 1849447127379210241, 1849466495181877250, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734338, 1849447127379210241, 1849466495202848770, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734339, 1849447127379210241, 1849466495311900673, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734340, 1849447127379210241, 1849466495404175361, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734341, 1849447127379210241, 1849466495492255745, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734342, 1849447127379210241, 1849466495609696258, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734343, 1849447127379210241, 1849466495668416514, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734344, 1849447127379210241, 1849466495714553858, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734345, 1849447127379210241, 1849466495798439937, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734346, 1849447127379210241, 1849466494582091777, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734347, 1849447127379210241, 1849466493747425282, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734348, 1849447127379210241, 1849466493365743618, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734349, 1849447127379210241, 1849466493403492353, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734350, 1849447127379210241, 1849471636643618818, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1849472062910734351, 1849447127379210241, 1849471846698557442, '2024-10-24 23:24:36', '2024-10-24 23:24:36', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153170513922, 1849447127379210241, 1849466493026004993, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153178902530, 1849447127379210241, 1849466493055365121, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153178902531, 1849447127379210241, 1849466493080530945, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096834, 1849447127379210241, 1849466493101502465, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096835, 1849447127379210241, 1849466493126668290, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096836, 1849447127379210241, 1849466493147639809, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096837, 1849447127379210241, 1849466493256691714, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096838, 1849447127379210241, 1849466493281857538, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096839, 1849447127379210241, 1849466493307023361, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096840, 1849447127379210241, 1849466493441241089, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096841, 1849447127379210241, 1849466493466406914, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096842, 1849447127379210241, 1849466493583847426, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096843, 1849447127379210241, 1849466493604818946, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096844, 1849447127379210241, 1849466493629984770, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096845, 1849447127379210241, 1849466493768396801, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096846, 1849447127379210241, 1849466493789368321, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096847, 1849447127379210241, 1849466493936168961, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096848, 1849447127379210241, 1849466493952946177, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096849, 1849447127379210241, 1849466494061998082, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096850, 1849447127379210241, 1849466494087163905, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096851, 1849447127379210241, 1849466494108135425, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096852, 1849447127379210241, 1849466494246547457, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096853, 1849447127379210241, 1849466494372376578, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096854, 1849447127379210241, 1849466494389153793, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153183096855, 1849447127379210241, 1849466494410125313, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153216651265, 1849447127379210241, 1849466494615646210, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153216651266, 1849447127379210241, 1849466494640812034, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153216651267, 1849447127379210241, 1849466494665977858, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153216651268, 1849447127379210241, 1849466494686949377, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153216651269, 1849447127379210241, 1849466494712115202, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153216651270, 1849447127379210241, 1849466494846332930, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153216651271, 1849447127379210241, 1849466494867304450, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153216651272, 1849447127379210241, 1849466494892470273, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039873, 1849447127379210241, 1849466495009910786, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039874, 1849447127379210241, 1849466495035076610, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039875, 1849447127379210241, 1849466495056048129, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039876, 1849447127379210241, 1849466495160905730, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039877, 1849447127379210241, 1849466495181877250, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039878, 1849447127379210241, 1849466495202848770, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039879, 1849447127379210241, 1849466495311900673, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039880, 1849447127379210241, 1849466495404175361, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039881, 1849447127379210241, 1849466495492255745, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039882, 1849447127379210241, 1849466495609696258, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039883, 1849447127379210241, 1849466495668416514, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039884, 1849447127379210241, 1849466495714553858, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039885, 1849447127379210241, 1849466495798439937, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039886, 1849447127379210241, 1849466494582091777, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039887, 1849447127379210241, 1849466493747425282, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039888, 1849447127379210241, 1849466493365743618, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039889, 1849447127379210241, 1849466493403492353, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039890, 1849447127379210241, 1849471636643618818, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039891, 1849447127379210241, 1849471846698557442, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1849680153225039892, 1849447127379210241, 1849466494544343041, '2024-10-25 13:11:29', '2024-10-25 13:11:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850081944454402050, 1850080441735942146, 1849466495798439937, '2024-10-26 15:48:03', '2024-10-26 15:48:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850081944458596353, 1850080441735942146, 1849466493365743618, '2024-10-26 15:48:03', '2024-10-26 15:48:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850081944458596354, 1850080441735942146, 1849466493403492353, '2024-10-26 15:48:03', '2024-10-26 15:48:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850081944458596355, 1850080441735942146, 1849466493441241089, '2024-10-26 15:48:03', '2024-10-26 15:48:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850081944458596356, 1850080441735942146, 1849466493466406914, '2024-10-26 15:48:03', '2024-10-26 15:48:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850081944458596357, 1850080441735942146, 1849466493218942977, '2024-10-26 15:48:03', '2024-10-26 15:48:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850081944458596358, 1850080441735942146, 1849466493256691714, '2024-10-26 15:48:03', '2024-10-26 15:48:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850081944458596359, 1850080441735942146, 1849466493281857538, '2024-10-26 15:48:03', '2024-10-26 15:48:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850081944458596360, 1850080441735942146, 1849466493307023361, '2024-10-26 15:48:03', '2024-10-26 15:48:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236326739970, 1850075282767187970, 15, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934273, 1850075282767187970, 1849466495358038018, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934274, 1850075282767187970, 1849466495404175361, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934275, 1850075282767187970, 1849466495492255745, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934276, 1850075282767187970, 1849466495609696258, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934277, 1850075282767187970, 1849466495311900673, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934278, 1850075282767187970, 1849466494087163905, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934279, 1850075282767187970, 1849466494108135425, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934280, 1850075282767187970, 1849466495009910786, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934281, 1850075282767187970, 1849466495035076610, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934282, 1850075282767187970, 1849466495056048129, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934283, 1850075282767187970, 1849466495160905730, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934284, 1850075282767187970, 1849466495181877250, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934285, 1850075282767187970, 1849466495202848770, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934286, 1850075282767187970, 1849466494846332930, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934287, 1850075282767187970, 1849466494867304450, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934288, 1850075282767187970, 1849466494892470273, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934289, 1850075282767187970, 1849471636643618818, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934290, 1850075282767187970, 1849471846698557442, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934291, 1850075282767187970, 1849466495668416514, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934292, 1850075282767187970, 1849466495714553858, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934293, 1850075282767187970, 1849466493256691714, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934294, 1850075282767187970, 1849466493281857538, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934295, 1850075282767187970, 1849466493307023361, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934296, 1850075282767187970, 1849466493936168961, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934297, 1850075282767187970, 1849466493952946177, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934298, 1850075282767187970, 1849466493747425282, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934299, 1850075282767187970, 1849466493768396801, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934300, 1850075282767187970, 1849466493789368321, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934301, 1850075282767187970, 1849466493567070210, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934302, 1850075282767187970, 1849466493583847426, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934303, 1850075282767187970, 1849466493604818946, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934304, 1850075282767187970, 1849466493026004993, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934305, 1850075282767187970, 1849466493055365121, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934306, 1850075282767187970, 1849466493080530945, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934307, 1850075282767187970, 1849466493101502465, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934308, 1850075282767187970, 1849466493126668290, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934309, 1850075282767187970, 1849466493147639809, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934310, 1850075282767187970, 1849466493915197441, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934311, 1850075282767187970, 1849466494582091777, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934312, 1850075282767187970, 1849466494615646210, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934313, 1850075282767187970, 1849466494640812034, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934314, 1850075282767187970, 1849466494665977858, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934315, 1850075282767187970, 1849466494686949377, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934316, 1850075282767187970, 1849466494544343041, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934317, 1850075282767187970, 1849466494712115202, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850091236330934318, 1850075282767187970, 1849466493629984770, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_router
@@ -1937,6 +1985,54 @@ CREATE TABLE `sys_router_role`  (
 -- ----------------------------
 -- Records of sys_router_role
 -- ----------------------------
+INSERT INTO `sys_router_role` VALUES (1850079128356753414, 1844644093987880962, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753415, 1844644779039358978, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753416, 1843932804747603970, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753417, 1847291834822123521, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753418, 1847140225619992577, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753419, 1848989760243838978, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753423, 1841716459123634177, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753424, 1840211412516524034, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753425, 1840292695145963522, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753426, 1841796585525985281, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753427, 1844956874037469185, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753428, 1841794929635635201, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753429, 1844935022925803521, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753430, 1844936047493586945, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753431, 1841796893769580546, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753432, 1844957189138751490, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753433, 1844957830590468097, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753434, 1844958437262987265, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753435, 1844958660366405634, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079128356753436, 1844958872170369025, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378958028802, 1, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378958028803, 2, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378958028804, 1841803086252548097, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378962223106, 1841726844983701505, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378962223107, 1841750734275416065, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378962223108, 1842033245832458241, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378962223109, 1, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378962223110, 2, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378962223111, 1841803086252548097, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378962223112, 1841726844983701505, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378962223113, 1841750734275416065, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079378962223114, 1842033245832458241, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866663309314, 1844900259930243074, 1849447127379210241, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866663309315, 1841506924681338881, 1849447127379210241, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866663309316, 1844276961265557505, 1849447127379210241, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866663309317, 1844290948342456321, 1849447127379210241, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866663309318, 1849000501604724738, 1849447127379210241, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866671697921, 1844900259930243074, 1850075282767187970, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866671697922, 1841506924681338881, 1850075282767187970, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866671697923, 1844276961265557505, 1850075282767187970, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866671697924, 1844290948342456321, 1850075282767187970, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850079866671697925, 1849000501604724738, 1850075282767187970, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850080539471613954, 1846804024660791298, 1849447127379210241, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850080539471613955, 1845812113861079042, 1849447127379210241, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850080539471613956, 1846166163060285441, 1849447127379210241, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850080539471613957, 1846804024660791298, 1850080441735942146, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850080539471613958, 1845812113861079042, 1850080441735942146, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850080539471613959, 1846166163060285441, 1850080441735942146, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -1945,9 +2041,9 @@ DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
   `id` bigint NOT NULL COMMENT 'ID',
   `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户名',
-  `nick_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '昵称',
+  `nickname` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '昵称',
   `email` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '手机号',
+  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '手机号',
   `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '密码',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `sex` tinyint NULL DEFAULT 1 COMMENT '0:女 1:男',
@@ -1967,11 +2063,14 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '123456789', '0192023a7bbd73250516f069df18b500', NULL, 1, 'admin', '127.0.0.1', '内网IP', 0, '2024-10-24 21:35:03', NULL, 1, NULL, 0);
-INSERT INTO `sys_user` VALUES (1842091082096930817, 'password', 'password', 'password@qq.com', '123456', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-19/9642c319-70b5-45b3-a7ed-a816fcd2092c', 0, 'passwordpasswordpassword', NULL, NULL, 0, '2024-10-04 14:35:13', '2024-10-24 14:58:52', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1843477994034401281, '测试', '测试', '测试@qq.com', '测试', 'db06c78d1e24cf708a14ce81c9b617ec', '/auth-admin/avatar/2024/10-19/da185724-906d-4f48-aaf5-4bbefd86f58e', 0, '测试测试测试', NULL, NULL, 1, '2024-10-08 10:26:19', '2024-10-24 10:19:52', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1843908587394150402, '啊啊啊', '啊啊啊', '啊啊啊@qq.com', '2312312321', 'fc0ec9e6c7c3e1821db2254238e6a98e', '/auth-admin/avatar/2024/10-19/445fa7f4-a165-46ec-8ea2-e4d00dd1b790', 0, '这个人很懒,没有介绍', NULL, NULL, 0, '2024-10-09 14:57:20', '2024-10-24 21:23:59', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-19/d1e47ae9-9ca9-4ec5-a3d0-7208537e4df4', 0, 'admin123', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', '2024-10-24 21:49:38', 0, 1, 0);
+INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '123456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-25/ebfe09f4-600f-4e85-a2c4-5d71bc341de4', 1, 'admin', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-24 21:35:03', '2024-10-26 15:29:19', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1842091082096930817, 'password', 'password', 'password@qq.com', '123456', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-19/9642c319-70b5-45b3-a7ed-a816fcd2092c', 0, 'passwordpasswordpassword', NULL, NULL, 0, '2024-10-04 14:35:13', '2024-10-27 22:06:49', 1, 1, 1);
+INSERT INTO `sys_user` VALUES (1843477994034401281, '测试', '测试', '测试@qq.com', '测试', '4061863caf7f28c0b0346719e764d561', '/auth-admin/avatar/2024/10-19/da185724-906d-4f48-aaf5-4bbefd86f58e', 0, '密码：test111', NULL, NULL, 1, '2024-10-08 10:26:19', '2024-10-27 22:06:49', 1, 1, 1);
+INSERT INTO `sys_user` VALUES (1843908587394150402, '啊啊啊', '啊啊啊1', '啊啊啊@qq.com', '2312312321', '482c16596d980531425b8592c4a6a540', '/auth-admin/avatar/2024/10-19/445fa7f4-a165-46ec-8ea2-e4d00dd1b790', 0, '这个人很懒,没有介绍，密码：2312312321', NULL, NULL, 0, '2024-10-09 14:57:20', '2024-10-27 22:06:49', 1, 1, 1);
+INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-19/d1e47ae9-9ca9-4ec5-a3d0-7208537e4df4', 0, '密码：admin123', '223.160.187.224', '北京,北京市 广电', 0, '2024-09-26 14:29:33', '2024-10-27 21:51:47', 0, 1849444494908125181, 0);
+INSERT INTO `sys_user` VALUES (1849681227633758210, 'Operation', '定时任务和系统配置', 'Operation@qq.com', '6666666666666666', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-25/8894ef6f-6206-4cc8-b2c9-595139f4f5f8', 0, '能看到定时任务和系统配置页面，密码：admin123', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-25 13:15:45', NULL, 1, NULL, 0);
+INSERT INTO `sys_user` VALUES (1850075157831454722, 'system', '只能看到系统配置用户', 'system@Gmail.com', '12456789', '0192023a7bbd73250516f069df18b500', NULL, 0, '只能看到系统设置内容页面，密码：admin123', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-26 15:21:05', '2024-10-26 15:53:39', 1, 1850075157831454722, 0);
+INSERT INTO `sys_user` VALUES (1850080272764211202, 'timing', '定时任务', 'timing@163.com', '212122', '0192023a7bbd73250516f069df18b500', NULL, 0, '只能看到定时任务页面，密码：admin123', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-26 15:41:25', '2024-10-26 15:47:00', 1, 1850080272764211202, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
@@ -1992,10 +2091,12 @@ CREATE TABLE `sys_user_dept`  (
 -- ----------------------------
 -- Records of sys_user_dept
 -- ----------------------------
-INSERT INTO `sys_user_dept` VALUES (1843881715746684930, 1843477994034401281, 1842882951345197057, '2024-10-09 13:10:33', '2024-10-09 13:10:33', 1, 1, 0);
-INSERT INTO `sys_user_dept` VALUES (1843890823090614274, 1842091082096930817, 1842874908557541377, '2024-10-09 13:46:45', '2024-10-09 13:46:45', 1, 1, 0);
 INSERT INTO `sys_user_dept` VALUES (1849443729225383937, 1, 1842883239493881857, '2024-10-24 21:32:01', '2024-10-24 21:32:01', 1, 1, 0);
 INSERT INTO `sys_user_dept` VALUES (1849444494908125186, 1849444494908125185, 1842882951345197057, '2024-10-24 21:35:03', '2024-10-24 21:35:03', 1, 1, 0);
+INSERT INTO `sys_user_dept` VALUES (1849681543125110786, 1849444494908125181, 1842844360640327682, '2024-10-25 13:17:00', '2024-10-25 13:17:00', 1, 1, 0);
+INSERT INTO `sys_user_dept` VALUES (1850079769699389441, 1850075157831454722, 1842885831187877890, '2024-10-26 15:39:25', '2024-10-26 15:39:25', 1, 1, 0);
+INSERT INTO `sys_user_dept` VALUES (1850080272827125761, 1850080272764211202, 1850077710275153922, '2024-10-26 15:41:25', '2024-10-26 15:41:25', 1, 1, 0);
+INSERT INTO `sys_user_dept` VALUES (1850081147733774338, 1849681227633758210, 1842885831187877890, '2024-10-26 15:44:53', '2024-10-26 15:44:53', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -2019,7 +2120,11 @@ CREATE TABLE `sys_user_role`  (
 INSERT INTO `sys_user_role` VALUES (1849443582454104066, 1, 1, '2024-10-24 21:31:26', '2024-10-24 21:31:26', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1849443582454104067, 1, 1838499178568450050, '2024-10-24 21:31:26', '2024-10-24 21:31:26', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1849443582454104068, 1, 1838835872391942145, '2024-10-24 21:31:26', '2024-10-24 21:31:26', 1, 1, 0);
-INSERT INTO `sys_user_role` VALUES (1849455363826216961, 1849444494908125181, 1849447127379210241, '2024-10-24 22:18:15', '2024-10-24 22:18:15', 1, 1, 0);
+INSERT INTO `sys_user_role` VALUES (1850076365002477569, 1849444494908125181, 1849447127379210241, '2024-10-26 15:25:53', '2024-10-26 15:25:53', 1, 1, 0);
+INSERT INTO `sys_user_role` VALUES (1850078798063702017, 1850075157831454722, 1850075282767187970, '2024-10-26 15:35:33', '2024-10-26 15:35:33', 1, 1, 0);
+INSERT INTO `sys_user_role` VALUES (1850080817541386242, 1850080272764211202, 1850080441735942146, '2024-10-26 15:43:34', '2024-10-26 15:43:34', 1, 1, 0);
+INSERT INTO `sys_user_role` VALUES (1850081002849931265, 1849681227633758210, 1850075282767187970, '2024-10-26 15:44:19', '2024-10-26 15:44:19', 1, 1, 0);
+INSERT INTO `sys_user_role` VALUES (1850081002849931266, 1849681227633758210, 1850080441735942146, '2024-10-26 15:44:19', '2024-10-26 15:44:19', 1, 1, 0);
 
 -- ----------------------------
 -- View structure for view_qrtz_schedulers
