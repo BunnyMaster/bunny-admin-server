@@ -121,7 +121,7 @@ public class UserController {
     }
 
     @Operation(summary = "刷新token", description = "刷新用户token")
-    @PostMapping("noAuth/refreshToken")
+    @PostMapping("noManage/refreshToken")
     public Result<RefreshTokenVo> refreshToken(@Valid @RequestBody RefreshTokenDto dto) {
         RefreshTokenVo vo = userService.refreshToken(dto);
         return Result.success(vo);

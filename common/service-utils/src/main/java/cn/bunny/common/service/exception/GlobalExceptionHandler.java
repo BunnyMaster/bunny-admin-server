@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
         String primaryKeyError = "Duplicate entry '(.*?)' for key .*";
         Matcher primaryKeyErrorMatcher = Pattern.compile(primaryKeyError).matcher(message);
         if (primaryKeyErrorMatcher.find()) {
-            return Result.error(null, 500, "【" + primaryKeyErrorMatcher.group(1) + "】已存在");
+            return Result.error(null, 500, "[" + primaryKeyErrorMatcher.group(1) + "]已存在");
         }
 
         log.error("GlobalExceptionHandler===>运行时异常信息：{}", message);

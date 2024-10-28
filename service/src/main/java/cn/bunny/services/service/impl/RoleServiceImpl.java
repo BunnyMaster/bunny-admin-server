@@ -4,15 +4,16 @@ import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.system.rolePower.role.RoleAddDto;
 import cn.bunny.dao.dto.system.rolePower.role.RoleDto;
 import cn.bunny.dao.dto.system.rolePower.role.RoleUpdateDto;
-import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.entity.system.UserRole;
-import cn.bunny.dao.pojo.constant.RedisUserConstant;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.rolePower.RoleVo;
-import cn.bunny.services.factory.UserFactory;
-import cn.bunny.services.mapper.*;
+import cn.bunny.services.factory.RoleFactory;
+import cn.bunny.services.mapper.RoleMapper;
+import cn.bunny.services.mapper.RolePowerMapper;
+import cn.bunny.services.mapper.RouterRoleMapper;
+import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.RoleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -23,7 +24,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,14 +49,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private RouterRoleMapper routerRoleMapper;
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
-
-    @Autowired
-    private UserFactory userFactory;
-
+    private RoleFactory roleFactory;
 
     /**
      * * 角色 服务实现类
@@ -129,24 +122,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         BeanUtils.copyProperties(dto, role);
         updateById(role);
 
-        // 找到所有和当前更新角色相同的用户
+        // 找到所有和当前更新角色相同的用户，并更新Redis中用户信息
         List<Long> userIds = userRoleMapper.selectList(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getRoleId, dto.getId()))
                 .stream().map(UserRole::getUserId).toList();
-
-        // 根据Id查找所有用户
-        List<AdminUser> adminUsers = userMapper.selectList(Wrappers.<AdminUser>lambdaQuery().in(AdminUser::getId, userIds));
-
-        // 用户为空时不更新Redis的key
-        if (adminUsers.isEmpty()) return;
-
-        // 更新Redis中用户信息
-        adminUsers.stream().filter(user -> {
-            String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(user.getUsername());
-            Object object = redisTemplate.opsForValue().get(adminLoginInfoPrefix);
-            return object != null;
-        }).forEach(user -> userFactory.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME));
-
+        roleFactory.updateUserRedisInfo(userIds);
     }
+
 
     /**
      * 删除|批量删除角色

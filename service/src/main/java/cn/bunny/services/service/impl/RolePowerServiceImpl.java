@@ -1,10 +1,17 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.dao.dto.system.rolePower.AssignPowersToRoleDto;
+import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.RolePower;
+import cn.bunny.dao.entity.system.UserRole;
+import cn.bunny.services.factory.RoleFactory;
 import cn.bunny.services.mapper.RolePowerMapper;
+import cn.bunny.services.mapper.UserMapper;
+import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.RolePowerService;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +28,14 @@ import java.util.List;
 @Service
 @Transactional
 public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower> implements RolePowerService {
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private RoleFactory roleFactory;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     /**
      * * 根据角色id获取权限内容
@@ -54,7 +69,20 @@ public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower
             rolePower.setPowerId(powerId);
             return rolePower;
         }).toList();
-
         saveBatch(rolePowerList);
+
+        // 找到所有和当前更新角色相同的用户
+        List<Long> roleIds = userRoleMapper.selectList(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getRoleId, roleId))
+                .stream().map(UserRole::getUserId).toList();
+
+        // 根据Id查找所有用户
+        List<AdminUser> adminUsers = userMapper.selectList(Wrappers.<AdminUser>lambdaQuery().in(AdminUser::getId, roleIds));
+
+        // 用户为空时不更新Redis的key
+        if (adminUsers.isEmpty()) return;
+
+        // 更新Redis中用户信息
+        List<Long> userIds = adminUsers.stream().map(AdminUser::getId).toList();
+        roleFactory.updateUserRedisInfo(userIds);
     }
 }

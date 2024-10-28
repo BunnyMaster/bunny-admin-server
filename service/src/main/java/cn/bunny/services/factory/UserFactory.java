@@ -117,9 +117,7 @@ public class UserFactory {
         Long userId = user.getId();
 
         // 判断用户是否有头像，如果没有头像设置默认头像，并且用户头像不能和默认头像相同
-        String avatar = user.getAvatar();
-        String userAvatar = UserConstant.USER_AVATAR;
-        avatar = StringUtils.hasText(avatar) && !avatar.equals(userAvatar) ? minioUtil.getObjectNameFullPath(avatar) : userAvatar;
+        String avatar = checkGetUserAvatar(user.getAvatar());
 
         // 查找用户橘色
         List<String> roles = new ArrayList<>(roleMapper.selectListByUserId(userId).stream().map(Role::getRoleCode).toList());
@@ -162,7 +160,7 @@ public class UserFactory {
      * @param avatar 头像字符串
      * @return 整理好的头像内容
      */
-    public String checkUserAvatar(String avatar) {
+    public String checkPostUserAvatar(String avatar) {
         // 如果用户没有头像或者用户头像和默认头像相同，返回默认头像
         String userAvatar = UserConstant.USER_AVATAR;
         if (!StringUtils.hasText(avatar) || avatar.equals(userAvatar)) return userAvatar;
@@ -178,6 +176,30 @@ public class UserFactory {
         // 匹配后返回内容
         return "/" + matcher.group(1);
     }
+
+    /**
+     * 检查用户头像是否合规
+     *
+     * @param avatar 头像字符串
+     * @return 整理好的头像内容
+     */
+    public String checkGetUserAvatar(String avatar) {
+        // 如果用户没有头像或者用户头像和默认头像相同，返回默认头像
+        String userAvatar = UserConstant.USER_AVATAR;
+        if (!StringUtils.hasText(avatar) || avatar.equals(userAvatar)) return userAvatar;
+
+        // 替换前端发送的host前缀，将其删除，只保留路径名称
+        String regex = "^https?://.*?/(.*)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(avatar);
+
+        // 如果没有匹配
+        if (matcher.matches()) return avatar;
+
+        // 匹配后返回内容
+        return minioUtil.getObjectNameFullPath(avatar);
+    }
+
 
     /**
      * * 设置用户登录日志内容

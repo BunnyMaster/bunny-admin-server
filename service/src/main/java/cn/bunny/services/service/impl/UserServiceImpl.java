@@ -4,7 +4,6 @@ import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.common.service.utils.ip.IpUtil;
-import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.log.UserLoginLog;
@@ -71,9 +70,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-
-    @Autowired
-    private MinioUtil minioUtil;
 
     @Autowired
     private FilesService filesService;
@@ -190,7 +186,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         UserVo userVo = new UserVo();
         BeanUtils.copyProperties(user, userVo);
 
-        if (StringUtils.hasText(avatar)) userVo.setAvatar(minioUtil.getObjectNameFullPath(avatar));
+        userVo.setAvatar(userFactory.checkGetUserAvatar(avatar));
         return userVo;
     }
 
@@ -215,14 +211,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (adminUser.getPassword().equals(md5Password))
             throw new BunnyException(ResultCodeEnum.UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD);
 
-        // 删除Redis中登录用户信息
-        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
-
         // 更新用户密码
         adminUser = new AdminUser();
         adminUser.setPassword(md5Password);
         adminUser.setId(userId);
         updateById(adminUser);
+
+        // 删除Redis中登录用户信息
+        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
     }
 
     /**
@@ -237,18 +233,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         Long userId = dto.getUserId();
 
         // 判断是否存在这个用户
-        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+        AdminUser user = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+        if (user == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 上传头像
         FileUploadDto uploadDto = FileUploadDto.builder().file(avatar).type(MinioConstant.avatar).build();
         FileInfoVo fileInfoVo = filesService.upload(uploadDto);
 
         // 更新用户
-        adminUser = new AdminUser();
+        AdminUser adminUser = new AdminUser();
         adminUser.setId(userId);
         adminUser.setAvatar(fileInfoVo.getFilepath());
         updateById(adminUser);
+
+        // 重新生成用户信息到Redis中
+        user.setAvatar(adminUser.getAvatar());
+        userFactory.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
     }
 
     /**
@@ -302,11 +302,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void updateUserStatusByAdmin(AdminUserUpdateUserStatusDto dto) {
-        AdminUser adminUser = new AdminUser();
-        adminUser.setId(dto.getUserId());
-        adminUser.setStatus(dto.getStatus());
+        Long userId = dto.getUserId();
 
+        // 更新用户Id
+        AdminUser adminUser = new AdminUser();
+        adminUser.setId(userId);
+        adminUser.setStatus(dto.getStatus());
         updateById(adminUser);
+
+        // 如果是锁定用户删除Redis中内容
+        if (dto.getStatus()) {
+            adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+            redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
+        }
     }
 
     /**
@@ -333,7 +341,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (user == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 检查用户头像
-        dto.setAvatar(userFactory.checkUserAvatar(dto.getAvatar()));
+        dto.setAvatar(userFactory.checkPostUserAvatar(dto.getAvatar()));
 
         // 更新用户
         AdminUser adminUser = new AdminUser();
@@ -367,14 +375,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         // 判断数据库中密码是否和更新用户密码相同
         if (dbPassword.equals(password)) throw new BunnyException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
 
-        // 删除Redis中登录用户信息
-        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
-
         // 更新用户密码
         adminUser = new AdminUser();
         adminUser.setId(userId);
         adminUser.setPassword(password);
         updateById(adminUser);
+
+        // 删除Redis中登录用户信息
+        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
     }
 
     /**
@@ -392,10 +400,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         List<AdminUserVo> voList = page.getRecords().stream()
                 .map(adminUser -> {
                     // 如果存在用户头像，则设置用户头像
-                    String avatar = adminUser.getAvatar();
-                    if (StringUtils.hasText(avatar)) {
-                        avatar = minioUtil.getObjectNameFullPath(avatar);
-                    }
+                    String avatar = userFactory.checkGetUserAvatar(adminUser.getAvatar());
 
                     AdminUserVo adminUserVo = new AdminUserVo();
                     BeanUtils.copyProperties(adminUser, adminUserVo);
@@ -444,33 +449,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     /**
      * 更新用户信息
+     * 如果更新了用户名需要用户重新登录，因为Redis中的key已经被删除
      *
      * @param dto 用户信息更新
      */
     @Override
     public void updateAdminUser(AdminUserUpdateDto dto) {
-        List<AdminUser> userList = list(Wrappers.<AdminUser>lambdaQuery()
-                .ne(AdminUser::getId, dto.getId())
-                .and(queryWrapper -> queryWrapper.eq(AdminUser::getEmail, dto.getEmail())
-                        .or()
-                        .eq(AdminUser::getUsername, dto.getUsername()))
-        );
-
-        // 确保邮箱和用户名不能重复
-        if (!userList.isEmpty()) {
-            throw new BunnyException(ResultCodeEnum.ALREADY_USER_EXCEPTION);
-        }
-
         // 部门Id
         Long deptId = dto.getDeptId();
         Long userId = dto.getId();
 
         // 判断更新内容是否存在
-        List<AdminUser> adminUserList = list(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-        if (adminUserList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+        if (adminUser == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+
+        // 如果更新了用户名，删除之前的用户数据
+        if (!dto.getUsername().equals(adminUser.getUsername())) {
+            String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername());
+            redisTemplate.delete(adminLoginInfoPrefix);
+        }
 
         // 更新用户
-        AdminUser adminUser = new AdminUser();
+        adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
         updateById(adminUser);
 
