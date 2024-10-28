@@ -11,7 +11,7 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 27/10/2024 22:07:06
+ Date: 28/10/2024 23:07:41
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,11 @@ CREATE TABLE `log_quartz_execute`  (
   `create_user` bigint NULL DEFAULT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '文件是否被删除',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_job_name`(`job_name` ASC) USING BTREE COMMENT '索引执行任务名称',
+  INDEX `index_job_group`(`job_group` ASC) USING BTREE COMMENT '索引执行任务分组',
+  INDEX `index_job_class_name`(`job_class_name` ASC) USING BTREE COMMENT '索引执行任务类名',
+  INDEX `index_trigger_name`(`trigger_name` ASC) USING BTREE COMMENT '索引执行任务触发器名称'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '调度任务执行日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -61,12 +65,19 @@ CREATE TABLE `log_user_login`  (
   `create_user` bigint NULL DEFAULT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否被删除',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_username`(`username` ASC) USING BTREE,
+  INDEX `index_ip_address`(`ip_address` ASC) USING BTREE,
+  INDEX `index_ip_region`(`ip_region` ASC) USING BTREE,
+  INDEX `index_user_agent`(`user_agent` ASC) USING BTREE,
+  INDEX `index_type`(`type` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户登录日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of log_user_login
 -- ----------------------------
+INSERT INTO `log_user_login` VALUES (1847356246924734465, 1, NULL, NULL, '127.0.0.1', '内网IP', NULL, 'forcedOffline', NULL, '2024-10-19 03:17:06', '2024-10-19 03:17:06', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1850914834872119297, 1850789068551200769, 'i18n', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_y2MQQrDMAwE_6JzDJIdWXKOvfUZju1CCjWlqaGl5O_RocfZYecH-1hhgcvo_QsTtM8TFpKAErznNMHY2-tabVNG0YRRmckjSvzLnh_NAhtpt__9vRlEyjPzLbtUQnUzNna5VnSFdC1GhVjgOAHUiff3fAAAAA.Ak1rX0f7zrEuuNj9Dqkgqq0J-A1y77Iie2J2ytgfRpA', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-10-28 22:57:40', '2024-10-28 22:57:40', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -232,7 +243,8 @@ CREATE TABLE `qrtz_schedulers_group`  (
   `create_user` bigint NOT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否删除',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `unique_group_name`(`group_name` ASC) USING BTREE COMMENT '分组名称需要唯一'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '任务调度分组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -335,14 +347,16 @@ CREATE TABLE `sys_dept`  (
   `id` bigint NOT NULL COMMENT '唯一id',
   `parent_id` bigint NOT NULL DEFAULT 0 COMMENT '父级id',
   `manager` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '管理者id',
-  `dept_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '部门名称',
-  `summary` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '部门简介',
+  `dept_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '部门名称',
+  `summary` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '部门简介',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_user` bigint NOT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否删除',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_dept_name`(`dept_name` ASC) USING BTREE,
+  INDEX `index_summary`(`summary` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -351,7 +365,6 @@ CREATE TABLE `sys_dept`  (
 INSERT INTO `sys_dept` VALUES (1842844360640327682, 0, '梁子异,彭秀英,戴子韬,曾致远', '山东总公司', '山东总公司', '2024-10-06 16:28:29', '2024-10-06 19:41:21', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1842874908557541377, 1842844360640327682, 'bunny,史安琪,邱致远,秦詩涵', '深圳分公司', '深圳分公司', '2024-10-06 18:29:52', '2024-10-06 19:10:47', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1842877591473455106, 1842844360640327682, '程嘉伦,武嘉伦,孙震南', '郑州分公司', '郑州分公司', '2024-10-06 18:40:31', '2024-10-06 19:02:27', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1842882951345197057, 1842874908557541377, '彭致远,彭秀英,冯宇宁,黎子韬', '财务部门', '财务部门', '2024-10-06 19:01:49', '2024-10-09 10:40:22', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1842883239493881857, 1842877591473455106, '于致远,曹致远,李璐,戴子韬', '研发部门', '研发部门', '2024-10-06 19:02:58', '2024-10-06 19:02:58', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1842885275601981441, 1842874908557541377, '宋宇宁,彭秀英,刘子韬', '市场部门', '市场部门', '2024-10-06 19:11:04', '2024-10-06 19:11:04', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1842885316358033409, 1842877591473455106, '宋宇宁,曾致远,刘子韬', '财务部门', '财务部门', '2024-10-06 19:11:13', '2024-10-09 10:38:35', 1, 1, 0);
@@ -359,11 +372,16 @@ INSERT INTO `sys_dept` VALUES (1842885375015374850, 1842877591473455106, '冯宇
 INSERT INTO `sys_dept` VALUES (1842885831187877890, 1842877591473455106, '龚岚,杜安琪,李子异,彭睿,宋宇宁,bunny', '运维部门', '运维部门', '2024-10-06 19:13:16', '2024-10-06 19:13:16', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1849676669473886209, 1842874908557541377, 'password,Administrator,bunny', '测试部门', '测试部门', '2024-10-25 12:57:38', '2024-10-25 12:57:46', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1849676767842897921, 1842874908557541377, 'Administrator', '研发部门', '研发部门', '2024-10-25 12:58:01', '2024-10-25 12:58:01', 1, 1, 0);
-INSERT INTO `sys_dept` VALUES (1850077538510016514, 1842844360640327682, 'Administrator', '江阴公司', '江阴公司', '2024-10-26 15:30:33', '2024-10-26 15:32:06', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850077538510016514, 1842844360640327682, 'Administrator', '江阴分公司', '江阴分公司', '2024-10-26 15:30:33', '2024-10-28 10:18:02', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1850077710275153922, 1850077538510016514, 'Administrator,bunny', '运维部门', '运维部门', '2024-10-26 15:31:14', '2024-10-26 15:31:14', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1850077827405287425, 1842874908557541377, 'Administrator,bunny', '运维部门', '运维部门', '2024-10-26 15:31:41', '2024-10-26 15:31:41', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1850077890558922754, 1850077538510016514, 'Administrator,password,system', '测试部门', '测试部门', '2024-10-26 15:31:57', '2024-10-26 15:31:57', 1, 1, 0);
 INSERT INTO `sys_dept` VALUES (1850078051901214722, 1850077538510016514, 'Administrator,bunny', '系统研发部', '系统研发部', '2024-10-26 15:32:35', '2024-10-26 15:32:35', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850723783395688450, 1842844360640327682, 'Administrator', '淮安分公司', '淮安分公司', '2024-10-28 10:18:29', '2024-10-28 10:18:29', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850723925309964289, 1850723783395688450, 'Administrator', '研发部门', '研发部门', '2024-10-28 10:19:03', '2024-10-28 10:19:03', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850723973024366594, 1850723783395688450, 'Administrator', '测试部门', '测试部门', '2024-10-28 10:19:15', '2024-10-28 10:19:15', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850724041672540161, 1850723783395688450, 'Administrator', '运维部门', '运维部门', '2024-10-28 10:19:31', '2024-10-28 10:19:31', 1, 1, 0);
+INSERT INTO `sys_dept` VALUES (1850724090196443138, 1850723783395688450, 'Administrator', '采购部门', '采购部门', '2024-10-28 10:19:43', '2024-10-28 10:19:43', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_email_template
@@ -371,19 +389,20 @@ INSERT INTO `sys_dept` VALUES (1850078051901214722, 1850077538510016514, 'Admini
 DROP TABLE IF EXISTS `sys_email_template`;
 CREATE TABLE `sys_email_template`  (
   `id` bigint NOT NULL COMMENT '唯一id',
-  `template_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '模板名称',
+  `template_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模板名称',
   `email_user` bigint NULL DEFAULT NULL COMMENT '关联邮件用户配置',
-  `subject` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '主题',
-  `body` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '邮件内容',
-  `type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '邮件类型',
+  `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主题',
+  `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '邮件内容',
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮件类型',
   `is_default` tinyint(1) NULL DEFAULT 0 COMMENT '是否默认',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_user` bigint NOT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '邮件模板表' ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `unique_template_name`(`template_name` ASC) USING BTREE COMMENT '模板名称不能重复'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '邮件模板表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_email_template
@@ -396,27 +415,25 @@ INSERT INTO `sys_email_template` VALUES (1791870020197625858, 'email-1', 2, '邮
 DROP TABLE IF EXISTS `sys_email_users`;
 CREATE TABLE `sys_email_users`  (
   `id` bigint NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '邮箱',
-  `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '密码',
-  `host` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'Host地址',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '邮箱',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密码',
+  `host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'Host地址',
   `port` int NOT NULL COMMENT '端口号',
-  `smtp_agreement` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '邮箱协议',
+  `smtp_agreement` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱协议',
   `is_default` tinyint NULL DEFAULT NULL COMMENT '是否为默认邮件',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_user` bigint NOT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '更新用户',
   `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否被删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '邮箱发送表' ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `unique_email`(`email` ASC) USING BTREE COMMENT '邮箱不能重复'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '邮箱发送表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_email_users
 -- ----------------------------
-INSERT INTO `sys_email_users` VALUES (1, '3@qq.com', 'fdehkkbmavalcjea', 'smtp.qq.com', 465, 'smtps', 0, '2024-05-14 18:43:50', '2024-10-19 19:19:34', 0, 1, 0);
-INSERT INTO `sys_email_users` VALUES (2, '3324855376@qq.com', 'fdehkkbmavalcjea', 'smtp.qq.com', 465, 'smtps', 1, '2024-05-14 18:43:50', '2024-10-19 19:19:34', 0, 1, 0);
-INSERT INTO `sys_email_users` VALUES (3, '2@qq.com', 'fdehkkbmavalcjea', 'smtp.qq.com', 465, 'smtps', 0, '2024-05-14 18:43:50', '2024-10-19 19:19:34', 0, 1, 0);
-INSERT INTO `sys_email_users` VALUES (1662369791, '1@qq.com', 'fdehkkbmavalcjea', 'smtp.qq.com', 465, 'smtps', 0, '2024-05-14 18:43:50', '2024-10-19 19:19:34', 0, 1, 0);
+INSERT INTO `sys_email_users` VALUES (2, '3324855376@qq.com', 'fdehkkbmavalcjea', 'smtp.qq.com', 465, 'smtps', 1, '2024-05-14 18:43:50', '2024-10-28 09:57:10', 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_files
@@ -424,28 +441,29 @@ INSERT INTO `sys_email_users` VALUES (1662369791, '1@qq.com', 'fdehkkbmavalcjea'
 DROP TABLE IF EXISTS `sys_files`;
 CREATE TABLE `sys_files`  (
   `id` bigint NOT NULL COMMENT '文件的唯一标识符，自动递增',
-  `filename` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '文件的名称',
-  `filepath` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '文件在服务器上的存储路径',
+  `filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件的名称',
+  `filepath` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件在服务器上的存储路径',
   `file_size` int NOT NULL COMMENT '文件的大小，以字节为单位',
-  `file_type` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件的MIME类型',
+  `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '文件的MIME类型',
   `download_count` int NULL DEFAULT 0 COMMENT '下载数量',
   `create_user` bigint NOT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录文件最后修改的时间戳',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '文件是否被删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '系统文件表' ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_filename`(`filename` ASC) USING BTREE COMMENT '索引文件名',
+  INDEX `index_filepath`(`filepath` ASC) USING BTREE COMMENT '索引文件路径'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统文件表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_files
 -- ----------------------------
-INSERT INTO `sys_files` VALUES (1848621329971597313, 'avatar', '/auth-admin/avatar/2024/10-22/c7a54c39-fb60-4a7b-a4e9-4379068d6d57', 16573, 'application/octet-stream', 0, 1, 1, '2024-10-22 15:04:05', '2024-10-22 15:04:05', 0);
-INSERT INTO `sys_files` VALUES (1848626424947855362, 'avatar', '/auth-admin/avatar/2024/10-22/3480af29-81f6-4640-a627-c66b9e6b3d11', 23279, 'application/octet-stream', 0, 1, 1, '2024-10-22 15:24:20', '2024-10-22 15:24:20', 0);
-INSERT INTO `sys_files` VALUES (1848626761318453249, 'avatar', '/auth-admin/avatar/2024/10-22/54608106-2d2c-4714-8ddf-f2c5affb995e', 23342, 'application/octet-stream', 0, 1, 1, '2024-10-22 15:25:40', '2024-10-22 15:25:40', 0);
-INSERT INTO `sys_files` VALUES (1848627027522539522, 'avatar', '/auth-admin/avatar/2024/10-22/a9f1794e-610a-471d-8f4f-75c8c738ef46', 16573, 'application/octet-stream', 0, 1, 1, '2024-10-22 15:26:44', '2024-10-22 15:26:44', 0);
-INSERT INTO `sys_files` VALUES (1849680516304965634, 'avatar', '/auth-admin/avatar/2024/10-25/ebfe09f4-600f-4e85-a2c4-5d71bc341de4', 16573, 'application/octet-stream', 0, 1, 1, '2024-10-25 13:12:55', '2024-10-25 13:12:55', 0);
-INSERT INTO `sys_files` VALUES (1849681399784771586, 'blob', '/auth-admin/avatar/2024/10-25/8894ef6f-6206-4cc8-b2c9-595139f4f5f8', 15226, 'image/png', 0, 1, 1, '2024-10-25 13:16:26', '2024-10-25 13:16:26', 0);
+INSERT INTO `sys_files` VALUES (1850815395404636161, 'blob', '/auth-admin/avatar/2024/10-28/0aa0895b-c747-47d4-b36f-d6b6e924650b', 16491, 'image/png', 0, 1, 1, '2024-10-28 16:22:31', '2024-10-28 16:22:31', 0);
+INSERT INTO `sys_files` VALUES (1850815469979361281, 'blob', '/auth-admin/avatar/2024/10-28/70b4202c-7c80-43bf-a9e4-9afa3e265143', 13918, 'image/png', 0, 1, 1, '2024-10-28 16:22:49', '2024-10-28 16:22:49', 0);
+INSERT INTO `sys_files` VALUES (1850816635987517442, 'blob', '/auth-admin/avatar/2024/10-28/948354db-60bc-402a-b38b-025927125dd0', 13918, 'image/png', 0, 1, 1, '2024-10-28 16:27:27', '2024-10-28 16:27:27', 0);
+INSERT INTO `sys_files` VALUES (1850817107108507650, 'blob', '/auth-admin/avatar/2024/10-28/bfba8645-21a1-4254-8f90-c47a36e4df83', 19542, 'image/png', 0, 1, 1, '2024-10-28 16:29:20', '2024-10-28 16:29:20', 0);
+INSERT INTO `sys_files` VALUES (1850817540879233025, 'avatar', '/auth-admin/avatar/2024/10-28/d342d395-5218-49dd-bdeb-1af839e1c15e', 19517, 'application/octet-stream', 0, 1850075157831454722, 1850075157831454722, '2024-10-28 16:31:03', '2024-10-28 16:31:03', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n
@@ -461,13 +479,16 @@ CREATE TABLE `sys_i18n`  (
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录文件最后修改的时间戳',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '文件是否被删除',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_key_name`(`key_name` ASC) USING BTREE,
+  INDEX `index_translation`(`translation` ASC) USING BTREE,
+  INDEX `index_type_name`(`type_name` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '多语言表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_i18n
 -- ----------------------------
-INSERT INTO `sys_i18n` VALUES (1840622816000196609, 'menus.pureSuccess', '成功页面', 'zh', 1, 1, '2024-10-24 15:33:31', '2024-09-30 21:20:51', 0);
+INSERT INTO `sys_i18n` VALUES (1840622816000196609, 'menus.pureSuccess', '成功页面', 'zh', 1, 1, '2024-10-28 22:28:26', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622816000196610, 'menus.pureInfiniteScroll', '表格无限滚动', 'zh', 1, 1, '2024-10-24 19:18:35', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622816000196611, 'menus.pureSplitPane', '切割面板', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622816000196612, 'menus.pureDownload', '下载', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
@@ -1517,6 +1538,10 @@ INSERT INTO `sys_i18n` VALUES (1850538229314187265, 'clearAllRolesSelectTip', '�
 INSERT INTO `sys_i18n` VALUES (1850538260247179265, 'clearAllRolesSelectTip', 'This ACTION WILL CLEAR THE ASSIGNED MENU ROLES, AND IF IT IS CONFIRMED THAT THIS action is not recoverable, THE assigned ROLES under the MENU will also BE CLEARED!!', 'en', 1, 1, '2024-10-27 22:01:17', '2024-10-27 22:01:17', 0);
 INSERT INTO `sys_i18n` VALUES (1850538413012119553, 'doubleCheck', '再次确认是否继续？！', 'zh', 1, 1, '2024-10-27 22:01:54', '2024-10-27 22:01:54', 0);
 INSERT INTO `sys_i18n` VALUES (1850538424236077057, 'doubleCheck', 'Reconfirm whether to proceed? !', 'en', 1, 1, '2024-10-27 22:01:56', '2024-10-27 22:01:56', 0);
+INSERT INTO `sys_i18n` VALUES (1850725393391861762, 'formatError', '格式错误', 'zh', 1, 1, '2024-10-28 10:24:53', '2024-10-28 10:24:53', 0);
+INSERT INTO `sys_i18n` VALUES (1850725445812273154, 'formatError', 'format error', 'en', 1, 1, '2024-10-28 10:25:06', '2024-10-28 10:25:06', 0);
+INSERT INTO `sys_i18n` VALUES (1850726499895394305, 'inputRequestUrlTip', '请求URL需要以 \'/\' 开头', 'zh', 1, 1, '2024-10-28 10:31:21', '2024-10-28 10:29:17', 0);
+INSERT INTO `sys_i18n` VALUES (1850726525979770881, 'inputRequestUrlTip', 'The request URL needs to start with /', 'en', 1, 1, '2024-10-28 10:29:23', '2024-10-28 10:29:23', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n_type
@@ -1554,8 +1579,9 @@ CREATE TABLE `sys_menu_icon`  (
   `create_user` bigint NOT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint NULL DEFAULT 0 COMMENT '是否删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统菜单图标' ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `unique_icon_code`(`icon_code` ASC) USING BTREE COMMENT '图标code不能重复'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '图标code不能重复' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu_icon
@@ -1577,7 +1603,7 @@ INSERT INTO `sys_menu_icon` VALUES (1837132323981377537, 'clarity:language-solid
 INSERT INTO `sys_menu_icon` VALUES (1837132606656495617, 'carbon:router', '路由', '2024-09-20 22:12:00', '2024-10-05 19:23:20', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1841516265060802562, 'ion:albums-outline', '轮播图', '2024-10-03 00:31:06', '2024-10-05 20:51:50', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1843935459918163970, 'line-md:file-filled', '文件管理', '2024-10-09 16:44:07', '2024-10-09 16:44:07', 1, 1, 0);
-INSERT INTO `sys_menu_icon` VALUES (1844291727040147458, 'fluent-mdl2:chart-template', '邮箱模板', '2024-10-10 16:19:48', '2024-10-10 16:19:48', 1, 1, 0);
+INSERT INTO `sys_menu_icon` VALUES (1844291727040147458, 'fluent-mdl2:chart-template', '模板', '2024-10-10 16:19:48', '2024-10-28 10:09:44', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1844660350732599297, 'carbon:cloud-monitoring', '系统监控', '2024-10-11 16:44:34', '2024-10-11 16:44:34', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1844660527954526209, 'bxs:server', '服务', '2024-10-11 16:45:17', '2024-10-11 16:45:17', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1844903931720433665, 'hugeicons:configuration-01', '系统配置', '2024-10-12 08:52:29', '2024-10-12 08:52:29', 1, 1, 0);
@@ -1604,7 +1630,6 @@ INSERT INTO `sys_menu_icon` VALUES (1847144521539502081, 'ph:log-bold', '日志'
 INSERT INTO `sys_menu_icon` VALUES (1848233211644801026, 'ph:clock-user', '用户', '2024-10-21 13:21:51', '2024-10-21 13:21:51', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1848233345497624578, 'eos-icons:cronjob', '任务', '2024-10-21 13:22:23', '2024-10-21 13:22:23', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1848991874416324610, 'octicon:cache-16', '缓存', '2024-10-23 15:36:30', '2024-10-23 15:36:30', 1, 1, 0);
-INSERT INTO `sys_menu_icon` VALUES (1849000783751360513, 'logos:webstorm', 'web', '2024-10-23 16:11:54', '2024-10-23 16:11:54', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1849278944816918529, 'vscode-icons:file-type-jsconfig', '配置', '2024-10-24 10:37:13', '2024-10-24 10:37:13', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1849677540270116865, 'mingcute:web-fill', 'web', '2024-10-25 13:01:06', '2024-10-25 13:01:06', 1, 1, 0);
 INSERT INTO `sys_menu_icon` VALUES (1849677639935168514, 'mingcute:server-fill', 'server', '2024-10-25 13:01:29', '2024-10-25 13:01:29', 1, 1, 0);
@@ -1616,16 +1641,16 @@ DROP TABLE IF EXISTS `sys_power`;
 CREATE TABLE `sys_power`  (
   `id` bigint NOT NULL COMMENT '权限ID',
   `parent_id` bigint NULL DEFAULT NULL COMMENT '父级id',
-  `power_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '权限编码',
-  `power_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '权限名称',
-  `request_url` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '请求路径',
+  `power_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '权限编码',
+  `power_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '权限名称',
+  `request_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '请求路径',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_user` bigint NULL DEFAULT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '更新用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '系统权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_power
@@ -1743,7 +1768,7 @@ INSERT INTO `sys_power` VALUES (1849466495743913986, 18, 'userLoginLog::deleteUs
 INSERT INTO `sys_power` VALUES (1849466495798439937, 19, 'quartzExecuteLog::getQuartzExecuteLogList', '分页查询调度任务执行日志', '/admin/quartzExecuteLog/getQuartzExecuteLogList/.*', '2024-10-24 23:02:29', '2024-10-24 23:02:29', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1849466495844577282, 19, 'quartzExecuteLog::deleteQuartzExecuteLog', '删除调度任务执行日志', '/admin/quartzExecuteLog/deleteQuartzExecuteLog', '2024-10-24 23:02:29', '2024-10-24 23:02:29', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1849471636643618818, 0, 'admin::actuator', 'actuator端点访问', '', '2024-10-24 23:22:54', '2024-10-24 23:22:54', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1849471846698557442, 1849471636643618818, 'actuator::all', '端点全部可以访问', '/admin/actuator/**', '2024-10-24 23:23:44', '2024-10-24 23:23:44', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1849471846698557442, 1849471636643618818, 'actuator::all', 'Springboot端点全部可以访问', '/admin/actuator/**', '2024-10-24 23:23:44', '2024-10-28 10:32:27', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1850074578325442562, 4, 'router::clearAllRolesSelect', '清除选中菜单所有角色', '/admin/routerRole/clearAllRolesSelect', '2024-10-26 15:18:47', '2024-10-26 15:18:47', 1, 1, 0);
 
 -- ----------------------------
@@ -1752,25 +1777,25 @@ INSERT INTO `sys_power` VALUES (1850074578325442562, 4, 'router::clearAllRolesSe
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`  (
   `id` bigint NOT NULL,
-  `role_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '角色代码',
-  `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `role_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色代码',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '描述',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_user` bigint NOT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '系统角色表' ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `unique_role_code`(`role_code` ASC) USING BTREE COMMENT '角色码不能重复'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, 'admin', '管理员用户', '2024-05-17 15:09:34', '2024-05-17 15:09:34', 0, 4, 0);
-INSERT INTO `sys_role` VALUES (1838499178568450050, 'fuzhu', '辅助', '2024-09-24 16:42:16', '2024-09-24 16:42:16', 1, 1, 0);
-INSERT INTO `sys_role` VALUES (1838835872391942145, 'common', '公共权限', '2024-09-25 15:00:11', '2024-09-25 15:00:11', 1, 1, 0);
-INSERT INTO `sys_role` VALUES (1849447127379210241, 'test', '测试用户角色', '2024-10-24 21:45:31', '2024-10-24 21:45:31', 1, 1, 0);
+INSERT INTO `sys_role` VALUES (1849447127379210241, 'all_page', '可见所有页面', '2024-10-24 21:45:31', '2024-10-28 14:33:53', 1, 1, 0);
 INSERT INTO `sys_role` VALUES (1850075282767187970, 'system', '系统配置角色', '2024-10-26 15:21:35', '2024-10-26 15:21:35', 1, 1, 0);
 INSERT INTO `sys_role` VALUES (1850080441735942146, 'timing', '定时任务角色', '2024-10-26 15:42:05', '2024-10-26 15:42:05', 1, 1, 0);
+INSERT INTO `sys_role` VALUES (1850787961993142273, 'i18n', 'i18n角色', '2024-10-28 14:33:31', '2024-10-28 22:55:22', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_role_power
@@ -1786,7 +1811,7 @@ CREATE TABLE `sys_role_power`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '更新用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '系统角色权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统角色权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_power
@@ -1900,6 +1925,125 @@ INSERT INTO `sys_role_power` VALUES (1850091236330934315, 1850075282767187970, 1
 INSERT INTO `sys_role_power` VALUES (1850091236330934316, 1850075282767187970, 1849466494544343041, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
 INSERT INTO `sys_role_power` VALUES (1850091236330934317, 1850075282767187970, 1849466494712115202, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
 INSERT INTO `sys_role_power` VALUES (1850091236330934318, 1850075282767187970, 1849466493629984770, '2024-10-26 16:24:58', '2024-10-26 16:24:58', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994972954625, 1, 1, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994981343234, 1, 1849466492778541058, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994981343235, 1, 1849466492845649922, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994985537537, 1, 1849466492875010049, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994985537538, 1, 1849466492904370177, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994985537539, 1, 1849466492942118914, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994985537540, 1, 1849466492967284737, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994985537541, 1, 1849466493000839169, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994985537542, 1, 1849466493026004993, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994985537543, 1, 1849466493055365121, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994985537544, 1, 1849466493080530945, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994993926145, 1, 1849466493101502465, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994993926146, 1, 1849466493126668290, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994993926147, 1, 1849466493147639809, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994993926148, 1, 1849466493168611330, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787994993926149, 1, 2, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995006509058, 1, 1849466493218942977, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995006509059, 1, 1849466493256691714, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995006509060, 1, 1849466493281857538, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995006509061, 1, 1849466493307023361, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995006509062, 1, 1849466493323800577, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995006509063, 1, 3, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995006509064, 1, 1849466493365743618, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995006509065, 1, 1849466493403492353, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995006509066, 1, 1849466493424463873, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897666, 1, 1849466493441241089, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897667, 1, 1849466493466406914, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897668, 1, 1849466493483184129, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897669, 1, 4, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897670, 1, 1849466493525127169, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897671, 1, 1849466493567070210, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897672, 1, 1849466493583847426, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897673, 1, 1849466493604818946, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897674, 1, 1849466493629984770, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995014897675, 1, 1849466493663539202, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091970, 1, 1850074578325442562, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091971, 1, 5, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091972, 1, 1849466493709676545, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091973, 1, 1849466493747425282, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091974, 1, 1849466493768396801, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091975, 1, 1849466493789368321, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091976, 1, 1849466493814534145, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091977, 1, 6, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091978, 1, 1849466493852282882, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091979, 1, 1849466493890031617, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995019091980, 1, 1849466493915197441, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995023286273, 1, 1849466493936168961, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995023286274, 1, 1849466493952946177, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995023286275, 1, 1849466493978112002, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995023286276, 1, 7, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995023286277, 1, 1849466494024249345, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995023286278, 1, 1849466494061998082, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995023286279, 1, 1849466494087163905, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995023286280, 1, 1849466494108135425, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995027480577, 1, 1849466494133301250, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995027480578, 1, 8, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995027480579, 1, 1849466494166855682, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995027480580, 1, 1849466494246547457, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995027480581, 1, 1849466494280101890, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995027480582, 1, 9, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995027480583, 1, 1849466494334627841, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995027480584, 1, 1849466494372376578, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869185, 1, 1849466494389153793, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869186, 1, 1849466494410125313, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869187, 1, 1849466494431096833, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869188, 1, 10, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869189, 1, 1849466494481428482, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869190, 1, 1849466494544343041, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869191, 1, 1849466494582091777, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869192, 1, 1849466494615646210, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869193, 1, 1849466494640812034, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869194, 1, 1849466494665977858, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869195, 1, 1849466494686949377, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869196, 1, 1849466494712115202, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869197, 1, 1849466494733086721, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869198, 1, 11, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869199, 1, 1849466494779224066, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995035869200, 1, 1849466494825361409, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257794, 1, 1849466494846332930, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257795, 1, 1849466494867304450, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257796, 1, 1849466494892470273, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257797, 1, 1849466494913441794, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257798, 1, 12, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257799, 1, 1849466494972162050, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257800, 1, 1849466495009910786, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257801, 1, 1849466495035076610, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257802, 1, 1849466495056048129, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257803, 1, 1849466495077019649, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257804, 1, 13, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257805, 1, 1849466495118962689, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257806, 1, 1849466495160905730, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257807, 1, 1849466495181877250, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257808, 1, 1849466495202848770, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257809, 1, 1849466495223820290, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257810, 1, 14, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257811, 1, 1849466495269957633, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257812, 1, 1849466495311900673, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257813, 1, 15, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995044257814, 1, 1849466495358038018, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646401, 1, 1849466495404175361, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646402, 1, 16, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646403, 1, 1849466495450312705, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646404, 1, 1849466495492255745, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646405, 1, 17, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646406, 1, 1849466495555170305, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646407, 1, 1849466495609696258, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646408, 1, 18, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646409, 1, 1849466495668416514, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646410, 1, 1849466495714553858, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646411, 1, 1849466495743913986, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646412, 1, 19, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646413, 1, 1849466495798439937, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646414, 1, 1849466495844577282, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646415, 1, 1849471636643618818, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850787995052646416, 1, 1849471846698557442, '2024-10-28 14:33:39', '2024-10-28 14:33:39', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850914341580025858, 1850787961993142273, 1849466494372376578, '2024-10-28 22:55:42', '2024-10-28 22:55:42', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850914341580025859, 1850787961993142273, 1849466494389153793, '2024-10-28 22:55:42', '2024-10-28 22:55:42', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850914341580025860, 1850787961993142273, 1849466494410125313, '2024-10-28 22:55:42', '2024-10-28 22:55:42', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1850914341580025861, 1850787961993142273, 1849466494246547457, '2024-10-28 22:55:42', '2024-10-28 22:55:42', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_router
@@ -1991,9 +2135,6 @@ INSERT INTO `sys_router_role` VALUES (1850079128356753416, 1843932804747603970, 
 INSERT INTO `sys_router_role` VALUES (1850079128356753417, 1847291834822123521, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079128356753418, 1847140225619992577, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079128356753419, 1848989760243838978, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850079128356753423, 1841716459123634177, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850079128356753424, 1840211412516524034, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850079128356753425, 1840292695145963522, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079128356753426, 1841796585525985281, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079128356753427, 1844956874037469185, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079128356753428, 1841794929635635201, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
@@ -2005,15 +2146,9 @@ INSERT INTO `sys_router_role` VALUES (1850079128356753433, 1844957830590468097, 
 INSERT INTO `sys_router_role` VALUES (1850079128356753434, 1844958437262987265, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079128356753435, 1844958660366405634, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079128356753436, 1844958872170369025, 1849447127379210241, '2024-10-26 15:36:52', '2024-10-26 15:36:52', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850079378958028802, 1, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850079378958028803, 2, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850079378958028804, 1841803086252548097, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079378962223106, 1841726844983701505, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079378962223107, 1841750734275416065, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079378962223108, 1842033245832458241, 1849447127379210241, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850079378962223109, 1, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850079378962223110, 2, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850079378962223111, 1841803086252548097, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079378962223112, 1841726844983701505, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079378962223113, 1841750734275416065, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079378962223114, 1842033245832458241, 1850075282767187970, '2024-10-26 15:37:51', '2024-10-26 15:37:51', 1, 1, 0);
@@ -2028,11 +2163,26 @@ INSERT INTO `sys_router_role` VALUES (1850079866671697923, 1844276961265557505, 
 INSERT INTO `sys_router_role` VALUES (1850079866671697924, 1844290948342456321, 1850075282767187970, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850079866671697925, 1849000501604724738, 1850075282767187970, '2024-10-26 15:39:48', '2024-10-26 15:39:48', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850080539471613954, 1846804024660791298, 1849447127379210241, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850080539471613955, 1845812113861079042, 1849447127379210241, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850080539471613956, 1846166163060285441, 1849447127379210241, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1850080539471613957, 1846804024660791298, 1850080441735942146, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850080539471613958, 1845812113861079042, 1850080441735942146, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1850080539471613959, 1846166163060285441, 1850080441735942146, '2024-10-26 15:42:28', '2024-10-26 15:42:28', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850797912027242498, 1, 1849447127379210241, '2024-10-28 15:13:03', '2024-10-28 15:13:03', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850797912027242499, 1, 1850075282767187970, '2024-10-28 15:13:03', '2024-10-28 15:13:03', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850797912035631106, 1, 1850787961993142273, '2024-10-28 15:13:03', '2024-10-28 15:13:03', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914595020845057, 1840211412516524034, 1849447127379210241, '2024-10-28 22:56:42', '2024-10-28 22:56:42', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914595020845058, 1840211412516524034, 1850787961993142273, '2024-10-28 22:56:42', '2024-10-28 22:56:42', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914618836103170, 1840292695145963522, 1849447127379210241, '2024-10-28 22:56:48', '2024-10-28 22:56:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914618836103171, 1840292695145963522, 1850080441735942146, '2024-10-28 22:56:48', '2024-10-28 22:56:48', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914656207351809, 1845812113861079042, 1849447127379210241, '2024-10-28 22:56:57', '2024-10-28 22:56:57', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914656207351810, 1845812113861079042, 1850080441735942146, '2024-10-28 22:56:57', '2024-10-28 22:56:57', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914656207351811, 1845812113861079042, 1850787961993142273, '2024-10-28 22:56:57', '2024-10-28 22:56:57', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914672015683586, 1846166163060285441, 1849447127379210241, '2024-10-28 22:57:01', '2024-10-28 22:57:01', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914672015683587, 1846166163060285441, 1850080441735942146, '2024-10-28 22:57:01', '2024-10-28 22:57:01', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914672015683588, 1846166163060285441, 1850787961993142273, '2024-10-28 22:57:01', '2024-10-28 22:57:01', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914731696435202, 2, 1849447127379210241, '2024-10-28 22:57:15', '2024-10-28 22:57:15', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914731696435203, 2, 1850075282767187970, '2024-10-28 22:57:15', '2024-10-28 22:57:15', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914747806756866, 1841803086252548097, 1849447127379210241, '2024-10-28 22:57:19', '2024-10-28 22:57:19', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914747806756867, 1841803086252548097, 1850075282767187970, '2024-10-28 22:57:19', '2024-10-28 22:57:19', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914935376031745, 1841716459123634177, 1849447127379210241, '2024-10-28 22:58:04', '2024-10-28 22:58:04', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1850914935376031746, 1841716459123634177, 1850787961993142273, '2024-10-28 22:58:04', '2024-10-28 22:58:04', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -2057,20 +2207,19 @@ CREATE TABLE `sys_user`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `key_email`(`email` ASC) USING BTREE
+  UNIQUE INDEX `unique_username`(`username` ASC) USING BTREE COMMENT '用户名不能重复',
+  UNIQUE INDEX `unique_email`(`email` ASC) USING BTREE COMMENT '邮箱不能重复'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '123456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-25/ebfe09f4-600f-4e85-a2c4-5d71bc341de4', 1, 'admin', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-24 21:35:03', '2024-10-26 15:29:19', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1842091082096930817, 'password', 'password', 'password@qq.com', '123456', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-19/9642c319-70b5-45b3-a7ed-a816fcd2092c', 0, 'passwordpasswordpassword', NULL, NULL, 0, '2024-10-04 14:35:13', '2024-10-27 22:06:49', 1, 1, 1);
-INSERT INTO `sys_user` VALUES (1843477994034401281, '测试', '测试', '测试@qq.com', '测试', '4061863caf7f28c0b0346719e764d561', '/auth-admin/avatar/2024/10-19/da185724-906d-4f48-aaf5-4bbefd86f58e', 0, '密码：test111', NULL, NULL, 1, '2024-10-08 10:26:19', '2024-10-27 22:06:49', 1, 1, 1);
-INSERT INTO `sys_user` VALUES (1843908587394150402, '啊啊啊', '啊啊啊1', '啊啊啊@qq.com', '2312312321', '482c16596d980531425b8592c4a6a540', '/auth-admin/avatar/2024/10-19/445fa7f4-a165-46ec-8ea2-e4d00dd1b790', 0, '这个人很懒,没有介绍，密码：2312312321', NULL, NULL, 0, '2024-10-09 14:57:20', '2024-10-27 22:06:49', 1, 1, 1);
-INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-19/d1e47ae9-9ca9-4ec5-a3d0-7208537e4df4', 0, '密码：admin123', '223.160.187.224', '北京,北京市 广电', 0, '2024-09-26 14:29:33', '2024-10-27 21:51:47', 0, 1849444494908125181, 0);
-INSERT INTO `sys_user` VALUES (1849681227633758210, 'Operation', '定时任务和系统配置', 'Operation@qq.com', '6666666666666666', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-25/8894ef6f-6206-4cc8-b2c9-595139f4f5f8', 0, '能看到定时任务和系统配置页面，密码：admin123', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-25 13:15:45', NULL, 1, NULL, 0);
-INSERT INTO `sys_user` VALUES (1850075157831454722, 'system', '只能看到系统配置用户', 'system@Gmail.com', '12456789', '0192023a7bbd73250516f069df18b500', NULL, 0, '只能看到系统设置内容页面，密码：admin123', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-26 15:21:05', '2024-10-26 15:53:39', 1, 1850075157831454722, 0);
+INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/47d789ef-9778-4d72-86b1-e7b4a48a3f70', 0, '密码：admin123', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', NULL, 0, NULL, 0);
+INSERT INTO `sys_user` VALUES (1849681227633758210, 'Operation', '定时任务和系统配置', 'Operation@qq.com', '18012062876', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/6eedb771-158e-4c0a-8984-0dc7e7358cc7', 0, '能看到定时任务和系统配置页面，密码：admin123', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-25 13:15:45', '2024-10-28 16:16:05', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1850075157831454722, 'system', '只能看到系统配置用户1', 'system@Gmail.com', '12456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/d342d395-5218-49dd-bdeb-1af839e1c15e', 0, '只能看到系统设置1内容页面，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-26 15:21:05', '2024-10-28 16:31:35', 1, 1850075157831454722, 0);
 INSERT INTO `sys_user` VALUES (1850080272764211202, 'timing', '定时任务', 'timing@163.com', '212122', '0192023a7bbd73250516f069df18b500', NULL, 0, '只能看到定时任务页面，密码：admin123', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-26 15:41:25', '2024-10-26 15:47:00', 1, 1850080272764211202, 0);
+INSERT INTO `sys_user` VALUES (1850789068551200769, 'i18n', 'i18n', 'i18n@qq.com', '18012345678', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/bfba8645-21a1-4254-8f90-c47a36e4df83', 1, '可见i18n，定时任务，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-28 14:37:55', '2024-10-28 22:57:40', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
@@ -2092,11 +2241,11 @@ CREATE TABLE `sys_user_dept`  (
 -- Records of sys_user_dept
 -- ----------------------------
 INSERT INTO `sys_user_dept` VALUES (1849443729225383937, 1, 1842883239493881857, '2024-10-24 21:32:01', '2024-10-24 21:32:01', 1, 1, 0);
-INSERT INTO `sys_user_dept` VALUES (1849444494908125186, 1849444494908125185, 1842882951345197057, '2024-10-24 21:35:03', '2024-10-24 21:35:03', 1, 1, 0);
 INSERT INTO `sys_user_dept` VALUES (1849681543125110786, 1849444494908125181, 1842844360640327682, '2024-10-25 13:17:00', '2024-10-25 13:17:00', 1, 1, 0);
 INSERT INTO `sys_user_dept` VALUES (1850079769699389441, 1850075157831454722, 1842885831187877890, '2024-10-26 15:39:25', '2024-10-26 15:39:25', 1, 1, 0);
 INSERT INTO `sys_user_dept` VALUES (1850080272827125761, 1850080272764211202, 1850077710275153922, '2024-10-26 15:41:25', '2024-10-26 15:41:25', 1, 1, 0);
-INSERT INTO `sys_user_dept` VALUES (1850081147733774338, 1849681227633758210, 1842885831187877890, '2024-10-26 15:44:53', '2024-10-26 15:44:53', 1, 1, 0);
+INSERT INTO `sys_user_dept` VALUES (1850791181217918977, 1849681227633758210, 1842885831187877890, '2024-10-28 14:46:18', '2024-10-28 14:46:18', 1, 1, 0);
+INSERT INTO `sys_user_dept` VALUES (1850914498145005569, 1850789068551200769, 1842844360640327682, '2024-10-28 22:56:19', '2024-10-28 22:56:19', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -2118,13 +2267,13 @@ CREATE TABLE `sys_user_role`  (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1849443582454104066, 1, 1, '2024-10-24 21:31:26', '2024-10-24 21:31:26', 1, 1, 0);
-INSERT INTO `sys_user_role` VALUES (1849443582454104067, 1, 1838499178568450050, '2024-10-24 21:31:26', '2024-10-24 21:31:26', 1, 1, 0);
-INSERT INTO `sys_user_role` VALUES (1849443582454104068, 1, 1838835872391942145, '2024-10-24 21:31:26', '2024-10-24 21:31:26', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1850076365002477569, 1849444494908125181, 1849447127379210241, '2024-10-26 15:25:53', '2024-10-26 15:25:53', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1850078798063702017, 1850075157831454722, 1850075282767187970, '2024-10-26 15:35:33', '2024-10-26 15:35:33', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1850080817541386242, 1850080272764211202, 1850080441735942146, '2024-10-26 15:43:34', '2024-10-26 15:43:34', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1850081002849931265, 1849681227633758210, 1850075282767187970, '2024-10-26 15:44:19', '2024-10-26 15:44:19', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1850081002849931266, 1849681227633758210, 1850080441735942146, '2024-10-26 15:44:19', '2024-10-26 15:44:19', 1, 1, 0);
+INSERT INTO `sys_user_role` VALUES (1850799543355572225, 1850789068551200769, 1850080441735942146, '2024-10-28 15:19:32', '2024-10-28 15:19:32', 1, 1, 0);
+INSERT INTO `sys_user_role` VALUES (1850799543359766529, 1850789068551200769, 1850787961993142273, '2024-10-28 15:19:32', '2024-10-28 15:19:32', 1, 1, 0);
 
 -- ----------------------------
 -- View structure for view_qrtz_schedulers

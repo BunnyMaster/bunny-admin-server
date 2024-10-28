@@ -76,7 +76,7 @@ public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower
                 .stream().map(UserRole::getUserId).toList();
 
         // 根据Id查找所有用户
-        List<AdminUser> adminUsers = userMapper.selectList(Wrappers.<AdminUser>lambdaQuery().in(AdminUser::getId, roleIds));
+        List<AdminUser> adminUsers = userMapper.selectList(Wrappers.<AdminUser>lambdaQuery().in(!roleIds.isEmpty(), AdminUser::getId, roleIds));
 
         // 用户为空时不更新Redis的key
         if (adminUsers.isEmpty()) return;
