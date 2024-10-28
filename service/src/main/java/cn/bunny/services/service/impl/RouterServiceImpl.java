@@ -271,11 +271,11 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<Long> longList = list(Wrappers.<Router>lambdaQuery().in(Router::getParentId, ids)).stream().map(Router::getId).toList();
         ids.addAll(longList);
 
-        // // 逻辑删除
-        // removeBatchByIds(ids);
+        // 逻辑删除
+        removeBatchByIds(ids);
 
-        // 物理删除
-        baseMapper.deleteBatchIdsWithPhysics(ids);
+        // // 物理删除
+        // baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 
     /**

@@ -112,9 +112,10 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     @Override
     @CacheEvict(cacheNames = "dept", key = "'allDept'", beforeInvocation = true)
     public void updateDept(DeptUpdateDto dto) {
-        // 判断所更新的部门是否存在
-        String mangerList = dto.getManager().stream().map(String::trim).collect(Collectors.joining(","));
         if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
+
+        // 将管理员用户逗号分隔
+        String mangerList = dto.getManager().stream().map(String::trim).collect(Collectors.joining(","));
 
         // 更新内容
         Dept dept = new Dept();
@@ -141,5 +142,4 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
         // 删除用户部门关联
         userDeptMapper.deleteBatchIdsByDeptIdWithPhysics(ids);
     }
-
 }

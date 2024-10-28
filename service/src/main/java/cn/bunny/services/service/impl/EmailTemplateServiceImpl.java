@@ -68,10 +68,6 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      */
     @Override
     public void addEmailTemplate(@Valid EmailTemplateAddDto dto) {
-        // 查询是否添加过这个模板
-        List<EmailTemplate> emailTemplateList = list(Wrappers.<EmailTemplate>lambdaQuery().eq(EmailTemplate::getTemplateName, dto.getTemplateName()));
-        if (!emailTemplateList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
-
         // 保存数据
         EmailTemplate emailTemplate = new EmailTemplate();
         BeanUtils.copyProperties(dto, emailTemplate);

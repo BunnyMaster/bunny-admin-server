@@ -43,7 +43,6 @@
                 and type like CONCAT('%',#{dto.type},'%')
             </if>
         </where>
-        order by update_time desc
     </select>
 
     <!-- 物理删除邮件模板表 -->

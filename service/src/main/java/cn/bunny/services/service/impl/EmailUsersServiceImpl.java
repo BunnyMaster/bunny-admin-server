@@ -13,7 +13,6 @@ import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.mapper.EmailUsersMapper;
 import cn.bunny.services.service.EmailUsersService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
@@ -74,10 +73,6 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      */
     @Override
     public void addEmailUsers(EmailUsersAddDto dto) {
-        // 判断邮箱是否添加
-        List<EmailUsers> emailUsersList = list(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getEmail, dto.getEmail()));
-        if (!emailUsersList.isEmpty()) throw new BunnyException(ResultCodeEnum.EMAIL_EXIST);
-
         // 更新邮箱默认状态
         emailFactory.updateEmailUserDefault(dto.getIsDefault());
 

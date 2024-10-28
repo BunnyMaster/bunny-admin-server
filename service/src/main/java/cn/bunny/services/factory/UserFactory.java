@@ -66,7 +66,13 @@ public class UserFactory {
         // 获取IP地址并更新用户登录信息
         String ipAddr = IpUtil.getCurrentUserIpAddress().getIpAddr();
         String ipRegion = IpUtil.getCurrentUserIpAddress().getIpRegion();
-        setUpdateUser(userId, ipAddr, ipRegion);
+
+        // 设置用户IP地址，并更新用户信息
+        AdminUser updateUser = new AdminUser();
+        updateUser.setId(userId);
+        updateUser.setIpAddress(ipAddr);
+        updateUser.setIpRegion(ipRegion);
+        userMapper.updateById(updateUser);
 
         // 将用户登录保存在用户登录日志表中
         userLoginLogMapper.insert(setUserLoginLog(user, token, ipAddr, ipRegion, "login"));
@@ -83,6 +89,12 @@ public class UserFactory {
         return loginVo;
     }
 
+    /**
+     * * 构建用户返回对象LoginVo
+     *
+     * @param user      用户对象
+     * @param readMeDay 记住我时间
+     */
     public void buildUserVo(AdminUser user, long readMeDay) {
         Long userId = user.getId();
         String username = user.getUsername();
@@ -142,21 +154,6 @@ public class UserFactory {
         loginVo.setReadMeDay(readMeDay);
 
         return loginVo;
-    }
-
-    /**
-     * * 设置更新用户设置内容
-     *
-     * @param userId 用户ID
-     */
-    @Transactional
-    public void setUpdateUser(Long userId, String ipAddr, String ipRegion) {
-        // 设置用户IP地址，并更新用户信息
-        AdminUser updateUser = new AdminUser();
-        updateUser.setId(userId);
-        updateUser.setIpAddress(ipAddr);
-        updateUser.setIpRegion(ipRegion);
-        userMapper.updateById(updateUser);
     }
 
     /**

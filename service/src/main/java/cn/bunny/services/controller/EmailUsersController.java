@@ -79,7 +79,7 @@ public class EmailUsersController {
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除邮箱用户发送配置", description = "删除邮箱用户发送配置")
+    @Operation(summary = "删除邮箱用户", description = "删除邮箱用户")
     @DeleteMapping("deleteEmailUsers")
     public Mono<Result<String>> deleteEmailUsers(@RequestBody List<Long> ids) {
         emailUsersService.deleteEmailUsers(ids);

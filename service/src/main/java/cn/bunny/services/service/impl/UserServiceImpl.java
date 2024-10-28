@@ -422,21 +422,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void addAdminUser(@Valid AdminUserAddDto dto) {
-        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery()
-                .eq(AdminUser::getEmail, dto.getEmail())
-                .or()
-                .eq(AdminUser::getUsername, dto.getUsername()));
-
-        // 确保邮箱和用户名不能重复
-        if (adminUser != null) {
-            throw new BunnyException(ResultCodeEnum.ALREADY_USER_EXCEPTION);
-        }
-
         // 对密码加密
         String md5Password = DigestUtils.md5DigestAsHex(dto.getPassword().getBytes());
 
         // 保存数据
-        adminUser = new AdminUser();
+        AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
         adminUser.setPassword(md5Password);
         save(adminUser);

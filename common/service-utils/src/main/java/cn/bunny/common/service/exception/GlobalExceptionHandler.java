@@ -33,8 +33,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result<Object> exceptionHandler(RuntimeException exception) {
         String message = exception.getMessage();
-        log.error("GlobalExceptionHandler===>运行时异常信息：{}", message);
-        exception.printStackTrace();
 
         // 解析异常
         String jsonParseError = "JSON parse error (.*)";
@@ -54,9 +52,11 @@ public class GlobalExceptionHandler {
         String primaryKeyError = "Duplicate entry '(.*?)' for key .*";
         Matcher primaryKeyErrorMatcher = Pattern.compile(primaryKeyError).matcher(message);
         if (primaryKeyErrorMatcher.find()) {
-            return Result.error(null, 500, "主键值" + primaryKeyErrorMatcher.group(1) + "已存在");
+            return Result.error(null, 500, "【" + primaryKeyErrorMatcher.group(1) + "】已存在");
         }
 
+        log.error("GlobalExceptionHandler===>运行时异常信息：{}", message);
+        exception.printStackTrace();
         return Result.error(null, 500, "服务器异常");
     }
 

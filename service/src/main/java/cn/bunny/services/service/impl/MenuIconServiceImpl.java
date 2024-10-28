@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
  * @since 2024-10-02 12:18:29
  */
 @Service
+@Transactional
 public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> implements MenuIconService {
 
     /**
@@ -92,7 +94,6 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
     @Override
     @CacheEvict(cacheNames = "menuIcon", key = "'menuIconList'", beforeInvocation = true)
     public void addMenuIcon(MenuIconAddDto dto) {
-        // 保存数据
         MenuIcon menuIcon = new MenuIcon();
         BeanUtils.copyProperties(dto, menuIcon);
         save(menuIcon);
@@ -106,7 +107,6 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
     @Override
     @CacheEvict(cacheNames = "menuIcon", key = "'menuIconList'", beforeInvocation = true)
     public void updateMenuIcon(@Valid MenuIconUpdateDto dto) {
-        // 更新内容
         MenuIcon menuIcon = new MenuIcon();
         BeanUtils.copyProperties(dto, menuIcon);
         updateById(menuIcon);
