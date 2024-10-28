@@ -59,12 +59,19 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
         try {
             loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
 
+            // type不能为空
+            String type = loginDto.getType();
+            if (!StringUtils.hasText(type)) {
+                out(response, Result.error(ResultCodeEnum.REQUEST_IS_EMPTY));
+                return null;
+            }
+
             String emailCode = loginDto.getEmailCode();
             String username = loginDto.getUsername();
             String password = loginDto.getPassword();
 
             // 如果有邮箱验证码，表示是邮箱登录
-            if (StringUtils.hasText(emailCode)) {
+            if (type.equals("email")) {
                 emailCode = emailCode.toLowerCase();
                 Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
                 if (redisEmailCode == null) {

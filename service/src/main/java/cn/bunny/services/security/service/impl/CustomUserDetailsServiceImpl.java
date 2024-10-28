@@ -49,7 +49,6 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
         return new CustomUser(adminUser, AuthorityUtils.createAuthorityList());
     }
 
-
     /**
      * 前台用户登录接口
      *
@@ -63,10 +62,12 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
         Long readMeDay = loginDto.getReadMeDay();
 
         // 查询用户相关内容
-        LambdaQueryWrapper<AdminUser> queryWrapper = new LambdaQueryWrapper<AdminUser>()
-                .eq(AdminUser::getUsername, username)
-                .or()
-                .eq(AdminUser::getEmail, username);
+        LambdaQueryWrapper<AdminUser> queryWrapper = new LambdaQueryWrapper<>();
+        if (loginDto.getType().equals("email")) {
+            queryWrapper.eq(AdminUser::getEmail, username);
+        } else {
+            queryWrapper.eq(AdminUser::getUsername, username);
+        }
         AdminUser user = userMapper.selectOne(queryWrapper);
 
         // 判断用户是否为空
