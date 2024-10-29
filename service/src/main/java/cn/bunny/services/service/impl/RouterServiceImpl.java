@@ -218,15 +218,8 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     public void addMenu(RouterAddDto dto) {
-        // 查找是否添加过路由名称
-        Router router = getOne(Wrappers.<Router>lambdaQuery()
-                .eq(Router::getRouteName, dto.getRouteName())
-                .or()
-                .eq(Router::getPath, dto.getPath()));
-        if (router != null) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
-
         // 添加路由
-        router = new Router();
+        Router router = new Router();
         BeanUtils.copyProperties(dto, router);
 
         save(router);
@@ -239,16 +232,6 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     public void updateMenu(RouterUpdateDto dto) {
-        LambdaQueryWrapper<Router> wrapper = new LambdaQueryWrapper<>();
-        wrapper.ne(Router::getId, dto.getId())
-                .and(qw -> qw.eq(Router::getRouteName, dto.getRouteName())
-                        .or()
-                        .eq(Router::getPath, dto.getPath()));
-        List<Router> routerList = list(wrapper);
-
-        // 判断更新数据是否存在
-        if (!routerList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
-
         // 如果设置的不是外部页面
         if (!dto.getMenuType().equals(2)) dto.setFrameSrc("");
 

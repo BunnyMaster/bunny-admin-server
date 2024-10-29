@@ -89,7 +89,8 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             return getAuthenticationManager().authenticate(authenticationToken);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            out(response, Result.error(ResultCodeEnum.ILLEGAL_DATA_REQUEST));
+            return null;
         }
     }
 
