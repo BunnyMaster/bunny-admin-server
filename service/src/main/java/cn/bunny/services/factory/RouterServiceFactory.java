@@ -1,7 +1,5 @@
 package cn.bunny.services.factory;
 
-import cn.bunny.dao.common.vo.TreeSelectVo;
-import cn.bunny.dao.vo.system.router.RouterManageVo;
 import cn.bunny.dao.vo.system.router.UserRouterVo;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -29,34 +27,5 @@ public class RouterServiceFactory {
         }
 
         return list;
-    }
-
-    /**
-     * * 递归调用设置管理子路由
-     *
-     * @param nodeId   主键
-     * @param nodeList 返回VO列表
-     * @return 返回路由列表
-     */
-    public List<RouterManageVo> handleGetChildrenWithRouterControllerVo(Long nodeId, List<RouterManageVo> nodeList) {
-        return nodeList.stream()
-                .filter(node -> node.getParentId().equals(nodeId))
-                .peek(node -> node.setChildren(handleGetChildrenWithRouterControllerVo(node.getId(), nodeList)))
-                .toList();
-    }
-
-    /**
-     * * 整理树形结构
-     *
-     * @param nodeId   节点ID
-     * @param nodeList 节点列表
-     * @return 树形列表
-     */
-    public List<TreeSelectVo> handleGetTreeSelectList(Object nodeId, @NotNull List<TreeSelectVo> nodeList) {
-        // 使用 Stream API 找到所有子节点
-        return nodeList.stream()
-                .filter(node -> node.getParentId().equals(nodeId))
-                .peek(node -> node.setChildren(handleGetTreeSelectList(node.getValue(), nodeList)))
-                .toList();
     }
 }

@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
+import jodd.util.StringUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -37,15 +38,13 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     public PageResult<MessageVo> getMessageList(Page<Message> pageParams, MessageDto dto) {
-        // 分页查询菜单图标
-        IPage<Message> page = baseMapper.selectListByPage(pageParams, dto);
+        IPage<MessageVo> page = baseMapper.selectListByPage(pageParams, dto);
 
-        List<MessageVo> voList = page.getRecords().stream().map(message -> {
-            MessageVo messageVo = new MessageVo();
-            BeanUtils.copyProperties(message, messageVo);
-            return messageVo;
+        List<MessageVo> voList = page.getRecords().stream().map(messageVo -> {
+            MessageVo vo = new MessageVo();
+            BeanUtils.copyProperties(messageVo, vo);
+            return vo;
         }).toList();
-
         return PageResult.<MessageVo>builder()
                 .list(voList)
                 .pageNo(page.getCurrent())
@@ -64,6 +63,10 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         // 保存数据
         Message message = new Message();
         BeanUtils.copyProperties(dto, message);
+
+        // 将发送用户逗号分隔
+        String receivedUserIds = StringUtil.join(dto.getReceivedUserIds(), ",");
+        message.setReceivedUserIds(receivedUserIds);
         save(message);
     }
 
@@ -77,6 +80,10 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         // 更新内容
         Message message = new Message();
         BeanUtils.copyProperties(dto, message);
+
+        // 将发送用户逗号分隔
+        String receivedUserIds = StringUtil.join(dto.getReceivedUserIds(), ",");
+        message.setReceivedUserIds(receivedUserIds);
         updateById(message);
     }
 

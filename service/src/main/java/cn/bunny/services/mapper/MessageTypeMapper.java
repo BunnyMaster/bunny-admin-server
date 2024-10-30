@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.message.MessageTypeDto;
 import cn.bunny.dao.entity.system.MessageType;
+import cn.bunny.dao.vo.system.message.MessageTypeVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface MessageTypeMapper extends BaseMapper<MessageType> {
      * @param dto        系统消息类型查询表单
      * @return 系统消息类型分页结果
      */
-    IPage<MessageType> selectListByPage(@Param("page") Page<MessageType> pageParams, @Param("dto") MessageTypeDto dto);
+    IPage<MessageTypeVo> selectListByPage(@Param("page") Page<MessageType> pageParams, @Param("dto") MessageTypeDto dto);
 
     /**
      * 物理删除系统消息类型

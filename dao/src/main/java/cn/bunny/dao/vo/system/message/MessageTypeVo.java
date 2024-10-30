@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.message;
 
-import cn.bunny.dao.common.vo.BaseVo;
+import cn.bunny.dao.common.vo.BaseUserVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Schema(name = "MessageTypeVo对象", title = "系统消息类型", description = "系统消息类型")
-public class MessageTypeVo extends BaseVo {
+public class MessageTypeVo extends BaseUserVo {
 
     @Schema(name = "messageName", title = "消息名称")
     private String messageName;

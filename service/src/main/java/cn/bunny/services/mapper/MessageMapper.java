@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.entity.system.Message;
+import cn.bunny.dao.vo.system.message.MessageVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface MessageMapper extends BaseMapper<Message> {
      * @param dto        系统消息查询表单
      * @return 系统消息分页结果
      */
-    IPage<Message> selectListByPage(@Param("page") Page<Message> pageParams, @Param("dto") MessageDto dto);
+    IPage<MessageVo> selectListByPage(@Param("page") Page<Message> pageParams, @Param("dto") MessageDto dto);
 
     /**
      * 物理删除系统消息

@@ -22,23 +22,27 @@
     </sql>
 
     <!-- 分页查询系统消息类型内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.MessageType">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.message.MessageTypeVo">
         select
-        <include refid="Base_Column_List"/>
-        from sys_message_type
+        message_type.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_message_type message_type
+        left join sys_user create_user on create_user.id = message_type.create_user
+        left join sys_user update_user on update_user.id = message_type.update_user
         <where>
-            is_deleted = 0
+            message_type.is_deleted = 0
             <if test="dto.status != null">
                 and status = #{dto.status}
             </if>
             <if test="dto.messageName != null and dto.messageName != ''">
-                and message_name like CONCAT('%',#{dto.messageName},'%')
+                and message_type.message_name like CONCAT('%',#{dto.messageName},'%')
             </if>
             <if test="dto.messageType != null and dto.messageType != ''">
-                and message_type like CONCAT('%',#{dto.messageType},'%')
+                and message_type.message_type like CONCAT('%',#{dto.messageType},'%')
             </if>
             <if test="dto.summary != null and dto.summary != ''">
-                and summary like CONCAT('%',#{dto.summary},'%')
+                and message_type.summary like CONCAT('%',#{dto.summary},'%')
             </if>
         </where>
     </select>

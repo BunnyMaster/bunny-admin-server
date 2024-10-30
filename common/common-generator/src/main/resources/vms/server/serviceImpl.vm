@@ -31,7 +31,6 @@ public class ${originalName}ServiceImpl extends ServiceImpl<${originalName}Mappe
      */
     @Override
     public PageResult<${originalName}Vo> get${originalName}List(Page<${originalName}> pageParams, ${originalName}Dto dto) {
-        // 分页查询菜单图标
         IPage<${originalName}> page = baseMapper.selectListByPage(pageParams, dto);
 
         List<${originalName}Vo> voList = page.getRecords().stream().map(${lowercaseName} -> {

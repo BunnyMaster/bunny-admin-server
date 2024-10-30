@@ -13,7 +13,6 @@
         <id column="title" property="title"/>
         <id column="received_user_id" property="receivedUserId"/>
         <id column="send_user_id" property="sendUserId"/>
-        <id column="send_nick_name" property="sendNickName"/>
         <id column="message_type" property="messageType"/>
         <id column="content" property="content"/>
         <id column="editor_type" property="editorType"/>
@@ -26,35 +25,35 @@
     </sql>
 
     <!-- 分页查询系统消息内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Message">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.message.MessageVo">
         select
-        <include refid="Base_Column_List"/>
-        from sys_message
+        message.*,
+        create_user.username as create_username,
+        update_user.username as update_username,
+        send_user.nickname as send_nickname
+        from sys_message message
+        left join sys_user create_user on create_user.id = message.create_user
+        left join sys_user update_user on update_user.id = message.update_user
+        left join sys_user send_user on send_user.id = message.send_user_id
         <where>
-            is_deleted = 0
+            message.is_deleted = 0
             <if test="dto.title != null and dto.title != ''">
-                and title like CONCAT('%',#{dto.title},'%')
+                and message.title like CONCAT('%',#{dto.title},'%')
             </if>
-            <if test="dto.receivedUserId != null and dto.receivedUserId != ''">
-                and received_user_id like CONCAT('%',#{dto.receivedUserId},'%')
-            </if>
-            <if test="dto.sendUserId != null and dto.sendUserId != ''">
-                and send_user_id like CONCAT('%',#{dto.sendUserId},'%')
-            </if>
-            <if test="dto.sendNickName != null and dto.sendNickName != ''">
-                and send_nick_name like CONCAT('%',#{dto.sendNickName},'%')
+            <if test="dto.sendNickname != null and dto.sendNickname != ''">
+                and send_user.nickname like CONCAT('%',#{dto.sendNickname},'%')
             </if>
             <if test="dto.messageType != null and dto.messageType != ''">
-                and message_type like CONCAT('%',#{dto.messageType},'%')
+                and message.message_type like CONCAT('%',#{dto.messageType},'%')
             </if>
             <if test="dto.content != null and dto.content != ''">
-                and content like CONCAT('%',#{dto.content},'%')
+                and message.content like CONCAT('%',#{dto.content},'%')
             </if>
             <if test="dto.editorType != null and dto.editorType != ''">
-                and editor_type like CONCAT('%',#{dto.editorType},'%')
+                and message.editor_type = #{dto.editorType}
             </if>
-            <if test="dto.status != null and dto.status != ''">
-                and status like CONCAT('%',#{dto.status},'%')
+            <if test="dto.status != null">
+                and message.status = #{dto.status}
             </if>
         </where>
     </select>

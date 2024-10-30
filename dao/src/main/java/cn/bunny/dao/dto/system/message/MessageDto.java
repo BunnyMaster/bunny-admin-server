@@ -16,14 +16,8 @@ public class MessageDto {
     @Schema(name = "title", title = "消息标题")
     private String title;
 
-    @Schema(name = "receivedUserId", title = "接收人用户ID")
-    private Long receivedUserId;
-
-    @Schema(name = "sendUserId", title = "发送人用户ID")
-    private Long sendUserId;
-
-    @Schema(name = "sendNickName", title = "发送人昵称")
-    private String sendNickName;
+    @Schema(name = "sendNickname", title = "发送人用户昵称")
+    private String sendNickname;
 
     @Schema(name = "messageType", title = "消息类型")
     private String messageType;
