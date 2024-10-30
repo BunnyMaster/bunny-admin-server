@@ -7,7 +7,7 @@ export const columns: TableColumnList = [
 { type: 'index', index: (index: number) => index + 1, label: '序号', width: 60 },
 #foreach($field in $baseFieldList)
 // $field.annotation
-{ label: $t('${lowercaseName}_$field.name'), prop: '$field.name' },
+{ label: $t('$field.name'), prop: '$field.name' },
 #end
 { label: $t('table.updateTime'), prop: 'updateTime', sortable: true, width: 160 },
 { label: $t('table.createTime'), prop: 'createTime', sortable: true, width: 160 },
@@ -17,9 +17,9 @@ export const columns: TableColumnList = [
 ];
 
 // 添加规则
-export const rules = reactive({
+export const rules = reactive<FormRules>({
 #foreach($field in $baseFieldList)
 // $field.annotation
-    $field.name: [{ required: true, message: `$leftBrace$t('input')}$leftBrace$t('${lowercaseName}_${field.name}')}`, trigger: 'blur' }],
+    $field.name: [{ required: true, message: `$leftBrace$t('input')}$leftBrace$t('${field.name}')}`, trigger: 'blur' }],
 #end
 });

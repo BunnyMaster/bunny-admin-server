@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-@Tag(name = "配置", description = "系统配置相关接口")
+@Tag(name = "系统配置", description = "系统配置相关接口")
 @RestController
 @RequestMapping("/admin/config")
 public class ConfigurationController {

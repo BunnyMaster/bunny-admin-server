@@ -18,9 +18,7 @@
     const formRef = ref();
     const ${lowercaseName}Store = use${originalName}Store();
 
-    /**
-     * * 当前页改变时
-     */
+    /** 当前页改变时 */
     const onCurrentPageChange = async (value: number) => {
         ${lowercaseName}Store.pagination.currentPage = value;
         await onSearch();
@@ -64,8 +62,8 @@ onMounted(() => {
 #foreach($item in $formList)
 
                 <!-- $item.annotation -->
-                <el-form-item :label="$t('${lowercaseName}_${item.name}')" prop="${item.name}">
-                <el-input v-model="${lowercaseName}Store.form.${item.name}" :placeholder="`$leftBrace$t('input')}$leftBrace$t('${lowercaseName}_${item.name}')}`" class="!w-[180px]" clearable />
+                <el-form-item :label="$t('${item.name}')" prop="${item.name}">
+                <el-input v-model="${lowercaseName}Store.form.${item.name}" :placeholder="`$leftBrace$t('input')}$leftBrace$t('${item.name}')}`" class="!w-[180px]" clearable />
             </el-form-item>
 #end
             <el-form-item>
@@ -76,7 +74,7 @@ onMounted(() => {
 
         <PureTableBar :columns="columns" title="${classDescription}" @fullscreen="tableRef.setAdaptive()" @refresh="onSearch">
             <template #buttons>
-                <el-button :icon="useRenderIcon(AddFill)" type="primary" @click="onAdd">  {{ $t('add_new') }} </el-button>
+                <el-button :icon="useRenderIcon(AddFill)" type="primary" @click="onAdd">  {{ $t('addNew') }} </el-button>
 
                 <!-- 批量删除按钮 -->
 				<el-button v-show="deleteIds.length > 0" :icon="useRenderIcon(Delete)" type="danger" @click="onDeleteBatch">
@@ -116,7 +114,7 @@ onMounted(() => {
 
                     <template #operation="{ row }">
                         <el-button :icon="useRenderIcon(EditPen)" :size="size" class="reset-margin" link type="primary" @click="onUpdate(row)"> {{ $t('modify') }} </el-button>
-                        <el-button :icon="useRenderIcon(AddFill)" :size="size" class="reset-margin" link type="primary" @click="onAdd"> {{ $t('add_new') }} </el-button>
+                        <el-button :icon="useRenderIcon(AddFill)" :size="size" class="reset-margin" link type="primary" @click="onAdd"> {{ $t('addNew') }} </el-button>
                         <!-- TODO 待完成 -->
       			        <el-popconfirm :title="`${leftBrace}$t('delete')}${row.email}?`" @confirm="onDelete(row)">
                             <template #reference>

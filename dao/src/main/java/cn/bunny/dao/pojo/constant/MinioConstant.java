@@ -9,25 +9,19 @@ import java.util.Map;
 public class MinioConstant {
     public static final String favicon = "favicon";
     public static final String avatar = "avatar";
-    public static final String article = "article";
+    public static final String message = "message";
     public static final String carousel = "carousel";
     public static final String feedback = "feedback";
     public static final String backup = "backup";
-    public static final String articleCovers = "articleCovers";
-    public static final String articleAttachment = "articleAttachment";
     public static final Map<String, String> typeMap = new HashMap<>();
 
     static {
         typeMap.put(favicon, "/favicon/");
         typeMap.put(avatar, "/avatar/");
-        typeMap.put(article, "/article/");
+        typeMap.put(message, "/message/");
         typeMap.put(carousel, "/carousel/");
         typeMap.put(feedback, "/feedback/");
         typeMap.put(backup, "/backup/");
-        typeMap.put("articleImages", "/articleImages/");
-        typeMap.put("articleVideo", "/articleVideo/");
-        typeMap.put(articleCovers, "/articleCovers/");
-        typeMap.put(articleAttachment, "/articleAttachment/");
         typeMap.put("images", "/images/");
         typeMap.put("video", "/video/");
         typeMap.put("default", "/default/");

@@ -28,7 +28,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-04 10:39:08
  */
-@Tag(name = "部门", description = "部门相关接口")
+@Tag(name = "系统部门", description = "部门相关接口")
 @RestController
 @RequestMapping("/admin/dept")
 public class DeptController {

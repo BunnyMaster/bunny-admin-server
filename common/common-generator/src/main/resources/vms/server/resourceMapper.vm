@@ -21,12 +21,12 @@
         from $tableName
         <where>
             #foreach($field in $pageQueryMap)
+                is_deleted = 0
                 <if test="dto.${field.property} != null and dto.${field.property} != ''">
                     and $field.column like CONCAT('%',#{dto.${field.property}},'%')
                 </if>
             #end
         </where>
-        order by update_time desc
     </select>
 
     <!-- 物理删除${classTitle} -->

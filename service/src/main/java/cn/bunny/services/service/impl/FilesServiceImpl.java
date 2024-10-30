@@ -1,6 +1,8 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.utils.FileUtil;
 import cn.bunny.common.service.utils.minio.MinioProperties;
 import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
@@ -13,7 +15,6 @@ import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.files.FilesVo;
-import cn.bunny.services.factory.FileFactory;
 import cn.bunny.services.mapper.FilesMapper;
 import cn.bunny.services.service.FilesService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,6 +25,7 @@ import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,14 +52,17 @@ import java.util.Set;
 @Transactional
 public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements FilesService {
 
+    @Value("${spring.servlet.multipart.max-file-size}")
+    private String maxFileSize;
+
     @Autowired
     private MinioProperties properties;
 
     @Autowired
-    private FileFactory fileFactory;
+    private MinioUtil minioUtil;
 
     @Autowired
-    private MinioUtil minioUtil;
+    private FilesMapper filesMapper;
 
     /**
      * * 系统文件表 服务实现类
@@ -94,7 +99,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     public void addFiles(FilesAddDto dto) {
         List<Files> list = dto.getFiles().stream().map(file -> {
             try {
-                MinioFilePath minioFilePath = minioUtil.uploadObject4FilePath(file, dto.getFilepath());
+                MinioFilePath minioFilePath = minioUtil.uploadObjectReturnFilePath(file, dto.getFilepath());
 
                 Files files = new Files();
                 files.setFileType(file.getContentType());
@@ -133,7 +138,6 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
             files.setFileType(file.getContentType());
         }
 
-
         // 更新内容
         files = new Files();
         BeanUtils.copyProperties(dto, files);
@@ -149,10 +153,45 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     @SneakyThrows
     @Override
     public FileInfoVo upload(FileUploadDto dto) {
+        // 上传的文件
         MultipartFile file = dto.getFile();
+        // 上传文件类型
         String type = dto.getType();
+        // 管理员Id
+        Long userId = BaseContext.getUserId();
+        // 文件大小
+        long fileSize = file.getSize();
+        // 文件类型
+        String contentType = file.getContentType();
+        // 文件名
+        String filename = file.getOriginalFilename();
 
-        return fileFactory.uploadFile(file, type);
+        // 上传文件
+        MinioFilePath minioFIlePath = minioUtil.uploadObjectReturnFilePath(file, type);
+        String bucketNameFilepath = minioFIlePath.getBucketNameFilepath();
+
+        // 盘读研数据是否过大
+        String mb = maxFileSize.replace("MB", "");
+        if (fileSize / 1024 / 1024 > Long.parseLong(mb)) throw new BunnyException(ResultCodeEnum.DATA_TOO_LARGE);
+
+        // 插入文件信息
+        Files adminFiles = new Files();
+        adminFiles.setFileSize(fileSize);
+        adminFiles.setFileType(contentType);
+        adminFiles.setFilename(filename);
+        adminFiles.setFilepath(bucketNameFilepath);
+        adminFiles.setCreateUser(userId);
+        filesMapper.insert(adminFiles);
+
+        // 返回信息内容化
+        return FileInfoVo.builder()
+                .size(FileUtil.getSize(fileSize))
+                .filepath(bucketNameFilepath)
+                .fileSize(fileSize)
+                .fileType(contentType)
+                .filename(filename)
+                .url(minioUtil.getObjectNameFullPath(bucketNameFilepath))
+                .build();
     }
 
     /**

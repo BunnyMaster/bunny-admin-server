@@ -36,7 +36,7 @@ public class MinioUtil {
     /**
      * 获取Minio文件路径
      */
-    public static MinioFilePath initUploadFile4MinioFilePath(String buckName, String minioPreType, MultipartFile file) {
+    public static MinioFilePath initUploadFileReturnMinioFilePath(String buckName, String minioPreType, MultipartFile file) {
         String uuid = UUID.randomUUID().toString();
         // 定义日期时间格式
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -75,19 +75,20 @@ public class MinioUtil {
     /**
      * * 上传文件并返回处理信息
      */
-    public MinioFilePath uploadObject4FilePath(MultipartFile file, String minioPreType) throws IOException {
+    public MinioFilePath uploadObjectReturnFilePath(MultipartFile file, String minioPreType) throws IOException {
+        if (file == null) return null;
         String bucketName = properties.getBucketName();
-        if (file != null) {
-            MinioFilePath minioFile = initUploadFile4MinioFilePath(bucketName, minioPreType, file);
-            String filepath = minioFile.getFilepath();
+        
+        // 上传对象
+        try {
+            MinioFilePath minioFile = initUploadFileReturnMinioFilePath(bucketName, minioPreType, file);
 
-            // 上传对象
-            putObject(bucketName, filepath, file.getInputStream(), file.getSize());
+            minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(minioFile.getFilepath()).stream(file.getInputStream(), file.getSize(), -1).build());
 
-            // 设置图片地址
             return minioFile;
+        } catch (Exception exception) {
+            throw new BunnyException(ResultCodeEnum.UPDATE_ERROR);
         }
-        return null;
     }
 
     /**
