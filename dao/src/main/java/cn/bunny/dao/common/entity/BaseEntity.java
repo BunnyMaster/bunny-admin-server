@@ -1,4 +1,4 @@
-package cn.bunny.dao.entity;
+package cn.bunny.dao.common.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
+@Schema(name = "BaseEntity", title = "基础信息字段", description = "基础信息字段")
 public class BaseEntity implements Serializable {
 
     @Schema(name = "id", title = "唯一标识")
@@ -44,3 +45,4 @@ public class BaseEntity implements Serializable {
     private Boolean isDeleted;
 
 }
+

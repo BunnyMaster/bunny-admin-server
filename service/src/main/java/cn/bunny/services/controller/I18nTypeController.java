@@ -1,6 +1,7 @@
 package cn.bunny.services.controller;
 
 import cn.bunny.dao.dto.i18n.I18nTypeAddDto;
+import cn.bunny.dao.dto.i18n.I18nTypeDto;
 import cn.bunny.dao.dto.i18n.I18nTypeUpdateDto;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -33,8 +34,8 @@ public class I18nTypeController {
 
     @Operation(summary = "获取多语言类型", description = "获取多语言类型")
     @GetMapping("/noAuth/getI18nTypeList")
-    public Mono<Result<List<I18nTypeVo>>> getI18nTypeList() {
-        List<I18nTypeVo> voList = i18nTypeService.getI18nTypeList();
+    public Mono<Result<List<I18nTypeVo>>> getI18nTypeList(I18nTypeDto dto) {
+        List<I18nTypeVo> voList = i18nTypeService.getI18nTypeList(dto);
         return Mono.just(Result.success(voList));
     }
 

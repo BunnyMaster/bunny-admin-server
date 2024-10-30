@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.user;
 
-import cn.bunny.dao.vo.common.BaseVo;
+import cn.bunny.dao.common.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -68,5 +68,5 @@ public class LoginVo extends BaseVo {
 
     @Schema(name = "readMeDay", title = "记住我多久")
     private Long readMeDay;
-    
+
 }

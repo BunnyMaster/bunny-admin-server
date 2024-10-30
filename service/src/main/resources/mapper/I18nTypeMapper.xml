@@ -30,4 +30,24 @@
         </foreach>
     </delete>
 
+    <!-- 多语言类型查询 -->
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.i18n.I18nType">
+        select
+        i18n_type.*,
+        create_user.username as createUsername,
+        update_user.username as updateUsername
+        from sys_i18n_type i18n_type
+        left join sys_user create_user on create_user.id = i18n_type.create_user
+        left join sys_user update_user on update_user.id = i18n_type.update_user
+        <where>
+            i18n_type.is_deleted = 0
+            <if test="dto.typeName != null and dto.typeName != ''">
+                and i18n_type.type_name like CONCAT('%',#{dto.typeName},'%')
+            </if>
+            <if test="dto.summary != null and dto.summary != ''">
+                and i18n_type.summary like CONCAT('%',#{dto.summary},'%')
+            </if>
+        </where>
+    </select>
+
 </mapper>

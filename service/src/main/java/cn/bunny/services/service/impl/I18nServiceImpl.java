@@ -76,15 +76,10 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      */
     @Override
     public PageResult<I18nVo> getI18nList(Page<I18n> pageParams, I18nDto dto) {
-        IPage<I18n> page = baseMapper.selectListByPage(pageParams, dto);
+        IPage<I18nVo> page = baseMapper.selectListByPage(pageParams, dto);
 
-        List<I18nVo> i18nVoList = page.getRecords().stream().map(i18n -> {
-            I18nVo i18nVo = new I18nVo();
-            BeanUtils.copyProperties(i18n, i18nVo);
-            return i18nVo;
-        }).toList();
         return PageResult.<I18nVo>builder()
-                .list(i18nVoList)
+                .list(page.getRecords())
                 .pageSize(page.getSize())
                 .pageNo(page.getCurrent())
                 .total(page.getTotal())

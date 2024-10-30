@@ -1,6 +1,6 @@
 package cn.bunny.dao.entity.system;
 
-import cn.bunny.dao.entity.BaseEntity;
+import cn.bunny.dao.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @TableName("sys_router_role")
 @Schema(name = "RouterRole对象", title = "路由角色关系", description = "路由角色关系")
 public class RouterRole extends BaseEntity {
-    
+
     @Schema(name = "routerId", title = "路由ID")
     private Long routerId;
 

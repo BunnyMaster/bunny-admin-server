@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.i18n;
 
-import cn.bunny.dao.vo.common.BaseVo;
+import cn.bunny.dao.common.vo.BaseUserVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Schema(name = "I18nVo对象", title = "多语言返回内容", description = "多语言返回内容")
-public class I18nVo extends BaseVo {
+public class I18nVo extends BaseUserVo {
 
     @Schema(name = "keyName", title = "多语言key")
     private String keyName;

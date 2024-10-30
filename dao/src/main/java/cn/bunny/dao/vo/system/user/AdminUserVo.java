@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.user;
 
-import cn.bunny.dao.vo.common.BaseVo;
+import cn.bunny.dao.common.vo.BaseVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

@@ -2,6 +2,7 @@ package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.dto.i18n.I18nTypeAddDto;
+import cn.bunny.dao.dto.i18n.I18nTypeDto;
 import cn.bunny.dao.dto.i18n.I18nTypeUpdateDto;
 import cn.bunny.dao.entity.i18n.I18nType;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -37,8 +38,9 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
      */
     @Override
     @Cacheable(cacheNames = "i18n", key = "'i18nType'", cacheManager = "cacheManagerWithMouth")
-    public List<I18nTypeVo> getI18nTypeList() {
-        return list().stream().map(i18nType -> {
+    public List<I18nTypeVo> getI18nTypeList(I18nTypeDto dto) {
+        List<I18nType> i18nTypeList = baseMapper.selectListByPage(dto);
+        return i18nTypeList.stream().map(i18nType -> {
             I18nTypeVo i18nTypeVo = new I18nTypeVo();
             BeanUtils.copyProperties(i18nType, i18nTypeVo);
             return i18nTypeVo;

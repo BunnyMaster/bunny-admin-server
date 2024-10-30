@@ -1,6 +1,7 @@
 package cn.bunny.services.service;
 
 import cn.bunny.dao.dto.i18n.I18nTypeAddDto;
+import cn.bunny.dao.dto.i18n.I18nTypeDto;
 import cn.bunny.dao.dto.i18n.I18nTypeUpdateDto;
 import cn.bunny.dao.entity.i18n.I18nType;
 import cn.bunny.dao.vo.i18n.I18nTypeVo;
@@ -23,7 +24,7 @@ public interface I18nTypeService extends IService<I18nType> {
      *
      * @return 多语言类型列表
      */
-    List<I18nTypeVo> getI18nTypeList();
+    List<I18nTypeVo> getI18nTypeList(I18nTypeDto dto);
 
     /**
      * 添加多语言类型

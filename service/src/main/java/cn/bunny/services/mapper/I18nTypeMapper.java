@@ -1,8 +1,10 @@
 package cn.bunny.services.mapper;
 
+import cn.bunny.dao.dto.i18n.I18nTypeDto;
 import cn.bunny.dao.entity.i18n.I18nType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,4 +25,12 @@ public interface I18nTypeMapper extends BaseMapper<I18nType> {
      * @param ids 删除 id 列表
      */
     void deleteBatchIdsWithPhysics(List<Long> ids);
+
+    /**
+     * 多语言类型查询
+     *
+     * @param dto 多语言类型查询
+     * @return 多语言类型列表
+     */
+    List<I18nType> selectListByPage(@Param("dto") I18nTypeDto dto);
 }
