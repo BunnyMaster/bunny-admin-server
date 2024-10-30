@@ -3,10 +3,7 @@ package cn.bunny.services.service;
 import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.dao.vo.system.user.AdminUserVo;
-import cn.bunny.dao.vo.system.user.LoginVo;
-import cn.bunny.dao.vo.system.user.RefreshTokenVo;
-import cn.bunny.dao.vo.system.user.UserVo;
+import cn.bunny.dao.vo.system.user.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
@@ -108,7 +105,7 @@ public interface UserService extends IService<AdminUser> {
      * @param keyword 查询用户信息关键字
      * @return 用户信息列表
      */
-    List<AdminUserVo> queryUser(String keyword);
+    List<SearchUserinfoVo> queryUser(String keyword);
 
     /**
      * * 修改用户状态

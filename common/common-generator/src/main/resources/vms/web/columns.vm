@@ -1,5 +1,6 @@
 import { reactive, ref } from 'vue';
 import { $t } from '@/plugins/i18n';
+import type { FormRules } from 'element-plus';
 
 // 表格列
 export const columns: TableColumnList = [

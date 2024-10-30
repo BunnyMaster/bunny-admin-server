@@ -6,16 +6,15 @@ import { h, ref } from 'vue';
 import { messageBox } from '@/utils/message';
 import type { FormItemProps } from '${typesPath}';
 import { $t } from '@/plugins/i18n';
-import type { FormRules } from 'element-plus';
+import { message, messageBox } from "@/utils/message";
+import DeleteBatchDialog from "@/components/Table/DeleteBatchDialog.vue";
 
 export const formRef = ref();
 // 删除ids
 export const deleteIds = ref([]);
 const ${lowercaseName}Store = use${originalName}Store();
 
-/**
- * * 搜索初始化${classTitle}
- */
+/** 搜索初始化${classTitle} */
 export async function onSearch() {
 	${lowercaseName}Store.loading = true;
 	await ${lowercaseName}Store.get${originalName}List();

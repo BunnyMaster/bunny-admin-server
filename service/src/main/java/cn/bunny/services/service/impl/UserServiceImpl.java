@@ -18,10 +18,7 @@ import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.view.ViewUserDept;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
-import cn.bunny.dao.vo.system.user.AdminUserVo;
-import cn.bunny.dao.vo.system.user.LoginVo;
-import cn.bunny.dao.vo.system.user.RefreshTokenVo;
-import cn.bunny.dao.vo.system.user.UserVo;
+import cn.bunny.dao.vo.system.user.*;
 import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.*;
@@ -46,7 +43,6 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -284,12 +280,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      * @return 用户信息列表
      */
     @Override
-    public List<AdminUserVo> queryUser(String keyword) {
-        if (!StringUtils.hasText(keyword)) return new ArrayList<>();
+    public List<SearchUserinfoVo> queryUser(String keyword) {
+        if (!StringUtils.hasText(keyword)) {
+            return list(Page.of(1, 20), Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getStatus, false)).stream().map(adminUser -> {
+                SearchUserinfoVo adminUserVo = new SearchUserinfoVo();
+                BeanUtils.copyProperties(adminUser, adminUserVo);
+                return adminUserVo;
+            }).toList();
+        }
 
         List<AdminUser> list = baseMapper.queryUser(keyword);
         return list.stream().map(adminUser -> {
-            AdminUserVo adminUserVo = new AdminUserVo();
+            SearchUserinfoVo adminUserVo = new SearchUserinfoVo();
             BeanUtils.copyProperties(adminUser, adminUserVo);
             return adminUserVo;
         }).toList();

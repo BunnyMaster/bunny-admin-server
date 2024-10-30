@@ -5,22 +5,68 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.system.Message">
         <id column="id" property="id"/>
-        <result column="received_user_id" property="receivedUserId"/>
-        <result column="send_user_id" property="sendUserId"/>
-        <result column="send_nick_name" property="sendNickName"/>
-        <result column="message_type" property="messageType"/>
-        <result column="content" property="content"/>
-        <result column="editor_type" property="editorType"/>
-        <result column="status" property="status"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="update_user" property="updateUser"/>
-        <result column="is_deleted" property="isDeleted"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="create_user" property="createUser"/>
+        <id column="update_user" property="updateUser"/>
+        <id column="is_deleted" property="isDeleted"/>
+        <id column="title" property="title"/>
+        <id column="received_user_id" property="receivedUserId"/>
+        <id column="send_user_id" property="sendUserId"/>
+        <id column="send_nick_name" property="sendNickName"/>
+        <id column="message_type" property="messageType"/>
+        <id column="content" property="content"/>
+        <id column="editor_type" property="editorType"/>
+        <id column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, received_user_id, send_user_id, send_nick_name, message_type, content, editor_type, status, create_time, update_time, update_user, is_deleted
+        id, create_time, update_time, create_user, update_user, is_deleted, title, received_user_id, send_user_id, send_nick_name, message_type, content, editor_type, status
     </sql>
+
+    <!-- 分页查询系统消息内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Message">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_message
+        <where>
+            is_deleted = 0
+            <if test="dto.title != null and dto.title != ''">
+                and title like CONCAT('%',#{dto.title},'%')
+            </if>
+            <if test="dto.receivedUserId != null and dto.receivedUserId != ''">
+                and received_user_id like CONCAT('%',#{dto.receivedUserId},'%')
+            </if>
+            <if test="dto.sendUserId != null and dto.sendUserId != ''">
+                and send_user_id like CONCAT('%',#{dto.sendUserId},'%')
+            </if>
+            <if test="dto.sendNickName != null and dto.sendNickName != ''">
+                and send_nick_name like CONCAT('%',#{dto.sendNickName},'%')
+            </if>
+            <if test="dto.messageType != null and dto.messageType != ''">
+                and message_type like CONCAT('%',#{dto.messageType},'%')
+            </if>
+            <if test="dto.content != null and dto.content != ''">
+                and content like CONCAT('%',#{dto.content},'%')
+            </if>
+            <if test="dto.editorType != null and dto.editorType != ''">
+                and editor_type like CONCAT('%',#{dto.editorType},'%')
+            </if>
+            <if test="dto.status != null and dto.status != ''">
+                and status like CONCAT('%',#{dto.status},'%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 物理删除系统消息 -->
+    <delete id="deleteBatchIdsWithPhysics">
+        delete
+        from sys_message
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

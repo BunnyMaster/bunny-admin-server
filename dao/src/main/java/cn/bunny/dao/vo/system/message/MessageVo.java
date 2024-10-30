@@ -1,26 +1,16 @@
-package cn.bunny.dao.entity.system;
+package cn.bunny.dao.vo.system.message;
 
-import cn.bunny.dao.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.bunny.dao.vo.common.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.*;
 
-/**
- * <p>
- * 系统消息
- * </p>
- *
- * @author Bunny
- * @since 2024-10-30
- */
-@Getter
-@Setter
-@Accessors(chain = true)
-@TableName("sys_message")
-@Schema(name = "Message对象", title = "系统消息", description = "系统消息")
-public class Message extends BaseEntity {
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Schema(name = "MessageVo对象", title = "系统消息返回内容", description = "系统消息返回内容")
+public class MessageVo extends BaseVo {
 
     @Schema(name = "title", title = "消息标题")
     private String title;
@@ -47,5 +37,3 @@ public class Message extends BaseEntity {
     private Boolean status;
 
 }
-
-

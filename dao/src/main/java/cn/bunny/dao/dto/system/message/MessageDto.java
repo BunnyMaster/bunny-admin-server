@@ -1,26 +1,17 @@
-package cn.bunny.dao.entity.system;
+package cn.bunny.dao.dto.system.message;
 
-import cn.bunny.dao.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * <p>
- * 系统消息
- * </p>
- *
- * @author Bunny
- * @since 2024-10-30
- */
-@Getter
-@Setter
-@Accessors(chain = true)
-@TableName("sys_message")
-@Schema(name = "Message对象", title = "系统消息", description = "系统消息")
-public class Message extends BaseEntity {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Schema(name = "MessageDto对象", title = "系统消息", description = "系统消息")
+public class MessageDto {
 
     @Schema(name = "title", title = "消息标题")
     private String title;
@@ -34,7 +25,7 @@ public class Message extends BaseEntity {
     @Schema(name = "sendNickName", title = "发送人昵称")
     private String sendNickName;
 
-    @Schema(name = "messageType", title = "sys:系统消息,user用户消息")
+    @Schema(name = "messageType", title = "消息类型")
     private String messageType;
 
     @Schema(name = "content", title = "消息内容")
@@ -47,5 +38,3 @@ public class Message extends BaseEntity {
     private Boolean status;
 
 }
-
-

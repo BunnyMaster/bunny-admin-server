@@ -1,0 +1,60 @@
+package cn.bunny.dao.dto.system.message;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Schema(name = "MessageUpdateDto对象", title = "系统消息", description = "系统消息")
+public class MessageUpdateDto {
+
+    @Schema(name = "id", title = "主键")
+    @NotNull(message = "id不能为空")
+    private Long id;
+
+    @Schema(name = "title", title = "消息标题")
+    @NotNull(message = "消息标题 不能为空")
+    @NotBlank(message = "消息标题 不能为空")
+    private String title;
+
+    @Schema(name = "receivedUserId", title = "接收人用户ID")
+    private List<Long> receivedUserId;
+
+    @Schema(name = "sendUserId", title = "发送人用户ID")
+    @NotNull(message = "发送人用户ID 不能为空")
+    private Long sendUserId;
+
+    @Schema(name = "sendNickName", title = "发送人昵称")
+    @NotBlank(message = "发送人昵称 不能为空")
+    @NotNull(message = "发送人昵称 不能为空")
+    private String sendNickName;
+
+    @Schema(name = "messageType", title = "消息类型")
+    @NotBlank(message = "消息类型 不能为空")
+    @NotNull(message = "消息类型 不能为空")
+    private String messageType;
+
+    @Schema(name = "content", title = "消息内容")
+    @NotBlank(message = "消息内容 不能为空")
+    @NotNull(message = "消息内容 不能为空")
+    private String content;
+
+    @Schema(name = "editorType", title = "编辑器类型")
+    @NotBlank(message = "编辑器类型 不能为空")
+    @NotNull(message = "编辑器类型 不能为空")
+    private String editorType;
+
+    @Schema(name = "status", title = "0:未读 1:已读")
+    private Boolean status;
+
+}
+

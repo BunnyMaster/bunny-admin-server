@@ -5,10 +5,7 @@ import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.system.user.AdminUserVo;
-import cn.bunny.dao.vo.system.user.LoginVo;
-import cn.bunny.dao.vo.system.user.RefreshTokenVo;
-import cn.bunny.dao.vo.system.user.UserVo;
+import cn.bunny.dao.vo.system.user.*;
 import cn.bunny.services.service.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,8 +56,8 @@ public class UserController {
 
     @Operation(summary = "多条件查询用户", description = "多条件查询用户")
     @GetMapping("noManage/queryUser")
-    public Mono<Result<List<AdminUserVo>>> queryUser(String keyword) {
-        List<AdminUserVo> voList = userService.queryUser(keyword);
+    public Mono<Result<List<SearchUserinfoVo>>> queryUser(String keyword) {
+        List<SearchUserinfoVo> voList = userService.queryUser(keyword);
         return Mono.just(Result.success(voList));
     }
 

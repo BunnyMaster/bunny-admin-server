@@ -14,6 +14,7 @@ import lombok.*;
 @Builder
 @Schema(name = "AdminUserVo对象", title = "用户信息", description = "用户信息")
 public class AdminUserVo extends BaseVo {
+
     @Schema(name = "username", title = "用户名")
     private String username;
 

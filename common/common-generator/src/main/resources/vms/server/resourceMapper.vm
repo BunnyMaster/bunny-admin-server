@@ -20,8 +20,8 @@
         <include refid="Base_Column_List"/>
         from $tableName
         <where>
+            is_deleted = 0
             #foreach($field in $pageQueryMap)
-                is_deleted = 0
                 <if test="dto.${field.property} != null and dto.${field.property} != ''">
                     and $field.column like CONCAT('%',#{dto.${field.property}},'%')
                 </if>
