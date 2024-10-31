@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
@@ -27,7 +29,7 @@ public class MessageVo extends BaseUserVo {
     private String sendNickname;
 
     @Schema(name = "receivedUserIds", title = "接收人用户ID")
-    private String receivedUserIds;
+    private List<String> receivedUserIds;
 
     @Schema(name = "messageType", title = "sys:系统消息,user用户消息")
     private String messageType;
@@ -46,5 +48,11 @@ public class MessageVo extends BaseUserVo {
 
     @Schema(name = "status", title = "0:未读 1:已读")
     private Boolean status;
+
+    @Schema(name = "level", title = "消息等级")
+    private String level;
+
+    @Schema(name = "extra", title = "消息等级详情")
+    private String extra;
 
 }

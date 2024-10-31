@@ -19,11 +19,13 @@
         <id column="summary" property="summary"/>
         <id column="editor_type" property="editorType"/>
         <id column="status" property="status"/>
+        <id column="level" property="level"/>
+        <id column="extra" property="extra"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, title, received_user_ids, send_user_id, send_nick_name, message_type, content, editor_type, status
+        id, create_time, update_time, create_user, update_user, is_deleted, title, received_user_ids, send_user_id, send_nick_name, message_type, content, editor_type, status, level, extra
     </sql>
 
     <!-- 分页查询系统消息内容 -->
@@ -32,11 +34,13 @@
         message.*,
         create_user.username as create_username,
         update_user.username as update_username,
-        send_user.nickname as send_nickname
+        send_user.nickname as send_nickname,
+        message_recived.received_user_id as message_recivedids
         from sys_message message
         left join sys_user create_user on create_user.id = message.create_user
         left join sys_user update_user on update_user.id = message.update_user
         left join sys_user send_user on send_user.id = message.send_user_id
+        left join sys_message_recived message_recived on message_recived.message_id = message.id
         <where>
             message.is_deleted = 0
             <if test="dto.title != null and dto.title != ''">
@@ -54,11 +58,26 @@
             <if test="dto.editorType != null and dto.editorType != ''">
                 and message.editor_type = #{dto.editorType}
             </if>
+            <if test="dto.editorType != null and dto.editorType != ''">
+                and message.editor_type = #{dto.editorType}
+            </if>
+            <if test="dto.level != null and dto.level != ''">
+                and message.level = #{dto.level}
+            </if>
+            <if test="dto.extra != null and dto.extra != ''">
+                and message.extra = #{dto.extra}
+            </if>
             <if test="dto.status != null">
                 and message.status = #{dto.status}
             </if>
         </where>
     </select>
+
+    <!-- 分页查询用户消息 -->
+    <select id="selectUserMessageList" resultType="cn.bunny.dao.vo.system.message.MessageUserVo">
+
+    </select>
+
 
     <!-- 物理删除系统消息 -->
     <delete id="deleteBatchIdsWithPhysics">

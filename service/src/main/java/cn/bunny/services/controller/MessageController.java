@@ -7,6 +7,7 @@ import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.system.message.MessageUserVo;
 import cn.bunny.dao.vo.system.message.MessageVo;
 import cn.bunny.services.service.MessageService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -36,7 +37,7 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
-    @Operation(summary = "分页查询系统消息", description = "分页查询系统消息")
+    @Operation(summary = "分页查询消息", description = "分页查询消息")
     @GetMapping("getMessageList/{page}/{limit}")
     public Mono<Result<PageResult<MessageVo>>> getMessageList(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -46,6 +47,18 @@ public class MessageController {
             MessageDto dto) {
         Page<Message> pageParams = new Page<>(page, limit);
         PageResult<MessageVo> pageResult = messageService.getMessageList(pageParams, dto);
+        return Mono.just(Result.success(pageResult));
+    }
+
+    @Operation(summary = "分页查询用户消息", description = "分页查询用户消息")
+    @GetMapping("getUserMessageList/{page}/{limit}")
+    public Mono<Result<PageResult<MessageUserVo>>> getUserMessageList(
+            @Parameter(name = "page", description = "当前页", required = true)
+            @PathVariable("page") Integer page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable("limit") Integer limit) {
+        Page<Message> pageParams = new Page<>(page, limit);
+        PageResult<MessageUserVo> pageResult = messageService.getUserMessageList(pageParams);
         return Mono.just(Result.success(pageResult));
     }
 

@@ -5,6 +5,7 @@ import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUpdateDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.system.message.MessageUserVo;
 import cn.bunny.dao.vo.system.message.MessageVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -49,4 +50,12 @@ public interface MessageService extends IService<Message> {
      * @param ids 删除id列表
      */
     void deleteMessage(List<Long> ids);
+
+    /**
+     * 分页查询用户消息
+     *
+     * @param pageParams 系统消息返回列表
+     * @return 分页结果
+     */
+    PageResult<MessageUserVo> getUserMessageList(Page<Message> pageParams);
 }

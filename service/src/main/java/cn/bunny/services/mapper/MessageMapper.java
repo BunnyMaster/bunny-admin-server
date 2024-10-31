@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.entity.system.Message;
+import cn.bunny.dao.vo.system.message.MessageUserVo;
 import cn.bunny.dao.vo.system.message.MessageVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -37,4 +38,12 @@ public interface MessageMapper extends BaseMapper<Message> {
      * @param ids 删除 id 列表
      */
     void deleteBatchIdsWithPhysics(List<Long> ids);
+
+    /**
+     * 分页查询用户消息
+     *
+     * @param pageParams 系统消息返回列表
+     * @return 分页结果
+     */
+    IPage<MessageUserVo> selectUserMessageList(@Param("page") Page<Message> pageParams, Long userId);
 }
