@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.rolePower;
 
-import cn.bunny.dao.common.vo.BaseVo;
+import cn.bunny.dao.common.vo.BaseUserVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Schema(name = "PowerVo对象", title = "权限", description = "权限管理")
-public class PowerVo extends BaseVo {
+public class PowerVo extends BaseUserVo {
 
     @Schema(name = "parentId", title = "父级id")
     @JsonFormat(shape = JsonFormat.Shape.STRING)

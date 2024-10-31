@@ -61,16 +61,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public PageResult<RoleVo> getRoleList(Page<Role> pageParams, RoleDto dto) {
         // 分页查询菜单图标
-        IPage<Role> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<RoleVo> voList = page.getRecords().stream().map(Role -> {
-            RoleVo RoleVo = new RoleVo();
-            BeanUtils.copyProperties(Role, RoleVo);
-            return RoleVo;
-        }).toList();
+        IPage<RoleVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<RoleVo>builder()
-                .list(voList)
+                .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())

@@ -22,23 +22,23 @@
     </sql>
 
     <!-- 分页查询部门内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Dept">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.DeptVo">
         select
-        <include refid="Base_Column_List"/>
-        from sys_dept
+        dept.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_dept dept
+        left join sys_user create_user on create_user.id = dept.create_user
+        left join sys_user update_user on update_user.id = dept.update_user
         <where>
-            is_deleted = 0
-            <if test="dto.parentId != null and dto.parentId != ''">
-                and parent_id like CONCAT('%',#{dto.parentId},'%')
-            </if>
+            dept.is_deleted = 0
             <if test="dto.deptName != null and dto.deptName != ''">
-                and dept_name like CONCAT('%',#{dto.deptName},'%')
+                and dept.dept_name like CONCAT('%',#{dto.deptName},'%')
             </if>
             <if test="dto.summary != null and dto.summary != ''">
-                and summary like CONCAT('%',#{dto.summary},'%')
+                and dept.summary like CONCAT('%',#{dto.summary},'%')
             </if>
         </where>
-        order by update_time
     </select>
 
     <!-- 物理删除部门 -->

@@ -1,6 +1,6 @@
 package cn.bunny.dao.view;
 
-import cn.bunny.dao.common.entity.BaseEntity;
+import cn.bunny.dao.common.entity.BaseUserEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("sys_user")
 @Schema(name = "AdminUserAndDept对象", title = "用户信息和部门Id", description = "用户信息和部门Id")
-public class ViewUserDept extends BaseEntity {
+public class ViewUserDept extends BaseUserEntity {
 
     @Schema(name = "username", title = "用户名")
     private String username;

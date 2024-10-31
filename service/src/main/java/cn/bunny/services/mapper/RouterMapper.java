@@ -3,6 +3,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.router.RouterManageDto;
 import cn.bunny.dao.entity.system.Router;
+import cn.bunny.dao.vo.system.router.RouterManageVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -45,7 +46,15 @@ public interface RouterMapper extends BaseMapper<Router> {
      * @param dto        路由查询表单
      * @return 分页结果
      */
-    IPage<Router> selectListByPage(@Param("page") Page<Router> pageParams, @Param("dto") RouterManageDto dto);
+    IPage<RouterManageVo> selectListByPage(@Param("page") Page<Router> pageParams, @Param("dto") RouterManageDto dto);
+
+    /**
+     * * 管理菜单列表不分页
+     *
+     * @param dto 路由查询表单
+     * @return 分页结果
+     */
+    List<RouterManageVo> selectAllList(@Param("dto") RouterManageDto dto);
 
     /**
      * * 物理删除路由菜单

@@ -22,7 +22,6 @@ import cn.bunny.services.mapper.RouterMapper;
 import cn.bunny.services.mapper.RouterRoleMapper;
 import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import cn.bunny.services.service.RouterService;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,7 +30,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -170,15 +168,10 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     public PageResult<RouterManageVo> getMenusByPage(Page<Router> pageParams, RouterManageDto dto) {
-        IPage<Router> page = baseMapper.selectListByPage(pageParams, dto);
+        IPage<RouterManageVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         // 构建返回对象
         List<RouterManageVo> voList = page.getRecords().stream()
-                .map(router -> {
-                    RouterManageVo routerManageVo = new RouterManageVo();
-                    BeanUtils.copyProperties(router, routerManageVo);
-                    return routerManageVo;
-                })
                 .sorted(Comparator.comparing(RouterManageVo::getRouterRank))
                 .toList();
 
@@ -197,16 +190,8 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     public List<RouterManageVo> getMenusList(RouterManageDto dto) {
-        LambdaQueryWrapper<Router> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.like(StringUtils.hasText(dto.getTitle()), Router::getTitle, dto.getTitle());
-        lambdaQueryWrapper.eq(dto.getVisible() != null, Router::getVisible, dto.getVisible());
-
-        return list(lambdaQueryWrapper).stream()
-                .map(router -> {
-                    RouterManageVo routerManageVo = new RouterManageVo();
-                    BeanUtils.copyProperties(router, routerManageVo);
-                    return routerManageVo;
-                })
+        List<RouterManageVo> list = baseMapper.selectAllList(dto);
+        return list.stream()
                 .sorted(Comparator.comparing(RouterManageVo::getRouterRank))
                 .toList();
     }

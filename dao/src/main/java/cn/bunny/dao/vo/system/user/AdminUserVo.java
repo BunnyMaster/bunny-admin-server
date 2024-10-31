@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.user;
 
-import cn.bunny.dao.common.vo.BaseVo;
+import cn.bunny.dao.common.vo.BaseUserVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Schema(name = "AdminUserVo对象", title = "用户信息", description = "用户信息")
-public class AdminUserVo extends BaseVo {
+public class AdminUserVo extends BaseUserVo {
 
     @Schema(name = "username", title = "用户名")
     private String username;

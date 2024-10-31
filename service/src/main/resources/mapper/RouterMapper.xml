@@ -66,16 +66,41 @@
     </select>
 
     <!-- 管理菜单列表 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Router">
-        select *
-        from sys_router
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.router.RouterManageVo">
+        select
+        router.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_router router
+        left join sys_user create_user on create_user.id = router.create_user
+        left join sys_user update_user on update_user.id = router.update_user
         <where>
-            is_deleted = 0
+            role.is_deleted = 0
             <if test="dto.title != null and dto.title != ''">
-                and title like CONCAT('%',#{dto.title},'%')
+                and router.title like CONCAT('%',#{dto.title},'%')
             </if>
             <if test="dto.visible != null">
-                and visible = #{dto.visible}
+                and router.visible = #{dto.visible}
+            </if>
+        </where>
+    </select>
+
+    <!-- 管理菜单列表不分页 -->
+    <select id="selectAllList" resultType="cn.bunny.dao.vo.system.router.RouterManageVo">
+        select
+        router.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_router router
+        left join sys_user create_user on create_user.id = router.create_user
+        left join sys_user update_user on update_user.id = router.update_user
+        <where>
+            router.is_deleted = 0
+            <if test="dto.title != null and dto.title != ''">
+                and router.title like CONCAT('%',#{dto.title},'%')
+            </if>
+            <if test="dto.visible != null">
+                and router.visible = #{dto.visible}
             </if>
         </where>
     </select>

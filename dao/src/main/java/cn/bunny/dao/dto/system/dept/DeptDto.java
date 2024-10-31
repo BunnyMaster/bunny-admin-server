@@ -13,12 +13,6 @@ import lombok.NoArgsConstructor;
 @Schema(name = "DeptDto对象", title = "部门", description = "部门管理")
 public class DeptDto {
 
-    @Schema(name = "parentId", title = "父级id")
-    private String parentId;
-
-    @Schema(name = "managerId", title = "管理者id")
-    private String managerId;
-
     @Schema(name = "deptName", title = "部门名称")
     private String deptName;
 

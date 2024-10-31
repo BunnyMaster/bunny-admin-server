@@ -21,7 +21,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,20 +49,10 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     @Override
     public PageResult<DeptVo> getDeptList(Page<Dept> pageParams, DeptDto dto) {
         // 分页查询菜单图标
-        IPage<Dept> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<DeptVo> voList = page.getRecords().stream().map(dept -> {
-            // 将数据库中管理员取出
-            List<String> mangerList = Arrays.stream(dept.getManager().split(",")).map(String::trim).toList();
-
-            DeptVo deptVo = new DeptVo();
-            BeanUtils.copyProperties(dept, deptVo);
-            deptVo.setManager(mangerList);
-            return deptVo;
-        }).toList();
+        IPage<DeptVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<DeptVo>builder()
-                .list(voList)
+                .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())

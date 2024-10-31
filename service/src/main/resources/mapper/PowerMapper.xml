@@ -22,23 +22,26 @@
     </sql>
 
     <!-- 分页查询权限内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Power">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.rolePower.PowerVo">
         select
-        <include refid="Base_Column_List"/>
-        from sys_power
+        power.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_power power
+        left join sys_user create_user on create_user.id = power.create_user
+        left join sys_user update_user on update_user.id = power.update_user
         <where>
-            is_deleted = 0
+            power.is_deleted = 0
             <if test="dto.powerCode != null and dto.powerCode != ''">
-                and power_code like CONCAT('%',#{dto.powerCode},'%')
+                and ppower.ower_code like CONCAT('%',#{dto.powerCode},'%')
             </if>
             <if test="dto.powerName != null and dto.powerName != ''">
-                and power_name like CONCAT('%',#{dto.powerName},'%')
+                and power.power_name like CONCAT('%',#{dto.powerName},'%')
             </if>
             <if test="dto.requestUrl != null and dto.requestUrl != ''">
-                and request_url like CONCAT('%',#{dto.requestUrl},'%')
+                and power.request_url like CONCAT('%',#{dto.requestUrl},'%')
             </if>
         </where>
-        order by update_time desc
     </select>
 
     <!-- 物理删除权限 -->

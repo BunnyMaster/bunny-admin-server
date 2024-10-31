@@ -20,17 +20,21 @@
     </sql>
 
     <!-- 分页查询角色内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Role">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.rolePower.RoleVo">
         select
-        <include refid="Base_Column_List"/>
-        from sys_role
+        role.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_role role
+        left join sys_user create_user on create_user.id = role.create_user
+        left join sys_user update_user on update_user.id = role.update_user
         <where>
-            is_deleted = 0
+            role.is_deleted = 0
             <if test="dto.roleCode != null and dto.roleCode != ''">
-                and role_code like CONCAT('%',#{dto.roleCode},'%')
+                and role.role_code like CONCAT('%',#{dto.roleCode},'%')
             </if>
             <if test="dto.description != null and dto.description != ''">
-                and description like CONCAT('%',#{dto.description},'%')
+                and role.description like CONCAT('%',#{dto.description},'%')
             </if>
         </where>
     </select>

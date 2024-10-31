@@ -31,8 +31,14 @@
     <!-- 分页查询用户信息内容 -->
     <select id="selectListByPage" resultType="cn.bunny.dao.view.ViewUserDept">
         select
-        user.*,user_dept.dept_id
-        from sys_user user left join sys_user_dept user_dept on user.id = user_dept.user_id
+        user.*,
+        user_dept.dept_id,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_user user
+        left join sys_user_dept user_dept on user.id = user_dept.user_id
+        left join sys_user create_user on create_user.id = user.create_user
+        left join sys_user update_user on update_user.id = user.update_user
         <where>
             user.is_deleted = 0
             <if test="dto.username != null and dto.username != ''">

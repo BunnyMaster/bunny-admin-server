@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.rolePower.power.PowerDto;
 import cn.bunny.dao.entity.system.Power;
+import cn.bunny.dao.vo.system.rolePower.PowerVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,7 +30,7 @@ public interface PowerMapper extends BaseMapper<Power> {
      * @param dto        权限查询表单
      * @return 权限分页结果
      */
-    IPage<Power> selectListByPage(@Param("page") Page<Power> pageParams, @Param("dto") PowerDto dto);
+    IPage<PowerVo> selectListByPage(@Param("page") Page<Power> pageParams, @Param("dto") PowerDto dto);
 
     /**
      * 物理删除权限

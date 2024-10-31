@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.rolePower.role.RoleDto;
 import cn.bunny.dao.entity.system.Role;
+import cn.bunny.dao.vo.system.rolePower.RoleVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,7 +30,7 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param dto        角色查询表单
      * @return 角色分页结果
      */
-    IPage<Role> selectListByPage(@Param("page") Page<Role> pageParams, @Param("dto") RoleDto dto);
+    IPage<RoleVo> selectListByPage(@Param("page") Page<Role> pageParams, @Param("dto") RoleDto dto);
 
     /**
      * 物理删除角色

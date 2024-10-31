@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.router;
 
-import cn.bunny.dao.common.vo.BaseVo;
+import cn.bunny.dao.common.vo.BaseUserVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ApiModel(value = "RouterControllerVo对象", description = "路由管理端返回对象")
-public class RouterManageVo extends BaseVo {
+public class RouterManageVo extends BaseUserVo {
 
     @ApiModelProperty("父级id")
     @JsonProperty("parentId")

@@ -52,16 +52,10 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
     @Override
     public PageResult<PowerVo> getPowerList(Page<Power> pageParams, PowerDto dto) {
         // 分页查询菜单图标
-        IPage<Power> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<PowerVo> voList = page.getRecords().stream().map(Power -> {
-            PowerVo PowerVo = new PowerVo();
-            BeanUtils.copyProperties(Power, PowerVo);
-            return PowerVo;
-        }).toList();
+        IPage<PowerVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<PowerVo>builder()
-                .list(voList)
+                .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())

@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.dept.DeptDto;
 import cn.bunny.dao.entity.system.Dept;
+import cn.bunny.dao.vo.system.DeptVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface DeptMapper extends BaseMapper<Dept> {
      * @param dto        部门查询表单
      * @return 部门分页结果
      */
-    IPage<Dept> selectListByPage(@Param("page") Page<Dept> pageParams, @Param("dto") DeptDto dto);
+    IPage<DeptVo> selectListByPage(@Param("page") Page<Dept> pageParams, @Param("dto") DeptDto dto);
 
     /**
      * 物理删除部门
