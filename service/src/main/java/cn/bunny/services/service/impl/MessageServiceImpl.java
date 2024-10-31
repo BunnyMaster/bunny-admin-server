@@ -1,12 +1,16 @@
 package cn.bunny.services.service.impl;
 
+import cn.bunny.common.service.context.BaseContext;
+import cn.bunny.dao.common.entity.BaseEntity;
 import cn.bunny.dao.dto.system.message.MessageAddDto;
 import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUpdateDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.message.MessageVo;
+import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.MessageMapper;
+import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.service.MessageService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,6 +18,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import jodd.util.StringUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +34,12 @@ import java.util.List;
 @Service
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements MessageService {
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserFactory userFactory;
+
     /**
      * * 系统消息 服务实现类
      *
@@ -43,6 +54,11 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         List<MessageVo> voList = page.getRecords().stream().map(messageVo -> {
             MessageVo vo = new MessageVo();
             BeanUtils.copyProperties(messageVo, vo);
+
+            // 设置封面返回内容
+            String cover = vo.getCover();
+            cover = userFactory.checkGetUserAvatar(cover);
+            vo.setCover(cover);
             return vo;
         }).toList();
         return PageResult.<MessageVo>builder()
@@ -60,6 +76,16 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     public void addMessage(@Valid MessageAddDto dto) {
+        // 如果发送人为空设置当前登录的人的ID
+        Long sendUserId = dto.getSendUserId();
+        if (sendUserId == null) dto.setSendUserId(BaseContext.getUserId());
+
+        // 如果接收人为空默认接收全部人
+        if (dto.getReceivedUserIds().isEmpty()) {
+            List<Long> userIds = userMapper.selectList(null).stream().map(BaseEntity::getId).toList();
+            dto.setReceivedUserIds(userIds);
+        }
+
         // 保存数据
         Message message = new Message();
         BeanUtils.copyProperties(dto, message);

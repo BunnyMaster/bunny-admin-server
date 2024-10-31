@@ -34,6 +34,12 @@ public class Message extends BaseEntity {
     @Schema(name = "messageType", title = "sys:系统消息,user用户消息")
     private String messageType;
 
+    @Schema(name = "cover", title = "封面")
+    private String cover;
+
+    @Schema(name = "summary", title = "消息简介")
+    private String summary;
+    
     @Schema(name = "content", title = "消息内容")
     private String content;
 

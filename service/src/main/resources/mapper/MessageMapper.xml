@@ -11,17 +11,19 @@
         <id column="update_user" property="updateUser"/>
         <id column="is_deleted" property="isDeleted"/>
         <id column="title" property="title"/>
-        <id column="received_user_id" property="receivedUserId"/>
+        <id column="received_user_ids" property="receivedUserIds"/>
         <id column="send_user_id" property="sendUserId"/>
         <id column="message_type" property="messageType"/>
         <id column="content" property="content"/>
+        <id column="cover" property="cover"/>
+        <id column="summary" property="summary"/>
         <id column="editor_type" property="editorType"/>
         <id column="status" property="status"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, title, received_user_id, send_user_id, send_nick_name, message_type, content, editor_type, status
+        id, create_time, update_time, create_user, update_user, is_deleted, title, received_user_ids, send_user_id, send_nick_name, message_type, content, editor_type, status
     </sql>
 
     <!-- 分页查询系统消息内容 -->

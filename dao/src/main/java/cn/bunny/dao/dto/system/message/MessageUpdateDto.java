@@ -38,6 +38,14 @@ public class MessageUpdateDto {
     @NotNull(message = "消息类型 不能为空")
     private String messageType;
 
+    @Schema(name = "cover", title = "封面")
+    private String cover;
+
+    @Schema(name = "summary", title = "消息简介")
+    @NotBlank(message = "消息简介 不能为空")
+    @NotNull(message = "消息简介 不能为空")
+    private String summary;
+
     @Schema(name = "content", title = "消息内容")
     @NotBlank(message = "消息内容 不能为空")
     @NotNull(message = "消息内容 不能为空")
