@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.email.user.EmailUsersDto;
 import cn.bunny.dao.entity.system.EmailUsers;
+import cn.bunny.dao.vo.system.email.EmailUsersVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface EmailUsersMapper extends BaseMapper<EmailUsers> {
      * @param dto        邮箱用户发送配置查询表单
      * @return 邮箱用户发送配置分页结果
      */
-    IPage<EmailUsers> selectListByPage(@Param("page") Page<EmailUsers> pageParams, @Param("dto") EmailUsersDto dto);
+    IPage<EmailUsersVo> selectListByPage(@Param("page") Page<EmailUsers> pageParams, @Param("dto") EmailUsersDto dto);
 
     /**
      * 物理删除邮箱用户发送配置

@@ -42,25 +42,25 @@
         <where>
             user.is_deleted = 0
             <if test="dto.username != null and dto.username != ''">
-                and username like CONCAT('%',#{dto.username},'%')
+                and user.username like CONCAT('%',#{dto.username},'%')
             </if>
             <if test="dto.nickname != null and dto.nickname != ''">
-                and nickname like CONCAT('%',#{dto.nickname},'%')
+                and user.nickname like CONCAT('%',#{dto.nickname},'%')
             </if>
             <if test="dto.email != null and dto.email != ''">
-                and email like CONCAT('%',#{dto.email},'%')
+                and user.email like CONCAT('%',#{dto.email},'%')
             </if>
             <if test="dto.phone != null and dto.phone != ''">
-                and phone like CONCAT('%',#{dto.phone},'%')
+                and user.phone like CONCAT('%',#{dto.phone},'%')
             </if>
             <if test="dto.sex != null and dto.sex != ''">
-                and sex = #{dto.sex}
+                and user.sex = #{dto.sex}
             </if>
             <if test="dto.summary != null and dto.summary != ''">
-                and summary like CONCAT('%',#{dto.summary},'%')
+                and user.summary like CONCAT('%',#{dto.summary},'%')
             </if>
             <if test="dto.status != null and dto.status != ''">
-                and status = #{dto.status}
+                and user.status = #{dto.status}
             </if>
             <if test="dto.deptIds != null and dto.deptIds.size() > 0">
                 and user_dept.dept_id in

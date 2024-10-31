@@ -24,23 +24,27 @@
     </sql>
 
     <!-- 分页查询邮件模板表内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.EmailTemplate">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.email.EmailTemplateVo">
         select
-        <include refid="Base_Column_List"/>
-        from sys_email_template
+        template.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_email_template template
+        left join sys_user create_user on create_user.id = template.create_user
+        left join sys_user update_user on update_user.id = template.update_user
         <where>
-            is_deleted = 0
+            template.is_deleted = 0
             <if test="dto.templateName != null and dto.templateName != ''">
-                and template_name like CONCAT('%',#{dto.templateName},'%')
+                and template.template_name like CONCAT('%',#{dto.templateName},'%')
             </if>
             <if test="dto.subject != null and dto.subject != ''">
-                and subject like CONCAT('%',#{dto.subject},'%')
+                and template.subject like CONCAT('%',#{dto.subject},'%')
             </if>
             <if test="dto.body != null and dto.body != ''">
-                and body like CONCAT('%',#{dto.body},'%')
+                and template.body like CONCAT('%',#{dto.body},'%')
             </if>
             <if test="dto.type != null and dto.type != ''">
-                and type like CONCAT('%',#{dto.type},'%')
+                and template.type like CONCAT('%',#{dto.type},'%')
             </if>
         </where>
     </select>

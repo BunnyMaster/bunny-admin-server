@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.email;
 
-import cn.bunny.dao.common.vo.BaseVo;
+import cn.bunny.dao.common.vo.BaseUserVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Schema(name = "EmailTemplateVo对象", title = "邮箱模板返回内容", description = "邮箱模板返回内容")
-public class EmailTemplateVo extends BaseVo {
+public class EmailTemplateVo extends BaseUserVo {
 
     @Schema(name = "templateName", title = "模板名称")
     private String templateName;

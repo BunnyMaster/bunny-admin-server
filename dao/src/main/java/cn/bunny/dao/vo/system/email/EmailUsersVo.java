@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.email;
 
-import cn.bunny.dao.common.vo.BaseVo;
+import cn.bunny.dao.common.vo.BaseUserVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Schema(name = "EmailUsersVo对象", title = "邮箱用户发送配置", description = "邮箱用户发送配置管理")
-public class EmailUsersVo extends BaseVo {
+public class EmailUsersVo extends BaseUserVo {
 
     @Schema(name = "email", title = "邮箱")
     private String email;

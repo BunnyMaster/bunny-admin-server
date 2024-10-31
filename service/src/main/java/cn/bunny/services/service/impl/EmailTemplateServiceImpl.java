@@ -45,16 +45,10 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
     @Override
     public PageResult<EmailTemplateVo> getEmailTemplateList(Page<EmailTemplate> pageParams, EmailTemplateDto dto) {
         // 分页查询菜单图标
-        IPage<EmailTemplate> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<EmailTemplateVo> voList = page.getRecords().stream().map(emailTemplate -> {
-            EmailTemplateVo emailTemplateVo = new EmailTemplateVo();
-            BeanUtils.copyProperties(emailTemplate, emailTemplateVo);
-            return emailTemplateVo;
-        }).toList();
+        IPage<EmailTemplateVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<EmailTemplateVo>builder()
-                .list(voList)
+                .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())

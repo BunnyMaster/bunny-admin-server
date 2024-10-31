@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system;
 
-import cn.bunny.dao.common.vo.BaseVo;
+import cn.bunny.dao.common.vo.BaseUserVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Schema(name = "MenuIconVo对象", title = "系统菜单图标", description = "系统菜单图标")
-public class MenuIconVo extends BaseVo {
+public class MenuIconVo extends BaseUserVo {
 
     @Schema(name = "iconCode", title = "icon类名")
     private String iconCode;

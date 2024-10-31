@@ -50,16 +50,10 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
     @Override
     public PageResult<EmailUsersVo> getEmailUsersList(Page<EmailUsers> pageParams, EmailUsersDto dto) {
         // 分页查询菜单图标
-        IPage<EmailUsers> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<EmailUsersVo> voList = page.getRecords().stream().map(emailUsers -> {
-            EmailUsersVo emailUsersVo = new EmailUsersVo();
-            BeanUtils.copyProperties(emailUsers, emailUsersVo);
-            return emailUsersVo;
-        }).toList();
+        IPage<EmailUsersVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<EmailUsersVo>builder()
-                .list(voList)
+                .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())

@@ -46,16 +46,9 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
     @Override
     public PageResult<MenuIconVo> getMenuIconList(Page<MenuIcon> pageParams, MenuIconDto dto) {
         // 分页查询菜单图标
-        IPage<MenuIcon> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<MenuIconVo> voList = page.getRecords().stream().map(MenuIcon -> {
-            MenuIconVo MenuIconVo = new MenuIconVo();
-            BeanUtils.copyProperties(MenuIcon, MenuIconVo);
-            return MenuIconVo;
-        }).toList();
-
+        IPage<MenuIconVo> page = baseMapper.selectListByPage(pageParams, dto);
         return PageResult.<MenuIconVo>builder()
-                .list(voList)
+                .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())

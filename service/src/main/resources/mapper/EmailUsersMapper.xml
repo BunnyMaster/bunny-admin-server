@@ -24,26 +24,29 @@
     </sql>
 
     <!-- 分页查询邮箱用户发送配置内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.EmailUsers">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.email.EmailUsersVo">
         select
-        <include refid="Base_Column_List"/>
-        from sys_email_users
+        email_user.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_email_users email_user
+        left join sys_user create_user on create_user.id = email_user.create_user
+        left join sys_user update_user on update_user.id = email_user.update_user
         <where>
-            is_deleted = 0
+            email_user.is_deleted = 0
             <if test="dto.email != null and dto.email != ''">
-                and email like CONCAT('%',#{dto.email},'%')
+                and email_user.email like CONCAT('%',#{dto.email},'%')
             </if>
             <if test="dto.host != null and dto.host != ''">
-                and host like CONCAT('%',#{dto.host},'%')
+                and email_user.host like CONCAT('%',#{dto.host},'%')
             </if>
             <if test="dto.port != null and dto.port != ''">
-                and port like CONCAT('%',#{dto.port},'%')
+                and email_user.port like CONCAT('%',#{dto.port},'%')
             </if>
             <if test="dto.smtpAgreement != null and dto.smtpAgreement != ''">
-                and smtp_agreement like CONCAT('%',#{dto.smtpAgreement},'%')
+                and email_user.smtp_agreement like CONCAT('%',#{dto.smtpAgreement},'%')
             </if>
         </where>
-        order by create_time desc
     </select>
 
     <!-- 物理删除邮箱用户发送配置 -->

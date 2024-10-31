@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.menuIcon.MenuIconDto;
 import cn.bunny.dao.entity.system.MenuIcon;
+import cn.bunny.dao.vo.system.MenuIconVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface MenuIconMapper extends BaseMapper<MenuIcon> {
      * @param dto        系统菜单图标查询表单
      * @return 系统菜单图标分页结果
      */
-    IPage<MenuIcon> selectListByPage(@Param("page") Page<MenuIcon> pageParams, @Param("dto") MenuIconDto dto);
+    IPage<MenuIconVo> selectListByPage(@Param("page") Page<MenuIcon> pageParams, @Param("dto") MenuIconDto dto);
 
     /**
      * 物理删除系统菜单图标

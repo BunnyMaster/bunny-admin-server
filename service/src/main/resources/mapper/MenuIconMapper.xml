@@ -20,20 +20,23 @@
     </sql>
 
     <!-- 分页查询系统菜单图标内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.MenuIcon">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.MenuIconVo">
         select
-        <include refid="Base_Column_List"/>
-        from sys_menu_icon
+        icon.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_menu_icon icon
+        left join sys_user create_user on create_user.id = icon.create_user
+        left join sys_user update_user on update_user.id = icon.update_user
         <where>
-            is_deleted = 0
+            icon.is_deleted = 0
             <if test="dto.iconCode != null and dto.iconCode != ''">
-                and icon_code like CONCAT('%',#{dto.iconCode},'%')
+                and icon.icon_code like CONCAT('%',#{dto.iconCode},'%')
             </if>
             <if test="dto.iconName != null and dto.iconName != ''">
-                and icon_name like CONCAT('%',#{dto.iconName},'%')
+                and icon.icon_name like CONCAT('%',#{dto.iconName},'%')
             </if>
         </where>
-        order by update_time desc
     </select>
 
     <!-- 物理删除系统菜单图标 -->

@@ -33,7 +33,7 @@
         <where>
             power.is_deleted = 0
             <if test="dto.powerCode != null and dto.powerCode != ''">
-                and ppower.ower_code like CONCAT('%',#{dto.powerCode},'%')
+                and power.power_code like CONCAT('%',#{dto.powerCode},'%')
             </if>
             <if test="dto.powerName != null and dto.powerName != ''">
                 and power.power_name like CONCAT('%',#{dto.powerName},'%')

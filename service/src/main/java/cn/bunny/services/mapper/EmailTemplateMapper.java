@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.email.template.EmailTemplateDto;
 import cn.bunny.dao.entity.system.EmailTemplate;
+import cn.bunny.dao.vo.system.email.EmailTemplateVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface EmailTemplateMapper extends BaseMapper<EmailTemplate> {
      * @param dto        邮件模板表查询表单
      * @return 邮件模板表分页结果
      */
-    IPage<EmailTemplate> selectListByPage(@Param("page") Page<EmailTemplate> pageParams, @Param("dto") EmailTemplateDto dto);
+    IPage<EmailTemplateVo> selectListByPage(@Param("page") Page<EmailTemplate> pageParams, @Param("dto") EmailTemplateDto dto);
 
     /**
      * 物理删除邮件模板表
