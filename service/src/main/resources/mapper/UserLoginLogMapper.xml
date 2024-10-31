@@ -26,26 +26,30 @@
     </sql>
 
     <!-- 分页查询用户登录日志内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.log.UserLoginLog">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.log.UserLoginLogVo">
         select
-        <include refid="Base_Column_List"/>
-        from log_user_login
+        user_login.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from log_user_login user_login
+        left join sys_user create_user on create_user.id = user_login.create_user
+        left join sys_user update_user on update_user.id = user_login.update_user
         <where>
-            is_deleted = 0
+            user_login.is_deleted = 0
             <if test="dto.username != null and dto.username != ''">
-                and username like CONCAT('%',#{dto.username},'%')
+                and user_login.username like CONCAT('%',#{dto.username},'%')
             </if>
             <if test="dto.ipAddress != null and dto.ipAddress != ''">
-                and ip_address like CONCAT('%',#{dto.ipAddress},'%')
+                and user_login.ip_address like CONCAT('%',#{dto.ipAddress},'%')
             </if>
             <if test="dto.ipRegion != null and dto.ipRegion != ''">
-                and ip_region like CONCAT('%',#{dto.ipRegion},'%')
+                and user_login.ip_region like CONCAT('%',#{dto.ipRegion},'%')
             </if>
             <if test="dto.type != null and dto.type != ''">
-                and type like CONCAT('%',#{dto.type},'%')
+                and user_login.type like CONCAT('%',#{dto.type},'%')
             </if>
             <if test="dto.xRequestedWith != null and dto.xRequestedWith != ''">
-                and x_requested_with like CONCAT('%',#{dto.xRequestedWith},'%')
+                and user_login.x_requested_with like CONCAT('%',#{dto.xRequestedWith},'%')
             </if>
         </where>
     </select>
@@ -54,7 +58,7 @@
     <select id="selectListByPageWithLocalUser" resultType="cn.bunny.dao.entity.log.UserLoginLog">
         select
         <include refid="Base_Column_List"/>
-        from log_user_login where user_id = #{id} order by create_time desc
+        from log_user_login where user_id = #{id}
     </select>
 
     <!-- 物理删除用户登录日志 -->

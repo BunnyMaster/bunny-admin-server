@@ -15,15 +15,19 @@
     </sql>
 
     <!-- 分页查询${classTitle}内容 -->
-    <select id="selectListByPage" resultType="$type">
+    <select id="selectListByPage" resultType="${type}Vo">
         select
-        <include refid="Base_Column_List"/>
-        from $tableName
+        base.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from $tableName base
+        left join sys_user create_user on create_user.id = base.create_user
+        left join sys_user update_user on update_user.id = base.update_user
         <where>
-            is_deleted = 0
+            base.is_deleted = 0
             #foreach($field in $pageQueryMap)
                 <if test="dto.${field.property} != null and dto.${field.property} != ''">
-                    and $field.column like CONCAT('%',#{dto.${field.property}},'%')
+                    and base.$field.column like CONCAT('%',#{dto.${field.property}},'%')
                 </if>
             #end
         </where>

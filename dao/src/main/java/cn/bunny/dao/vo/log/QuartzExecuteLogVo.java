@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.log;
 
-import cn.bunny.dao.common.vo.BaseVo;
+import cn.bunny.dao.common.vo.BaseUserVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Schema(name = "QuartzExecuteLogVo对象", title = "调度任务执行日志返回对象", description = "调度任务执行日志返回对象")
-public class QuartzExecuteLogVo extends BaseVo {
+public class QuartzExecuteLogVo extends BaseUserVo {
 
     @Schema(name = "jobName", title = "任务名称")
     private String jobName;

@@ -1,6 +1,5 @@
 package cn.bunny.services.factory;
 
-import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.log.UserLoginLogVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -18,7 +17,7 @@ public class UserLoginLogFactory {
      * @param page 分页结果
      * @return 分页用户登录日志
      */
-    public PageResult<UserLoginLogVo> getUserLoginLogVoPageResult(IPage<UserLoginLog> page) {
+    public PageResult<UserLoginLogVo> getUserLoginLogVoPageResult(IPage<UserLoginLogVo> page) {
         List<UserLoginLogVo> voList = page.getRecords().stream().map(userLoginLog -> {
             UserLoginLogVo userLoginLogVo = new UserLoginLogVo();
             BeanUtils.copyProperties(userLoginLog, userLoginLogVo);

@@ -4,6 +4,7 @@ import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.dao.dto.log.UserLoginLogDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.log.UserLoginLogLocalVo;
 import cn.bunny.dao.vo.log.UserLoginLogVo;
 import cn.bunny.services.factory.UserLoginLogFactory;
 import cn.bunny.services.mapper.UserLoginLogMapper;
@@ -11,6 +12,7 @@ import cn.bunny.services.service.UserLoginLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +44,7 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
     @Override
     public PageResult<UserLoginLogVo> getUserLoginLogList(Page<UserLoginLog> pageParams, UserLoginLogDto dto) {
         // 分页查询菜单图标
-        IPage<UserLoginLog> page = baseMapper.selectListByPage(pageParams, dto);
+        IPage<UserLoginLogVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return factory.getUserLoginLogVoPageResult(page);
     }
@@ -68,10 +70,21 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
      * @return 用户登录日志返回列表
      */
     @Override
-    public PageResult<UserLoginLogVo> getUserLoginLogListByLocalUser(Page<UserLoginLog> pageParams) {
+    public PageResult<UserLoginLogLocalVo> getUserLoginLogListByLocalUser(Page<UserLoginLog> pageParams) {
         Long userId = BaseContext.getUserId();
         IPage<UserLoginLog> page = baseMapper.selectListByPageWithLocalUser(pageParams, userId);
 
-        return factory.getUserLoginLogVoPageResult(page);
+        List<UserLoginLogLocalVo> voList = page.getRecords().stream().map(userLoginLog -> {
+            UserLoginLogLocalVo userLoginLogVo = new UserLoginLogLocalVo();
+            BeanUtils.copyProperties(userLoginLog, userLoginLogVo);
+            return userLoginLogVo;
+        }).toList();
+
+        return PageResult.<UserLoginLogLocalVo>builder()
+                .list(voList)
+                .pageNo(page.getCurrent())
+                .pageSize(page.getSize())
+                .total(page.getTotal())
+                .build();
     }
 }

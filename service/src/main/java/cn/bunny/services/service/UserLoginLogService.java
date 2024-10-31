@@ -3,6 +3,7 @@ package cn.bunny.services.service;
 import cn.bunny.dao.dto.log.UserLoginLogDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.log.UserLoginLogLocalVo;
 import cn.bunny.dao.vo.log.UserLoginLogVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -39,5 +40,5 @@ public interface UserLoginLogService extends IService<UserLoginLog> {
      * @param pageParams 分页查询内容
      * @return 用户登录日志返回列表
      */
-    PageResult<UserLoginLogVo> getUserLoginLogListByLocalUser(Page<UserLoginLog> pageParams);
+    PageResult<UserLoginLogLocalVo> getUserLoginLogListByLocalUser(Page<UserLoginLog> pageParams);
 }

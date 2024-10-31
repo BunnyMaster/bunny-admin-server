@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.log.ScheduleExecuteLogDto;
 import cn.bunny.dao.entity.log.ScheduleExecuteLog;
+import cn.bunny.dao.vo.log.QuartzExecuteLogVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface ScheduleExecuteLogMapper extends BaseMapper<ScheduleExecuteLog>
      * @param dto        调度任务执行日志查询表单
      * @return 调度任务执行日志分页结果
      */
-    IPage<ScheduleExecuteLog> selectListByPage(@Param("page") Page<ScheduleExecuteLog> pageParams, @Param("dto") ScheduleExecuteLogDto dto);
+    IPage<QuartzExecuteLogVo> selectListByPage(@Param("page") Page<ScheduleExecuteLog> pageParams, @Param("dto") ScheduleExecuteLogDto dto);
 
     /**
      * 物理删除调度任务执行日志

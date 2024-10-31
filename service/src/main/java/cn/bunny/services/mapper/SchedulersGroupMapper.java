@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.quartz.group.SchedulersGroupDto;
 import cn.bunny.dao.entity.quartz.SchedulersGroup;
+import cn.bunny.dao.vo.quartz.SchedulersGroupVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface SchedulersGroupMapper extends BaseMapper<SchedulersGroup> {
      * @param dto        任务调度分组查询表单
      * @return 任务调度分组分页结果
      */
-    IPage<SchedulersGroup> selectListByPage(@Param("page") Page<SchedulersGroup> pageParams, @Param("dto") SchedulersGroupDto dto);
+    IPage<SchedulersGroupVo> selectListByPage(@Param("page") Page<SchedulersGroup> pageParams, @Param("dto") SchedulersGroupDto dto);
 
     /**
      * 物理删除任务调度分组

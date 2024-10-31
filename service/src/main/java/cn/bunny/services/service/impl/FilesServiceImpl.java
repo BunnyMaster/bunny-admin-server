@@ -74,16 +74,10 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     @Override
     public PageResult<FilesVo> getFilesList(Page<Files> pageParams, FilesDto dto) {
         // 分页查询菜单图标
-        IPage<Files> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<FilesVo> voList = page.getRecords().stream().map(files -> {
-            FilesVo filesVo = new FilesVo();
-            BeanUtils.copyProperties(files, filesVo);
-            return filesVo;
-        }).toList();
+        IPage<FilesVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<FilesVo>builder()
-                .list(voList)
+                .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())

@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.system.files.FilesDto;
 import cn.bunny.dao.entity.system.Files;
+import cn.bunny.dao.vo.system.files.FilesVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface FilesMapper extends BaseMapper<Files> {
      * @param dto        系统文件表查询表单
      * @return 系统文件表分页结果
      */
-    IPage<Files> selectListByPage(@Param("page") Page<Files> pageParams, @Param("dto") FilesDto dto);
+    IPage<FilesVo> selectListByPage(@Param("page") Page<Files> pageParams, @Param("dto") FilesDto dto);
 
     /**
      * 物理删除系统文件表

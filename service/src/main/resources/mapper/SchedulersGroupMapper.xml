@@ -20,19 +20,23 @@
     </sql>
 
     <!-- 分页查询任务调度分组内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.quartz.SchedulersGroup">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.quartz.SchedulersGroupVo">
         select
-        <include refid="Base_Column_List"/>
-        from qrtz_schedulers_group
+        schedulers_group.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from qrtz_schedulers_group schedulers_group
+        left join sys_user create_user on create_user.id = schedulers_group.create_user
+        left join sys_user update_user on update_user.id = schedulers_group.update_user
         <where>
+            schedulers_group.is_deleted = 0
             <if test="dto.groupName != null and dto.groupName != ''">
-                and group_name like CONCAT('%',#{dto.groupName},'%')
+                and schedulers_group.group_name like CONCAT('%',#{dto.groupName},'%')
             </if>
             <if test="dto.description != null and dto.description != ''">
-                and description like CONCAT('%',#{dto.description},'%')
+                and schedulers_group.description like CONCAT('%',#{dto.description},'%')
             </if>
         </where>
-        order by update_time desc
     </select>
 
     <!-- 物理删除任务调度分组 -->

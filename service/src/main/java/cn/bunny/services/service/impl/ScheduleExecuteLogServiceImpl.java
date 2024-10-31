@@ -9,7 +9,6 @@ import cn.bunny.services.service.ScheduleExecuteLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,16 +34,10 @@ public class ScheduleExecuteLogServiceImpl extends ServiceImpl<ScheduleExecuteLo
     @Override
     public PageResult<QuartzExecuteLogVo> getQuartzExecuteLogList(Page<ScheduleExecuteLog> pageParams, ScheduleExecuteLogDto dto) {
         // 分页查询菜单图标
-        IPage<ScheduleExecuteLog> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<QuartzExecuteLogVo> voList = page.getRecords().stream().map(quartzExecuteLog -> {
-            QuartzExecuteLogVo quartzExecuteLogVo = new QuartzExecuteLogVo();
-            BeanUtils.copyProperties(quartzExecuteLog, quartzExecuteLogVo);
-            return quartzExecuteLogVo;
-        }).toList();
+        IPage<QuartzExecuteLogVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<QuartzExecuteLogVo>builder()
-                .list(voList)
+                .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())

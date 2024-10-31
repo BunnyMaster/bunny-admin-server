@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.log;
 
-import cn.bunny.dao.common.vo.BaseUserVo;
+import cn.bunny.dao.common.vo.BaseVo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -10,8 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "UserLoginLogVo对象", title = "用户登录日志", description = "用户登录日志")
-public class UserLoginLogVo extends BaseUserVo {
+@Schema(name = "UserLoginLogLocalVo对象", title = "用户登录日志", description = "用户登录日志")
+public class UserLoginLogLocalVo extends BaseVo {
 
     @Schema(name = "userId", title = "用户Id")
     private Long userId;

@@ -25,29 +25,32 @@
     </sql>
 
     <!-- 分页查询调度任务执行日志内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.log.ScheduleExecuteLog">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.log.QuartzExecuteLogVo">
         select
-        <include refid="Base_Column_List"/>
-        from log_quartz_execute
+        log.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from log_quartz_execute log
+        left join sys_user create_user on create_user.id = log.create_user
+        left join sys_user update_user on update_user.id = log.update_user
         <where>
-            is_deleted = 0
+            log.is_deleted = 0
             <if test="dto.jobName != null and dto.jobName != ''">
-                and job_name like CONCAT('%',#{dto.jobName},'%')
+                and log.job_name like CONCAT('%',#{dto.jobName},'%')
             </if>
             <if test="dto.jobGroup != null and dto.jobGroup != ''">
-                and job_group like CONCAT('%',#{dto.jobGroup},'%')
+                and log.job_group like CONCAT('%',#{dto.jobGroup},'%')
             </if>
             <if test="dto.jobClassName != null and dto.jobClassName != ''">
-                and job_class_name like CONCAT('%',#{dto.jobClassName},'%')
+                and log.job_class_name like CONCAT('%',#{dto.jobClassName},'%')
             </if>
             <if test="dto.cronExpression != null and dto.cronExpression != ''">
-                and cron_expression like CONCAT('%',#{dto.cronExpression},'%')
+                and log.cron_expression like CONCAT('%',#{dto.cronExpression},'%')
             </if>
             <if test="dto.triggerName != null and dto.triggerName != ''">
-                and trigger_name like CONCAT('%',#{dto.triggerName},'%')
+                and log.trigger_name like CONCAT('%',#{dto.triggerName},'%')
             </if>
         </where>
-        order by update_time desc
     </select>
 
     <!-- 物理删除调度任务执行日志 -->

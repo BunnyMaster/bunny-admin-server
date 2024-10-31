@@ -23,26 +23,29 @@
     </sql>
 
     <!-- 分页查询系统文件表内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.entity.system.Files">
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.files.FilesVo">
         select
-        <include refid="Base_Column_List"/>
-        from sys_files
+        files.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_files files
+        left join sys_user create_user on create_user.id = files.create_user
+        left join sys_user update_user on update_user.id = files.update_user
         <where>
-            is_deleted = 0
+            files.is_deleted = 0
             <if test="dto.filename != null and dto.filename != ''">
-                and filename like CONCAT('%',#{dto.filename},'%')
+                and files.filename like CONCAT('%',#{dto.filename},'%')
             </if>
             <if test="dto.filepath != null and dto.filepath != ''">
-                and filepath like CONCAT('%',#{dto.filepath},'%')
+                and files.filepath like CONCAT('%',#{dto.filepath},'%')
             </if>
             <if test="dto.fileType != null and dto.fileType != ''">
-                and file_type like CONCAT('%',#{dto.fileType},'%')
+                and files.file_type like CONCAT('%',#{dto.fileType},'%')
             </if>
             <if test="dto.downloadCount != null and dto.downloadCount != ''">
-                and download_count like CONCAT('%',#{dto.downloadCount},'%')
+                and files.download_count like CONCAT('%',#{dto.downloadCount},'%')
             </if>
         </where>
-        order by update_time
     </select>
 
     <!-- 物理删除系统文件表 -->

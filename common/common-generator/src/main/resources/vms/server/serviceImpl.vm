@@ -31,13 +31,7 @@ public class ${originalName}ServiceImpl extends ServiceImpl<${originalName}Mappe
      */
     @Override
     public PageResult<${originalName}Vo> get${originalName}List(Page<${originalName}> pageParams, ${originalName}Dto dto) {
-        IPage<${originalName}> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<${originalName}Vo> voList = page.getRecords().stream().map(${lowercaseName} -> {
-            ${originalName}Vo ${lowercaseName}Vo = new ${originalName}Vo();
-            BeanUtils.copyProperties(${lowercaseName}, ${lowercaseName}Vo);
-            return ${lowercaseName}Vo;
-        }).toList();
+        IPage<${originalName}Vo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<${originalName}Vo>builder()
                 .list(voList)

@@ -2,6 +2,7 @@ package cn.bunny.services.mapper;
 
 import cn.bunny.dao.dto.log.UserLoginLogDto;
 import cn.bunny.dao.entity.log.UserLoginLog;
+import cn.bunny.dao.vo.log.UserLoginLogVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,7 +29,7 @@ public interface UserLoginLogMapper extends BaseMapper<UserLoginLog> {
      * @param dto        用户登录日志查询表单
      * @return 用户登录日志分页结果
      */
-    IPage<UserLoginLog> selectListByPage(@Param("page") Page<UserLoginLog> pageParams, @Param("dto") UserLoginLogDto dto);
+    IPage<UserLoginLogVo> selectListByPage(@Param("page") Page<UserLoginLog> pageParams, @Param("dto") UserLoginLogDto dto);
 
     /**
      * 物理删除用户登录日志

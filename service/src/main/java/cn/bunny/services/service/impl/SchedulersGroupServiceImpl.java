@@ -40,16 +40,10 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
     @Override
     public PageResult<SchedulersGroupVo> getSchedulersGroupList(Page<SchedulersGroup> pageParams, SchedulersGroupDto dto) {
         // 分页查询菜单图标
-        IPage<SchedulersGroup> page = baseMapper.selectListByPage(pageParams, dto);
-
-        List<SchedulersGroupVo> voList = page.getRecords().stream().map(schedulersGroup -> {
-            SchedulersGroupVo schedulersGroupVo = new SchedulersGroupVo();
-            BeanUtils.copyProperties(schedulersGroup, schedulersGroupVo);
-            return schedulersGroupVo;
-        }).toList();
+        IPage<SchedulersGroupVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<SchedulersGroupVo>builder()
-                .list(voList)
+                .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())
