@@ -3,6 +3,7 @@ package cn.bunny.services.service;
 import cn.bunny.dao.dto.system.message.MessageAddDto;
 import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUpdateDto;
+import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.message.MessageUserVo;
@@ -55,7 +56,16 @@ public interface MessageService extends IService<Message> {
      * 分页查询用户消息
      *
      * @param pageParams 系统消息返回列表
+     * @param dto        查询表单
      * @return 分页结果
      */
-    PageResult<MessageUserVo> getUserMessageList(Page<Message> pageParams);
+    PageResult<MessageUserVo> getUserMessageList(Page<Message> pageParams, MessageUserDto dto);
+
+    /**
+     * 根据消息id查询消息详情
+     *
+     * @param id 消息id
+     * @return 消息详情
+     */
+    MessageVo getMessageDetailById(Long id);
 }

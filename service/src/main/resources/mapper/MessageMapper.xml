@@ -11,7 +11,6 @@
         <id column="update_user" property="updateUser"/>
         <id column="is_deleted" property="isDeleted"/>
         <id column="title" property="title"/>
-        <id column="received_user_ids" property="receivedUserIds"/>
         <id column="send_user_id" property="sendUserId"/>
         <id column="message_type" property="messageType"/>
         <id column="content" property="content"/>
@@ -25,7 +24,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, title, received_user_ids, send_user_id, send_nick_name, message_type, content, editor_type, status, level, extra
+        id
+        , create_time, update_time, create_user, update_user, is_deleted, title, send_user_id, message_type, content, cover, summary, editor_type, status,level,extra
     </sql>
 
     <!-- 分页查询系统消息内容 -->
@@ -34,13 +34,11 @@
         message.*,
         create_user.username as create_username,
         update_user.username as update_username,
-        send_user.nickname as send_nickname,
-        message_recived.received_user_id as message_recivedids
+        send_user.nickname as send_nickname
         from sys_message message
         left join sys_user create_user on create_user.id = message.create_user
         left join sys_user update_user on update_user.id = message.update_user
         left join sys_user send_user on send_user.id = message.send_user_id
-        left join sys_message_recived message_recived on message_recived.message_id = message.id
         <where>
             message.is_deleted = 0
             <if test="dto.title != null and dto.title != ''">
@@ -65,7 +63,7 @@
                 and message.level = #{dto.level}
             </if>
             <if test="dto.extra != null and dto.extra != ''">
-                and message.extra = #{dto.extra}
+                and message.extra like CONCAT('%',#{dto.extra},'%')
             </if>
             <if test="dto.status != null">
                 and message.status = #{dto.status}
@@ -73,11 +71,36 @@
         </where>
     </select>
 
-    <!-- 分页查询用户消息 -->
-    <select id="selectUserMessageList" resultType="cn.bunny.dao.vo.system.message.MessageUserVo">
-
+    <!-- 根据消息所有包含匹配当前消息Id的列表 -->
+    <select id="selectListByPageWithMessageUserDto" resultType="cn.bunny.dao.entity.system.Message">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_message
+        <where>
+            <if test="messageIds != null">
+                id in
+                <foreach collection="messageIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="dto.status != null">
+                and status = #{dto.status}
+            </if>
+            <if test="dto.messageType != null and dto.messageType != ''">
+                and message_type like CONCAT('%',#{dto.messageType},'%')
+            </if>
+        </where>
     </select>
 
+    <!-- 根据消息id查询消息详情 -->
+    <select id="selectMessageVoById" resultType="cn.bunny.dao.vo.system.message.MessageVo">
+        SELECT message.*,
+               send_user.nickname AS send_nickname
+        FROM sys_message message
+                 LEFT JOIN sys_user update_user ON update_user.id = message.update_user
+                 LEFT JOIN sys_user send_user ON send_user.id = message.send_user_id
+        WHERE message.id = #{id}
+    </select>
 
     <!-- 物理删除系统消息 -->
     <delete id="deleteBatchIdsWithPhysics">

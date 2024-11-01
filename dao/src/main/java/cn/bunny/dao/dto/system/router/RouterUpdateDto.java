@@ -2,6 +2,7 @@ package cn.bunny.dao.dto.system.router;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -48,6 +49,8 @@ public class RouterUpdateDto {
 
     @Schema(name = "routerRank", title = "等级")
     @JsonProperty("rank")
+    @NotNull(message = "菜单排序不能为空")
+    @Max(value = 999, message = "不能超过999")
     private Integer routerRank;
 
     @Schema(name = "icon", title = "图标")

@@ -5,6 +5,7 @@ import cn.bunny.dao.common.entity.BaseEntity;
 import cn.bunny.dao.dto.system.message.MessageAddDto;
 import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUpdateDto;
+import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.entity.system.MessageReceived;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -61,8 +62,8 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     public PageResult<MessageVo> getMessageList(Page<Message> pageParams, MessageDto dto) {
+        // 分页查询消息数据
         IPage<MessageVo> page = baseMapper.selectListByPage(pageParams, dto);
-
         List<MessageVo> voList = page.getRecords().stream().map(messageVo -> {
             MessageVo vo = new MessageVo();
             BeanUtils.copyProperties(messageVo, vo);
@@ -82,107 +83,24 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     }
 
     /**
-     * 添加系统消息
-     *
-     * @param dto 系统消息添加
-     */
-    @Override
-    public void addMessage(@Valid MessageAddDto dto) {
-        // 如果发送人为空设置当前登录的人的ID
-        Long sendUserId = dto.getSendUserId();
-        if (sendUserId == null) dto.setSendUserId(BaseContext.getUserId());
-
-        // 接受人id列表
-        List<Long> receivedUserIds = dto.getReceivedUserIds();
-
-        // 如果接收人为空默认接收全部人
-        if (receivedUserIds.isEmpty()) {
-            List<Long> userIds = userMapper.selectList(null).stream().map(BaseEntity::getId).toList();
-            dto.setReceivedUserIds(userIds);
-        }
-
-        // 保存消息数据
-        Message message = new Message();
-        BeanUtils.copyProperties(dto, message);
-        save(message);
-
-        // 保存消息和用户之间关联数据
-        List<MessageReceived> receivedList = receivedUserIds.stream().map(id -> {
-            MessageReceived messageReceived = new MessageReceived();
-            messageReceived.setMessageId(dto.getSendUserId());
-            messageReceived.setReceivedUserId(id);
-            return messageReceived;
-        }).toList();
-        messageReceivedService.saveBatch(receivedList);
-    }
-
-    /**
-     * 更新系统消息
-     *
-     * @param dto 系统消息更新
-     */
-    @Override
-    public void updateMessage(@Valid MessageUpdateDto dto) {
-        // 如果发送人为空设置当前登录的人的ID
-        Long sendUserId = dto.getSendUserId();
-        if (sendUserId == null) dto.setSendUserId(BaseContext.getUserId());
-
-        // 接受人id列表
-        List<Long> receivedUserIds = dto.getReceivedUserIds();
-
-        // 如果接收人为空默认接收全部人
-        if (receivedUserIds.isEmpty()) {
-            List<Long> userIds = userMapper.selectList(null).stream().map(BaseEntity::getId).toList();
-            dto.setReceivedUserIds(userIds);
-        }
-
-        // 更新内容
-        Message message = new Message();
-        BeanUtils.copyProperties(dto, message);
-        updateById(message);
-
-        // 删除这个消息接受下所有发送者
-        if (sendUserId != null) {
-            messageReceivedMapper.deleteBatchIdsWithPhysics(List.of(sendUserId));
-        }
-
-        // 保存消息和用户之间关联数据
-        List<MessageReceived> receivedList = receivedUserIds.stream().map(id -> {
-            MessageReceived messageReceived = new MessageReceived();
-            messageReceived.setMessageId(dto.getSendUserId());
-            messageReceived.setReceivedUserId(id);
-            return messageReceived;
-        }).toList();
-        messageReceivedService.saveBatch(receivedList);
-    }
-
-    /**
-     * 删除|批量删除系统消息
-     *
-     * @param ids 删除id列表
-     */
-    @Override
-    public void deleteMessage(List<Long> ids) {
-        baseMapper.deleteBatchIdsWithPhysics(ids);
-        
-        // 根据消息Id物理删除接受者消息
-        messageReceivedMapper.deleteBatchIdsByMessageIdsWithPhysics(ids);
-    }
-
-    /**
      * 分页查询用户消息
+     * 用户在主页查询内容为：是否已读和消息类型
+     * 为了方便用户之后进入消息详情页面查询，按照消息类型查询消息
+     * 也可以查询消息是否已读
+     * 节省带宽的情况下传给前端消息详情等内容
      *
      * @param pageParams 系统消息返回列表
+     * @param dto        用户消息查询内容"
      * @return 分页结果
      */
     @Override
-    public PageResult<MessageUserVo> getUserMessageList(Page<Message> pageParams) {
-        // 查询当前用户接收的消息的接收者关系表
+    public PageResult<MessageUserVo> getUserMessageList(Page<Message> pageParams, MessageUserDto dto) {
+        // 查询当前用户需要接收的消息id
         List<MessageReceived> messageReceivedList = messageReceivedMapper.selectList(Wrappers.<MessageReceived>lambdaQuery().eq(MessageReceived::getReceivedUserId, BaseContext.getUserId()));
         List<Long> messageIds = messageReceivedList.stream().map(MessageReceived::getMessageId).toList();
 
         // 根据消息所有包含匹配当前消息Id的列表
-        Page<Message> page = page(pageParams, Wrappers.<Message>lambdaQuery().in(Message::getId, messageIds));
+        IPage<Message> page = baseMapper.selectListByPageWithMessageUserDto(pageParams, dto, messageIds);
         List<MessageUserVo> voList = page.getRecords().stream().map(messageVo -> {
             MessageUserVo vo = new MessageUserVo();
             BeanUtils.copyProperties(messageVo, vo);
@@ -199,5 +117,105 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
                 .pageSize(page.getSize())
                 .total(page.getTotal())
                 .build();
+    }
+
+    /**
+     * 根据消息id查询消息详情
+     *
+     * @param id 消息id
+     * @return 消息详情
+     */
+    @Override
+    public MessageVo getMessageDetailById(Long id) {
+        return baseMapper.selectMessageVoById(id);
+    }
+
+    /**
+     * 添加系统消息
+     * 判断发送消息的接收人是否为空，如果为空默认是所有用户都是接受者
+     * 之后要将消息的接受者要保存在，消息接收表中，在这之前是没有消息id的
+     * 先要保存消息内容，之后获取到保存消息的id
+     * 将消息的id和接收者的id构建成map插入到消息接收表中
+     *
+     * @param dto 系统消息添加
+     */
+    @Override
+    public void addMessage(@Valid MessageAddDto dto) {
+        // 如果发送人为空设置当前登录的人的ID
+        if (dto.getSendUserId() == null) dto.setSendUserId(BaseContext.getUserId());
+
+        // 先保存消息数据，之后拿到保存消息的id
+        Message message = new Message();
+        BeanUtils.copyProperties(dto, message);
+        save(message);
+
+        // 如果接收人为空默认接收全部人
+        List<Long> receivedUserIds = dto.getReceivedUserIds();
+        if (receivedUserIds.isEmpty()) {
+            receivedUserIds = userMapper.selectList(null).stream().map(BaseEntity::getId).toList();
+        }
+
+        // 从之前保存的消息中获取消息id，保存到消息接收表中
+        List<MessageReceived> receivedList = receivedUserIds.stream().map(id -> {
+            MessageReceived messageReceived = new MessageReceived();
+            messageReceived.setMessageId(message.getId());
+            messageReceived.setReceivedUserId(id);
+            return messageReceived;
+        }).toList();
+
+        messageReceivedService.saveBatch(receivedList);
+    }
+
+    /**
+     * 更新系统消息
+     *
+     * @param dto 系统消息更新
+     */
+    @Override
+    public void updateMessage(@Valid MessageUpdateDto dto) {
+        // 如果发送人为空设置当前登录的人的ID
+        Long sendUserId = dto.getSendUserId();
+        if (sendUserId == null) dto.setSendUserId(BaseContext.getUserId());
+
+        // 如果接收人为空默认接收全部人
+        List<Long> receivedUserIds = dto.getReceivedUserIds();
+        if (receivedUserIds.isEmpty()) {
+            receivedUserIds = userMapper.selectList(null).stream().map(BaseEntity::getId).toList();
+        }
+
+        // 更新内容
+        Message message = new Message();
+        BeanUtils.copyProperties(dto, message);
+        updateById(message);
+
+        // 保存消息和用户之间关联数据
+        List<MessageReceived> receivedList = receivedUserIds.stream().map(id -> {
+            MessageReceived messageReceived = new MessageReceived();
+            messageReceived.setMessageId(dto.getId());
+            messageReceived.setReceivedUserId(id);
+            return messageReceived;
+        }).toList();
+
+        // 删除这个消息接受下所有发送者
+        messageReceivedMapper.deleteBatchIdsByMessageIdsWithPhysics(List.of(dto.getId()));
+
+        // 插入接收者和消息表
+        messageReceivedService.saveBatch(receivedList);
+    }
+
+    /**
+     * 删除|批量删除系统消息
+     * 删除消息表中的数据，还要删除消息接收表中的消息
+     * 消息接收表根据消息id进行删除
+     *
+     * @param ids 删除id列表
+     */
+    @Override
+    public void deleteMessage(List<Long> ids) {
+        // 物理删除消息表数据
+        baseMapper.deleteBatchIdsWithPhysics(ids);
+
+        // 根据消息Id物理删除接受者消息
+        messageReceivedMapper.deleteBatchIdsByMessageIdsWithPhysics(ids);
     }
 }

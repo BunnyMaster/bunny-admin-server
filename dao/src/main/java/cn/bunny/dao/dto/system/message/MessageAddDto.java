@@ -54,12 +54,10 @@ public class MessageAddDto {
     @Schema(name = "status", title = "0:未读 1:已读")
     private Boolean status = false;
 
-
     @Schema(name = "level", title = "消息等级")
     private String level;
 
     @Schema(name = "extra", title = "消息等级详情")
     private String extra;
-
 
 }

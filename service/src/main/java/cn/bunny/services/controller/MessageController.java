@@ -3,6 +3,7 @@ package cn.bunny.services.controller;
 import cn.bunny.dao.dto.system.message.MessageAddDto;
 import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUpdateDto;
+import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
@@ -51,15 +52,23 @@ public class MessageController {
     }
 
     @Operation(summary = "分页查询用户消息", description = "分页查询用户消息")
-    @GetMapping("getUserMessageList/{page}/{limit}")
+    @GetMapping("/noManage/getUserMessageList/{page}/{limit}")
     public Mono<Result<PageResult<MessageUserVo>>> getUserMessageList(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,
             @Parameter(name = "limit", description = "每页记录数", required = true)
-            @PathVariable("limit") Integer limit) {
+            @PathVariable("limit") Integer limit,
+            MessageUserDto dto) {
         Page<Message> pageParams = new Page<>(page, limit);
-        PageResult<MessageUserVo> pageResult = messageService.getUserMessageList(pageParams);
+        PageResult<MessageUserVo> pageResult = messageService.getUserMessageList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
+    }
+
+    @Operation(summary = "根据消息id查询消息详情", description = "根据消息id查询消息详情")
+    @GetMapping("/noManage/getMessageDetailById")
+    public Mono<Result<MessageVo>> getMessageDetailById(Long id) {
+        MessageVo vo = messageService.getMessageDetailById(id);
+        return Mono.just(Result.success(vo));
     }
 
     @Operation(summary = "添加系统消息", description = "添加系统消息")

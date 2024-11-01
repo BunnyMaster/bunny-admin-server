@@ -1,5 +1,9 @@
 package cn.bunny.dao.vo.system.message;
 
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +16,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Schema(name = "MessageVo对象", title = "系统消息返回内容", description = "系统消息返回内容")
 public class MessageUserVo {
+
+    @Schema(name = "id", title = "主键")
+    @JsonProperty("id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JSONField(serializeUsing = ToStringSerializer.class)
+    private Long id;
 
     @Schema(name = "title", title = "消息标题")
     private String title;
