@@ -39,6 +39,16 @@
         </foreach>
     </delete>
 
+    <!-- 根据Id列表物理删除路由角色关系表 -->
+    <delete id="deleteBatchIdsWithPhysics">
+        delete
+        from sys_router_role
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
     <!-- 查看所有路由的角色 -->
     <select id="viewRouterRolesWithAll" resultType="cn.bunny.dao.view.ViewRouterRole">
         SELECT rr.router_id,

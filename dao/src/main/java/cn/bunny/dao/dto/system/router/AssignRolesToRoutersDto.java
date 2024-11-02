@@ -19,6 +19,7 @@ public class AssignRolesToRoutersDto {
 
     @Schema(name = "routerId", title = "路由id")
     @NotNull(message = "路由id不能为空")
+    @NotEmpty(message = "路由id不能为空")
     private List<Long> routerIds;
 
     @Schema(name = "roleIds", title = "角色id列表")

@@ -8,6 +8,7 @@ import cn.bunny.services.mapper.MessageReceivedMapper;
 import cn.bunny.services.service.MessageReceivedService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * @since 2024-10-31
  */
 @Service
+@Transactional
 public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMapper, MessageReceived> implements MessageReceivedService {
 
     /**
@@ -45,5 +47,4 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
         }
         return baseMapper.selectUserinfoListByMessageId(messageId);
     }
-
 }

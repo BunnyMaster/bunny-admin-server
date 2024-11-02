@@ -49,7 +49,6 @@ public class RouterUpdateDto {
 
     @Schema(name = "routerRank", title = "等级")
     @JsonProperty("rank")
-    @NotNull(message = "菜单排序不能为空")
     @Max(value = 999, message = "不能超过999")
     private Integer routerRank;
 

@@ -68,4 +68,18 @@ public interface MessageService extends IService<Message> {
      * @return 消息详情
      */
     MessageVo getMessageDetailById(Long id);
+
+    /**
+     * 用户将消息标为已读
+     *
+     * @param ids 消息id列表
+     */
+    void updateUserMarkAsRead(List<Long> ids);
+
+    /**
+     * 用户删除消息
+     *
+     * @param ids 消息Id列表
+     */
+    void deleteUserMessageByIds(List<Long> ids);
 }

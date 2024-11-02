@@ -39,4 +39,12 @@ public interface MessageReceivedMapper extends BaseMapper<MessageReceived> {
      * @return 消息接收人用户名等信息
      */
     List<MessageReceivedWithUserVo> selectUserinfoListByMessageId(Long messageId);
+
+    /**
+     * 根据当前用户id删除消息接受表中数据
+     *
+     * @param ids    消息列表
+     * @param userId 用户id
+     */
+    void deleteBatchIdsByMessageIdsAndUserIdWithPhysics(List<Long> ids, Long userId);
 }

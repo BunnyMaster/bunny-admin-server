@@ -4,6 +4,7 @@ import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.vo.system.message.MessageReceivedWithUserVo;
 import cn.bunny.services.service.MessageReceivedService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-31
  */
+@Tag(name = "消息接受关系", description = "消息接受关系相关接口")
 @RestController
 @RequestMapping("/admin/messageReceived")
 public class MessageReceivedController {

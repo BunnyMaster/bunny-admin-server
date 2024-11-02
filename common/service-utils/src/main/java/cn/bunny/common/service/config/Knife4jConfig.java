@@ -18,9 +18,9 @@ public class Knife4jConfig {
         // 作者等信息
         Contact contact = new Contact().name("Bunny").email("1319900154@qq.com").url("http://z-bunny.cn");
         // 使用协议
-        License license = new License().name("MIT").url("http://MUT.com");
+        License license = new License().name("MIT").url("https://MUT.com");
         // 相关信息
-        Info info = new Info().title("Bunny-Java-Template").description("Bunny的Java模板").version("v1.0.0").contact(contact).license(license).termsOfService("维护不易~求个start");
+        Info info = new Info().title("Bunny-Admin").description("权限管理模板").version("v1.0.0").contact(contact).license(license).termsOfService("MIT");
 
         return new OpenAPI().info(info).externalDocs(new ExternalDocumentation());
     }
@@ -28,6 +28,6 @@ public class Knife4jConfig {
     // 管理员相关分类接口
     @Bean
     public GroupedOpenApi groupedOpenAdminApi() {
-        return GroupedOpenApi.builder().group("admin管理员接口请求").pathsToMatch("/admin/**").build();
+        return GroupedOpenApi.builder().group("默认请求接口").pathsToMatch("/admin/**").build();
     }
 }

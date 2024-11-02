@@ -1,21 +1,26 @@
 package cn.bunny.dao.vo.system.message;
 
+import cn.bunny.dao.common.vo.BaseVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.time.LocalDateTime;
+
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Schema(name = "MessageVo对象", title = "系统消息返回内容", description = "系统消息返回内容")
-public class MessageUserVo {
+public class MessageUserVo extends BaseVo {
 
     @Schema(name = "id", title = "主键")
     @JsonProperty("id")
@@ -40,5 +45,15 @@ public class MessageUserVo {
 
     @Schema(name = "extra", title = "消息等级详情")
     private String extra;
+
+    @Schema(name = "status", title = "消息状态")
+    private Boolean status;
+
+    @Schema(name = "updateTime", title = "更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonProperty("acceptanceTime")
+    private LocalDateTime updateTime;
 
 }

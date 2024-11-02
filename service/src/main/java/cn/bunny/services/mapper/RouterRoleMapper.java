@@ -38,4 +38,11 @@ public interface RouterRoleMapper extends BaseMapper<RouterRole> {
      * @return 路由角色关系视图列表
      */
     List<ViewRouterRole> viewRouterRolesWithAll();
+
+    /**
+     * 根据Id列表物理删除路由角色关系表
+     *
+     * @param ids 路由角色关系表ids
+     */
+    void deleteBatchIdsWithPhysics(List<Long> ids);
 }

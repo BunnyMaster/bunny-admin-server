@@ -74,20 +74,28 @@
     <!-- 根据消息所有包含匹配当前消息Id的列表 -->
     <select id="selectListByPageWithMessageUserDto" resultType="cn.bunny.dao.entity.system.Message">
         select
-        <include refid="Base_Column_List"/>
-        from sys_message
+        message.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_message message
+        left join sys_user create_user on create_user.id = message.create_user
+        left join sys_user update_user on update_user.id = message.update_user
         <where>
-            <if test="messageIds != null">
-                id in
+            message.is_deleted = 0
+            <if test="messageIds != null ">
+                and message.id in
                 <foreach collection="messageIds" item="id" open="(" close=")" separator=",">
                     #{id}
                 </foreach>
             </if>
             <if test="dto.status != null">
-                and status = #{dto.status}
+                and message.status = #{dto.status}
             </if>
             <if test="dto.messageType != null and dto.messageType != ''">
-                and message_type like CONCAT('%',#{dto.messageType},'%')
+                and message.message_type = #{dto.messageType}
+            </if>
+            <if test="dto.title != null and dto.title != ''">
+                and message.title like CONCAT('%',#{dto.title},'%')
             </if>
         </where>
     </select>
@@ -100,13 +108,14 @@
                  LEFT JOIN sys_user update_user ON update_user.id = message.update_user
                  LEFT JOIN sys_user send_user ON send_user.id = message.send_user_id
         WHERE message.id = #{id}
+          and message.is_deleted = 0
     </select>
 
     <!-- 物理删除系统消息 -->
     <delete id="deleteBatchIdsWithPhysics">
         delete
         from sys_message
-        where id in
+        where is_deleted=0 and id in
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>

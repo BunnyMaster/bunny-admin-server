@@ -61,7 +61,7 @@ public class UserController {
         return Mono.just(Result.success(voList));
     }
 
-    @Operation(summary = "更新用户信息", description = "更新用户信息后需要更新Redis中的内容")
+    @Operation(summary = "更新用户信息", description = "更新用户信息，需要更新Redis中的内容")
     @PutMapping("updateAdminUser")
     public Result<String> updateAdminUser(@Valid @RequestBody AdminUserUpdateDto dto) {
         userService.updateAdminUser(dto);

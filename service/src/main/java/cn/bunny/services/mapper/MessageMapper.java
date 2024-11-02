@@ -55,4 +55,5 @@ public interface MessageMapper extends BaseMapper<Message> {
      * @return 消息返回对象
      */
     MessageVo selectMessageVoById(Long id);
+
 }

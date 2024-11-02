@@ -6,6 +6,7 @@ import cn.bunny.dao.entity.system.RouterRole;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.services.mapper.RouterRoleMapper;
 import cn.bunny.services.service.RouterRoleService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -78,5 +79,43 @@ public class RouterRoleServiceImpl extends ServiceImpl<RouterRoleMapper, RouterR
             throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
         }
         baseMapper.deleteBatchIdsByRouterIdsWithPhysics(routerIds);
+    }
+
+    /**
+     * 批量为菜单添加角色
+     * 查询所有满足角色id列表的路由
+     * 将满足条件的路由提取出routerId列表
+     * 并删除所有routerIds
+     *
+     * @param dto 路由分配角色
+     */
+    @Override
+    public void assignAddBatchRolesToRouter(AssignRolesToRoutersDto dto) {
+        // 查询所有满足角色id和路由Id相关
+        LambdaQueryWrapper<RouterRole> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(RouterRole::getRoleId, dto.getRoleIds())
+                .and(qw -> qw.in(RouterRole::getRouterId, dto.getRouterIds()));
+        List<RouterRole> routerRoleList = list(wrapper);
+
+        // 根据Id列表物理删除路由角色关系表
+        List<Long> ids = routerRoleList.stream().map(RouterRole::getId).toList();
+        if (!ids.isEmpty()) {
+            baseMapper.deleteBatchIdsWithPhysics(ids);
+        }
+
+        // 保存分配好的角色信息
+        List<RouterRole> roleList = new ArrayList<>();
+        for (Long roleId : dto.getRoleIds()) {
+            List<RouterRole> list = dto.getRouterIds().stream().map(routerId -> {
+                RouterRole routerRole = new RouterRole();
+                routerRole.setRouterId(routerId);
+                routerRole.setRoleId(roleId);
+                return routerRole;
+            }).toList();
+
+            roleList.addAll(list);
+        }
+
+        saveBatch(roleList);
     }
 }

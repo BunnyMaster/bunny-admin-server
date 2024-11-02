@@ -1,6 +1,7 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
+import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.common.entity.BaseEntity;
 import cn.bunny.dao.dto.system.message.MessageAddDto;
 import cn.bunny.dao.dto.system.message.MessageDto;
@@ -9,6 +10,7 @@ import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.entity.system.MessageReceived;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.message.MessageUserVo;
 import cn.bunny.dao.vo.system.message.MessageVo;
 import cn.bunny.services.factory.UserFactory;
@@ -27,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -99,6 +102,16 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         List<MessageReceived> messageReceivedList = messageReceivedMapper.selectList(Wrappers.<MessageReceived>lambdaQuery().eq(MessageReceived::getReceivedUserId, BaseContext.getUserId()));
         List<Long> messageIds = messageReceivedList.stream().map(MessageReceived::getMessageId).toList();
 
+        // 消息为空直接返回
+        if (messageIds.isEmpty()) {
+            return PageResult.<MessageUserVo>builder()
+                    .list(new ArrayList<>())
+                    .pageNo(pageParams.getCurrent())
+                    .pageSize(pageParams.getSize())
+                    .total(pageParams.getTotal())
+                    .build();
+        }
+
         // 根据消息所有包含匹配当前消息Id的列表
         IPage<Message> page = baseMapper.selectListByPageWithMessageUserDto(pageParams, dto, messageIds);
         List<MessageUserVo> voList = page.getRecords().stream().map(messageVo -> {
@@ -111,6 +124,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
             vo.setCover(cover);
             return vo;
         }).toList();
+
         return PageResult.<MessageUserVo>builder()
                 .list(voList)
                 .pageNo(page.getCurrent())
@@ -121,13 +135,65 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
     /**
      * 根据消息id查询消息详情
+     * 请求消息内容后标为已读
      *
      * @param id 消息id
      * @return 消息详情
      */
     @Override
     public MessageVo getMessageDetailById(Long id) {
+        // 将消息设为已读
+        Message message = new Message();
+        message.setId(id);
+        message.setStatus(true);
+        updateById(message);
+
+        // 返回详情内容给前端
         return baseMapper.selectMessageVoById(id);
+    }
+
+    /**
+     * 用户将消息标为已读
+     * 将消息表中满足id条件全部标为已读
+     *
+     * @param ids 消息id列表
+     */
+    @Override
+    public void updateUserMarkAsRead(List<Long> ids) {
+        // 判断ids是否为空
+        if (ids.isEmpty()) {
+            throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        }
+
+        // 更新表中消息状态
+        List<Message> messageList = ids.stream().map(id -> {
+            Message message = new Message();
+            message.setId(id);
+            message.setStatus(true);
+            return message;
+        }).toList();
+
+        updateBatchById(messageList);
+    }
+
+    /**
+     * 用户删除消息
+     *
+     * @param ids 消息Id列表
+     */
+    @Override
+    public void deleteUserMessageByIds(List<Long> ids) {
+        // 判断ids是否为空
+        if (ids.isEmpty()) {
+            throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        }
+
+        // 删除消息表中数据
+        baseMapper.deleteBatchIdsWithPhysics(ids);
+
+        // 根据当前用户id删除消息接受表中数据
+        Long userId = BaseContext.getUserId();
+        messageReceivedMapper.deleteBatchIdsByMessageIdsAndUserIdWithPhysics(ids, userId);
     }
 
     /**

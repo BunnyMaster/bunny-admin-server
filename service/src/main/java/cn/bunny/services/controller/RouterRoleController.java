@@ -41,6 +41,13 @@ public class RouterRoleController {
         return Mono.just(Result.success());
     }
 
+    @Operation(summary = "批量为菜单添加角色", description = "批量为菜单添加角色")
+    @PostMapping("assignAddBatchRolesToRouter")
+    public Mono<Result<String>> assignAddBatchRolesToRouter(@RequestBody AssignRolesToRoutersDto dto) {
+        routerRoleService.assignAddBatchRolesToRouter(dto);
+        return Mono.just(Result.success());
+    }
+
     @Operation(summary = "清除选中菜单所有角色", description = "清除选中菜单所有角色")
     @DeleteMapping("clearAllRolesSelect")
     public Mono<Result<String>> clearAllRolesSelect(@RequestBody List<Long> routerIds) {

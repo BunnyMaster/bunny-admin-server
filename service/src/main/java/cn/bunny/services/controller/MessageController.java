@@ -85,10 +85,24 @@ public class MessageController {
         return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 
+    @Operation(summary = "用户将消息标为已读", description = "用户将消息标为已读")
+    @PutMapping("/noManage/updateUserMarkAsRead")
+    public Mono<Result<String>> updateUserMarkAsRead(@Valid @RequestBody List<Long> ids) {
+        messageService.updateUserMarkAsRead(ids);
+        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+    }
+
     @Operation(summary = "删除系统消息", description = "删除系统消息")
     @DeleteMapping("deleteMessage")
     public Mono<Result<String>> deleteMessage(@RequestBody List<Long> ids) {
         messageService.deleteMessage(ids);
+        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
+    }
+
+    @Operation(summary = "用户删除消息", description = "用户删除消息")
+    @DeleteMapping("/noManage/deleteUserMessageByIds")
+    public Mono<Result<String>> deleteUserMessageByIds(@RequestBody List<Long> ids) {
+        messageService.deleteUserMessageByIds(ids);
         return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
     }
 }
