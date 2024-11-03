@@ -17,28 +17,49 @@
         <id column="cover" property="cover"/>
         <id column="summary" property="summary"/>
         <id column="editor_type" property="editorType"/>
-        <id column="status" property="status"/>
         <id column="level" property="level"/>
         <id column="extra" property="extra"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , create_time, update_time, create_user, update_user, is_deleted, title, send_user_id, message_type, content, cover, summary, editor_type, status,level,extra
+        id, create_time, update_time, create_user, update_user, is_deleted, title, send_user_id, message_type, content, cover, summary, editor_type, level,extra
     </sql>
 
     <!-- 分页查询系统消息内容 -->
     <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.message.MessageVo">
-        select
-        message.*,
-        create_user.username as create_username,
-        update_user.username as update_username,
-        send_user.nickname as send_nickname
-        from sys_message message
-        left join sys_user create_user on create_user.id = message.create_user
-        left join sys_user update_user on update_user.id = message.update_user
-        left join sys_user send_user on send_user.id = message.send_user_id
+        SELECT
+        message.id,
+        message.create_time,
+        message.update_time,
+        message.create_user,
+        message.update_user,
+        message.is_deleted,
+        message.title,
+        message.send_user_id,
+        message.content,
+        message.cover,
+        message.summary,
+        message.editor_type,
+        message.level,
+        message.extra,
+        message_received.status AS status,
+        message_received.received_user_id AS received_user_id,
+        message_received.id AS message_received_id,
+        message_type.message_name AS message_type,
+        message_type.id AS message_type_id,
+        received_user.nickname received_user_nickname,
+        create_user.username AS create_username,
+        update_user.username AS update_username,
+        send_user.nickname AS send_nickname
+        FROM
+        sys_message message
+        LEFT JOIN sys_user create_user ON create_user.id = message.create_user
+        LEFT JOIN sys_user update_user ON update_user.id = message.update_user
+        LEFT JOIN sys_user send_user ON send_user.id = message.send_user_id
+        LEFT JOIN sys_message_received message_received ON message_received.message_id = message.id
+        LEFT JOIN sys_user received_user ON message_received.received_user_id = received_user.id
+        LEFT JOIN sys_message_type message_type ON message_type.id = message.message_type
         <where>
             message.is_deleted = 0
             <if test="dto.title != null and dto.title != ''">
@@ -48,13 +69,10 @@
                 and send_user.nickname like CONCAT('%',#{dto.sendNickname},'%')
             </if>
             <if test="dto.messageType != null and dto.messageType != ''">
-                and message.message_type like CONCAT('%',#{dto.messageType},'%')
+                and message_type.message_type like CONCAT('%',#{dto.messageType},'%')
             </if>
             <if test="dto.content != null and dto.content != ''">
                 and message.content like CONCAT('%',#{dto.content},'%')
-            </if>
-            <if test="dto.editorType != null and dto.editorType != ''">
-                and message.editor_type = #{dto.editorType}
             </if>
             <if test="dto.editorType != null and dto.editorType != ''">
                 and message.editor_type = #{dto.editorType}
@@ -66,33 +84,37 @@
                 and message.extra like CONCAT('%',#{dto.extra},'%')
             </if>
             <if test="dto.status != null">
-                and message.status = #{dto.status}
+                and message_received.status = #{dto.status}
             </if>
         </where>
     </select>
 
     <!-- 根据消息所有包含匹配当前消息Id的列表 -->
-    <select id="selectListByPageWithMessageUserDto" resultType="cn.bunny.dao.entity.system.Message">
-        select
-        message.*,
-        create_user.username as create_username,
-        update_user.username as update_username
-        from sys_message message
-        left join sys_user create_user on create_user.id = message.create_user
-        left join sys_user update_user on update_user.id = message.update_user
+    <select id="selectListByPageWithMessageUserDto" resultType="cn.bunny.dao.vo.system.message.MessageVo">
+        SELECT
+        message.id,
+        message.title,
+        message.cover,
+        message.summary,
+        message.level,
+        message.extra,
+        message.update_time,
+        message_received.id AS message_received_id,
+        message_received.status AS status,
+        message_type.message_type AS message_type
+        FROM sys_message message
+        LEFT JOIN sys_user create_user ON create_user.id = message.create_user
+        LEFT JOIN sys_user update_user ON update_user.id = message.update_user
+        LEFT JOIN sys_message_type message_type ON message_type.id = message.message_type
+        INNER JOIN sys_message_received message_received ON message_received.received_user_id = #{userId}
+        AND message.id = message_received.message_id
         <where>
             message.is_deleted = 0
-            <if test="messageIds != null ">
-                and message.id in
-                <foreach collection="messageIds" item="id" open="(" close=")" separator=",">
-                    #{id}
-                </foreach>
-            </if>
             <if test="dto.status != null">
-                and message.status = #{dto.status}
+                and message_received.status = #{dto.status}
             </if>
             <if test="dto.messageType != null and dto.messageType != ''">
-                and message.message_type = #{dto.messageType}
+                and message_type.message_type = #{dto.messageType}
             </if>
             <if test="dto.title != null and dto.title != ''">
                 and message.title like CONCAT('%',#{dto.title},'%')

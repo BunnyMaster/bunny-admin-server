@@ -28,4 +28,7 @@ public class MessageReceived extends BaseEntity {
     @Schema(name = "messageId", title = "消息ID")
     private Long messageId;
 
+    @Schema(name = "status", title = "0:未读 1:已读")
+    private Boolean status;
+    
 }

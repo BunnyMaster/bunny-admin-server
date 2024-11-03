@@ -22,16 +22,20 @@ import java.time.LocalDateTime;
 @Schema(name = "MessageVo对象", title = "系统消息返回内容", description = "系统消息返回内容")
 public class MessageUserVo extends BaseVo {
 
-    @Schema(name = "id", title = "主键")
-    @JsonProperty("id")
+    @Schema(name = "id", title = "消息messageId")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @JSONField(serializeUsing = ToStringSerializer.class)
     private Long id;
 
+    @Schema(name = "messageReceivedId", title = "用户消息表id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JSONField(serializeUsing = ToStringSerializer.class)
+    private Long messageReceivedId;
+
     @Schema(name = "title", title = "消息标题")
     private String title;
 
-    @Schema(name = "messageType", title = "sys:系统消息,user用户消息")
+    @Schema(name = "messageType", title = "消息类型")
     private String messageType;
 
     @Schema(name = "cover", title = "封面")

@@ -46,7 +46,7 @@ public interface MessageMapper extends BaseMapper<Message> {
      * @param dto        系统消息查询表单
      * @return 系统消息分页结果
      */
-    IPage<Message> selectListByPageWithMessageUserDto(@Param("page") Page<Message> pageParams, @Param("dto") MessageUserDto dto, @Param("messageIds") List<Long> messageIds);
+    IPage<MessageVo> selectListByPageWithMessageUserDto(@Param("page") Page<Message> pageParams, @Param("dto") MessageUserDto dto, @Param("userId") Long userId);
 
     /**
      * 根据消息id查询消息详情

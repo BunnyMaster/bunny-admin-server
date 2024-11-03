@@ -3,11 +3,10 @@ package cn.bunny.dao.vo.system.message;
 import cn.bunny.dao.common.vo.BaseUserVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -16,6 +15,12 @@ import java.util.List;
 @Builder
 @Schema(name = "MessageVo对象", title = "系统消息返回内容", description = "系统消息返回内容")
 public class MessageVo extends BaseUserVo {
+
+    @Schema(name = "messageReceivedId", title = "用户消息表id")
+    @JsonProperty("id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JSONField(serializeUsing = ToStringSerializer.class)
+    private Long messageReceivedId;
 
     @Schema(name = "title", title = "消息标题")
     private String title;
@@ -28,10 +33,16 @@ public class MessageVo extends BaseUserVo {
     @Schema(name = "sendNickname", title = "发送人昵称")
     private String sendNickname;
 
-    @Schema(name = "receivedUserIds", title = "接收人用户ID")
-    private List<String> receivedUserIds;
+    @Schema(name = "receivedUserId", title = "接收人用户ID")
+    private String receivedUserId;
 
-    @Schema(name = "messageType", title = "sys:系统消息,user用户消息")
+    @Schema(name = "receivedUserNickname", title = "接收人用户昵称")
+    private String receivedUserNickname;
+
+    @Schema(name = "messageTypeId", title = "消息类型id")
+    private String messageTypeId;
+
+    @Schema(name = "messageType", title = "消息类型")
     private String messageType;
 
     @Schema(name = "cover", title = "封面")

@@ -19,32 +19,24 @@ import java.util.List;
 public interface MessageReceivedMapper extends BaseMapper<MessageReceived> {
 
     /**
-     * 根据发送者id批量删除消息接受者
+     * 根据id批量删除
      *
      * @param userIds 发送用户ID
      */
     void deleteBatchIdsWithPhysics(List<Long> userIds);
 
     /**
-     * 根据消息Id物理删除接受者消息
+     * 根据消息Id物理删除
      *
      * @param ids 消息id
      */
     void deleteBatchIdsByMessageIdsWithPhysics(List<Long> ids);
 
     /**
-     * 根据发送者id批量删除消息接受者
+     * 根据发送者id批量删除
      *
      * @param messageId 消息id
      * @return 消息接收人用户名等信息
      */
     List<MessageReceivedWithUserVo> selectUserinfoListByMessageId(Long messageId);
-
-    /**
-     * 根据当前用户id删除消息接受表中数据
-     *
-     * @param ids    消息列表
-     * @param userId 用户id
-     */
-    void deleteBatchIdsByMessageIdsAndUserIdWithPhysics(List<Long> ids, Long userId);
 }

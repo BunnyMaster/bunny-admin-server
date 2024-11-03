@@ -26,17 +26,19 @@ public class MessageUpdateDto {
     @NotBlank(message = "消息标题 不能为空")
     private String title;
 
-    @Schema(name = "receivedUserIds", title = "接收人用户ID")
+    @Schema(name = "receivedUserId", title = "接收人用户ID")
+    private Long receivedUserId;
+
+    @Schema(name = "receivedUserIds", title = "接收人用户ID列表")
     private List<Long> receivedUserIds;
 
     @Schema(name = "sendUserId", title = "发送人用户ID")
     @NotNull(message = "发送人用户ID 不能为空")
     private Long sendUserId;
 
-    @Schema(name = "messageType", title = "消息类型")
-    @NotBlank(message = "消息类型 不能为空")
+    @Schema(name = "messageTypeId", title = "消息类型")
     @NotNull(message = "消息类型 不能为空")
-    private String messageType;
+    private Long messageTypeId;
 
     @Schema(name = "cover", title = "封面")
     private String cover;

@@ -18,7 +18,7 @@
     <delete id="deleteBatchIdsWithPhysics">
         delete
         from sys_message_received
-        where received_user_id in
+        where id in
         <foreach collection="userIds" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
@@ -29,16 +29,6 @@
         delete
         from sys_message_received
         where message_id in
-        <foreach collection="ids" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
-    </delete>
-
-    <!-- 根据当前用户id删除消息接受表中数据 -->
-    <delete id="deleteBatchIdsByMessageIdsAndUserIdWithPhysics">
-        delete
-        from sys_message_received where
-        received_user_id = #{userId} and received_user_id in
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>

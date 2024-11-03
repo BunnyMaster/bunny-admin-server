@@ -1,8 +1,6 @@
 package cn.bunny.services.controller;
 
-import cn.bunny.dao.dto.system.message.MessageAddDto;
 import cn.bunny.dao.dto.system.message.MessageDto;
-import cn.bunny.dao.dto.system.message.MessageUpdateDto;
 import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -15,7 +13,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -52,7 +49,7 @@ public class MessageController {
     }
 
     @Operation(summary = "分页查询用户消息", description = "分页查询用户消息")
-    @GetMapping("/noManage/getUserMessageList/{page}/{limit}")
+    @GetMapping("noManage/getUserMessageList/{page}/{limit}")
     public Mono<Result<PageResult<MessageUserVo>>> getUserMessageList(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,
@@ -65,31 +62,10 @@ public class MessageController {
     }
 
     @Operation(summary = "根据消息id查询消息详情", description = "根据消息id查询消息详情")
-    @GetMapping("/noManage/getMessageDetailById")
+    @GetMapping("noManage/getMessageDetailById")
     public Mono<Result<MessageVo>> getMessageDetailById(Long id) {
         MessageVo vo = messageService.getMessageDetailById(id);
         return Mono.just(Result.success(vo));
-    }
-
-    @Operation(summary = "添加系统消息", description = "添加系统消息")
-    @PostMapping("addMessage")
-    public Mono<Result<String>> addMessage(@Valid @RequestBody MessageAddDto dto) {
-        messageService.addMessage(dto);
-        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
-    }
-
-    @Operation(summary = "更新系统消息", description = "更新系统消息")
-    @PutMapping("updateMessage")
-    public Mono<Result<String>> updateMessage(@Valid @RequestBody MessageUpdateDto dto) {
-        messageService.updateMessage(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
-    }
-
-    @Operation(summary = "用户将消息标为已读", description = "用户将消息标为已读")
-    @PutMapping("/noManage/updateUserMarkAsRead")
-    public Mono<Result<String>> updateUserMarkAsRead(@Valid @RequestBody List<Long> ids) {
-        messageService.updateUserMarkAsRead(ids);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 
     @Operation(summary = "删除系统消息", description = "删除系统消息")
@@ -100,7 +76,7 @@ public class MessageController {
     }
 
     @Operation(summary = "用户删除消息", description = "用户删除消息")
-    @DeleteMapping("/noManage/deleteUserMessageByIds")
+    @DeleteMapping("noManage/deleteUserMessageByIds")
     public Mono<Result<String>> deleteUserMessageByIds(@RequestBody List<Long> ids) {
         messageService.deleteUserMessageByIds(ids);
         return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));

@@ -28,10 +28,9 @@ public class MessageAddDto {
     @Schema(name = "sendUserId", title = "发送人用户ID")
     private Long sendUserId;
 
-    @Schema(name = "messageType", title = "消息类型")
-    @NotBlank(message = "消息类型 不能为空")
+    @Schema(name = "messageTypeId", title = "消息类型")
     @NotNull(message = "消息类型 不能为空")
-    private String messageType;
+    private Long messageTypeId;
 
     @Schema(name = "cover", title = "封面")
     private String cover;
