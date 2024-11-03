@@ -26,9 +26,6 @@ public class MessageUpdateDto {
     @NotBlank(message = "消息标题 不能为空")
     private String title;
 
-    @Schema(name = "receivedUserId", title = "接收人用户ID")
-    private Long receivedUserId;
-
     @Schema(name = "receivedUserIds", title = "接收人用户ID列表")
     private List<Long> receivedUserIds;
 

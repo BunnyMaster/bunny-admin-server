@@ -37,27 +37,27 @@
         message.is_deleted,
         message.title,
         message.send_user_id,
-        send_user.nickname AS send_nickname,
         message.content,
         message.cover,
         message.summary,
         message.editor_type,
         message.level,
         message.extra,
-        message_received.received_user_id AS received_user_id,
-        message_received.id AS message_received_id,
+        send_user.nickname AS send_nickname,
+        create_user.username AS create_username,
+        update_user.username AS update_username,
         message_type.message_name AS message_type,
         message_type.id AS message_type_id,
-        received_user.nickname received_user_nickname,
-        create_user.username AS create_username,
-        update_user.username AS update_username
+        message_received.received_user_id AS received_user_id,
+        message_received.id AS message_received_id,
+        received_user.nickname received_user_nickname
         FROM sys_message message
-        LEFT JOIN sys_message_received message_received ON message.id = message_received.message_id
-        LEFT JOIN sys_message_type message_type ON message_type.id = message.message_type
-        LEFT JOIN sys_user create_user ON create_user.id = message_received.create_user
-        LEFT JOIN sys_user update_user ON update_user.id = message_received.update_user
-        LEFT JOIN sys_user received_user ON received_user.id = message_received.received_user_id
+        LEFT JOIN sys_user create_user ON create_user.id = message.create_user
+        LEFT JOIN sys_user update_user ON update_user.id = message.update_user
         LEFT JOIN sys_user send_user ON send_user.id = message.send_user_id
+        LEFT JOIN sys_message_type message_type ON message_type.id = message.message_type
+        LEFT JOIN sys_message_received message_received ON message.id = message_received.message_id
+        LEFT JOIN sys_user received_user ON received_user.id = message_received.received_user_id
         <where>
             message.is_deleted = 0
             <if test="dto.title != null and dto.title != ''">
