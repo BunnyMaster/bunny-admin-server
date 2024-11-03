@@ -1,17 +1,21 @@
 package cn.bunny.services.controller;
 
-import cn.bunny.dao.dto.system.message.MessageUserDto;
+import cn.bunny.dao.dto.system.message.MessageAddDto;
+import cn.bunny.dao.dto.system.message.MessageDto;
+import cn.bunny.dao.dto.system.message.MessageUpdateDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.system.message.MessageUserVo;
+import cn.bunny.dao.vo.system.message.MessageDetailVo;
+import cn.bunny.dao.vo.system.message.MessageReceivedWithUserVo;
 import cn.bunny.dao.vo.system.message.MessageVo;
 import cn.bunny.services.service.MessageService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -34,37 +38,51 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
-    @Operation(summary = "分页查询用户消息", description = "分页查询用户消息")
-    @GetMapping("noManage/getUserMessageList/{page}/{limit}")
-    public Mono<Result<PageResult<MessageUserVo>>> getUserMessageList(
+    @Operation(summary = "分页查询发送消息", description = "分页查询发送消息")
+    @GetMapping("getMessageList/{page}/{limit}")
+    public Mono<Result<PageResult<MessageVo>>> getMessageList(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,
             @Parameter(name = "limit", description = "每页记录数", required = true)
             @PathVariable("limit") Integer limit,
-            MessageUserDto dto) {
+            MessageDto dto) {
         Page<Message> pageParams = new Page<>(page, limit);
-        PageResult<MessageUserVo> pageResult = messageService.getUserMessageList(pageParams, dto);
+        PageResult<MessageVo> pageResult = messageService.getMessageList(pageParams, dto);
         return Mono.just(Result.success(pageResult));
     }
 
     @Operation(summary = "根据消息id查询消息详情", description = "根据消息id查询消息详情")
     @GetMapping("noManage/getMessageDetailById")
-    public Mono<Result<MessageVo>> getMessageDetailById(Long id) {
-        MessageVo vo = messageService.getMessageDetailById(id);
+    public Mono<Result<MessageDetailVo>> getMessageDetailById(Long id) {
+        MessageDetailVo vo = messageService.getMessageDetailById(id);
         return Mono.just(Result.success(vo));
+    }
+
+    @Operation(summary = "根据消息id获取接收人信息", description = "根据消息id获取接收人信息")
+    @GetMapping("noManage/getReceivedUserinfoByMessageId")
+    public Mono<Result<List<MessageReceivedWithUserVo>>> getReceivedUserinfoByMessageId(Long messageId) {
+        List<MessageReceivedWithUserVo> voList = messageService.getReceivedUserinfoByMessageId(messageId);
+        return Mono.just(Result.success(voList));
+    }
+
+    @Operation(summary = "添加系统消息", description = "添加系统消息")
+    @PostMapping("addMessage")
+    public Mono<Result<String>> addMessage(@Valid @RequestBody MessageAddDto dto) {
+        messageService.addMessage(dto);
+        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+    }
+
+    @Operation(summary = "更新系统消息", description = "更新系统消息")
+    @PutMapping("updateMessage")
+    public Mono<Result<String>> updateMessage(@Valid @RequestBody MessageUpdateDto dto) {
+        messageService.updateMessage(dto);
+        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
     }
 
     @Operation(summary = "删除系统消息", description = "删除系统消息")
     @DeleteMapping("deleteMessage")
     public Mono<Result<String>> deleteMessage(@RequestBody List<Long> ids) {
         messageService.deleteMessage(ids);
-        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
-    }
-
-    @Operation(summary = "用户删除消息", description = "用户删除消息")
-    @DeleteMapping("noManage/deleteUserMessageByIds")
-    public Mono<Result<String>> deleteUserMessageByIds(@RequestBody List<Long> ids) {
-        messageService.deleteUserMessageByIds(ids);
         return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
     }
 }

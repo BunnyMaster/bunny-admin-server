@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "MessageDto对象", title = "消息查询", description = "消息查询")
-public class MessageDto {
+@Schema(name = "MessageReceivedDto对象", title = "用户消息查询", description = "用户消息查询")
+public class MessageReceivedDto {
 
     @Schema(name = "title", title = "消息标题")
     private String title;
@@ -28,7 +28,12 @@ public class MessageDto {
     @Schema(name = "extra", title = "消息等级详情")
     private String extra;
 
+    @Schema(name = "status", title = "0:未读 1:已读")
+    private Boolean status;
+
     @Schema(name = "editorType", title = "编辑器类型")
     private String editorType;
 
 }
+
+

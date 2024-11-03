@@ -26,41 +26,63 @@
         id, create_time, update_time, create_user, update_user, is_deleted, title, send_user_id, message_type, content, cover, summary, editor_type, level,extra
     </sql>
 
-    <!-- 根据消息所有包含匹配当前消息Id的列表 -->
-    <select id="selectListByPageWithMessageUserDto" resultType="cn.bunny.dao.vo.system.message.MessageVo">
+    <!-- 分页查询发送消息 -->
+    <select id="selectListByPage" resultType="cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo">
         SELECT
         message.id,
+        message.create_time,
+        message.update_time,
+        message.create_user,
+        message.update_user,
+        message.is_deleted,
         message.title,
+        message.send_user_id,
+        send_user.nickname AS send_nickname,
+        message.content,
         message.cover,
         message.summary,
+        message.editor_type,
         message.level,
         message.extra,
-        message.update_time,
+        message_received.received_user_id AS received_user_id,
         message_received.id AS message_received_id,
-        message_received.status AS status,
-        message_type.message_type AS message_type
+        message_type.message_name AS message_type,
+        message_type.id AS message_type_id,
+        received_user.nickname received_user_nickname,
+        create_user.username AS create_username,
+        update_user.username AS update_username
         FROM sys_message message
-        LEFT JOIN sys_user create_user ON create_user.id = message.create_user
-        LEFT JOIN sys_user update_user ON update_user.id = message.update_user
+        LEFT JOIN sys_message_received message_received ON message.id = message_received.message_id
         LEFT JOIN sys_message_type message_type ON message_type.id = message.message_type
-        INNER JOIN sys_message_received message_received ON message_received.received_user_id = #{userId}
-        AND message.id = message_received.message_id
+        LEFT JOIN sys_user create_user ON create_user.id = message_received.create_user
+        LEFT JOIN sys_user update_user ON update_user.id = message_received.update_user
+        LEFT JOIN sys_user received_user ON received_user.id = message_received.received_user_id
+        LEFT JOIN sys_user send_user ON send_user.id = message.send_user_id
         <where>
             message.is_deleted = 0
-            <if test="dto.status != null">
-                and message_received.status = #{dto.status}
+            <if test="dto.title != null and dto.title != ''">
+                and message.title like CONCAT('%',#{dto.title},'%')
+            </if>
+            <if test="dto.sendNickname != null and dto.sendNickname != ''">
+                and send_user.nickname like CONCAT('%',#{dto.sendNickname},'%')
             </if>
             <if test="dto.messageType != null and dto.messageType != ''">
                 and message_type.message_type = #{dto.messageType}
             </if>
-            <if test="dto.title != null and dto.title != ''">
-                and message.title like CONCAT('%',#{dto.title},'%')
+            <if test="dto.editorType != null and dto.editorType != ''">
+                and message.editor_type = #{dto.editorType}
+            </if>
+            <if test="dto.level != null and dto.level != ''">
+                and message.level = #{dto.level}
+            </if>
+            <if test="dto.extra != null and dto.extra != ''">
+                and message.extra like CONCAT('%',#{dto.extra},'%')
             </if>
         </where>
     </select>
 
     <!-- 根据消息id查询消息详情 -->
-    <select id="selectMessageVoById" resultType="cn.bunny.dao.vo.system.message.MessageVo">
+    <select id="selectMessageVoById" resultType="cn.bunny.dao.vo.system.message.MessageDetailVo">
         SELECT message.*,
                send_user.nickname AS send_nickname
         FROM sys_message message
@@ -79,5 +101,17 @@
             #{id}
         </foreach>
     </delete>
+
+    <!-- 根据消息id获取接收人信息 -->
+    <select id="selectUserinfoListByMessageId"
+            resultType="cn.bunny.dao.vo.system.message.MessageReceivedWithUserVo">
+        SELECT message_received.message_id,
+               message_received.received_user_id,
+               USER.nickname,
+               USER.username
+        FROM sys_message_received message_received
+                 LEFT JOIN sys_user user ON user.id = message_received.received_user_id
+        where message_received.message_id = #{messageId}
+    </select>
 
 </mapper>

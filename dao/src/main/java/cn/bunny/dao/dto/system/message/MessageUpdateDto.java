@@ -58,9 +58,6 @@ public class MessageUpdateDto {
     @NotNull(message = "编辑器类型 不能为空")
     private String editorType;
 
-    @Schema(name = "status", title = "0:未读 1:已读")
-    private Boolean status;
-
     @Schema(name = "level", title = "消息等级")
     private String level;
 

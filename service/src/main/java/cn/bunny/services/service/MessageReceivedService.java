@@ -1,13 +1,13 @@
 package cn.bunny.services.service;
 
-import cn.bunny.dao.dto.system.message.MessageAddDto;
-import cn.bunny.dao.dto.system.message.MessageDto;
-import cn.bunny.dao.dto.system.message.MessageUpdateDto;
+import cn.bunny.dao.dto.system.message.MessageReceivedDto;
+import cn.bunny.dao.dto.system.message.MessageReceivedUpdateDto;
+import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.entity.system.MessageReceived;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo;
-import cn.bunny.dao.vo.system.message.MessageReceivedWithUserVo;
+import cn.bunny.dao.vo.system.message.MessageUserVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
@@ -29,14 +29,14 @@ public interface MessageReceivedService extends IService<MessageReceived> {
      *
      * @return 系统消息返回列表
      */
-    PageResult<MessageReceivedWithMessageVo> getMessageReceivedList(Page<Message> pageParams, MessageDto dto);
+    PageResult<MessageReceivedWithMessageVo> getMessageReceivedList(Page<Message> pageParams, MessageReceivedDto dto);
 
     /**
      * 管理员将用户接受消息标为已读
      *
-     * @param ids 用户消息表id
+     * @param dto 用户消息表单
      */
-    void markMessageReceivedAsRead(List<Long> ids);
+    void updateMarkMessageReceived(@Valid MessageReceivedUpdateDto dto);
 
     /**
      * 管理删除用户接受的消息
@@ -46,32 +46,25 @@ public interface MessageReceivedService extends IService<MessageReceived> {
     void deleteMessageReceivedByIds(List<Long> ids);
 
     /**
-     * 根据消息id获取接收人信息
+     * 分页查询用户消息
      *
-     * @param messageId 消息id
-     * @return 消息接收人用户名等信息
+     * @param pageParams 系统消息返回列表
+     * @param dto        查询表单
+     * @return 分页结果
      */
-    List<MessageReceivedWithUserVo> getReceivedUserinfoByMessageId(Long messageId);
-
-    /**
-     * * 添加系统消息
-     *
-     * @param dto 添加表单
-     */
-    void addMessage(@Valid MessageAddDto dto);
+    PageResult<MessageUserVo> getUserMessageList(Page<Message> pageParams, MessageUserDto dto);
 
     /**
      * 用户将消息标为已读
      *
      * @param ids 消息id列表
      */
-    void updateUserMarkAsRead(List<Long> ids);
+    void userMarkAsRead(List<Long> ids);
 
     /**
-     * * 更新系统消息
+     * 用户删除消息
      *
-     * @param dto 更新表单
+     * @param ids 消息Id列表
      */
-    void updateMessage(@Valid MessageUpdateDto dto);
-
+    void deleteUserMessageByIds(List<Long> ids);
 }

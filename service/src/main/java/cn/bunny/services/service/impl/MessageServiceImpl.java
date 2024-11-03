@@ -2,28 +2,38 @@ package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
-import cn.bunny.dao.dto.system.message.MessageUserDto;
+import cn.bunny.dao.common.entity.BaseEntity;
+import cn.bunny.dao.dto.system.message.MessageAddDto;
+import cn.bunny.dao.dto.system.message.MessageDto;
+import cn.bunny.dao.dto.system.message.MessageUpdateDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.entity.system.MessageReceived;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
-import cn.bunny.dao.vo.system.message.MessageUserVo;
+import cn.bunny.dao.vo.system.message.MessageDetailVo;
+import cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo;
+import cn.bunny.dao.vo.system.message.MessageReceivedWithUserVo;
 import cn.bunny.dao.vo.system.message.MessageVo;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.MessageMapper;
 import cn.bunny.services.mapper.MessageReceivedMapper;
+import cn.bunny.services.mapper.UserMapper;
+import cn.bunny.services.service.MessageReceivedService;
 import cn.bunny.services.service.MessageService;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -43,32 +53,46 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     @Autowired
     private MessageReceivedMapper messageReceivedMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private MessageReceivedService messageReceivedService;
+
     /**
-     * 分页查询用户消息
-     * 查询用户消息关系表，找到当前用户所有的消息
-     * 拿到用户消息关系表中数据只要MessageId
-     * 根据MessageId分页查询消息表
+     * 分页查询发送消息
      *
-     * @param pageParams 系统消息返回列表
-     * @param dto        用户消息查询内容
-     * @return 分页结果
+     * @param pageParams 分页参数
+     * @param dto        查询表单
+     * @return 系统消息返回列表
      */
     @Override
-    public PageResult<MessageUserVo> getUserMessageList(Page<Message> pageParams, MessageUserDto dto) {
-        // 根据消息所有包含匹配当前消息Id的列表
-        IPage<MessageVo> page = baseMapper.selectListByPageWithMessageUserDto(pageParams, dto, BaseContext.getUserId());
-        List<MessageUserVo> voList = page.getRecords().stream().map(messageVo -> {
-            MessageUserVo vo = new MessageUserVo();
-            BeanUtils.copyProperties(messageVo, vo);
+    public PageResult<MessageVo> getMessageList(Page<Message> pageParams, MessageDto dto) {
+        IPage<MessageReceivedWithMessageVo> page = baseMapper.selectListByPage(pageParams, dto);
+        List<MessageReceivedWithMessageVo> records = page.getRecords();
 
-            // 设置封面返回内容
-            String cover = vo.getCover();
-            cover = userFactory.checkGetUserAvatar(cover);
-            vo.setCover(cover);
-            return vo;
-        }).toList();
+        // 接受人昵称
+        Map<Long, List<String>> receivedUserNicknameMap = records.stream()
+                .collect(Collectors.groupingBy(
+                        MessageReceivedWithMessageVo::getId,
+                        Collectors.mapping(MessageReceivedWithMessageVo::getReceivedUserNickname, Collectors.toList())));
 
-        return PageResult.<MessageUserVo>builder().list(voList).pageNo(page.getCurrent())
+        // 接收人id
+        Map<Long, List<String>> receivedUserIdMap = records.stream()
+                .collect(Collectors.groupingBy(
+                        MessageReceivedWithMessageVo::getId,
+                        Collectors.mapping(messageWithMessageReceivedVo -> messageWithMessageReceivedVo.getId().toString(), Collectors.toList())));
+
+        List<MessageVo> voList = records.stream()
+                .map(messageWithMessageReceivedVo -> {
+                    MessageVo messageVo = new MessageVo();
+                    BeanUtils.copyProperties(messageWithMessageReceivedVo, messageVo);
+                    messageVo.setReceivedUserNickname(receivedUserNicknameMap.get(messageWithMessageReceivedVo.getId()));
+                    messageVo.setReceivedUserId(receivedUserIdMap.get(messageWithMessageReceivedVo.getId()));
+                    return messageVo;
+                }).distinct().toList();
+
+        return PageResult.<MessageVo>builder().list(voList).pageNo(page.getCurrent())
                 .pageSize(page.getSize()).total(page.getTotal())
                 .build();
     }
@@ -81,7 +105,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @return 消息详情
      */
     @Override
-    public MessageVo getMessageDetailById(Long id) {
+    public MessageDetailVo getMessageDetailById(Long id) {
         // 将消息设为已读
         MessageReceived messageReceived = new MessageReceived();
         messageReceived.setReceivedUserId(BaseContext.getUserId());
@@ -99,19 +123,102 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     }
 
     /**
-     * 用户删除消息
+     * 根据消息id获取接收人信息
      *
-     * @param ids 消息Id列表
+     * @param messageId 消息id
+     * @return 消息接收人用户名等信息
      */
     @Override
-    public void deleteUserMessageByIds(List<Long> ids) {
-        // 判断ids是否为空
-        if (ids.isEmpty()) {
+    public List<MessageReceivedWithUserVo> getReceivedUserinfoByMessageId(Long messageId) {
+        if (messageId == null) {
             throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
         }
+        return baseMapper.selectUserinfoListByMessageId(messageId);
+    }
 
-        // 根据当前用户id删除消息接受表中数据
-        messageReceivedMapper.deleteBatchIdsWithPhysics(ids);
+    /**
+     * 添加系统消息
+     * 判断发送消息的接收人是否为空，如果为空默认是所有用户都是接受者
+     * 之后要将消息的接受者要保存在，消息接收表中，在这之前是没有消息id的
+     * 先要保存消息内容，之后获取到保存消息的id
+     * 将消息的id和接收者的id构建成map插入到消息接收表中
+     *
+     * @param dto 系统消息添加
+     */
+    @Override
+    public void addMessage(@Valid MessageAddDto dto) {
+        // 如果发送人为空设置当前登录的人的ID
+        if (dto.getSendUserId() == null) dto.setSendUserId(BaseContext.getUserId());
+
+        // 设置封面返回内容
+        String cover = dto.getCover();
+        dto.setCover(userFactory.checkGetUserAvatar(cover));
+
+        // 先保存消息数据，之后拿到保存消息的id
+        Message message = new Message();
+        BeanUtils.copyProperties(dto, message);
+        message.setMessageType(dto.getMessageTypeId().toString());
+        save(message);
+
+        // 如果接收人为空默认接收全部人
+        List<Long> receivedUserIds = dto.getReceivedUserIds();
+        if (receivedUserIds.isEmpty()) {
+            receivedUserIds = userMapper.selectList(null).stream().map(BaseEntity::getId).toList();
+        }
+
+        // 从之前保存的消息中获取消息id，保存到消息接收表中
+        List<MessageReceived> receivedList = receivedUserIds.stream().map(id -> {
+            MessageReceived messageReceived = new MessageReceived();
+            messageReceived.setMessageId(message.getId());
+            messageReceived.setReceivedUserId(id);
+            messageReceived.setStatus(false);
+            return messageReceived;
+        }).toList();
+
+        messageReceivedService.saveBatch(receivedList);
+    }
+
+
+    /**
+     * 更新系统消息
+     *
+     * @param dto 系统消息更新
+     */
+    @Override
+    public void updateMessage(@Valid MessageUpdateDto dto) {
+        // 如果发送人为空设置当前登录的人的ID
+        Long sendUserId = dto.getSendUserId();
+        if (sendUserId == null) dto.setSendUserId(BaseContext.getUserId());
+
+        // 如果接收人为空默认接收全部人
+        List<Long> receivedUserIds = dto.getReceivedUserIds();
+        if (receivedUserIds.isEmpty()) {
+            receivedUserIds = userMapper.selectList(null).stream().map(BaseEntity::getId).toList();
+        }
+
+        // 设置封面返回内容
+        String cover = dto.getCover();
+        dto.setCover(userFactory.checkGetUserAvatar(cover));
+
+        // 更新内容
+        Message message = new Message();
+        BeanUtils.copyProperties(dto, message);
+        message.setMessageType(dto.getMessageTypeId().toString());
+        baseMapper.updateById(message);
+
+        // 保存消息和用户之间关联数据
+        List<MessageReceived> receivedList = receivedUserIds.stream().map(id -> {
+            MessageReceived messageReceived = new MessageReceived();
+            messageReceived.setMessageId(dto.getId());
+            messageReceived.setReceivedUserId(id);
+            return messageReceived;
+        }).toList();
+
+        // 删除这个消息id下所有用户消息关系内容
+        messageReceivedMapper.deleteBatchIdsByMessageIdsWithPhysics(List.of(dto.getId()));
+
+        // 插入接收者和消息表
+        messageReceivedService.saveBatch(receivedList);
     }
 
     /**
@@ -123,10 +230,10 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     public void deleteMessage(List<Long> ids) {
-        // 物理删除消息表数据
+        // 根据消息id物理删除
         baseMapper.deleteBatchIdsWithPhysics(ids);
 
-        // 根据消息Id物理删除接受者消息
+        // 根据消息Id物理删除用户消息表
         messageReceivedMapper.deleteBatchIdsByMessageIdsWithPhysics(ids);
     }
 }

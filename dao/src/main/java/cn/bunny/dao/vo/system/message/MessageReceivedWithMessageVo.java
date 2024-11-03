@@ -26,12 +26,16 @@ public class MessageReceivedWithMessageVo extends BaseUserVo {
     private Long messageId;
 
     @Schema(name = "receivedUserId", title = "接收人用户ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private String receivedUserId;
 
     @Schema(name = "receivedUserNickname", title = "接收人用户昵称")
     private String receivedUserNickname;
 
     @Schema(name = "messageTypeId", title = "消息类型id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JSONField(serializeUsing = ToStringSerializer.class)
     private String messageTypeId;
 
     @Schema(name = "messageType", title = "消息类型")

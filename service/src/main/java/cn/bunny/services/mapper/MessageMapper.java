@@ -1,13 +1,14 @@
 package cn.bunny.services.mapper;
 
-import cn.bunny.dao.dto.system.message.MessageUserDto;
+import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.entity.system.Message;
-import cn.bunny.dao.vo.system.message.MessageVo;
+import cn.bunny.dao.vo.system.message.MessageDetailVo;
+import cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo;
+import cn.bunny.dao.vo.system.message.MessageReceivedWithUserVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,6 +23,21 @@ import java.util.List;
 @Mapper
 public interface MessageMapper extends BaseMapper<Message> {
 
+    /**
+     * 根据消息id查询消息详情
+     *
+     * @param id 消息id
+     * @return 消息返回对象
+     */
+    MessageDetailVo selectMessageVoById(Long id);
+
+    /**
+     * 根据消息id获取接收人信息
+     *
+     * @param messageId 消息id
+     * @return 消息接收人用户名等信息
+     */
+    List<MessageReceivedWithUserVo> selectUserinfoListByMessageId(Long messageId);
 
     /**
      * 物理删除系统消息
@@ -31,20 +47,11 @@ public interface MessageMapper extends BaseMapper<Message> {
     void deleteBatchIdsWithPhysics(List<Long> ids);
 
     /**
-     * 根据消息所有包含匹配当前消息Id的列表
+     * 分页查询发送消息
      *
-     * @param pageParams 系统消息分页参数
-     * @param dto        系统消息查询表单
-     * @return 系统消息分页结果
+     * @param pageParams 分页参数
+     * @param dto        查询表单
+     * @return 系统消息返回列表
      */
-    IPage<MessageVo> selectListByPageWithMessageUserDto(@Param("page") Page<Message> pageParams, @Param("dto") MessageUserDto dto, @Param("userId") Long userId);
-
-    /**
-     * 根据消息id查询消息详情
-     *
-     * @param id 消息id
-     * @return 消息返回对象
-     */
-    MessageVo selectMessageVoById(Long id);
-
+    IPage<MessageReceivedWithMessageVo> selectListByPage(Page<Message> pageParams, MessageDto dto);
 }
