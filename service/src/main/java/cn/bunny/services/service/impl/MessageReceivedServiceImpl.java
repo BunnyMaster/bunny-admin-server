@@ -4,16 +4,21 @@ import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
 import cn.bunny.dao.common.entity.BaseEntity;
 import cn.bunny.dao.dto.system.message.MessageAddDto;
+import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUpdateDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.entity.system.MessageReceived;
+import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo;
 import cn.bunny.dao.vo.system.message.MessageReceivedWithUserVo;
 import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.MessageMapper;
 import cn.bunny.services.mapper.MessageReceivedMapper;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.service.MessageReceivedService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -40,8 +45,61 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
 
     @Autowired
     private MessageMapper messageMapper;
+
     @Autowired
     private UserFactory userFactory;
+
+    /**
+     * 管理员管理用户消息接收分页查询
+     *
+     * @param pageParams 系统消息分页查询page对象
+     * @param dto        系统消息分页查询对象
+     * @return 查询分页系统消息返回对象
+     */
+    @Override
+    public PageResult<MessageReceivedWithMessageVo> getMessageReceivedList(Page<Message> pageParams, MessageDto dto) {
+        // 分页查询消息数据
+        IPage<MessageReceivedWithMessageVo> page = baseMapper.selectListByMessageReceivedPage(pageParams, dto);
+        List<MessageReceivedWithMessageVo> voList = page.getRecords().stream().map(messageVo -> {
+            MessageReceivedWithMessageVo vo = new MessageReceivedWithMessageVo();
+            BeanUtils.copyProperties(messageVo, vo);
+
+            // 设置封面返回内容
+            String cover = vo.getCover();
+            cover = userFactory.checkGetUserAvatar(cover);
+            vo.setCover(cover);
+            return vo;
+        }).toList();
+        return PageResult.<MessageReceivedWithMessageVo>builder().list(voList).pageNo(page.getCurrent())
+                .pageSize(page.getSize()).total(page.getTotal())
+                .build();
+    }
+
+    /**
+     * 管理员将用户接受消息标为已读
+     *
+     * @param ids 用户消息表id
+     */
+    @Override
+    public void markMessageReceivedAsRead(List<Long> ids) {
+        List<MessageReceived> messageReceivedList = ids.stream().map(id -> {
+            MessageReceived messageReceived = new MessageReceived();
+            messageReceived.setId(id);
+            messageReceived.setStatus(true);
+            return messageReceived;
+        }).toList();
+        updateBatchById(messageReceivedList);
+    }
+
+    /**
+     * 管理删除用户接受的消息
+     *
+     * @param ids 用户消息Id列表
+     */
+    @Override
+    public void deleteMessageReceivedByIds(List<Long> ids) {
+        baseMapper.deleteBatchIdsWithPhysics(ids);
+    }
 
     /**
      * 根据消息id获取接收人信息
@@ -171,13 +229,4 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
         updateBatchById(messageList);
     }
 
-    /**
-     * 根据发送者id批量删除消息接受者
-     *
-     * @param sendUserIds 发送用户ID
-     */
-    @Override
-    public void deleteBatchIdsWithPhysics(List<Long> sendUserIds) {
-        baseMapper.deleteBatchIdsWithPhysics(sendUserIds);
-    }
 }

@@ -1,9 +1,14 @@
 package cn.bunny.services.service;
 
 import cn.bunny.dao.dto.system.message.MessageAddDto;
+import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUpdateDto;
+import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.entity.system.MessageReceived;
+import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo;
 import cn.bunny.dao.vo.system.message.MessageReceivedWithUserVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
 
@@ -20,11 +25,25 @@ import java.util.List;
 public interface MessageReceivedService extends IService<MessageReceived> {
 
     /**
-     * 根据发送者id批量删除消息接受者
+     * 管理员管理用户消息接收分页查询
      *
-     * @param sendUserIds 发送用户ID
+     * @return 系统消息返回列表
      */
-    void deleteBatchIdsWithPhysics(List<Long> sendUserIds);
+    PageResult<MessageReceivedWithMessageVo> getMessageReceivedList(Page<Message> pageParams, MessageDto dto);
+
+    /**
+     * 管理员将用户接受消息标为已读
+     *
+     * @param ids 用户消息表id
+     */
+    void markMessageReceivedAsRead(List<Long> ids);
+
+    /**
+     * 管理删除用户接受的消息
+     *
+     * @param ids 用户消息Id列表
+     */
+    void deleteMessageReceivedByIds(List<Long> ids);
 
     /**
      * 根据消息id获取接收人信息
@@ -54,4 +73,5 @@ public interface MessageReceivedService extends IService<MessageReceived> {
      * @param dto 更新表单
      */
     void updateMessage(@Valid MessageUpdateDto dto);
+
 }

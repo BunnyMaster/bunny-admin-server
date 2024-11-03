@@ -1,6 +1,5 @@
 package cn.bunny.services.controller;
 
-import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -34,19 +33,6 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
-
-    @Operation(summary = "分页查询消息", description = "分页查询消息")
-    @GetMapping("getMessageList/{page}/{limit}")
-    public Mono<Result<PageResult<MessageVo>>> getMessageList(
-            @Parameter(name = "page", description = "当前页", required = true)
-            @PathVariable("page") Integer page,
-            @Parameter(name = "limit", description = "每页记录数", required = true)
-            @PathVariable("limit") Integer limit,
-            MessageDto dto) {
-        Page<Message> pageParams = new Page<>(page, limit);
-        PageResult<MessageVo> pageResult = messageService.getMessageList(pageParams, dto);
-        return Mono.just(Result.success(pageResult));
-    }
 
     @Operation(summary = "分页查询用户消息", description = "分页查询用户消息")
     @GetMapping("noManage/getUserMessageList/{page}/{limit}")

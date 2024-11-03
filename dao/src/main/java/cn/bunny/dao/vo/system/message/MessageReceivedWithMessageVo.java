@@ -3,7 +3,6 @@ package cn.bunny.dao.vo.system.message;
 import cn.bunny.dao.common.vo.BaseUserVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -13,25 +12,18 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "MessageVo对象", title = "系统消息返回内容", description = "系统消息返回内容")
-public class MessageVo extends BaseUserVo {
+@Schema(name = "MessageReceivedWithMessageVo对象", title = "用户消息接收", description = "用户消息接收")
+public class MessageReceivedWithMessageVo extends BaseUserVo {
 
-    @Schema(name = "messageReceivedId", title = "用户消息表id")
-    @JsonProperty("id")
+    @Schema(name = "id", title = "消息接受id")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @JSONField(serializeUsing = ToStringSerializer.class)
-    private Long messageReceivedId;
+    private Long id;
 
-    @Schema(name = "title", title = "消息标题")
-    private String title;
-
-    @Schema(name = "sendUserId", title = "发送人用户ID")
+    @Schema(name = "messageId", title = "消息id")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @JSONField(serializeUsing = ToStringSerializer.class)
-    private Long sendUserId;
-
-    @Schema(name = "sendNickname", title = "发送人昵称")
-    private String sendNickname;
+    private Long messageId;
 
     @Schema(name = "receivedUserId", title = "接收人用户ID")
     private String receivedUserId;
@@ -44,6 +36,17 @@ public class MessageVo extends BaseUserVo {
 
     @Schema(name = "messageType", title = "消息类型")
     private String messageType;
+
+    @Schema(name = "title", title = "消息标题")
+    private String title;
+
+    @Schema(name = "sendUserId", title = "发送人用户ID")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JSONField(serializeUsing = ToStringSerializer.class)
+    private Long sendUserId;
+
+    @Schema(name = "sendNickname", title = "发送人昵称")
+    private String sendNickname;
 
     @Schema(name = "cover", title = "封面")
     private String cover;
@@ -67,4 +70,3 @@ public class MessageVo extends BaseUserVo {
     private String extra;
 
 }
-

@@ -2,7 +2,6 @@ package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.exception.BunnyException;
-import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.entity.system.MessageReceived;
@@ -43,32 +42,6 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
     @Autowired
     private MessageReceivedMapper messageReceivedMapper;
-
-    /**
-     * * 系统消息 服务实现类
-     *
-     * @param pageParams 系统消息分页查询page对象
-     * @param dto        系统消息分页查询对象
-     * @return 查询分页系统消息返回对象
-     */
-    @Override
-    public PageResult<MessageVo> getMessageList(Page<Message> pageParams, MessageDto dto) {
-        // 分页查询消息数据
-        IPage<MessageVo> page = baseMapper.selectListByPage(pageParams, dto);
-        List<MessageVo> voList = page.getRecords().stream().map(messageVo -> {
-            MessageVo vo = new MessageVo();
-            BeanUtils.copyProperties(messageVo, vo);
-
-            // 设置封面返回内容
-            String cover = vo.getCover();
-            cover = userFactory.checkGetUserAvatar(cover);
-            vo.setCover(cover);
-            return vo;
-        }).toList();
-        return PageResult.<MessageVo>builder().list(voList).pageNo(page.getCurrent())
-                .pageSize(page.getSize()).total(page.getTotal())
-                .build();
-    }
 
     /**
      * 分页查询用户消息

@@ -1,6 +1,5 @@
 package cn.bunny.services.service;
 
-import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.pojo.result.PageResult;
@@ -21,12 +20,6 @@ import java.util.List;
  */
 public interface MessageService extends IService<Message> {
 
-    /**
-     * * 获取系统消息列表
-     *
-     * @return 系统消息返回列表
-     */
-    PageResult<MessageVo> getMessageList(Page<Message> pageParams, MessageDto dto);
 
     /**
      * * 删除|批量删除系统消息类型
