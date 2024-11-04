@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "MessageReceivedWithMessageVo对象", title = "用户消息接收", description = "用户消息接收")
+@Schema(name = "MessageReceivedWithMessageVo对象", title = "消息内容和消息接受", description = "消息内容和消息接受")
 public class MessageReceivedWithMessageVo extends BaseUserVo {
 
     @Schema(name = "id", title = "消息接受id")

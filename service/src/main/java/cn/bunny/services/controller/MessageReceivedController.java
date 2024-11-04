@@ -29,7 +29,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-31
  */
-@Tag(name = "消息接受关系", description = "消息接受关系相关接口")
+@Tag(name = "消息接收(用户消息)", description = "消息接收(用户消息)相关接口")
 @RestController
 @RequestMapping("/admin/messageReceived")
 public class MessageReceivedController {
@@ -37,7 +37,7 @@ public class MessageReceivedController {
     @Autowired
     private MessageReceivedService messageReceivedService;
 
-    @Operation(summary = "管理员管理用户消息接收分页查询", description = "管理员管理用户消息接收分页查询")
+    @Operation(summary = "管理员分页查询用户消息", description = "管理员分页查询用户消息")
     @GetMapping("getMessageReceivedList/{page}/{limit}")
     public Mono<Result<PageResult<MessageReceivedWithMessageVo>>> getMessageReceivedList(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -50,14 +50,14 @@ public class MessageReceivedController {
         return Mono.just(Result.success(pageResult));
     }
 
-    @Operation(summary = "管理员将用户接受消息标为已读", description = "管理员将用户接受消息标为已读")
+    @Operation(summary = "管理员将用户消息标为已读", description = "管理员将用户消息标为已读")
     @PutMapping("updateMarkMessageReceived")
     public Mono<Result<String>> updateMarkMessageReceived(@Valid @RequestBody MessageReceivedUpdateDto dto) {
         messageReceivedService.updateMarkMessageReceived(dto);
         return Mono.just(Result.success());
     }
 
-    @Operation(summary = "管理删除用户接受的消息", description = "管理删除用户接受的消息")
+    @Operation(summary = "管理删除用户消息", description = "管理删除用户消息")
     @DeleteMapping("deleteMessageReceivedByIds")
     public Mono<Result<String>> deleteMessageReceivedByIds(@RequestBody List<Long> ids) {
         messageReceivedService.deleteMessageReceivedByIds(ids);

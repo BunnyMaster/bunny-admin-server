@@ -59,7 +59,7 @@ public class RouterController {
         return Mono.just(Result.success(voPageResult));
     }
 
-    @Operation(summary = "管理菜单列表", description = "管理菜单列表")
+    @Operation(summary = "分页查询管理菜单列表", description = "分页查询管理菜单列表")
     @GetMapping("getMenusList")
     public Mono<Result<List<RouterManageVo>>> getMenusList(RouterManageDto dto) {
         List<RouterManageVo> voPageResult = routerService.getMenusList(dto);

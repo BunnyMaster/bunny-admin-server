@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "MessageReceivedWithUser对象", title = "消息接收人用户名等信息", description = "消息接收人用户名等信息")
+@Schema(name = "MessageReceivedWithUser对象", title = "用户消息接受", description = "用户消息接受")
 public class MessageReceivedWithUserVo {
 
     @Schema(name = "receivedUserId", title = "接受者id")
