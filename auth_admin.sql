@@ -11,7 +11,7 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 04/11/2024 02:08:59
+ Date: 04/11/2024 17:51:50
 */
 
 SET NAMES utf8mb4;
@@ -517,6 +517,13 @@ INSERT INTO `sys_files` VALUES (1853080194035568642, '003540AH4M7.jpg', '/auth-a
 INSERT INTO `sys_files` VALUES (1853080248490217473, 'image.png', '/auth-admin/message/2024/11-03/fa9bab7c-fa08-40b7-a7fa-684df3dd7f79.png', 11837, 'image/png', 0, 1, 1, '2024-11-03 22:22:14', '2024-11-03 22:22:14', 0);
 INSERT INTO `sys_files` VALUES (1853080597284347905, '003540AH4M7.jpg', '/auth-admin/message/2024/11-03/bbbe5c43-6afc-46d2-ae26-4267d32a9837.jpg', 1188970, 'image/jpeg', 0, 1, 1, '2024-11-03 22:23:38', '2024-11-03 22:23:38', 0);
 INSERT INTO `sys_files` VALUES (1853123338194124802, 'f083c7e3-7959-43b3-b810-62ced61a3fc2.jpg', '/auth-admin/message/2024/11-04/c76bc462-3648-4f87-9a43-56e67930920a.jpg', 3338, 'image/jpeg', 0, 1, 1, '2024-11-04 01:13:28', '2024-11-04 01:13:28', 0);
+INSERT INTO `sys_files` VALUES (1853172180298072066, 'image.png', '/auth-admin/message/2024/11-04/b3f236d0-fced-4482-8890-4c2d52648e08.png', 1954, 'image/png', 0, 1, 1, '2024-11-04 04:27:33', '2024-11-04 04:27:33', 0);
+INSERT INTO `sys_files` VALUES (1853172694964338690, 'image.png', '/auth-admin/message/2024/11-04/bff3949c-2109-45ab-8138-9fd9aeb09893.png', 2706, 'image/png', 0, 1, 1, '2024-11-04 04:29:35', '2024-11-04 04:29:35', 0);
+INSERT INTO `sys_files` VALUES (1853350619877556226, 'image.png', '/auth-admin/message/2024/11-04/9311c7e4-5585-4bd3-b65b-8f24cf9603b6.png', 3463, 'image/png', 0, 1, 1, '2024-11-04 16:16:36', '2024-11-04 16:16:36', 0);
+INSERT INTO `sys_files` VALUES (1853360176951541761, '003540AH4M7.jpg', '/auth-admin/message/2024/11-04/643919a8-d5e0-4295-82c3-0cda69578420.jpg', 1188970, 'image/jpeg', 0, 1, 1, '2024-11-04 16:54:35', '2024-11-04 16:54:35', 0);
+INSERT INTO `sys_files` VALUES (1853360488756101121, '003540AH4M7.jpg', '/auth-admin/message/2024/11-04/ed6c4a4e-c453-45d0-b250-2100260d259a.jpg', 1188970, 'image/jpeg', 0, 1, 1, '2024-11-04 16:55:49', '2024-11-04 16:55:49', 0);
+INSERT INTO `sys_files` VALUES (1853360685720616962, 'f083c7e3-7959-43b3-b810-62ced61a3fc2.jpg', '/auth-admin/message/2024/11-04/7d63d2c7-d88c-4883-b669-71244a733b50.jpg', 3338, 'image/jpeg', 0, 1, 1, '2024-11-04 16:56:36', '2024-11-04 16:56:36', 0);
+INSERT INTO `sys_files` VALUES (1853362259058573313, 'f083c7e3-7959-43b3-b810-62ced61a3fc2.jpg', '/auth-admin/message/2024/11-04/61a09577-9929-4f8f-b701-5c336510f6f2.jpg', 3338, 'image/jpeg', 0, 1, 1, '2024-11-04 17:02:51', '2024-11-04 17:02:51', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n
@@ -1824,6 +1831,7 @@ CREATE TABLE `sys_message`  (
 -- ----------------------------
 -- Records of sys_message
 -- ----------------------------
+INSERT INTO `sys_message` VALUES (1853350668003000322, '去', 1, 1851498066518687745, 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', '啊', 'IVtdKGh0dHA6Ly8xOTIuMTY4LjMuOTg6OTAwMC9hdXRoLWFkbWluL21lc3NhZ2UvMjAyNC8xMS0wNC85MzExYzdlNC01NTg1LTRiZDMtYjY1Yi04ZjI0Y2Y5NjAzYjYucG5nKQo=', 'markdown', 'primary', '啊', '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_message_received
@@ -1849,6 +1857,11 @@ CREATE TABLE `sys_message_received`  (
 -- ----------------------------
 -- Records of sys_message_received
 -- ----------------------------
+INSERT INTO `sys_message_received` VALUES (1853350668003000324, 1849444494908125181, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1853350668003000325, 1849681227633758210, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1853350668003000326, 1850075157831454722, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1853350668003000327, 1850080272764211202, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1853350668003000328, 1850789068551200769, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_message_type

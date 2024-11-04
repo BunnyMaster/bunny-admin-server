@@ -50,7 +50,7 @@ public class DeptController {
     }
 
     @Operation(summary = "获取所有部门", description = "获取所有部门")
-    @GetMapping("getAllDeptList")
+    @GetMapping("noManage/getAllDeptList")
     public Mono<Result<List<DeptVo>>> getAllDeptList() {
         List<DeptVo> voList = deptService.getAllDeptList();
         return Mono.just(Result.success(voList));
