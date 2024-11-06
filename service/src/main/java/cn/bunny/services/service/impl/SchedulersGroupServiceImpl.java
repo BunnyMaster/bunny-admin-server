@@ -39,7 +39,6 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
      */
     @Override
     public PageResult<SchedulersGroupVo> getSchedulersGroupList(Page<SchedulersGroup> pageParams, SchedulersGroupDto dto) {
-        // 分页查询菜单图标
         IPage<SchedulersGroupVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<SchedulersGroupVo>builder()

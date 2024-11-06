@@ -51,7 +51,6 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      */
     @Override
     public PageResult<SchedulersVo> getSchedulersList(Page<Schedulers> pageParams, SchedulersDto dto) {
-        // 分页查询菜单图标
         IPage<Schedulers> page = baseMapper.selectListByPage(pageParams, dto);
 
         List<SchedulersVo> voList = page.getRecords().stream().map(schedulers -> {

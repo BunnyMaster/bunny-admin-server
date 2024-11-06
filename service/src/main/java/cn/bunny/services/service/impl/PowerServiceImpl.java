@@ -51,7 +51,6 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      */
     @Override
     public PageResult<PowerVo> getPowerList(Page<Power> pageParams, PowerDto dto) {
-        // 分页查询菜单图标
         IPage<PowerVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<PowerVo>builder()

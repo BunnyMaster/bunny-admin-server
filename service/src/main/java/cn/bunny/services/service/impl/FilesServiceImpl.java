@@ -73,7 +73,6 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
      */
     @Override
     public PageResult<FilesVo> getFilesList(Page<Files> pageParams, FilesDto dto) {
-        // 分页查询菜单图标
         IPage<FilesVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<FilesVo>builder()

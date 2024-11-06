@@ -396,7 +396,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public PageResult<AdminUserVo> getAdminUserList(Page<AdminUser> pageParams, AdminUserDto dto) {
-        // 分页查询菜单图标
         IPage<ViewUserDept> page = baseMapper.selectListByPage(pageParams, dto);
 
         List<AdminUserVo> voList = page.getRecords().stream()

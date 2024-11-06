@@ -33,7 +33,6 @@ public class ScheduleExecuteLogServiceImpl extends ServiceImpl<ScheduleExecuteLo
      */
     @Override
     public PageResult<QuartzExecuteLogVo> getQuartzExecuteLogList(Page<ScheduleExecuteLog> pageParams, ScheduleExecuteLogDto dto) {
-        // 分页查询菜单图标
         IPage<QuartzExecuteLogVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<QuartzExecuteLogVo>builder()

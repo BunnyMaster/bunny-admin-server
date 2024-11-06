@@ -168,7 +168,8 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
         });
 
         // 根据当前用户id删除消息接受表中数据
-        baseMapper.deleteBatchIdsWithPhysics(ids);
+        baseMapper.deleteBatchIds(ids);
+        // baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 
 }

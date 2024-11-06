@@ -38,7 +38,6 @@ public class MessageTypeServiceImpl extends ServiceImpl<MessageTypeMapper, Messa
      */
     @Override
     public PageResult<MessageTypeVo> getMessageTypeList(Page<MessageType> pageParams, MessageTypeDto dto) {
-        // 分页查询菜单图标
         IPage<MessageTypeVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<MessageTypeVo>builder()

@@ -43,7 +43,6 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
      */
     @Override
     public PageResult<UserLoginLogVo> getUserLoginLogList(Page<UserLoginLog> pageParams, UserLoginLogDto dto) {
-        // 分页查询菜单图标
         IPage<UserLoginLogVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return factory.getUserLoginLogVoPageResult(page);

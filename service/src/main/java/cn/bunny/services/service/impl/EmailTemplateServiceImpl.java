@@ -44,7 +44,6 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      */
     @Override
     public PageResult<EmailTemplateVo> getEmailTemplateList(Page<EmailTemplate> pageParams, EmailTemplateDto dto) {
-        // 分页查询菜单图标
         IPage<EmailTemplateVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<EmailTemplateVo>builder()

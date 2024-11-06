@@ -95,7 +95,7 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
     }
 
     /**
-     * * 验证成功
+     * 验证成功
      */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) {

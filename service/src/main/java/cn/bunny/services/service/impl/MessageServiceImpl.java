@@ -230,10 +230,12 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      */
     @Override
     public void deleteMessage(List<Long> ids) {
-        // 根据消息id物理删除
+        // 根据消息id删除
+        // removeBatchByIds(ids);
         baseMapper.deleteBatchIdsWithPhysics(ids);
 
         // 根据消息Id物理删除用户消息表
+        // messageReceivedMapper.deleteBatchIds(ids);
         messageReceivedMapper.deleteBatchIdsByMessageIdsWithPhysics(ids);
     }
 }

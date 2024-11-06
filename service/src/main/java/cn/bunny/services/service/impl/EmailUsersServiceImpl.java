@@ -49,7 +49,6 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      */
     @Override
     public PageResult<EmailUsersVo> getEmailUsersList(Page<EmailUsers> pageParams, EmailUsersDto dto) {
-        // 分页查询菜单图标
         IPage<EmailUsersVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<EmailUsersVo>builder()

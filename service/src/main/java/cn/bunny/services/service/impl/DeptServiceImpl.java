@@ -48,7 +48,6 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      */
     @Override
     public PageResult<DeptVo> getDeptList(Page<Dept> pageParams, DeptDto dto) {
-        // 分页查询菜单图标
         IPage<DeptVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<DeptVo>builder()

@@ -60,7 +60,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public PageResult<RoleVo> getRoleList(Page<Role> pageParams, RoleDto dto) {
-        // 分页查询菜单图标
         IPage<RoleVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<RoleVo>builder()

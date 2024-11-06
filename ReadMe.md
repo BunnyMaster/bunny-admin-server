@@ -8,556 +8,769 @@ Gitee地址
 - [前端地址](https://gitee.com/BunnyBoss/bunny-admin-web)
 - [后端地址](https://gitee.com/BunnyBoss/bunny-admin-server)
 
-# 搭建后端环境
+# 项目特点
 
-1. 需要JDK17
-2. MySQL
-3. Redis
-4. Minio
+### 按钮权限显示
 
-## 下载JDK17
+如果当前用户在这个页面中只有【添加】和【删除】那么页面按钮中只会显示出【添加按钮】和【删除按钮】
 
-不喜欢JDK17可以自己将版本修改
+### 去除前后空格
 
-官网：https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+后端配置了自动去除前端传递的空字符串，如果传递的内容前后有空格会自动去除前后的空格
 
-## 资料相关
+![image-20241105215241811](http://116.196.101.14:9000/docs/image-20241105215241811.png)
 
-### Docker配置
-
-配置的端口号是8000根据自己需求进行更改，当然这些配置都可以修改，但是`"/www/root/server"`这个不能改，除非不需要动态修改配置文件
-
-- 如果需要访问内部docker或者有这种需求访问宿主机docker，需要配置下面三个文件，这三个文件需要对应你的宿主机上的位置，下面展示的三个是服务容器中的地址，之后需要使用docker命令绑定映射这几个文件夹位置即可。
-
-``` dockerfile
-VOLUME /usr/bin/docker
-VOLUME ["/var/run/docker.sock"]
-VOLUME /etc/docker/daemon.json
-VOLUME ["/www/root/backup"]
-VOLUME ["/www/root/server"]
-```
-
-- 备份资源和基础路径设置，如果是需要备份数据库，比如你的数据库就在本机那么可以使用这个文件夹，之后需要映射这个数据卷
-
-
-```dockerfile
-VOLUME ["/www/root/backup"]
-```
-
-- 基础路径，比如需要设置前端配置文件的，因为第一次启动项目肯定是没有这个配置文件，而且打成jar包之后是不可以修改resource下资源的，需要将资源放到外面目录中
-
-- 如果以后更新了服务，那么docker容器内容会被清空，比如备份的资源或者是配置的资源又要重新配置，这个地址挂载到数据卷中之后就可以映射，即使项目更新等文件也要，只要不把宿主机文件删除就可以。
-
-```dockerfile
-VOLUME ["/www/root/server"]
-```
-
-![image-20241023094711026](http://116.196.101.14:9000/docs/image-20241023094711026.png)
-
-### 部署命令
-
-仅供参考，实际的需要替换成你自己宿主机中的地址。
-
-```bash
-docker run -p 8000:8000 \
--v /usr/bin/docker:/usr/bin/docker \
--v /var/run/docker.sock:/var/run/docker.sock \
--v /etc/docker/daemon.json:/etc/docker/daemon.json \
--v /bunny/docker_data/mysql/slave_3304/backup:/www/root/backup \
--v /bunny/docker_data/server:/www/root/server \
---name bunny_auth_server --restart always bunny_auth_server:1.0.0
-```
-
-### 代码生成器
-
-生成简单CURD后端文件和前端CURD页面使用`velocity`
-
-![image-20241023091904775](http://116.196.101.14:9000/docs/image-20241023091904775.png)
-
-### 后端相关文件
-
-直接导入
-
-![image-20241023091610302](http://116.196.101.14:9000/docs/image-20241023091610302.png)
-
-### 前端文件
-
-有data.js可以生成权限相关内容，只是简单的生成 
-
-![image-20241028224835163](http://116.196.101.14:9000/docs/image-20241028224835163.png)
-
-## 搭建MySQL
-
-使用docker，开发环境端口号为3304，生产环境为3306
-数据使用不区分大小写，因为涉及到quartz，但是quartz默认数据库名称包括表名都是大写的，我不喜欢，所以就设置了此项。
-
-MySQL中设置了唯一约束字段，详见MySQL文件
-
-### 生产环境MySQL搭建
-
-- 将之前的MySQL移除，名称为master【确保你的master没有或者不重要，以防不小心删除重要数据】
-
-```shell
-docker stop master
-docker rm master
-
-docker run --name master -p 3306:3306 \
--v /bunny/docker_data/mysql/master/etc/my.cnf:/etc/my.cnf \
--v /bunny/docker_data/mysql/master/data:/var/lib/mysql \
---restart=always --privileged=true \
-   -e MYSQL_ROOT_PASSWORD=02120212 \
-   -e TZ=Asia/Shanghai \
-   mysql:8.0.33 --lower-case-table-names=1
-```
-
-### 开发环境搭建
-
-```shell
-docker stop slave_3304
-docker rm slave_3304
-
-docker run --name slave_3304 -p 3304:3306 \
-   -v /bunny/docker_data/mysql/slave_3304/etc/my.cnf:/etc/my.cnf \
-   -v /bunny/docker_data/mysql/slave_3304/data:/var/lib/mysql \
-   -v /bunny/docker_data/mysql/slave_3304/backup:\
-   --restart=always --privileged=true \
-   -e MYSQL_ROOT_PASSWORD=02120212 \
-   -e TZ=Asia/Shanghai \
-   mysql:8.0.33 --lower-case-table-names=1
-```
-
-### 修改密码
-
- ```shell
-docker exec -it mysql_master /bin/bash
-mysql -uroot -p02120212
-use mysql
-ALTER USER 'root'@'%' IDENTIFIED BY "02120212";
-FLUSH PRIVILEGES;
- ```
-
-### my.cnf 配置
-
-```shell
-[mysqld]
-skip-host-cache
-skip-name-resolve
-secure-file-priv=/var/lib/mysql-files
-user=mysql
-
-# 设置字符集
-character-set-server=utf8mb4
-collation-server=utf8mb4_unicode_ci
-
-# 设置服务器ID（如果是复制集群，确保每个节点的ID唯一）
-server-id=1
-
-# 启用二进制日志
-log-bin=mysql-bin
-
-# 设置表名不区分大小写
-lower_case_table_names = 1
-```
-
-## 安装Redis
-
-### 配置文件
-
-```
-daemonize no 
-requirepass 123456
-appendonly yes
-tcp-keepalive 300
-```
-
-### 运行Redis
-
-```shell
-docker pull redis:7.0.10
-docker run -p 6379:6379 --name redis_master \
--v /bunny/docker_data/redis_master/redis.conf:/etc/redis/redis.conf \
--v/bunny/docker_data/redis_master/data:/data \
---restart=always -d redis:7.0.10  --appendonly yes
-```
-
-## 安装Minio
-
-```sh
-docker run -d \
-  -p 9000:9000 \
-  -p 9090:9090 \
-  --name minio_master --restart=always \
-  -v /bunny/docker/minio/data:/data \
-  -e "MINIO_ROOT_USER=bunny" \
-  -e "MINIO_ROOT_PASSWORD=02120212" \
-  minio/minio server /data --console-address ":9090"
-```
-
-# 接口说明
-
-为了方便开发，这个功能已经测试过了，也是为了线上能看到效果，邮箱验证码后端验证部分已经注释
-
-## 请求接口
-
-请求接口都是`/admin`前缀，部分接口会被忽略，忽略接口看下面。
-
-所有分页请求内容都是通过路径传参方式
-
-请求时需要带有token，只要前端在请求头中添加`token:内容`即可
-
-采用SpringSecurity验证
-
-## 接口忽略
-
-### SpringSecurity接口忽略
-
-这是相关拦截请求内容，如果要访问接口必须携带token，但是有些接口是不需要token的，不需要token就配置在这里。但是放在这里后，如果用户请求的地址是被忽略的，那么也就拿不到token也就拿不到登录相关信息。
-
-获取用户自身的登录请求是不需要携带用户Id，只要有token去解析即可。
+代码内容
 
 ```java
-// 排出鉴定路径
-@Bean
-public WebSecurityCustomizer webSecurityCustomizer() {
-    String[] annotations = {
-            "/", "/ws/**",
-            "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
-            "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/v3/api-docs/**", "swagger-ui/**",
-            "/*/files/**",
-            "/error", "/*/i18n/getI18n",
-    };
-    return web -> web.ignoring().requestMatchers(annotations)
-            .requestMatchers(RegexRequestMatcher.regexMatcher(".*\\.(css|js)$"));
+@ControllerAdvice
+public class ControllerStringParamTrimConfig {
+
+    /**
+     * 创建 String trim 编辑器
+     * 构造方法中 boolean 参数含义为如果是空白字符串,是否转换为null
+     * 即如果为true,那么 " " 会被转换为 null,否者为 ""
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        StringTrimmerEditor propertyEditor = new StringTrimmerEditor(false);
+        // 为 String 类对象注册编辑器
+        binder.registerCustomEditor(String.class, propertyEditor);
+    }
+
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+        return jacksonObjectMapperBuilder -> {
+            // 为 String 类型自定义反序列化操作
+            jacksonObjectMapperBuilder
+                    .deserializerByType(String.class, new StdScalarDeserializer<String>(String.class) {
+                        @Override
+                        public String deserialize(JsonParser jsonParser, DeserializationContext ctx) throws IOException {
+                            // 去除全部空格
+                            // return StringUtils.trimAllWhitespace(jsonParser.getValueAsString());
+                            // 仅去除前后空格
+                            return jsonParser.getValueAsString().trim();
+                        }
+                    });
+        };
+    }
 }
 ```
 
-![image-20241022095731221](http://116.196.101.14:9000/docs/image-20241022095731221.png)
+### 项目接口和页面
 
-有些会被忽略的接口，凡是带有`noAuth`都是不需要验证的，但是要注意一点，不需要验证但是后端需要拿到登录相关信息是拿不到的。
+接口地址有两个：
 
-![image-20241022095311658](http://116.196.101.14:9000/docs/image-20241022095311658.png)
+1. knife4j
+2. swagger
 
-我是将用户相关请求使用SpringSecurity进行拦截，如果有相关匹配路径那么就会被拦截，此时接口参数中会带有token内容，拿到token进行解析，之后取出相关用户信息，比如用户Id、username等。
+接口地址://localhost:7070/doc.html#/home
 
-将这些信息拿出来后放到ThreadLocal中，存储在线程中，如果微服务中需要需要放在请求头中，因为微服务不在同一个线程中。这个操作适合单体或者是微服务中不需要请求其它微服务的方式。
+![image-20241105213953503](http://116.196.101.14:9000/docs/image-20241105213953503.png)
 
-![image-20241022095641040](http://116.196.101.14:9000/docs/image-20241022095641040.png)
+swagger接口地址：http://localhost:7070/swagger-ui/index.html
 
-### 不需要管理接口
+![image-20241105214100720](http://116.196.101.14:9000/docs/image-20241105214100720.png)
 
-请求是会有不需要登录就能访问的接口，也需要不要被管理的接口
+前端接口地址：http://localhost:7000/#/welcome
 
-## 验证码验证忽略
+![image-20241105214230389](http://116.196.101.14:9000/docs/image-20241105214230389.png)
 
-为了公网上的展示，如果需要获取验证码比较的麻烦，如果你的需求和我一样那么可以在这里放开这些注释
+## 登录功能
 
-会判断用户登录请求的类型是什么，如果是验证码登录会判断邮箱等内容
+可以选择邮箱登录或者是密码直接登录，两者不互用。
 
-![image-20241028224550702](http://116.196.101.14:9000/docs/image-20241028224550702.png)
+### 账号登录
 
-![image-20241028224625149](http://116.196.101.14:9000/docs/image-20241028224625149.png)
+![image-20241105212146456](http://116.196.101.14:9000/docs/image-20241105212146456.png)
 
-# 功能介绍
+#### 业务需求
 
-系统使用的是物理删除，但是引用了逻辑删除，使用mybatisPlus如果需要逻辑删除只需要将原先删除方法调用成mybatisplus自身的删除方法即可。
+- 用户输入用户名和密码进行登录
 
-作为权限管理系统，校验功能已经路由功能都是由后端完成，后端使用SpringSecurity
+#### 实现思路
 
-系统权限功能使用RBAC模型
+- 用户输入账号和密码和数据库中账号密码进行比对，成功后进行页面跳转
+- 如果账户禁用会显示账户已封禁
 
-## 系统设置
+**后端实现文件位置**
 
-### 系统菜单
+- 拦截请求为`/admin/login`的请求之后进行登录验证的判断
 
-当用户登录时会根据，当前角色获取自身的菜单路由，防止返回不该返回的页面，之后权限和角色关联，根据用户权限查询可以访问的菜单内容，如果权限中没有这个路径那么会告知`无权访问`。
+![image-20241105212722043](http://116.196.101.14:9000/docs/image-20241105212722043.png)
 
-管理员需要在配置时，配置菜单和角色之间的关系，用户也要和角色关联，角色会关联权限表，返回路由时只返回当前用户可以访问的菜单。
+### 邮箱登录
 
-- 前端做递归，排序后端也做了
-- 快捷排序，快捷禁用菜单
-- 路由菜单图标需要再系统配置中添加菜单图标
+![image-20241105212255972](http://116.196.101.14:9000/docs/image-20241105212255972.png)
 
-![image-20241023090359575](http://116.196.101.14:9000/docs/image-20241023090359575.png)
+#### 业务需求
 
-#### 菜单分配角色
+- 用户输入邮箱账号、密码、邮箱验证码之后进行登录
 
-![image-20241023090640516](data/images/image-20241023090640516.png)
+#### 实现思路
 
-其中有快捷清除菜单中所有的角色还有批量分配菜单角色
+- 需要验证用户输入的邮箱格式是否正确。
+- 在未输入验证码的情况下输入密码会提示用户，同时后端也会进行验证。如果输入了邮箱验证码但是Redis中不存在或已过期，会提示：邮箱验证码不存在或已过期。
+- 之后对邮箱账号和密码进行判断包括邮箱验证码进行判断
+- 判断逻辑如下，文件位置如上图所示。
 
-![image-20241028223214756](http://116.196.101.14:9000/docs/image-20241028223214756.png)
+```java
+/**
+ * * 自定义验证
+ * 判断邮箱验证码是否正确
+ */
+@Override
+public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+        loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
 
-#### 批量分配角色
+        // type不能为空
+        String type = loginDto.getType();
+        if (!StringUtils.hasText(type)) {
+            out(response, Result.error(ResultCodeEnum.REQUEST_IS_EMPTY));
+            return null;
+        }
 
-批量分配角色并不会在原有的基础上追加角色，会清除原有的角色内容，一般用于初始化菜单
+        String emailCode = loginDto.getEmailCode();
+        String username = loginDto.getUsername();
+        String password = loginDto.getPassword();
 
-![image-20241028223311365](http://116.196.101.14:9000/docs/image-20241028223311365.png)
+        // 如果有邮箱验证码，表示是邮箱登录
+        if (type.equals("email")) {
+            emailCode = emailCode.toLowerCase();
+            Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
+            if (redisEmailCode == null) {
+                out(response, Result.error(ResultCodeEnum.EMAIL_CODE_EMPTY));
+                return null;
+            }
 
-#### 一键清除菜单角色
+            // 判断用户邮箱验证码是否和Redis中发送的验证码
+            if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
+                out(response, Result.error(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING));
+                return null;
+            }
+        }
 
-会有两次确认，如果确认会清除菜单下所有的角色内容
+        Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        return getAuthenticationManager().authenticate(authenticationToken);
+    } catch (IOException e) {
+        out(response, Result.error(ResultCodeEnum.ILLEGAL_DATA_REQUEST));
+        return null;
+    }
+}
+```
 
-![image-20241028223401638](http://116.196.101.14:9000/docs/image-20241028223401638.png)
+## 首页功能
+
+![image-20241105212403630](http://116.196.101.14:9000/docs/image-20241105212403630.png)
+
+功能菜单，首页图表展示部分功能已经由这个模板作者设计好，其中需要注意的是，如果要查看历史消息或者是进入消息页面可以双击![image-20241105213346408](http://116.196.101.14:9000/docs/image-20241105213346408.png)既可进入消息页面
+
+### 消息功能
+
+![image-20241105213539594](http://116.196.101.14:9000/docs/image-20241105213539594-1730813844820-2.png)
+
+#### 业务需求
+
+1. 消息页面的展示，包含删除、批量删除、选中已读和当前页面所有消息都标为已读
+2. 当用户对左侧菜单点击时可以过滤出消息内容，展示不同的消息类型
+
+![image-20241105213720011](http://116.196.101.14:9000/docs/image-20241105213720011.png)
+
+3. 可以点击已读和全部进行筛选消息
+
+![image-20241105214342220](http://116.196.101.14:9000/docs/image-20241105214342220.png)
+
+3. 可以根据标题进行搜搜
+4. 包含分页
+
+#### 实现思路
+
+1. 显示当前消息类型，用户点击时带参数请求，只带当前消息类型，不默认携带已读状态查询，然后从数据库筛选并返回结果。
+
+2. 点击"已读"选项时，若选择"全部"（之前是设置为undefined，这样就不会携带参数了，但是底下会有警告），现在改为空字符串，后端只需过滤掉空字符串即可。
+
+3. 删除选定数据，若用户选择列表并筛选出所有ID，将数据传递给后端（用户删除为逻辑删除）。
+
+4. 全部标为已读![image-20241106131949217](http://116.196.101.14:9000/docs/image-20241106131949217.png)，类似删除操作，筛选出选中数据的ID，然后传递给后端以标记为已读。
+
+5. 将所有数据标记为已读！当前页面前端使用map提取所有ID，整合成ID列表传递给后端，表示页面上所有数据已读。
+
+6. 输入标题后，随输入变化进行搜索。
+
+**后端代码位置**
+
+![image-20241105213922824](http://116.196.101.14:9000/docs/image-20241105213922824.png)
 
 ### 用户管理
 
-强制下线就是将Redis中用户信息删除
+![image-20241106002713514](http://116.196.101.14:9000/docs/image-20241106002713514.png)
 
-用户禁用先改数据库之后将Redis中数据进行删除
+#### 需求分析
 
-![image-20241023091239212](data/images/image-20241023091239212.png)
+1. 用户操作需要包含CURD的操作
+2. 为了方便在用户中需要给出快速禁用当前用户按钮
+3. 需要显示用户头像、性别、最后登录的IP地址和归属地
+4. 在左侧中需要包含部分查询
+5. 可以根据点击的部门查询当前部门下的用户
+6. 根据用户可以强制下线、管理员可以修改用户密码、为用户分配角色
 
-#### 关于用户管理事务问题
+![image-20241106002908657](http://116.196.101.14:9000/docs/image-20241106002908657.png)
 
-如果用户禁用失败或者删除Redis失败需要回滚事务，在Spring中，有集成的事务，只需要简单的配置下即可
+#### 实现思路
 
-![image-20241028223455906](http://116.196.101.14:9000/docs/image-20241028223455906.png)
+**上传头像**
+
+前端需要剪裁图片内容进行上传，后端将前端上传的头像存储到Minio中，在上传头像中可以有几菜单可以看到功能菜单。
+
+![image-20241106003056116](http://116.196.101.14:9000/docs/image-20241106003056116.png)
+
+右击时可以看到功能菜单，如上传、下载等功能
+
+![image-20241106003154056](http://116.196.101.14:9000/docs/image-20241106003154056.png)
+
+**重置密码**
+
+重置密码需要判断当前用户密码是否是符合指定的密码格式，并且会根据当前输入密码计算得分如果当前密码复杂则得分越高那么密码强度越强
+
+![image-20241106003256994](http://116.196.101.14:9000/docs/image-20241106003256994.png)
+
+重置密码组件在前端的公共组件文件中
+
+![image-20241106003426573](http://116.196.101.14:9000/docs/image-20241106003426573.png)
+
+**分配角色**
+
+- 给用户分配了admin角色后，其他路由绑定和权限设置就不再需要了，因为后端会根据admin角色在前端用户信息中设置通用权限码，如`*`、`*::*`、`*::*::*`，表示前端用户可以访问所有权限并查看所有内容。
+- 管理员有权对用户进行角色分配，这涉及到许多操作，包括菜单显示和接口访问权限。角色与权限相关联，角色也与菜单相关联。
+
+- 当用户访问菜单时，会根据其角色看到其所属的菜单内容。随后，角色与权限接口相关联，根据用户的权限来决定是否显示操作按钮。后端会根据用户的权限验证其是否可以访问当前接口。
+
+- 用户登录或刷新页面时会重新获取用户信息，用户信息中包含角色和权限信息。利用角色和权限信息与前端传递的路径进行比对判断，如果用户包含菜单角色，则可以访问。如果用户包含前端路由中的权限，则表示该权限可以访问。后端也会进行权限判断，以防止通过接口文档等方式访问。
+
+- 分配好角色后，菜单会根据当前路由角色匹配用户角色，从而根据用户角色显示相应的菜单内容。
+
+![image-20241106004533031](http://116.196.101.14:9000/docs/image-20241106004533031.png)
 
 ### 角色管理
 
-如果为角色重新分配权限，确认后系统会找到这些角色所分配的用户，之后更新Redis内容，前端刷新后就可以看到更新过的角色内容
+角色管理包含CURD和权限分配操作
 
-![image-20241023091310533](http://116.196.101.14:9000/docs/image-20241023091310533.png)
+![image-20241106132548236](http://116.196.101.14:9000/docs/image-20241106132548236.png)
+
+#### 业务需求
+
+用户对角色进行CURD操作，点击权限设置时让用户分配权限
+
+#### 实现思路
+
+1. 在设计的表中，如果存在相同的角色码，系统会提示用户当前角色已经存在。
+
+![image-20241106132938024](http://116.196.101.14:9000/docs/image-20241106132938024.png)
+
+2. 后端会根据角色的ID分配权限的ID列表。
+
+![image-20241106135600255](http://116.196.101.14:9000/docs/image-20241106135600255.png)
+
+3. 后端在角色权限表中会根据角色的ID分配权限内容。在角色权限表中，会先删除当前角色所有的权限内容，然后再进行权限内容的重新分配。
+
+```java
+public void assignPowersToRole(AssignPowersToRoleDto dto) {
+    List<Long> powerIds = dto.getPowerIds();
+    Long roleId = dto.getRoleId();
+
+    // 删除这个角色下所有权限
+    baseMapper.deleteBatchRoleIdsWithPhysics(List.of(roleId));
+
+    // 保存分配数据
+    List<RolePower> rolePowerList = powerIds.stream().map(powerId -> {
+        RolePower rolePower = new RolePower();
+        rolePower.setRoleId(roleId);
+        rolePower.setPowerId(powerId);
+        return rolePower;
+    }).toList();
+    saveBatch(rolePowerList);
+
+    // 找到所有和当前更新角色相同的用户
+    List<Long> roleIds = userRoleMapper.selectList(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getRoleId, roleId))
+            .stream().map(UserRole::getUserId).toList();
+
+    // 根据Id查找所有用户
+    List<AdminUser> adminUsers = userMapper.selectList(Wrappers.<AdminUser>lambdaQuery().in(!roleIds.isEmpty(), AdminUser::getId, roleIds));
+
+    // 用户为空时不更新Redis的key
+    if (adminUsers.isEmpty()) return;
+
+    // 更新Redis中用户信息
+    List<Long> userIds = adminUsers.stream().map(AdminUser::getId).toList();
+    roleFactory.updateUserRedisInfo(userIds);
+}
+```
 
 ### 权限管理
 
-权限管理可以设置父级内容，在前端文件中有`data.js`，可以自动生成权限相关内容。
+![image-20241106135954104](http://116.196.101.14:9000/docs/image-20241106135954104.png)
 
-如果重新分配好权限后，不会刷新Redis相关内容
+![image-20241106140006176](http://116.196.101.14:9000/docs/image-20241106140006176.png)
 
-![image-20241023091328271](http://116.196.101.14:9000/docs/image-20241023091328271.png)
+在权限配置中，添加/修改权限时的请求地址为后端接口的请求地址，请求地址使用了【`正则表达式`】判断和【`antpath`】方式填写
 
-**前端文件**
+> ### 正则表达式
+>
+> #### 作用和用法：
+>
+> - **作用**：正则表达式用于描述字符串的特征，可以用来匹配、查找、替换等字符串操作。
+> - **用法**：在Java中，可以使用`java.util.regex`包来支持正则表达式的使用。例如，可以使用`Pattern`和`Matcher`类来编译和匹配正则表达式。
+>
+> #### 示例：
+>
+> ```java
+> // 匹配邮箱地址的正则表达式示例
+> String emailRegex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b";
+> String email = "example@email.com";
+> 
+> Pattern pattern = Pattern.compile(emailRegex);
+> Matcher matcher = pattern.matcher(email);
+> 
+> if (matcher.find()) {
+>     System.out.println("Valid email address");
+> } else {
+>     System.out.println("Invalid email address");
+> }
+> ```
+>
+> ### Ant Path
+>
+> #### 作用和用法：
+>
+> - **作用**：Ant Path是Spring框架中用来匹配URL路径的一种模式匹配方式，类似于Unix系统中的路径匹配规则。
+> - **用法**：在Spring中，Ant Path可以用来匹配URL路径，例如在配置Spring的URL映射时可以使用Ant Path来指定匹配规则。
+>
+> #### 示例：
+>
+> ```java
+> // Ant Path示例
+> String pattern = "/users/*/profile";
+> String path = "/users/123/profile";
+> 
+> AntPathMatcher matcher = new AntPathMatcher();
+> if (matcher.match(pattern, path)) {
+>     System.out.println("Pattern matched!");
+> } else {
+>     System.out.println("Pattern not matched!");
+> }
+> ```
+>
+> Ant Path中支持一些通配符，例如`*`匹配任意字符（除了路径分隔符），`**`匹配任意字符，包括路径分隔符。Ant Path是一种方便的路径匹配方式，可以用来匹配URL路径、文件路径等。
 
-前端文件只需要修改用户token就可以为数据库中批量添加权限，一般用于初始化数据时使用
+#### 业务需求
 
-![image-20241023091503966](http://116.196.101.14:9000/docs/image-20241023091503966.png)
+1. 对权限表进行CURD操作
+2. 在表格中点击新增时，父级id为当前点击行的id
 
-![image-20241028223737014](http://116.196.101.14:9000/docs/image-20241028223737014.png)
+#### 实现思路
+
+点击当前行父级id为当前的行的id
+
+![image-20241106140420845](http://116.196.101.14:9000/docs/image-20241106140420845.png)
+
+#### 权限判断实现方式
+
+##### 后端判断方式
+
+判断权限是否可以访问，后端实现判断逻辑
+
+![image-20241106003921315](http://116.196.101.14:9000/docs/image-20241106003921315.png)
+
+##### 前端判断方式
+
+角色分配方式有下面几种想洗参考：https://pure-admin.github.io/vue-pure-admin/#/permission/button/router，[文档页面](https://pure-admin.github.io/pure-admin-doc/pages/routerMenu/#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B7%AF%E7%94%B1%E7%9A%84-name-%E5%BF%85%E5%86%99-%E8%80%8C%E4%B8%94%E5%BF%85%E9%A1%BB%E5%94%AF%E4%B8%80)
+
+1. 使用标签方式
+
+![image-20241106004247600](http://116.196.101.14:9000/docs/image-20241106004247600.png)
+
+2. 使用函数方式
+
+![image-20241106004310635](http://116.196.101.14:9000/docs/image-20241106004310635.png)
+
+3. 使用指令方式
+
+![image-20241106005252328](http://116.196.101.14:9000/docs/image-20241106005252328.png)
+
+在前端utils文件夹下有`auth.ts`文件里面包含了权限码信息，如果当前菜单属性中包含这个权限码表示可以访问这个权限
+
+![image-20241106004433489](http://116.196.101.14:9000/docs/image-20241106004433489.png)
+
+![image-20241106004500855](http://116.196.101.14:9000/docs/image-20241106004500855.png)
+
+### 菜单管理
+
+![image-20241106140545328](http://116.196.101.14:9000/docs/image-20241106140545328.png)
+
+### 菜单路由
+
+在做菜单返回时必须要了解角色和权限表
+
+![image-20241105213516679](http://116.196.101.14:9000/docs/image-20241105213516679.png)
+
+#### 需求分析
+
+1. 从数据库中返回出所有的菜单，其中需要整合成前端所要的形式，需要包含`roles`和`auths`，及其其它参数。
+2. 用户需要根据自己的角色访问不同的菜单。
+3. 如果当前用户不可以访问某些按钮需要隐藏。
+4. 用户通过其它手段访问如：swagger、knife4j、apifox、postman这种工具访问需要做权限验证，如果当前用户不满足访问这些接口后端需要拒绝。
+5. 如果已经添加了菜单名称、路由等级、路由路径会提示`xxx已存在`![image-20241106132818902](http://116.196.101.14:9000/docs/image-20241106132818902.png)
+
+6. 在数据库中为部分字段建立了唯一索引
+
+![image-20241106132908309](http://116.196.101.14:9000/docs/image-20241106132908309.png)
+
+#### 实现思路
+
+1. 角色和权限哪些可以访问的页面交给前端，在模板中已经设计好，如果用户访问了自己看不到的菜单会出现`403`页面；判断方式是根据后端返回的菜单中如果包含当前用户的角色就表示可以访问当前的菜单，如果用户信息中没有这个角色则表示不可以访问这个页面。
+2. 页面是否可以访问只是在操作上，如果用户通过接口访问是阻止不了的，所以这时后端需要在后端中进行判断，当前的访问路径是否是被允许的，也就是这个用户是否有这个权限，权限表设计中包含了请求路径
+3. 后端需要判断用户请求这个接口是否有权访问
+
+> 整合成前端格式返回需要递归，后端根据当前用户访问的菜单需要进行递归菜单数据之后返回前端，并将这些菜单绑定的角色放置在`roles`中，之后根据角色查询全新啊相关内容，要将权限内容放置在`auths`中.
+>
+> 如果包含子菜单需要防止在`children`数组中，后端实现时如果没有子菜单默认是空数组而不是`null`
+>
+> 大致如下：
+>
+> ```json
+> {
+> "menuType": 0,
+> "title": "admin_user",
+> "path": "/system/admin-user",
+> "component": "/system/adminUser/index",
+> "meta": {
+>     "icon": "ic:round-manage-accounts",
+>     "title": "admin_user",
+>     "rank": 2,
+>     "roles": [
+>         "admin",
+>         "all_page",
+>         "system",
+>         "test"
+>     ],
+>     "auths": [
+>         "message::updateMessage",
+>         "menuIcon::getMenuIconList",
+>         "admin::messageReceived",
+>         "config::getWebConfig",
+>         "admin::config",
+>         "i18n::getI18n",
+>         ....
+>     ],
+>     "frameSrc": ""
+> },
+> "children": [],
+> "id": "1841803086252548097",
+> "parentId": "1",
+> "name": "admin_user",
+> "rank": 2
+> }
+> ```
 
 ### 部门管理
 
-如果原先用户被删除不会清除部门中的管理员信息
+![image-20241106140738517](http://116.196.101.14:9000/docs/image-20241106140738517.png)
 
-![image-20241023092027273](http://116.196.101.14:9000/docs/image-20241023092027273.png)
+![image-20241106140728748](http://116.196.101.14:9000/docs/image-20241106140728748.png)
 
-## 系统配置
+#### 业务需求
+
+1. 包含CURD
+2. 在用户管理中可以选择对应的部门
+
+#### 实现思路
+
+1. CURD接口文件如下
+
+![image-20241106140826034](http://116.196.101.14:9000/docs/image-20241106140826034.png)
+
+2. 管理员为用户分配部门
+
+![image-20241106140942278](http://116.196.101.14:9000/docs/image-20241106140942278.png)
 
 ### 菜单图标
 
-![image-20241023092123926](http://116.196.101.14:9000/docs/image-20241023092123926.png)
+![image-20241106141037894](http://116.196.101.14:9000/docs/image-20241106141037894.png)
 
-### 邮件用户配置
+![image-20241106141102601](http://116.196.101.14:9000/docs/image-20241106141102601.png)
 
-发送邮件时，如果没有选定用户会去找默认用户
+#### 业务需求
 
-邮箱需要唯一不可重复
+1. 用户在菜单中可以选择存储在数据库中的图标内容
+2. 包含CURD内容
 
-![image-20241023092145274](http://116.196.101.14:9000/docs/image-20241023092145274.png)
+#### 实现思路
 
-### 邮件模板
+后端需要返回接口格式实体类如下
 
-模板名称需要唯一不可重复
+```java
+public class MenuIconVo extends BaseUserVo {
 
-![image-20241023092250382](http://116.196.101.14:9000/docs/image-20241023092250382.png)
+    @Schema(name = "iconCode", title = "icon类名")
+    private String iconCode;
 
-#### 模板类型说明
+    @Schema(name = "iconName", title = "icon 名称")
+    private String iconName;
 
-根据后端的枚举类进行返回
-
-![image-20241023092355799](http://116.196.101.14:9000/docs/image-20241023092355799.png)
-
-后端文件，枚举信息在这
-
-![image-20241023092439168](data/images/image-20241023092439168.png)
-
-## 系统监控
-
-### 服务监控
-
-服务监控来自springboot中actuator框架，每隔两秒刷新一次
-
-![image-20241028223955087](http://116.196.101.14:9000/docs/image-20241028223955087.png)
-
-IDEA中也有集成只要使用了actuator包即可看到服务内容、健康检查等
-
-详细参考官网API，当然如果需要后台服监控页面，德国工程师帮我们写了一个页面。
-
-![image-20241023092652996](http://116.196.101.14:9000/docs/image-20241023092652996.png)
-
-也可以看到当前的请求API有哪些
-
-![image-20241023093159928](http://116.196.101.14:9000/docs/image-20241023093159928.png)
-
-#### 相关admin服务包
-
-或许在有些服务中不需要这个页面，有服务监控的功能，配置也简单，我之前我使用在这个项目中，和部分业务功能有些冲突，与其这样不如自己写个简单的也可以
-
-```xml
-
-<dependencies>
-    <dependency>
-        <groupId>de.codecentric</groupId>
-        <artifactId>spring-boot-admin-starter-server</artifactId>
-        <version>3.3.4</version>
-    </dependency>
-    <dependency>
-        <groupId>de.codecentric</groupId>
-        <artifactId>spring-boot-admin-starter-client</artifactId>
-        <version>3.2.3</version>
-    </dependency>
-</dependencies>
+}
 ```
 
-### 后台文件管理
+![image-20241106141521051](http://116.196.101.14:9000/docs/image-20241106141521051.png)
 
-用户上传的文件和头像内容都在这里，文件存储位置在Minio中
+前端封装好的组件
 
-![image-20241023093247261](http://116.196.101.14:9000/docs/image-20241023093247261.png)
+![image-20241106141626697](http://116.196.101.14:9000/docs/image-20241106141626697.png)
 
-### 用户登录日志
+### 邮箱相关
 
-![image-20241028224123703](http://116.196.101.14:9000/docs/image-20241028224123703.png)
+#### 业务需求
 
-### 任务执行日志
+1. 邮件用户配置CURD
+2. 邮件模板CURD
+3. 邮件用户中只能有一个是默认的，如果当前修改其它项需要将其它已经启用改为不启用
+4. 邮件模板需要绑定邮件用户
 
-当前设定的定时任务有关，目前有数据库备份，和简单的定时任务示例内容都在这，使用JS对象可视化，数据多时会有些卡顿
+### 实现思路
 
-![image-20241023093407627](http://116.196.101.14:9000/docs/image-20241023093407627.png)
+邮件模板中，添加或者修改时前端需要返回所有的邮件模板用户，添加或者修改时将用户ID存储在邮件模板的数据字段中
 
-## 定时任务
+![image-20241106141920350](http://116.196.101.14:9000/docs/image-20241106141920350.png)
 
-### 调度任务
+### web配置
 
-其实就是定时任务，集成框架quartz，持久化存储任务
+![image-20241106142001190](http://116.196.101.14:9000/docs/image-20241106142001190.png)
 
-![image-20241023093546293](http://116.196.101.14:9000/docs/image-20241023093546293.png)
+### 系统监控
 
-### 任务调度分组
+#### 服务监控
 
-![image-20241023093602223](http://116.196.101.14:9000/docs/image-20241023093602223.png)
+从SpringBoot的Actuator中获取信息，页面采用响应式
 
-## 多语言管理
+![image-20241106142208794](http://116.196.101.14:9000/docs/image-20241106142208794.png)
 
-### 多语言
+#### 系统缓存
 
-![image-20241023093639866](http://116.196.101.14:9000/docs/image-20241023093639866.png)
+当前内容被SpringBoot缓存会显示在这
 
-### 多语言类型
+![image-20241106142253759](http://116.196.101.14:9000/docs/image-20241106142253759.png)
 
-如果以后还需要其它语言可以在这个地方添加
+### 定时任务
 
-![image-20241023093654135](http://116.196.101.14:9000/docs/image-20241023093654135.png)
+采用Quarter持久化存储，所有的可以使用的定时任务都在这
 
-## 其它功能
+![image-20241106142429924](http://116.196.101.14:9000/docs/image-20241106142429924.png)
 
-![image-20241023093729543](http://116.196.101.14:9000/docs/image-20241023093729543.png)
+#### 页面展示
 
-### 账户设置
+![image-20241106142449033](http://116.196.101.14:9000/docs/image-20241106142449033.png)
 
-更新账户信息后会更新Redis中的内容，如果修改密码，修改完成后会重新跳转到登录页要求重新登录
+![](http://116.196.101.14:9000/docs/image-20241106142449033-1730874298898-1.png)
 
-![image-20241023093749870](http://116.196.101.14:9000/docs/image-20241023093749870.png)
+### 多语言管理
 
-![image-20241023093759347](http://116.196.101.14:9000/docs/image-20241023093759347.png)
+![image-20241106142531047](http://116.196.101.14:9000/docs/image-20241106142531047.png)
 
-![image-20241023093807425](http://116.196.101.14:9000/docs/image-20241023093807425.png)
+![image-20241106142544172](http://116.196.101.14:9000/docs/image-20241106142544172.png)
 
-### 数据库事务
+### 日志管理
 
-数据库事务在Springboot中只需要一个注解，通常我们还需要redis事务，在Redis中配置开启即可。
+![image-20241106142606017](http://116.196.101.14:9000/docs/image-20241106142606017.png)
 
-![image-20241023094104297](http://116.196.101.14:9000/docs/image-20241023094104297.png)
+![image-20241106142614917](http://116.196.101.14:9000/docs/image-20241106142614917.png)
 
-### 去除字符串空格
+### 消息管理
 
-在项目中，会统一进行空白字符串去除，配置项也在config文件夹下
+管理员可以发送消息告诉xxx用户，在主页中会显示![image-20241106142908363](http://116.196.101.14:9000/docs/image-20241106142908363.png)
 
-![image-20241023094247311](http://116.196.101.14:9000/docs/image-20241023094247311.png)
+之后点击时会看到消息封面、标题、简介、消息等级、消息等级内容
 
-> 更多配置看这里
->
-> ![image-20241023094311326](http://116.196.101.14:9000/docs/image-20241023094311326.png)
+![image-20241106142949366](http://116.196.101.14:9000/docs/image-20241106142949366.png)
 
-# 动态定时任务
+#### 消息类型
 
-使用`Quartz `数据存储在数据库中持久化存储.
+![image-20241106143008098](http://116.196.101.14:9000/docs/image-20241106143008098.png)
 
-所有的Quartz内容都放在这个目录中，因为前端需要知道有哪些定时任务，这时候又不能将数据添加到数据库中，如果以后需要更多的定时任务那么需要再数据库中添加，这样做很麻烦。
+包含CURD，用户编辑消息发送时可以在选择
 
-我们可以通过反射只要约定好内容，通过反射扫描的方式来获取这些可以使用的定时任务，反射的注解是这个：`@QuartzSchedulers(type = "test", description = "JobHello任务内容")`
+![image-20241106144017015](http://116.196.101.14:9000/docs/image-20241106144017015.png)
 
-![image-20241022101534393](http://116.196.101.14:9000/docs/image-20241022101534393.png)
+同时在用户消息栏中也会显示对应内容
 
-## 注解说明
+![image-20241106144050996](http://116.196.101.14:9000/docs/image-20241106144050996.png)
 
-扫描注解包，可以通过依赖注入的方式使用
+前端判断逻辑如下
 
-![image-20241022102210149](./data/images/image-20241022102210149.png)
+![image-20241106144146081](http://116.196.101.14:9000/docs/image-20241106144146081.png)
 
-类型注解存放位置在下面。
+#### 消息编辑
 
-![image-20241022101742586](http://116.196.101.14:9000/docs/image-20241022101742586.png)
+提供md编辑器和富文本编辑器
 
-获取所有可用定时任务
+![image-20241106144223976](http://116.196.101.14:9000/docs/image-20241106144223976.png)
 
-![image-20241022102510646](http://116.196.101.14:9000/docs/image-20241022102510646.png)
+![image-20241106144246068](http://116.196.101.14:9000/docs/image-20241106144246068.png)
 
-# Quartz 方法
 
-## TriggerBuilder
 
-`TriggerBuilder` 是一个用于构建 `Trigger` 实例的类。它提供了一系列方法来设置触发器的各种属性。以下是一些常用的方法：
+消息接受用户，如果不填写表示全部的用户，填写后会根据填写的内容存储在用户接受表中![image-20241106144522442](http://116.196.101.14:9000/docs/image-20241106144522442.png)
 
-1. `withIdentity(String name, String group)` 或 `withIdentity(TriggerKey triggerKey)`：设置触发器的名称和组名。
+![image-20241106144449463](http://116.196.101.14:9000/docs/image-20241106144449463.png)
 
-2. `startAt(Date startTime)`：设置触发器首次触发的时间。
+消息等级是显示消息样式颜色，文字内容为消息简介内容
 
-3. `endAt(Date endTime)`：设置触发器最后一次触发的时间。
+![image-20241106144407453](http://116.196.101.14:9000/docs/image-20241106144407453.png)
 
-4. `withSchedule(ScheduleBuilder scheduleBuilder)`：设置触发器的调度计划，可以是简单重复、按日历重复等。
+#### 消息接收管理
 
-5. `forJob(JobKey jobKey)` 或 `forJob(String jobName, String jobGroup)`：指定触发器关联的作业（Job）。
+根据上面所选的接受用户会出现在下面的用户接受表中，可以对当前用户是否已读进行修改
 
-6. `usingJobData(String key, String value)`：为触发器添加自定义数据。
+![image-20241106144307885](http://116.196.101.14:9000/docs/image-20241106144307885.png)
 
-7. `modifiedByCalendar(String calName)`：指定一个日历，用于修改触发器的触发时间。
+#### 消息发送管理
 
-8. `build()`：构建并返回最终的 `Trigger` 实例。
+之前编辑过的消息都会在这
 
-9. `withDescription(String description)`：为触发器设置描述信息。
+![image-20241106144317746](http://116.196.101.14:9000/docs/image-20241106144317746.png)
 
-10. `usingJobData(JobDataMap jobData)`：使用 `JobDataMap` 为触发器设置多个作业数据。
+# 环境部署
 
-11. `withPriority(int priority)`：设置触发器的优先级。
+使用Docker进行部署，后端接口地址以`/admin`开头，但前端默认请求前缀为`/api`，因此在请求时需要进行替换。详细内容请参考以下【项目部署】说明。
 
-12. `replaceTriggerKey(TriggerKey oldKey, TriggerKey newKey)`：替换触发器的键值。
+## 配置相关
 
-## JobBuilder
+### docker文件
 
-`JobBuilder` 类用于构建 `JobDetail` 实例，它定义了要执行的作业（Job）的属性。以下是一些常用的方法：
+```dockerfile
+# 使用官方的 Nginx 镜像作为基础镜像
+FROM nginx
 
-1. `withIdentity(String name, String group)` 或 `withIdentity(JobKey jobKey)`：设置作业的名称和组名。
+# 删除默认的 Nginx 配置文件
+RUN rm /etc/nginx/conf.d/default.conf
 
-2. `storeDurably()`：当作业没有触发器时，仍然允许作业被存储。这对于持久作业（即不被触发器触发，但可以手动调度的作业）很有用。
+# 将自定义的 Nginx 配置文件复制到容器中
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-3. `requestRecovery()`：指示Quartz在作业执行失败或调度器重启时尝试恢复作业。
+# 设置时区，构建镜像时执行的命令
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo "Asia/Shanghai" > /etc/timezone
 
-4. `usingJobData(JobDataMap jobData)`：为作业添加自定义数据。
+# 创建一个目录来存放前端项目文件
+WORKDIR /usr/share/nginx/html
 
-5. `usingJobData(String key, String value)`：为作业添加单个自定义数据。
+# 将前端项目打包文件复制到 Nginx 的默认静态文件目录
+COPY dist/ /usr/share/nginx/html
+# 复制到nginx目录下
+COPY dist/ /etc/nginx/html
 
-6. `ofType(Class<? extends Job> jobClass)`：指定作业的类型（实现 `Job` 接口的类）。
+# 暴露 Nginx 的默认端口
+EXPOSE 80
 
-7. `build()`：构建并返回最终的 `JobDetail` 实例。
+# 自动启动 Nginx
+CMD ["nginx", "-g", "daemon off;"]
+```
 
-8. `withDescription(String description)`：为作业设置描述信息。
+### NGINX文件
 
-9. `usingJobData(JobDataMap jobData, boolean merge)`：添加自定义数据，并指定是否与现有的 `JobDataMap` 合并。
+在请求中会使用代理所以会拿不到用户真实的IP地址，素以在要NGINX侠做下面的配置，这样用户在访问时就可以拿到真实的IP了
 
-10. `build()`：构建并返回最终的 `JobDetail` 实例。
+```nginx
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+```
 
-# 展望未来
+#### 如果需要使用https协议
 
-1. 计划将文件上传服务改为本地的OSS，Minio可能会被移除。
-2. 消息服务，管理员相关的消息公告内容
+```dockerfile
+COPY bunny-web.site.csr /etc/nginx/bunny-web.site.csr
+COPY bunny-web.site.key /etc/nginx/bunny-web.site.key
+COPY bunny-web.site_bundle.crt /etc/nginx/bunny-web.site_bundle.crt
+COPY bunny-web.site_bundle.pem /etc/nginx/bunny-web.site_bundle.pem
+```
+
+NGINX的文件
+
+```nginx
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  localhost;
+
+    location / {
+        root   /etc/nginx/html;
+        index  index.html index.htm;
+        try_files $uri /index.html;
+    }
+
+    # 后端跨域请求
+    location ~/admin/ {
+        proxy_pass http://172.17.0.1:8000;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    error_page  404              404.html;
+
+    location = /50x.html {
+        root   html;
+    }
+}
+```
+
+## 项目部署
+
+使用WebStorm进行项目部署，项目上线时默认端口为80。因此，Docker默认暴露的IP端口也应为80，NGINX中默认暴露的端口也是80，三者应一一对应。
+
+若无法下载，请先使用pnpm下载。若不需使用pnpm，请删除或修改相应内容。
+
+![image-20241026025057129](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026025057129.png)
+
+### docker配置
+
+![image-20241026024116090](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024116090.png)
+
+### 配置环境
+
+设置启动端口号和项目地址机器后端请求地址
+
+![image-20241026024813858](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024813858.png)
+
+#### 配置线上环境
+
+设置项目启动端口号，线上环境默认请求路径为`/admin`，需在NGINX中将访问请求前缀更改为`/admin`。
+
+![image-20241026024940747](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024940747.png)
+
+![image-20241026024243785](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024243785.png)
+
+#### 配置开发环境
+
+开发环境默认IP为7000，若与本地项目端口冲突，请修改。后端请求地址为7070。
+
+前端设置的请求前缀为`/api`，但后端接受的前缀为`/admin`，因此需在服务中修改此内容。
+
+![image-20241026024318644](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024318644.png)
+
+**修改请求路径**
+
+![image-20241026031651591](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026031651591.png)
+
+### 部署命令
+
+```bash
+docker build -f Dockerfile -t bunny_auth_web:1.0.0 . && docker run -p 80:80 --name bunny_auth_web --restart always bunny_auth_web:1.0.0
+```
