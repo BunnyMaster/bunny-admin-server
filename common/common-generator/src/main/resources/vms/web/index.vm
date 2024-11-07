@@ -24,27 +24,18 @@
         await onSearch();
     };
 
-    /**
-     * * 当分页发生变化
-     * @param value
-     */
+    /** 当分页发生变化 */
     const onPageSizeChange = async (value: number) => {
         ${lowercaseName}Store.pagination.pageSize = value;
         await onSearch();
     };
 
-/**
- * * 选择多行
- * @param rows
- */
+/** 选择多行 */
 const onSelectionChange = (rows: Array<any>) => {
     deleteIds.value = rows.map((row: any) => row.id);
 };
 
-    /**
-     * 重置表单
-     * @param formEl
-     */
+/** 重置表单 */
 const resetForm = async (formEl: FormInstance | undefined) => {
         if (!formEl) return;
         formEl.resetFields();

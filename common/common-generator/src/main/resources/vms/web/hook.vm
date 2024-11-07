@@ -51,10 +51,7 @@ export function onAdd() {
 	});
 }
 
-/**
- * * 更新${classTitle}
- * @param row
- */
+/** 更新${classTitle} */
 export function onUpdate(row: any) {
 	addDialog({
 		title: `$leftBrace$t("modify")}$leftBrace$t("${lowercaseName}")}`,

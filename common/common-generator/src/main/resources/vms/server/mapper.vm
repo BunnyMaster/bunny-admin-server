@@ -24,7 +24,7 @@ public interface ${originalName}Mapper extends BaseMapper<${originalName}> {
      * @param dto        ${classTitle}查询表单
      * @return ${classTitle}分页结果
      */
-    IPage<${originalName}> selectListByPage(@Param("page") Page<${originalName}> pageParams, @Param("dto") ${originalName}Dto dto);
+    IPage<${originalName}Vo> selectListByPage(@Param("page") Page<${originalName}> pageParams, @Param("dto") ${originalName}Dto dto);
 
     /**
      * 物理删除${classTitle}
