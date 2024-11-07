@@ -1,12 +1,181 @@
-Github地址
+# 项目预览
+
+不知道为什么，图床用的使自己的，Gitee就是不显示其它GitHub和Gitea都能显示就Gitee显示不出来
+
+或者把项目clone下来看也可以
+
+**线上地址**
+
+- 正式线上预览地址：http://111.229.137.235/#/welcome
+
+- 测试预览地址：http://106.15.251.123/#/welcome
+  - 服务器到期时间：12月30日
+
+**Github地址**
 
 - [前端地址](https://github.com/BunnyMaster/bunny-admin-web.git)
 - [后端地址](https://github.com/BunnyMaster/bunny-admin-server)
 
-Gitee地址
+**Gitee地址**
 
 - [前端地址](https://gitee.com/BunnyBoss/bunny-admin-web)
 - [后端地址](https://gitee.com/BunnyBoss/bunny-admin-server)
+
+## 环境搭建
+
+### 安装docker内容
+
+如果使用是centos或者是rocky
+
+```shell
+# 更新yum 和 dnf
+yum update -y
+dnf update -y
+
+# 安装必要依赖
+yum install -y yum-utils device-mapper-persistent-data lvm2
+
+# 设置镜像源
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+yum list docker-ce --showduplicates | sort -r
+
+# 安装docker
+yum -y install docker-ce.x86_64 
+
+# 开机启动docker
+systemctl enable docker
+systemctl start docker
+```
+
+### 安装Redis
+
+#### 编写配置文件
+
+```sh
+mkdir /bunny/docker_data/my_redis/ -p
+vim /bunny/docker_data/my_redis/redis.conf
+```
+
+**添加以下内容**
+
+有注释大概率启动不了
+
+```
+# bind 127.0.0.1 #注释掉这部分，使redis可以外部访问
+daemonize no #用守护线程的方式启动
+requirepass 123456
+appendonly yes #redis持久化　　默认是no
+tcp-keepalive 300 #防止出现远程主机强迫关闭了一个现有的连接的错误 默认是300
+```
+
+**删除注释**
+
+```
+daemonize no 
+requirepass 123456
+appendonly yes
+tcp-keepalive 300
+```
+
+#### 启动Redis
+
+```sh
+docker pull redis:7.0.10
+docker run -p 6379:6379 --name redis_master \
+-v /bunny/docker_data/redis_master/redis.conf:/etc/redis/redis.conf \
+-v/bunny/docker_data/redis_master/data:/data \
+--restart=always -d redis:7.0.10  --appendonly yes
+```
+
+### 安装Minio
+
+```sh
+docker run -d \
+  -p 9000:9000 \
+  -p 9090:9090 \
+  --name minio_master --restart=always \
+  -v /bunny/docker/minio/data:/data \
+  -e "MINIO_ROOT_USER=bunny" \
+  -e "MINIO_ROOT_PASSWORD=02120212" \
+  minio/minio server /data --console-address ":9090"
+```
+
+### 安装MySQL
+
+**设置开机启动**
+
+**执行启动3306：**
+
+```sh
+docker stop master
+docker rm master
+
+docker run --name master -p 3306:3306 \
+-v /bunny/docker_data/mysql/master/etc/my.cnf:/etc/my.cnf \
+-v /bunny/docker_data/mysql/master/data:/var/lib/mysql \
+--restart=always --privileged=true \
+   -e MYSQL_ROOT_PASSWORD=02120212 \
+   -e TZ=Asia/Shanghai \
+   mysql:8.0.33 --lower-case-table-names=1
+```
+
+**执行启动3304：**
+
+其中有创建备份目录
+
+```shell
+docker stop slave_3304
+docker rm slave_3304
+
+docker run --name slave_3304 -p 3304:3306 \
+   -v /bunny/docker_data/mysql/slave_3304/etc/my.cnf:/etc/my.cnf \
+   -v /bunny/docker_data/mysql/slave_3304/data:/var/lib/mysql \
+   -v /bunny/docker_data/mysql/slave_3304/backup:\
+   --restart=always --privileged=true \
+   -e MYSQL_ROOT_PASSWORD=02120212 \
+   -e TZ=Asia/Shanghai \
+   mysql:8.0.33 --lower-case-table-names=1
+```
+
+**修改密码：**
+
+```sh
+docker exec -it mysql_master /bin/bash
+mysql -uroot -p02120212
+use mysql
+ALTER USER 'root'@'%' IDENTIFIED BY "02120212";
+FLUSH PRIVILEGES;
+```
+
+> my.cnf 配置
+>
+> ```sql
+> [mysqld]
+> skip-host-cache
+> skip-name-resolve
+> secure-file-priv=/var/lib/mysql-files
+> user=mysql
+> 
+> # 设置字符集
+> character-set-server=utf8mb4
+> collation-server=utf8mb4_unicode_ci
+> 
+> # 设置服务器ID（如果是复制集群，确保每个节点的ID唯一）
+> server-id=1
+> 
+> # 启用二进制日志
+> log-bin=mysql-bin
+> 
+> # 设置表名不区分大小写
+> lower_case_table_names = 1
+> 
+> ```
+
+### 数据库文件
+
+在后端文件的根目录中
+
+![image-20241107133345299](http://116.196.101.14:9000/docs/image-20241107133345299.png)
 
 # 项目特点
 
@@ -329,10 +498,10 @@ public void assignPowersToRole(AssignPowersToRoleDto dto) {
 > // 匹配邮箱地址的正则表达式示例
 > String emailRegex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b";
 > String email = "example@email.com";
-> 
+>
 > Pattern pattern = Pattern.compile(emailRegex);
 > Matcher matcher = pattern.matcher(email);
-> 
+>
 > if (matcher.find()) {
 >     System.out.println("Valid email address");
 > } else {
@@ -353,7 +522,7 @@ public void assignPowersToRole(AssignPowersToRoleDto dto) {
 > // Ant Path示例
 > String pattern = "/users/*/profile";
 > String path = "/users/123/profile";
-> 
+>
 > AntPathMatcher matcher = new AntPathMatcher();
 > if (matcher.match(pattern, path)) {
 >     System.out.println("Pattern matched!");
@@ -616,8 +785,6 @@ public class MenuIconVo extends BaseUserVo {
 ![image-20241106144223976](http://116.196.101.14:9000/docs/image-20241106144223976.png)
 
 ![image-20241106144246068](http://116.196.101.14:9000/docs/image-20241106144246068.png)
-
-
 
 消息接受用户，如果不填写表示全部的用户，填写后会根据填写的内容存储在用户接受表中![image-20241106144522442](http://116.196.101.14:9000/docs/image-20241106144522442.png)
 

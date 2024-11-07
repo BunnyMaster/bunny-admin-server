@@ -1,17 +1,17 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : mysql(192.168.3.98)
+ Source Server         : 1
  Source Server Type    : MySQL
- Source Server Version : 80033 (8.0.33)
- Source Host           : 192.168.3.98:3304
- Source Schema         : auth_admin
+ Source Server Version : 80036 (8.0.36)
+ Source Host           : rm-bp12z6hlv46vi6g8mro.mysql.rds.aliyuncs.com:3306
+ Source Schema         :  family_financial
 
  Target Server Type    : MySQL
- Target Server Version : 80033 (8.0.33)
+ Target Server Version : 80036 (8.0.36)
  File Encoding         : 65001
 
- Date: 04/11/2024 17:51:50
+ Date: 07/11/2024 08:49:28
 */
 
 SET NAMES utf8mb4;
@@ -36,12 +36,14 @@ CREATE TABLE `log_quartz_execute`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '文件是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_job_name`(`job_name` ASC) USING BTREE COMMENT '索引执行任务名称',
-  INDEX `index_job_group`(`job_group` ASC) USING BTREE COMMENT '索引执行任务分组',
-  INDEX `index_job_class_name`(`job_class_name` ASC) USING BTREE COMMENT '索引执行任务类名',
-  INDEX `index_trigger_name`(`trigger_name` ASC) USING BTREE COMMENT '索引执行任务触发器名称',
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_job_name`(`job_name` ASC) USING BTREE COMMENT '索引执行任务名称',
+  INDEX `idx_job_group`(`job_group` ASC) USING BTREE COMMENT '索引执行任务分组',
+  INDEX `idx_job_class_name`(`job_class_name` ASC) USING BTREE COMMENT '索引执行任务类名',
+  INDEX `idx_trigger_name`(`trigger_name` ASC) USING BTREE COMMENT '索引执行任务触发器名称',
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '调度任务执行日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -68,17 +70,36 @@ CREATE TABLE `log_user_login`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_username`(`username` ASC) USING BTREE,
-  INDEX `index_ip_address`(`ip_address` ASC) USING BTREE,
-  INDEX `index_ip_region`(`ip_region` ASC) USING BTREE,
-  INDEX `index_type`(`type` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_username`(`username` ASC) USING BTREE,
+  INDEX `idx_ip_address`(`ip_address` ASC) USING BTREE,
+  INDEX `idx_ip_region`(`ip_region` ASC) USING BTREE,
+  INDEX `idx_type`(`type` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户登录日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of log_user_login
 -- ----------------------------
+INSERT INTO `log_user_login` VALUES (1853483943476412418, 1849444494908125181, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_y2MQQoCMQxF75L1FJo2M0lm6c5jNDaCgkUcCyPi3S3o2_334b1h6wYrHHprL5jA9zusyBkzEUuaoG_-ONbhhJQGShoF04yCv7OVm4-A_QPX52Us5hgreg4xnyjQWTzYsnDQwsVwNk25wucL8GMmoH0AAAA.xD-Zlc7qPntTQtB0XjT2WZU6N5vJuzQ3ZwPPHgIVvjQ', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:06:23', '2024-11-05 01:06:23', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853494064151527426, 1849444494908125181, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_y2MQQoCMQxF75L1FBqbtMks3XmMaVNBwSKOhRHx7lPRt_vvw3vD2jPMcOytvWCCut1hxhQwUELlCfpaHycbTkhpoKRe8MAo-DvbcqsjkP-B6_PyXZZZWM1FjOLIuDhJZ-80l5KieGMO8NkBhsYyI30AAAA.mr-RmZ0dK64wC7Z-dcC0S626iaqDexlKLQJpRU8VZjc', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:46:36', '2024-11-05 01:46:36', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853494344716910593, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMywrCMBBF_2XWDWQe6aRduvMzOiYFBYOYBBTpvzfg8p7DuT-o3WCFSy_lCxPkzwtWVEYWpZkm6DW_r2mwGFgWIRVhxUCq_i_L9szjoOXaRv9o9zE03LJtiG7efXJiRm4x712IiTVFjzszHCcrszBVfAAAAA.ZpfqbHowNqYJG6OUp1K6Kt_XY045l9XibQeWmrrxOYc', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:47:43', '2024-11-05 01:47:43', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853494495997067265, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQrDMAwE_6JzDLElRXGOvfUZtqJCCzWltqGl5O8x9LgzzP6g9gwbXHopX5jAPi_YvKBHkhDXCXq193UfbGWkSEGIUDwHkfkvS3raOGhW2-gf7T5GXhKTLdnhzWZHKQaXos-OFUV3UlZFOE6tt8bdfAAAAA.ofxCD6UFdczZejIJt91X_ZDO-tNnS1NO5oq3xpnsARM', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:48:19', '2024-11-05 01:48:19', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853494591576866818, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMywrCMBBF_2XWDWQe7XS6dOdnJHYEBYOYBCrivxtwec_h3A_UnmGDUy_lDRP48YQNlZFFmXCCXv113gdbZxYTUhFWnEk1_mVJDx8HzWsb_b3dxqCsq-zuYcnRgnhaQr6aBLlwNKSolgi-P417_sN8AAAA.rluoIqGB3aMfUypDqXpSh0XPqRNWQKxKJl0PO2Fjt_M', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:48:42', '2024-11-05 01:48:42', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853494661944705026, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMywrCMBBF_2XWDWQe7XS6dOdnJHYEBYOYBCrivxtwec_h3A_UnmGDUy_lDRP48YQNlZFFmXCCXv113gdbZxYTUhFWnEk1_mVJDx8HzWsb_b3dxqCsq-zuYcnRgnhaQr6aBLlwNKSolgi-P417_sN8AAAA.rluoIqGB3aMfUypDqXpSh0XPqRNWQKxKJl0PO2Fjt_M', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-11-05 01:48:58', '2024-11-05 01:48:58', 1853494274437152770, 1853494274437152770, 0);
+INSERT INTO `log_user_login` VALUES (1853494676960313345, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQpCMQwF75L1L_w0qWn_0p3HaGkKChaxLSji3Q24fDPM-8BYBQ44r97fsIG-HnCgEBILMW6whj4v1VgMxIm9MJNg8CL7X_Z8VzuYOqb1t3m1QS1JKcG7mpUc055dxBxcbWh1wVOLCb4_OxnVA3wAAAA.7XqNLBbF3WGeAxT49Awyj-jLTm5-xOK0JYN-HJhflLA', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:49:02', '2024-11-05 01:49:02', 1853494274437152770, 1853494274437152770, 0);
+INSERT INTO `log_user_login` VALUES (1853495088685776898, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQrCMBBF7zLrBpKZKb_t0p3HsJkpKBjEJKCIdzfg8r_H-x-qfaeNTr2UN03krwdtCZJEocwT9erPsw22zKKrMlQFaWYg_mW53H0cNK9t9Ld2HSMfwqpuQSQtQcUQ9sNyACOviWM0B31_NGP0xnwAAAA.8R07XX3BOdYDop4hjxZqEQ_8_hGNcWvIKBUdKGrnqbg', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-11-05 01:50:40', '2024-11-05 01:50:40', 1853494274437152770, 1853494274437152770, 0);
+INSERT INTO `log_user_login` VALUES (1853495095920951297, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIQxF75L1CEZjM86yux7DVAMtVEpVmFJ69xFm-d7j_x-0IbDBddT6hQXK_oYN2aMnJsIFRiufW55uDZ4iuWk9Y3DM9ow1vco86KX1uX_2x4TVZVW9R2PVkqHM0USfxIgQkoSLS6TwPwBQ5mfGfAAAAA.KUKzAGihKcjW-pWUnl8HHU0vtOm4yZX_IiRPVPIY5Y0', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:50:42', '2024-11-05 01:50:42', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853495230792990722, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIQxF75L1CMZEo7PsrscYOxFaqJSqMKX07iN0-d_j_S-0kWGFy6j1Awvo8YIVhZBYWGiB0fR93SeLnjixE2YS9E7E_mXdnjoPurY--0e_zxEksneazF44GEabTb5lMsVyiFgQkyT4nVjtOyd8AAAA.tqOFBu8V0yVvuIsNB4981hEaBw3WlrPPVQvikcFE8TA', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:51:14', '2024-11-05 01:51:14', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853495512633442306, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMwQrCMBBE_2XPDTTJLJv06M3PsM0WFAxiErAU_90FjzNv3pzUxkoLXUatB02knxctXqKPEIafaDR9X4t1iSMyggBRPAeR-Q_r7al20LV18x_9bmENti0lu5CLOjDUJWZ2OcIn2TFj2-j7A-MKnQ58AAAA.qbe74g9rQoSlh9QUCSHV5uWOpo-eMM6VwFhLZkD_Fkg', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:52:21', '2024-11-05 01:52:21', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853495548519907330, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMwQrCMBBE_2XPDTTJLJv06M3PsM0WFAxiErAU_90FjzNv3pzUxkoLXUatB02knxctXqKPEIafaDR9X4t1iSMyggBRPAeR-Q_r7al20LV18x_9bmENti0lu5CLOjDUJWZ2OcIn2TFj2-j7A-MKnQ58AAAA.qbe74g9rQoSlh9QUCSHV5uWOpo-eMM6VwFhLZkD_Fkg', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-11-05 01:52:30', '2024-11-05 01:52:30', 1853494274437152770, 1853494274437152770, 0);
+INSERT INTO `log_user_login` VALUES (1853495561320923137, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIQxF75L1CKNJzDjL7noMHSO0UClVYUrp3St0-d_j_Q-0kWCHy6j1DQvo-YTdClokYXYLjKava55sY6RATohQLDuR9S9rfOg86Nr67O_9NkdWV1gSGZ95NZSKmi0Gb2I40uFDcIoFvj8idDaqfAAAAA.fhfrkrG2TW68qEiFd3R-YHN0t7ehoOI3rlfRIQrxIRA', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:52:33', '2024-11-05 01:52:33', 1853494274437152770, 1853494274437152770, 0);
+INSERT INTO `log_user_login` VALUES (1853496879666167809, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIQxF75L1CJrExsyyux7DGRVaqJSq0FLm7iN0-d_j_R-0scEK11HrFxbInxesTsgRS_B-gdHy-5YmC55YGYWZxHkUsX9Z4zPPg55bn_2j3-dQKgmD7iaGCxsumzUaFY1lSoiMe0GG4wQEP9-tfAAAAA.3OaCujGEDi-3vmvhRA5CiBPF-0Eh1NPx-dQrfDTsAjQ', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-11-05 01:57:47', '2024-11-05 01:57:47', 1853494274437152770, 1853494274437152770, 0);
+INSERT INTO `log_user_login` VALUES (1853496895885541378, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_zWMQQoDIRAE_zLnFdadkdY95pZnjDiBDURCVEhY8vd4ybGrqD6pjUw7XUatH1rI3k_aPdizIGJdaDR7XctkMbAk2SDC8GHDX1Z92Dzo1vrs7_2YI6vcGJYcq0YniuxUVnUlGFIUn4oafX9-5b_efAAAAA.njXXAIjDMVx9ZyVYXoQ92k5f-GtMQcRhjFiEG0q6LuA', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:57:51', '2024-11-05 01:57:51', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853497040010215425, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIRAE_zLnFRwdad1jbnmG7s5hA5EQFRKW_D2GHKuLrpPaKLTSZdT6poX09aCV4dkLkg0LjabP6z63GLwkcRDx4OAA-5c133UGurY-_7d-THCRcyilGFXdjLCDyfGHmwrUJiCDPl95vP68fAAAAA.veX9m6vjisjmiH8vkpPNgpgkr_V0FZMklFyzDQc1vTc', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:58:25', '2024-11-05 01:58:25', 1, 1, 0);
+INSERT INTO `log_user_login` VALUES (1853731845914324993, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoCMQxF75L1FJI2JZlZuvMYjZOCgkVsBxTx7hZc_vd4_wP9MNjgdLT2hgX89YCNJBFjUpUFju7P8z6Z5sQrR2FOQjmK4F-2cvd5MLyP2d_GdQ4v2c2qBkXEwLRSKIw1xP2S1Q0rmcH3BzQtEYF8AAAA.FqINnUWqWySUL4aSf-zTm08fTS4V8IARCBIwN4r5PsE', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 17:31:27', '2024-11-05 17:31:27', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -246,9 +267,11 @@ CREATE TABLE `qrtz_schedulers_group`  (
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_group_name`(`group_name` ASC) USING BTREE COMMENT '分组名称需要唯一',
-  INDEX `index_description`(`description` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_description`(`description` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '任务调度分组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -359,12 +382,14 @@ CREATE TABLE `sys_dept`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_dept_name`(`dept_name` ASC) USING BTREE,
-  INDEX `index_summary`(`summary` ASC) USING BTREE,
-  INDEX `index_parent_id`(`parent_id` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE,
-  FULLTEXT INDEX `index_manager`(`manager`)
+  INDEX `idx_dept_name`(`dept_name` ASC) USING BTREE,
+  INDEX `idx_summary`(`summary` ASC) USING BTREE,
+  INDEX `idx_parent_id`(`parent_id` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
+  FULLTEXT INDEX `idx_manager`(`manager`)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -410,11 +435,13 @@ CREATE TABLE `sys_email_template`  (
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_template_name`(`template_name` ASC) USING BTREE COMMENT '模板名称不能重复',
-  INDEX `index_email_user`(`email_user` ASC) USING BTREE,
-  INDEX `index_subject`(`subject` ASC) USING BTREE,
-  INDEX `index_type`(`type` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_email_user`(`email_user` ASC) USING BTREE,
+  INDEX `idx_subject`(`subject` ASC) USING BTREE,
+  INDEX `idx_type`(`type` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '邮件模板表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -441,9 +468,11 @@ CREATE TABLE `sys_email_users`  (
   `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_email`(`email` ASC) USING BTREE COMMENT '邮箱不能重复',
-  INDEX `index_smtp_agreement`(`smtp_agreement` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_smtp_agreement`(`smtp_agreement` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '邮箱发送表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -468,11 +497,13 @@ CREATE TABLE `sys_files`  (
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录文件最后修改的时间戳',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '文件是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_filename`(`filename` ASC) USING BTREE COMMENT '索引文件名',
-  INDEX `index_filepath`(`filepath` ASC) USING BTREE COMMENT '索引文件路径',
-  INDEX `index_file_type`(`file_type` ASC) USING BTREE COMMENT '索引文件类型',
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_filename`(`filename` ASC) USING BTREE COMMENT '索引文件名',
+  INDEX `idx_filepath`(`filepath` ASC) USING BTREE COMMENT '索引文件路径',
+  INDEX `idx_file_type`(`file_type` ASC) USING BTREE COMMENT '索引文件类型',
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统文件表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -524,6 +555,7 @@ INSERT INTO `sys_files` VALUES (1853360176951541761, '003540AH4M7.jpg', '/auth-a
 INSERT INTO `sys_files` VALUES (1853360488756101121, '003540AH4M7.jpg', '/auth-admin/message/2024/11-04/ed6c4a4e-c453-45d0-b250-2100260d259a.jpg', 1188970, 'image/jpeg', 0, 1, 1, '2024-11-04 16:55:49', '2024-11-04 16:55:49', 0);
 INSERT INTO `sys_files` VALUES (1853360685720616962, 'f083c7e3-7959-43b3-b810-62ced61a3fc2.jpg', '/auth-admin/message/2024/11-04/7d63d2c7-d88c-4883-b669-71244a733b50.jpg', 3338, 'image/jpeg', 0, 1, 1, '2024-11-04 16:56:36', '2024-11-04 16:56:36', 0);
 INSERT INTO `sys_files` VALUES (1853362259058573313, 'f083c7e3-7959-43b3-b810-62ced61a3fc2.jpg', '/auth-admin/message/2024/11-04/61a09577-9929-4f8f-b701-5c336510f6f2.jpg', 3338, 'image/jpeg', 0, 1, 1, '2024-11-04 17:02:51', '2024-11-04 17:02:51', 0);
+INSERT INTO `sys_files` VALUES (1853496579492413441, 'blob', '/auth-admin/avatar/2024/11-05/56ea89bd-b894-4507-8e00-5ee2623ab65c', 921652, 'image/png', 0, 1853494274437152770, 1853494274437152770, '2024-11-05 01:56:36', '2024-11-05 01:56:36', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n
@@ -540,11 +572,13 @@ CREATE TABLE `sys_i18n`  (
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '文件是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_key_name`(`key_name` ASC) USING BTREE,
-  INDEX `index_translation`(`translation` ASC) USING BTREE,
-  INDEX `index_type_name`(`type_name` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_key_name`(`key_name` ASC) USING BTREE,
+  INDEX `idx_translation`(`translation` ASC) USING BTREE,
+  INDEX `idx_type_name`(`type_name` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '多语言表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1694,6 +1728,41 @@ INSERT INTO `sys_i18n` VALUES (1853113898342653954, 'markAsUnread', '标为未�
 INSERT INTO `sys_i18n` VALUES (1853113928394842113, 'markAsUnread', 'Mark as unread', 'en', 1, 1, '2024-11-04 00:36:04', '2024-11-04 00:36:04', 0);
 INSERT INTO `sys_i18n` VALUES (1853127712534519810, 'deleteBatches', '批量删除', 'zh', 1, 1, '2024-11-04 01:32:24', '2024-11-04 01:30:51', 0);
 INSERT INTO `sys_i18n` VALUES (1853127795963420674, 'deleteBatches', 'Bulk deletion', 'en', 1, 1, '2024-11-04 01:32:26', '2024-11-04 01:31:11', 0);
+INSERT INTO `sys_i18n` VALUES (1853466635869700097, 'userPassword', '用户的密码', 'zh', 1, 1, '2024-11-04 23:57:36', '2024-11-04 23:57:36', 0);
+INSERT INTO `sys_i18n` VALUES (1853466663711490049, 'userPassword', 'user\'s password', 'en', 1, 1, '2024-11-04 23:57:43', '2024-11-04 23:57:43', 0);
+INSERT INTO `sys_i18n` VALUES (1853466873653182466, 'for', '为', 'zh', 1, 1, '2024-11-04 23:58:33', '2024-11-04 23:58:33', 0);
+INSERT INTO `sys_i18n` VALUES (1853466889734144001, 'for', 'for', 'en', 1, 1, '2024-11-04 23:58:37', '2024-11-04 23:58:37', 0);
+INSERT INTO `sys_i18n` VALUES (1853467508360429570, 'menu', '菜单', 'zh', 1, 1, '2024-11-05 00:01:04', '2024-11-05 00:01:04', 0);
+INSERT INTO `sys_i18n` VALUES (1853467519102042114, 'menu', 'menu', 'en', 1, 1, '2024-11-05 00:01:07', '2024-11-05 00:01:07', 0);
+INSERT INTO `sys_i18n` VALUES (1853467640455839746, 'externalLink', '外链', 'zh', 1, 1, '2024-11-05 00:01:36', '2024-11-05 00:01:36', 0);
+INSERT INTO `sys_i18n` VALUES (1853467661154729985, 'externalLink', 'External link', 'en', 1, 1, '2024-11-05 00:01:41', '2024-11-05 00:01:41', 0);
+INSERT INTO `sys_i18n` VALUES (1853467803857534978, 'menuName', '菜单名称', 'zh', 1, 1, '2024-11-05 00:02:15', '2024-11-05 00:02:15', 0);
+INSERT INTO `sys_i18n` VALUES (1853467829300183041, 'menuName', 'Menu name', 'en', 1, 1, '2024-11-05 00:02:21', '2024-11-05 00:02:21', 0);
+INSERT INTO `sys_i18n` VALUES (1853467938486304769, 'menuType', '菜单类型', 'zh', 1, 1, '2024-11-05 00:02:47', '2024-11-05 00:02:47', 0);
+INSERT INTO `sys_i18n` VALUES (1853467968857260033, 'menuType', 'Menu type', 'en', 1, 1, '2024-11-05 00:02:54', '2024-11-05 00:02:54', 0);
+INSERT INTO `sys_i18n` VALUES (1853468044291817474, 'path', '路由路径', 'zh', 1, 1, '2024-11-05 00:03:12', '2024-11-05 00:03:12', 0);
+INSERT INTO `sys_i18n` VALUES (1853468126722473986, 'routerPath', 'Routing path', 'en', 1, 1, '2024-11-05 00:03:32', '2024-11-05 00:03:32', 0);
+INSERT INTO `sys_i18n` VALUES (1853468153557630977, 'routerPath', '路由路径', 'zh', 1, 1, '2024-11-05 00:03:38', '2024-11-05 00:03:38', 0);
+INSERT INTO `sys_i18n` VALUES (1853468276027113474, 'componentPath', '组件路径', 'zh', 1, 1, '2024-11-05 00:04:07', '2024-11-05 00:04:07', 0);
+INSERT INTO `sys_i18n` VALUES (1853468291839639553, 'componentPath', 'Component path', 'en', 1, 1, '2024-11-05 00:04:11', '2024-11-05 00:04:11', 0);
+INSERT INTO `sys_i18n` VALUES (1853468393769615362, 'sort', '排序', 'zh', 1, 1, '2024-11-05 00:04:36', '2024-11-05 00:04:36', 0);
+INSERT INTO `sys_i18n` VALUES (1853468404729331713, 'sort', 'sort', 'en', 1, 1, '2024-11-05 00:04:38', '2024-11-05 00:04:38', 0);
+INSERT INTO `sys_i18n` VALUES (1853468489982754818, 'visible', '隐藏', 'zh', 1, 1, '2024-11-05 00:04:58', '2024-11-05 00:04:58', 0);
+INSERT INTO `sys_i18n` VALUES (1853468505661063169, 'visible', 'visible', 'en', 1, 1, '2024-11-05 00:05:02', '2024-11-05 00:05:02', 0);
+INSERT INTO `sys_i18n` VALUES (1853468649345335298, 'menuNameTip', '菜单名称为必填项', 'zh', 1, 1, '2024-11-05 00:05:36', '2024-11-05 00:05:36', 0);
+INSERT INTO `sys_i18n` VALUES (1853468672053297154, 'menuNameTip', 'The menu name is mandatory', 'en', 1, 1, '2024-11-05 00:05:42', '2024-11-05 00:05:42', 0);
+INSERT INTO `sys_i18n` VALUES (1853468775853932546, 'routerNameTip', '路由名称为必填项', 'zh', 1, 1, '2024-11-05 00:06:07', '2024-11-05 00:06:07', 0);
+INSERT INTO `sys_i18n` VALUES (1853468808808579074, 'routerNameTip', 'The route name is mandatory', 'en', 1, 1, '2024-11-05 00:06:14', '2024-11-05 00:06:14', 0);
+INSERT INTO `sys_i18n` VALUES (1853469015663263746, 'routerPathTip', '路由路径为必填项且为\"/\"开头', 'zh', 1, 1, '2024-11-05 00:07:04', '2024-11-05 00:07:04', 0);
+INSERT INTO `sys_i18n` VALUES (1853469047363813377, 'routerPathTip', 'The route path is mandatory and starts with a slash', 'en', 1, 1, '2024-11-05 00:07:11', '2024-11-05 00:07:11', 0);
+INSERT INTO `sys_i18n` VALUES (1853469506262614017, 'update', '更新', 'zh', 1, 1, '2024-11-05 00:09:01', '2024-11-05 00:09:01', 0);
+INSERT INTO `sys_i18n` VALUES (1853469520422584321, 'update', 'update', 'en', 1, 1, '2024-11-05 00:09:04', '2024-11-05 00:09:04', 0);
+INSERT INTO `sys_i18n` VALUES (1853470034904301569, 'previousMenu', '上级菜单', 'zh', 1, 1, '2024-11-05 00:11:07', '2024-11-05 00:11:07', 0);
+INSERT INTO `sys_i18n` VALUES (1853470072325881858, 'previousMenu', 'previous menu', 'en', 1, 1, '2024-11-05 00:11:16', '2024-11-05 00:11:16', 0);
+INSERT INTO `sys_i18n` VALUES (1853470365352542209, 'routerName', '路由名称', 'zh', 1, 1, '2024-11-05 00:12:26', '2024-11-05 00:12:26', 0);
+INSERT INTO `sys_i18n` VALUES (1853470446734622721, 'routerName', 'Route name', 'en', 1, 1, '2024-11-05 00:12:45', '2024-11-05 00:12:45', 0);
+INSERT INTO `sys_i18n` VALUES (1853471662109704193, 'index', '序号', 'zh', 1, 1, '2024-11-05 00:17:35', '2024-11-05 00:17:35', 0);
+INSERT INTO `sys_i18n` VALUES (1853471674294157314, 'index', 'index', 'en', 1, 1, '2024-11-05 00:17:38', '2024-11-05 00:17:38', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n_type
@@ -1710,10 +1779,12 @@ CREATE TABLE `sys_i18n_type`  (
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '文件是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_type_name`(`type_name` ASC) USING BTREE,
-  INDEX `index_summary`(`summary` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_type_name`(`type_name` ASC) USING BTREE,
+  INDEX `idx_summary`(`summary` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '多语言类型表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1737,9 +1808,11 @@ CREATE TABLE `sys_menu_icon`  (
   `is_deleted` tinyint NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_icon_code`(`icon_code` ASC) USING BTREE COMMENT '图标code不能重复',
-  INDEX `index_icon_name`(`icon_name` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_icon_name`(`icon_name` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '图标code不能重复' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1819,13 +1892,15 @@ CREATE TABLE `sys_message`  (
   `create_user` bigint NULL DEFAULT NULL COMMENT '创建用户',
   `is_deleted` tinyint NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_message_type`(`message_type` ASC) USING BTREE,
-  INDEX `index_editor_type`(`editor_type` ASC) USING BTREE,
-  INDEX `index_send_user_id`(`send_user_id` ASC) USING BTREE,
-  INDEX `index_level`(`level` ASC) USING BTREE,
-  INDEX `index_extra`(`extra` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_message_type`(`message_type` ASC) USING BTREE,
+  INDEX `idx_editor_type`(`editor_type` ASC) USING BTREE,
+  INDEX `idx_send_user_id`(`send_user_id` ASC) USING BTREE,
+  INDEX `idx_level`(`level` ASC) USING BTREE,
+  INDEX `idx_extra`(`extra` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统消息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1848,10 +1923,12 @@ CREATE TABLE `sys_message_received`  (
   `create_user` bigint NULL DEFAULT NULL COMMENT '创建用户',
   `is_deleted` tinyint NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_received_user_id`(`received_user_id` ASC) USING BTREE,
-  INDEX `index_message_id`(`message_id` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_received_user_id`(`received_user_id` ASC) USING BTREE,
+  INDEX `idx_message_id`(`message_id` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1880,10 +1957,12 @@ CREATE TABLE `sys_message_type`  (
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_message_type`(`message_type` ASC) USING BTREE,
-  INDEX `index_message_name`(`message_name` ASC) USING BTREE,
-  INDEX `index_status`(`status` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_message_name`(`message_name` ASC) USING BTREE,
+  INDEX `idx_status`(`status` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统消息类型' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1910,11 +1989,13 @@ CREATE TABLE `sys_power`  (
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_power_code`(`power_code` ASC) USING BTREE COMMENT '权限码不能重复',
-  INDEX `index_parent_id`(`parent_id` ASC) USING BTREE,
-  INDEX `index_power_name`(`power_name` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE,
-  FULLTEXT INDEX `index_request_url`(`request_url`)
+  INDEX `idx_parent_id`(`parent_id` ASC) USING BTREE,
+  INDEX `idx_power_name`(`power_name` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
+  FULLTEXT INDEX `idx_request_url`(`request_url`)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2021,7 +2102,6 @@ INSERT INTO `sys_power` VALUES (1853132606087725057, 15, 'emailTemplate::deleteE
 INSERT INTO `sys_power` VALUES (1853132606150639618, 16, 'dept::updateDept', '更新部门', '/admin/dept/updateDept', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1853132606205165569, 16, 'dept::addDept', '添加部门', '/admin/dept/addDept', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1853132606238720002, 16, 'dept::getDeptList', '分页查询部门', '/admin/dept/getDeptList/.*', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606272274434, 16, 'dept::getAllDeptList', '获取所有部门', '/admin/dept/getAllDeptList', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1853132606297440257, 16, 'dept::deleteDept', '删除部门', '/admin/dept/deleteDept', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1853132606372937729, 17, 'config::updateWebConfiguration', '更新web配置文件', '/admin/config/updateWebConfiguration', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1853132606427463682, 17, 'config::getWebConfig', '获取修改web配置文件', '/admin/config/getWebConfig', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
@@ -2052,9 +2132,11 @@ CREATE TABLE `sys_role`  (
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_role_code`(`role_code` ASC) USING BTREE COMMENT '角色码不能重复',
-  INDEX `index_description`(`description` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_description`(`description` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2068,6 +2150,7 @@ INSERT INTO `sys_role` VALUES (1850787961993142273, 'i18n', 'i18n角色', '2024-
 INSERT INTO `sys_role` VALUES (1850921292033228802, 'upload', '上传文件', '2024-10-28 23:23:19', '2024-10-28 23:23:19', 1, 1, 0);
 INSERT INTO `sys_role` VALUES (1852621694771773442, 'actuator', 'actuator端点可访问', '2024-11-02 16:00:07', '2024-11-02 16:00:07', 1, 1, 0);
 INSERT INTO `sys_role` VALUES (1852638541067845634, 'message', '消息角色(CUR)', '2024-11-02 17:07:03', '2024-11-02 17:07:03', 1, 1, 0);
+INSERT INTO `sys_role` VALUES (1853494447435415553, 'test', '测试角色用于权限测试', '2024-11-05 01:48:07', '2024-11-05 01:48:07', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_role_power
@@ -2083,49 +2166,18 @@ CREATE TABLE `sys_role_power`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '更新用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_role_id`(`role_id` ASC) USING BTREE,
-  INDEX `index_power_id`(`power_id` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_role_id`(`role_id` ASC) USING BTREE,
+  INDEX `idx_power_id`(`power_id` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
+  UNIQUE INDEX `idx_role_power`(`role_id` ASC, `power_id` ASC) USING BTREE COMMENT '角色和权限两种不能重复'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统角色权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_power
 -- ----------------------------
-INSERT INTO `sys_role_power` VALUES (1853133361536401409, 1849447127379210241, 1853132602711310337, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361536401410, 1849447127379210241, 1853132602761641985, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361536401411, 1849447127379210241, 1853132602803585025, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361536401412, 1849447127379210241, 1853132603055243266, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361536401413, 1849447127379210241, 1853132603101380609, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790018, 1849447127379210241, 1853132603235598337, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790019, 1849447127379210241, 1853132603302707202, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790020, 1849447127379210241, 1853132603394981890, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790021, 1849447127379210241, 1853132603655028737, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790022, 1849447127379210241, 1853132603898298369, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790023, 1849447127379210241, 1853132604158345217, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790024, 1849447127379210241, 1853132604196093953, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790025, 1849447127379210241, 1853132604401614850, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790026, 1849447127379210241, 1853132604502278146, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790027, 1849447127379210241, 1853132604560998402, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790028, 1849447127379210241, 1853132604674244610, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790029, 1849447127379210241, 1853132604732964866, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790030, 1849447127379210241, 1853132604770713602, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790031, 1849447127379210241, 1853132604955262977, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790032, 1849447127379210241, 1853132605303390210, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790033, 1849447127379210241, 1853132605341138945, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790034, 1849447127379210241, 1853132605559242753, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790035, 1849447127379210241, 1853132605588602881, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361544790036, 1849447127379210241, 1853132605622157313, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984322, 1849447127379210241, 1853132605836066818, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984323, 1849447127379210241, 1853132606427463682, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984324, 1849447127379210241, 1853132606553292801, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984325, 1849447127379210241, 1853132606695899137, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984326, 1849447127379210241, 1853132606888837121, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984327, 1849447127379210241, 1853132607002083329, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984328, 1849447127379210241, 1853132606049976321, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984329, 1849447127379210241, 1853132606016421890, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984330, 1849447127379210241, 1853132606238720002, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853133361548984331, 1849447127379210241, 1853132606272274434, '2024-11-04 01:53:18', '2024-11-04 01:53:18', 1, 1, 0);
 INSERT INTO `sys_role_power` VALUES (1853134161935433730, 1852638541067845634, 1853132604560998402, '2024-11-04 01:56:28', '2024-11-04 01:56:28', 1, 1, 0);
 INSERT INTO `sys_role_power` VALUES (1853134161935433731, 1852638541067845634, 1853132604502278146, '2024-11-04 01:56:28', '2024-11-04 01:56:28', 1, 1, 0);
 INSERT INTO `sys_role_power` VALUES (1853134161935433732, 1852638541067845634, 1853132604300951553, '2024-11-04 01:56:28', '2024-11-04 01:56:28', 1, 1, 0);
@@ -2134,6 +2186,123 @@ INSERT INTO `sys_role_power` VALUES (1853134161935433734, 1852638541067845634, 1
 INSERT INTO `sys_role_power` VALUES (1853134341170626562, 1852621694771773442, 1849471636643618818, '2024-11-04 01:57:11', '2024-11-04 01:57:11', 1, 1, 0);
 INSERT INTO `sys_role_power` VALUES (1853134341170626563, 1852621694771773442, 1849471846698557442, '2024-11-04 01:57:11', '2024-11-04 01:57:11', 1, 1, 0);
 INSERT INTO `sys_role_power` VALUES (1853134393104498690, 1850921292033228802, 1853132605496328193, '2024-11-04 01:57:24', '2024-11-04 01:57:24', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412778983425, 1849447127379210241, 1853132603055243266, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412778983426, 1849447127379210241, 1853132603101380609, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412778983427, 1849447127379210241, 1853132603235598337, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412778983428, 1849447127379210241, 1853132603302707202, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412778983429, 1849447127379210241, 1853132603394981890, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177729, 1849447127379210241, 1853132603655028737, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177730, 1849447127379210241, 1853132603898298369, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177731, 1849447127379210241, 1853132604158345217, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177732, 1849447127379210241, 1853132604196093953, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177733, 1849447127379210241, 1853132604401614850, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177734, 1849447127379210241, 1853132604502278146, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177735, 1849447127379210241, 1853132604560998402, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177736, 1849447127379210241, 1853132604674244610, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177737, 1849447127379210241, 1853132604732964866, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177738, 1849447127379210241, 1853132604770713602, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177739, 1849447127379210241, 1853132604955262977, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177740, 1849447127379210241, 1853132605303390210, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177741, 1849447127379210241, 1853132605341138945, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177742, 1849447127379210241, 1853132605559242753, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177743, 1849447127379210241, 1853132605588602881, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177744, 1849447127379210241, 1853132605622157313, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177745, 1849447127379210241, 1853132605836066818, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177746, 1849447127379210241, 1853132606427463682, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177747, 1849447127379210241, 1853132606553292801, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177748, 1849447127379210241, 1853132606695899137, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177749, 1849447127379210241, 1853132606888837121, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177750, 1849447127379210241, 1853132607002083329, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177751, 1849447127379210241, 1853132606049976321, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177752, 1849447127379210241, 1853132606016421890, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177753, 1849447127379210241, 1853132606238720002, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177754, 1849447127379210241, 1853132602405126145, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177755, 1849447127379210241, 1853132602711310337, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177756, 1849447127379210241, 1853132602761641985, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853497412783177757, 1849447127379210241, 1853132602803585025, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400834, 1853494447435415553, 1853132602405126145, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400835, 1853494447435415553, 1853132602518372354, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400836, 1853494447435415553, 1853132602849722370, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400837, 1853494447435415553, 1853132602803585025, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400838, 1853494447435415553, 1853132602761641985, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400839, 1853494447435415553, 1853132602572898306, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400840, 1853494447435415553, 1853132602619035650, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400841, 1853494447435415553, 1853132602660978690, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400842, 1853494447435415553, 1853132602711310337, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400843, 1853494447435415553, 1, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400844, 1853494447435415553, 1853132603797635073, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400845, 1853494447435415553, 1853132603864743938, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400846, 1853494447435415553, 1853132603898298369, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400847, 1853494447435415553, 1853132603940241410, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400848, 1853494447435415553, 5, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400849, 1853494447435415553, 1853132604015738881, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400850, 1853494447435415553, 1853132604229648386, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400851, 1853494447435415553, 1853132604196093953, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400852, 1853494447435415553, 1853132604158345217, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400853, 1853494447435415553, 1853132604124790786, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400854, 1853494447435415553, 1853132604091236354, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400855, 1853494447435415553, 6, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400856, 1853494447435415553, 1853132606150639618, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400857, 1853494447435415553, 1853132606205165569, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400858, 1853494447435415553, 1853132606238720002, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400859, 1853494447435415553, 1853132606297440257, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400860, 1853494447435415553, 16, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400861, 1853494447435415553, 4, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400862, 1853494447435415553, 1853132603516616705, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400863, 1853494447435415553, 1853132603575336961, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400864, 1853494447435415553, 1853132603613085697, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400865, 1853494447435415553, 1853132603655028737, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400866, 1853494447435415553, 1853132603717943297, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400867, 1853494447435415553, 13, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400868, 1853494447435415553, 1853132605433413634, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400869, 1853494447435415553, 1853132605496328193, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400870, 1853494447435415553, 1853132605534076929, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400871, 1853494447435415553, 1853132605559242753, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400872, 1853494447435415553, 1853132605588602881, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400873, 1853494447435415553, 1853132605622157313, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400874, 1853494447435415553, 1853132605655711745, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400875, 1853494447435415553, 1853132605928341505, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400876, 1853494447435415553, 1853132605982867458, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400877, 1853494447435415553, 1853132606087725057, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400878, 1853494447435415553, 1853132606049976321, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400879, 1853494447435415553, 1853132606016421890, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400880, 1853494447435415553, 15, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400881, 1853494447435415553, 1853132605836066818, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400882, 1853494447435415553, 1853132605865426946, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400883, 1853494447435415553, 1853132605802512385, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400884, 1853494447435415553, 1853132605764763650, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400885, 1853494447435415553, 1853132605714432001, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400886, 1853494447435415553, 14, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400887, 1853494447435415553, 1853132604875571201, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400888, 1853494447435415553, 1853132604925902850, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400889, 1853494447435415553, 1853132604988817409, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400890, 1853494447435415553, 1853132604955262977, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400891, 1853494447435415553, 10, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400892, 1853494447435415553, 1853132606372937729, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400893, 1853494447435415553, 1853132606427463682, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400894, 1853494447435415553, 17, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400895, 1853494447435415553, 1849471636643618818, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400896, 1853494447435415553, 1849471846698557442, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400897, 1853494447435415553, 1853132605374693378, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400898, 1853494447435415553, 1853132605341138945, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400899, 1853494447435415553, 1853132605303390210, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400900, 1853494447435415553, 1853132605211115521, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400901, 1853494447435415553, 1853132605265641474, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400902, 1853494447435415553, 12, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400903, 1853494447435415553, 1853132605055926274, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400904, 1853494447435415553, 1853132605114646530, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400905, 1853494447435415553, 11, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400906, 1853494447435415553, 1853132605148200962, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400907, 1853494447435415553, 1853132604560998402, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400908, 1853494447435415553, 1853132604732964866, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400909, 1853494447435415553, 8, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400910, 1853494447435415553, 1853132604502278146, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400911, 1853494447435415553, 1853132604594552834, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400912, 1853494447435415553, 1853132604435169282, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400913, 1853494447435415553, 1853132604401614850, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400914, 1853494447435415553, 1853132604363866113, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400915, 1853494447435415553, 1853132604300951553, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1853757337153400916, 1853494447435415553, 7, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_router
@@ -2163,13 +2332,15 @@ CREATE TABLE `sys_router`  (
   INDEX `idx_id_parent_id`(`id` ASC, `parent_id` ASC) USING BTREE,
   INDEX `idx_id`(`id` ASC) USING BTREE,
   INDEX `idx_parent_id`(`parent_id` ASC) USING BTREE,
-  INDEX `index_component`(`component` ASC) USING BTREE,
-  INDEX `index_frame_src`(`frame_src` ASC) USING BTREE,
-  INDEX `index_title`(`title` ASC) USING BTREE,
-  INDEX `index_menu_type`(`menu_type` ASC) USING BTREE,
-  INDEX `index_icon`(`icon` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_component`(`component` ASC) USING BTREE,
+  INDEX `idx_frame_src`(`frame_src` ASC) USING BTREE,
+  INDEX `idx_title`(`title` ASC) USING BTREE,
+  INDEX `idx_menu_type`(`menu_type` ASC) USING BTREE,
+  INDEX `idx_icon`(`icon` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2227,10 +2398,13 @@ CREATE TABLE `sys_router_role`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_router_id`(`router_id` ASC) USING BTREE,
-  INDEX `index_role_id`(`role_id` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_router_id`(`router_id` ASC) USING BTREE,
+  INDEX `idx_role_id`(`role_id` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
+  UNIQUE INDEX `idx_router_role`(`router_id` ASC, `role_id` ASC) USING BTREE COMMENT '录音和角色不能重复'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统路由角色关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2386,6 +2560,43 @@ INSERT INTO `sys_router_role` VALUES (1853136447298437145, 1841796893769580546, 
 INSERT INTO `sys_router_role` VALUES (1853136447298437146, 1844957189138751490, 1852638541067845634, '2024-11-04 02:05:33', '2024-11-04 02:05:33', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1853136447298437147, 1844957830590468097, 1852638541067845634, '2024-11-04 02:05:33', '2024-11-04 02:05:33', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1853136447298437148, 1844958437262987265, 1852638541067845634, '2024-11-04 02:05:33', '2024-11-04 02:05:33', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524673, 1, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524674, 1841803086252548097, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524675, 1841726844983701505, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524676, 1841750734275416065, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524677, 1842033245832458241, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524678, 2, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524679, 1843932804747603970, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524680, 1844900259930243074, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524681, 1841506924681338881, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524682, 1844276961265557505, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524683, 1844290948342456321, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524684, 1849000501604724738, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524685, 1844644093987880962, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524686, 1844644779039358978, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524687, 1848989760243838978, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524688, 1846804024660791298, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524689, 1845812113861079042, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524690, 1846166163060285441, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524691, 1841716459123634177, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524692, 1840211412516524034, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524693, 1840292695145963522, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524694, 1852321196101464065, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524695, 1847291834822123521, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524696, 1847140225619992577, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524697, 1851488898978103297, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524698, 1851488972810436609, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524699, 1851491818972856321, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493674524700, 1851525168378875906, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493678718978, 1853083388413304834, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493678718979, 1841796585525985281, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493678718980, 1844956874037469185, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493678718981, 1841794929635635201, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493678718982, 1841796893769580546, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493678718983, 1844957189138751490, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493678718984, 1844957830590468097, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493678718985, 1844958437262987265, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1853497493678718986, 1851490002939887618, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -2412,26 +2623,29 @@ CREATE TABLE `sys_user`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_username`(`username` ASC) USING BTREE COMMENT '用户名不能重复',
   UNIQUE INDEX `unique_email`(`email` ASC) USING BTREE COMMENT '邮箱不能重复',
-  INDEX `index_nickname`(`nickname` ASC) USING BTREE,
-  INDEX `index_phone`(`phone` ASC) USING BTREE,
-  INDEX `index_avatar`(`avatar` ASC) USING BTREE,
-  INDEX `index_summary`(`summary` ASC) USING BTREE,
-  INDEX `index_ip_address`(`ip_address` ASC) USING BTREE,
-  INDEX `index_ip_region`(`ip_region` ASC) USING BTREE,
-  INDEX `index_status`(`status` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_nickname`(`nickname` ASC) USING BTREE,
+  INDEX `idx_phone`(`phone` ASC) USING BTREE,
+  INDEX `idx_avatar`(`avatar` ASC) USING BTREE,
+  INDEX `idx_summary`(`summary` ASC) USING BTREE,
+  INDEX `idx_ip_address`(`ip_address` ASC) USING BTREE,
+  INDEX `idx_ip_region`(`ip_region` ASC) USING BTREE,
+  INDEX `idx_status`(`status` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '123456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-25/ebfe09f4-600f-4e85-a2c4-5d71bc341de4', 1, 'admin', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-24 21:35:03', '2024-10-29 20:35:07', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/18514ddc-d656-4e3d-b83d-c01977eec5a3', 0, '密码：admin123', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', '2024-11-03 02:45:04', 0, 1, 0);
-INSERT INTO `sys_user` VALUES (1849681227633758210, 'Operation', '定时任务和系统配置', 'Operation@qq.com', '18012062876', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/75410b4c-e065-4122-8797-07617f776443', 0, '能看到定时任务和系统配置页面可以发布和更新消息，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-25 13:15:45', '2024-11-02 17:13:47', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/18514ddc-d656-4e3d-b83d-c01977eec5a3', 0, '密码：admin123', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', '2024-11-05 01:46:36', 0, 1, 0);
+INSERT INTO `sys_user` VALUES (1849681227633758210, 'Operation', '定时任务和系统配置', 'Operation@qq.com', '18012062876', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/11-05/56ea89bd-b894-4507-8e00-5ee2623ab65c', 0, '能看到定时任务和系统配置页面可以发布和更新消息，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-25 13:15:45', '2024-11-05 01:56:36', 1, 1853494274437152770, 0);
 INSERT INTO `sys_user` VALUES (1850075157831454722, 'system', '只能看到系统配置用户1', 'system@Gmail.com', '12456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/057cb028-dea3-4054-ae07-8321eaeceaf1', 0, '只能看到系统设置1内容页面，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-26 15:21:05', '2024-11-02 17:00:08', 1, 1, 0);
 INSERT INTO `sys_user` VALUES (1850080272764211202, 'timing', '定时任务', 'timing@163.com', '212122', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/6b9cbcd2-31af-4c91-b74e-2d66e5b0558a', 0, '只能看到定时任务页面，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-26 15:41:25', '2024-11-04 01:59:07', 1, 1, 0);
 INSERT INTO `sys_user` VALUES (1850789068551200769, 'i18n', 'i18n', 'i18n@qq.com', '18012345678', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/71a8b92c-ef68-425c-9993-d95292613916', 1, '可见i18n，定时任务，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-28 14:37:55', '2024-11-04 01:58:58', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1853494274437152770, 'test', 'test', 'test@qq.com', '18012062876', '0192023a7bbd73250516f069df18b500', NULL, 0, 'test', '127.0.0.1', '内网IP', 0, '2024-11-05 01:47:26', '2024-11-05 17:31:27', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
@@ -2447,10 +2661,13 @@ CREATE TABLE `sys_user_dept`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '更新用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_user_id`(`user_id` ASC) USING BTREE,
-  INDEX `index_dept_id`(`dept_id` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_dept_id`(`dept_id` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
+  UNIQUE INDEX `idx_user_dept`(`user_id` ASC, `dept_id` ASC) USING BTREE COMMENT '用户id和部门不能相同'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门用户关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2462,6 +2679,7 @@ INSERT INTO `sys_user_dept` VALUES (1850079769699389441, 1850075157831454722, 18
 INSERT INTO `sys_user_dept` VALUES (1850080272827125761, 1850080272764211202, 1850077710275153922, '2024-10-26 15:41:25', '2024-10-26 15:41:25', 1, 1, 0);
 INSERT INTO `sys_user_dept` VALUES (1850914498145005569, 1850789068551200769, 1842844360640327682, '2024-10-28 22:56:19', '2024-10-28 22:56:19', 1, 1, 0);
 INSERT INTO `sys_user_dept` VALUES (1852638755723935745, 1849681227633758210, 1842885831187877890, '2024-11-02 17:07:54', '2024-11-02 17:07:54', 1, 1, 0);
+INSERT INTO `sys_user_dept` VALUES (1853494274437152771, 1853494274437152770, 1842844360640327682, '2024-11-05 01:47:26', '2024-11-05 01:47:26', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -2477,10 +2695,13 @@ CREATE TABLE `sys_user_role`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '更新用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_user_id`(`user_id` ASC) USING BTREE,
-  INDEX `index_role_id`(`role_id` ASC) USING BTREE,
-  INDEX `index_update_user`(`update_user` ASC) USING BTREE,
-  INDEX `index_create_user`(`create_user` ASC) USING BTREE
+  INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
+  INDEX `idx_role_id`(`role_id` ASC) USING BTREE,
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
+  UNIQUE INDEX `idx_user_role`(`user_id` ASC, `role_id` ASC) USING BTREE COMMENT '用户和角色不能相同'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统用户角色关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2504,6 +2725,8 @@ INSERT INTO `sys_user_role` VALUES (1853134787255828483, 1850789068551200769, 18
 INSERT INTO `sys_user_role` VALUES (1853134828200624129, 1850080272764211202, 1850080441735942146, '2024-11-04 01:59:07', '2024-11-04 01:59:07', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1853134828200624130, 1850080272764211202, 1850921292033228802, '2024-11-04 01:59:07', '2024-11-04 01:59:07', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1853134828200624131, 1850080272764211202, 1852621694771773442, '2024-11-04 01:59:07', '2024-11-04 01:59:07', 1, 1, 0);
+INSERT INTO `sys_user_role` VALUES (1853497039934717954, 1853494274437152770, 1849447127379210241, '2024-11-05 01:58:25', '2024-11-05 01:58:25', 1, 1, 0);
+INSERT INTO `sys_user_role` VALUES (1853497039934717955, 1853494274437152770, 1853494447435415553, '2024-11-05 01:58:25', '2024-11-05 01:58:25', 1, 1, 0);
 
 -- ----------------------------
 -- View structure for view_qrtz_schedulers
