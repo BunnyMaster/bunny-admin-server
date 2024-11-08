@@ -1,12 +1,11 @@
 # 项目预览
 
-不知道为什么，图床用的使自己的，Gitee就是不显示其它GitHub和Gitea都能显示就Gitee显示不出来
-
-或者把项目clone下来看也可以
+不知道为什么，图床用的使自己的，Gitee就是不显示其它GitHub和Gitea都能显示就Gitee显示不出来，如果想用Gitee就把ReadMe文件下载下来也行；或者把项目clone下来看也可以
 
 **线上地址**
 
-- 正式线上预览地址：http://111.229.137.235/#/welcome
+- 正式线上预览地址：http://bunny-web.site/#/welcome
+  - 线上地址目前使用的是90天的SSL证书，可能会提示链接不安全，忽略就好了
 
 - 测试预览地址：http://106.15.251.123/#/welcome
   - 服务器到期时间：12月30日
@@ -176,6 +175,74 @@ FLUSH PRIVILEGES;
 在后端文件的根目录中
 
 ![image-20241107133345299](http://116.196.101.14:9000/docs/image-20241107133345299.png)
+
+## 后端日志文件
+
+在后端日志文件中，使用了`logback.xml`进行格式化。然而，使用`logback.xml`后，配置文件中指定的日志输出文件位置可能会失效。如果项目是通过Docker部署的，想在宿主机查看日志文件需要进行文件映射。
+
+### 使用SpringBoot
+
+在配置文件中，指定名称和目录路径即可，之后使用docker映射就可以在宿主机看到日志了
+
+如果想要用自带需要删除`logback.xml`文件
+
+```
+logging:
+  level:
+    cn.bunny.service.mapper: warn
+    cn.bunny.service.controller: warn
+    cn.bunny.service.service: warn
+    root: warn
+  pattern:
+    dateformat: HH:mm:ss:SSS
+  file:
+    path: "logs/${spring.application.name}"
+    name: "logs/${spring.application.name}"
+```
+
+### 使用logback.xml
+
+指定目录的位置`<file>D:/logs/${datetime}/auth-server.log</file>`根据你需要的指定
+
+```xml
+<!-- 格式化 年-月-日 输出 -->
+<timestamp key="datetime" datePattern="yyyy-MM-dd"/>
+
+<appender name="STOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+        <pattern>
+            %cyan([%thread]) %yellow(%-5level) %green(%logger{100}).%boldRed(%method)-%boldMagenta(%line)- %blue(%msg%n)
+        </pattern>
+    </encoder>
+</appender>
+
+<!-- 文件日志 -->
+<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>/www/root/server/logs/${datetime}/auth-server.log</file>
+    <append>true</append>
+    <encoder>
+        <pattern>%date{yyyy-MM-dd HH:mm:ss} %-5level %logger{100} %method %line %msg%n</pattern>
+        <charset>UTF-8</charset>
+    </encoder>
+</appender>
+```
+
+> 如果按照上面搭建，日志文件会在`/www/root/server/logs`下，即使使Windows系统也会存在，如果docker使用的是文件映射，那么日志文件会在容器相对应的位置
+
+如果开发环境或者其他环境也需要日志，可以根据当前环境进行选择`<springProfile name="prod">`
+
+```xml
+<!-- 生产环境 -->
+<springProfile name="prod">
+    <!-- 日志记录器：业务程序INFO级别  -->
+    <logger name="cn.bunny" level="INFO"/>
+    <!-- 根日志记录器：INFO级别  -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</springProfile>
+```
 
 # 项目特点
 
@@ -810,59 +877,25 @@ public class MenuIconVo extends BaseUserVo {
 
 使用Docker进行部署，后端接口地址以`/admin`开头，但前端默认请求前缀为`/api`，因此在请求时需要进行替换。详细内容请参考以下【项目部署】说明。
 
-## 配置相关
+## 前端部署
 
-### docker文件
+运行`pnpm build`
 
-```dockerfile
-# 使用官方的 Nginx 镜像作为基础镜像
-FROM nginx
+dockerfile中暴露端口要和生产环境的端口号保持一致
 
-# 删除默认的 Nginx 配置文件
-RUN rm /etc/nginx/conf.d/default.conf
+### 使用http协议
 
-# 将自定义的 Nginx 配置文件复制到容器中
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+如果不使用https，需要将下面内容注释
 
-# 设置时区，构建镜像时执行的命令
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo "Asia/Shanghai" > /etc/timezone
+![image-20241108152526666](http://116.196.101.14:9000/docs/auth/image-20241108152526666.png)
 
-# 创建一个目录来存放前端项目文件
-WORKDIR /usr/share/nginx/html
+对外暴露端口改为`80`或者你自己喜欢的端口
 
-# 将前端项目打包文件复制到 Nginx 的默认静态文件目录
-COPY dist/ /usr/share/nginx/html
-# 复制到nginx目录下
-COPY dist/ /etc/nginx/html
+![image-20241108154244339](http://116.196.101.14:9000/docs/auth/image-20241108154244339.png)
 
-# 暴露 Nginx 的默认端口
-EXPOSE 80
+#### NGINX配置
 
-# 自动启动 Nginx
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-### NGINX文件
-
-在请求中会使用代理所以会拿不到用户真实的IP地址，素以在要NGINX侠做下面的配置，这样用户在访问时就可以拿到真实的IP了
-
-```nginx
-proxy_set_header X-Real-IP $remote_addr;
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header X-Forwarded-Proto $scheme;
-```
-
-#### 如果需要使用https协议
-
-```dockerfile
-COPY bunny-web.site.csr /etc/nginx/bunny-web.site.csr
-COPY bunny-web.site.key /etc/nginx/bunny-web.site.key
-COPY bunny-web.site_bundle.crt /etc/nginx/bunny-web.site_bundle.crt
-COPY bunny-web.site_bundle.pem /etc/nginx/bunny-web.site_bundle.pem
-```
-
-NGINX的文件
+将NGINX配置修改为以下内容
 
 ```nginx
 map $http_upgrade $connection_upgrade {
@@ -871,73 +904,174 @@ map $http_upgrade $connection_upgrade {
 }
 
 server {
-    listen       80;
-    listen       [::]:80;
-    server_name  localhost;
+     listen 80 ;
+     listen       [::]:80;
+     server_name localhost;
 
-    location / {
-        root   /etc/nginx/html;
-        index  index.html index.htm;
-        try_files $uri /index.html;
-    }
+     location / {
+         root   /etc/nginx/html;
+         index  index.html index.htm;
+         try_files $uri /index.html;
+     }
 
-    # 后端跨域请求
-    location ~/admin/ {
-        proxy_pass http://172.17.0.1:8000;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
+     # 后端跨域请求
+     location ~/admin/ {
+         proxy_pass http://172.17.0.1:8000;
+         proxy_set_header Host $http_host;
+         proxy_set_header X-Real-IP $remote_addr;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header X-Forwarded-Proto $scheme;
+     }
 
-    error_page  404              404.html;
+     error_page  404              404.html;
 
-    location = /50x.html {
-        root   html;
-    }
+     location = /50x.html {
+         root   html;
+     }
 }
 ```
 
-## 项目部署
+如果你的暴露的端口和我一样是`80`
 
-使用WebStorm进行项目部署，项目上线时默认端口为80。因此，Docker默认暴露的IP端口也应为80，NGINX中默认暴露的端口也是80，三者应一一对应。
+![image-20241108154344561](http://116.196.101.14:9000/docs/auth/image-20241108154344561.png)
 
-若无法下载，请先使用pnpm下载。若不需使用pnpm，请删除或修改相应内容。
+### 使用https协议
 
-![image-20241026025057129](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026025057129.png)
+#### 环境准备
 
-### docker配置
+需要ssl证书这个是必要的，之后将ssl证书解压
 
-![image-20241026024116090](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024116090.png)
+![image-20241108145836035](http://116.196.101.14:9000/docs/auth/image-20241108145836035.png)
 
-### 配置环境
+解压后放到docker文件下
 
-设置启动端口号和项目地址机器后端请求地址
+![image-20241108151141289](http://116.196.101.14:9000/docs/auth/image-20241108151141289.png)
 
-![image-20241026024813858](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024813858.png)
+#### 注意事项
 
-#### 配置线上环境
+在docker文件中需要将证书相关信息复制到docker容器中，名称对应文件下的文件名，如果你想部署名称肯定是不一样的，当然你可以重命名成和我一样的
 
-设置项目启动端口号，线上环境默认请求路径为`/admin`，需在NGINX中将访问请求前缀更改为`/admin`。
+```dockerfile
+# 将自定义的 Nginx 配置文件复制到容器中
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY bunny-web.site.csr /etc/nginx/bunny-web.site.csr
+COPY bunny-web.site.key /etc/nginx/bunny-web.site.key
+COPY bunny-web.site_bundle.crt /etc/nginx/bunny-web.site_bundle.crt
+COPY bunny-web.site_bundle.pem /etc/nginx/bunny-web.site_bundle.pem
+```
 
-![image-20241026024940747](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024940747.png)
+如果使用的是SSL链接将端口号更改下，改成`443`
 
-![image-20241026024243785](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024243785.png)
+![image-20241108151643011](http://116.196.101.14:9000/docs/auth/image-20241108151643011.png)
 
-#### 配置开发环境
+配置NGINX的配置文件，这些文件内容网上都有可以参看腾讯云文档
 
-开发环境默认IP为7000，若与本地项目端口冲突，请修改。后端请求地址为7070。
+- 证书下载和配置方式：https://cloud.tencent.com/document/product/400/4143?from_cn_redirect=1
+- NGINX搭建SSL链接：https://cloud.tencent.com/document/product/400/35244
 
-前端设置的请求前缀为`/api`，但后端接受的前缀为`/admin`，因此需在服务中修改此内容。
+```nginx
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
 
-![image-20241026024318644](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026024318644.png)
+server {
+     #SSL 默认访问端口号为 443
+     listen 443 ssl;
+     #请填写绑定证书的域名
+     server_name localhost;
+     #请填写证书文件的相对路径或绝对路径
+     ssl_certificate bunny-web.site_bundle.crt;
+     #请填写私钥文件的相对路径或绝对路径
+     ssl_certificate_key bunny-web.site.key;
+     ssl_session_timeout 5m;
+     #请按照以下协议配置
+     ssl_protocols TLSv1.2 TLSv1.3;
+     #请按照以下套件配置，配置加密套件，写法遵循 openssl 标准。
+     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+     ssl_prefer_server_ciphers on;
 
-**修改请求路径**
+     location / {
+         root   /etc/nginx/html;
+         index  index.html index.htm;
+         try_files $uri /index.html;
+     }
 
-![image-20241026031651591](http://116.196.101.14:9000/docs/auth/undefinedimage-20241026031651591.png)
+     # 后端跨域请求
+     location ~/admin/ {
+         proxy_pass http://172.17.0.1:8000;
+         proxy_set_header Host $http_host;
+         proxy_set_header X-Real-IP $remote_addr;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header X-Forwarded-Proto $scheme;
+     }
 
-### 部署命令
+     error_page  404              404.html;
+
+     location = /50x.html {
+         root   html;
+     }
+ }
+
+server {
+     listen 80 ;
+     listen       [::]:80;
+     server_name localhost;
+     return 301 https://$host$request_uri;
+
+     location / {
+         root   /etc/nginx/html;
+         index  index.html index.htm;
+         try_files $uri /index.html;
+     }
+
+     # 后端跨域请求
+     location ~/admin/ {
+         proxy_pass http://172.17.0.1:8000;
+         proxy_set_header Host $http_host;
+         proxy_set_header X-Real-IP $remote_addr;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header X-Forwarded-Proto $scheme;
+     }
+
+     error_page  404              404.html;
+
+     location = /50x.html {
+         root   html;
+     }
+}
+```
+
+#### 运行docker文件
+
+![image-20241108151726981](http://116.196.101.14:9000/docs/auth/image-20241108151726981.png)
+
+![image-20241108151940158](http://116.196.101.14:9000/docs/auth/image-20241108151940158.png)
+
+> 命令预览
+>
+> ```sh
+> docker build -f Dockerfile -t bunny_auth_web:1.0.0 . && docker run -p 80:443 -p 443:443 --name bunny_auth_web --restart always bunny_auth_web:1.0.0 
+> ```
+
+## 后端部署
+
+开发环境环境：对外暴露的端口是`7070`
+
+生产环境：对外暴露的端口是`8000`
+
+需要先打包，打包完成后会在目录下生成对应的`target`相关文件
 
 ```bash
-docker build -f Dockerfile -t bunny_auth_web:1.0.0 . && docker run -p 80:80 --name bunny_auth_web --restart always bunny_auth_web:1.0.0
+# 开发环境
+mvn clean package -Pprod -DskipTests
+
+# 测试环境
+mvn clean package -Ptest -DskipTests
 ```
+
+![image-20241108153705104](http://116.196.101.14:9000/docs/auth/image-20241108153705104.png)
+
+这个文件夹是必须的
+
+![image-20241108153750097](http://116.196.101.14:9000/docs/auth/image-20241108153750097.png)

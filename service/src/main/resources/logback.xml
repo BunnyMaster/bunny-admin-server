@@ -1,18 +1,34 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<configuration debug="false"  xmlns="http://ch.qos.logback/xml/ns/logback"
-               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback
-                https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <contextName>logback</contextName>
 
-    <appender name="STOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- 格式化 年-月-日 输出 -->
+    <timestamp key="datetime" datePattern="yyyy-MM-dd"/>
+
+    <!--编码-->
+    <property name="ENCODING" value="UTF-8"/>
+
+    <!-- 控制台日志 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 临界值过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
         <encoder>
-            <pattern>
-                %cyan([%thread]) %yellow(%-5level) %green(%logger{100}).%boldRed(%method)-%boldMagenta(%line) - %blue(%msg%n)
-            </pattern>
+            <pattern>%cyan([%thread]) %yellow(%-5level) %green(%logger{100}).%boldRed(%method)-%boldMagenta(%line)- %blue(%msg%n)</pattern>
+            <charset>${ENCODING}</charset>
         </encoder>
     </appender>
 
-    <!-- additivity:false 禁止重复打印日志 -->
+    <!-- 文件日志 -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>/www/root/server/logs/${datetime}/auth-server.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss} [%-5level] %thread %file:%line %logger %msg%n</pattern>
+            <charset>${ENCODING}</charset>
+        </encoder>
+    </appender>
 
     <!-- 让SpringBoot内部日志ERROR级别 减少日志输出 -->
     <logger name="org.springframework" level="ERROR" additivity="false">
@@ -35,27 +51,18 @@
     </logger>
 
     <!-- 我们自己开发的程序为DEBUG -->
-    <logger name="com.redpig" level="DEBUG" additivity="false">
+    <logger name="cn.bunny" level="DEBUG" additivity="false">
         <appender-ref ref="STOUT"/>
     </logger>
-
 
     <logger name="com.baomidou" level="ERROR" additivity="false">
         <appender-ref ref="STOUT"/>
     </logger>
 
-    <logger name="com.zaxxer" level="ERROR" additivity="false">
-        <appender-ref ref="STOUT"/>
-    </logger>
-
-    <!-- Activiti日志 -->
-    <logger name="org.activiti" level="ERROR" />
-    <logger name="org.activiti.engine.impl.persistence.entity" level="DEBUG" />
-    <logger name="_org.springframework" level="ERROR" />
-    <logger name="springfox.documentation" level="ERROR" />
-
-    <!-- root级别开debug 子目录根据需要关闭 -->
-    <root level="DEBUG">
-        <appender-ref ref="STOUT"/>
+    <!-- 根日志记录器：INFO级别  -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </root>
+
 </configuration>

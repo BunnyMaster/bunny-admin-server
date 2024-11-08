@@ -14,8 +14,9 @@ logging:
     root: warn
   pattern:
     dateformat: HH:mm:ss:SSS
-  file:
-    path: "logs/${spring.application.name}"
+#  file:
+#    path: "logs/${spring.application.name}"
+#    name: "logs/${spring.application.name}"
 
 # 线上禁用文档
 knife4j:

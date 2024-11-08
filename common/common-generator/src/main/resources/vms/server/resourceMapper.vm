@@ -15,7 +15,7 @@
     </sql>
 
     <!-- 分页查询${classTitle}内容 -->
-    <select id="selectListByPage" resultType="${type}Vo">
+    <select id="selectListByPage" resultType="${voClassType}">
         select
         base.*,
         create_user.username as create_username,

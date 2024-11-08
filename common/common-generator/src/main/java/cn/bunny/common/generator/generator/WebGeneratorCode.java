@@ -3,8 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.system.message.MessageReceivedDto;
-import cn.bunny.dao.entity.system.Message;
+import cn.bunny.dao.dto.financial.category.CategoryAddDto;
+import cn.bunny.dao.dto.financial.category.CategoryDto;
+import cn.bunny.dao.dto.financial.category.CategoryUpdateDto;
+import cn.bunny.dao.entity.financial.Category;
+import cn.bunny.dao.vo.financial.CategoryVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,26 +36,27 @@ import java.util.stream.Stream;
 @Service
 public class WebGeneratorCode {
     // 公共路径
-    public static String commonPath = "D:\\MyFolder\\auth-admin\\auth-web\\src";
+    // public static String commonPath = "D:\\Project\\web\\PC\\financial\\financial-web\\src";
+    public static String commonPath = "D:\\MyFolder\\financial\\financial-web\\src";
     // 生成API请求路径
-    public static String apiPath = commonPath + "\\api\\v1\\";
+    public static String apiPath = commonPath + "\\api\\v1\\financial\\";
     // 生成vue路径
-    public static String vuePath = commonPath + "\\views\\message\\";
+    public static String vuePath = commonPath + "\\views\\financial\\";
     // 生成仓库路径
-    public static String storePath = commonPath + "\\store\\message\\";
+    public static String storePath = commonPath + "\\store\\financial\\";
     // 后端controller
-    public static String controllerPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\";
-    public static String servicePath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\";
-    public static String serviceImplPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\service\\impl\\";
-    public static String mapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\";
-    public static String resourceMapperPath = "D:\\MyFolder\\auth-admin\\auth-server-java\\service\\src\\main\\resources\\mapper\\";
+    public static String controllerPath = "D:\\MyFolder\\financial\\financial-server\\service\\src\\main\\java\\cn\\bunny\\services\\controller\\financial\\";
+    public static String servicePath = "D:\\MyFolder\\financial\\financial-server\\service\\src\\main\\java\\cn\\bunny\\services\\service\\financial\\";
+    public static String serviceImplPath = "D:\\MyFolder\\financial\\financial-server\\service\\src\\main\\java\\cn\\bunny\\services\\service\\financial\\impl\\";
+    public static String mapperPath = "D:\\MyFolder\\financial\\financial-server\\service\\src\\main\\java\\cn\\bunny\\services\\mapper\\financial\\";
+    public static String resourceMapperPath = "D:\\MyFolder\\financial\\financial-server\\service\\src\\main\\resources\\mapper\\financial\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = Message.class;
-        Class<?> dtoClass = MessageReceivedDto.class;
-        Class<?> addDtoClass = MessageReceivedDto.class;
-        // Class<?> updateDtoClass = MessageUpdateDto.class;
-        // Class<?> voClass = MessageVo.class;
+        Class<?> originalClass = Category.class;
+        Class<?> dtoClass = CategoryDto.class;
+        Class<?> addDtoClass = CategoryAddDto.class;
+        Class<?> updateDtoClass = CategoryUpdateDto.class;
+        Class<?> voClass = CategoryVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();
@@ -84,7 +88,7 @@ public class WebGeneratorCode {
         generatorWebCode(dtoClass, addDtoClass, context);
 
         // 生成后端
-        generatorServerCode(originalClass, dtoClass, context);
+        generatorServerCode(originalClass, dtoClass, voClass, context);
 
         // 写入文件
         writeFiles(lowercaseName, lowerHyphen, originalName, context);
@@ -141,7 +145,7 @@ public class WebGeneratorCode {
     /**
      * 生成后端内容
      */
-    public static void generatorServerCode(Class<?> originalClass, Class<?> dtoClass, VelocityContext context) {
+    public static void generatorServerCode(Class<?> originalClass, Class<?> dtoClass, Class<?> voClass, VelocityContext context) {
         Field[] superFields = originalClass.getSuperclass().getDeclaredFields();
         Field[] declaredFields = originalClass.getDeclaredFields();
         Field[] mergedArray = new Field[superFields.length + declaredFields.length];
@@ -168,9 +172,6 @@ public class WebGeneratorCode {
             return BaseResultMap.builder().column(column).property(name).build();
         }).toList();
 
-        // 类型加包名
-        String name = originalClass.getName();
-
         // 生层Base_Column_List
         String baseColumnList = Stream.of(mergedArray)
                 .map(field -> CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()))
@@ -180,7 +181,8 @@ public class WebGeneratorCode {
         String tableName = originalClass.getAnnotation(TableName.class).value();
 
         context.put("baseResultMaps", baseResultMaps);
-        context.put("type", name);
+        context.put("type", originalClass.getName());
+        context.put("voClassType", voClass.getName());
         context.put("baseColumnList", baseColumnList);
         context.put("tableName", tableName);
         context.put("pageQueryMap", pageQueryMap);
