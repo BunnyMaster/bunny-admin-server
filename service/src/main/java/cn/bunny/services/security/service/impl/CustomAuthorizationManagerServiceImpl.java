@@ -1,15 +1,20 @@
 package cn.bunny.services.security.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
+import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.entity.system.Role;
+import cn.bunny.dao.pojo.constant.RedisUserConstant;
+import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.security.custom.CustomCheckIsAdmin;
+import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
@@ -36,11 +41,48 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
     @Autowired
     private RoleMapper roleMapper;
 
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
     @SneakyThrows
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
         // 用户的token和用户id、请求Url
         HttpServletRequest request = context.getRequest();
+
+        // 判断是否有 token
+        String token = request.getHeader("token");
+        if (token == null) {
+            return new AuthorizationDecision(false);
+        }
+
+        // 判断 token 是否过期
+        if (JwtHelper.isExpired(token)) {
+            return new AuthorizationDecision(false);
+        }
+
+        // 解析JWT中的用户名
+        String username = JwtHelper.getUsername(token);
+        Long userId = JwtHelper.getUserId(token);
+
+        // 查找 Redis
+        Object loginVoObject = redisTemplate.opsForValue().get(RedisUserConstant.getAdminLoginInfoPrefix(username));
+        LoginVo loginVo = JSON.parseObject(JSON.toJSONString(loginVoObject), LoginVo.class);
+
+        // 登录信息为空
+        if (loginVo == null) {
+            return new AuthorizationDecision(false);
+        }
+
+        // 判断用户是否禁用
+        if (loginVo.getStatus()) {
+            return new AuthorizationDecision(false);
+        }
+
+        // 设置用户信息
+        BaseContext.setUsername(username);
+        BaseContext.setUserId(userId);
+        BaseContext.setLoginVo(loginVo);
 
         // 校验权限
         return new AuthorizationDecision(hasAuth(request));

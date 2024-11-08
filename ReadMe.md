@@ -1,3 +1,11 @@
+# 感谢
+
+项目由[小铭](https://github.com/xiaoxian521)开源权限模板[Pure-admin](https://pure-admin.github.io/vue-pure-admin/)
+
+Pure-admin文档：https://pure-admin.github.io/pure-admin-doc
+
+项目整体都由此模板开发
+
 # 项目预览
 
 不知道为什么，图床用的使自己的，Gitee就是不显示其它GitHub和Gitea都能显示就Gitee显示不出来，如果想用Gitee就把ReadMe文件下载下来也行；或者把项目clone下来看也可以

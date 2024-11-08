@@ -16,7 +16,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 public class SecurityAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-        String token = response.getHeader("token");
+        String token = request.getHeader("token");
         String message = authException.getMessage();
         // 创建结果对象
         Result<Object> result;

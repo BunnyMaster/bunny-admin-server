@@ -3,11 +3,11 @@ package cn.bunny.common.generator.generator;
 import cn.bunny.common.generator.entity.BaseField;
 import cn.bunny.common.generator.entity.BaseResultMap;
 import cn.bunny.common.generator.utils.GeneratorCodeUtils;
-import cn.bunny.dao.dto.financial.category.CategoryAddDto;
-import cn.bunny.dao.dto.financial.category.CategoryDto;
-import cn.bunny.dao.dto.financial.category.CategoryUpdateDto;
-import cn.bunny.dao.entity.financial.Category;
-import cn.bunny.dao.vo.financial.CategoryVo;
+import cn.bunny.dao.dto.system.user.AdminUserAddDto;
+import cn.bunny.dao.dto.system.user.AdminUserDto;
+import cn.bunny.dao.dto.system.user.AdminUserUpdateDto;
+import cn.bunny.dao.entity.system.AdminUser;
+import cn.bunny.dao.vo.system.user.AdminUserVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.base.CaseFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,11 +52,11 @@ public class WebGeneratorCode {
     public static String resourceMapperPath = "D:\\MyFolder\\financial\\financial-server\\service\\src\\main\\resources\\mapper\\financial\\";
 
     public static void main(String[] args) throws Exception {
-        Class<?> originalClass = Category.class;
-        Class<?> dtoClass = CategoryDto.class;
-        Class<?> addDtoClass = CategoryAddDto.class;
-        Class<?> updateDtoClass = CategoryUpdateDto.class;
-        Class<?> voClass = CategoryVo.class;
+        Class<?> originalClass = AdminUser.class;
+        Class<?> dtoClass = AdminUserDto.class;
+        Class<?> addDtoClass = AdminUserAddDto.class;
+        Class<?> updateDtoClass = AdminUserUpdateDto.class;
+        Class<?> voClass = AdminUserVo.class;
 
         // 设置velocity资源加载器
         Properties prop = new Properties();
