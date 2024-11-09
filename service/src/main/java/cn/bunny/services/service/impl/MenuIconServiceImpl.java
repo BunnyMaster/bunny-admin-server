@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -62,11 +63,11 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
     @Override
     public List<MenuIconVo> getIconNameList(String iconName) {
         return list(Wrappers.<MenuIcon>lambdaQuery().like(MenuIcon::getIconName, iconName))
-                .stream().map(menuIcon -> {
+                .stream().collect(Collectors.toMap(MenuIcon::getIconName, menuIcon -> {
                     MenuIconVo menuIconVo = new MenuIconVo();
                     BeanUtils.copyProperties(menuIcon, menuIconVo);
                     return menuIconVo;
-                }).toList();
+                }, (existing, replacement) -> existing)).values().stream().toList();
     }
 
     /**
