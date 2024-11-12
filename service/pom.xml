@@ -72,10 +72,10 @@
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <!-- 多数据库源插件 -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
-        </dependency>
+        <!-- <dependency> -->
+        <!--     <groupId>com.baomidou</groupId> -->
+        <!--     <artifactId>dynamic-datasource-spring-boot3-starter</artifactId> -->
+        <!-- </dependency> -->
         <!-- quartz定时任务 -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>

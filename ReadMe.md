@@ -8,15 +8,18 @@ Pure-admin文档：https://pure-admin.github.io/pure-admin-doc
 
 # 项目预览
 
-不知道为什么，图床用的使自己的，Gitee就是不显示其它GitHub和Gitea都能显示就Gitee显示不出来，如果想用Gitee就把ReadMe文件下载下来也行；或者把项目clone下来看也可以
-
 **线上地址**
 
 - 正式线上预览地址：http://bunny-web.site/#/welcome
+
   - 线上地址目前使用的是90天的SSL证书，可能会提示链接不安全，忽略就好了
 
 - 测试预览地址：http://106.15.251.123/#/welcome
   - 服务器到期时间：12月30日
+
+**打包视频**
+
+https://www.bilibili.com/video/BV1AYm8YSEKY/
 
 **Github地址**
 
@@ -47,7 +50,7 @@ sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/cen
 yum list docker-ce --showduplicates | sort -r
 
 # 安装docker
-yum -y install docker-ce.x86_64 
+yum -y install docker-ce.x86_64
 
 # 开机启动docker
 systemctl enable docker
@@ -78,7 +81,7 @@ tcp-keepalive 300 #防止出现远程主机强迫关闭了一个现有的连接�
 **删除注释**
 
 ```
-daemonize no 
+daemonize no
 requirepass 123456
 appendonly yes
 tcp-keepalive 300
@@ -162,20 +165,20 @@ FLUSH PRIVILEGES;
 > skip-name-resolve
 > secure-file-priv=/var/lib/mysql-files
 > user=mysql
-> 
+>
 > # 设置字符集
 > character-set-server=utf8mb4
 > collation-server=utf8mb4_unicode_ci
-> 
+>
 > # 设置服务器ID（如果是复制集群，确保每个节点的ID唯一）
 > server-id=1
-> 
+>
 > # 启用二进制日志
 > log-bin=mysql-bin
-> 
+>
 > # 设置表名不区分大小写
 > lower_case_table_names = 1
-> 
+>
 > ```
 
 ### 数据库文件
@@ -1059,7 +1062,7 @@ server {
 > 命令预览
 >
 > ```sh
-> docker build -f Dockerfile -t bunny_auth_web:1.0.0 . && docker run -p 80:443 -p 443:443 --name bunny_auth_web --restart always bunny_auth_web:1.0.0 
+> docker build -f Dockerfile -t bunny_auth_web:1.0.0 . && docker run -p 80:443 -p 443:443 --name bunny_auth_web --restart always bunny_auth_web:1.0.0
 > ```
 
 ## 后端部署

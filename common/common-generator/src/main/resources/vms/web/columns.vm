@@ -12,15 +12,16 @@ export const columns: TableColumnList = [
 #end
 { label: $t('table.updateTime'), prop: 'updateTime', sortable: true, width: 160 },
 { label: $t('table.createTime'), prop: 'createTime', sortable: true, width: 160 },
-{ label: $t('table.createUser'), prop: 'createUser', slot: 'createUser', width: 90 },
-{ label: $t('table.updateUser'), prop: 'updateUser', slot: 'updateUser', width: 90 },
+{ label: $t('table.createUser'), prop: 'createUser', slot: 'createUser', width: 130 },
+{ label: $t('table.updateUser'), prop: 'updateUser', slot: 'updateUser', width: 130 },
 { label: $t('table.operation'), fixed: 'right', width: 210, slot: 'operation' },
 ];
 
 // 添加规则
-export const rules = reactive<FormRules>({
-#foreach($field in $baseFieldList)
-// $field.annotation
-    $field.name: [{ required: true, message: `$leftBrace$t('input')}$leftBrace$t('${field.name}')}`, trigger: 'blur' }],
-#end
-});
+export const rules = reactive
+<FormRules>({
+    #foreach($field in $baseFieldList)
+        // $field.annotation
+        $field.name: [{ required: true, message: `$leftBrace$t('input')}$leftBrace$t('${field.name}')}`, trigger: 'blur' }],
+    #end
+    });
