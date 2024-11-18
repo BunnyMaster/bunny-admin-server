@@ -40,4 +40,7 @@ public class EmailUsersAddDto {
     @Schema(name = "isDefault", title = "是否为默认邮件")
     private Boolean isDefault = false;
 
+    @Schema(name = "openSSL", description = "启用SSL")
+    private Boolean openSSL;
+
 }

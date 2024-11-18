@@ -1,17 +1,17 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : 1
+ Source Server         : Ubuntu-Server-3304
  Source Server Type    : MySQL
- Source Server Version : 80036 (8.0.36)
- Source Host           : rm-bp12z6hlv46vi6g8mro.mysql.rds.aliyuncs.com:3306
- Source Schema         :  family_financial
+ Source Server Version : 80033 (8.0.33)
+ Source Host           : 192.168.3.129:3304
+ Source Schema         : auth_admin
 
  Target Server Type    : MySQL
- Target Server Version : 80036 (8.0.36)
+ Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 07/11/2024 08:49:28
+ Date: 18/11/2024 15:08:23
 */
 
 SET NAMES utf8mb4;
@@ -74,32 +74,15 @@ CREATE TABLE `log_user_login`  (
   INDEX `idx_ip_address`(`ip_address` ASC) USING BTREE,
   INDEX `idx_ip_region`(`ip_region` ASC) USING BTREE,
   INDEX `idx_type`(`type` ASC) USING BTREE,
-  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
-  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
-  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE,
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE,
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户登录日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of log_user_login
 -- ----------------------------
-INSERT INTO `log_user_login` VALUES (1853483943476412418, 1849444494908125181, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_y2MQQoCMQxF75L1FJo2M0lm6c5jNDaCgkUcCyPi3S3o2_334b1h6wYrHHprL5jA9zusyBkzEUuaoG_-ONbhhJQGShoF04yCv7OVm4-A_QPX52Us5hgreg4xnyjQWTzYsnDQwsVwNk25wucL8GMmoH0AAAA.xD-Zlc7qPntTQtB0XjT2WZU6N5vJuzQ3ZwPPHgIVvjQ', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:06:23', '2024-11-05 01:06:23', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853494064151527426, 1849444494908125181, 'bunny', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_y2MQQoCMQxF75L1FBqbtMks3XmMaVNBwSKOhRHx7lPRt_vvw3vD2jPMcOytvWCCut1hxhQwUELlCfpaHycbTkhpoKRe8MAo-DvbcqsjkP-B6_PyXZZZWM1FjOLIuDhJZ-80l5KieGMO8NkBhsYyI30AAAA.mr-RmZ0dK64wC7Z-dcC0S626iaqDexlKLQJpRU8VZjc', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:46:36', '2024-11-05 01:46:36', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853494344716910593, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMywrCMBBF_2XWDWQe6aRduvMzOiYFBYOYBBTpvzfg8p7DuT-o3WCFSy_lCxPkzwtWVEYWpZkm6DW_r2mwGFgWIRVhxUCq_i_L9szjoOXaRv9o9zE03LJtiG7efXJiRm4x712IiTVFjzszHCcrszBVfAAAAA.ZpfqbHowNqYJG6OUp1K6Kt_XY045l9XibQeWmrrxOYc', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:47:43', '2024-11-05 01:47:43', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853494495997067265, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQrDMAwE_6JzDLElRXGOvfUZtqJCCzWltqGl5O8x9LgzzP6g9gwbXHopX5jAPi_YvKBHkhDXCXq193UfbGWkSEGIUDwHkfkvS3raOGhW2-gf7T5GXhKTLdnhzWZHKQaXos-OFUV3UlZFOE6tt8bdfAAAAA.ofxCD6UFdczZejIJt91X_ZDO-tNnS1NO5oq3xpnsARM', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:48:19', '2024-11-05 01:48:19', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853494591576866818, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMywrCMBBF_2XWDWQe7XS6dOdnJHYEBYOYBCrivxtwec_h3A_UnmGDUy_lDRP48YQNlZFFmXCCXv113gdbZxYTUhFWnEk1_mVJDx8HzWsb_b3dxqCsq-zuYcnRgnhaQr6aBLlwNKSolgi-P417_sN8AAAA.rluoIqGB3aMfUypDqXpSh0XPqRNWQKxKJl0PO2Fjt_M', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:48:42', '2024-11-05 01:48:42', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853494661944705026, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMywrCMBBF_2XWDWQe7XS6dOdnJHYEBYOYBCrivxtwec_h3A_UnmGDUy_lDRP48YQNlZFFmXCCXv113gdbZxYTUhFWnEk1_mVJDx8HzWsb_b3dxqCsq-zuYcnRgnhaQr6aBLlwNKSolgi-P417_sN8AAAA.rluoIqGB3aMfUypDqXpSh0XPqRNWQKxKJl0PO2Fjt_M', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-11-05 01:48:58', '2024-11-05 01:48:58', 1853494274437152770, 1853494274437152770, 0);
-INSERT INTO `log_user_login` VALUES (1853494676960313345, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQpCMQwF75L1L_w0qWn_0p3HaGkKChaxLSji3Q24fDPM-8BYBQ44r97fsIG-HnCgEBILMW6whj4v1VgMxIm9MJNg8CL7X_Z8VzuYOqb1t3m1QS1JKcG7mpUc055dxBxcbWh1wVOLCb4_OxnVA3wAAAA.7XqNLBbF3WGeAxT49Awyj-jLTm5-xOK0JYN-HJhflLA', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:49:02', '2024-11-05 01:49:02', 1853494274437152770, 1853494274437152770, 0);
-INSERT INTO `log_user_login` VALUES (1853495088685776898, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQrCMBBF7zLrBpKZKb_t0p3HsJkpKBjEJKCIdzfg8r_H-x-qfaeNTr2UN03krwdtCZJEocwT9erPsw22zKKrMlQFaWYg_mW53H0cNK9t9Ld2HSMfwqpuQSQtQcUQ9sNyACOviWM0B31_NGP0xnwAAAA.8R07XX3BOdYDop4hjxZqEQ_8_hGNcWvIKBUdKGrnqbg', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-11-05 01:50:40', '2024-11-05 01:50:40', 1853494274437152770, 1853494274437152770, 0);
-INSERT INTO `log_user_login` VALUES (1853495095920951297, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIQxF75L1CEZjM86yux7DVAMtVEpVmFJ69xFm-d7j_x-0IbDBddT6hQXK_oYN2aMnJsIFRiufW55uDZ4iuWk9Y3DM9ow1vco86KX1uX_2x4TVZVW9R2PVkqHM0USfxIgQkoSLS6TwPwBQ5mfGfAAAAA.KUKzAGihKcjW-pWUnl8HHU0vtOm4yZX_IiRPVPIY5Y0', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:50:42', '2024-11-05 01:50:42', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853495230792990722, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIQxF75L1CMZEo7PsrscYOxFaqJSqMKX07iN0-d_j_S-0kWGFy6j1Awvo8YIVhZBYWGiB0fR93SeLnjixE2YS9E7E_mXdnjoPurY--0e_zxEksneazF44GEabTb5lMsVyiFgQkyT4nVjtOyd8AAAA.tqOFBu8V0yVvuIsNB4981hEaBw3WlrPPVQvikcFE8TA', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:51:14', '2024-11-05 01:51:14', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853495512633442306, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMwQrCMBBE_2XPDTTJLJv06M3PsM0WFAxiErAU_90FjzNv3pzUxkoLXUatB02knxctXqKPEIafaDR9X4t1iSMyggBRPAeR-Q_r7al20LV18x_9bmENti0lu5CLOjDUJWZ2OcIn2TFj2-j7A-MKnQ58AAAA.qbe74g9rQoSlh9QUCSHV5uWOpo-eMM6VwFhLZkD_Fkg', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:52:21', '2024-11-05 01:52:21', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853495548519907330, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMwQrCMBBE_2XPDTTJLJv06M3PsM0WFAxiErAU_90FjzNv3pzUxkoLXUatB02knxctXqKPEIafaDR9X4t1iSMyggBRPAeR-Q_r7al20LV18x_9bmENti0lu5CLOjDUJWZ2OcIn2TFj2-j7A-MKnQ58AAAA.qbe74g9rQoSlh9QUCSHV5uWOpo-eMM6VwFhLZkD_Fkg', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-11-05 01:52:30', '2024-11-05 01:52:30', 1853494274437152770, 1853494274437152770, 0);
-INSERT INTO `log_user_login` VALUES (1853495561320923137, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIQxF75L1CKNJzDjL7noMHSO0UClVYUrp3St0-d_j_Q-0kWCHy6j1DQvo-YTdClokYXYLjKava55sY6RATohQLDuR9S9rfOg86Nr67O_9NkdWV1gSGZ95NZSKmi0Gb2I40uFDcIoFvj8idDaqfAAAAA.fhfrkrG2TW68qEiFd3R-YHN0t7ehoOI3rlfRIQrxIRA', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:52:33', '2024-11-05 01:52:33', 1853494274437152770, 1853494274437152770, 0);
-INSERT INTO `log_user_login` VALUES (1853496879666167809, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIQxF75L1CJrExsyyux7DGRVaqJSq0FLm7iN0-d_j_R-0scEK11HrFxbInxesTsgRS_B-gdHy-5YmC55YGYWZxHkUsX9Z4zPPg55bn_2j3-dQKgmD7iaGCxsumzUaFY1lSoiMe0GG4wQEP9-tfAAAAA.3OaCujGEDi-3vmvhRA5CiBPF-0Eh1NPx-dQrfDTsAjQ', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'logout', 'XMLHttpRequest', '2024-11-05 01:57:47', '2024-11-05 01:57:47', 1853494274437152770, 1853494274437152770, 0);
-INSERT INTO `log_user_login` VALUES (1853496895885541378, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_zWMQQoDIRAE_zLnFdadkdY95pZnjDiBDURCVEhY8vd4ybGrqD6pjUw7XUatH1rI3k_aPdizIGJdaDR7XctkMbAk2SDC8GHDX1Z92Dzo1vrs7_2YI6vcGJYcq0YniuxUVnUlGFIUn4oafX9-5b_efAAAAA.njXXAIjDMVx9ZyVYXoQ92k5f-GtMQcRhjFiEG0q6LuA', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:57:51', '2024-11-05 01:57:51', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853497040010215425, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoDIRAE_zLnFRwdad1jbnmG7s5hA5EQFRKW_D2GHKuLrpPaKLTSZdT6poX09aCV4dkLkg0LjabP6z63GLwkcRDx4OAA-5c133UGurY-_7d-THCRcyilGFXdjLCDyfGHmwrUJiCDPl95vP68fAAAAA.veX9m6vjisjmiH8vkpPNgpgkr_V0FZMklFyzDQc1vTc', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 01:58:25', '2024-11-05 01:58:25', 1, 1, 0);
-INSERT INTO `log_user_login` VALUES (1853731845914324993, 1853494274437152770, 'test', 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_yWMQQoCMQxF75L1FJI2JZlZuvMYjZOCgkVsBxTx7hZc_vd4_wP9MNjgdLT2hgX89YCNJBFjUpUFju7P8z6Z5sQrR2FOQjmK4F-2cvd5MLyP2d_GdQ4v2c2qBkXEwLRSKIw1xP2S1Q0rmcH3BzQtEYF8AAAA.FqINnUWqWySUL4aSf-zTm08fTS4V8IARCBIwN4r5PsE', '127.0.0.1', '内网IP', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'login', 'XMLHttpRequest', '2024-11-05 17:31:27', '2024-11-05 17:31:27', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -460,6 +443,7 @@ CREATE TABLE `sys_email_users`  (
   `host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'Host地址',
   `port` int NOT NULL COMMENT '端口号',
   `smtp_agreement` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱协议',
+  `open_ssl` tinyint NOT NULL DEFAULT 1 COMMENT '是否启用ssl',
   `is_default` tinyint NULL DEFAULT NULL COMMENT '是否为默认邮件',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -478,7 +462,7 @@ CREATE TABLE `sys_email_users`  (
 -- ----------------------------
 -- Records of sys_email_users
 -- ----------------------------
-INSERT INTO `sys_email_users` VALUES (2, '3324855376@qq.com', 'fdehkkbmavalcjea', 'smtp.qq.com', 465, 'smtps', 1, '2024-05-14 18:43:50', '2024-10-28 09:57:10', 0, 1, 0);
+INSERT INTO `sys_email_users` VALUES (2, '3324855376@qq.com', 'fdehkkbmavalcjea', 'smtp.qq.com', 465, 'smtps', 1, 1, '2024-05-14 18:43:50', '2024-11-18 14:00:13', 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_files
@@ -584,7 +568,7 @@ CREATE TABLE `sys_i18n`  (
 -- ----------------------------
 -- Records of sys_i18n
 -- ----------------------------
-INSERT INTO `sys_i18n` VALUES (1840622816000196609, 'menus.pureSuccess', '成功页面', 'zh', 1, 1, '2024-11-01 22:45:42', '2024-09-30 21:20:51', 0);
+INSERT INTO `sys_i18n` VALUES (1840622816000196609, 'menus.pureSuccess', '成功页面', 'zh', 1, 1, '2024-11-14 23:34:23', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622816000196610, 'menus.pureInfiniteScroll', '表格无限滚动', 'zh', 1, 1849444494908125181, '2024-10-30 21:17:23', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622816000196611, 'menus.pureSplitPane', '切割面板', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622816000196612, 'menus.pureDownload', '下载', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
@@ -1763,6 +1747,8 @@ INSERT INTO `sys_i18n` VALUES (1853470365352542209, 'routerName', '路由名称'
 INSERT INTO `sys_i18n` VALUES (1853470446734622721, 'routerName', 'Route name', 'en', 1, 1, '2024-11-05 00:12:45', '2024-11-05 00:12:45', 0);
 INSERT INTO `sys_i18n` VALUES (1853471662109704193, 'index', '序号', 'zh', 1, 1, '2024-11-05 00:17:35', '2024-11-05 00:17:35', 0);
 INSERT INTO `sys_i18n` VALUES (1853471674294157314, 'index', 'index', 'en', 1, 1, '2024-11-05 00:17:38', '2024-11-05 00:17:38', 0);
+INSERT INTO `sys_i18n` VALUES (1858391490041827330, 'viewTemplate', '查看模板', 'zh', 1, 1, '2024-11-18 14:07:13', '2024-11-18 14:07:13', 0);
+INSERT INTO `sys_i18n` VALUES (1858391514452676610, 'viewTemplate', 'View template', 'en', 1, 1, '2024-11-18 14:07:19', '2024-11-18 14:07:19', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n_type
@@ -1907,6 +1893,7 @@ CREATE TABLE `sys_message`  (
 -- Records of sys_message
 -- ----------------------------
 INSERT INTO `sys_message` VALUES (1853350668003000322, '去', 1, 1851498066518687745, 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', '啊', 'IVtdKGh0dHA6Ly8xOTIuMTY4LjMuOTg6OTAwMC9hdXRoLWFkbWluL21lc3NhZ2UvMjAyNC8xMS0wNC85MzExYzdlNC01NTg1LTRiZDMtYjY1Yi04ZjI0Y2Y5NjAzYjYucG5nKQo=', 'markdown', 'primary', '啊', '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
+INSERT INTO `sys_message` VALUES (1854932653951488002, 'a', 1, 1851498066518687745, 'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoj0hHXhgJNOTSOFsS4uZs8x1ConecaVOB8eIl115xmJZcT4oCicvia7wMEufibKtTLqiaJeanU2Lpg3w/132', 'aa', 'PHA+YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhPC9wPg==', 'rich', 'primary', 'a', '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_message_received
@@ -1939,6 +1926,13 @@ INSERT INTO `sys_message_received` VALUES (1853350668003000325, 1849681227633758
 INSERT INTO `sys_message_received` VALUES (1853350668003000326, 1850075157831454722, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1853350668003000327, 1850080272764211202, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1853350668003000328, 1850789068551200769, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1854932653997625346, 1, 1854932653951488002, 1, '2024-11-09 01:03:02', '2024-11-09 01:03:16', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1854932653997625347, 1849444494908125181, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1854932653997625348, 1849681227633758210, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1854932653997625349, 1850075157831454722, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1854932653997625350, 1850080272764211202, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1854932653997625351, 1850789068551200769, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1854932653997625352, 1853494274437152770, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_message_type
@@ -2001,121 +1995,121 @@ CREATE TABLE `sys_power`  (
 -- ----------------------------
 -- Records of sys_power
 -- ----------------------------
-INSERT INTO `sys_power` VALUES (1, 0, 'admin::user', '用户信息', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (2, 0, 'admin::schedulersGroup', '任务调度分组', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (3, 0, 'admin::schedulers', '调度任务', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (4, 0, 'admin::router', '系统路由', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (5, 0, 'admin::role', '角色', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (6, 0, 'admin::power', '权限', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (7, 0, 'admin::messageType', '系统消息类型', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (8, 0, 'admin::messageReceived', '消息接收(用户消息)', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (9, 0, 'admin::message', '系统消息', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (10, 0, 'admin::menuIcon', '系统菜单图标', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (11, 0, 'admin::i18nType', '多语言类型', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (12, 0, 'admin::i18n', '多语言', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (13, 0, 'admin::files', '系统文件表', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (14, 0, 'admin::emailUsers', '邮箱用户发送配置', NULL, '2024-11-04 01:50:17', '2024-11-04 01:56:59', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (15, 0, 'admin::emailTemplate', '邮件模板', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (16, 0, 'admin::dept', '系统部门', NULL, '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (17, 0, 'admin::config', '系统配置', NULL, '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (18, 0, 'admin::userRole', '用户和角色', NULL, '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (19, 0, 'admin::routerRole', '路由和角色', NULL, '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (20, 0, 'admin::rolePower', '角色和权限', NULL, '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (21, 0, 'admin::userLoginLog', '用户登录日志', NULL, '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (22, 0, 'admin::quartzExecuteLog', '调度任务执行日志', NULL, '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1, 0, 'admin::user', '用户信息', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (2, 0, 'admin::schedulersGroup', '任务调度分组', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (3, 0, 'admin::schedulers', '调度任务', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (4, 0, 'admin::router', '系统路由', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (5, 0, 'admin::role', '角色', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (6, 0, 'admin::power', '权限', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (7, 0, 'admin::messageType', '系统消息类型', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (8, 0, 'admin::messageReceived', '消息接收(用户消息)', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (9, 0, 'admin::message', '系统消息', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (10, 0, 'admin::menuIcon', '系统菜单图标', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (11, 0, 'admin::i18nType', '多语言类型', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (12, 0, 'admin::i18n', '多语言', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (13, 0, 'admin::files', '系统文件表', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (14, 0, 'admin::emailUsers', '邮箱用户发送配置', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (15, 0, 'admin::emailTemplate', '邮件模板', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (16, 0, 'admin::dept', '系统部门', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (17, 0, 'admin::config', '系统配置', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (18, 0, 'admin::userRole', '用户和角色', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (19, 0, 'admin::routerRole', '路由和角色', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (20, 0, 'admin::rolePower', '角色和权限', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (21, 0, 'admin::userLoginLog', '用户登录日志', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (22, 0, 'admin::quartzExecuteLog', '调度任务执行日志', NULL, '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1849471636643618818, 0, 'admin::actuator', 'actuator端点访问', '', '2024-10-24 23:22:54', '2024-10-24 23:22:54', 1, 1, 0);
 INSERT INTO `sys_power` VALUES (1849471846698557442, 1849471636643618818, 'actuator::all', 'Springboot端点全部可以访问', '/admin/actuator/**', '2024-10-24 23:23:44', '2024-10-28 10:32:27', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602405126145, 1, 'user::uploadAvatarByAdmin', '管理员修改用户头像', '/admin/user/uploadAvatarByAdmin', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602518372354, 1, 'user::updateUserStatusByAdmin', '管理员修改用户状态', '/admin/user/updateUserStatusByAdmin', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602572898306, 1, 'user::updateUserPasswordByAdmin', '管理员修改管理员用户密码', '/admin/user/updateUserPasswordByAdmin', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602619035650, 1, 'user::updateAdminUser', '更新用户信息，需要更新Redis中的内容', '/admin/user/updateAdminUser', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602660978690, 1, 'user::forcedOffline', '强制退出', '/admin/user/forcedOffline', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602711310337, 1, 'user::addAdminUser', '添加用户信息', '/admin/user/addAdminUser', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602761641985, 1, 'user::getUserinfoById', '根据用户ID获取用户信息，不包含Redis中的信息', '/admin/user/getUserinfoById', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602803585025, 1, 'user::getAdminUserList', '分页查询用户信息', '/admin/user/getAdminUserList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602849722370, 1, 'user::deleteAdminUser', '删除用户', '/admin/user/deleteAdminUser', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132602921025538, 2, 'schedulersGroup::updateSchedulersGroup', '更新任务调度分组', '/admin/schedulersGroup/updateSchedulersGroup', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603000717314, 2, 'schedulersGroup::addSchedulersGroup', '添加任务调度分组', '/admin/schedulersGroup/addSchedulersGroup', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603055243266, 2, 'schedulersGroup::getSchedulersGroupList', '分页查询任务调度分组', '/admin/schedulersGroup/getSchedulersGroupList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603101380609, 2, 'schedulersGroup::getAllSchedulersGroup', '获取所有任务调度分组', '/admin/schedulersGroup/getAllSchedulersGroup', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603147517953, 2, 'schedulersGroup::deleteSchedulersGroup', '删除任务调度分组', '/admin/schedulersGroup/deleteSchedulersGroup', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603235598337, 3, 'schedulers::resumeSchedulers', '恢复任务', '/admin/schedulers/resumeSchedulers', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603302707202, 3, 'schedulers::pauseSchedulers', '暂停任务', '/admin/schedulers/pauseSchedulers', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603353038849, 3, 'schedulers::addSchedulers', '添加任务', '/admin/schedulers/addSchedulers', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603394981890, 3, 'schedulers::getSchedulersList', '分页查询视图', '/admin/schedulers/getSchedulersList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603432730625, 3, 'schedulers::deleteSchedulers', '删除任务', '/admin/schedulers/deleteSchedulers', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603516616705, 4, 'router::updateMenu', '更新路由菜单', '/admin/router/updateMenu', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603575336961, 4, 'router::updateMenuByIdWithRank', '快速更新菜单排序', '/admin/router/updateMenuByIdWithRank', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603613085697, 4, 'router::addMenu', '添加路由菜单', '/admin/router/addMenu', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603655028737, 4, 'router::getMenusList', '分页查询管理菜单列表', '/admin/router/getMenusList', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603717943297, 4, 'router::deletedMenuByIds', '删除路由菜单', '/admin/router/deletedMenuByIds', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603797635073, 5, 'role::updateRole', '更新角色', '/admin/role/updateRole', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603864743938, 5, 'role::addRole', '添加角色', '/admin/role/addRole', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603898298369, 5, 'role::getRoleList', '分页查询角色', '/admin/role/getRoleList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132603940241410, 5, 'role::deleteRole', '删除角色', '/admin/role/deleteRole', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604015738881, 6, 'power::updatePower', '更新权限', '/admin/power/updatePower', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604091236354, 6, 'power::updateBatchByPowerWithParentId', '批量修改权限父级', '/admin/power/updateBatchByPowerWithParentId', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604124790786, 6, 'power::addPower', '添加权限', '/admin/power/addPower', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604158345217, 6, 'power::getPowerList', '分页查询权限', '/admin/power/getPowerList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604196093953, 6, 'power::getAllPowers', '获取所有权限', '/admin/power/getAllPowers', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604229648386, 6, 'power::deletePower', '删除权限', '/admin/power/deletePower', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604300951553, 7, 'messageType::updateMessageType', '更新系统消息类型', '/admin/messageType/updateMessageType', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604363866113, 7, 'messageType::addMessageType', '添加系统消息类型', '/admin/messageType/addMessageType', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604401614850, 7, 'messageType::getMessageTypeList', '分页查询系统消息类型', '/admin/messageType/getMessageTypeList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604435169282, 7, 'messageType::deleteMessageType', '删除系统消息类型', '/admin/messageType/deleteMessageType', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604502278146, 8, 'messageReceived::updateMarkMessageReceived', '管理员将用户消息标为已读', '/admin/messageReceived/updateMarkMessageReceived', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604560998402, 8, 'messageReceived::getMessageReceivedList', '管理员分页查询用户消息', '/admin/messageReceived/getMessageReceivedList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604594552834, 8, 'messageReceived::deleteMessageReceivedByIds', '管理删除用户消息', '/admin/messageReceived/deleteMessageReceivedByIds', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604674244610, 9, 'message::updateMessage', '更新系统消息', '/admin/message/updateMessage', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604732964866, 9, 'message::addMessage', '添加系统消息', '/admin/message/addMessage', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604770713602, 9, 'message::getMessageList', '分页查询发送消息', '/admin/message/getMessageList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604804268033, 9, 'message::deleteMessage', '删除系统消息', '/admin/message/deleteMessage', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604875571201, 10, 'menuIcon::updateMenuIcon', '更新系统菜单图标', '/admin/menuIcon/updateMenuIcon', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604925902850, 10, 'menuIcon::addMenuIcon', '添加系统菜单图标', '/admin/menuIcon/addMenuIcon', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604955262977, 10, 'menuIcon::getMenuIconList', '分页查询系统菜单图标', '/admin/menuIcon/getMenuIconList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132604988817409, 10, 'menuIcon::deleteMenuIcon', '删除系统菜单图标', '/admin/menuIcon/deleteMenuIcon', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605055926274, 11, 'i18nType::updateI18nType', '更新多语言类型', '/admin/i18nType/updateI18nType', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605114646530, 11, 'i18nType::addI18nType', '添加多语言类型', '/admin/i18nType/addI18nType', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605148200962, 11, 'i18nType::deleteI18nType', '删除多语言类型', '/admin/i18nType/deleteI18nType', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605211115521, 12, 'i18n::updateI18n', '更新多语言', '/admin/i18n/updateI18n', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605265641474, 12, 'i18n::addI18n', '添加多语言', '/admin/i18n/addI18n', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605303390210, 12, 'i18n::getI18n', '获取多语言内容', '/admin/i18n/getI18n', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605341138945, 12, 'i18n::getI18nList', '获取管理多语言列', '/admin/i18n/getI18nList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605374693378, 12, 'i18n::deleteI18n', '删除多语言', '/admin/i18n/deleteI18n', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605433413634, 13, 'files::updateFiles', '更新系统文件', '/admin/files/updateFiles', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605496328193, 13, 'files::upload', '上传文件', '/admin/files/upload', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605534076929, 13, 'files::addFiles', '添加系统文件', '/admin/files/addFiles', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605559242753, 13, 'files::getFilesList', '分页查询系统文件', '/admin/files/getFilesList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605588602881, 13, 'files::downloadFilesByFilepath', '根据文件名下载文件', '/admin/files/downloadFilesByFilepath', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605622157313, 13, 'files::downloadFilesByFileId', '下载文件', '/admin/files/downloadFilesByFileId/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605655711745, 13, 'files::deleteFiles', '删除系统文件', '/admin/files/deleteFiles', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605714432001, 14, 'emailUsers::updateEmailUsers', '更新邮箱用户发送配置', '/admin/emailUsers/updateEmailUsers', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605764763650, 14, 'emailUsers::updateEmailUserStatus', '更新邮箱用户状态', '/admin/emailUsers/updateEmailUserStatus', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605802512385, 14, 'emailUsers::addEmailUsers', '添加邮箱用户发送配置', '/admin/emailUsers/addEmailUsers', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605836066818, 14, 'emailUsers::getEmailUsersList', '分页查询邮箱用户发送配置', '/admin/emailUsers/getEmailUsersList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605865426946, 14, 'emailUsers::deleteEmailUsers', '删除邮箱用户', '/admin/emailUsers/deleteEmailUsers', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605928341505, 15, 'emailTemplate::updateEmailTemplate', '更新邮件模板', '/admin/emailTemplate/updateEmailTemplate', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132605982867458, 15, 'emailTemplate::addEmailTemplate', '添加邮件模板', '/admin/emailTemplate/addEmailTemplate', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606016421890, 15, 'emailTemplate::getEmailTypes', '获取邮件模板类型字段', '/admin/emailTemplate/getEmailTypes', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606049976321, 15, 'emailTemplate::getEmailTemplateList', '分页查询邮件模板', '/admin/emailTemplate/getEmailTemplateList/.*', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606087725057, 15, 'emailTemplate::deleteEmailTemplate', '删除邮件模板', '/admin/emailTemplate/deleteEmailTemplate', '2024-11-04 01:50:17', '2024-11-04 01:50:17', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606150639618, 16, 'dept::updateDept', '更新部门', '/admin/dept/updateDept', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606205165569, 16, 'dept::addDept', '添加部门', '/admin/dept/addDept', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606238720002, 16, 'dept::getDeptList', '分页查询部门', '/admin/dept/getDeptList/.*', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606297440257, 16, 'dept::deleteDept', '删除部门', '/admin/dept/deleteDept', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606372937729, 17, 'config::updateWebConfiguration', '更新web配置文件', '/admin/config/updateWebConfiguration', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606427463682, 17, 'config::getWebConfig', '获取修改web配置文件', '/admin/config/getWebConfig', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606498766849, 18, 'userRole::assignRolesToUsers', '为用户分配角色', '/admin/userRole/assignRolesToUsers', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606553292801, 18, 'userRole::getRoleListByUserId', '根据用户id获取角色列', '/admin/userRole/getRoleListByUserId', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606612013057, 19, 'routerRole::assignRolesToRouter', '为菜单分配角色', '/admin/routerRole/assignRolesToRouter', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606662344706, 19, 'routerRole::assignAddBatchRolesToRouter', '批量为菜单添加角色', '/admin/routerRole/assignAddBatchRolesToRouter', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606695899137, 19, 'routerRole::getRoleListByRouterId', '根据菜单id获取所有角色', '/admin/routerRole/getRoleListByRouterId', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606725259266, 19, 'routerRole::clearAllRolesSelect', '清除选中菜单所有角色', '/admin/routerRole/clearAllRolesSelect', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606800756738, 20, 'rolePower::assignPowersToRole', '为角色分配权限', '/admin/rolePower/assignPowersToRole', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606888837121, 21, 'userLoginLog::getUserLoginLogList', '分页查询用户登录日志', '/admin/userLoginLog/getUserLoginLogList/.*', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132606939168770, 21, 'userLoginLog::deleteUserLoginLog', '删除用户登录日志', '/admin/userLoginLog/deleteUserLoginLog', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132607002083329, 22, 'quartzExecuteLog::getQuartzExecuteLogList', '分页查询调度任务执行日志', '/admin/quartzExecuteLog/getQuartzExecuteLogList/.*', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
-INSERT INTO `sys_power` VALUES (1853132607056609281, 22, 'quartzExecuteLog::deleteQuartzExecuteLog', '删除调度任务执行日志', '/admin/quartzExecuteLog/deleteQuartzExecuteLog', '2024-11-04 01:50:18', '2024-11-04 01:50:18', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660459929601, 1, 'user::uploadAvatarByAdmin', '管理员修改用户头像', '/admin/user/uploadAvatarByAdmin', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660589953025, 1, 'user::updateUserStatusByAdmin', '管理员修改用户状态', '/admin/user/updateUserStatusByAdmin', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660589953026, 1, 'user::updateUserPasswordByAdmin', '管理员修改管理员用户密码', '/admin/user/updateUserPasswordByAdmin', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660589953027, 1, 'user::updateAdminUser', '更新用户信息，需要更新Redis中的内容', '/admin/user/updateAdminUser', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660657061889, 1, 'user::forcedOffline', '强制退出', '/admin/user/forcedOffline', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660657061890, 1, 'user::addAdminUser', '添加用户信息', '/admin/user/addAdminUser', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660724170753, 1, 'user::getUserinfoById', '根据用户ID获取用户信息，不包含Redis中的信息', '/admin/user/getUserinfoById', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660724170754, 1, 'user::getAdminUserList', '分页查询用户信息', '/admin/user/getAdminUserList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660791279618, 1, 'user::deleteAdminUser', '删除用户', '/admin/user/deleteAdminUser', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660791279619, 2, 'schedulersGroup::updateSchedulersGroup', '更新任务调度分组', '/admin/schedulersGroup/updateSchedulersGroup', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660854194177, 2, 'schedulersGroup::addSchedulersGroup', '添加任务调度分组', '/admin/schedulersGroup/addSchedulersGroup', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660921303041, 2, 'schedulersGroup::getSchedulersGroupList', '分页查询任务调度分组', '/admin/schedulersGroup/getSchedulersGroupList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660921303042, 2, 'schedulersGroup::getAllSchedulersGroup', '获取所有任务调度分组', '/admin/schedulersGroup/getAllSchedulersGroup', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393660921303043, 2, 'schedulersGroup::deleteSchedulersGroup', '删除任务调度分组', '/admin/schedulersGroup/deleteSchedulersGroup', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661051326466, 3, 'schedulers::resumeSchedulers', '恢复任务', '/admin/schedulers/resumeSchedulers', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661051326467, 3, 'schedulers::pauseSchedulers', '暂停任务', '/admin/schedulers/pauseSchedulers', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661114241025, 3, 'schedulers::addSchedulers', '添加任务', '/admin/schedulers/addSchedulers', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661114241026, 3, 'schedulers::getSchedulersList', '分页查询视图', '/admin/schedulers/getSchedulersList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661114241027, 3, 'schedulers::deleteSchedulers', '删除任务', '/admin/schedulers/deleteSchedulers', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661177155585, 4, 'router::updateMenu', '更新路由菜单', '/admin/router/updateMenu', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661240070145, 4, 'router::updateMenuByIdWithRank', '快速更新菜单排序', '/admin/router/updateMenuByIdWithRank', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661240070146, 4, 'router::addMenu', '添加路由菜单', '/admin/router/addMenu', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661307179009, 4, 'router::getMenusList', '分页查询管理菜单列表', '/admin/router/getMenusList', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661307179010, 4, 'router::deletedMenuByIds', '删除路由菜单', '/admin/router/deletedMenuByIds', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661370093570, 5, 'role::updateRole', '更新角色', '/admin/role/updateRole', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661433008129, 5, 'role::addRole', '添加角色', '/admin/role/addRole', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661433008130, 5, 'role::getRoleList', '分页查询角色', '/admin/role/getRoleList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661500116994, 5, 'role::deleteRole', '删除角色', '/admin/role/deleteRole', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661500116995, 6, 'power::updatePower', '更新权限', '/admin/power/updatePower', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661567225858, 6, 'power::updateBatchByPowerWithParentId', '批量修改权限父级', '/admin/power/updateBatchByPowerWithParentId', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661567225859, 6, 'power::addPower', '添加权限', '/admin/power/addPower', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661630140418, 6, 'power::getPowerList', '分页查询权限', '/admin/power/getPowerList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661630140419, 6, 'power::getAllPowers', '获取所有权限', '/admin/power/getAllPowers', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661697249282, 6, 'power::deletePower', '删除权限', '/admin/power/deletePower', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661760163841, 7, 'messageType::updateMessageType', '更新系统消息类型', '/admin/messageType/updateMessageType', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661760163842, 7, 'messageType::addMessageType', '添加系统消息类型', '/admin/messageType/addMessageType', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661827272706, 7, 'messageType::getMessageTypeList', '分页查询系统消息类型', '/admin/messageType/getMessageTypeList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661827272707, 7, 'messageType::deleteMessageType', '删除系统消息类型', '/admin/messageType/deleteMessageType', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661890187265, 8, 'messageReceived::updateMarkMessageReceived', '管理员将用户消息标为已读', '/admin/messageReceived/updateMarkMessageReceived', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661957296130, 8, 'messageReceived::getMessageReceivedList', '管理员分页查询用户消息', '/admin/messageReceived/getMessageReceivedList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393661957296131, 8, 'messageReceived::deleteMessageReceivedByIds', '管理删除用户消息', '/admin/messageReceived/deleteMessageReceivedByIds', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662020210690, 9, 'message::updateMessage', '更新系统消息', '/admin/message/updateMessage', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662020210691, 9, 'message::addMessage', '添加系统消息', '/admin/message/addMessage', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662083125250, 9, 'message::getMessageList', '分页查询发送消息', '/admin/message/getMessageList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662083125251, 9, 'message::deleteMessage', '删除系统消息', '/admin/message/deleteMessage', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662150234114, 10, 'menuIcon::updateMenuIcon', '更新系统菜单图标', '/admin/menuIcon/updateMenuIcon', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662213148674, 10, 'menuIcon::addMenuIcon', '添加系统菜单图标', '/admin/menuIcon/addMenuIcon', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662213148675, 10, 'menuIcon::getMenuIconList', '分页查询系统菜单图标', '/admin/menuIcon/getMenuIconList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662280257537, 10, 'menuIcon::deleteMenuIcon', '删除系统菜单图标', '/admin/menuIcon/deleteMenuIcon', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662280257538, 11, 'i18nType::updateI18nType', '更新多语言类型', '/admin/i18nType/updateI18nType', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662343172098, 11, 'i18nType::addI18nType', '添加多语言类型', '/admin/i18nType/addI18nType', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662343172099, 11, 'i18nType::deleteI18nType', '删除多语言类型', '/admin/i18nType/deleteI18nType', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662406086658, 12, 'i18n::updateI18n', '更新多语言', '/admin/i18n/updateI18n', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662469001217, 12, 'i18n::addI18n', '添加多语言', '/admin/i18n/addI18n', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662469001218, 12, 'i18n::getI18n', '获取多语言内容', '/admin/i18n/getI18n', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662469001219, 12, 'i18n::getI18nList', '获取管理多语言列', '/admin/i18n/getI18nList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662536110082, 12, 'i18n::deleteI18n', '删除多语言', '/admin/i18n/deleteI18n', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662603218946, 13, 'files::updateFiles', '更新系统文件', '/admin/files/updateFiles', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662603218947, 13, 'files::upload', '上传文件', '/admin/files/upload', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662666133506, 13, 'files::addFiles', '添加系统文件', '/admin/files/addFiles', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662666133507, 13, 'files::getFilesList', '分页查询系统文件', '/admin/files/getFilesList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662666133508, 13, 'files::downloadFilesByFilepath', '根据文件名下载文件', '/admin/files/downloadFilesByFilepath', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662729048065, 13, 'files::downloadFilesByFileId', '下载文件', '/admin/files/downloadFilesByFileId/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662729048066, 13, 'files::deleteFiles', '删除系统文件', '/admin/files/deleteFiles', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662800351233, 14, 'emailUsers::updateEmailUsers', '更新邮箱用户发送配置', '/admin/emailUsers/updateEmailUsers', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662800351234, 14, 'emailUsers::updateEmailUserStatus', '更新邮箱用户状态', '/admin/emailUsers/updateEmailUserStatus', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662863265794, 14, 'emailUsers::addEmailUsers', '添加邮箱用户发送配置', '/admin/emailUsers/addEmailUsers', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662863265795, 14, 'emailUsers::getEmailUsersList', '分页查询邮箱用户发送配置', '/admin/emailUsers/getEmailUsersList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662863265796, 14, 'emailUsers::deleteEmailUsers', '删除邮箱用户', '/admin/emailUsers/deleteEmailUsers', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662930374657, 15, 'emailTemplate::updateEmailTemplate', '更新邮件模板', '/admin/emailTemplate/updateEmailTemplate', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662993289218, 15, 'emailTemplate::addEmailTemplate', '添加邮件模板', '/admin/emailTemplate/addEmailTemplate', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393662993289219, 15, 'emailTemplate::getEmailTypes', '获取邮件模板类型字段', '/admin/emailTemplate/getEmailTypes', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663056203777, 15, 'emailTemplate::getEmailTemplateList', '分页查询邮件模板', '/admin/emailTemplate/getEmailTemplateList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663056203778, 15, 'emailTemplate::deleteEmailTemplate', '删除邮件模板', '/admin/emailTemplate/deleteEmailTemplate', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663123312642, 16, 'dept::updateDept', '更新部门', '/admin/dept/updateDept', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663123312643, 16, 'dept::addDept', '添加部门', '/admin/dept/addDept', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663190421506, 16, 'dept::getDeptList', '分页查询部门', '/admin/dept/getDeptList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663190421507, 16, 'dept::deleteDept', '删除部门', '/admin/dept/deleteDept', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663249141762, 17, 'config::updateWebConfiguration', '更新web配置文件', '/admin/config/updateWebConfiguration', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663316250626, 17, 'config::getWebConfig', '获取修改web配置文件', '/admin/config/getWebConfig', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663316250627, 18, 'userRole::assignRolesToUsers', '为用户分配角色', '/admin/userRole/assignRolesToUsers', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663379165185, 18, 'userRole::getRoleListByUserId', '根据用户id获取角色列', '/admin/userRole/getRoleListByUserId', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663446274049, 19, 'routerRole::assignRolesToRouter', '为菜单分配角色', '/admin/routerRole/assignRolesToRouter', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663446274050, 19, 'routerRole::assignAddBatchRolesToRouter', '批量为菜单添加角色', '/admin/routerRole/assignAddBatchRolesToRouter', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663513382914, 19, 'routerRole::getRoleListByRouterId', '根据菜单id获取所有角色', '/admin/routerRole/getRoleListByRouterId', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663513382915, 19, 'routerRole::clearAllRolesSelect', '清除选中菜单所有角色', '/admin/routerRole/clearAllRolesSelect', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663580491777, 20, 'rolePower::assignPowersToRole', '为角色分配权限', '/admin/rolePower/assignPowersToRole', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663643406338, 21, 'userLoginLog::getUserLoginLogList', '分页查询用户登录日志', '/admin/userLoginLog/getUserLoginLogList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663643406339, 21, 'userLoginLog::deleteUserLoginLog', '删除用户登录日志', '/admin/userLoginLog/deleteUserLoginLog', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663706320898, 22, 'quartzExecuteLog::getQuartzExecuteLogList', '分页查询调度任务执行日志', '/admin/quartzExecuteLog/getQuartzExecuteLogList/.*', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
+INSERT INTO `sys_power` VALUES (1858393663773429761, 22, 'quartzExecuteLog::deleteQuartzExecuteLog', '删除调度任务执行日志', '/admin/quartzExecuteLog/deleteQuartzExecuteLog', '2024-11-18 14:15:51', '2024-11-18 14:15:51', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -2150,7 +2144,6 @@ INSERT INTO `sys_role` VALUES (1850787961993142273, 'i18n', 'i18n角色', '2024-
 INSERT INTO `sys_role` VALUES (1850921292033228802, 'upload', '上传文件', '2024-10-28 23:23:19', '2024-10-28 23:23:19', 1, 1, 0);
 INSERT INTO `sys_role` VALUES (1852621694771773442, 'actuator', 'actuator端点可访问', '2024-11-02 16:00:07', '2024-11-02 16:00:07', 1, 1, 0);
 INSERT INTO `sys_role` VALUES (1852638541067845634, 'message', '消息角色(CUR)', '2024-11-02 17:07:03', '2024-11-02 17:07:03', 1, 1, 0);
-INSERT INTO `sys_role` VALUES (1853494447435415553, 'test', '测试角色用于权限测试', '2024-11-05 01:48:07', '2024-11-05 01:48:07', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_role_power
@@ -2166,143 +2159,76 @@ CREATE TABLE `sys_role_power`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '更新用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_role_power`(`role_id` ASC, `power_id` ASC) USING BTREE COMMENT '角色和权限两种不能重复',
   INDEX `idx_role_id`(`role_id` ASC) USING BTREE,
   INDEX `idx_power_id`(`power_id` ASC) USING BTREE,
   INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
   INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
   INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
-  UNIQUE INDEX `idx_role_power`(`role_id` ASC, `power_id` ASC) USING BTREE COMMENT '角色和权限两种不能重复'
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统角色权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_power
 -- ----------------------------
-INSERT INTO `sys_role_power` VALUES (1853134161935433730, 1852638541067845634, 1853132604560998402, '2024-11-04 01:56:28', '2024-11-04 01:56:28', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853134161935433731, 1852638541067845634, 1853132604502278146, '2024-11-04 01:56:28', '2024-11-04 01:56:28', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853134161935433732, 1852638541067845634, 1853132604300951553, '2024-11-04 01:56:28', '2024-11-04 01:56:28', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853134161935433733, 1852638541067845634, 1853132604363866113, '2024-11-04 01:56:28', '2024-11-04 01:56:28', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853134161935433734, 1852638541067845634, 1853132604401614850, '2024-11-04 01:56:28', '2024-11-04 01:56:28', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853134341170626562, 1852621694771773442, 1849471636643618818, '2024-11-04 01:57:11', '2024-11-04 01:57:11', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853134341170626563, 1852621694771773442, 1849471846698557442, '2024-11-04 01:57:11', '2024-11-04 01:57:11', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853134393104498690, 1850921292033228802, 1853132605496328193, '2024-11-04 01:57:24', '2024-11-04 01:57:24', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412778983425, 1849447127379210241, 1853132603055243266, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412778983426, 1849447127379210241, 1853132603101380609, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412778983427, 1849447127379210241, 1853132603235598337, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412778983428, 1849447127379210241, 1853132603302707202, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412778983429, 1849447127379210241, 1853132603394981890, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177729, 1849447127379210241, 1853132603655028737, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177730, 1849447127379210241, 1853132603898298369, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177731, 1849447127379210241, 1853132604158345217, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177732, 1849447127379210241, 1853132604196093953, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177733, 1849447127379210241, 1853132604401614850, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177734, 1849447127379210241, 1853132604502278146, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177735, 1849447127379210241, 1853132604560998402, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177736, 1849447127379210241, 1853132604674244610, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177737, 1849447127379210241, 1853132604732964866, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177738, 1849447127379210241, 1853132604770713602, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177739, 1849447127379210241, 1853132604955262977, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177740, 1849447127379210241, 1853132605303390210, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177741, 1849447127379210241, 1853132605341138945, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177742, 1849447127379210241, 1853132605559242753, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177743, 1849447127379210241, 1853132605588602881, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177744, 1849447127379210241, 1853132605622157313, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177745, 1849447127379210241, 1853132605836066818, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177746, 1849447127379210241, 1853132606427463682, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177747, 1849447127379210241, 1853132606553292801, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177748, 1849447127379210241, 1853132606695899137, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177749, 1849447127379210241, 1853132606888837121, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177750, 1849447127379210241, 1853132607002083329, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177751, 1849447127379210241, 1853132606049976321, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177752, 1849447127379210241, 1853132606016421890, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177753, 1849447127379210241, 1853132606238720002, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177754, 1849447127379210241, 1853132602405126145, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177755, 1849447127379210241, 1853132602711310337, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177756, 1849447127379210241, 1853132602761641985, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853497412783177757, 1849447127379210241, 1853132602803585025, '2024-11-05 01:59:54', '2024-11-05 01:59:54', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400834, 1853494447435415553, 1853132602405126145, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400835, 1853494447435415553, 1853132602518372354, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400836, 1853494447435415553, 1853132602849722370, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400837, 1853494447435415553, 1853132602803585025, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400838, 1853494447435415553, 1853132602761641985, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400839, 1853494447435415553, 1853132602572898306, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400840, 1853494447435415553, 1853132602619035650, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400841, 1853494447435415553, 1853132602660978690, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400842, 1853494447435415553, 1853132602711310337, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400843, 1853494447435415553, 1, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400844, 1853494447435415553, 1853132603797635073, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400845, 1853494447435415553, 1853132603864743938, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400846, 1853494447435415553, 1853132603898298369, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400847, 1853494447435415553, 1853132603940241410, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400848, 1853494447435415553, 5, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400849, 1853494447435415553, 1853132604015738881, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400850, 1853494447435415553, 1853132604229648386, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400851, 1853494447435415553, 1853132604196093953, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400852, 1853494447435415553, 1853132604158345217, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400853, 1853494447435415553, 1853132604124790786, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400854, 1853494447435415553, 1853132604091236354, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400855, 1853494447435415553, 6, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400856, 1853494447435415553, 1853132606150639618, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400857, 1853494447435415553, 1853132606205165569, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400858, 1853494447435415553, 1853132606238720002, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400859, 1853494447435415553, 1853132606297440257, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400860, 1853494447435415553, 16, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400861, 1853494447435415553, 4, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400862, 1853494447435415553, 1853132603516616705, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400863, 1853494447435415553, 1853132603575336961, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400864, 1853494447435415553, 1853132603613085697, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400865, 1853494447435415553, 1853132603655028737, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400866, 1853494447435415553, 1853132603717943297, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400867, 1853494447435415553, 13, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400868, 1853494447435415553, 1853132605433413634, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400869, 1853494447435415553, 1853132605496328193, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400870, 1853494447435415553, 1853132605534076929, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400871, 1853494447435415553, 1853132605559242753, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400872, 1853494447435415553, 1853132605588602881, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400873, 1853494447435415553, 1853132605622157313, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400874, 1853494447435415553, 1853132605655711745, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400875, 1853494447435415553, 1853132605928341505, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400876, 1853494447435415553, 1853132605982867458, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400877, 1853494447435415553, 1853132606087725057, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400878, 1853494447435415553, 1853132606049976321, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400879, 1853494447435415553, 1853132606016421890, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400880, 1853494447435415553, 15, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400881, 1853494447435415553, 1853132605836066818, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400882, 1853494447435415553, 1853132605865426946, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400883, 1853494447435415553, 1853132605802512385, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400884, 1853494447435415553, 1853132605764763650, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400885, 1853494447435415553, 1853132605714432001, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400886, 1853494447435415553, 14, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400887, 1853494447435415553, 1853132604875571201, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400888, 1853494447435415553, 1853132604925902850, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400889, 1853494447435415553, 1853132604988817409, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400890, 1853494447435415553, 1853132604955262977, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400891, 1853494447435415553, 10, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400892, 1853494447435415553, 1853132606372937729, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400893, 1853494447435415553, 1853132606427463682, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400894, 1853494447435415553, 17, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400895, 1853494447435415553, 1849471636643618818, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400896, 1853494447435415553, 1849471846698557442, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400897, 1853494447435415553, 1853132605374693378, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400898, 1853494447435415553, 1853132605341138945, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400899, 1853494447435415553, 1853132605303390210, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400900, 1853494447435415553, 1853132605211115521, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400901, 1853494447435415553, 1853132605265641474, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400902, 1853494447435415553, 12, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400903, 1853494447435415553, 1853132605055926274, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400904, 1853494447435415553, 1853132605114646530, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400905, 1853494447435415553, 11, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400906, 1853494447435415553, 1853132605148200962, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400907, 1853494447435415553, 1853132604560998402, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400908, 1853494447435415553, 1853132604732964866, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400909, 1853494447435415553, 8, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400910, 1853494447435415553, 1853132604502278146, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400911, 1853494447435415553, 1853132604594552834, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400912, 1853494447435415553, 1853132604435169282, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400913, 1853494447435415553, 1853132604401614850, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400914, 1853494447435415553, 1853132604363866113, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400915, 1853494447435415553, 1853132604300951553, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
-INSERT INTO `sys_role_power` VALUES (1853757337153400916, 1853494447435415553, 7, '2024-11-05 19:12:45', '2024-11-05 19:12:45', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519233, 1849447127379210241, 1858393660724170753, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519234, 1849447127379210241, 1858393660724170754, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519235, 1849447127379210241, 1858393660921303041, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519236, 1849447127379210241, 1858393660921303042, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519237, 1849447127379210241, 1858393661114241026, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519238, 1849447127379210241, 1858393661307179009, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519239, 1849447127379210241, 1858393661433008130, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519240, 1849447127379210241, 1858393661630140418, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519241, 1849447127379210241, 1858393661827272706, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519242, 1849447127379210241, 1858393661957296130, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519243, 1849447127379210241, 1858393662083125250, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519244, 1849447127379210241, 1858393662213148675, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519245, 1849447127379210241, 1858393662343172098, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519246, 1849447127379210241, 1858393662469001218, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519247, 1849447127379210241, 1858393662469001219, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519248, 1849447127379210241, 1858393662603218947, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519249, 1849447127379210241, 1858393662666133507, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519250, 1849447127379210241, 1858393662666133508, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519251, 1849447127379210241, 1858393662729048065, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519252, 1849447127379210241, 1858393662863265795, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519253, 1849447127379210241, 1858393662993289219, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519254, 1849447127379210241, 1858393663056203777, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519255, 1849447127379210241, 1858393663190421506, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519256, 1849447127379210241, 1858393663316250626, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519257, 1849447127379210241, 1858393663379165185, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519258, 1849447127379210241, 1858393663513382914, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519259, 1849447127379210241, 1858393663643406338, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519260, 1849447127379210241, 1858393663706320898, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519261, 1849447127379210241, 1849471636643618818, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519262, 1849447127379210241, 1849471846698557442, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519263, 1849447127379210241, 1858393660657061889, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858400025559519264, 1849447127379210241, 1858393661630140419, '2024-11-18 14:41:08', '2024-11-18 14:41:08', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709697, 1850075282767187970, 1858393661307179009, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709698, 1850075282767187970, 1858393661827272706, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709699, 1850075282767187970, 1858393662083125250, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709700, 1850075282767187970, 1858393662213148675, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709701, 1850075282767187970, 1858393662666133507, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709702, 1850075282767187970, 1858393662666133508, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709703, 1850075282767187970, 1858393662729048065, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709704, 1850075282767187970, 1858393663316250626, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709705, 1850075282767187970, 1849471636643618818, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709706, 1850075282767187970, 1849471846698557442, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709707, 1850075282767187970, 1858393663706320898, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404664631709708, 1850075282767187970, 1858393663643406338, '2024-11-18 14:59:34', '2024-11-18 14:59:34', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404771485798401, 1850080441735942146, 1858393661114241026, '2024-11-18 15:00:00', '2024-11-18 15:00:00', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404771485798402, 1850080441735942146, 1858393660921303042, '2024-11-18 15:00:00', '2024-11-18 15:00:00', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404771485798403, 1850080441735942146, 1858393660921303041, '2024-11-18 15:00:00', '2024-11-18 15:00:00', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404892655046657, 1850787961993142273, 1858393662469001218, '2024-11-18 15:00:29', '2024-11-18 15:00:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404892655046658, 1850787961993142273, 1858393662469001219, '2024-11-18 15:00:29', '2024-11-18 15:00:29', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404944848965634, 1850921292033228802, 1858393662603218947, '2024-11-18 15:00:41', '2024-11-18 15:00:41', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404944848965635, 1850921292033228802, 1858393662666133508, '2024-11-18 15:00:41', '2024-11-18 15:00:41', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404944848965636, 1850921292033228802, 1858393662729048065, '2024-11-18 15:00:41', '2024-11-18 15:00:41', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404944848965637, 1850921292033228802, 1858393662666133507, '2024-11-18 15:00:41', '2024-11-18 15:00:41', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404970140618754, 1852621694771773442, 1849471636643618818, '2024-11-18 15:00:47', '2024-11-18 15:00:47', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858404970140618755, 1852621694771773442, 1849471846698557442, '2024-11-18 15:00:47', '2024-11-18 15:00:47', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858405037085904898, 1852638541067845634, 1858393662083125250, '2024-11-18 15:01:03', '2024-11-18 15:01:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858405037085904899, 1852638541067845634, 1858393661957296130, '2024-11-18 15:01:03', '2024-11-18 15:01:03', 1, 1, 0);
+INSERT INTO `sys_role_power` VALUES (1858405037085904900, 1852638541067845634, 1858393661827272706, '2024-11-18 15:01:03', '2024-11-18 15:01:03', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_router
@@ -2398,13 +2324,13 @@ CREATE TABLE `sys_router_role`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_router_role`(`router_id` ASC, `role_id` ASC) USING BTREE COMMENT '录音和角色不能重复',
   INDEX `idx_router_id`(`router_id` ASC) USING BTREE,
   INDEX `idx_role_id`(`role_id` ASC) USING BTREE,
   INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
   INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
   INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
-  UNIQUE INDEX `idx_router_role`(`router_id` ASC, `role_id` ASC) USING BTREE COMMENT '录音和角色不能重复'
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统路由角色关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2560,43 +2486,6 @@ INSERT INTO `sys_router_role` VALUES (1853136447298437145, 1841796893769580546, 
 INSERT INTO `sys_router_role` VALUES (1853136447298437146, 1844957189138751490, 1852638541067845634, '2024-11-04 02:05:33', '2024-11-04 02:05:33', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1853136447298437147, 1844957830590468097, 1852638541067845634, '2024-11-04 02:05:33', '2024-11-04 02:05:33', 1, 1, 0);
 INSERT INTO `sys_router_role` VALUES (1853136447298437148, 1844958437262987265, 1852638541067845634, '2024-11-04 02:05:33', '2024-11-04 02:05:33', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524673, 1, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524674, 1841803086252548097, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524675, 1841726844983701505, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524676, 1841750734275416065, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524677, 1842033245832458241, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524678, 2, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524679, 1843932804747603970, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524680, 1844900259930243074, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524681, 1841506924681338881, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524682, 1844276961265557505, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524683, 1844290948342456321, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524684, 1849000501604724738, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524685, 1844644093987880962, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524686, 1844644779039358978, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524687, 1848989760243838978, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524688, 1846804024660791298, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524689, 1845812113861079042, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524690, 1846166163060285441, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524691, 1841716459123634177, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524692, 1840211412516524034, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524693, 1840292695145963522, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524694, 1852321196101464065, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524695, 1847291834822123521, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524696, 1847140225619992577, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524697, 1851488898978103297, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524698, 1851488972810436609, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524699, 1851491818972856321, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493674524700, 1851525168378875906, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493678718978, 1853083388413304834, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493678718979, 1841796585525985281, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493678718980, 1844956874037469185, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493678718981, 1841794929635635201, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493678718982, 1841796893769580546, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493678718983, 1844957189138751490, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493678718984, 1844957830590468097, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493678718985, 1844958437262987265, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
-INSERT INTO `sys_router_role` VALUES (1853497493678718986, 1851490002939887618, 1853494447435415553, '2024-11-05 02:00:13', '2024-11-05 02:00:13', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -2639,13 +2528,13 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '123456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-25/ebfe09f4-600f-4e85-a2c4-5d71bc341de4', 1, 'admin', '112.22.102.78', '江苏省,无锡市 移动', 0, '2024-10-24 21:35:03', '2024-10-29 20:35:07', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/18514ddc-d656-4e3d-b83d-c01977eec5a3', 0, '密码：admin123', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', '2024-11-05 01:46:36', 0, 1, 0);
+INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '123456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-25/ebfe09f4-600f-4e85-a2c4-5d71bc341de4', 1, 'admin', '127.0.0.1', '内网IP', 0, '2024-10-24 21:35:03', NULL, 1, NULL, 0);
+INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/18514ddc-d656-4e3d-b83d-c01977eec5a3', 0, '密码：admin123', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', '2024-11-18 14:36:13', 0, 1, 0);
 INSERT INTO `sys_user` VALUES (1849681227633758210, 'Operation', '定时任务和系统配置', 'Operation@qq.com', '18012062876', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/11-05/56ea89bd-b894-4507-8e00-5ee2623ab65c', 0, '能看到定时任务和系统配置页面可以发布和更新消息，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-25 13:15:45', '2024-11-05 01:56:36', 1, 1853494274437152770, 0);
 INSERT INTO `sys_user` VALUES (1850075157831454722, 'system', '只能看到系统配置用户1', 'system@Gmail.com', '12456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/057cb028-dea3-4054-ae07-8321eaeceaf1', 0, '只能看到系统设置1内容页面，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-26 15:21:05', '2024-11-02 17:00:08', 1, 1, 0);
 INSERT INTO `sys_user` VALUES (1850080272764211202, 'timing', '定时任务', 'timing@163.com', '212122', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/6b9cbcd2-31af-4c91-b74e-2d66e5b0558a', 0, '只能看到定时任务页面，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-26 15:41:25', '2024-11-04 01:59:07', 1, 1, 0);
 INSERT INTO `sys_user` VALUES (1850789068551200769, 'i18n', 'i18n', 'i18n@qq.com', '18012345678', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/71a8b92c-ef68-425c-9993-d95292613916', 1, '可见i18n，定时任务，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-28 14:37:55', '2024-11-04 01:58:58', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1853494274437152770, 'test', 'test', 'test@qq.com', '18012062876', '0192023a7bbd73250516f069df18b500', NULL, 0, 'test', '127.0.0.1', '内网IP', 0, '2024-11-05 01:47:26', '2024-11-05 17:31:27', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1853494274437152770, 'test', 'test', 'test@qq.com', '18012062876', '0192023a7bbd73250516f069df18b500', NULL, 0, 'test', '127.0.0.1', '内网IP', 0, '2024-11-05 01:47:26', '2024-11-18 00:14:51', 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for sys_user_dept
@@ -2661,13 +2550,13 @@ CREATE TABLE `sys_user_dept`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '更新用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_user_dept`(`user_id` ASC, `dept_id` ASC) USING BTREE COMMENT '用户id和部门不能相同',
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
   INDEX `idx_dept_id`(`dept_id` ASC) USING BTREE,
   INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
   INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
   INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
-  UNIQUE INDEX `idx_user_dept`(`user_id` ASC, `dept_id` ASC) USING BTREE COMMENT '用户id和部门不能相同'
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门用户关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2679,7 +2568,6 @@ INSERT INTO `sys_user_dept` VALUES (1850079769699389441, 1850075157831454722, 18
 INSERT INTO `sys_user_dept` VALUES (1850080272827125761, 1850080272764211202, 1850077710275153922, '2024-10-26 15:41:25', '2024-10-26 15:41:25', 1, 1, 0);
 INSERT INTO `sys_user_dept` VALUES (1850914498145005569, 1850789068551200769, 1842844360640327682, '2024-10-28 22:56:19', '2024-10-28 22:56:19', 1, 1, 0);
 INSERT INTO `sys_user_dept` VALUES (1852638755723935745, 1849681227633758210, 1842885831187877890, '2024-11-02 17:07:54', '2024-11-02 17:07:54', 1, 1, 0);
-INSERT INTO `sys_user_dept` VALUES (1853494274437152771, 1853494274437152770, 1842844360640327682, '2024-11-05 01:47:26', '2024-11-05 01:47:26', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -2695,13 +2583,13 @@ CREATE TABLE `sys_user_role`  (
   `update_user` bigint NULL DEFAULT NULL COMMENT '更新用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NULL DEFAULT 0 COMMENT '是否删除，0-未删除，1-已删除',
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_user_role`(`user_id` ASC, `role_id` ASC) USING BTREE COMMENT '用户和角色不能相同',
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
   INDEX `idx_role_id`(`role_id` ASC) USING BTREE,
   INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
   INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
   INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
-  UNIQUE INDEX `idx_user_role`(`user_id` ASC, `role_id` ASC) USING BTREE COMMENT '用户和角色不能相同'
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统用户角色关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2725,8 +2613,6 @@ INSERT INTO `sys_user_role` VALUES (1853134787255828483, 1850789068551200769, 18
 INSERT INTO `sys_user_role` VALUES (1853134828200624129, 1850080272764211202, 1850080441735942146, '2024-11-04 01:59:07', '2024-11-04 01:59:07', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1853134828200624130, 1850080272764211202, 1850921292033228802, '2024-11-04 01:59:07', '2024-11-04 01:59:07', 1, 1, 0);
 INSERT INTO `sys_user_role` VALUES (1853134828200624131, 1850080272764211202, 1852621694771773442, '2024-11-04 01:59:07', '2024-11-04 01:59:07', 1, 1, 0);
-INSERT INTO `sys_user_role` VALUES (1853497039934717954, 1853494274437152770, 1849447127379210241, '2024-11-05 01:58:25', '2024-11-05 01:58:25', 1, 1, 0);
-INSERT INTO `sys_user_role` VALUES (1853497039934717955, 1853494274437152770, 1853494447435415553, '2024-11-05 01:58:25', '2024-11-05 01:58:25', 1, 1, 0);
 
 -- ----------------------------
 -- View structure for view_qrtz_schedulers

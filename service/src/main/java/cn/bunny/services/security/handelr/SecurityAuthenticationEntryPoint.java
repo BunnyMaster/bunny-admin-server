@@ -3,6 +3,7 @@ package cn.bunny.services.security.handelr;
 import cn.bunny.common.service.utils.ResponseUtil;
 import cn.bunny.dao.pojo.result.Result;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.services.security.custom.CustomAuthenticationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -10,26 +11,20 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
- * 请求未认证接口
+ * 自定义请求未认证接口异常
  */
 @Slf4j
 public class SecurityAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-        String token = request.getHeader("token");
-        String message = authException.getMessage();
-        // 创建结果对象
         Result<Object> result;
 
-        if (token == null) {
-            result = Result.error(ResultCodeEnum.LOGIN_AUTH);
-            log.info("请求未登录接口：{}，用户id：{}", message, null);
+        if (authException instanceof CustomAuthenticationException customException) {
+            result = Result.error(customException.getResultCodeEnum());
         } else {
-            result = Result.error(ResultCodeEnum.LOGGED_IN_FROM_ANOTHER_DEVICE);
-            log.info("请求未授权接口：{}，用户id：{}", message, token);
+            result = Result.error(ResultCodeEnum.FAIL_NO_ACCESS_DENIED);
         }
 
-        // 返回响应
         ResponseUtil.out(response, result);
     }
 }

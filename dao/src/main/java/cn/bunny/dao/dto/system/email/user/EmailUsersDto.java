@@ -25,6 +25,9 @@ public class EmailUsersDto {
     @Schema(name = "smtpAgreement", title = "邮箱协议")
     private String smtpAgreement;
 
+    @Schema(name = "openSSL", description = "启用SSL")
+    private Boolean openSSL;
+
 }
 
 

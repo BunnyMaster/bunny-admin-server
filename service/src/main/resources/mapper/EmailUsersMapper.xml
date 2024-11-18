@@ -15,12 +15,13 @@
         <id column="host" property="host"/>
         <id column="port" property="port"/>
         <id column="smtp_agreement" property="smtpAgreement"/>
+        <id column="open_ssl" property="openSSL"/>
         <id column="is_default" property="isDefault"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, update_time, create_user, update_user, is_deleted, email, password, host, port, smtp_agreement, is_default
+        id, create_time, update_time, create_user, update_user, is_deleted, email, password, host, port, smtp_agreement, is_default, openSSL
     </sql>
 
     <!-- 分页查询邮箱用户发送配置内容 -->
@@ -45,6 +46,9 @@
             </if>
             <if test="dto.smtpAgreement != null and dto.smtpAgreement != ''">
                 and email_user.smtp_agreement like CONCAT('%',#{dto.smtpAgreement},'%')
+            </if>
+            <if test="dto.openSSL != null">
+                and email_user.open_ssl = #{dto.openSSL}
             </if>
         </where>
     </select>

@@ -4,13 +4,37 @@ import cn.bunny.dao.pojo.common.EmailSend;
 import cn.bunny.dao.pojo.common.EmailSendInit;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
+import java.util.Properties;
 
 public class MailSenderUtil {
+
+    /**
+     * 如果启用SSL需要配置以下
+     *
+     * @param emailSendInit 邮件发送初始化
+     */
+    private static @NotNull Properties getProperties(EmailSendInit emailSendInit) {
+        Properties properties = new Properties();
+        // 开启认证
+        properties.setProperty("mail.smtp.auth", "true");
+        // 启用调试
+        properties.setProperty("mail.debug", "true");
+        // 设置链接超时
+        properties.setProperty("mail.smtp.timeout", "200000");
+        // 设置端口
+        properties.setProperty("mail.smtp.port", Integer.toString(25));
+        // 设置ssl端口
+        properties.setProperty("mail.smtp.socketFactory.port", Integer.toString(emailSendInit.getPort()));
+        properties.setProperty("mail.smtp.socketFactory.fallback", "false");
+        properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        return properties;
+    }
 
     /**
      * * 邮件发送初始化
@@ -25,6 +49,12 @@ public class MailSenderUtil {
         javaMailSender.setPassword(emailSendInit.getPassword());
         javaMailSender.setProtocol(emailSendInit.getProtocol());
         javaMailSender.setDefaultEncoding("UTF-8");
+
+        // 如果开启SSL
+        if (emailSendInit.getOpenSSL()) {
+            Properties properties = getProperties(emailSendInit);
+            javaMailSender.setJavaMailProperties(properties);
+        }
 
         return javaMailSender;
     }

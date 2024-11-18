@@ -30,4 +30,7 @@ public class EmailUsersVo extends BaseUserVo {
     @Schema(name = "isDefault", title = "是否为默认邮件")
     private Boolean isDefault;
 
+    @Schema(name = "openSSL", description = "启用SSL")
+    private Boolean openSSL;
+
 }

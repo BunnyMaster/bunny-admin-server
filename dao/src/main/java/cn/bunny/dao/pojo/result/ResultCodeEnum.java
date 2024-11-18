@@ -64,12 +64,11 @@ public enum ResultCodeEnum {
     ILLEGAL_DATA_REQUEST(219, "非法数据请求"),
     CLASS_NOT_FOUND(219, "类名不存在"),
     ADMIN_ROLE_CAN_NOT_DELETED(219, "无法删除admin角色"),
+    ROUTER_RANK_NEED_LARGER_THAN_THE_PARENT(219, "设置路由等级需要大于或等于父级的路由等级"),
 
     // 无权访问 403
-    FAIL_REQUEST_NOT_AUTH(403, "用户未认证"),
     FAIL_NO_ACCESS_DENIED(403, "无权访问"),
     FAIL_NO_ACCESS_DENIED_USER_OFFLINE(403, "用户强制下线"),
-    LOGGED_IN_FROM_ANOTHER_DEVICE(403, "没有权限访问"),
     TOKEN_PARSING_FAILED(403, "token解析失败"),
     FAIL_NO_ACCESS_DENIED_USER_LOCKED(403, "该账户已封禁"),
 

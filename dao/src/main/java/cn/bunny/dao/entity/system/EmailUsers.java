@@ -1,6 +1,7 @@
 package cn.bunny.dao.entity.system;
 
 import cn.bunny.dao.common.entity.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -39,6 +40,10 @@ public class EmailUsers extends BaseEntity {
 
     @Schema(name = "isDefault", title = "是否为默认邮件")
     private Boolean isDefault;
+
+    @Schema(name = "openSSL", description = "启用SSL")
+    @TableField("open_ssl")
+    private Boolean openSSL;
 
 }
 

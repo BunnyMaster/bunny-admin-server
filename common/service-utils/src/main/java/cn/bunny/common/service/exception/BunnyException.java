@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 public class BunnyException extends RuntimeException {
     Integer code;// 状态码
     String message;// 描述信息
+    ResultCodeEnum resultCodeEnum;
+
 
     public BunnyException(Integer code, String message) {
         super(message);
@@ -29,5 +31,6 @@ public class BunnyException extends RuntimeException {
         super(codeEnum.getMessage());
         this.code = codeEnum.getCode();
         this.message = codeEnum.getMessage();
+        this.resultCodeEnum = codeEnum;
     }
 }

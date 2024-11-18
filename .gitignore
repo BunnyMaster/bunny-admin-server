@@ -4,7 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 logs/
-!**/src/main/resources/application-prod.yml
+
+application-prod.yml
 
 ### STS ###
 .apt_generated
@@ -14,8 +15,6 @@ logs/
 .settings
 .springBeans
 .sts4-cache
-
-application-prod.yml
 
 ### IntelliJ IDEA ###
 .idea

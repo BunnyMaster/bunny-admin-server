@@ -6,14 +6,12 @@ import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.log.UserLoginLogLocalVo;
 import cn.bunny.dao.vo.log.UserLoginLogVo;
-import cn.bunny.services.factory.UserLoginLogFactory;
 import cn.bunny.services.mapper.UserLoginLogMapper;
 import cn.bunny.services.service.UserLoginLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +29,6 @@ import java.util.List;
 @Transactional
 public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, UserLoginLog> implements UserLoginLogService {
 
-    @Autowired
-    private UserLoginLogFactory factory;
-
     /**
      * * 用户登录日志 服务实现类
      *
@@ -45,7 +40,18 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
     public PageResult<UserLoginLogVo> getUserLoginLogList(Page<UserLoginLog> pageParams, UserLoginLogDto dto) {
         IPage<UserLoginLogVo> page = baseMapper.selectListByPage(pageParams, dto);
 
-        return factory.getUserLoginLogVoPageResult(page);
+        List<UserLoginLogVo> voList = page.getRecords().stream().map(userLoginLog -> {
+            UserLoginLogVo userLoginLogVo = new UserLoginLogVo();
+            BeanUtils.copyProperties(userLoginLog, userLoginLogVo);
+            return userLoginLogVo;
+        }).toList();
+
+        return PageResult.<UserLoginLogVo>builder()
+                .list(voList)
+                .pageNo(page.getCurrent())
+                .pageSize(page.getSize())
+                .total(page.getTotal())
+                .build();
     }
 
     /**

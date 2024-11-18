@@ -129,7 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         Long userId = JwtHelper.getUserId(dto.getRefreshToken());
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
 
-        if (adminUser == null) throw new BunnyException(ResultCodeEnum.FAIL_REQUEST_NOT_AUTH);
+        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
         if (adminUser.getStatus()) throw new BunnyException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
 
         LoginVo buildUserVo = userFactory.buildLoginUserVo(adminUser, dto.getReadMeDay());

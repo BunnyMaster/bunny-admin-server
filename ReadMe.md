@@ -35,7 +35,7 @@ https://www.bilibili.com/video/BV1AYm8YSEKY/
 
 ### 安装docker内容
 
-如果使用是centos或者是rocky
+#### centos或rocky
 
 ```shell
 # 更新yum 和 dnf
@@ -57,20 +57,75 @@ systemctl enable docker
 systemctl start docker
 ```
 
+#### Ubuntu环境搭建
+
+```bash
+sudo apt-get remove docker docker-engine docker.io containerd runc
+sudo apt update
+sudo apt upgrade
+sudo apt-get install ca-certificates curl gnupg lsb-release
+# 添加Docker官方GPG密钥
+sudo curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
+# 安装docker
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+# 默认情况下，只有root用户和docker组的用户才能运行Docker命令。我们可以将当前用户添加到docker组，以避免每次使用Docker时都需要使用sudo，设置完成后退出当前用户之后再进入既可
+sudo usermod -aG docker $USER
+# 运行docker
+sudo systemctl start docker
+# 安装工具
+sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+# 重启docker
+sudo service docker restart
+```
+
+> 安装docker会可能会遇到镜像无法拉去问题试下面的几个镜像地址，根据你自己的需要进行配置不是所有人都需要；同时也不能保证地址真的有效！！！
+>
+> ```bash
+> # 如果遇到没有这个文件的直接输入命令进行创建既可，之后记得重启docker
+> sudo touch /etc/docker/daemon.json
+> sudo vim /etc/docker/daemon.json
+> ```
+>
+> 复制下面的内容到`daemon.json`
+>
+> ```json
+> {
+>   "registry-mirrors": [
+>     "https:\/\/jockerhub.com",
+>     "https://dockerhub.icu",
+>     "https://docker.1panel.live",
+>     "https://gwsg6nw9.mirror.aliyuncs.com",
+>     "https://registry.docker-cn.com",
+>     "http://hub-mirror.c.163.com",
+>     "http://f1361db2.m.daocloud.io",
+>     "https://mirror.ccs.tencentyun.com",
+>     "https://phtv51hj.mirror.aliyuncs.com",
+>     "https://gwsg6nw9.mirror.aliyuncs.com"
+>   ]
+> }
+> ```
+>
+> 重启docker
+>
+> ```bash
+> sudo systemctl restart docker.socket
+> ```
+
 ### 安装Redis
 
 #### 编写配置文件
 
 ```sh
-mkdir /bunny/docker_data/my_redis/ -p
-vim /bunny/docker_data/my_redis/redis.conf
+mkdir ~/docker/docker_data/redis_master/ -p
+vim  ~/docker/docker_data/redis_master/redis.conf
 ```
 
 **添加以下内容**
 
 有注释大概率启动不了
 
-```
+```properties
 # bind 127.0.0.1 #注释掉这部分，使redis可以外部访问
 daemonize no #用守护线程的方式启动
 requirepass 123456
@@ -80,7 +135,7 @@ tcp-keepalive 300 #防止出现远程主机强迫关闭了一个现有的连接�
 
 **删除注释**
 
-```
+```properties
 daemonize no
 requirepass 123456
 appendonly yes
@@ -89,40 +144,102 @@ tcp-keepalive 300
 
 #### 启动Redis
 
+密码是上面的：`123456`
+
 ```sh
 docker pull redis:7.0.10
 docker run -p 6379:6379 --name redis_master \
--v /bunny/docker_data/redis_master/redis.conf:/etc/redis/redis.conf \
--v/bunny/docker_data/redis_master/data:/data \
+-v ~/docker/docker_data/redis_master/redis.conf:/etc/redis/redis.conf \
+-v ~/docker/docker_data/redis_master/data:/data \
 --restart=always -d redis:7.0.10  --appendonly yes
 ```
 
 ### 安装Minio
+
+在这个项目中进入之后输入你的用户名密码之后创建一个桶，桶名称为`auth-admin`，这个桶名称在后端的配置文件中可以修改
 
 ```sh
 docker run -d \
   -p 9000:9000 \
   -p 9090:9090 \
   --name minio_master --restart=always \
-  -v /bunny/docker/minio/data:/data \
+  -v ~/docker/docker_data/minio/data:/data \
   -e "MINIO_ROOT_USER=bunny" \
   -e "MINIO_ROOT_PASSWORD=02120212" \
   minio/minio server /data --console-address ":9090"
 ```
 
+![image-20241117201248420](http://116.196.101.14:9000/docs/image-20241117201248420.png)
+
+#### 搭建步骤
+
+**1、输入地址，之后登录进去**
+
+**2、创建桶**
+
+![image-20241117201444738](http://116.196.101.14:9000/docs/image-20241117201444738.png)
+
+**3、进入创建的桶，设置桶的权限时公开的，否则无法访问文件内容**
+
+![image-20241117201552805](http://116.196.101.14:9000/docs/image-20241117201552805.png)
+
+![image-20241117201622288](http://116.196.101.14:9000/docs/image-20241117201622288.png)
+
+![image-20241117201712911](http://116.196.101.14:9000/docs/image-20241117201712911.png)
+
 ### 安装MySQL
 
-**设置开机启动**
+#### 创建配置文件
+
+注意路径！！！
+
+```bash
+# 创建3306配置文件
+sudo mkdir -p /home/bunny/docker/docker_data/mysql/mysql_master/etc
+sudo vim /home/bunny/docker/docker_data/mysql/mysql_master/etc/my.cnf
+
+# 创建3304配置文件
+sudo mkdir -p /home/bunny/docker/docker_data/mysql/slave_3304/etc
+sudo vim /home/bunny/docker/docker_data/mysql/slave_3304/etc/my.cnf
+```
+
+**my.cnf 配置**
+
+```mysql
+[mysqld]
+skip-host-cache
+skip-name-resolve
+secure-file-priv=/var/lib/mysql-files
+user=mysql
+
+# 设置字符集
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+
+# 设置服务器ID（如果是复制集群，确保每个节点的ID唯一）
+server-id=1
+
+# 启用二进制日志
+log-bin=mysql-bin
+
+# 设置表名不区分大小写
+lower_case_table_names = 1
+```
+
+#### 启动MySQL
+
+启动时会一直输出，等输出差不多了直接关掉既可
 
 **执行启动3306：**
 
 ```sh
-docker stop master
-docker rm master
+docker stop mysql_master
+docker rm mysql_master
 
-docker run --name master -p 3306:3306 \
--v /bunny/docker_data/mysql/master/etc/my.cnf:/etc/my.cnf \
--v /bunny/docker_data/mysql/master/data:/var/lib/mysql \
+docker run --name mysql_master -p 3306:3306 \
+-v  /home/bunny/docker/docker_data/mysql/mysql_master/etc/my.cnf:/etc/my.cnf \
+-v  /home/bunny/docker/docker_data/mysql/mysql_master/data:/var/lib/mysql \
+-v  /home/bunny/docker/docker_data/mysql/mysql_master/backup:/backup \
 --restart=always --privileged=true \
    -e MYSQL_ROOT_PASSWORD=02120212 \
    -e TZ=Asia/Shanghai \
@@ -138,48 +255,25 @@ docker stop slave_3304
 docker rm slave_3304
 
 docker run --name slave_3304 -p 3304:3306 \
-   -v /bunny/docker_data/mysql/slave_3304/etc/my.cnf:/etc/my.cnf \
-   -v /bunny/docker_data/mysql/slave_3304/data:/var/lib/mysql \
-   -v /bunny/docker_data/mysql/slave_3304/backup:\
+   -v  /home/bunny/docker/docker_data/mysql/slave_3304/etc/my.cnf:/etc/my.cnf \
+   -v  /home/bunny/docker/docker_data/mysql/slave_3304/data:/var/lib/mysql \
+   -v  /home/bunny/docker/docker_data/mysql/slave_3304/backup:/backup \
    --restart=always --privileged=true \
    -e MYSQL_ROOT_PASSWORD=02120212 \
    -e TZ=Asia/Shanghai \
    mysql:8.0.33 --lower-case-table-names=1
 ```
 
-**修改密码：**
-
-```sh
-docker exec -it mysql_master /bin/bash
-mysql -uroot -p02120212
-use mysql
-ALTER USER 'root'@'%' IDENTIFIED BY "02120212";
-FLUSH PRIVILEGES;
-```
-
-> my.cnf 配置
+> **修改密码：**
 >
-> ```sql
-> [mysqld]
-> skip-host-cache
-> skip-name-resolve
-> secure-file-priv=/var/lib/mysql-files
-> user=mysql
->
-> # 设置字符集
-> character-set-server=utf8mb4
-> collation-server=utf8mb4_unicode_ci
->
-> # 设置服务器ID（如果是复制集群，确保每个节点的ID唯一）
-> server-id=1
->
-> # 启用二进制日志
-> log-bin=mysql-bin
->
-> # 设置表名不区分大小写
-> lower_case_table_names = 1
->
+> ```sh
+> docker exec -it mysql_master /bin/bash
+> mysql -uroot -p02120212
+> use mysql
+> ALTER USER 'root'@'%' IDENTIFIED BY "02120212";
+> FLUSH PRIVILEGES;
 > ```
+>
 
 ### 数据库文件
 
@@ -1066,6 +1160,14 @@ server {
 > ```
 
 ## 后端部署
+
+### 注意事项
+
+如果需要打包需要手动创建生产环境文件：`application-prod.yml`
+
+![image-20241117202134939](http://116.196.101.14:9000/docs/image-20241117202134939.png)
+
+### 环境设置
 
 开发环境环境：对外暴露的端口是`7070`
 

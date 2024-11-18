@@ -23,6 +23,14 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
+
+    public static String[] annotations = {
+            "/", "/ws/**",
+            "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
+            "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/v3/api-docs/**", "/swagger-ui/**",
+            "/error", "/*/i18n/getI18n",
+    };
+
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -40,12 +48,6 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        String[] annotations = {
-                "/", "/ws/**",
-                "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
-                "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/v3/api-docs/**", "swagger-ui/**",
-                "/error", "/*/i18n/getI18n",
-        };
         httpSecurity
                 // 前端段分离不需要---禁用明文验证
                 .httpBasic(AbstractHttpConfigurer::disable)

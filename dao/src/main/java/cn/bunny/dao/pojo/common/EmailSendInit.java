@@ -8,9 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * 邮箱发送初始化参数
- */
 @Data
 @Builder
 @AllArgsConstructor
@@ -39,5 +36,8 @@ public class EmailSendInit {
     @NotBlank(message = "密码不能为空")
     @NotNull(message = "密码不能为空")
     private String password;
+
+    @Schema(name = "openSSL", description = "启用SSL")
+    private Boolean openSSL;
 
 }

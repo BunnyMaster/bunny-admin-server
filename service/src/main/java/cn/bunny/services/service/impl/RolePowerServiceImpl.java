@@ -34,6 +34,7 @@ public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower
 
     @Autowired
     private RoleFactory roleFactory;
+
     @Autowired
     private UserRoleMapper userRoleMapper;
 

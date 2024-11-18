@@ -217,6 +217,14 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     public void updateMenu(RouterUpdateDto dto) {
+        // 查询当前路由和父级路由
+        Router routerParent = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, dto.getParentId()));
+
+        // 设置路由等级需要大于或等于父级的路由等级
+        if (routerParent != null && (dto.getRouterRank() < routerParent.getRouterRank())) {
+            throw new BunnyException(ResultCodeEnum.ROUTER_RANK_NEED_LARGER_THAN_THE_PARENT);
+        }
+
         // 如果设置的不是外部页面
         if (!dto.getMenuType().equals(2)) dto.setFrameSrc("");
 
@@ -257,6 +265,14 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
         // 判断更新数据是否存在
         if (router == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+
+        // 查询当前路由和父级路由
+        Router routerParent = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, router.getParentId()));
+
+        // 设置路由等级需要大于或等于父级的路由等级
+        if (routerParent != null && (dto.getRouterRank() < routerParent.getRouterRank())) {
+            throw new BunnyException(ResultCodeEnum.ROUTER_RANK_NEED_LARGER_THAN_THE_PARENT);
+        }
 
         // 更新排序
         router = new Router();
