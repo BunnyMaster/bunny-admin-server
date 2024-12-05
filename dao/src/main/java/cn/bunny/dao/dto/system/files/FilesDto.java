@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "FilesDto对象", title = "文件", description = "文件管理")
+@Schema(name = "FilesDto对象", title = "文件分页查询", description = "文件分页查询")
 public class FilesDto {
 
     @Schema(name = "filename", title = "文件的名称")

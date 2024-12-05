@@ -13,9 +13,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @ApiModel(value = "IpEntity对象", description = "用户IP相关信息")
 public class IpEntity {
+
     @ApiModelProperty("原始地址")
     private String ipAddr;
 
     @ApiModelProperty("IP归属地")
     private String ipRegion;
+
 }

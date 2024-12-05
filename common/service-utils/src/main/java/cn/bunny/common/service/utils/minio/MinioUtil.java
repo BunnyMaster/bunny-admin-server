@@ -1,6 +1,6 @@
 package cn.bunny.common.service.utils.minio;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.pojo.common.MinioFilePath;
 import cn.bunny.dao.pojo.constant.MinioConstant;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -78,7 +78,7 @@ public class MinioUtil {
     public MinioFilePath uploadObjectReturnFilePath(MultipartFile file, String minioPreType) throws IOException {
         if (file == null) return null;
         String bucketName = properties.getBucketName();
-        
+
         // 上传对象
         try {
             MinioFilePath minioFile = initUploadFileReturnMinioFilePath(bucketName, minioPreType, file);
@@ -87,7 +87,7 @@ public class MinioUtil {
 
             return minioFile;
         } catch (Exception exception) {
-            throw new BunnyException(ResultCodeEnum.UPDATE_ERROR);
+            throw new AuthCustomerException(ResultCodeEnum.UPDATE_ERROR);
         }
     }
 
@@ -107,7 +107,7 @@ public class MinioUtil {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        throw new BunnyException(ResultCodeEnum.GET_BUCKET_EXCEPTION);
+        throw new AuthCustomerException(ResultCodeEnum.GET_BUCKET_EXCEPTION);
     }
 
     /**
@@ -135,7 +135,7 @@ public class MinioUtil {
             minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(filename).stream(inputStream, size, -1).build());
         } catch (Exception exception) {
             log.error("上传文件失败：{}", (Object) exception.getStackTrace());
-            throw new BunnyException(ResultCodeEnum.UPDATE_ERROR);
+            throw new AuthCustomerException(ResultCodeEnum.UPDATE_ERROR);
         }
     }
 
@@ -152,7 +152,7 @@ public class MinioUtil {
             Iterable<Result<DeleteError>> results = minioClient.removeObjects(RemoveObjectsArgs.builder().bucket(bucketName).objects(objectList).build());
             for (Result<DeleteError> result : results) {
                 DeleteError error = result.get();
-                throw new BunnyException("Error in deleting object " + error.objectName() + "; " + error.message());
+                throw new AuthCustomerException("Error in deleting object " + error.objectName() + "; " + error.message());
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -170,7 +170,7 @@ public class MinioUtil {
         try {
             putObject(bucketName, filepath, file.getInputStream(), file.getSize());
         } catch (IOException e) {
-            throw new BunnyException(e.getMessage());
+            throw new AuthCustomerException(e.getMessage());
         }
     }
 }

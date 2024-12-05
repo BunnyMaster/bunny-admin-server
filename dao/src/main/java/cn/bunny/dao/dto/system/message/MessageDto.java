@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "MessageDto对象", title = "消息查询", description = "消息查询")
+@Schema(name = "MessageDto对象", title = "消息分页查询", description = "消息分页查询")
 public class MessageDto {
 
     @Schema(name = "title", title = "消息标题")

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "AdminUserUpdateDto对象", title = "用户", description = "用户管理")
+@Schema(name = "AdminUserUpdateDto对象", title = "更新用户", description = "用户管理")
 public class AdminUserUpdateDto {
 
     @Schema(name = "id", title = "主键")

@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "FilesAddDto对象", title = "文件", description = "文件管理")
+@Schema(name = "FilesAddDto对象", title = "添加文件", description = "添加文件")
 public class FilesAddDto {
 
     @Schema(name = "filepath", title = "文件在服务器上的存储路径")

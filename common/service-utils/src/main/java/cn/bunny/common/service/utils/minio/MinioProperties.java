@@ -14,9 +14,14 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Slf4j
 public class MinioProperties {
+
+    // 地址
     private String endpointUrl;
+    // 访问秘钥
     private String accessKey;
+    // 私有秘钥
     private String secretKey;
+    // 桶名称
     private String bucketName;
 
     @Bean

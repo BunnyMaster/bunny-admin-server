@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "EmailUsersAddDto对象", title = "邮箱用户发送配置", description = "邮箱用户发送配置管理")
+@Schema(name = "EmailUsersAddDto对象", title = "添加邮箱用户发送配置", description = "添加邮箱用户发送配置")
 public class EmailUsersAddDto {
 
     @Schema(name = "email", title = "邮箱")

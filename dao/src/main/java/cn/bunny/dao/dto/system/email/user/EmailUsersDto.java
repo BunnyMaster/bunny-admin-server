@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "EmailUsersDto对象", title = "邮箱用户发送配置", description = "邮箱用户发送配置管理")
+@Schema(name = "EmailUsersDto对象", title = "邮箱用户发送配置分页查询", description = "邮箱用户发送配置分页查询")
 public class EmailUsersDto {
 
     @Schema(name = "email", title = "邮箱")

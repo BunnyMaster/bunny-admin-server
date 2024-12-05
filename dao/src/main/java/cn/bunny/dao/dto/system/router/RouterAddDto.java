@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "RouterManageDto对象", title = "路由添加表单", description = "路由添加表单")
+@Schema(name = "RouterManageDto对象", title = "添加路由", description = "添加路由")
 public class RouterAddDto {
 
     @Schema(name = "menuType", title = "菜单类型")

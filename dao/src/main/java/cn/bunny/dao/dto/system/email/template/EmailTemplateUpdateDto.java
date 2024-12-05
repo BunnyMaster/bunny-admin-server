@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "EmailTemplateUpdateDto对象", title = "邮箱模板请求内容", description = "邮箱模板请求内容")
+@Schema(name = "EmailTemplateUpdateDto对象", title = "更新邮箱模板", description = "更新邮箱模板")
 public class EmailTemplateUpdateDto {
 
     @Schema(name = "id", title = "主键")

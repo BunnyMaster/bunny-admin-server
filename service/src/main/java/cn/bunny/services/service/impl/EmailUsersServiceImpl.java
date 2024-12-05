@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.email.user.EmailUserUpdateStatusDto;
 import cn.bunny.dao.dto.system.email.user.EmailUsersAddDto;
 import cn.bunny.dao.dto.system.email.user.EmailUsersDto;
@@ -100,7 +100,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
     @Override
     public void deleteEmailUsers(List<Long> ids) {
         // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }

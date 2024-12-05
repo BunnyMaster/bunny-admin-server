@@ -1,7 +1,7 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.router.RouterAddDto;
 import cn.bunny.dao.dto.system.router.RouterManageDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateByIdWithRankDto;
@@ -222,7 +222,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
         // 设置路由等级需要大于或等于父级的路由等级
         if (routerParent != null && (dto.getRouterRank() < routerParent.getRouterRank())) {
-            throw new BunnyException(ResultCodeEnum.ROUTER_RANK_NEED_LARGER_THAN_THE_PARENT);
+            throw new AuthCustomerException(ResultCodeEnum.ROUTER_RANK_NEED_LARGER_THAN_THE_PARENT);
         }
 
         // 如果设置的不是外部页面
@@ -241,7 +241,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     @Override
     public void deletedMenuByIds(List<Long> ids) {
         // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 查找子级菜单，一起删除
         List<Long> longList = list(Wrappers.<Router>lambdaQuery().in(Router::getParentId, ids)).stream().map(Router::getId).toList();
@@ -264,14 +264,14 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         Router router = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, dto.getId()));
 
         // 判断更新数据是否存在
-        if (router == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+        if (router == null) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 查询当前路由和父级路由
         Router routerParent = getOne(Wrappers.<Router>lambdaQuery().eq(Router::getId, router.getParentId()));
 
         // 设置路由等级需要大于或等于父级的路由等级
         if (routerParent != null && (dto.getRouterRank() < routerParent.getRouterRank())) {
-            throw new BunnyException(ResultCodeEnum.ROUTER_RANK_NEED_LARGER_THAN_THE_PARENT);
+            throw new AuthCustomerException(ResultCodeEnum.ROUTER_RANK_NEED_LARGER_THAN_THE_PARENT);
         }
 
         // 更新排序

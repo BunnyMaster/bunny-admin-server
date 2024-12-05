@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "AdminUserAddDto对象", title = "用户", description = "用户管理")
+@Schema(name = "AdminUserAddDto对象", title = "用户分页查询", description = "用户管理")
 public class AdminUserDto {
 
     @Schema(name = "username", title = "用户名")

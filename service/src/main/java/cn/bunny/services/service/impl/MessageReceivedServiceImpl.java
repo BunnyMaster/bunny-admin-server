@@ -1,7 +1,7 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.message.MessageReceivedDto;
 import cn.bunny.dao.dto.system.message.MessageReceivedUpdateDto;
 import cn.bunny.dao.dto.system.message.MessageUserDto;
@@ -133,7 +133,7 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
     public void userMarkAsRead(List<Long> ids) {
         // 判断ids是否为空
         if (ids.isEmpty()) {
-            throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+            throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
         }
 
         // 更新表中消息状态
@@ -156,14 +156,14 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
     public void deleteUserMessageByIds(List<Long> ids) {
         // 判断ids是否为空
         if (ids.isEmpty()) {
-            throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+            throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
         }
 
         // 判断删除的是否是自己的消息
         List<MessageReceived> messageReceivedList = list(Wrappers.<MessageReceived>lambdaQuery().in(MessageReceived::getReceivedUserId, ids));
         messageReceivedList.forEach(messageReceived -> {
             if (!messageReceived.getReceivedUserId().equals(BaseContext.getUserId())) {
-                throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
+                throw new AuthCustomerException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
             }
         });
 

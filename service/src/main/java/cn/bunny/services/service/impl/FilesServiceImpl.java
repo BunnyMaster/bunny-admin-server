@@ -1,7 +1,7 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.common.service.utils.FileUtil;
 import cn.bunny.common.service.utils.minio.MinioProperties;
 import cn.bunny.common.service.utils.minio.MinioUtil;
@@ -102,7 +102,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
                 files.setDownloadCount(dto.getDownloadCount());
                 return files;
             } catch (IOException e) {
-                throw new BunnyException(e.getMessage());
+                throw new AuthCustomerException(e.getMessage());
             }
         }).toList();
 
@@ -165,7 +165,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
 
         // 盘读研数据是否过大
         String mb = maxFileSize.replace("MB", "");
-        if (fileSize / 1024 / 1024 > Long.parseLong(mb)) throw new BunnyException(ResultCodeEnum.DATA_TOO_LARGE);
+        if (fileSize / 1024 / 1024 > Long.parseLong(mb)) throw new AuthCustomerException(ResultCodeEnum.DATA_TOO_LARGE);
 
         // 插入文件信息
         Files adminFiles = new Files();
@@ -194,7 +194,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
      */
     @Override
     public void deleteFiles(List<Long> ids) {
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 查询文件路径
         List<String> list = list(Wrappers.<Files>lambdaQuery().in(Files::getId, ids)).stream()
@@ -223,7 +223,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         Files files = getOne(Wrappers.<Files>lambdaQuery().eq(Files::getId, fileId));
 
         // 判断文件是否存在
-        if (files == null) throw new BunnyException(ResultCodeEnum.FILE_NOT_EXIST);
+        if (files == null) throw new AuthCustomerException(ResultCodeEnum.FILE_NOT_EXIST);
 
         // 从Minio获取文件
         String filepath = files.getFilepath();

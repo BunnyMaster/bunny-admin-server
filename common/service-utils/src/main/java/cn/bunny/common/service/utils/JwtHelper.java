@@ -1,6 +1,6 @@
 package cn.bunny.common.service.utils;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import io.jsonwebtoken.*;
 import io.micrometer.common.lang.Nullable;
@@ -210,14 +210,14 @@ public class JwtHelper {
      */
     public static Map<String, Object> getMapByToken(String token) {
         try {
-            if (!StringUtils.hasText(token)) throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
+            if (!StringUtils.hasText(token)) throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
             Claims claims = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token).getBody();
 
             // 将 body 值转为map
             return new HashMap<>(claims);
 
         } catch (Exception exception) {
-            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
+            throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 
@@ -230,14 +230,14 @@ public class JwtHelper {
      */
     public static Map<String, Object> getMapByToken(String token, String signKey) {
         try {
-            if (!StringUtils.hasText(token)) throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
+            if (!StringUtils.hasText(token)) throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(signKey).parseClaimsJws(token);
             Claims body = claimsJws.getBody();
             // 将 body 值转为map
             return new HashMap<>(body);
 
         } catch (Exception exception) {
-            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
+            throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 
@@ -254,14 +254,14 @@ public class JwtHelper {
     @Nullable
     private static String getSubjectByTokenHandler(String token, String tokenSignKey) {
         try {
-            if (!StringUtils.hasText(token)) throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
+            if (!StringUtils.hasText(token)) throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
             Claims body = claimsJws.getBody();
 
             return body.getSubject();
 
         } catch (Exception exception) {
-            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
+            throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 
@@ -283,14 +283,14 @@ public class JwtHelper {
      */
     public static Long getUserId(String token) {
         try {
-            if (!StringUtils.hasText(token)) throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
+            if (!StringUtils.hasText(token)) throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
 
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
             Claims claims = claimsJws.getBody();
 
             return Long.valueOf(String.valueOf(claims.get("userId")));
         } catch (Exception exception) {
-            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
+            throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 
@@ -308,7 +308,7 @@ public class JwtHelper {
             Claims claims = claimsJws.getBody();
             return (String) claims.get("username");
         } catch (Exception exception) {
-            throw new BunnyException(ResultCodeEnum.TOKEN_PARSING_FAILED);
+            throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
         }
     }
 

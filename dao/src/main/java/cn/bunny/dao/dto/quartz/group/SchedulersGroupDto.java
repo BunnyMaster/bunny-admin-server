@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "SchedulersGroupDto对象", title = "分页查询任务调度分组", description = "分页查询任务调度分组")
+@Schema(name = "SchedulersGroupDto对象", title = "任务调度分组分页查询", description = "任务调度分组分页查询")
 public class SchedulersGroupDto {
 
     @Schema(name = "groupName", title = "分组名称")

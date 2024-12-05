@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "RouterManageDto对象", title = "路由更新表单", description = "路由更新表单")
+@Schema(name = "RouterManageDto对象", title = "更新路由", description = "更新路由")
 public class RouterUpdateDto {
 
     @Schema(name = "id", title = "唯一标识")

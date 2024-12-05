@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 @Slf4j
 public class IpUtil {
+
     private static Searcher searcher;
 
     /**

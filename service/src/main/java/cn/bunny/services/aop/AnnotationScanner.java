@@ -1,6 +1,6 @@
 package cn.bunny.services.aop;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -34,7 +34,7 @@ public class AnnotationScanner {
                 Class<?> clazz = Class.forName(bd.getBeanClassName());
                 classes.add(clazz);
             } catch (ClassNotFoundException e) {
-                throw new BunnyException(ResultCodeEnum.CLASS_NOT_FOUND);
+                throw new AuthCustomerException(ResultCodeEnum.CLASS_NOT_FOUND);
             }
         }
 

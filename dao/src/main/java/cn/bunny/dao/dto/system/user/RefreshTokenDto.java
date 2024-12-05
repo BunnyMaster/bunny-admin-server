@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Schema(name = "RefreshTokenDto对象", title = "登录成功返回内容", description = "登录成功返回内容")
 public class RefreshTokenDto {
+    
     @Schema(name = "refreshToken", title = "请求刷新token")
     @NotBlank(message = "请求刷新token不能为空")
     @NotNull(message = "请求刷新token不能为空")

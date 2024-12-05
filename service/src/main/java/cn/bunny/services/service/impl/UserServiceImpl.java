@@ -1,7 +1,7 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.common.service.utils.ip.IpUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
@@ -129,8 +129,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         Long userId = JwtHelper.getUserId(dto.getRefreshToken());
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
 
-        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
-        if (adminUser.getStatus()) throw new BunnyException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
+        if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
+        if (adminUser.getStatus()) throw new AuthCustomerException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
 
         LoginVo buildUserVo = userFactory.buildLoginUserVo(adminUser, dto.getReadMeDay());
         RefreshTokenVo refreshTokenVo = new RefreshTokenVo();
@@ -171,11 +171,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public UserVo getUserinfoById(Long id) {
         // 判断请求Id是否为空
-        if (id == null) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (id == null) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
         AdminUser user = getById(id);
 
         // 用户是否存在
-        if (user == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+        if (user == null) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 用户头像
         String avatar = user.getAvatar();
@@ -201,11 +201,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
 
         // 判断是否存在这个用户
-        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+        if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 判断新密码是否与旧密码相同
         if (adminUser.getPassword().equals(md5Password))
-            throw new BunnyException(ResultCodeEnum.UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD);
+            throw new AuthCustomerException(ResultCodeEnum.UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD);
 
         // 更新用户密码
         adminUser = new AdminUser();
@@ -230,7 +230,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 判断是否存在这个用户
         AdminUser user = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-        if (user == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+        if (user == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 上传头像
         FileUploadDto uploadDto = FileUploadDto.builder().file(avatar).type(MinioConstant.avatar).build();
@@ -254,7 +254,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      */
     @Override
     public void forcedOffline(Long id) {
-        if (id == null) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (id == null) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 根据id查询用户登录前缀
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, id));
@@ -340,7 +340,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 判断是否存在这个用户
         AdminUser user = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-        if (user == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+        if (user == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 检查用户头像
         dto.setAvatar(userFactory.checkPostUserAvatar(dto.getAvatar()));
@@ -368,14 +368,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
 
         // 判断用户是否存在
-        if (adminUser == null) throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+        if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 数据库中的密码
         String dbPassword = adminUser.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());
 
         // 判断数据库中密码是否和更新用户密码相同
-        if (dbPassword.equals(password)) throw new BunnyException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
+        if (dbPassword.equals(password)) throw new AuthCustomerException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
 
         // 更新用户密码
         adminUser = new AdminUser();
@@ -462,7 +462,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 判断更新内容是否存在
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-        if (adminUser == null) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+        if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 如果更新了用户名，删除之前的用户数据
         if (!dto.getUsername().equals(adminUser.getUsername())) {
@@ -499,12 +499,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public void deleteAdminUser(List<Long> ids) {
         // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 根据用户Id列表查询用户角色
         List<Role> list = roleMapper.selectListByUserIds(ids);
         List<Role> roleList = list.stream().filter(role -> role.getRoleCode().equals("admin") || ids.contains(1L)).toList();
-        if (!roleList.isEmpty()) throw new BunnyException(ResultCodeEnum.ADMIN_ROLE_CAN_NOT_DELETED);
+        if (!roleList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.ADMIN_ROLE_CAN_NOT_DELETED);
 
         // 逻辑删除
         removeBatchByIds(ids);

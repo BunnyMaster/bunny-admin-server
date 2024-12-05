@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.router.AssignRolesToRoutersDto;
 import cn.bunny.dao.entity.system.RouterRole;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -76,7 +76,7 @@ public class RouterRoleServiceImpl extends ServiceImpl<RouterRoleMapper, RouterR
     @Override
     public void clearAllRolesSelect(List<Long> routerIds) {
         if (routerIds.isEmpty()) {
-            throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+            throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
         }
         baseMapper.deleteBatchIdsByRouterIdsWithPhysics(routerIds);
     }

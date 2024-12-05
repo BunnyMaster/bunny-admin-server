@@ -17,13 +17,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * 全局异常拦截器
+ */
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
     // 自定义异常信息
-    @ExceptionHandler(BunnyException.class)
+    @ExceptionHandler(AuthCustomerException.class)
     @ResponseBody
-    public Result<Object> exceptionHandler(BunnyException exception) {
+    public Result<Object> exceptionHandler(AuthCustomerException exception) {
         Integer code = exception.getCode() != null ? exception.getCode() : 500;
         return Result.error(null, code, exception.getMessage());
     }

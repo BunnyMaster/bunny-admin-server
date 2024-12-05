@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.dept.DeptAddDto;
 import cn.bunny.dao.dto.system.dept.DeptDto;
 import cn.bunny.dao.dto.system.dept.DeptUpdateDto;
@@ -100,7 +100,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     @Override
     @CacheEvict(cacheNames = "dept", key = "'allDept'", beforeInvocation = true)
     public void updateDept(DeptUpdateDto dto) {
-        if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
+        if (dto.getId().equals(dto.getParentId())) throw new AuthCustomerException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
 
         // 将管理员用户逗号分隔
         String mangerList = dto.getManager().stream().map(String::trim).collect(Collectors.joining(","));
@@ -122,7 +122,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     @CacheEvict(cacheNames = "dept", key = "'allDept'", beforeInvocation = true)
     public void deleteDept(List<Long> ids) {
         // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 删除当前部门
         baseMapper.deleteBatchIdsWithPhysics(ids);

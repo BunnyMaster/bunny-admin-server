@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "SchedulersAddDto对象", title = "Schedulers添加表单", description = "Schedulers添加表单")
+@Schema(name = "SchedulersAddDto对象", title = "添加Schedulers", description = "添加Schedulers")
 public class SchedulersAddDto {
 
     @Schema(name = "jobName", title = "任务名称")

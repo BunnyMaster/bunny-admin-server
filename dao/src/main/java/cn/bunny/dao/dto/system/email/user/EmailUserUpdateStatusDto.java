@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "EmailUserUpdateStatusDto对象", title = "邮箱用户更新状态", description = "邮箱用户更新状态表单")
+@Schema(name = "EmailUserUpdateStatusDto对象", title = "更新邮箱用户状态", description = "更新邮箱用户状态")
 public class EmailUserUpdateStatusDto {
 
     @Schema(name = "id", title = "主键")

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "PowerDto对象", title = "权限", description = "权限管理")
+@Schema(name = "PowerDto对象", title = "权限分页查询", description = "权限管理")
 public class PowerDto {
 
     @Schema(name = "parentId", title = "权限编码")

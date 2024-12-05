@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.menuIcon.MenuIconAddDto;
 import cn.bunny.dao.dto.system.menuIcon.MenuIconDto;
 import cn.bunny.dao.dto.system.menuIcon.MenuIconUpdateDto;
@@ -105,7 +105,7 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
     @CacheEvict(cacheNames = "menuIcon", key = "'menuIconList'", beforeInvocation = true)
     public void deleteMenuIcon(List<Long> ids) {
         // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }

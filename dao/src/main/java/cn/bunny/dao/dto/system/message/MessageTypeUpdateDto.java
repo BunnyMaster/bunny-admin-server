@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "MessageTypeUpdateDto对象", title = "系统消息类型", description = "系统消息类型")
+@Schema(name = "MessageTypeUpdateDto对象", title = "更新系统消息类型", description = "更新系统消息类型")
 public class MessageTypeUpdateDto {
 
     @Schema(name = "id", title = "主键")

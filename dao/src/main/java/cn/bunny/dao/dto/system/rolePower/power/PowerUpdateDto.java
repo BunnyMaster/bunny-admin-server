@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "PowerUpdateDto对象", title = "权限", description = "权限管理")
+@Schema(name = "PowerUpdateDto对象", title = "更新权限", description = "权限管理")
 public class PowerUpdateDto {
 
     @Schema(name = "id", title = "主键")

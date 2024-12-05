@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.rolePower.role.RoleAddDto;
 import cn.bunny.dao.dto.system.rolePower.role.RoleDto;
 import cn.bunny.dao.dto.system.rolePower.role.RoleUpdateDto;
@@ -108,7 +108,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public void updateRole(@Valid RoleUpdateDto dto) {
         // 查询更新的角色是否存在
         List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, dto.getId()));
-        if (roleList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+        if (roleList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 更新内容
         Role role = new Role();
@@ -131,7 +131,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @CacheEvict(cacheNames = "role", key = "'allRole'", beforeInvocation = true)
     public void deleteRole(List<Long> ids) {
         // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 删除角色
         baseMapper.deleteBatchIdsWithPhysics(ids);

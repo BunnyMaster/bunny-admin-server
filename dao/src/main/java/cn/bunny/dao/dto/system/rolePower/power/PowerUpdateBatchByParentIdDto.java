@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "PowerUpdateBatchByParentIdDto对象", title = "批量修改权限", description = "批量修改权限表单")
+@Schema(name = "PowerUpdateBatchByParentIdDto对象", title = "批量修改权限", description = "批量修改权限")
 public class PowerUpdateBatchByParentIdDto {
 
     @Schema(name = "id", title = "主键")

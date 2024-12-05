@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.configuration.WebConfigurationDto;
 import cn.bunny.dao.entity.configuration.WebConfiguration;
 import cn.bunny.dao.pojo.result.ResultCodeEnum;
@@ -26,7 +26,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     private String bashPath;
 
     private static @NotNull String getWebConfigString(InputStream inputStream, Path templatePath) throws IOException {
-        if (inputStream == null) throw new BunnyException(ResultCodeEnum.MISSING_TEMPLATE_FILES);
+        if (inputStream == null) throw new AuthCustomerException(ResultCodeEnum.MISSING_TEMPLATE_FILES);
 
         // 判断web模板文件是否存在，不存在进行复制
         boolean exists = Files.exists(templatePath);
@@ -80,7 +80,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             String string = getWebConfigString(inputStream, templatePath);
             return JSON.parseObject(string, WebConfiguration.class);
         } catch (IOException exception) {
-            throw new BunnyException(exception.getMessage());
+            throw new AuthCustomerException(exception.getMessage());
         }
     }
 
@@ -98,7 +98,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             String string = getWebConfigString(inputStream, templatePath);
             return JSON.parseObject(string, WebConfigurationVo.class);
         } catch (IOException exception) {
-            throw new BunnyException(exception.getMessage());
+            throw new AuthCustomerException(exception.getMessage());
         }
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "DeptAddDto对象", title = "部门", description = "部门管理")
+@Schema(name = "DeptAddDto对象", title = "添加部门", description = "添加部门")
 public class DeptAddDto {
 
     @Schema(name = "parentId", title = "父级id")

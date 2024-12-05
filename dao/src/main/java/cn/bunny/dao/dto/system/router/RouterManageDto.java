@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "RouterManageDto对象", title = "路由查询表单", description = "路由查询表单")
+@Schema(name = "RouterManageDto对象", title = "路由分页查询", description = "路由分页查询")
 public class RouterManageDto {
 
     @Schema(name = "title", title = "路由标题")

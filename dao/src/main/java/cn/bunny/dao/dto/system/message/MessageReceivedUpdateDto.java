@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "MessageReceivedDto对象", title = "用户消息查询", description = "用户消息查询")
+@Schema(name = "MessageReceivedDto对象", title = "更新用户消息", description = "更新用户消息")
 public class MessageReceivedUpdateDto {
 
     @Schema(name = "ids", title = "消息接受id")

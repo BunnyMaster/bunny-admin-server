@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "MenuIconAddDto对象", title = "系统菜单图标", description = "系统菜单图标管理")
+@Schema(name = "MenuIconAddDto对象", title = "添加系统菜单图标", description = "添加系统菜单图标")
 public class MenuIconAddDto {
 
     @Schema(name = "iconCode", title = "icon类名")

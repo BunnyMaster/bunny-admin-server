@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.quartz.SchedulersOperationDto;
 import cn.bunny.dao.dto.quartz.schedule.SchedulersAddDto;
 import cn.bunny.dao.dto.quartz.schedule.SchedulersDto;
@@ -134,7 +134,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
 
             scheduler.scheduleJob(jobDetail, trigger);
         } catch (Exception exception) {
-            throw new BunnyException(exception.getMessage());
+            throw new AuthCustomerException(exception.getMessage());
         }
     }
 
@@ -149,7 +149,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
             JobKey key = new JobKey(dto.getJobName(), dto.getJobGroup());
             scheduler.pauseJob(key);
         } catch (SchedulerException exception) {
-            throw new BunnyException(exception.getMessage());
+            throw new AuthCustomerException(exception.getMessage());
         }
     }
 
@@ -164,7 +164,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
             JobKey key = new JobKey(dto.getJobName(), dto.getJobGroup());
             scheduler.resumeJob(key);
         } catch (SchedulerException exception) {
-            throw new BunnyException(exception.getMessage());
+            throw new AuthCustomerException(exception.getMessage());
         }
     }
 
@@ -184,7 +184,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
             scheduler.unscheduleJob(triggerKey);
             scheduler.deleteJob(JobKey.jobKey(jobName, jobGroup));
         } catch (SchedulerException exception) {
-            throw new BunnyException(exception.getMessage());
+            throw new AuthCustomerException(exception.getMessage());
         }
     }
 }

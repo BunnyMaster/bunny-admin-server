@@ -1,7 +1,7 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.user.AssignRolesToUsersDto;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.UserRole;
@@ -54,7 +54,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
      */
     @Override
     public List<String> getRoleListByUserId(Long userId) {
-        if (userId == null) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (userId == null) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         List<UserRole> userRoles = userRoleMapper.selectList(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUserId, userId));
         return userRoles.stream().map(userRole -> userRole.getRoleId().toString()).toList();
@@ -73,7 +73,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         // 查询当前用户
         AdminUser adminUser = userMapper.selectOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
         if (adminUser == null) {
-            throw new BunnyException(ResultCodeEnum.USER_IS_EMPTY);
+            throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
         }
 
         // 删除这个用户下所有已经分配好的角色内容

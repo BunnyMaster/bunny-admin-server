@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "FilesUpdateDto对象", title = "文件", description = "文件管理")
+@Schema(name = "FilesUpdateDto对象", title = "更新文件", description = "文件管理")
 public class FilesUpdateDto {
 
     @Schema(name = "id", title = "主键")

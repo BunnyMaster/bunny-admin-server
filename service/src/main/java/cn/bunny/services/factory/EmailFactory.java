@@ -1,6 +1,6 @@
 package cn.bunny.services.factory;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.common.service.utils.mail.MailSenderUtil;
 import cn.bunny.dao.entity.system.EmailTemplate;
 import cn.bunny.dao.entity.system.EmailUsers;
@@ -33,14 +33,14 @@ public class EmailFactory {
      */
     public void sendEmailTemplate(String email, EmailTemplate emailTemplate, HashMap<String, Object> params) {
         // 判断邮件模板是否为空
-        if (emailTemplate == null) throw new BunnyException(ResultCodeEnum.EMAIL_TEMPLATE_IS_EMPTY);
+        if (emailTemplate == null) throw new AuthCustomerException(ResultCodeEnum.EMAIL_TEMPLATE_IS_EMPTY);
 
         // 查询配置发送邮箱，如果没有配置发件者邮箱改用用户列表中默认的，如果默认的也为空则报错
         Long emailUser = emailTemplate.getEmailUser();
         EmailUsers emailUsers;
         if (emailUser == null) {
             emailUsers = emailUsersMapper.selectOne(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getIsDefault, true));
-            if (emailUsers == null) throw new BunnyException(ResultCodeEnum.EMAIL_USER_IS_EMPTY);
+            if (emailUsers == null) throw new AuthCustomerException(ResultCodeEnum.EMAIL_USER_IS_EMPTY);
         } else {
             emailUsers = emailUsersMapper.selectOne(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getId, emailUser));
         }
@@ -66,7 +66,7 @@ public class EmailFactory {
             emailSend.setText(modifiedTemplate[0]);
             MailSenderUtil.sendEmail(emailSendInit, emailSend);
         } catch (MessagingException e) {
-            throw new BunnyException(ResultCodeEnum.SEND_MAIL_CODE_ERROR);
+            throw new AuthCustomerException(ResultCodeEnum.SEND_MAIL_CODE_ERROR);
         }
     }
 

@@ -1,6 +1,6 @@
 package cn.bunny.services.security.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.user.LoginDto;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.pojo.result.Result;
@@ -78,7 +78,7 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
 
         // 对登录密码进行md5加密判断，是否与数据库中一致
         String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
-        if (!user.getPassword().equals(md5Password)) throw new BunnyException(ResultCodeEnum.LOGIN_ERROR);
+        if (!user.getPassword().equals(md5Password)) throw new AuthCustomerException(ResultCodeEnum.LOGIN_ERROR);
 
         return userFactory.buildLoginUserVo(user, readMeDay);
     }

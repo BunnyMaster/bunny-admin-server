@@ -1,7 +1,7 @@
 package cn.bunny.services.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.common.entity.BaseEntity;
 import cn.bunny.dao.dto.system.message.MessageAddDto;
 import cn.bunny.dao.dto.system.message.MessageDto;
@@ -131,7 +131,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     @Override
     public List<MessageReceivedWithUserVo> getReceivedUserinfoByMessageId(Long messageId) {
         if (messageId == null) {
-            throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+            throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
         }
         return baseMapper.selectUserinfoListByMessageId(messageId);
     }

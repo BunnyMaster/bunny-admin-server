@@ -10,24 +10,29 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @ToString
 @Slf4j
-public class BunnyException extends RuntimeException {
-    Integer code;// 状态码
-    String message;// 描述信息
+public class AuthCustomerException extends RuntimeException {
+    // 状态码
+    Integer code;
+
+    // 描述信息
+    String message;
+
+    // 返回结果状态
     ResultCodeEnum resultCodeEnum;
 
 
-    public BunnyException(Integer code, String message) {
+    public AuthCustomerException(Integer code, String message) {
         super(message);
         this.code = code;
         this.message = message;
     }
 
-    public BunnyException(String message) {
+    public AuthCustomerException(String message) {
         super(message);
         this.message = message;
     }
 
-    public BunnyException(ResultCodeEnum codeEnum) {
+    public AuthCustomerException(ResultCodeEnum codeEnum) {
         super(codeEnum.getMessage());
         this.code = codeEnum.getCode();
         this.message = codeEnum.getMessage();

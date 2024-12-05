@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.email.template.EmailTemplateAddDto;
 import cn.bunny.dao.dto.system.email.template.EmailTemplateDto;
 import cn.bunny.dao.dto.system.email.template.EmailTemplateUpdateDto;
@@ -76,7 +76,7 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
     public void updateEmailTemplate(@Valid EmailTemplateUpdateDto dto) {
         // 查询是否有这个模板
         List<EmailTemplate> emailTemplateList = list(Wrappers.<EmailTemplate>lambdaQuery().eq(EmailTemplate::getId, dto.getId()));
-        if (emailTemplateList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+        if (emailTemplateList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 更新内容
         EmailTemplate emailTemplate = new EmailTemplate();
@@ -92,7 +92,7 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
     @Override
     public void deleteEmailTemplate(List<Long> ids) {
         // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }

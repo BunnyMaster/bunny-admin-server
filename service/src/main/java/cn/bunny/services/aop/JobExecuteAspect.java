@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Aspect
 @Component
-public class JobExecuteAop {
+public class JobExecuteAspect {
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(LocalDateTimeConstant.YYYY_MM_DD_HH_MM_SS);
 

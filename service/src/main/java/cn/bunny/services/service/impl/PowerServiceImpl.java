@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.rolePower.power.PowerAddDto;
 import cn.bunny.dao.dto.system.rolePower.power.PowerDto;
 import cn.bunny.dao.dto.system.rolePower.power.PowerUpdateBatchByParentIdDto;
@@ -91,7 +91,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
                 .or()
                 .eq(Power::getRequestUrl, dto.getRequestUrl());
         List<Power> powerList = list(wrapper);
-        if (!powerList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
+        if (!powerList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_EXIST);
 
         // 保存数据
         Power power = new Power();
@@ -109,8 +109,8 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
     public void updatePower(@Valid PowerUpdateDto dto) {
         Long id = dto.getId();
         List<Power> powerList = list(Wrappers.<Power>lambdaQuery().eq(Power::getId, id));
-        if (powerList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
-        if (dto.getId().equals(dto.getParentId())) throw new BunnyException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
+        if (powerList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
+        if (dto.getId().equals(dto.getParentId())) throw new AuthCustomerException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
 
         // 更新内容
         Power power = new Power();
@@ -127,7 +127,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
     @CacheEvict(cacheNames = "power", key = "'allPower'", beforeInvocation = true)
     public void deletePower(List<Long> ids) {
         // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 删除权限
         baseMapper.deleteBatchIdsWithPhysics(ids);

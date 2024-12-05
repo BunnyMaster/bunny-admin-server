@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "SchedulersDto对象", title = "Schedulers查询表单", description = "Schedulers查询表单")
+@Schema(name = "SchedulersDto对象", title = "Schedulers分页查询", description = "Schedulers分页查询")
 public class SchedulersDto {
 
     @Schema(name = "jobName", title = "任务名称")

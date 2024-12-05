@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "RoleDto对象", title = "角色", description = "角色管理")
+@Schema(name = "RoleDto对象", title = "角色分页查询", description = "角色管理")
 public class RoleDto {
 
     @Schema(name = "roleCode", title = "角色代码")

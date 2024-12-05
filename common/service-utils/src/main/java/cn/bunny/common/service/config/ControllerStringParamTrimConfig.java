@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 import java.io.IOException;
 
+/**
+ * 去除前端传递的空格
+ */
 @ControllerAdvice
 public class ControllerStringParamTrimConfig {
 

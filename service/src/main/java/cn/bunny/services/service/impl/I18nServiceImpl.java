@@ -1,6 +1,6 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.BunnyException;
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.i18n.I18nAddDto;
 import cn.bunny.dao.dto.i18n.I18nDto;
 import cn.bunny.dao.dto.i18n.I18nUpdateDto;
@@ -99,7 +99,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
 
         // 查询数据是否存在
         List<I18n> i18nList = list(Wrappers.<I18n>lambdaQuery().eq(I18n::getKeyName, keyName).eq(I18n::getTypeName, typeName));
-        if (!i18nList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_EXIST);
+        if (!i18nList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_EXIST);
 
         // 保存内容
         I18n i18n = new I18n();
@@ -119,7 +119,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
 
         // 查询数据是否存在
         List<I18n> i18nList = list(Wrappers.<I18n>lambdaQuery().eq(I18n::getId, id));
-        if (i18nList.isEmpty()) throw new BunnyException(ResultCodeEnum.DATA_NOT_EXIST);
+        if (i18nList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 保存内容
         I18n i18n = new I18n();
@@ -136,7 +136,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
     @CacheEvict(cacheNames = "i18n", key = "'i18n'", beforeInvocation = true)
     public void deleteI18n(List<Long> ids) {
         // 判断数据请求是否为空
-        if (ids.isEmpty()) throw new BunnyException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }

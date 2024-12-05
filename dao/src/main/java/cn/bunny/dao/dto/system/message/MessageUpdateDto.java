@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "MessageUpdateDto对象", title = "系统消息", description = "系统消息")
+@Schema(name = "MessageUpdateDto对象", title = "更新系统消息", description = "系统消息")
 public class MessageUpdateDto {
 
     @Schema(name = "id", title = "主键")
