@@ -11,6 +11,7 @@ import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.email.EmailTemplateVo;
 import cn.bunny.services.mapper.EmailTemplateMapper;
 import cn.bunny.services.service.EmailTemplateService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -18,11 +19,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -33,6 +32,7 @@ import java.util.Map;
  * @since 2024-10-10 21:24:08
  */
 @Service
+@Transactional
 public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, EmailTemplate> implements EmailTemplateService {
 
     /**
@@ -45,9 +45,22 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
     @Override
     public PageResult<EmailTemplateVo> getEmailTemplateList(Page<EmailTemplate> pageParams, EmailTemplateDto dto) {
         IPage<EmailTemplateVo> page = baseMapper.selectListByPage(pageParams, dto);
+        List<EmailTemplateVo> emailTemplateVos = page.getRecords().stream()
+                .map(emailTemplateVo -> {
+                    EmailTemplateVo vo = new EmailTemplateVo();
+                    BeanUtils.copyProperties(emailTemplateVo, vo);
+
+                    // 查找枚举内容并设置详情
+                    List<EmailTemplateEnums> emailTemplateEnums = Arrays.stream(EmailTemplateEnums.values())
+                            .filter(enums -> enums.getType().equals(vo.getType()))
+                            .toList();
+                    vo.setSummary(emailTemplateEnums.get(0).getSummary());
+                    return vo;
+                })
+                .toList();
 
         return PageResult.<EmailTemplateVo>builder()
-                .list(page.getRecords())
+                .list(emailTemplateVos)
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())
@@ -61,9 +74,28 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      */
     @Override
     public void addEmailTemplate(@Valid EmailTemplateAddDto dto) {
+        String type = dto.getType();
+
         // 保存数据
         EmailTemplate emailTemplate = new EmailTemplate();
         BeanUtils.copyProperties(dto, emailTemplate);
+
+        // 判断当前类型是否已有默认，如果是不设置为默认直接保存
+        if (!dto.getIsDefault()) {
+            save(emailTemplate);
+            return;
+        }
+
+        LambdaQueryWrapper<EmailTemplate> emailTemplateLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        emailTemplateLambdaQueryWrapper.eq(EmailTemplate::getType, type);
+        emailTemplateLambdaQueryWrapper.eq(EmailTemplate::getIsDefault, Boolean.TRUE);
+        List<EmailTemplate> emailTemplateList = list(emailTemplateLambdaQueryWrapper);
+
+        // 更新列表
+        List<EmailTemplate> updateList = emailTemplateList.stream().map(template -> template.setIsDefault(false)).toList();
+        if (!updateList.isEmpty()) {
+            updateBatchById(updateList);
+        }
         save(emailTemplate);
     }
 
@@ -74,6 +106,8 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      */
     @Override
     public void updateEmailTemplate(@Valid EmailTemplateUpdateDto dto) {
+        String type = dto.getType();
+
         // 查询是否有这个模板
         List<EmailTemplate> emailTemplateList = list(Wrappers.<EmailTemplate>lambdaQuery().eq(EmailTemplate::getId, dto.getId()));
         if (emailTemplateList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
@@ -81,7 +115,21 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
         // 更新内容
         EmailTemplate emailTemplate = new EmailTemplate();
         BeanUtils.copyProperties(dto, emailTemplate);
-        updateById(emailTemplate);
+
+        // 判断当前类型是否已有默认，如果是不设置为默认直接保存
+        List<EmailTemplate> updateList = new ArrayList<>();
+        if (dto.getIsDefault()) {
+            LambdaQueryWrapper<EmailTemplate> emailTemplateLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            emailTemplateLambdaQueryWrapper.eq(EmailTemplate::getType, type);
+            emailTemplateLambdaQueryWrapper.eq(EmailTemplate::getIsDefault, Boolean.TRUE);
+
+            // 更新数据列表
+            List<EmailTemplate> checkEmailTemplateList = list(emailTemplateLambdaQueryWrapper);
+            updateList = new ArrayList<>(checkEmailTemplateList.stream().map(template -> template.setIsDefault(false)).toList());
+        }
+
+        updateList.add(emailTemplate);
+        updateBatchById(updateList);
     }
 
     /**
@@ -112,3 +160,4 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
         }).toList();
     }
 }
+

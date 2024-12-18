@@ -46,6 +46,9 @@
             <if test="dto.type != null and dto.type != ''">
                 and template.type like CONCAT('%',#{dto.type},'%')
             </if>
+            <if test="dto.isDefault != null and dto.isDefault != ''">
+                and template.isDefault = #{dto.isDefault}
+            </if>
         </where>
     </select>
 

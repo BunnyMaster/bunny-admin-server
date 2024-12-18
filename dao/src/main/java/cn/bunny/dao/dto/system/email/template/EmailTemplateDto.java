@@ -24,5 +24,9 @@ public class EmailTemplateDto {
 
     @Schema(name = "type", title = "邮件类型")
     private String type;
+    
+    @Schema(name = "isDefault", title = "是否默认")
+    private Boolean isDefault;
+
 }
 

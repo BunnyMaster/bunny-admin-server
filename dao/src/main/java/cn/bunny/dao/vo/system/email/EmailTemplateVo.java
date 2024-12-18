@@ -35,6 +35,9 @@ public class EmailTemplateVo extends BaseUserVo {
     @Schema(name = "type", title = "邮件类型")
     private String type;
 
+    @Schema(name = "summary", title = "邮件类型详情")
+    private String summary;
+
     @Schema(name = "isDefault", title = "是否默认")
     private Boolean isDefault;
 

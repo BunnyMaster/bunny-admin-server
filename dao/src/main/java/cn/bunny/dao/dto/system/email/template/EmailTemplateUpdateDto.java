@@ -40,4 +40,9 @@ public class EmailTemplateUpdateDto {
 
     @Schema(name = "type", title = "邮件类型")
     private String type;
+
+    @Schema(name = "isDefault", title = "是否默认")
+    @NotNull(message = "是否默认不能为空")
+    private Boolean isDefault;
+
 }
