@@ -58,6 +58,13 @@ public class GlobalExceptionHandler {
             return Result.error(null, 500, "[" + primaryKeyErrorMatcher.group(1) + "]已存在");
         }
 
+        // corn表达式错误
+        String cronExpression = "CronExpression '(.*?)' is invalid";
+        Matcher cronExpressionMatcher = Pattern.compile(cronExpression).matcher(message);
+        if (cronExpressionMatcher.find()) {
+            return Result.error(null, 500, "表达式 " + cronExpressionMatcher.group(1) + " 不合法");
+        }
+
         log.error("GlobalExceptionHandler===>运行时异常信息：{}", message);
         exception.printStackTrace();
         return Result.error(null, 500, "服务器异常");

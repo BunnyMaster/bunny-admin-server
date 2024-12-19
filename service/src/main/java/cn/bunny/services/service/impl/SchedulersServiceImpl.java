@@ -4,8 +4,10 @@ import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.quartz.SchedulersOperationDto;
 import cn.bunny.dao.dto.quartz.schedule.SchedulersAddDto;
 import cn.bunny.dao.dto.quartz.schedule.SchedulersDto;
+import cn.bunny.dao.dto.quartz.schedule.SchedulersUpdateDto;
 import cn.bunny.dao.entity.quartz.Schedulers;
 import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.quartz.SchedulersVo;
 import cn.bunny.services.aop.AnnotationScanner;
 import cn.bunny.services.aop.annotation.QuartzSchedulers;
@@ -20,10 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>
@@ -90,6 +89,36 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
             hashMap.put("type", type);
             return hashMap;
         }).toList();
+    }
+
+    /**
+     * 更新任务
+     *
+     * @param dto 更新任务表单
+     */
+    @Override
+    public void updateSchedulers(SchedulersUpdateDto dto) {
+        String jobName = dto.getJobName();
+        String jobGroup = dto.getJobGroup();
+        String cronExpression = dto.getCronExpression();
+
+        CronTrigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity(jobName, jobGroup)
+                .withDescription(dto.getDescription())
+                .startNow()
+                .withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
+                .build();
+
+        try {
+            TriggerKey key = new TriggerKey(jobName, jobGroup);
+            Trigger oldTrigger = scheduler.getTrigger(key);
+            Date date = scheduler.rescheduleJob(oldTrigger.getKey(), trigger);
+            if (date == null) {
+                throw new AuthCustomerException(ResultCodeEnum.UPDATE_ERROR);
+            }
+        } catch (SchedulerException e) {
+            throw new AuthCustomerException(ResultCodeEnum.UPDATE_ERROR);
+        }
     }
 
     /**

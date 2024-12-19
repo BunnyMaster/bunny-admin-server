@@ -3,6 +3,7 @@ package cn.bunny.services.service;
 import cn.bunny.dao.dto.quartz.SchedulersOperationDto;
 import cn.bunny.dao.dto.quartz.schedule.SchedulersAddDto;
 import cn.bunny.dao.dto.quartz.schedule.SchedulersDto;
+import cn.bunny.dao.dto.quartz.schedule.SchedulersUpdateDto;
 import cn.bunny.dao.entity.quartz.Schedulers;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.vo.quartz.SchedulersVo;
@@ -64,4 +65,11 @@ public interface SchedulersService extends IService<Schedulers> {
      * @return 所有调度任务内容
      */
     List<Map<String, String>> getAllScheduleJobList();
+
+    /**
+     * 更新任务
+     *
+     * @param dto 更新任务表单
+     */
+    void updateSchedulers(SchedulersUpdateDto dto);
 }

@@ -87,7 +87,7 @@ public class MinioUtil {
 
             return minioFile;
         } catch (Exception exception) {
-            throw new AuthCustomerException(ResultCodeEnum.UPDATE_ERROR);
+            throw new AuthCustomerException(ResultCodeEnum.UPLOAD_ERROR);
         }
     }
 
@@ -135,7 +135,7 @@ public class MinioUtil {
             minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(filename).stream(inputStream, size, -1).build());
         } catch (Exception exception) {
             log.error("上传文件失败：{}", (Object) exception.getStackTrace());
-            throw new AuthCustomerException(ResultCodeEnum.UPDATE_ERROR);
+            throw new AuthCustomerException(ResultCodeEnum.UPLOAD_ERROR);
         }
     }
 

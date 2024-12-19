@@ -58,6 +58,7 @@ public enum ResultCodeEnum {
     THE_SAME_USER_HAS_LOGGED_IN(209, "相同用户已登录"),
 
     // 提示错误
+    UPDATE_ERROR(216, "修改失败"),
     URL_ENCODE_ERROR(216, "URL编码失败"),
     ILLEGAL_CALLBACK_REQUEST_ERROR(217, "非法回调请求"),
     FETCH_USERINFO_ERROR(219, "获取用户信息失败"),
@@ -75,7 +76,7 @@ public enum ResultCodeEnum {
     // 系统错误 500
     UNKNOWN_EXCEPTION(500, "服务异常"),
     SERVICE_ERROR(500, "服务异常"),
-    UPDATE_ERROR(500, "上传文件失败"),
+    UPLOAD_ERROR(500, "上传失败"),
     FAIL(500, "失败"),
     ;
 

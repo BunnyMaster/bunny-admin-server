@@ -130,6 +130,15 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
 
         updateList.add(emailTemplate);
         updateBatchById(updateList);
+
+        // 默认邮件
+        List<EmailTemplate> emailTemplates = list(Wrappers.<EmailTemplate>lambdaQuery().eq(EmailTemplate::getType, type));
+        List<EmailTemplate> isEmailTemplateListEmpty = emailTemplates.stream().filter(template -> template.getIsDefault().equals(true)).toList();
+        if (isEmailTemplateListEmpty.isEmpty()) {
+            EmailTemplate template = emailTemplates.get(0);
+            template.setIsDefault(Boolean.TRUE);
+            updateById(template);
+        }
     }
 
     /**

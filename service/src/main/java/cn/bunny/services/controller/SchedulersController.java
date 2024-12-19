@@ -3,6 +3,7 @@ package cn.bunny.services.controller;
 import cn.bunny.dao.dto.quartz.SchedulersOperationDto;
 import cn.bunny.dao.dto.quartz.schedule.SchedulersAddDto;
 import cn.bunny.dao.dto.quartz.schedule.SchedulersDto;
+import cn.bunny.dao.dto.quartz.schedule.SchedulersUpdateDto;
 import cn.bunny.dao.entity.quartz.Schedulers;
 import cn.bunny.dao.pojo.result.PageResult;
 import cn.bunny.dao.pojo.result.Result;
@@ -63,6 +64,14 @@ public class SchedulersController {
         schedulersService.addSchedulers(dto);
         return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
     }
+
+    @Operation(summary = "更新任务", description = "更新任务")
+    @PutMapping("updateSchedulers")
+    public Result<String> updateSchedulers(@Valid @RequestBody SchedulersUpdateDto dto) {
+        schedulersService.updateSchedulers(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
 
     @Operation(summary = "暂停任务", description = "暂停任务")
     @PutMapping("/pauseSchedulers")

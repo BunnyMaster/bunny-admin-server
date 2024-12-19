@@ -30,19 +30,19 @@ public class SchedulersUpdateDto {
     @NotNull(message = "任务详情不能为空")
     private String description;
 
-    @Schema(name = "jobClassName", title = "任务类名称")
-    @NotBlank(message = "corn表达式不能为空")
-    @NotNull(message = "corn表达式不能为空")
-    private String jobClassName;
+    // @Schema(name = "jobClassName", title = "任务类名称")
+    // @NotBlank(message = "corn表达式不能为空")
+    // @NotNull(message = "corn表达式不能为空")
+    // private String jobClassName;
 
     @Schema(name = "cronExpression", title = "corn表达式")
     @NotBlank(message = "corn表达式不能为空")
     @NotNull(message = "corn表达式不能为空")
     private String cronExpression;
 
-    @Schema(name = "jobMethodName", title = "执行方法")
-    @NotBlank(message = "执行方法不能为空")
-    @NotNull(message = "执行方法不能为空")
-    private String jobMethodName;
+    // @Schema(name = "jobMethodName", title = "执行方法")
+    // @NotBlank(message = "执行方法不能为空")
+    // @NotNull(message = "执行方法不能为空")
+    // private String jobMethodName;
 
 }
