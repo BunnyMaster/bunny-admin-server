@@ -11,7 +11,7 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 18/11/2024 15:08:23
+ Date: 29/12/2024 21:39:07
 */
 
 SET NAMES utf8mb4;
@@ -540,6 +540,9 @@ INSERT INTO `sys_files` VALUES (1853360488756101121, '003540AH4M7.jpg', '/auth-a
 INSERT INTO `sys_files` VALUES (1853360685720616962, 'f083c7e3-7959-43b3-b810-62ced61a3fc2.jpg', '/auth-admin/message/2024/11-04/7d63d2c7-d88c-4883-b669-71244a733b50.jpg', 3338, 'image/jpeg', 0, 1, 1, '2024-11-04 16:56:36', '2024-11-04 16:56:36', 0);
 INSERT INTO `sys_files` VALUES (1853362259058573313, 'f083c7e3-7959-43b3-b810-62ced61a3fc2.jpg', '/auth-admin/message/2024/11-04/61a09577-9929-4f8f-b701-5c336510f6f2.jpg', 3338, 'image/jpeg', 0, 1, 1, '2024-11-04 17:02:51', '2024-11-04 17:02:51', 0);
 INSERT INTO `sys_files` VALUES (1853496579492413441, 'blob', '/auth-admin/avatar/2024/11-05/56ea89bd-b894-4507-8e00-5ee2623ab65c', 921652, 'image/png', 0, 1853494274437152770, 1853494274437152770, '2024-11-05 01:56:36', '2024-11-05 01:56:36', 0);
+INSERT INTO `sys_files` VALUES (1868249983507075073, 'avatar', '/auth-admin/avatar/2024/12-15/a2d44804-d081-4fdc-ac67-68e83e0eeb66', 133105, 'application/octet-stream', 0, 1849444494908125181, 1849444494908125181, '2024-12-15 19:01:21', '2024-12-15 19:01:21', 0);
+INSERT INTO `sys_files` VALUES (1868249986585694210, 'avatar', '/auth-admin/avatar/2024/12-15/c847bce6-8b2f-4fe6-8fe8-85204af5253e', 133105, 'application/octet-stream', 0, 1849444494908125181, 1849444494908125181, '2024-12-15 19:01:22', '2024-12-15 19:01:22', 0);
+INSERT INTO `sys_files` VALUES (1868541558913077249, 'avatar', '/auth-admin/avatar/2024/12-16/d317ea6a-5187-472b-be0c-f5f56e303bba', 123321, 'application/octet-stream', 0, 1849444494908125181, 1849444494908125181, '2024-12-16 14:19:58', '2024-12-16 14:19:58', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n
@@ -568,7 +571,7 @@ CREATE TABLE `sys_i18n`  (
 -- ----------------------------
 -- Records of sys_i18n
 -- ----------------------------
-INSERT INTO `sys_i18n` VALUES (1840622816000196609, 'menus.pureSuccess', '成功页面', 'zh', 1, 1, '2024-11-14 23:34:23', '2024-09-30 21:20:51', 0);
+INSERT INTO `sys_i18n` VALUES (1840622816000196609, 'menus.pureSuccess', '成功页面', 'zh', 1, 1, '2024-11-18 15:07:29', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622816000196610, 'menus.pureInfiniteScroll', '表格无限滚动', 'zh', 1, 1849444494908125181, '2024-10-30 21:17:23', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622816000196611, 'menus.pureSplitPane', '切割面板', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
 INSERT INTO `sys_i18n` VALUES (1840622816000196612, 'menus.pureDownload', '下载', 'zh', 1, 1, '2024-09-30 21:20:51', '2024-09-30 21:20:51', 0);
@@ -1778,6 +1781,7 @@ CREATE TABLE `sys_i18n_type`  (
 -- ----------------------------
 INSERT INTO `sys_i18n_type` VALUES (1840386017158090753, 'zh', '中文', 1, 1, 1, '2024-10-17 18:15:40', '2024-09-30 05:39:54', 0);
 INSERT INTO `sys_i18n_type` VALUES (1840402418253996034, 'en', '英语', 0, 1, 1, '2024-09-30 06:45:04', '2024-09-30 06:45:04', 0);
+INSERT INTO `sys_i18n_type` VALUES (1862399735119319041, '韩语', '韩语', 0, 1849444494908125181, 1849444494908125181, '2024-11-29 15:34:33', '2024-11-29 15:34:33', 0);
 
 -- ----------------------------
 -- Table structure for sys_menu_icon
@@ -1921,13 +1925,13 @@ CREATE TABLE `sys_message_received`  (
 -- ----------------------------
 -- Records of sys_message_received
 -- ----------------------------
-INSERT INTO `sys_message_received` VALUES (1853350668003000324, 1849444494908125181, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1853350668003000324, 1849444494908125181, 1853350668003000322, 1, '2024-11-04 16:16:48', '2024-11-18 21:04:12', 1849444494908125181, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1853350668003000325, 1849681227633758210, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1853350668003000326, 1850075157831454722, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1853350668003000327, 1850080272764211202, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1853350668003000328, 1850789068551200769, 1853350668003000322, 0, '2024-11-04 16:16:48', '2024-11-04 16:16:48', 1, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1854932653997625346, 1, 1854932653951488002, 1, '2024-11-09 01:03:02', '2024-11-09 01:03:16', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1854932653997625347, 1849444494908125181, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1854932653997625347, 1849444494908125181, 1854932653951488002, 1, '2024-11-09 01:03:02', '2024-11-24 20:40:21', 1849444494908125181, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1854932653997625348, 1849681227633758210, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1854932653997625349, 1850075157831454722, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
 INSERT INTO `sys_message_received` VALUES (1854932653997625350, 1850080272764211202, 1854932653951488002, 0, '2024-11-09 01:03:02', '2024-11-09 01:03:02', 1, 1, 0);
@@ -2254,7 +2258,6 @@ CREATE TABLE `sys_router`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_path`(`path` ASC) USING BTREE,
   UNIQUE INDEX `unique_router_name`(`route_name` ASC) USING BTREE,
-  UNIQUE INDEX `unique_router_rank`(`router_rank` ASC) USING BTREE,
   INDEX `idx_id_parent_id`(`id` ASC, `parent_id` ASC) USING BTREE,
   INDEX `idx_id`(`id` ASC) USING BTREE,
   INDEX `idx_parent_id`(`parent_id` ASC) USING BTREE,
@@ -2266,49 +2269,50 @@ CREATE TABLE `sys_router`  (
   INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
   INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
   INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
+  INDEX `idx_router_rank`(`router_rank` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_router
 -- ----------------------------
 INSERT INTO `sys_router` VALUES (1, 0, '/system', '', '', 'systemManagement', 'systemManagement', 0, 'carbon:router', 1, 1, NULL, 1, '2024-11-01 20:03:34', '2024-09-29 09:46:31', 0);
-INSERT INTO `sys_router` VALUES (2, 1, '/system/menu', '/system/menu/index', '', 'menu', 'system_menu', 0, 'subway:menu', 6, 1, NULL, 1, '2024-11-01 14:44:05', '2024-09-29 09:46:31', 0);
-INSERT INTO `sys_router` VALUES (1840211412516524034, 1841716459123634177, '/i18n/i18n-setting', '/i18n/i18n-setting/index', '', 'system_i18n', 'system_i18n', 0, 'clarity:language-solid', 22, 1, 1, 1, '2024-11-01 14:45:02', '2024-09-29 18:06:05', 0);
-INSERT INTO `sys_router` VALUES (1840292695145963522, 1841716459123634177, '/i18n/i18n-type-setting', '/i18n/i18n-type-setting/index', '', 'i18n-type-setting', 'i18n_type_setting', 0, 'clarity:language-line', 23, 1, 1, 1, '2024-11-01 14:45:05', '2024-09-29 23:29:04', 0);
-INSERT INTO `sys_router` VALUES (1841506924681338881, 1844900259930243074, '/configuration/menuIcon', '/configuration/menuIcon/index', '', 'menuIcon', 'menuIcon', 0, 'tdesign:file-icon', 8, 1, 1, 1, '2024-11-01 14:44:16', '2024-10-03 07:53:59', 0);
-INSERT INTO `sys_router` VALUES (1841716459123634177, 0, '/i18n', '/i18n', '', 'i18n', 'i18n', 0, 'material-symbols:language', 21, 1, 1, 1, '2024-11-01 14:45:00', '2024-10-03 21:46:36', 0);
-INSERT INTO `sys_router` VALUES (1841726844983701505, 1, '/system/role', '/system/role/index', '', 'role', 'role', 0, 'fluent-mdl2:manager-self-service', 3, 1, 1, 1, '2024-11-01 14:43:56', '2024-10-03 22:27:52', 0);
-INSERT INTO `sys_router` VALUES (1841750734275416065, 1, '/system/power', '/system/power/index', '', 'power', 'power', 0, 'oui:app-users-roles', 4, 1, 1, 1, '2024-11-01 14:43:58', '2024-10-04 00:02:48', 0);
+INSERT INTO `sys_router` VALUES (2, 1, '/system/menu', '/system/menu/index', '', 'menu', 'system_menu', 0, 'subway:menu', 5, 1, NULL, 1, '2024-11-21 14:04:51', '2024-09-29 09:46:31', 0);
+INSERT INTO `sys_router` VALUES (1840211412516524034, 1841716459123634177, '/i18n/i18n-setting', '/i18n/i18n-setting/index', '', 'system_i18n', 'system_i18n', 0, 'clarity:language-solid', 5, 1, 1, 1, '2024-11-21 14:06:31', '2024-09-29 18:06:05', 0);
+INSERT INTO `sys_router` VALUES (1840292695145963522, 1841716459123634177, '/i18n/i18n-type-setting', '/i18n/i18n-type-setting/index', '', 'i18n-type-setting', 'i18n_type_setting', 0, 'clarity:language-line', 6, 1, 1, 1, '2024-11-21 14:06:34', '2024-09-29 23:29:04', 0);
+INSERT INTO `sys_router` VALUES (1841506924681338881, 1844900259930243074, '/configuration/menuIcon', '/configuration/menuIcon/index', '', 'menuIcon', 'menuIcon', 0, 'tdesign:file-icon', 2, 1, 1, 1, '2024-11-21 14:05:04', '2024-10-03 07:53:59', 0);
+INSERT INTO `sys_router` VALUES (1841716459123634177, 0, '/i18n', '/i18n', '', 'i18n', 'i18n', 0, 'material-symbols:language', 5, 1, 1, 1, '2024-11-21 14:06:28', '2024-10-03 21:46:36', 0);
+INSERT INTO `sys_router` VALUES (1841726844983701505, 1, '/system/role', '/system/role/index', '', 'role', 'role', 0, 'fluent-mdl2:manager-self-service', 2, 1, 1, 1, '2024-11-21 14:04:43', '2024-10-03 22:27:52', 0);
+INSERT INTO `sys_router` VALUES (1841750734275416065, 1, '/system/power', '/system/power/index', '', 'power', 'power', 0, 'oui:app-users-roles', 3, 1, 1, 1, '2024-11-21 14:04:45', '2024-10-04 00:02:48', 0);
 INSERT INTO `sys_router` VALUES (1841794929635635201, 1844956874037469185, '/element-plus', '', 'https://element-plus.org/zh-CN/component/switch.html', 'element_plus', 'element_plus', 1, 'logos:element', 62, 1, 1, 1, '2024-11-01 14:46:20', '2024-10-04 02:58:25', 0);
-INSERT INTO `sys_router` VALUES (1841796585525985281, 0, '/iframe', '', '', 'external_page', 'external_page', 0, 'mdi:iframe-outline', 60, 1, 1, 1, '2024-11-01 14:46:13', '2024-10-04 03:05:00', 0);
+INSERT INTO `sys_router` VALUES (1841796585525985281, 0, '/iframe', '', '', 'external_page', 'external_page', 0, 'mdi:iframe-outline', 8, 1, 1, 1, '2024-11-21 14:07:23', '2024-10-04 03:05:00', 0);
 INSERT INTO `sys_router` VALUES (1841796893769580546, 1844956874037469185, '/pure-admin', '', 'https://pure-admin.github.io/vue-pure-admin/#/system/user/index', 'pure_admin', 'pure_admin', 1, 'file-icons:pure', 63, 1, 1, 1, '2024-11-01 14:46:22', '2024-10-04 03:06:13', 0);
-INSERT INTO `sys_router` VALUES (1841803086252548097, 1, '/system/admin-user', '/system/adminUser/index', '', 'admin_user', 'admin_user', 0, 'ic:round-manage-accounts', 2, 1, 1, 1, '2024-11-01 14:43:54', '2024-10-04 03:30:49', 0);
-INSERT INTO `sys_router` VALUES (1842033245832458241, 1, '/system/dept', '/system/dept/index', '', 'dept', 'dept', 0, 'grommet-icons:user-manager', 5, 1, 1, 1, '2024-11-01 14:44:01', '2024-10-04 18:45:24', 0);
-INSERT INTO `sys_router` VALUES (1843932804747603970, 1, '/system/files', '/system/files/index', '', 'system_files', 'system_files', 0, 'line-md:file-filled', 17, 1, 1, 1, '2024-11-01 20:02:50', '2024-10-10 00:33:34', 0);
-INSERT INTO `sys_router` VALUES (1844276961265557505, 1844900259930243074, '/configuration/emailUsers', '/configuration/emailUsers/index', '', 'emailUsers', 'emailUsers', 0, 'line-md:email-filled', 9, 1, 1, 1, '2024-11-01 14:44:19', '2024-10-10 23:21:07', 0);
-INSERT INTO `sys_router` VALUES (1844290948342456321, 1844900259930243074, '/configuration/emailTemplate', '/configuration/emailTemplate/index', '', 'emailTemplate', 'emailTemplate', 0, 'fluent-mdl2:chart-template', 10, 1, 1, 1, '2024-11-01 14:44:23', '2024-10-11 00:16:42', 0);
-INSERT INTO `sys_router` VALUES (1844644093987880962, 0, '/monitor', '', '', 'monitor', 'monitor', 0, 'carbon:cloud-monitoring', 12, 1, 1, 1, '2024-11-01 14:44:30', '2024-10-11 23:39:58', 0);
-INSERT INTO `sys_router` VALUES (1844644779039358978, 1844644093987880962, '/monitor/server', '/monitor/server/index', '', 'monitoring_server', 'monitoring_server', 0, 'bxs:server', 13, 1, 1, 1, '2024-11-01 14:44:32', '2024-10-11 23:42:42', 0);
-INSERT INTO `sys_router` VALUES (1844900259930243074, 0, '/configuration', '', '', 'configuration', 'configuration', 0, 'hugeicons:configuration-01', 7, 1, 1, 1, '2024-11-01 14:44:10', '2024-10-12 16:37:53', 0);
-INSERT INTO `sys_router` VALUES (1844956874037469185, 1841796585525985281, '/iframe/embedded-doc', '', '', 'embedded_doc', 'embedded_doc', 0, 'mdi:iframe-braces', 61, 1, 1, 1, '2024-11-01 14:46:16', '2024-10-12 20:22:51', 0);
-INSERT INTO `sys_router` VALUES (1844957189138751490, 1841796585525985281, '/ifram/external-doc', '', '', 'external_doc', 'external_doc', 0, 'line-md:link', 64, 1, 1, 1, '2024-11-01 14:46:25', '2024-10-12 20:24:06', 0);
+INSERT INTO `sys_router` VALUES (1841803086252548097, 1, '/system/admin-user', '/system/adminUser/index', '', 'admin_user', 'admin_user', 0, 'ic:round-manage-accounts', 1, 1, 1, 1, '2024-11-21 14:04:39', '2024-10-04 03:30:49', 0);
+INSERT INTO `sys_router` VALUES (1842033245832458241, 1, '/system/dept', '/system/dept/index', '', 'dept', 'dept', 0, 'grommet-icons:user-manager', 4, 1, 1, 1, '2024-11-21 14:04:48', '2024-10-04 18:45:24', 0);
+INSERT INTO `sys_router` VALUES (1843932804747603970, 1, '/system/files', '/system/files/index', '', 'system_files', 'system_files', 0, 'line-md:file-filled', 6, 1, 1, 1, '2024-11-21 14:04:54', '2024-10-10 00:33:34', 0);
+INSERT INTO `sys_router` VALUES (1844276961265557505, 1844900259930243074, '/configuration/emailUsers', '/configuration/emailUsers/index', '', 'emailUsers', 'emailUsers', 0, 'line-md:email-filled', 3, 1, 1, 1, '2024-11-21 14:05:06', '2024-10-10 23:21:07', 0);
+INSERT INTO `sys_router` VALUES (1844290948342456321, 1844900259930243074, '/configuration/emailTemplate', '/configuration/emailTemplate/index', '', 'emailTemplate', 'emailTemplate', 0, 'fluent-mdl2:chart-template', 4, 1, 1, 1, '2024-11-21 14:05:09', '2024-10-11 00:16:42', 0);
+INSERT INTO `sys_router` VALUES (1844644093987880962, 0, '/monitor', '', '', 'monitor', 'monitor', 0, 'carbon:cloud-monitoring', 3, 1, 1, 1, '2024-11-21 14:05:19', '2024-10-11 23:39:58', 0);
+INSERT INTO `sys_router` VALUES (1844644779039358978, 1844644093987880962, '/monitor/server', '/monitor/server/index', '', 'monitoring_server', 'monitoring_server', 0, 'bxs:server', 3, 1, 1, 1, '2024-11-21 14:06:05', '2024-10-11 23:42:42', 0);
+INSERT INTO `sys_router` VALUES (1844900259930243074, 0, '/configuration', '', '', 'configuration', 'configuration', 0, 'hugeicons:configuration-01', 2, 1, 1, 1, '2024-11-21 14:05:00', '2024-10-12 16:37:53', 0);
+INSERT INTO `sys_router` VALUES (1844956874037469185, 1841796585525985281, '/iframe/embedded-doc', '', '', 'embedded_doc', 'embedded_doc', 0, 'mdi:iframe-braces', 8, 1, 1, 1, '2024-11-21 14:07:34', '2024-10-12 20:22:51', 0);
+INSERT INTO `sys_router` VALUES (1844957189138751490, 1841796585525985281, '/ifram/external-doc', '', '', 'external_doc', 'external_doc', 0, 'line-md:link', 9, 1, 1, 1, '2024-11-21 14:07:37', '2024-10-12 20:24:06', 0);
 INSERT INTO `sys_router` VALUES (1844957830590468097, 1844957189138751490, '/external-doc/element-plus', '', '', 'https://element-plus.org/zh-CN/component/overview.html', 'element_plus', 2, 'logos:element', 65, 1, 1, 1, '2024-11-01 14:46:30', '2024-10-12 20:26:39', 0);
 INSERT INTO `sys_router` VALUES (1844958437262987265, 1844957189138751490, '/external-doc/iconify', '', '', 'https://icon-sets.iconify.design/', 'iconify', 2, 'line-md:iconify1', 66, 1, 1, 1, '2024-11-01 14:46:33', '2024-10-12 20:29:04', 0);
-INSERT INTO `sys_router` VALUES (1845812113861079042, 1846804024660791298, '/scheduler/schedulers', '/scheduler/schedulers/index', '', 'schedulers', 'schedulers', 0, 'simple-icons:apachedolphinscheduler', 19, 1, 1, 1, '2024-11-01 14:44:55', '2024-10-15 05:01:16', 0);
-INSERT INTO `sys_router` VALUES (1846166163060285441, 1846804024660791298, '/scheduler/schedulersGroup', '/scheduler/schedulersGroup/index', '', 'schedulersGroup', 'schedulersGroup', 0, 'uis:layer-group', 20, 1, 1, 1, '2024-11-01 14:44:57', '2024-10-16 04:28:08', 0);
-INSERT INTO `sys_router` VALUES (1846804024660791298, 0, '/scheduler', '', '', 'scheduler', 'scheduler', 0, 'mingcute:time-fill', 18, 1, 1, 1, '2024-11-01 14:44:52', '2024-10-17 14:42:46', 0);
-INSERT INTO `sys_router` VALUES (1847140225619992577, 1852321196101464065, '/log/schedulerExecuteLog', '/monitor/schedulerExecuteLog/index', '', 'quartzExecuteLog', 'quartzExecuteLog', 0, 'eos-icons:cronjob', 15, 1, 1, 1, '2024-11-01 20:08:47', '2024-10-18 12:58:43', 0);
-INSERT INTO `sys_router` VALUES (1847291834822123521, 1852321196101464065, '/log/userLoginLog', '/monitor/userLoginLog/index', '', 'userLoginLog', 'userLoginLog', 0, 'ph:clock-user', 14, 1, 1, 1, '2024-11-01 20:08:41', '2024-10-18 23:01:09', 0);
-INSERT INTO `sys_router` VALUES (1848989760243838978, 1844644093987880962, '/monitor/caches', '/monitor/caches/index', '', 'systemCaches', 'systemCaches', 0, 'octicon:cache-16', 16, 1, 1, 1, '2024-11-01 14:44:44', '2024-10-23 15:28:06', 0);
-INSERT INTO `sys_router` VALUES (1849000501604724738, 1844900259930243074, '/configuration/webConifg', '/configuration/webConifg/index', '', 'webConifg', 'webConifg', 0, 'vscode-icons:file-type-jsconfig', 11, 1, 1, 1, '2024-11-01 14:44:27', '2024-10-23 16:10:47', 0);
-INSERT INTO `sys_router` VALUES (1851488898978103297, 0, '/message', '', '', 'messageManagement', 'messageManagement', 0, 'line-md:email-filled', 32, 1, 1849444494908125181, 1, '2024-11-01 14:45:38', '2024-10-30 12:58:47', 0);
-INSERT INTO `sys_router` VALUES (1851488972810436609, 1851488898978103297, '/message/message-type', '/message-management/message-type/index', '', 'messageType', 'messageType', 0, 'tabler:message-circle-cog', 33, 1, 1849444494908125181, 1, '2024-11-01 14:45:41', '2024-10-30 12:59:05', 0);
+INSERT INTO `sys_router` VALUES (1845812113861079042, 1846804024660791298, '/scheduler/schedulers', '/scheduler/schedulers/index', '', 'schedulers', 'schedulers', 0, 'simple-icons:apachedolphinscheduler', 4, 1, 1, 1, '2024-11-21 14:06:19', '2024-10-15 05:01:16', 0);
+INSERT INTO `sys_router` VALUES (1846166163060285441, 1846804024660791298, '/scheduler/schedulersGroup', '/scheduler/schedulersGroup/index', '', 'schedulersGroup', 'schedulersGroup', 0, 'uis:layer-group', 5, 1, 1, 1, '2024-11-21 14:06:22', '2024-10-16 04:28:08', 0);
+INSERT INTO `sys_router` VALUES (1846804024660791298, 0, '/scheduler', '', '', 'scheduler', 'scheduler', 0, 'mingcute:time-fill', 4, 1, 1, 1, '2024-11-21 14:05:48', '2024-10-17 14:42:46', 0);
+INSERT INTO `sys_router` VALUES (1847140225619992577, 1852321196101464065, '/log/schedulerExecuteLog', '/monitor/schedulerExecuteLog/index', '', 'quartzExecuteLog', 'quartzExecuteLog', 0, 'eos-icons:cronjob', 7, 1, 1, 1, '2024-11-21 14:06:46', '2024-10-18 12:58:43', 0);
+INSERT INTO `sys_router` VALUES (1847291834822123521, 1852321196101464065, '/log/userLoginLog', '/monitor/userLoginLog/index', '', 'userLoginLog', 'userLoginLog', 0, 'ph:clock-user', 6, 1, 1, 1, '2024-11-21 14:06:43', '2024-10-18 23:01:09', 0);
+INSERT INTO `sys_router` VALUES (1848989760243838978, 1844644093987880962, '/monitor/caches', '/monitor/caches/index', '', 'systemCaches', 'systemCaches', 0, 'octicon:cache-16', 4, 1, 1, 1, '2024-11-21 14:06:07', '2024-10-23 15:28:06', 0);
+INSERT INTO `sys_router` VALUES (1849000501604724738, 1844900259930243074, '/configuration/webConifg', '/configuration/webConifg/index', '', 'webConifg', 'webConifg', 0, 'vscode-icons:file-type-jsconfig', 5, 1, 1, 1, '2024-11-21 14:05:13', '2024-10-23 16:10:47', 0);
+INSERT INTO `sys_router` VALUES (1851488898978103297, 0, '/message', '', '', 'messageManagement', 'messageManagement', 0, 'line-md:email-filled', 7, 1, 1849444494908125181, 1, '2024-11-21 14:06:51', '2024-10-30 12:58:47', 0);
+INSERT INTO `sys_router` VALUES (1851488972810436609, 1851488898978103297, '/message/message-type', '/message-management/message-type/index', '', 'messageType', 'messageType', 0, 'tabler:message-circle-cog', 7, 1, 1849444494908125181, 1, '2024-11-21 14:06:56', '2024-10-30 12:59:05', 0);
 INSERT INTO `sys_router` VALUES (1851490002939887618, 0, '/systemMaintenance', '', '', 'systemMaintenance', 'systemMaintenance', 0, 'grommet-icons:vm-maintenance', 100, 0, 1, 1, '2024-11-01 20:07:50', '2024-10-30 13:03:10', 0);
-INSERT INTO `sys_router` VALUES (1851491818972856321, 1851488898978103297, '/message/message-editing', '/message-management/message-editing/index', '', 'messageEditing', 'messageEditing', 0, 'hugeicons:message-edit-02', 34, 1, 1, 1, '2024-11-01 14:45:43', '2024-10-30 13:10:23', 0);
-INSERT INTO `sys_router` VALUES (1851525168378875906, 1851488898978103297, '/message/message-received', '/message-management/message-received/index', '', 'messageReceivingManagement', 'messageReceivingManagement', 0, 'wpf:gps-receiving', 35, 1, 1, 1, '2024-11-03 19:57:48', '2024-10-30 15:22:54', 0);
-INSERT INTO `sys_router` VALUES (1852321196101464065, 0, '/logManagement', '', '', 'logManagement', 'logManagement', 0, 'octicon:log-16', 31, 1, 1, 1, '2024-11-01 20:07:56', '2024-11-01 20:06:02', 0);
-INSERT INTO `sys_router` VALUES (1853083388413304834, 1851488898978103297, '/message/message-send', '/message-management/message-send/index', '', 'messageSendManagement', 'messageSendManagement', 0, 'line-md:email-filled', 36, 1, 1, 1, '2024-11-03 22:36:47', '2024-11-03 22:34:43', 0);
+INSERT INTO `sys_router` VALUES (1851491818972856321, 1851488898978103297, '/message/message-editing', '/message-management/message-editing/index', '', 'messageEditing', 'messageEditing', 0, 'hugeicons:message-edit-02', 8, 1, 1, 1, '2024-11-21 14:07:00', '2024-10-30 13:10:23', 0);
+INSERT INTO `sys_router` VALUES (1851525168378875906, 1851488898978103297, '/message/message-received', '/message-management/message-received/index', '', 'messageReceivingManagement', 'messageReceivingManagement', 0, 'wpf:gps-receiving', 9, 1, 1, 1, '2024-11-21 14:07:04', '2024-10-30 15:22:54', 0);
+INSERT INTO `sys_router` VALUES (1852321196101464065, 0, '/logManagement', '', '', 'logManagement', 'logManagement', 0, 'octicon:log-16', 6, 1, 1, 1, '2024-11-21 14:06:41', '2024-11-01 20:06:02', 0);
+INSERT INTO `sys_router` VALUES (1853083388413304834, 1851488898978103297, '/message/message-send', '/message-management/message-send/index', '', 'messageSendManagement', 'messageSendManagement', 0, 'line-md:email-filled', 10, 1, 1, 1, '2024-11-21 14:07:09', '2024-11-03 22:34:43', 0);
 
 -- ----------------------------
 -- Table structure for sys_router_role
@@ -2528,8 +2532,8 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '123456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-25/ebfe09f4-600f-4e85-a2c4-5d71bc341de4', 1, 'admin', '127.0.0.1', '内网IP', 0, '2024-10-24 21:35:03', NULL, 1, NULL, 0);
-INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/18514ddc-d656-4e3d-b83d-c01977eec5a3', 0, '密码：admin123', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', '2024-11-18 14:36:13', 0, 1, 0);
+INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '123456789', 'c6d0be95d954d9d8a8fd5c44f941c958', '/auth-admin/avatar/2024/10-25/ebfe09f4-600f-4e85-a2c4-5d71bc341de4', 1, 'admin', '49.82.73.240', '江苏省,淮安市 电信', 0, '2024-10-24 21:35:03', '2024-12-20 14:50:39', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '12344567', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/12-16/d317ea6a-5187-472b-be0c-f5f56e303bba', 0, '', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', '2024-12-29 21:37:57', 0, 1849444494908125181, 0);
 INSERT INTO `sys_user` VALUES (1849681227633758210, 'Operation', '定时任务和系统配置', 'Operation@qq.com', '18012062876', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/11-05/56ea89bd-b894-4507-8e00-5ee2623ab65c', 0, '能看到定时任务和系统配置页面可以发布和更新消息，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-25 13:15:45', '2024-11-05 01:56:36', 1, 1853494274437152770, 0);
 INSERT INTO `sys_user` VALUES (1850075157831454722, 'system', '只能看到系统配置用户1', 'system@Gmail.com', '12456789', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/057cb028-dea3-4054-ae07-8321eaeceaf1', 0, '只能看到系统设置1内容页面，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-26 15:21:05', '2024-11-02 17:00:08', 1, 1, 0);
 INSERT INTO `sys_user` VALUES (1850080272764211202, 'timing', '定时任务', 'timing@163.com', '212122', '0192023a7bbd73250516f069df18b500', '/auth-admin/avatar/2024/10-28/6b9cbcd2-31af-4c91-b74e-2d66e5b0558a', 0, '只能看到定时任务页面，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-26 15:41:25', '2024-11-04 01:59:07', 1, 1, 0);

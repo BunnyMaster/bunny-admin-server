@@ -39,4 +39,4 @@ bunny:
     bucket-name: auth-admin
 
   backPath: "D:\\MyData\\backup"
-  bashPath: "D:\\MyData"
+  bashPath: "D:\\MyData\\auth"

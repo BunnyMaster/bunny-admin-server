@@ -15,14 +15,15 @@
             <level>INFO</level>
         </filter>
         <encoder>
-            <pattern>%cyan([%thread]) %yellow(%-5level) %green(%logger{100}).%boldRed(%method)-%boldMagenta(%line)- %blue(%msg%n)</pattern>
+            <pattern>%cyan([%thread %d{yyyy-MM-dd HH:mm:ss}]) %yellow(%-5level) %green(%logger{100}).%boldRed(%method)-%boldMagenta(%line)-%blue(%msg%n)
+            </pattern>
             <charset>${ENCODING}</charset>
         </encoder>
     </appender>
 
     <!-- 文件日志 -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/www/root/server/logs/${datetime}/auth-server.log</file>
+        <file>/www/root/server/logs/${datetime}/financial-server.log</file>
         <append>true</append>
         <encoder>
             <pattern>%date{yyyy-MM-dd HH:mm:ss} [%-5level] %thread %file:%line %logger %msg%n</pattern>

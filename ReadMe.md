@@ -10,12 +10,7 @@ Pure-admin文档：https://pure-admin.github.io/pure-admin-doc
 
 **线上地址**
 
-- 正式线上预览地址：http://bunny-web.site/#/welcome
-
-  - 线上地址目前使用的是90天的SSL证书，可能会提示链接不安全，忽略就好了
-
-- 测试预览地址：http://106.15.251.123/#/welcome
-  - 服务器到期时间：12月30日
+正式线上预览地址：http://bunny-web.site/#/welcome
 
 **打包视频**
 
@@ -195,8 +190,8 @@ docker run -d \
 
 ```bash
 # 创建3306配置文件
-sudo mkdir -p /home/bunny/docker/docker_data/mysql/mysql_master/etc
-sudo vim /home/bunny/docker/docker_data/mysql/mysql_master/etc/my.cnf
+sudo mkdir -p ~/docker/docker_data/mysql/mysql_master/etc
+sudo vim ~/docker/docker_data/mysql/mysql_master/etc/my.cnf
 
 # 创建3304配置文件
 sudo mkdir -p /home/bunny/docker/docker_data/mysql/slave_3304/etc
@@ -544,6 +539,10 @@ public Authentication attemptAuthentication(HttpServletRequest request, HttpServ
 
 ![image-20241105213922824](http://116.196.101.14:9000/docs/image-20241105213922824.png)
 
+消息提醒在页面刷新时会出现这样
+
+![image-20241229214535717](http://116.196.101.14:9000/docs/image-20241229214535717.png)
+
 ### 用户管理
 
 ![image-20241106002713514](http://116.196.101.14:9000/docs/image-20241106002713514.png)
@@ -888,6 +887,18 @@ public class MenuIconVo extends BaseUserVo {
 
 ![image-20241106142001190](http://116.196.101.14:9000/docs/image-20241106142001190.png)
 
+#### 主题颜色
+
+后端做了Hash值校验，如果是RGB会造成颜色显示有些问题，比如使用纯色的按钮，想下面的这种的，鼠标hover事件会变透明因为无法计算Hash值，所以在修改颜色值时一定要保证是Hash值
+
+![image-20241229214049079](http://116.196.101.14:9000/docs/image-20241229214049079.png)
+
+![image-20241229214217968](http://116.196.101.14:9000/docs/image-20241229214217968.png)
+
+修改完成的示例
+
+![image-20241229214329544](http://116.196.101.14:9000/docs/image-20241229214329544.png)
+
 ### 系统监控
 
 #### 服务监控
@@ -914,6 +925,10 @@ public class MenuIconVo extends BaseUserVo {
 
 ![](http://116.196.101.14:9000/docs/image-20241106142449033-1730874298898-1.png)
 
+#### 示例显示
+
+![image-20241229220003779](http://116.196.101.14:9000/docs/image-20241229220003779.png)
+
 ### 多语言管理
 
 ![image-20241106142531047](http://116.196.101.14:9000/docs/image-20241106142531047.png)
@@ -921,6 +936,8 @@ public class MenuIconVo extends BaseUserVo {
 ![image-20241106142544172](http://116.196.101.14:9000/docs/image-20241106142544172.png)
 
 ### 日志管理
+
+存储在MySQL中，如果想做优化可以放在MongoDB中
 
 ![image-20241106142606017](http://116.196.101.14:9000/docs/image-20241106142606017.png)
 
