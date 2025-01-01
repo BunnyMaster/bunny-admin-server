@@ -1,4 +1,4 @@
-package cn.bunny.dao.pojo.common;
+package cn.bunny.dao.model.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

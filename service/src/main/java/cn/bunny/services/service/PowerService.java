@@ -5,7 +5,7 @@ import cn.bunny.dao.dto.system.rolePower.power.PowerDto;
 import cn.bunny.dao.dto.system.rolePower.power.PowerUpdateBatchByParentIdDto;
 import cn.bunny.dao.dto.system.rolePower.power.PowerUpdateDto;
 import cn.bunny.dao.entity.system.Power;
-import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.rolePower.PowerVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

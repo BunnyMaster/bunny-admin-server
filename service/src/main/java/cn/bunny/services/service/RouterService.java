@@ -5,7 +5,7 @@ import cn.bunny.dao.dto.system.router.RouterManageDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateByIdWithRankDto;
 import cn.bunny.dao.dto.system.router.RouterUpdateDto;
 import cn.bunny.dao.entity.system.Router;
-import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.router.RouterManageVo;
 import cn.bunny.dao.vo.system.router.UserRouterVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

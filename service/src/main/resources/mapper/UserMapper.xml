@@ -29,7 +29,7 @@
     </sql>
 
     <!-- 分页查询用户信息内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.dao.view.ViewUserDept">
+    <select id="selectListByPage" resultType="cn.bunny.dao.views.ViewUserDept">
         select
         user.*,
         user_dept.dept_id,

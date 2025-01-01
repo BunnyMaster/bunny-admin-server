@@ -1,6 +1,6 @@
 package cn.bunny.services.security.custom;
 
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;

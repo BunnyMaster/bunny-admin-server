@@ -5,7 +5,7 @@ import cn.bunny.dao.dto.system.message.MessageReceivedUpdateDto;
 import cn.bunny.dao.dto.system.message.MessageUserDto;
 import cn.bunny.dao.entity.system.Message;
 import cn.bunny.dao.entity.system.MessageReceived;
-import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo;
 import cn.bunny.dao.vo.system.message.MessageUserVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

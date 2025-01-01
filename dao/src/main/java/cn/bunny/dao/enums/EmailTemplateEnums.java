@@ -1,4 +1,4 @@
-package cn.bunny.dao.pojo.enums;
+package cn.bunny.dao.enums;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

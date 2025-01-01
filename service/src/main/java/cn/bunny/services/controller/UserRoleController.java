@@ -1,7 +1,7 @@
 package cn.bunny.services.controller;
 
 import cn.bunny.dao.dto.system.user.AssignRolesToUsersDto;
-import cn.bunny.dao.pojo.result.Result;
+import cn.bunny.dao.vo.result.Result;
 import cn.bunny.services.service.UserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

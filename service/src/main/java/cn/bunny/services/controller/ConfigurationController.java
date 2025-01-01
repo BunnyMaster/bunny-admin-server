@@ -2,9 +2,9 @@ package cn.bunny.services.controller;
 
 import cn.bunny.dao.dto.system.configuration.WebConfigurationDto;
 import cn.bunny.dao.entity.configuration.WebConfiguration;
-import cn.bunny.dao.pojo.result.Result;
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.configuration.WebConfigurationVo;
+import cn.bunny.dao.vo.result.Result;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.services.service.ConfigurationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -47,7 +47,7 @@
     </select>
 
     <!-- 查看所有角色关联的权限 -->
-    <select id="viewRolePowerWithAll" resultType="cn.bunny.dao.view.ViewRolePower">
+    <select id="viewRolePowerWithAll" resultType="cn.bunny.dao.views.ViewRolePower">
         SELECT rp.power_id,
                power.parent_id,
                power.power_code,

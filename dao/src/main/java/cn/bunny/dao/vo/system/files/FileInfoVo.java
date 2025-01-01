@@ -1,6 +1,6 @@
 package cn.bunny.dao.vo.system.files;
 
-import cn.bunny.dao.common.vo.BaseVo;
+import cn.bunny.dao.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

@@ -4,7 +4,7 @@ import cn.bunny.dao.dto.system.email.template.EmailTemplateAddDto;
 import cn.bunny.dao.dto.system.email.template.EmailTemplateDto;
 import cn.bunny.dao.dto.system.email.template.EmailTemplateUpdateDto;
 import cn.bunny.dao.entity.system.EmailTemplate;
-import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.email.EmailTemplateVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

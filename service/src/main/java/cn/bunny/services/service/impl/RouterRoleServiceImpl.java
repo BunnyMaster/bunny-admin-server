@@ -3,7 +3,7 @@ package cn.bunny.services.service.impl;
 import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.router.AssignRolesToRoutersDto;
 import cn.bunny.dao.entity.system.RouterRole;
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.services.mapper.RouterRoleMapper;
 import cn.bunny.services.service.RouterRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

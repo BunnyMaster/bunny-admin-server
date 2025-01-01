@@ -2,8 +2,8 @@ package cn.bunny.common.service.exception;
 
 
 import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.dao.pojo.result.Result;
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.result.Result;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.web.bind.MethodArgumentNotValidException;

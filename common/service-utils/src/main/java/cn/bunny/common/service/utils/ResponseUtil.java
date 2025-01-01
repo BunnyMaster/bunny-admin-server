@@ -1,6 +1,6 @@
 package cn.bunny.common.service.utils;
 
-import cn.bunny.dao.pojo.result.Result;
+import cn.bunny.dao.vo.result.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package cn.bunny.dao.view;
+package cn.bunny.dao.views;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;

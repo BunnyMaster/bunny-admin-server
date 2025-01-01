@@ -1,6 +1,6 @@
 package cn.bunny.common.service.exception;
 
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

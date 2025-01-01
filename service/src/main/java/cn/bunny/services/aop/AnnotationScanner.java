@@ -1,7 +1,7 @@
 package cn.bunny.services.aop;
 
 import cn.bunny.common.service.exception.AuthCustomerException;
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;

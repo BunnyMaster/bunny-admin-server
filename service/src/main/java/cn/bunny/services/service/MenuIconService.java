@@ -4,7 +4,7 @@ import cn.bunny.dao.dto.system.menuIcon.MenuIconAddDto;
 import cn.bunny.dao.dto.system.menuIcon.MenuIconDto;
 import cn.bunny.dao.dto.system.menuIcon.MenuIconUpdateDto;
 import cn.bunny.dao.entity.system.MenuIcon;
-import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.MenuIconVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

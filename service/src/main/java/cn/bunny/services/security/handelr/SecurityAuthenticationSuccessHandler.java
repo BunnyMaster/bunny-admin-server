@@ -1,6 +1,6 @@
 package cn.bunny.services.security.handelr;
 
-import cn.bunny.dao.pojo.result.Result;
+import cn.bunny.dao.vo.result.Result;
 import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package cn.bunny.dao.common.entity;
+package cn.bunny.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -2,9 +2,9 @@ package cn.bunny.services.controller;
 
 import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.system.AdminUser;
-import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.dao.pojo.result.Result;
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.result.PageResult;
+import cn.bunny.dao.vo.result.Result;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.*;
 import cn.bunny.services.service.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

@@ -4,7 +4,7 @@ import cn.bunny.dao.dto.system.rolePower.role.RoleAddDto;
 import cn.bunny.dao.dto.system.rolePower.role.RoleDto;
 import cn.bunny.dao.dto.system.rolePower.role.RoleUpdateDto;
 import cn.bunny.dao.entity.system.Role;
-import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.rolePower.RoleVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

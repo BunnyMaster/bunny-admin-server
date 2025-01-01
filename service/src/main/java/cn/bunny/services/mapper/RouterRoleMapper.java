@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper;
 
 import cn.bunny.dao.entity.system.RouterRole;
-import cn.bunny.dao.view.ViewRouterRole;
+import cn.bunny.dao.views.ViewRouterRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

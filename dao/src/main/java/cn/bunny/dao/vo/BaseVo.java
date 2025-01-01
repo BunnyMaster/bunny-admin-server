@@ -1,4 +1,4 @@
-package cn.bunny.dao.common.vo;
+package cn.bunny.dao.vo;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;

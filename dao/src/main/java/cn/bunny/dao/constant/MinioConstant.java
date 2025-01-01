@@ -1,4 +1,4 @@
-package cn.bunny.dao.pojo.constant;
+package cn.bunny.dao.constant;
 
 import lombok.Data;
 

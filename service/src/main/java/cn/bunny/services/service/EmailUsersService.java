@@ -5,7 +5,7 @@ import cn.bunny.dao.dto.system.email.user.EmailUsersAddDto;
 import cn.bunny.dao.dto.system.email.user.EmailUsersDto;
 import cn.bunny.dao.dto.system.email.user.EmailUsersUpdateDto;
 import cn.bunny.dao.entity.system.EmailUsers;
-import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.email.EmailUsersVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

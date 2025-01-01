@@ -1,7 +1,7 @@
 package cn.bunny.common.service.utils;
 
 import cn.bunny.common.service.exception.AuthCustomerException;
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import io.jsonwebtoken.*;
 import io.micrometer.common.lang.Nullable;
 import org.springframework.util.StringUtils;

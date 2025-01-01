@@ -1,4 +1,4 @@
-package cn.bunny.dao.pojo.common;
+package cn.bunny.dao.model.email;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

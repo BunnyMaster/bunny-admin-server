@@ -1,6 +1,6 @@
-package cn.bunny.dao.view;
+package cn.bunny.dao.views;
 
-import cn.bunny.dao.common.entity.BaseUserEntity;
+import cn.bunny.dao.entity.BaseUserEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

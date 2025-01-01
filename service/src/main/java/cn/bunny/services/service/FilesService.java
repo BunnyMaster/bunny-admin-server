@@ -5,7 +5,7 @@ import cn.bunny.dao.dto.system.files.FilesAddDto;
 import cn.bunny.dao.dto.system.files.FilesDto;
 import cn.bunny.dao.dto.system.files.FilesUpdateDto;
 import cn.bunny.dao.entity.system.Files;
-import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.files.FilesVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

@@ -1,4 +1,4 @@
-package cn.bunny.dao.pojo.enums;
+package cn.bunny.dao.enums;
 
 import lombok.Getter;
 

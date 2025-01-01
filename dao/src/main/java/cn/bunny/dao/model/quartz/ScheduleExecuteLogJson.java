@@ -1,4 +1,4 @@
-package cn.bunny.dao.entity.log;
+package cn.bunny.dao.model.quartz;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

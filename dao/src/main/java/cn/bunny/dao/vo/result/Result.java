@@ -1,4 +1,4 @@
-package cn.bunny.dao.pojo.result;
+package cn.bunny.dao.vo.result;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

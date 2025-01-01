@@ -1,6 +1,6 @@
 package cn.bunny.dao.entity.system;
 
-import cn.bunny.dao.common.entity.BaseEntity;
+import cn.bunny.dao.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -30,5 +30,5 @@ public class MessageReceived extends BaseEntity {
 
     @Schema(name = "status", title = "0:未读 1:已读")
     private Boolean status;
-    
+
 }

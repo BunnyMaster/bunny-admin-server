@@ -4,7 +4,7 @@ import cn.bunny.dao.dto.system.message.MessageAddDto;
 import cn.bunny.dao.dto.system.message.MessageDto;
 import cn.bunny.dao.dto.system.message.MessageUpdateDto;
 import cn.bunny.dao.entity.system.Message;
-import cn.bunny.dao.pojo.result.PageResult;
+import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.message.MessageDetailVo;
 import cn.bunny.dao.vo.system.message.MessageReceivedWithUserVo;
 import cn.bunny.dao.vo.system.message.MessageVo;

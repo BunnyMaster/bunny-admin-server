@@ -1,6 +1,6 @@
 package cn.bunny.dao.entity.system;
 
-import cn.bunny.dao.common.entity.BaseEntity;
+import cn.bunny.dao.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;

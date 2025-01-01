@@ -1,4 +1,4 @@
-package cn.bunny.dao.pojo.result;
+package cn.bunny.dao.vo.result;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

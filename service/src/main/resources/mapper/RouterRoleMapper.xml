@@ -50,7 +50,7 @@
     </delete>
 
     <!-- 查看所有路由的角色 -->
-    <select id="viewRouterRolesWithAll" resultType="cn.bunny.dao.view.ViewRouterRole">
+    <select id="viewRouterRolesWithAll" resultType="cn.bunny.dao.views.ViewRouterRole">
         SELECT rr.router_id,
                router.parent_id,
                router.path,

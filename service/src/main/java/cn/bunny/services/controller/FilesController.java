@@ -1,14 +1,14 @@
 package cn.bunny.services.controller;
 
+import cn.bunny.dao.constant.MinioConstant;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.files.FilesAddDto;
 import cn.bunny.dao.dto.system.files.FilesDto;
 import cn.bunny.dao.dto.system.files.FilesUpdateDto;
 import cn.bunny.dao.entity.system.Files;
-import cn.bunny.dao.pojo.constant.MinioConstant;
-import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.dao.pojo.result.Result;
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.result.PageResult;
+import cn.bunny.dao.vo.result.Result;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.files.FilesVo;
 import cn.bunny.services.service.FilesService;

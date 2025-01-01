@@ -1,7 +1,7 @@
 package cn.bunny.common.service.utils.mail;
 
-import cn.bunny.dao.pojo.common.EmailSend;
-import cn.bunny.dao.pojo.common.EmailSendInit;
+import cn.bunny.dao.model.email.EmailSend;
+import cn.bunny.dao.model.email.EmailSendInit;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.jetbrains.annotations.NotNull;

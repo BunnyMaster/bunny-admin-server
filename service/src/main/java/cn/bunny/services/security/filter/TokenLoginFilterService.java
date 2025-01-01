@@ -1,10 +1,10 @@
 package cn.bunny.services.security.filter;
 
 
+import cn.bunny.dao.constant.RedisUserConstant;
 import cn.bunny.dao.dto.system.user.LoginDto;
-import cn.bunny.dao.pojo.constant.RedisUserConstant;
-import cn.bunny.dao.pojo.result.Result;
-import cn.bunny.dao.pojo.result.ResultCodeEnum;
+import cn.bunny.dao.vo.result.Result;
+import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.security.handelr.SecurityAuthenticationFailureHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationSuccessHandler;
@@ -74,16 +74,19 @@ public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilte
             if (type.equals("email")) {
                 emailCode = emailCode.toLowerCase();
                 Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
-                if (redisEmailCode == null) {
-                    out(response, Result.error(ResultCodeEnum.EMAIL_CODE_EMPTY));
-                    return null;
-                }
-
-                // 判断用户邮箱验证码是否和Redis中发送的验证码
-                if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
-                    out(response, Result.error(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING));
-                    return null;
-                }
+                // --------TODO 线上取消注释这个
+                // ----测试
+                // --------线上取消注释这个
+                // if (redisEmailCode == null) {
+                //     out(response, Result.error(ResultCodeEnum.EMAIL_CODE_EMPTY));
+                //     return null;
+                // }
+                //
+                // // 判断用户邮箱验证码是否和Redis中发送的验证码
+                // if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
+                //     out(response, Result.error(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING));
+                //     return null;
+                // }
             }
 
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
