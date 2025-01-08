@@ -12,6 +12,16 @@ Pure-admin文档：https://pure-admin.github.io/pure-admin-doc
 
 正式线上预览地址：http://bunny-web.site/#/welcome
 
+> 如果发现网站打开白屏很有可能是因为更新造成的，因为需要维护删除不需要的功能可能会导致这个情况，但基本不会遇到。
+>
+> 谷歌方式如下：
+>
+> ![image-20250108225817891](http://116.196.101.14:9000/docs/image-20250108225817891.png)
+>
+> Edge方式如下：
+>
+> ![image-20250108225915189](http://116.196.101.14:9000/docs/image-20250108225915189.png)
+
 **打包视频**
 
 https://www.bilibili.com/video/BV1AYm8YSEKY/
@@ -1199,6 +1209,8 @@ mvn clean package -Pprod -DskipTests
 # 测试环境
 mvn clean package -Ptest -DskipTests
 ```
+
+**:star: 如果不需要内置文件操作什么的这一步可以忽略**
 
 ![image-20241108153705104](http://116.196.101.14:9000/docs/auth/image-20241108153705104.png)
 
