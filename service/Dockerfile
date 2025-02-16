@@ -14,7 +14,7 @@ WORKDIR /home/server
 # 复制jar包
 COPY target/*.jar /home/server/app.jar
 
-# 程序内部挂在目录
+# 程序内部挂在目录，看情况是否需要操作本地docker
 VOLUME /usr/bin/docker
 VOLUME ["/var/run/docker.sock"]
 VOLUME /etc/docker/daemon.json

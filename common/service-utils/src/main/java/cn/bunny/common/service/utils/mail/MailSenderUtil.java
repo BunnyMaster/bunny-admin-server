@@ -13,6 +13,9 @@ import java.util.Objects;
 import java.util.Properties;
 
 public class MailSenderUtil {
+    private MailSenderUtil() {
+        // 私有化构造器
+    }
 
     /**
      * 如果启用SSL需要配置以下
@@ -23,8 +26,8 @@ public class MailSenderUtil {
         Properties properties = new Properties();
         // 开启认证
         properties.setProperty("mail.smtp.auth", "true");
-        // 启用调试
-        properties.setProperty("mail.debug", "true");
+        // 是否启用调试---会输出发送邮件调试内容
+        properties.setProperty("mail.debug", "false");
         // 设置链接超时
         properties.setProperty("mail.smtp.timeout", "200000");
         // 设置端口

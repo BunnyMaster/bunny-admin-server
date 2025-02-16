@@ -10,7 +10,6 @@ import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.user.*;
 import cn.bunny.dao.entity.log.UserLoginLog;
 import cn.bunny.dao.entity.system.AdminUser;
-import cn.bunny.dao.entity.system.EmailTemplate;
 import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.entity.system.UserDept;
 import cn.bunny.dao.enums.EmailTemplateEnums;
@@ -19,11 +18,11 @@ import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.user.*;
-import cn.bunny.services.factory.EmailFactory;
-import cn.bunny.services.factory.UserFactory;
 import cn.bunny.services.mapper.*;
 import cn.bunny.services.service.FilesService;
 import cn.bunny.services.service.UserService;
+import cn.bunny.services.utils.UserFactory;
+import cn.bunny.services.utils.email.ConcreteSenderEmailTemplate;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -62,7 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     private UserFactory userFactory;
 
     @Autowired
-    private EmailFactory emailFactory;
+    private ConcreteSenderEmailTemplate concreteSenderEmailTemplate;
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -93,10 +92,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public void sendLoginEmail(@NotNull String email) {
         // 查询验证码邮件模板
-        LambdaQueryWrapper<EmailTemplate> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(EmailTemplate::getIsDefault, true);
-        lambdaQueryWrapper.eq(EmailTemplate::getType, EmailTemplateEnums.VERIFICATION_CODE.getType());
-        EmailTemplate emailTemplate = emailTemplateMapper.selectOne(lambdaQueryWrapper);
+        LambdaQueryWrapper<cn.bunny.dao.entity.system.EmailTemplate> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(cn.bunny.dao.entity.system.EmailTemplate::getIsDefault, true);
+        lambdaQueryWrapper.eq(cn.bunny.dao.entity.system.EmailTemplate::getType, EmailTemplateEnums.VERIFICATION_CODE.getType());
+        cn.bunny.dao.entity.system.EmailTemplate emailTemplate = emailTemplateMapper.selectOne(lambdaQueryWrapper);
 
         // 生成验证码
         CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(150, 48, 4, 2);
@@ -111,7 +110,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         hashMap.put("#companyName#", "BunnyAdmin");
 
         // 发送邮件
-        emailFactory.sendEmailTemplate(email, emailTemplate, hashMap);
+        concreteSenderEmailTemplate.sendEmail(email, emailTemplate, hashMap);
 
         // 在Redis中存储验证码
         redisTemplate.opsForValue().set(RedisUserConstant.getAdminUserEmailCodePrefix(email), emailCode, RedisUserConstant.REDIS_EXPIRATION_TIME, TimeUnit.MINUTES);

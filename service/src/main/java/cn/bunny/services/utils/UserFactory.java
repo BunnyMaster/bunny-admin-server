@@ -1,4 +1,4 @@
-package cn.bunny.services.factory;
+package cn.bunny.services.utils;
 
 import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.common.service.utils.ip.IpUtil;

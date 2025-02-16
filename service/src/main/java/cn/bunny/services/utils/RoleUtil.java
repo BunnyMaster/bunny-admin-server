@@ -1,4 +1,4 @@
-package cn.bunny.services.factory;
+package cn.bunny.services.utils;
 
 import cn.bunny.dao.constant.RedisUserConstant;
 import cn.bunny.dao.entity.system.AdminUser;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class RoleFactory {
+public class RoleUtil {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
