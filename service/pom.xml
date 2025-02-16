@@ -25,6 +25,13 @@
             <artifactId>service-utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!-- devtools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
         <!-- spring-security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -34,12 +41,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
         </dependency>
         <!-- 消除service utils黄色 -->
         <dependency>

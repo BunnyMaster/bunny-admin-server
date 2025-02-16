@@ -1,4 +1,4 @@
-name: auth-dependence  # 定义该配置的名称为 auth-dependence
+name: auth-compose  # 定义该配置的名称为 auth-dependence
 services: # 定义服务列表
 
   # 安装MySQL
