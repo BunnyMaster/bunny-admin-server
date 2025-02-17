@@ -1,11 +1,11 @@
 package cn.bunny.services.security.config;
 
 import cn.bunny.services.security.custom.CustomPasswordEncoder;
+import cn.bunny.services.security.custom.service.CustomUserDetailsService;
+import cn.bunny.services.security.custom.service.impl.CustomAuthorizationManagerServiceImpl;
 import cn.bunny.services.security.filter.TokenLoginFilterService;
 import cn.bunny.services.security.handelr.SecurityAccessDeniedHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationEntryPoint;
-import cn.bunny.services.security.service.CustomUserDetailsService;
-import cn.bunny.services.security.service.impl.CustomAuthorizationManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

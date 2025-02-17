@@ -1,4 +1,4 @@
-package cn.bunny.services.security.service.impl;
+package cn.bunny.services.security.custom.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.utils.JwtHelper;
@@ -10,7 +10,7 @@ import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.security.custom.CustomAuthenticationException;
-import cn.bunny.services.security.custom.CustomCheckIsAdmin;
+import cn.bunny.services.utils.RoleUtil;
 import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -103,7 +103,7 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         List<String> roleCodeList = roleList.stream().map(Role::getRoleCode).toList();
 
         // 判断是否是管理员用户
-        boolean checkedAdmin = CustomCheckIsAdmin.checkAdmin(roleCodeList);
+        boolean checkedAdmin = RoleUtil.checkAdmin(roleCodeList);
         if (checkedAdmin) return true;
 
         // 判断请求地址是否是 noManage 不需要被验证的

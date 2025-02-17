@@ -19,8 +19,8 @@ import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.mapper.RolePowerMapper;
 import cn.bunny.services.mapper.RouterMapper;
 import cn.bunny.services.mapper.RouterRoleMapper;
-import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import cn.bunny.services.service.RouterService;
+import cn.bunny.services.utils.RoleUtil;
 import cn.bunny.services.utils.RouterServiceUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -84,7 +84,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<UserRouterVo> list = new ArrayList<>();
 
         // 查询用户角色，判断是否是管理员角色
-        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(userRoleCodeList);
+        boolean isAdmin = RoleUtil.checkAdmin(userRoleCodeList);
 
         // 查询路由和角色对应关系
         List<ViewRouterRole> routerRoleList = routerRoleMapper.viewRouterRolesWithAll();

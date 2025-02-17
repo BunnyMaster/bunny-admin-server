@@ -6,9 +6,9 @@ import cn.bunny.dao.enums.LoginEnums;
 import cn.bunny.dao.vo.result.Result;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
+import cn.bunny.services.security.custom.service.CustomUserDetailsService;
 import cn.bunny.services.security.handelr.SecurityAuthenticationFailureHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationSuccessHandler;
-import cn.bunny.services.security.service.CustomUserDetailsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,8 +27,8 @@ import java.io.IOException;
 import static cn.bunny.common.service.utils.ResponseUtil.out;
 
 /**
- * * UsernamePasswordAuthenticationFilter
- * * 也可以在这里添加验证码、短信等的验证
+ * UsernamePasswordAuthenticationFilter
+ * 也可以在这里添加验证码、短信等的验证
  * 由于SpringSecurity的登录只能是表单形式 并且用户名密码需要时username、password,可以通过继承 UsernamePasswordAuthenticationFilter 获取登录请求的参数
  * 再去设置到 UsernamePasswordAuthenticationToken 中 来改变请求传参方式、参数名等 或者也可以在登录的时候加入其他参数等等
  */

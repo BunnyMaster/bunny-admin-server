@@ -6,6 +6,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -20,7 +25,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("sys_user")
 @Schema(name = "AdminUser对象", title = "用户信息", description = "用户信息")
-public class AdminUser extends BaseEntity {
+public class AdminUser extends BaseEntity implements UserDetails {
 
     @Schema(name = "username", title = "用户名")
     private String username;
@@ -55,5 +60,9 @@ public class AdminUser extends BaseEntity {
     @Schema(name = "status", title = "状态", description = "1:禁用 0:正常")
     private Boolean status;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
 }
 

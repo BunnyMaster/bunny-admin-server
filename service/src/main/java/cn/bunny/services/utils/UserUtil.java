@@ -16,7 +16,6 @@ import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.mapper.UserLoginLogMapper;
 import cn.bunny.services.mapper.UserMapper;
-import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,7 +131,7 @@ public class UserUtil {
         List<String> permissions = new ArrayList<>();
 
         // 判断是否是 admin 如果是admin 赋予所有权限
-        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(roles, permissions, user);
+        boolean isAdmin = RoleUtil.checkAdmin(roles, permissions, user);
         if (!isAdmin) {
             permissions = powerMapper.selectListByUserId(userId).stream().map(Power::getPowerCode).toList();
         }

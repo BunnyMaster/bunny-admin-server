@@ -1,4 +1,4 @@
-package cn.bunny.services.security.service.impl;
+package cn.bunny.services.security.custom.service.impl;
 
 import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.user.LoginDto;
@@ -8,7 +8,7 @@ import cn.bunny.dao.vo.result.Result;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.UserMapper;
-import cn.bunny.services.security.custom.CustomUser;
+import cn.bunny.services.security.custom.service.CustomUserDetailsService;
 import cn.bunny.services.utils.UserUtil;
 import cn.bunny.services.utils.login.DefaultLoginStrategy;
 import cn.bunny.services.utils.login.EmailLoginStrategy;
@@ -18,7 +18,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -30,7 +29,7 @@ import java.util.HashMap;
 import static cn.bunny.common.service.utils.ResponseUtil.out;
 
 @Component
-public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.service.CustomUserDetailsService {
+public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -58,7 +57,8 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
         AdminUser adminUser = userMapper.selectOne(queryWrapper);
         if (adminUser == null) throw new UsernameNotFoundException(ResultCodeEnum.USER_IS_EMPTY.getMessage());
 
-        return new CustomUser(adminUser, AuthorityUtils.createAuthorityList());
+        // return new CustomUser(adminUser, AuthorityUtils.createAuthorityList());
+        return adminUser;
     }
 
     /**

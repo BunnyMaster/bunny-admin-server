@@ -1,4 +1,4 @@
-package cn.bunny.services.security.service;
+package cn.bunny.services.security.custom.service;
 
 import cn.bunny.dao.dto.system.user.LoginDto;
 import cn.bunny.dao.vo.system.user.LoginVo;
