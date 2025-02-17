@@ -28,7 +28,7 @@ import java.util.List;
  */
 @Tag(name = "用户登录日志", description = "用户登录日志相关接口")
 @RestController
-@RequestMapping("admin/userLoginLog")
+@RequestMapping("api/userLoginLog")
 public class UserLoginLogController {
 
     @Autowired

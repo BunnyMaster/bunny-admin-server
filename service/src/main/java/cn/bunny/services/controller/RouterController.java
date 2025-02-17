@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Tag(name = "系统路由", description = "系统路由相关接口")
 @RestController
-@RequestMapping("admin/router")
+@RequestMapping("api/router")
 public class RouterController {
 
     @Autowired

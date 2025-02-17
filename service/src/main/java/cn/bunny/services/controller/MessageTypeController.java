@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Tag(name = "系统消息类型", description = "系统消息类型相关接口")
 @RestController
-@RequestMapping("admin/messageType")
+@RequestMapping("api/messageType")
 public class MessageTypeController {
 
     @Autowired

@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Tag(name = "角色和权限", description = "角色和权限相关接口")
 @RestController
-@RequestMapping("admin/rolePower")
+@RequestMapping("api/rolePower")
 public class RolePowerController {
 
     @Autowired

@@ -37,7 +37,7 @@ public class LoginDto {
     @Schema(name = "type", title = "登录类型")
     @NotBlank(message = "登录类型不能为空")
     @NotNull(message = "登录类型能为空")
-    private String type;
+    private String type = "default";
 
     @Schema(name = "readMeDay", title = "记住我的天数")
     private Long readMeDay = 1L;

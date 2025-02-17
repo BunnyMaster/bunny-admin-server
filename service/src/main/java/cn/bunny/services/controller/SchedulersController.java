@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Tag(name = "调度任务", description = "调度任务相关接口")
 @RestController
-@RequestMapping("admin/schedulers")
+@RequestMapping("api/schedulers")
 public class SchedulersController {
 
     @Autowired

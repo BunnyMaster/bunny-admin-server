@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @Tag(name = "系统配置", description = "系统配置相关接口")
 @RestController
-@RequestMapping("/admin/config")
+@RequestMapping("/api/config")
 public class ConfigurationController {
 
     @Autowired

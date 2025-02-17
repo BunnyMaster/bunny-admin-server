@@ -73,7 +73,7 @@ public class WebSecurityConfig {
                     exception.accessDeniedHandler(new SecurityAccessDeniedHandler());
                 })
                 // 登录验证过滤器
-                .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, redisTemplate, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
                 // 自定义密码加密器和用户登录
                 .passwordManagement(customPasswordEncoder).userDetailsService(customUserDetailsService);
 

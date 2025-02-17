@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @Tag(name = "邮件模板", description = "邮件模板相关接口")
 @RestController
-@RequestMapping("admin/emailTemplate")
+@RequestMapping("api/emailTemplate")
 public class EmailTemplateController {
 
     @Autowired

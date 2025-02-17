@@ -36,7 +36,7 @@ import java.util.Set;
  */
 @Tag(name = "系统文件表", description = "系统文件相关接口")
 @RestController
-@RequestMapping("admin/files")
+@RequestMapping("api/files")
 public class FilesController {
 
     @Autowired

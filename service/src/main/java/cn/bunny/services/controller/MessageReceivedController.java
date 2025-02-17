@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Tag(name = "消息接收(用户消息)", description = "消息接收(用户消息)相关接口")
 @RestController
-@RequestMapping("/admin/messageReceived")
+@RequestMapping("/api/messageReceived")
 public class MessageReceivedController {
 
     @Autowired

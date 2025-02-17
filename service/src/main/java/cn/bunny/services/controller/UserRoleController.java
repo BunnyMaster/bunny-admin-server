@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Tag(name = "用户和角色", description = "用户和角色相关接口")
 @RestController
-@RequestMapping("admin/userRole")
+@RequestMapping("api/userRole")
 public class UserRoleController {
 
     @Autowired
