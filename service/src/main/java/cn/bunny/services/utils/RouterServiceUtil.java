@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RouterServiceFactory {
+public class RouterServiceUtil {
 
     /**
      * * 递归调用设置子路由

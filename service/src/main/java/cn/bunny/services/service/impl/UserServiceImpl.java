@@ -21,7 +21,7 @@ import cn.bunny.dao.vo.system.user.*;
 import cn.bunny.services.mapper.*;
 import cn.bunny.services.service.FilesService;
 import cn.bunny.services.service.UserService;
-import cn.bunny.services.utils.UserFactory;
+import cn.bunny.services.utils.UserUtil;
 import cn.bunny.services.utils.email.ConcreteSenderEmailTemplate;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
@@ -58,7 +58,7 @@ import java.util.concurrent.TimeUnit;
 public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implements UserService {
 
     @Autowired
-    private UserFactory userFactory;
+    private UserUtil userUtil;
 
     @Autowired
     private ConcreteSenderEmailTemplate concreteSenderEmailTemplate;
@@ -131,7 +131,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
         if (adminUser.getStatus()) throw new AuthCustomerException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
 
-        LoginVo buildUserVo = userFactory.buildLoginUserVo(adminUser, dto.getReadMeDay());
+        LoginVo buildUserVo = userUtil.buildLoginUserVo(adminUser, dto.getReadMeDay());
         RefreshTokenVo refreshTokenVo = new RefreshTokenVo();
         BeanUtils.copyProperties(buildUserVo, refreshTokenVo);
 
@@ -154,7 +154,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 查询用户信息
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-        UserLoginLog userLoginLog = userFactory.setUserLoginLog(adminUser, token, ipAddr, ipRegion, "logout");
+        UserLoginLog userLoginLog = userUtil.setUserLoginLog(adminUser, token, ipAddr, ipRegion, "logout");
         userLoginLogMapper.insert(userLoginLog);
 
         // 删除Redis中用户信息
@@ -181,7 +181,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         UserVo userVo = new UserVo();
         BeanUtils.copyProperties(user, userVo);
 
-        userVo.setAvatar(userFactory.checkGetUserAvatar(avatar));
+        userVo.setAvatar(userUtil.checkGetUserAvatar(avatar));
         return userVo;
     }
 
@@ -243,7 +243,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 重新生成用户信息到Redis中
         user.setAvatar(adminUser.getAvatar());
-        userFactory.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
+        userUtil.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
     }
 
     /**
@@ -342,7 +342,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (user == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 检查用户头像
-        dto.setAvatar(userFactory.checkPostUserAvatar(dto.getAvatar()));
+        dto.setAvatar(userUtil.checkPostUserAvatar(dto.getAvatar()));
 
         // 更新用户
         AdminUser adminUser = new AdminUser();
@@ -352,7 +352,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 重新生成用户信息到Redis中
         BeanUtils.copyProperties(dto, user);
-        userFactory.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
+        userUtil.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
     }
 
     /**
@@ -400,7 +400,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         List<AdminUserVo> voList = page.getRecords().stream()
                 .map(adminUser -> {
                     // 如果存在用户头像，则设置用户头像
-                    String avatar = userFactory.checkGetUserAvatar(adminUser.getAvatar());
+                    String avatar = userUtil.checkGetUserAvatar(adminUser.getAvatar());
 
                     AdminUserVo adminUserVo = new AdminUserVo();
                     BeanUtils.copyProperties(adminUser, adminUserVo);
@@ -487,7 +487,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 重新生成用户信息到Redis中
         BeanUtils.copyProperties(dto, adminUser);
-        userFactory.buildUserVo(adminUser, RedisUserConstant.REDIS_EXPIRATION_TIME);
+        userUtil.buildUserVo(adminUser, RedisUserConstant.REDIS_EXPIRATION_TIME);
     }
 
     /**

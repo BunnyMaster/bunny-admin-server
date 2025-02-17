@@ -6,6 +6,7 @@ import cn.bunny.dao.vo.result.Result;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,6 +37,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result<Object> exceptionHandler(RuntimeException exception) {
         String message = exception.getMessage();
+        message = StringUtils.hasText(message) ? message : "服务器异常";
 
         // 解析异常
         String jsonParseError = "JSON parse error (.*)";
@@ -67,7 +69,7 @@ public class GlobalExceptionHandler {
 
         log.error("GlobalExceptionHandler===>运行时异常信息：{}", message);
         exception.printStackTrace();
-        return Result.error(null, 500, "服务器异常");
+        return Result.error(null, 500, message);
     }
 
     // 捕获系统异常

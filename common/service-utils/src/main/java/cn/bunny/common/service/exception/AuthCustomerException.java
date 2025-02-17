@@ -15,7 +15,7 @@ public class AuthCustomerException extends RuntimeException {
     Integer code;
 
     // 描述信息
-    String message;
+    String message = "服务异常";
 
     // 返回结果状态
     ResultCodeEnum resultCodeEnum;

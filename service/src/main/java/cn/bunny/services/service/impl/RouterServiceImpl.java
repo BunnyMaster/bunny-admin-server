@@ -21,7 +21,7 @@ import cn.bunny.services.mapper.RouterMapper;
 import cn.bunny.services.mapper.RouterRoleMapper;
 import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import cn.bunny.services.service.RouterService;
-import cn.bunny.services.utils.RouterServiceFactory;
+import cn.bunny.services.utils.RouterServiceUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> implements RouterService {
     @Autowired
-    private RouterServiceFactory routerServiceFactory;
+    private RouterServiceUtil routerServiceUtil;
 
     @Autowired
     private RoleMapper roleMapper;
@@ -151,7 +151,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         // 构建树形结构
         routerVoList.forEach(routerVo -> {
             if (routerVo.getParentId() == 0) {
-                routerVo.setChildren(routerServiceFactory.handleGetChildrenWIthRouter(routerVo.getId(), routerVoList));
+                routerVo.setChildren(routerServiceUtil.handleGetChildrenWIthRouter(routerVo.getId(), routerVoList));
                 list.add(routerVo);
             }
         });

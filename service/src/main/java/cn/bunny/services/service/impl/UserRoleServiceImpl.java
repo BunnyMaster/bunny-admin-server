@@ -11,7 +11,7 @@ import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.UserRoleService;
-import cn.bunny.services.utils.UserFactory;
+import cn.bunny.services.utils.UserUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     private UserRoleMapper userRoleMapper;
 
     @Autowired
-    private UserFactory userFactory;
+    private UserUtil userUtil;
 
     @Autowired
     private UserMapper userMapper;
@@ -94,7 +94,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 
         // 重新设置Redis中的用户存储信息vo对象
         String username = adminUser.getUsername();
-        loginVo = userFactory.buildLoginUserVo(adminUser, readMeDay);
+        loginVo = userUtil.buildLoginUserVo(adminUser, readMeDay);
         redisTemplate.opsForValue().set(RedisUserConstant.getAdminLoginInfoPrefix(username), loginVo, readMeDay, TimeUnit.DAYS);
     }
 }

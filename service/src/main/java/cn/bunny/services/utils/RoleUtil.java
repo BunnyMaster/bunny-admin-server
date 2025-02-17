@@ -20,7 +20,7 @@ public class RoleUtil {
     private UserMapper userMapper;
 
     @Autowired
-    private UserFactory userFactory;
+    private UserUtil userUtil;
 
     /**
      * 批量更新Redis中用户信息
@@ -39,6 +39,6 @@ public class RoleUtil {
             String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(user.getUsername());
             Object object = redisTemplate.opsForValue().get(adminLoginInfoPrefix);
             return object != null;
-        }).forEach(user -> userFactory.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME));
+        }).forEach(user -> userUtil.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME));
     }
 }

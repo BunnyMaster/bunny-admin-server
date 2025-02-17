@@ -13,7 +13,7 @@ import cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo;
 import cn.bunny.dao.vo.system.message.MessageUserVo;
 import cn.bunny.services.mapper.MessageReceivedMapper;
 import cn.bunny.services.service.MessageReceivedService;
-import cn.bunny.services.utils.UserFactory;
+import cn.bunny.services.utils.UserUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,7 +39,7 @@ import java.util.List;
 public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMapper, MessageReceived> implements MessageReceivedService {
 
     @Autowired
-    private UserFactory userFactory;
+    private UserUtil userUtil;
 
     /**
      * 管理员管理用户消息接收分页查询
@@ -58,7 +58,7 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
 
             // 设置封面返回内容
             String cover = vo.getCover();
-            cover = userFactory.checkGetUserAvatar(cover);
+            cover = userUtil.checkGetUserAvatar(cover);
             vo.setCover(cover);
             return vo;
         }).toList();
@@ -113,7 +113,7 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
 
             // 设置封面返回内容
             String cover = vo.getCover();
-            cover = userFactory.checkGetUserAvatar(cover);
+            cover = userUtil.checkGetUserAvatar(cover);
             vo.setCover(cover);
             return vo;
         }).toList();

@@ -19,7 +19,7 @@ import cn.bunny.services.mapper.MessageReceivedMapper;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.service.MessageReceivedService;
 import cn.bunny.services.service.MessageService;
-import cn.bunny.services.utils.UserFactory;
+import cn.bunny.services.utils.UserUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements MessageService {
 
     @Autowired
-    private UserFactory userFactory;
+    private UserUtil userUtil;
 
     @Autowired
     private MessageReceivedMapper messageReceivedMapper;
@@ -152,7 +152,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
         // 设置封面返回内容
         String cover = dto.getCover();
-        dto.setCover(userFactory.checkGetUserAvatar(cover));
+        dto.setCover(userUtil.checkGetUserAvatar(cover));
 
         // 先保存消息数据，之后拿到保存消息的id
         Message message = new Message();
@@ -198,7 +198,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
         // 设置封面返回内容
         String cover = dto.getCover();
-        dto.setCover(userFactory.checkGetUserAvatar(cover));
+        dto.setCover(userUtil.checkGetUserAvatar(cover));
 
         // 更新内容
         Message message = new Message();

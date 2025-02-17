@@ -8,7 +8,7 @@ import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.security.custom.CustomUser;
-import cn.bunny.services.utils.UserFactory;
+import cn.bunny.services.utils.UserUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
     private UserMapper userMapper;
 
     @Autowired
-    private UserFactory userFactory;
+    private UserUtil userUtil;
 
     /**
      * 根据用户名获取用户对象（获取不到直接抛异常）
@@ -80,6 +80,6 @@ public class CustomUserDetailsServiceImpl implements cn.bunny.services.security.
         String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!user.getPassword().equals(md5Password)) throw new AuthCustomerException(ResultCodeEnum.LOGIN_ERROR);
 
-        return userFactory.buildLoginUserVo(user, readMeDay);
+        return userUtil.buildLoginUserVo(user, readMeDay);
     }
 }

@@ -1,5 +1,6 @@
 package cn.bunny.services.utils;
 
+import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.common.service.utils.JwtHelper;
 import cn.bunny.common.service.utils.ip.IpUtil;
 import cn.bunny.common.service.utils.minio.MinioUtil;
@@ -35,7 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-public class UserFactory {
+public class UserUtil {
     @Autowired
     private PowerMapper powerMapper;
 
@@ -54,7 +55,14 @@ public class UserFactory {
     @Autowired
     private MinioUtil minioUtil;
 
-    @Transactional
+    /**
+     * 构建登录用户返回对象
+     *
+     * @param user      用户
+     * @param readMeDay 保存登录信息时间
+     * @return 登录信息
+     */
+    @Transactional(rollbackFor = AuthCustomerException.class)
     public LoginVo buildLoginUserVo(AdminUser user, long readMeDay) {
         Long userId = user.getId();
         String email = user.getEmail();
