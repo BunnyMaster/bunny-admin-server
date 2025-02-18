@@ -89,7 +89,7 @@ management:
     web:
       exposure:
         include: "*"
-      base-path: /api/actuator
+      base-path: /admin/actuator
   info:
     env:
       enabled: true

@@ -31,7 +31,7 @@ import java.util.Map;
  */
 @Tag(name = "多语言", description = "多语言相关接口")
 @RestController
-@RequestMapping("api/i18n")
+@RequestMapping("admin/i18n")
 public class I18nController {
 
     @Autowired

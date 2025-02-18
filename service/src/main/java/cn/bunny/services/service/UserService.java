@@ -6,7 +6,6 @@ import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.user.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,14 +20,6 @@ import java.util.List;
  * @since 2024-09-26
  */
 public interface UserService extends IService<AdminUser> {
-    
-    /**
-     * 前台用户登录接口
-     *
-     * @param loginDto 登录参数
-     * @return 登录后结果返回
-     */
-    LoginVo login(LoginDto loginDto, HttpServletResponse response);
 
     /**
      * * 获取用户信息列表

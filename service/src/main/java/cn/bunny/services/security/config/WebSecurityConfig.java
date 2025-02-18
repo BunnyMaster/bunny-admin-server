@@ -1,24 +1,20 @@
 package cn.bunny.services.security.config;
 
-import cn.bunny.dao.entity.system.AdminUser;
-import cn.bunny.dao.vo.result.ResultCodeEnum;
-import cn.bunny.services.mapper.UserMapper;
-import cn.bunny.services.security.custom.CustomAuthorizationManagerServiceImpl;
+import cn.bunny.services.security.custom.CustomPasswordEncoder;
 import cn.bunny.services.security.filter.TokenLoginFilterService;
 import cn.bunny.services.security.handelr.SecurityAccessDeniedHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationEntryPoint;
-import cn.bunny.services.service.UserService;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import cn.bunny.services.security.service.CustomUserDetailsService;
+import cn.bunny.services.security.service.impl.CustomAuthorizationManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
@@ -28,7 +24,6 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-    // 需要排出的无需验证的请求路径
     public static String[] annotations = {
             "/", "/ws/**",
             "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
@@ -37,7 +32,13 @@ public class WebSecurityConfig {
     };
 
     @Autowired
-    private UserService userService;
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private CustomPasswordEncoder customPasswordEncoder;
 
     @Autowired
     private CustomAuthorizationManagerServiceImpl customAuthorizationManagerService;
@@ -72,31 +73,10 @@ public class WebSecurityConfig {
                     exception.accessDeniedHandler(new SecurityAccessDeniedHandler());
                 })
                 // 登录验证过滤器
-                .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, userService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, redisTemplate, customUserDetailsService), UsernamePasswordAuthenticationFilter.class)
+                // 自定义密码加密器和用户登录
+                .passwordManagement(customPasswordEncoder).userDetailsService(customUserDetailsService);
+
         return httpSecurity.build();
-    }
-
-    /**
-     * 使用数据库方式
-     * 登录方式：邮箱+用户名
-     *
-     * @param userMapper 获取用户数据
-     * @return 数据库的用户
-     */
-    @Bean
-    public UserDetailsService userDetailsService(UserMapper userMapper) {
-        return username -> {
-            // 查询用户相关内容
-            LambdaQueryWrapper<AdminUser> queryWrapper = new LambdaQueryWrapper<AdminUser>()
-                    .eq(AdminUser::getEmail, username)
-                    .or()
-                    .eq(AdminUser::getUsername, username);
-
-            // 根据邮箱查询用户名
-            AdminUser adminUser = userMapper.selectOne(queryWrapper);
-            if (adminUser == null) throw new UsernameNotFoundException(ResultCodeEnum.USER_IS_EMPTY.getMessage());
-
-            return adminUser;
-        };
     }
 }

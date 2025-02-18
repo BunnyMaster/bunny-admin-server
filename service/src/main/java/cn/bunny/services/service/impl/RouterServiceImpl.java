@@ -15,13 +15,13 @@ import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.router.RouterManageVo;
 import cn.bunny.dao.vo.system.router.RouterMeta;
 import cn.bunny.dao.vo.system.router.UserRouterVo;
+import cn.bunny.services.factory.RouterServiceFactory;
 import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.mapper.RolePowerMapper;
 import cn.bunny.services.mapper.RouterMapper;
 import cn.bunny.services.mapper.RouterRoleMapper;
+import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import cn.bunny.services.service.RouterService;
-import cn.bunny.services.utils.RoleUtil;
-import cn.bunny.services.utils.RouterServiceUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> implements RouterService {
     @Autowired
-    private RouterServiceUtil routerServiceUtil;
+    private RouterServiceFactory routerServiceFactory;
 
     @Autowired
     private RoleMapper roleMapper;
@@ -84,7 +84,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         List<UserRouterVo> list = new ArrayList<>();
 
         // 查询用户角色，判断是否是管理员角色
-        boolean isAdmin = RoleUtil.checkAdmin(userRoleCodeList);
+        boolean isAdmin = CustomCheckIsAdmin.checkAdmin(userRoleCodeList);
 
         // 查询路由和角色对应关系
         List<ViewRouterRole> routerRoleList = routerRoleMapper.viewRouterRolesWithAll();
@@ -151,7 +151,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         // 构建树形结构
         routerVoList.forEach(routerVo -> {
             if (routerVo.getParentId() == 0) {
-                routerVo.setChildren(routerServiceUtil.handleGetChildrenWIthRouter(routerVo.getId(), routerVoList));
+                routerVo.setChildren(routerServiceFactory.handleGetChildrenWIthRouter(routerVo.getId(), routerVoList));
                 list.add(routerVo);
             }
         });

@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Tag(name = "调度任务执行日志", description = "调度任务执行日志相关接口")
 @RestController
-@RequestMapping("api/quartzExecuteLog")
+@RequestMapping("admin/quartzExecuteLog")
 public class ScheduleExecuteLogController {
 
     @Autowired

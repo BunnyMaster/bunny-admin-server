@@ -24,7 +24,7 @@ public enum ResultCodeEnum {
     EMAIL_CODE_NOT_EMPTY(201, "邮箱验证码不能为空"),
     SEND_EMAIL_CODE_NOT_EMPTY(201, "请先发送邮箱验证码"),
     EMAIL_CODE_NOT_MATCHING(201, "邮箱验证码不匹配"),
-    LOGIN_ERROR(500, "账号或密码错误"),
+    LOGIN_ERROR(201, "账号或密码错误"),
     LOGIN_ERROR_USERNAME_PASSWORD_NOT_EMPTY(201, "登录信息不能为空"),
     GET_BUCKET_EXCEPTION(201, "获取文件信息失败"),
     SEND_MAIL_CODE_ERROR(201, "邮件发送失败"),

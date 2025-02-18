@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Tag(name = "系统部门", description = "部门相关接口")
 @RestController
-@RequestMapping("/api/dept")
+@RequestMapping("/admin/dept")
 public class DeptController {
 
     @Autowired

@@ -25,39 +25,9 @@ public class Knife4jConfig {
         return new OpenAPI().info(info).externalDocs(new ExternalDocumentation());
     }
 
+    // 管理员相关分类接口
     @Bean
-    public GroupedOpenApi all() {
-        return GroupedOpenApi.builder().group("全部请求接口").pathsToMatch("/api/**").build();
-    }
-
-    @Bean
-    public GroupedOpenApi i18n() {
-        return GroupedOpenApi.builder().group("多语言").pathsToMatch("/api/i18n/**", "/api/i18nType/**").build();
-    }
-
-    @Bean
-    public GroupedOpenApi config() {
-        return GroupedOpenApi.builder().group("配置")
-                .pathsToMatch("/api/config/**", "/api/emailTemplate/**", "/api/emailUsers/**",
-                        "/api/message/**", "/api/messageReceived/**", "/api/messageType/**",
-                        "/api/menuIcon/**", "/api/schedulers/**", "/api/schedulersGroup/**"
-                )
-                .build();
-    }
-
-    @Bean
-    public GroupedOpenApi system() {
-        return GroupedOpenApi.builder().group("系统")
-                .pathsToMatch("/api/dept/**", "/api/files/**", "/api/power/**",
-                        "/api/rolePower/**", "/api/role/**", "/api/router/**",
-                        "/api/routerRole/**", "/api/user/**", "/api/userRole/**"
-                ).build();
-    }
-
-    @Bean
-    public GroupedOpenApi log() {
-        return GroupedOpenApi.builder().group("日志")
-                .pathsToMatch("/api/userLoginLog/**", "/api/quartzExecuteLog/**"
-                ).build();
+    public GroupedOpenApi groupedOpenAdminApi() {
+        return GroupedOpenApi.builder().group("默认请求接口").pathsToMatch("/admin/**").build();
     }
 }

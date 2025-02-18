@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Tag(name = "权限", description = "权限相关接口")
 @RestController
-@RequestMapping("api/power")
+@RequestMapping("admin/power")
 public class PowerController {
 
     @Autowired

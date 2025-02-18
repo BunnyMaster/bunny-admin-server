@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Tag(name = "路由和角色", description = "路由和角色相关接口")
 @RestController
-@RequestMapping("api/routerRole")
+@RequestMapping("admin/routerRole")
 public class RouterRoleController {
 
     @Autowired

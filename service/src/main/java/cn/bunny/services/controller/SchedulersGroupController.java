@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Tag(name = "任务调度分组", description = "任务调度分组相关接口")
 @RestController
-@RequestMapping("api/schedulersGroup")
+@RequestMapping("admin/schedulersGroup")
 public class SchedulersGroupController {
 
     @Autowired

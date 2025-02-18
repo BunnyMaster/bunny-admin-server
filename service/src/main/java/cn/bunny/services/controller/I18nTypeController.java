@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Tag(name = "多语言类型", description = "多语言类型相关接口")
 @RestController
-@RequestMapping("api/i18nType")
+@RequestMapping("admin/i18nType")
 public class I18nTypeController {
 
     @Autowired

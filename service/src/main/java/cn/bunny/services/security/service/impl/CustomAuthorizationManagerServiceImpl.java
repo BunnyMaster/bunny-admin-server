@@ -1,4 +1,4 @@
-package cn.bunny.services.security.custom;
+package cn.bunny.services.security.service.impl;
 
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.utils.JwtHelper;
@@ -9,7 +9,8 @@ import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RoleMapper;
-import cn.bunny.services.utils.RoleUtil;
+import cn.bunny.services.security.custom.CustomAuthenticationException;
+import cn.bunny.services.security.custom.CustomCheckIsAdmin;
 import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
@@ -54,12 +54,12 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         // 判断是否有 token
         String token = request.getHeader("token");
         if (token == null) {
-            throw new UsernameNotFoundException(ResultCodeEnum.LOGIN_AUTH.getMessage());
+            throw new CustomAuthenticationException(ResultCodeEnum.LOGIN_AUTH);
         }
 
         // 判断 token 是否过期
         if (JwtHelper.isExpired(token)) {
-            throw new UsernameNotFoundException(ResultCodeEnum.AUTHENTICATION_EXPIRED.getMessage());
+            throw new CustomAuthenticationException(ResultCodeEnum.AUTHENTICATION_EXPIRED);
         }
 
         // 解析JWT中的用户名
@@ -72,12 +72,12 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
 
         // 登录信息为空
         if (loginVo == null) {
-            throw new UsernameNotFoundException(ResultCodeEnum.LOGIN_AUTH.getMessage());
+            throw new CustomAuthenticationException(ResultCodeEnum.LOGIN_AUTH);
         }
 
         // 判断用户是否禁用
         if (loginVo.getStatus()) {
-            throw new UsernameNotFoundException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED.getMessage());
+            throw new CustomAuthenticationException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
         }
 
         // 设置用户信息
@@ -103,7 +103,7 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         List<String> roleCodeList = roleList.stream().map(Role::getRoleCode).toList();
 
         // 判断是否是管理员用户
-        boolean checkedAdmin = RoleUtil.checkAdmin(roleCodeList);
+        boolean checkedAdmin = CustomCheckIsAdmin.checkAdmin(roleCodeList);
         if (checkedAdmin) return true;
 
         // 判断请求地址是否是 noManage 不需要被验证的

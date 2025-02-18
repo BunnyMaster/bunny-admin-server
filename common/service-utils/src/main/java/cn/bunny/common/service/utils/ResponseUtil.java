@@ -11,13 +11,13 @@ import java.io.IOException;
 public class ResponseUtil {
 
     public static void out(HttpServletResponse response, Result<Object> result) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
 
-            // 注册JavaTimeModule模块
-            mapper.registerModule(new JavaTimeModule());
-            response.setContentType("application/json;charset=UTF-8");
-            response.setStatus(HttpStatus.OK.value());
+        // 注册JavaTimeModule模块
+        mapper.registerModule(new JavaTimeModule());
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(HttpStatus.OK.value());
+        try {
             mapper.writeValue(response.getWriter(), result);
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package cn.bunny.services.utils;
+package cn.bunny.services.factory;
 
 import cn.bunny.dao.vo.system.router.UserRouterVo;
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RouterServiceUtil {
+public class RouterServiceFactory {
 
     /**
      * * 递归调用设置子路由

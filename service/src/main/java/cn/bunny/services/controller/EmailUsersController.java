@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Tag(name = "邮箱用户发送配置", description = "邮箱用户发送配置相关接口")
 @RestController
-@RequestMapping("api/emailUsers")
+@RequestMapping("admin/emailUsers")
 public class EmailUsersController {
 
     @Autowired

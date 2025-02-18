@@ -25,13 +25,6 @@
             <artifactId>service-utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!-- devtools -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
         <!-- spring-security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

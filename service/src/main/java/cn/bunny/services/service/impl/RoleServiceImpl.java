@@ -9,12 +9,12 @@ import cn.bunny.dao.entity.system.UserRole;
 import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.rolePower.RoleVo;
+import cn.bunny.services.factory.RoleFactory;
 import cn.bunny.services.mapper.RoleMapper;
 import cn.bunny.services.mapper.RolePowerMapper;
 import cn.bunny.services.mapper.RouterRoleMapper;
 import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.RoleService;
-import cn.bunny.services.utils.RoleUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -49,7 +49,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private RouterRoleMapper routerRoleMapper;
 
     @Autowired
-    private RoleUtil roleUtil;
+    private RoleFactory roleFactory;
 
     /**
      * * 角色 服务实现类
@@ -118,7 +118,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         // 找到所有和当前更新角色相同的用户，并更新Redis中用户信息
         List<Long> userIds = userRoleMapper.selectList(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getRoleId, dto.getId()))
                 .stream().map(UserRole::getUserId).toList();
-        roleUtil.updateUserRedisInfo(userIds);
+        roleFactory.updateUserRedisInfo(userIds);
     }
 
 

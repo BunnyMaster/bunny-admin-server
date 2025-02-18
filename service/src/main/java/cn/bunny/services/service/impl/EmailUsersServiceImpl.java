@@ -9,10 +9,10 @@ import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.email.EmailUsersVo;
+import cn.bunny.services.factory.EmailFactory;
 import cn.bunny.services.mapper.EmailUsersMapper;
 import cn.bunny.services.service.EmailUsersService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
@@ -38,7 +38,7 @@ import java.util.Map;
 public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUsers> implements EmailUsersService {
 
     @Autowired
-    private EmailUsersMapper emailUsersMapper;
+    private EmailFactory emailFactory;
 
     /**
      * * 邮箱用户发送配置 服务实现类
@@ -67,7 +67,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
     @Override
     public void addEmailUsers(EmailUsersAddDto dto) {
         // 更新邮箱默认状态
-        updateEmailUserDefault(dto.getIsDefault());
+        emailFactory.updateEmailUserDefault(dto.getIsDefault());
 
         // 保存数据
         EmailUsers emailUsers = new EmailUsers();
@@ -84,7 +84,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
     @Override
     public void updateEmailUsers(@Valid EmailUsersUpdateDto dto) {
         // 更新邮箱默认状态
-        updateEmailUserDefault(dto.getIsDefault());
+        emailFactory.updateEmailUserDefault(dto.getIsDefault());
 
         // 更新内容
         EmailUsers emailUsers = new EmailUsers();
@@ -113,7 +113,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
     @Override
     public void updateEmailUserStatus(EmailUserUpdateStatusDto dto) {
         // 更新邮箱默认状态
-        updateEmailUserDefault(dto.getIsDefault());
+        emailFactory.updateEmailUserDefault(dto.getIsDefault());
 
         EmailUsers emailUsers = new EmailUsers();
         BeanUtils.copyProperties(dto, emailUsers);
@@ -133,19 +133,5 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
             map.put("value", emailUsers.getId().toString());
             return map;
         }).toList();
-    }
-
-    /**
-     * 判断邮箱是否添加
-     *
-     * @param isDefault 邮箱是否为默认
-     */
-    public void updateEmailUserDefault(Boolean isDefault) {
-        EmailUsers emailUsers = new EmailUsers();
-        // 判断状态，如果是默认将所有的内容都设为false
-        if (isDefault) {
-            emailUsers.setIsDefault(false);
-            emailUsersMapper.update(emailUsers, Wrappers.<EmailUsers>lambdaUpdate().eq(EmailUsers::getIsDefault, true));
-        }
     }
 }

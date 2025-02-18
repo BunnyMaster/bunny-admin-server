@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Tag(name = "角色", description = "角色相关接口")
 @RestController
-@RequestMapping("api/role")
+@RequestMapping("admin/role")
 public class RoleController {
 
     @Autowired

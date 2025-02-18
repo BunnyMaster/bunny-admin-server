@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Tag(name = "系统菜单图标", description = "系统菜单图标相关接口")
 @RestController
-@RequestMapping("api/menuIcon")
+@RequestMapping("admin/menuIcon")
 public class MenuIconController {
 
     @Autowired

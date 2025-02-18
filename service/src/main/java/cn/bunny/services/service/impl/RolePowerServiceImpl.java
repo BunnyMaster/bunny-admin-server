@@ -4,11 +4,11 @@ import cn.bunny.dao.dto.system.rolePower.AssignPowersToRoleDto;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.RolePower;
 import cn.bunny.dao.entity.system.UserRole;
+import cn.bunny.services.factory.RoleFactory;
 import cn.bunny.services.mapper.RolePowerMapper;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.mapper.UserRoleMapper;
 import cn.bunny.services.service.RolePowerService;
-import cn.bunny.services.utils.RoleUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower
     private UserMapper userMapper;
 
     @Autowired
-    private RoleUtil roleUtil;
+    private RoleFactory roleFactory;
 
     @Autowired
     private UserRoleMapper userRoleMapper;
@@ -84,6 +84,6 @@ public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower
 
         // 更新Redis中用户信息
         List<Long> userIds = adminUsers.stream().map(AdminUser::getId).toList();
-        roleUtil.updateUserRedisInfo(userIds);
+        roleFactory.updateUserRedisInfo(userIds);
     }
 }
