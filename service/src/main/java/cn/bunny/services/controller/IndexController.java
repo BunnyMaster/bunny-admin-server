@@ -8,19 +8,20 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "访问首页内容", description = "访问首页内容相关接口")
-@RestController
+@Controller
 @RequestMapping("/")
 public class IndexController {
 
     @Operation(summary = "访问首页", description = "访问首页")
     @GetMapping("")
     public String index() {
-        return "欢迎访问 Bunny Java Template，欢迎去Gitee：https://gitee.com/BunnyBoss/java_single.git";
+        // return "欢迎访问 Bunny Java Template，欢迎去Gitee：https://gitee.com/BunnyBoss/java_single.git";
+        return "index";
     }
 
     @Operation(summary = "生成验证码", description = "生成验证码")

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>bunny-admin-server项目介绍</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            }
+
+            header {
+                background-color: #007BFF;
+                color: white;
+                padding: 20px 0;
+                text-align: center;
+            }
+
+            .container {
+                max-width: 800px;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: white;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+            }
+
+            h1 {
+                margin-top: 0;
+            }
+
+            h2 {
+                color: #007BFF;
+            }
+
+            p {
+                line-height: 1.6;
+            }
+
+            code {
+                padding: 1px 5px;
+                color: #FD9E5C;
+                background-color: #282C34;
+                border-radius: 5px;
+            }
+
+            .project-image {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                margin-bottom: 20px;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #007BFF;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+
+            .btn:hover {
+                background-color: #0056b3;
+            }
+
+            footer {
+                text-align: center;
+                padding: 20px 0;
+                background-color: #007BFF;
+                color: white;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <header>
+            <h1>bunny-admin-server项目介绍</h1>
+        </header>
+
+        <div class="container">
+            <h2>项目名称</h2>
+            <p>这是权限管理系统，之前有2个版本，这个是第3个，我将部分的代码优化了一遍；比如下面的：</p>
+            <ul>
+                <li>登录优化：使用登录策略方便以后扩展登录方式</li>
+                <li>邮件发送模板：邮件发送用的是模板方法模式</li>
+                <li>密码校验：登录密码校验器，改用自带的不是md5加密，看起来像这样：<code>$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe</code></li>
+                <li>接口请求路径：将原本请求路径<code>/admin</code>改为<code>/api</code></li>
+            </ul>
+
+            <h4>展示下验证码图片</h4>
+            <img alt="验证码图片" class="project-image" src="/noAuth/checkCode">
+
+            <h2>技术栈</h2>
+            <p>前端vue，是小铭做的模板，我负责将前端模板实现下，加了接口，之后页面我自己添加了一些。</p>
+            <p>后端Java，SpringSecurity就是主要的，中间件是：Redis、MySQL、Minio，因为自己做文件系统时间太长了就用了中间件 。</p>
+
+            <a class="btn" href="http://bunny-web.site/" target="_blank">查看在线项目</a>
+            <a class="btn" href="http://localhost:7000/" target="_blank">查看本地项目</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2023 我的项目. 保留所有权利.</p>
+        </footer>
+
+    </body>
+</html>
