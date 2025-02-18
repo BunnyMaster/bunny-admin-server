@@ -13,6 +13,7 @@ import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.entity.system.UserDept;
 import cn.bunny.dao.enums.EmailTemplateEnums;
+import cn.bunny.dao.enums.LoginEnums;
 import cn.bunny.dao.views.ViewUserDept;
 import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
@@ -23,6 +24,10 @@ import cn.bunny.services.service.FilesService;
 import cn.bunny.services.service.UserService;
 import cn.bunny.services.utils.UserUtil;
 import cn.bunny.services.utils.email.ConcreteSenderEmailTemplate;
+import cn.bunny.services.utils.login.DefaultLoginStrategy;
+import cn.bunny.services.utils.login.EmailLoginStrategy;
+import cn.bunny.services.utils.login.LoginContext;
+import cn.bunny.services.utils.login.LoginStrategy;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -30,12 +35,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
@@ -83,6 +90,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    /**
+     * 前台用户登录接口
+     * 这里不用判断用户是否为空，因为在登录时已经校验过了
+     * <p>
+     * 抛出异常使用自带的 UsernameNotFoundException 或者自己封装<br/>
+     * 但是这两个效果传入参数都是一样的，所以全部使用 UsernameNotFoundException
+     * </p>
+     *
+     * @param loginDto 登录参数
+     * @return 登录后结果返回
+     */
+    @Override
+    public LoginVo login(LoginDto loginDto, HttpServletResponse response) {
+        Long readMeDay = loginDto.getReadMeDay();
+
+        // 初始化登录策略，如果有需要添加策略放在这里
+        HashMap<String, LoginStrategy> loginStrategyHashMap = new HashMap<>();
+        loginStrategyHashMap.put(LoginEnums.EMAIL_STRATEGY.getValue(), new EmailLoginStrategy(redisTemplate, userMapper));
+        loginStrategyHashMap.put(LoginEnums.default_STRATEGY.getValue(), new DefaultLoginStrategy(userMapper));
+
+        // 使用登录上下文调用登录策略
+        LoginContext loginContext = new LoginContext(loginStrategyHashMap);
+        AdminUser user = loginContext.executeStrategy(loginDto);
+
+        // 判断用户是否禁用
+        if (user.getStatus()) {
+            throw new UsernameNotFoundException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED.getMessage());
+        }
+        return userUtil.buildLoginUserVo(user, readMeDay);
+    }
 
     /**
      * 登录发送邮件验证码

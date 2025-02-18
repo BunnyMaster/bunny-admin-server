@@ -1,15 +1,13 @@
 package cn.bunny.services.utils.login;
 
-import cn.bunny.common.service.utils.ResponseUtil;
 import cn.bunny.dao.constant.RedisUserConstant;
 import cn.bunny.dao.dto.system.user.LoginDto;
 import cn.bunny.dao.entity.system.AdminUser;
-import cn.bunny.dao.vo.result.Result;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.services.mapper.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * 邮箱登录策略
@@ -25,26 +23,29 @@ public class EmailLoginStrategy implements LoginStrategy {
 
     /**
      * 登录鉴定方法
+     * 只要判断邮箱验证码是否相等，在前面已经验证过用户密码
+     * <p>
+     * 抛出异常类型 UsernameNotFoundException 如果要自定义状态码需要使用 HttpServletResponse
+     * 有封装好的 ResponseUtil.out() 方法
+     * </p>
      *
-     * @param response 返回的响应
      * @param loginDto 登录参数
      * @return 鉴定身份验证
      */
     @Override
-    public AdminUser authenticate(HttpServletResponse response, LoginDto loginDto) {
+    public AdminUser authenticate(LoginDto loginDto) {
         String username = loginDto.getUsername();
         String emailCode = loginDto.getEmailCode().toLowerCase();
 
+        // 查找Redis中的验证码
         Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
         if (redisEmailCode == null) {
-            ResponseUtil.out(response, Result.error(ResultCodeEnum.EMAIL_CODE_EMPTY));
-            return null;
+            throw new UsernameNotFoundException(ResultCodeEnum.EMAIL_CODE_EMPTY.getMessage());
         }
 
         // 判断用户邮箱验证码是否和Redis中发送的验证码
         if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
-            ResponseUtil.out(response, Result.error(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING));
-            return null;
+            throw new UsernameNotFoundException(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING.getMessage());
         }
 
         // 查询用户相关内容

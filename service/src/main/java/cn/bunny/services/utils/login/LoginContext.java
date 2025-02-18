@@ -2,7 +2,7 @@ package cn.bunny.services.utils.login;
 
 import cn.bunny.dao.dto.system.user.LoginDto;
 import cn.bunny.dao.entity.system.AdminUser;
-import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Map;
 
@@ -16,11 +16,19 @@ public class LoginContext {
         this.strategies = strategies;
     }
 
-    public AdminUser executeStrategy(String type, LoginDto loginDto, HttpServletResponse response) {
+    /**
+     * 执行登录策略
+     * 根据情况判断 type 是否为空
+     *
+     * @param loginDto 登录参数
+     * @return 用户
+     */
+    public AdminUser executeStrategy(LoginDto loginDto) {
+        String type = loginDto.getType();
         LoginStrategy strategy = strategies.get(type);
         if (strategy == null) {
-            throw new IllegalArgumentException("不支持登录类型: " + type);
+            throw new UsernameNotFoundException("不支持登录类型: " + type);
         }
-        return strategy.authenticate(response, loginDto);
+        return strategy.authenticate(loginDto);
     }
 }

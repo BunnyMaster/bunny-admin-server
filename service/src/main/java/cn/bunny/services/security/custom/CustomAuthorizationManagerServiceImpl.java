@@ -1,4 +1,4 @@
-package cn.bunny.services.security.custom.service.impl;
+package cn.bunny.services.security.custom;
 
 import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.common.service.utils.JwtHelper;
@@ -9,7 +9,6 @@ import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RoleMapper;
-import cn.bunny.services.security.custom.CustomAuthenticationException;
 import cn.bunny.services.utils.RoleUtil;
 import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
@@ -54,12 +54,12 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         // 判断是否有 token
         String token = request.getHeader("token");
         if (token == null) {
-            throw new CustomAuthenticationException(ResultCodeEnum.LOGIN_AUTH);
+            throw new UsernameNotFoundException(ResultCodeEnum.LOGIN_AUTH.getMessage());
         }
 
         // 判断 token 是否过期
         if (JwtHelper.isExpired(token)) {
-            throw new CustomAuthenticationException(ResultCodeEnum.AUTHENTICATION_EXPIRED);
+            throw new UsernameNotFoundException(ResultCodeEnum.AUTHENTICATION_EXPIRED.getMessage());
         }
 
         // 解析JWT中的用户名
@@ -72,12 +72,12 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
 
         // 登录信息为空
         if (loginVo == null) {
-            throw new CustomAuthenticationException(ResultCodeEnum.LOGIN_AUTH);
+            throw new UsernameNotFoundException(ResultCodeEnum.LOGIN_AUTH.getMessage());
         }
 
         // 判断用户是否禁用
         if (loginVo.getStatus()) {
-            throw new CustomAuthenticationException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
+            throw new UsernameNotFoundException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED.getMessage());
         }
 
         // 设置用户信息

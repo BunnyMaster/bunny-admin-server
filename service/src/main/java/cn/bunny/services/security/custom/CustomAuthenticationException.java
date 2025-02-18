@@ -13,10 +13,11 @@ import org.springframework.security.core.AuthenticationException;
 @ToString
 @Slf4j
 public class CustomAuthenticationException extends AuthenticationException {
+    String message;
     ResultCodeEnum resultCodeEnum;
 
-    public CustomAuthenticationException(ResultCodeEnum codeEnum) {
-        super(codeEnum.getMessage());
-        this.resultCodeEnum = codeEnum;
+    public CustomAuthenticationException(String message) {
+        super(message);
+        this.message = message;
     }
 }
