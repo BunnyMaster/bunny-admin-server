@@ -4,7 +4,6 @@ import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.services.mapper.UserMapper;
 import cn.bunny.services.security.custom.CustomAuthorizationManagerServiceImpl;
-import cn.bunny.services.security.custom.CustomPasswordEncoder;
 import cn.bunny.services.security.filter.TokenLoginFilterService;
 import cn.bunny.services.security.handelr.SecurityAccessDeniedHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationEntryPoint;
@@ -41,16 +40,13 @@ public class WebSecurityConfig {
     private UserService userService;
 
     @Autowired
-    private CustomPasswordEncoder customPasswordEncoder;
-
-    @Autowired
     private CustomAuthorizationManagerServiceImpl customAuthorizationManagerService;
 
     @Autowired
     private AuthenticationConfiguration authenticationConfiguration;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, UserMapper userMapper) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 // 前端段分离不需要---禁用明文验证
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -76,13 +72,9 @@ public class WebSecurityConfig {
                     exception.accessDeniedHandler(new SecurityAccessDeniedHandler());
                 })
                 // 登录验证过滤器
-                .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, userService), UsernamePasswordAuthenticationFilter.class)
-                // 自定义密码加密器和用户登录
-                .passwordManagement(customPasswordEncoder);
-
+                .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, userService), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
-
 
     /**
      * 使用数据库方式

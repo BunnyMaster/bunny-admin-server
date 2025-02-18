@@ -43,9 +43,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,33 +66,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Autowired
     private UserUtil userUtil;
-
     @Autowired
     private ConcreteSenderEmailTemplate concreteSenderEmailTemplate;
-
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-
     @Autowired
     private FilesService filesService;
-
     @Autowired
     private UserDeptMapper userDeptMapper;
-
     @Autowired
     private UserRoleMapper userRoleMapper;
-
     @Autowired
     private UserLoginLogMapper userLoginLogMapper;
-
     @Autowired
     private EmailTemplateMapper emailTemplateMapper;
-
     @Autowired
     private RoleMapper roleMapper;
-
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * 前台用户登录接口
@@ -237,19 +230,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         String password = dto.getPassword();
 
         // 对密码加密
-        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
+        String encode = passwordEncoder.encode(password);
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
 
         // 判断是否存在这个用户
         if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
 
         // 判断新密码是否与旧密码相同
-        if (adminUser.getPassword().equals(md5Password))
+        if (adminUser.getPassword().equals(encode))
             throw new AuthCustomerException(ResultCodeEnum.UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD);
 
         // 更新用户密码
         adminUser = new AdminUser();
-        adminUser.setPassword(md5Password);
+        adminUser.setPassword(encode);
         adminUser.setId(userId);
         updateById(adminUser);
 
@@ -412,7 +405,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 数据库中的密码
         String dbPassword = adminUser.getPassword();
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        password = passwordEncoder.encode(password);
 
         // 判断数据库中密码是否和更新用户密码相同
         if (dbPassword.equals(password)) throw new AuthCustomerException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
@@ -469,12 +462,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public void addAdminUser(@Valid AdminUserAddDto dto) {
         // 对密码加密
-        String md5Password = DigestUtils.md5DigestAsHex(dto.getPassword().getBytes());
+        String encode = passwordEncoder.encode(dto.getPassword());
 
         // 保存数据
         AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
-        adminUser.setPassword(md5Password);
+        adminUser.setPassword(encode);
         save(adminUser);
 
         // 插入用户部门关系表
