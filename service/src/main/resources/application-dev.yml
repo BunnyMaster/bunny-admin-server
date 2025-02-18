@@ -20,22 +20,22 @@ logging:
 
 bunny:
   master:
-    host: 192.168.3.129
-    port: 3304
+    host: 192.168.3.137
+    port: 3306
     database: auth_admin
     username: root
-    password: "02120212"
+    password: "123456"
 
   redis:
-    host: 192.168.3.129
+    host: 192.168.3.137
     port: 6379
     database: 0
     password: "123456"
 
   minio:
-    endpointUrl: "http://192.168.3.129:9000"
+    endpointUrl: "http://192.168.3.137:9000"
     accessKey: bunny
-    secretKey: "02120212"
+    secretKey: "12345678"
     bucket-name: auth-admin
 
   backPath: "D:\\MyData\\backup"
