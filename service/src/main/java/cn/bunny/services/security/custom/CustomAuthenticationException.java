@@ -20,4 +20,9 @@ public class CustomAuthenticationException extends AuthenticationException {
         super(message);
         this.message = message;
     }
+
+    public CustomAuthenticationException(ResultCodeEnum resultCodeEnum) {
+        super(resultCodeEnum.getMessage());
+        this.resultCodeEnum = resultCodeEnum;
+    }
 }

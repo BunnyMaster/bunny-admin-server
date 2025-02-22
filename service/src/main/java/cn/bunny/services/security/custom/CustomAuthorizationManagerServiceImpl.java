@@ -18,7 +18,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
@@ -47,19 +46,18 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
 
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
-
         // 用户的token和用户id、请求Url
         HttpServletRequest request = context.getRequest();
 
         // 判断是否有 token
         String token = request.getHeader("token");
         if (token == null) {
-            throw new UsernameNotFoundException(ResultCodeEnum.LOGIN_AUTH.getMessage());
+            throw new CustomAuthenticationException(ResultCodeEnum.LOGIN_AUTH);
         }
 
         // 判断 token 是否过期
         if (JwtHelper.isExpired(token)) {
-            throw new UsernameNotFoundException(ResultCodeEnum.AUTHENTICATION_EXPIRED.getMessage());
+            throw new CustomAuthenticationException(ResultCodeEnum.AUTHENTICATION_EXPIRED);
         }
 
         // 解析JWT中的用户名
@@ -72,12 +70,12 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
 
         // 登录信息为空
         if (loginVo == null) {
-            throw new UsernameNotFoundException(ResultCodeEnum.LOGIN_AUTH.getMessage());
+            throw new CustomAuthenticationException(ResultCodeEnum.LOGIN_AUTH);
         }
 
         // 判断用户是否禁用
         if (loginVo.getStatus()) {
-            throw new UsernameNotFoundException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED.getMessage());
+            throw new CustomAuthenticationException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
         }
 
         // 设置用户信息

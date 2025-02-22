@@ -23,7 +23,7 @@
 
     <!-- 文件日志 -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/www/root/server/logs/${datetime}/financial-server.log</file>
+        <file>logs/${datetime}/financial-server.log</file>
         <append>true</append>
         <encoder>
             <pattern>%date{yyyy-MM-dd HH:mm:ss} [%-5level] %thread %file:%line %logger %msg%n</pattern>

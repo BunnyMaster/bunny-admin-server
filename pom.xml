@@ -44,6 +44,7 @@
         <jackson-dataType.version>2.12.3</jackson-dataType.version>
         <quartz-scheduler.version>2.3.2</quartz-scheduler.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <!-- 单元测试 -->
