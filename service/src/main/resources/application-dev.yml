@@ -33,9 +33,9 @@ bunny:
     password: "123456"
 
   minio:
-    endpointUrl: "http://192.168.3.137:9000"
-    accessKey: bunny
-    secretKey: "12345678"
-    bucket-name: auth-admin
+    endpointUrl: "http://192.168.3.137:9000" # 连接地址
+    accessKey: bunny # 用户名
+    secretKey: "12345678" # 登录密码
+    bucket-name: auth-admin # 指定哪个桶
 
   backPath: "D:\\MyData\\backup"

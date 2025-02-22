@@ -1,10 +1,12 @@
 # 感谢
 
+> [!important]
+>
+> 前端项目整体都由此模板开发
+
 项目由[小铭](https://github.com/xiaoxian521)开源权限模板[Pure-admin](https://pure-admin.github.io/vue-pure-admin/)
 
-Pure-admin文档：https://pure-admin.github.io/pure-admin-doc
-
-项目整体都由此模板开发
+**Pure-admin文档**：https://pure-admin.github.io/pure-admin-doc
 
 # 项目预览
 
@@ -16,11 +18,11 @@ Pure-admin文档：https://pure-admin.github.io/pure-admin-doc
 >
 > 谷歌方式如下：
 >
-> ![image-20250108225817891](http://116.196.101.14:9000/docs/image-20250108225817891.png)
+> ![image-20250108225817891](http://129.211.31.58:9000/docs/image-20250108225817891.png)
 >
 > Edge方式如下：
 >
-> ![image-20250108225915189](http://116.196.101.14:9000/docs/image-20250108225915189.png)
+> ![image-20250108225915189](http://129.211.31.58:9000/docs/image-20250108225915189.png)
 
 **打包视频**
 
@@ -31,7 +33,7 @@ https://www.bilibili.com/video/BV1AYm8YSEKY/
 - [前端地址](https://github.com/BunnyMaster/bunny-admin-web.git)
 - [后端地址](https://github.com/BunnyMaster/bunny-admin-server)
 
-**Gitee地址**
+**`Gitee`地址**
 
 - [前端地址](https://gitee.com/BunnyBoss/bunny-admin-web)
 - [后端地址](https://gitee.com/BunnyBoss/bunny-admin-server)
@@ -84,31 +86,40 @@ sudo apt-get -y install apt-transport-https ca-certificates curl software-proper
 sudo service docker restart
 ```
 
-> 安装docker会可能会遇到镜像无法拉去问题试下面的几个镜像地址，根据你自己的需要进行配置不是所有人都需要；同时也不能保证地址真的有效！！！
+避免每次操作docker需要输入sudo
+
+```bash
+# 创建分组一般
+sudo groupadd docker
+# 将当前用户添加到分组
+sudo usermod -aG docker $USER
+# 重启终端生效
+exit
+```
+
+> [!warning]
 >
-> ```bash
-> # 如果遇到没有这个文件的直接输入命令进行创建既可，之后记得重启docker
-> sudo touch /etc/docker/daemon.json
-> sudo vim /etc/docker/daemon.json
-> ```
+> 安装docker会可能会遇到镜像无法拉去问题试下面的几个镜像地址，根据你自己的需要进行配置不是所有人都需要；同时也不能保证地址真的有效！！！
 >
 > 复制下面的内容到`daemon.json`
 >
 > ```json
+> # 创建目录
+> sudo mkdir -p /etc/docker
+> 
+> # 写入配置文件
+> sudo tee /etc/docker/daemon.json <<-'EOF'
 > {
->   "registry-mirrors": [
->     "https:\/\/jockerhub.com",
->     "https://dockerhub.icu",
->     "https://docker.1panel.live",
->     "https://gwsg6nw9.mirror.aliyuncs.com",
->     "https://registry.docker-cn.com",
->     "http://hub-mirror.c.163.com",
->     "http://f1361db2.m.daocloud.io",
->     "https://mirror.ccs.tencentyun.com",
->     "https://phtv51hj.mirror.aliyuncs.com",
->     "https://gwsg6nw9.mirror.aliyuncs.com"
->   ]
+>     "registry-mirrors": [
+>     	"https://docker-0.unsee.tech",
+>         "https://docker-cf.registry.cyou",
+>         "https://docker.1panel.live"
+>     ]
 > }
+> EOF
+> 
+> # 重启docker服务
+> sudo systemctl daemon-reload && sudo systemctl restart docker
 > ```
 >
 > 重启docker
@@ -117,174 +128,64 @@ sudo service docker restart
 > sudo systemctl restart docker.socket
 > ```
 
-### 安装Redis
+## Docker-Compose 搭建环境
 
-#### 编写配置文件
+### 安装Docker-Compose
 
-```sh
-mkdir ~/docker/docker_data/redis_master/ -p
-vim  ~/docker/docker_data/redis_master/redis.conf
-```
+使用docker-compose有的时候会因为版本不同，但是配置文件主要内容就是这些。需要注意版本问题
 
-**添加以下内容**
-
-有注释大概率启动不了
-
-```properties
-# bind 127.0.0.1 #注释掉这部分，使redis可以外部访问
-daemonize no #用守护线程的方式启动
-requirepass 123456
-appendonly yes #redis持久化　　默认是no
-tcp-keepalive 300 #防止出现远程主机强迫关闭了一个现有的连接的错误 默认是300
-```
-
-**删除注释**
-
-```properties
-daemonize no
-requirepass 123456
-appendonly yes
-tcp-keepalive 300
-```
-
-#### 启动Redis
-
-密码是上面的：`123456`
-
-```sh
-docker pull redis:7.0.10
-docker run -p 6379:6379 --name redis_master \
--v ~/docker/docker_data/redis_master/redis.conf:/etc/redis/redis.conf \
--v ~/docker/docker_data/redis_master/data:/data \
---restart=always -d redis:7.0.10  --appendonly yes
-```
-
-### 安装Minio
-
-在这个项目中进入之后输入你的用户名密码之后创建一个桶，桶名称为`auth-admin`，这个桶名称在后端的配置文件中可以修改
-
-```sh
-docker run -d \
-  -p 9000:9000 \
-  -p 9090:9090 \
-  --name minio_master --restart=always \
-  -v ~/docker/docker_data/minio/data:/data \
-  -e "MINIO_ROOT_USER=bunny" \
-  -e "MINIO_ROOT_PASSWORD=02120212" \
-  minio/minio server /data --console-address ":9090"
-```
-
-![image-20241117201248420](http://116.196.101.14:9000/docs/image-20241117201248420.png)
-
-#### 搭建步骤
-
-**1、输入地址，之后登录进去**
-
-**2、创建桶**
-
-![image-20241117201444738](http://116.196.101.14:9000/docs/image-20241117201444738.png)
-
-**3、进入创建的桶，设置桶的权限时公开的，否则无法访问文件内容**
-
-![image-20241117201552805](http://116.196.101.14:9000/docs/image-20241117201552805.png)
-
-![image-20241117201622288](http://116.196.101.14:9000/docs/image-20241117201622288.png)
-
-![image-20241117201712911](http://116.196.101.14:9000/docs/image-20241117201712911.png)
-
-### 安装MySQL
-
-#### 创建配置文件
-
-注意路径！！！
+#### Centos、Rocky
 
 ```bash
-# 创建3306配置文件
-sudo mkdir -p ~/docker/docker_data/mysql/mysql_master/etc
-sudo vim ~/docker/docker_data/mysql/mysql_master/etc/my.cnf
+sudo yum install docker-ce docker-ce-cli containerd.io
 
-# 创建3304配置文件
-sudo mkdir -p /home/bunny/docker/docker_data/mysql/slave_3304/etc
-sudo vim /home/bunny/docker/docker_data/mysql/slave_3304/etc/my.cnf
+sudo yum install curl
+curl -L https://get.daocloud.io/docker/compose/releases/download/1.25.4/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+
+sudo docker-compose --version
 ```
 
-**my.cnf 配置**
+#### Ubuntu
 
-```mysql
-[mysqld]
-skip-host-cache
-skip-name-resolve
-secure-file-priv=/var/lib/mysql-files
-user=mysql
-
-# 设置字符集
-character-set-server=utf8mb4
-collation-server=utf8mb4_unicode_ci
-
-# 设置服务器ID（如果是复制集群，确保每个节点的ID唯一）
-server-id=1
-
-# 启用二进制日志
-log-bin=mysql-bin
-
-# 设置表名不区分大小写
-lower_case_table_names = 1
+```bash
+sudo apt install docker-compose
 ```
 
-#### 启动MySQL
+### docker-compose文件位置
 
-启动时会一直输出，等输出差不多了直接关掉既可
+![image-20250222184020443](http://129.211.31.58:9000/docs/image-20250222184020443.png)
 
-**执行启动3306：**
+### 相关命令
 
-```sh
-docker stop mysql_master
-docker rm mysql_master
+#### 只拉取镜像
 
-docker run --name mysql_master -p 3306:3306 \
--v  /home/bunny/docker/docker_data/mysql/mysql_master/etc/my.cnf:/etc/my.cnf \
--v  /home/bunny/docker/docker_data/mysql/mysql_master/data:/var/lib/mysql \
--v  /home/bunny/docker/docker_data/mysql/mysql_master/backup:/backup \
---restart=always --privileged=true \
-   -e MYSQL_ROOT_PASSWORD=02120212 \
-   -e TZ=Asia/Shanghai \
-   mysql:8.0.33 --lower-case-table-names=1
+docker-compose pull 命令会拉取 docker-compose.yml 文件中定义的所有服务的镜像，但不会创建或启动容器。
+
+```bash
+docker-compose pull
 ```
 
-**执行启动3304：**
+#### 拉取镜像而不做其他操作
 
-其中有创建备份目录
+只拉取镜像而不做其他操作，可以结合 docker-compose 的其他命令来实现：
 
-```shell
-docker stop slave_3304
-docker rm slave_3304
-
-docker run --name slave_3304 -p 3304:3306 \
-   -v  /home/bunny/docker/docker_data/mysql/slave_3304/etc/my.cnf:/etc/my.cnf \
-   -v  /home/bunny/docker/docker_data/mysql/slave_3304/data:/var/lib/mysql \
-   -v  /home/bunny/docker/docker_data/mysql/slave_3304/backup:/backup \
-   --restart=always --privileged=true \
-   -e MYSQL_ROOT_PASSWORD=02120212 \
-   -e TZ=Asia/Shanghai \
-   mysql:8.0.33 --lower-case-table-names=1
+```bash
+docker-compose up --no-start
 ```
 
-> **修改密码：**
->
-> ```sh
-> docker exec -it mysql_master /bin/bash
-> mysql -uroot -p02120212
-> use mysql
-> ALTER USER 'root'@'%' IDENTIFIED BY "02120212";
-> FLUSH PRIVILEGES;
-> ```
->
+#### 拉取镜像并创建容器
 
-### 数据库文件
+```bash
+docker-compose up -d
+```
+
+#### 数据库文件
 
 在后端文件的根目录中
 
-![image-20241107133345299](http://116.196.101.14:9000/docs/image-20241107133345299.png)
+![image-20241107133345299](http://129.211.31.58:9000/docs/image-20241107133345299.png)
 
 ## 后端日志文件
 
@@ -319,21 +220,21 @@ logging:
 <timestamp key="datetime" datePattern="yyyy-MM-dd"/>
 
 <appender name="STOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-        <pattern>
-            %cyan([%thread]) %yellow(%-5level) %green(%logger{100}).%boldRed(%method)-%boldMagenta(%line)- %blue(%msg%n)
-        </pattern>
-    </encoder>
+<encoder>
+    <pattern>
+        %cyan([%thread]) %yellow(%-5level) %green(%logger{100}).%boldRed(%method)-%boldMagenta(%line)- %blue(%msg%n)
+    </pattern>
+</encoder>
 </appender>
 
-<!-- 文件日志 -->
+        <!-- 文件日志 -->
 <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>/www/root/server/logs/${datetime}/auth-server.log</file>
-    <append>true</append>
-    <encoder>
-        <pattern>%date{yyyy-MM-dd HH:mm:ss} %-5level %logger{100} %method %line %msg%n</pattern>
-        <charset>UTF-8</charset>
-    </encoder>
+<file>/www/root/server/logs/${datetime}/auth-server.log</file>
+<append>true</append>
+<encoder>
+    <pattern>%date{yyyy-MM-dd HH:mm:ss} %-5level %logger{100} %method %line %msg%n</pattern>
+    <charset>UTF-8</charset>
+</encoder>
 </appender>
 ```
 
@@ -364,44 +265,7 @@ logging:
 
 后端配置了自动去除前端传递的空字符串，如果传递的内容前后有空格会自动去除前后的空格
 
-![image-20241105215241811](http://116.196.101.14:9000/docs/image-20241105215241811.png)
-
-代码内容
-
-```java
-@ControllerAdvice
-public class ControllerStringParamTrimConfig {
-
-    /**
-     * 创建 String trim 编辑器
-     * 构造方法中 boolean 参数含义为如果是空白字符串,是否转换为null
-     * 即如果为true,那么 " " 会被转换为 null,否者为 ""
-     */
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        StringTrimmerEditor propertyEditor = new StringTrimmerEditor(false);
-        // 为 String 类对象注册编辑器
-        binder.registerCustomEditor(String.class, propertyEditor);
-    }
-
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        return jacksonObjectMapperBuilder -> {
-            // 为 String 类型自定义反序列化操作
-            jacksonObjectMapperBuilder
-                    .deserializerByType(String.class, new StdScalarDeserializer<String>(String.class) {
-                        @Override
-                        public String deserialize(JsonParser jsonParser, DeserializationContext ctx) throws IOException {
-                            // 去除全部空格
-                            // return StringUtils.trimAllWhitespace(jsonParser.getValueAsString());
-                            // 仅去除前后空格
-                            return jsonParser.getValueAsString().trim();
-                        }
-                    });
-        };
-    }
-}
-```
+![image-20241105215241811](http://129.211.31.58:9000/docs/image-20241105215241811.png)
 
 ### 项目接口和页面
 
@@ -412,23 +276,25 @@ public class ControllerStringParamTrimConfig {
 
 接口地址://localhost:7070/doc.html#/home
 
-![image-20241105213953503](http://116.196.101.14:9000/docs/image-20241105213953503.png)
+![image-20241105213953503](http://129.211.31.58:9000/docs/image-20241105213953503.png)
 
 swagger接口地址：http://localhost:7070/swagger-ui/index.html
 
-![image-20241105214100720](http://116.196.101.14:9000/docs/image-20241105214100720.png)
+![image-20241105214100720](http://129.211.31.58:9000/docs/image-20241105214100720.png)
 
 前端接口地址：http://localhost:7000/#/welcome
 
-![image-20241105214230389](http://116.196.101.14:9000/docs/image-20241105214230389.png)
+![image-20241105214230389](http://129.211.31.58:9000/docs/image-20241105214230389.png)
 
 ## 登录功能
 
-可以选择邮箱登录或者是密码直接登录，两者不互用。
+> [!warning]
+>
+> 可以选择邮箱登录或者是密码直接登录，两者不互用。
 
 ### 账号登录
 
-![image-20241105212146456](http://116.196.101.14:9000/docs/image-20241105212146456.png)
+![image-20250222184157801](http://129.211.31.58:9000/docs/image-20250222184157801.png)
 
 #### 业务需求
 
@@ -439,15 +305,19 @@ swagger接口地址：http://localhost:7070/swagger-ui/index.html
 - 用户输入账号和密码和数据库中账号密码进行比对，成功后进行页面跳转
 - 如果账户禁用会显示账户已封禁
 
+> [!tip]
+>
+> 这里做了登录策略，可以方便以后的扩展。
+>
+> ![image-20250222184405761](http://129.211.31.58:9000/docs/image-20250222184405761-1740221103225-1.png)
+
 **后端实现文件位置**
 
 - 拦截请求为`/admin/login`的请求之后进行登录验证的判断
 
-![image-20241105212722043](http://116.196.101.14:9000/docs/image-20241105212722043.png)
+![image-20250222184248858](http://129.211.31.58:9000/docs/image-20250222184248858.png)
 
 ### 邮箱登录
-
-![image-20241105212255972](http://116.196.101.14:9000/docs/image-20241105212255972.png)
 
 #### 业务需求
 
@@ -458,75 +328,19 @@ swagger接口地址：http://localhost:7070/swagger-ui/index.html
 - 需要验证用户输入的邮箱格式是否正确。
 - 在未输入验证码的情况下输入密码会提示用户，同时后端也会进行验证。如果输入了邮箱验证码但是Redis中不存在或已过期，会提示：邮箱验证码不存在或已过期。
 - 之后对邮箱账号和密码进行判断包括邮箱验证码进行判断
-- 判断逻辑如下，文件位置如上图所示。
-
-```java
-/**
- * * 自定义验证
- * 判断邮箱验证码是否正确
- */
-@Override
-public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-    ObjectMapper objectMapper = new ObjectMapper();
-    try {
-        loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
-
-        // type不能为空
-        String type = loginDto.getType();
-        if (!StringUtils.hasText(type)) {
-            out(response, Result.error(ResultCodeEnum.REQUEST_IS_EMPTY));
-            return null;
-        }
-
-        String emailCode = loginDto.getEmailCode();
-        String username = loginDto.getUsername();
-        String password = loginDto.getPassword();
-
-        // 如果有邮箱验证码，表示是邮箱登录
-        if (type.equals("email")) {
-            emailCode = emailCode.toLowerCase();
-            Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
-            if (redisEmailCode == null) {
-                out(response, Result.error(ResultCodeEnum.EMAIL_CODE_EMPTY));
-                return null;
-            }
-
-            // 判断用户邮箱验证码是否和Redis中发送的验证码
-            if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
-                out(response, Result.error(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING));
-                return null;
-            }
-        }
-
-        Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        return getAuthenticationManager().authenticate(authenticationToken);
-    } catch (IOException e) {
-        out(response, Result.error(ResultCodeEnum.ILLEGAL_DATA_REQUEST));
-        return null;
-    }
-}
-```
 
 ## 首页功能
 
-![image-20241105212403630](http://116.196.101.14:9000/docs/image-20241105212403630.png)
-
-功能菜单，首页图表展示部分功能已经由这个模板作者设计好，其中需要注意的是，如果要查看历史消息或者是进入消息页面可以双击![image-20241105213346408](http://116.196.101.14:9000/docs/image-20241105213346408.png)既可进入消息页面
+功能菜单，首页图表展示部分功能已经由这个模板作者设计好，其中需要注意的是，如果要查看历史消息或者是进入消息页面可以双击
 
 ### 消息功能
-
-![image-20241105213539594](http://116.196.101.14:9000/docs/image-20241105213539594-1730813844820-2.png)
 
 #### 业务需求
 
 1. 消息页面的展示，包含删除、批量删除、选中已读和当前页面所有消息都标为已读
 2. 当用户对左侧菜单点击时可以过滤出消息内容，展示不同的消息类型
 
-![image-20241105213720011](http://116.196.101.14:9000/docs/image-20241105213720011.png)
-
 3. 可以点击已读和全部进行筛选消息
-
-![image-20241105214342220](http://116.196.101.14:9000/docs/image-20241105214342220.png)
 
 3. 可以根据标题进行搜搜
 4. 包含分页
@@ -539,23 +353,17 @@ public Authentication attemptAuthentication(HttpServletRequest request, HttpServ
 
 3. 删除选定数据，若用户选择列表并筛选出所有ID，将数据传递给后端（用户删除为逻辑删除）。
 
-4. 全部标为已读![image-20241106131949217](http://116.196.101.14:9000/docs/image-20241106131949217.png)，类似删除操作，筛选出选中数据的ID，然后传递给后端以标记为已读。
+4. 全部标为已读![image-20241106131949217](http://129.211.31.58:9000/docs/image-20241106131949217.png)，类似删除操作，筛选出选中数据的ID，然后传递给后端以标记为已读。
 
 5. 将所有数据标记为已读！当前页面前端使用map提取所有ID，整合成ID列表传递给后端，表示页面上所有数据已读。
 
 6. 输入标题后，随输入变化进行搜索。
 
-**后端代码位置**
-
-![image-20241105213922824](http://116.196.101.14:9000/docs/image-20241105213922824.png)
-
 消息提醒在页面刷新时会出现这样
 
-![image-20241229214535717](http://116.196.101.14:9000/docs/image-20241229214535717.png)
+![image-20241229214535717](http://129.211.31.58:9000/docs/image-20241229214535717.png)
 
 ### 用户管理
-
-![image-20241106002713514](http://116.196.101.14:9000/docs/image-20241106002713514.png)
 
 #### 需求分析
 
@@ -566,29 +374,15 @@ public Authentication attemptAuthentication(HttpServletRequest request, HttpServ
 5. 可以根据点击的部门查询当前部门下的用户
 6. 根据用户可以强制下线、管理员可以修改用户密码、为用户分配角色
 
-![image-20241106002908657](http://116.196.101.14:9000/docs/image-20241106002908657.png)
-
-#### 实现思路
-
-**上传头像**
-
-前端需要剪裁图片内容进行上传，后端将前端上传的头像存储到Minio中，在上传头像中可以有几菜单可以看到功能菜单。
-
-![image-20241106003056116](http://116.196.101.14:9000/docs/image-20241106003056116.png)
-
-右击时可以看到功能菜单，如上传、下载等功能
-
-![image-20241106003154056](http://116.196.101.14:9000/docs/image-20241106003154056.png)
-
 **重置密码**
 
 重置密码需要判断当前用户密码是否是符合指定的密码格式，并且会根据当前输入密码计算得分如果当前密码复杂则得分越高那么密码强度越强
 
-![image-20241106003256994](http://116.196.101.14:9000/docs/image-20241106003256994.png)
+![image-20241106003256994](http://129.211.31.58:9000/docs/image-20241106003256994.png)
 
 重置密码组件在前端的公共组件文件中
 
-![image-20241106003426573](http://116.196.101.14:9000/docs/image-20241106003426573.png)
+![image-20241106003426573](http://129.211.31.58:9000/docs/image-20241106003426573.png)
 
 **分配角色**
 
@@ -601,13 +395,13 @@ public Authentication attemptAuthentication(HttpServletRequest request, HttpServ
 
 - 分配好角色后，菜单会根据当前路由角色匹配用户角色，从而根据用户角色显示相应的菜单内容。
 
-![image-20241106004533031](http://116.196.101.14:9000/docs/image-20241106004533031.png)
+![image-20241106004533031](http://129.211.31.58:9000/docs/image-20241106004533031.png)
 
 ### 角色管理
 
 角色管理包含CURD和权限分配操作
 
-![image-20241106132548236](http://116.196.101.14:9000/docs/image-20241106132548236.png)
+![image-20241106132548236](http://129.211.31.58:9000/docs/image-20241106132548236.png)
 
 #### 业务需求
 
@@ -617,11 +411,9 @@ public Authentication attemptAuthentication(HttpServletRequest request, HttpServ
 
 1. 在设计的表中，如果存在相同的角色码，系统会提示用户当前角色已经存在。
 
-![image-20241106132938024](http://116.196.101.14:9000/docs/image-20241106132938024.png)
-
 2. 后端会根据角色的ID分配权限的ID列表。
 
-![image-20241106135600255](http://116.196.101.14:9000/docs/image-20241106135600255.png)
+![image-20241106135600255](http://129.211.31.58:9000/docs/image-20241106135600255.png)
 
 3. 后端在角色权限表中会根据角色的ID分配权限内容。在角色权限表中，会先删除当前角色所有的权限内容，然后再进行权限内容的重新分配。
 
@@ -660,59 +452,11 @@ public void assignPowersToRole(AssignPowersToRoleDto dto) {
 
 ### 权限管理
 
-![image-20241106135954104](http://116.196.101.14:9000/docs/image-20241106135954104.png)
+![image-20241106135954104](http://129.211.31.58:9000/docs/image-20241106135954104.png)
 
-![image-20241106140006176](http://116.196.101.14:9000/docs/image-20241106140006176.png)
+![image-20241106140006176](http://129.211.31.58:9000/docs/image-20241106140006176.png)
 
 在权限配置中，添加/修改权限时的请求地址为后端接口的请求地址，请求地址使用了【`正则表达式`】判断和【`antpath`】方式填写
-
-> ### 正则表达式
->
-> #### 作用和用法：
->
-> - **作用**：正则表达式用于描述字符串的特征，可以用来匹配、查找、替换等字符串操作。
-> - **用法**：在Java中，可以使用`java.util.regex`包来支持正则表达式的使用。例如，可以使用`Pattern`和`Matcher`类来编译和匹配正则表达式。
->
-> #### 示例：
->
-> ```java
-> // 匹配邮箱地址的正则表达式示例
-> String emailRegex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b";
-> String email = "example@email.com";
->
-> Pattern pattern = Pattern.compile(emailRegex);
-> Matcher matcher = pattern.matcher(email);
->
-> if (matcher.find()) {
->     System.out.println("Valid email address");
-> } else {
->     System.out.println("Invalid email address");
-> }
-> ```
->
-> ### Ant Path
->
-> #### 作用和用法：
->
-> - **作用**：Ant Path是Spring框架中用来匹配URL路径的一种模式匹配方式，类似于Unix系统中的路径匹配规则。
-> - **用法**：在Spring中，Ant Path可以用来匹配URL路径，例如在配置Spring的URL映射时可以使用Ant Path来指定匹配规则。
->
-> #### 示例：
->
-> ```java
-> // Ant Path示例
-> String pattern = "/users/*/profile";
-> String path = "/users/123/profile";
->
-> AntPathMatcher matcher = new AntPathMatcher();
-> if (matcher.match(pattern, path)) {
->     System.out.println("Pattern matched!");
-> } else {
->     System.out.println("Pattern not matched!");
-> }
-> ```
->
-> Ant Path中支持一些通配符，例如`*`匹配任意字符（除了路径分隔符），`**`匹配任意字符，包括路径分隔符。Ant Path是一种方便的路径匹配方式，可以用来匹配URL路径、文件路径等。
 
 #### 业务需求
 
@@ -723,7 +467,7 @@ public void assignPowersToRole(AssignPowersToRoleDto dto) {
 
 点击当前行父级id为当前的行的id
 
-![image-20241106140420845](http://116.196.101.14:9000/docs/image-20241106140420845.png)
+![image-20241106140420845](http://129.211.31.58:9000/docs/image-20241106140420845.png)
 
 #### 权限判断实现方式
 
@@ -731,7 +475,7 @@ public void assignPowersToRole(AssignPowersToRoleDto dto) {
 
 判断权限是否可以访问，后端实现判断逻辑
 
-![image-20241106003921315](http://116.196.101.14:9000/docs/image-20241106003921315.png)
+![image-20241106003921315](http://129.211.31.58:9000/docs/image-20241106003921315.png)
 
 ##### 前端判断方式
 
@@ -739,31 +483,29 @@ public void assignPowersToRole(AssignPowersToRoleDto dto) {
 
 1. 使用标签方式
 
-![image-20241106004247600](http://116.196.101.14:9000/docs/image-20241106004247600.png)
+![image-20241106004247600](http://129.211.31.58:9000/docs/image-20241106004247600.png)
 
 2. 使用函数方式
 
-![image-20241106004310635](http://116.196.101.14:9000/docs/image-20241106004310635.png)
+![image-20241106004310635](http://129.211.31.58:9000/docs/image-20241106004310635.png)
 
 3. 使用指令方式
 
-![image-20241106005252328](http://116.196.101.14:9000/docs/image-20241106005252328.png)
+![image-20241106005252328](http://129.211.31.58:9000/docs/image-20241106005252328.png)
 
 在前端utils文件夹下有`auth.ts`文件里面包含了权限码信息，如果当前菜单属性中包含这个权限码表示可以访问这个权限
 
-![image-20241106004433489](http://116.196.101.14:9000/docs/image-20241106004433489.png)
+![image-20241106004433489](http://129.211.31.58:9000/docs/image-20241106004433489.png)
 
-![image-20241106004500855](http://116.196.101.14:9000/docs/image-20241106004500855.png)
+![image-20241106004500855](http://129.211.31.58:9000/docs/image-20241106004500855.png)
 
 ### 菜单管理
 
-![image-20241106140545328](http://116.196.101.14:9000/docs/image-20241106140545328.png)
+![image-20241106140545328](http://129.211.31.58:9000/docs/image-20241106140545328.png)
 
 ### 菜单路由
 
 在做菜单返回时必须要了解角色和权限表
-
-![image-20241105213516679](http://116.196.101.14:9000/docs/image-20241105213516679.png)
 
 #### 需求分析
 
@@ -771,19 +513,19 @@ public void assignPowersToRole(AssignPowersToRoleDto dto) {
 2. 用户需要根据自己的角色访问不同的菜单。
 3. 如果当前用户不可以访问某些按钮需要隐藏。
 4. 用户通过其它手段访问如：swagger、knife4j、apifox、postman这种工具访问需要做权限验证，如果当前用户不满足访问这些接口后端需要拒绝。
-5. 如果已经添加了菜单名称、路由等级、路由路径会提示`xxx已存在`![image-20241106132818902](http://116.196.101.14:9000/docs/image-20241106132818902.png)
+5. 如果已经添加了菜单名称、路由等级、路由路径会提示`xxx已存在`![image-20241106132818902](http://129.211.31.58:9000/docs/image-20241106132818902.png)
 
 6. 在数据库中为部分字段建立了唯一索引
 
-![image-20241106132908309](http://116.196.101.14:9000/docs/image-20241106132908309.png)
-
 #### 实现思路
 
-1. 角色和权限哪些可以访问的页面交给前端，在模板中已经设计好，如果用户访问了自己看不到的菜单会出现`403`页面；判断方式是根据后端返回的菜单中如果包含当前用户的角色就表示可以访问当前的菜单，如果用户信息中没有这个角色则表示不可以访问这个页面。
+1. 角色和权限哪些可以访问的页面交给前端，在模板中已经设计好，如果用户访问了自己看不到的菜单会出现`403`
+   页面；判断方式是根据后端返回的菜单中如果包含当前用户的角色就表示可以访问当前的菜单，如果用户信息中没有这个角色则表示不可以访问这个页面。
 2. 页面是否可以访问只是在操作上，如果用户通过接口访问是阻止不了的，所以这时后端需要在后端中进行判断，当前的访问路径是否是被允许的，也就是这个用户是否有这个权限，权限表设计中包含了请求路径
 3. 后端需要判断用户请求这个接口是否有权访问
 
-> 整合成前端格式返回需要递归，后端根据当前用户访问的菜单需要进行递归菜单数据之后返回前端，并将这些菜单绑定的角色放置在`roles`中，之后根据角色查询全新啊相关内容，要将权限内容放置在`auths`中.
+> 整合成前端格式返回需要递归，后端根据当前用户访问的菜单需要进行递归菜单数据之后返回前端，并将这些菜单绑定的角色放置在`roles`
+> 中，之后根据角色查询全新啊相关内容，要将权限内容放置在`auths`中.
 >
 > 如果包含子菜单需要防止在`children`数组中，后端实现时如果没有子菜单默认是空数组而不是`null`
 >
@@ -826,9 +568,9 @@ public void assignPowersToRole(AssignPowersToRoleDto dto) {
 
 ### 部门管理
 
-![image-20241106140738517](http://116.196.101.14:9000/docs/image-20241106140738517.png)
+![image-20241106140738517](http://129.211.31.58:9000/docs/image-20241106140738517.png)
 
-![image-20241106140728748](http://116.196.101.14:9000/docs/image-20241106140728748.png)
+![image-20241106140728748](http://129.211.31.58:9000/docs/image-20241106140728748.png)
 
 #### 业务需求
 
@@ -839,17 +581,15 @@ public void assignPowersToRole(AssignPowersToRoleDto dto) {
 
 1. CURD接口文件如下
 
-![image-20241106140826034](http://116.196.101.14:9000/docs/image-20241106140826034.png)
+![image-20241106140826034](http://129.211.31.58:9000/docs/image-20241106140826034.png)
 
 2. 管理员为用户分配部门
 
-![image-20241106140942278](http://116.196.101.14:9000/docs/image-20241106140942278.png)
+![image-20241106140942278](http://129.211.31.58:9000/docs/image-20241106140942278.png)
 
 ### 菜单图标
 
-![image-20241106141037894](http://116.196.101.14:9000/docs/image-20241106141037894.png)
-
-![image-20241106141102601](http://116.196.101.14:9000/docs/image-20241106141102601.png)
+![image-20241106141037894](http://129.211.31.58:9000/docs/image-20241106141037894.png)
 
 #### 业务需求
 
@@ -872,11 +612,9 @@ public class MenuIconVo extends BaseUserVo {
 }
 ```
 
-![image-20241106141521051](http://116.196.101.14:9000/docs/image-20241106141521051.png)
+![image-20241106141521051](http://129.211.31.58:9000/docs/image-20241106141521051.png)
 
 前端封装好的组件
-
-![image-20241106141626697](http://116.196.101.14:9000/docs/image-20241106141626697.png)
 
 ### 邮箱相关
 
@@ -891,23 +629,21 @@ public class MenuIconVo extends BaseUserVo {
 
 邮件模板中，添加或者修改时前端需要返回所有的邮件模板用户，添加或者修改时将用户ID存储在邮件模板的数据字段中
 
-![image-20241106141920350](http://116.196.101.14:9000/docs/image-20241106141920350.png)
-
 ### web配置
 
-![image-20241106142001190](http://116.196.101.14:9000/docs/image-20241106142001190.png)
+![image-20241106142001190](http://129.211.31.58:9000/docs/image-20241106142001190.png)
 
 #### 主题颜色
 
 后端做了Hash值校验，如果是RGB会造成颜色显示有些问题，比如使用纯色的按钮，想下面的这种的，鼠标hover事件会变透明因为无法计算Hash值，所以在修改颜色值时一定要保证是Hash值
 
-![image-20241229214049079](http://116.196.101.14:9000/docs/image-20241229214049079.png)
+![image-20241229214049079](http://129.211.31.58:9000/docs/image-20241229214049079.png)
 
-![image-20241229214217968](http://116.196.101.14:9000/docs/image-20241229214217968.png)
+![image-20241229214217968](http://129.211.31.58:9000/docs/image-20241229214217968.png)
 
 修改完成的示例
 
-![image-20241229214329544](http://116.196.101.14:9000/docs/image-20241229214329544.png)
+![image-20241229214329544](http://129.211.31.58:9000/docs/image-20241229214329544.png)
 
 ### 系统监控
 
@@ -915,270 +651,99 @@ public class MenuIconVo extends BaseUserVo {
 
 从SpringBoot的Actuator中获取信息，页面采用响应式
 
-![image-20241106142208794](http://116.196.101.14:9000/docs/image-20241106142208794.png)
+![image-20241106142208794](http://129.211.31.58:9000/docs/image-20241106142208794.png)
 
 #### 系统缓存
 
 当前内容被SpringBoot缓存会显示在这
 
-![image-20241106142253759](http://116.196.101.14:9000/docs/image-20241106142253759.png)
+![image-20241106142253759](http://129.211.31.58:9000/docs/image-20241106142253759.png)
 
 ### 定时任务
 
-采用Quarter持久化存储，所有的可以使用的定时任务都在这
-
-![image-20241106142429924](http://116.196.101.14:9000/docs/image-20241106142429924.png)
-
-#### 页面展示
-
-![image-20241106142449033](http://116.196.101.14:9000/docs/image-20241106142449033.png)
-
-![](http://116.196.101.14:9000/docs/image-20241106142449033-1730874298898-1.png)
+采用Quarter持久化存储。
 
 #### 示例显示
 
-![image-20241229220003779](http://116.196.101.14:9000/docs/image-20241229220003779.png)
+![image-20241229220003779](http://129.211.31.58:9000/docs/image-20241229220003779.png)
 
 ### 多语言管理
 
-![image-20241106142531047](http://116.196.101.14:9000/docs/image-20241106142531047.png)
+![image-20241106142531047](http://129.211.31.58:9000/docs/image-20241106142531047.png)
 
-![image-20241106142544172](http://116.196.101.14:9000/docs/image-20241106142544172.png)
+![image-20241106142544172](http://129.211.31.58:9000/docs/image-20241106142544172.png)
 
 ### 日志管理
 
 存储在MySQL中，如果想做优化可以放在MongoDB中
 
-![image-20241106142606017](http://116.196.101.14:9000/docs/image-20241106142606017.png)
-
-![image-20241106142614917](http://116.196.101.14:9000/docs/image-20241106142614917.png)
-
 ### 消息管理
 
-管理员可以发送消息告诉xxx用户，在主页中会显示![image-20241106142908363](http://116.196.101.14:9000/docs/image-20241106142908363.png)
+管理员可以发送消息告诉xxx用户，在主页中会显示![image-20241106142908363](http://129.211.31.58:9000/docs/image-20241106142908363.png)
 
 之后点击时会看到消息封面、标题、简介、消息等级、消息等级内容
 
-![image-20241106142949366](http://116.196.101.14:9000/docs/image-20241106142949366.png)
+![image-20241106142949366](http://129.211.31.58:9000/docs/image-20241106142949366.png)
 
 #### 消息类型
 
-![image-20241106143008098](http://116.196.101.14:9000/docs/image-20241106143008098.png)
+![image-20241106143008098](http://129.211.31.58:9000/docs/image-20241106143008098.png)
 
 包含CURD，用户编辑消息发送时可以在选择
 
-![image-20241106144017015](http://116.196.101.14:9000/docs/image-20241106144017015.png)
+![image-20241106144017015](http://129.211.31.58:9000/docs/image-20241106144017015.png)
 
-同时在用户消息栏中也会显示对应内容
+同时在用户消息栏中也会显示对应内容，前端判断逻辑如下
 
-![image-20241106144050996](http://116.196.101.14:9000/docs/image-20241106144050996.png)
-
-前端判断逻辑如下
-
-![image-20241106144146081](http://116.196.101.14:9000/docs/image-20241106144146081.png)
+![image-20241106144146081](http://129.211.31.58:9000/docs/image-20241106144146081.png)
 
 #### 消息编辑
 
 提供md编辑器和富文本编辑器
 
-![image-20241106144223976](http://116.196.101.14:9000/docs/image-20241106144223976.png)
-
-![image-20241106144246068](http://116.196.101.14:9000/docs/image-20241106144246068.png)
-
-消息接受用户，如果不填写表示全部的用户，填写后会根据填写的内容存储在用户接受表中![image-20241106144522442](http://116.196.101.14:9000/docs/image-20241106144522442.png)
-
-![image-20241106144449463](http://116.196.101.14:9000/docs/image-20241106144449463.png)
+消息接受用户，如果不填写表示全部的用户，填写后会根据填写的内容存储在用户接受表中
 
 消息等级是显示消息样式颜色，文字内容为消息简介内容
 
-![image-20241106144407453](http://116.196.101.14:9000/docs/image-20241106144407453.png)
-
 #### 消息接收管理
 
-根据上面所选的接受用户会出现在下面的用户接受表中，可以对当前用户是否已读进行修改
-
-![image-20241106144307885](http://116.196.101.14:9000/docs/image-20241106144307885.png)
+根据所选的接受用户会出现在下面的用户接受表中，可以对当前用户是否已读进行修改
 
 #### 消息发送管理
 
 之前编辑过的消息都会在这
 
-![image-20241106144317746](http://116.196.101.14:9000/docs/image-20241106144317746.png)
-
 # 环境部署
 
-使用Docker进行部署，后端接口地址以`/admin`开头，但前端默认请求前缀为`/api`，因此在请求时需要进行替换。详细内容请参考以下【项目部署】说明。
+使用Docker进行部署，后端接口地址以`/api`开头，前端默认请求前缀为`/api`，因此在请求时需要进行替换。详细内容请参考以下【项目部署】说明。
 
 ## 前端部署
 
 运行`pnpm build`
 
-dockerfile中暴露端口要和生产环境的端口号保持一致
+`dockerfile`中暴露端口要和生产环境的端口号保持一致
 
 ### 使用http协议
 
 如果不使用https，需要将下面内容注释
 
-![image-20241108152526666](http://116.196.101.14:9000/docs/auth/image-20241108152526666.png)
+![image-20241108152526666](http://129.211.31.58:9000/docs/auth/image-20241108152526666.png)
 
 对外暴露端口改为`80`或者你自己喜欢的端口
 
-![image-20241108154244339](http://116.196.101.14:9000/docs/auth/image-20241108154244339.png)
+![image-20241108154244339](http://129.211.31.58:9000/docs/auth/image-20241108154244339.png)
 
 #### NGINX配置
 
-将NGINX配置修改为以下内容
+将NGINX配置修改为以下内容，如果你的暴露的端口和我一样是`80`
 
-```nginx
-map $http_upgrade $connection_upgrade {
-    default upgrade;
-    ''      close;
-}
-
-server {
-     listen 80 ;
-     listen       [::]:80;
-     server_name localhost;
-
-     location / {
-         root   /etc/nginx/html;
-         index  index.html index.htm;
-         try_files $uri /index.html;
-     }
-
-     # 后端跨域请求
-     location ~/admin/ {
-         proxy_pass http://172.17.0.1:8000;
-         proxy_set_header Host $http_host;
-         proxy_set_header X-Real-IP $remote_addr;
-         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-         proxy_set_header X-Forwarded-Proto $scheme;
-     }
-
-     error_page  404              404.html;
-
-     location = /50x.html {
-         root   html;
-     }
-}
-```
-
-如果你的暴露的端口和我一样是`80`
-
-![image-20241108154344561](http://116.196.101.14:9000/docs/auth/image-20241108154344561.png)
-
-### 使用https协议
-
-#### 环境准备
-
-需要ssl证书这个是必要的，之后将ssl证书解压
-
-![image-20241108145836035](http://116.196.101.14:9000/docs/auth/image-20241108145836035.png)
-
-解压后放到docker文件下
-
-![image-20241108151141289](http://116.196.101.14:9000/docs/auth/image-20241108151141289.png)
-
-#### 注意事项
-
-在docker文件中需要将证书相关信息复制到docker容器中，名称对应文件下的文件名，如果你想部署名称肯定是不一样的，当然你可以重命名成和我一样的
-
-```dockerfile
-# 将自定义的 Nginx 配置文件复制到容器中
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY bunny-web.site.csr /etc/nginx/bunny-web.site.csr
-COPY bunny-web.site.key /etc/nginx/bunny-web.site.key
-COPY bunny-web.site_bundle.crt /etc/nginx/bunny-web.site_bundle.crt
-COPY bunny-web.site_bundle.pem /etc/nginx/bunny-web.site_bundle.pem
-```
-
-如果使用的是SSL链接将端口号更改下，改成`443`
-
-![image-20241108151643011](http://116.196.101.14:9000/docs/auth/image-20241108151643011.png)
-
-配置NGINX的配置文件，这些文件内容网上都有可以参看腾讯云文档
-
-- 证书下载和配置方式：https://cloud.tencent.com/document/product/400/4143?from_cn_redirect=1
-- NGINX搭建SSL链接：https://cloud.tencent.com/document/product/400/35244
-
-```nginx
-map $http_upgrade $connection_upgrade {
-    default upgrade;
-    ''      close;
-}
-
-server {
-     #SSL 默认访问端口号为 443
-     listen 443 ssl;
-     #请填写绑定证书的域名
-     server_name localhost;
-     #请填写证书文件的相对路径或绝对路径
-     ssl_certificate bunny-web.site_bundle.crt;
-     #请填写私钥文件的相对路径或绝对路径
-     ssl_certificate_key bunny-web.site.key;
-     ssl_session_timeout 5m;
-     #请按照以下协议配置
-     ssl_protocols TLSv1.2 TLSv1.3;
-     #请按照以下套件配置，配置加密套件，写法遵循 openssl 标准。
-     ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
-     ssl_prefer_server_ciphers on;
-
-     location / {
-         root   /etc/nginx/html;
-         index  index.html index.htm;
-         try_files $uri /index.html;
-     }
-
-     # 后端跨域请求
-     location ~/admin/ {
-         proxy_pass http://172.17.0.1:8000;
-         proxy_set_header Host $http_host;
-         proxy_set_header X-Real-IP $remote_addr;
-         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-         proxy_set_header X-Forwarded-Proto $scheme;
-     }
-
-     error_page  404              404.html;
-
-     location = /50x.html {
-         root   html;
-     }
- }
-
-server {
-     listen 80 ;
-     listen       [::]:80;
-     server_name localhost;
-     return 301 https://$host$request_uri;
-
-     location / {
-         root   /etc/nginx/html;
-         index  index.html index.htm;
-         try_files $uri /index.html;
-     }
-
-     # 后端跨域请求
-     location ~/admin/ {
-         proxy_pass http://172.17.0.1:8000;
-         proxy_set_header Host $http_host;
-         proxy_set_header X-Real-IP $remote_addr;
-         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-         proxy_set_header X-Forwarded-Proto $scheme;
-     }
-
-     error_page  404              404.html;
-
-     location = /50x.html {
-         root   html;
-     }
-}
-```
+![image-20241108154344561](http://129.211.31.58:9000/docs/auth/image-20241108154344561.png)
 
 #### 运行docker文件
 
-![image-20241108151726981](http://116.196.101.14:9000/docs/auth/image-20241108151726981.png)
+![image-20241108151726981](http://129.211.31.58:9000/docs/auth/image-20241108151726981.png)
 
-![image-20241108151940158](http://116.196.101.14:9000/docs/auth/image-20241108151940158.png)
+![image-20241108151940158](http://129.211.31.58:9000/docs/auth/image-20241108151940158.png)
 
 > 命令预览
 >
@@ -1192,7 +757,7 @@ server {
 
 如果需要打包需要手动创建生产环境文件：`application-prod.yml`
 
-![image-20241117202134939](http://116.196.101.14:9000/docs/image-20241117202134939.png)
+![image-20241117202134939](http://129.211.31.58:9000/docs/image-20241117202134939.png)
 
 ### 环境设置
 
@@ -1212,8 +777,8 @@ mvn clean package -Ptest -DskipTests
 
 **:star: 如果不需要内置文件操作什么的这一步可以忽略**
 
-![image-20241108153705104](http://116.196.101.14:9000/docs/auth/image-20241108153705104.png)
+![image-20241108153705104](http://129.211.31.58:9000/docs/auth/image-20241108153705104.png)
 
 这个文件夹是必须的
 
-![image-20241108153750097](http://116.196.101.14:9000/docs/auth/image-20241108153750097.png)
+![image-20241108153750097](http://129.211.31.58:9000/docs/auth/image-20241108153750097.png)
