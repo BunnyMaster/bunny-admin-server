@@ -1,8 +1,8 @@
 package cn.bunny.services.utils;
 
-import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.dao.constant.RedisUserConstant;
 import cn.bunny.dao.entity.system.AdminUser;
+import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.mapper.UserMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;

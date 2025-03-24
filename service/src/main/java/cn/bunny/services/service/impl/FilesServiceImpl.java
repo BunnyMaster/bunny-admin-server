@@ -1,10 +1,5 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.common.service.exception.AuthCustomerException;
-import cn.bunny.common.service.utils.FileUtil;
-import cn.bunny.common.service.utils.minio.MinioProperties;
-import cn.bunny.common.service.utils.minio.MinioUtil;
 import cn.bunny.dao.dto.system.files.FileUploadDto;
 import cn.bunny.dao.dto.system.files.FilesAddDto;
 import cn.bunny.dao.dto.system.files.FilesDto;
@@ -15,8 +10,13 @@ import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.files.FilesVo;
+import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.FilesMapper;
 import cn.bunny.services.service.FilesService;
+import cn.bunny.services.utils.FileUtil;
+import cn.bunny.services.utils.minio.MinioProperties;
+import cn.bunny.services.utils.minio.MinioUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

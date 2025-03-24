@@ -1,6 +1,5 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.dept.DeptAddDto;
 import cn.bunny.dao.dto.system.dept.DeptDto;
 import cn.bunny.dao.dto.system.dept.DeptUpdateDto;
@@ -8,6 +7,7 @@ import cn.bunny.dao.entity.system.Dept;
 import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.DeptVo;
+import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.DeptMapper;
 import cn.bunny.services.mapper.UserDeptMapper;
 import cn.bunny.services.service.DeptService;

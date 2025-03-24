@@ -1,7 +1,5 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.context.BaseContext;
-import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.message.MessageReceivedDto;
 import cn.bunny.dao.dto.system.message.MessageReceivedUpdateDto;
 import cn.bunny.dao.dto.system.message.MessageUserDto;
@@ -11,6 +9,8 @@ import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo;
 import cn.bunny.dao.vo.system.message.MessageUserVo;
+import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.MessageReceivedMapper;
 import cn.bunny.services.service.MessageReceivedService;
 import cn.bunny.services.utils.UserUtil;

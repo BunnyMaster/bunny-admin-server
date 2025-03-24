@@ -1,4 +1,4 @@
-package cn.bunny.common.service.utils.minio;
+package cn.bunny.services.utils.minio;
 
 import io.minio.MinioClient;
 import lombok.Data;

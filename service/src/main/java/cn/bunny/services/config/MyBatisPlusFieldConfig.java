@@ -1,6 +1,6 @@
-package cn.bunny.common.service.config;
+package cn.bunny.services.config;
 
-import cn.bunny.common.service.context.BaseContext;
+import cn.bunny.services.context.BaseContext;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;

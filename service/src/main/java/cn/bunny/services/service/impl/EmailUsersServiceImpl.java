@@ -1,6 +1,5 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.email.user.EmailUserUpdateStatusDto;
 import cn.bunny.dao.dto.system.email.user.EmailUsersAddDto;
 import cn.bunny.dao.dto.system.email.user.EmailUsersDto;
@@ -9,6 +8,7 @@ import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.email.EmailUsersVo;
+import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.EmailUsersMapper;
 import cn.bunny.services.service.EmailUsersService;
 import com.baomidou.mybatisplus.core.metadata.IPage;

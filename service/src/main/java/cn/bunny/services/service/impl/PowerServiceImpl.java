@@ -1,6 +1,5 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.system.rolePower.power.PowerAddDto;
 import cn.bunny.dao.dto.system.rolePower.power.PowerDto;
 import cn.bunny.dao.dto.system.rolePower.power.PowerUpdateBatchByParentIdDto;
@@ -9,6 +8,7 @@ import cn.bunny.dao.entity.system.Power;
 import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.rolePower.PowerVo;
+import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.PowerMapper;
 import cn.bunny.services.mapper.RolePowerMapper;
 import cn.bunny.services.service.PowerService;

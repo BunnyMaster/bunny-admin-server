@@ -9,14 +9,13 @@ logging:
     root: info
   pattern:
     dateformat: HH:mm:ss:SSS
-#  file:
-#    path: "logs/${spring.application.name}"
-#    name: "logs/${spring.application.name}"
+  file:
+    path: "logs/${spring.application.name}"
+    name: "logs/${spring.application.name}"
 
-mybatis-plus:
-  configuration:
-    map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
 
 bunny:
   master:

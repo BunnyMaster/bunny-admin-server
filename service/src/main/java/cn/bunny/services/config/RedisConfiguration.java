@@ -1,4 +1,4 @@
-package cn.bunny.common.service.config;
+package cn.bunny.services.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -52,7 +52,7 @@ public class RedisConfiguration {
         redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         // 开启Redis事务
-        redisTemplate.setEnableTransactionSupport(true);
+        // redisTemplate.setEnableTransactionSupport(true);
         return redisTemplate;
     }
 

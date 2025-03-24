@@ -1,4 +1,4 @@
-package cn.bunny.common.service.config;
+package cn.bunny.services.config;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;

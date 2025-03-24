@@ -27,19 +27,19 @@
         <java.version>17</java.version>
         <junit.version>3.8.1</junit.version>
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
-        <mysql.version>8.0.30</mysql.version>
+        <mysql.version>8.0.33</mysql.version>
         <knife4j.version>4.5.0</knife4j.version>
         <fastjson2.version>2.0.47</fastjson2.version>
-        <minio.version>8.5.9</minio.version>
+        <minio.version>8.5.17</minio.version>
         <lombok.version>1.18.32</lombok.version>
         <jwt.version>0.9.1</jwt.version>
-        <easyexcel.version>3.3.3</easyexcel.version>
+        <easyexcel.version>4.0.2</easyexcel.version>
         <jodatime.version>2.10.1</jodatime.version>
         <aspectj>1.9.21</aspectj>
         <pagehelper.version>6.1.0</pagehelper.version>
         <velocity.version>2.2</velocity.version>
         <velocity-tools.version>3.1</velocity-tools.version>
-        <HikariCP.version>5.1.0</HikariCP.version>
+        <HikariCP.version>6.2.1</HikariCP.version>
         <dynamic.datasource.version>4.3.1</dynamic.datasource.version>
         <jackson-dataType.version>2.12.3</jackson-dataType.version>
         <quartz-scheduler.version>2.3.2</quartz-scheduler.version>
@@ -188,5 +188,4 @@
             </properties>
         </profile>
     </profiles>
-
 </project>

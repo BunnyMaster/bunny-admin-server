@@ -1,10 +1,10 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.constant.RedisUserConstant;
 import cn.bunny.dao.dto.system.configuration.WebConfigurationDto;
 import cn.bunny.dao.entity.configuration.WebConfiguration;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
+import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.service.ConfigurationService;
 import com.alibaba.fastjson2.JSON;
 import org.springframework.beans.BeanUtils;

@@ -1,4 +1,4 @@
-package cn.bunny.common.service.utils.mail;
+package cn.bunny.services.utils.mail;
 
 import cn.bunny.dao.model.email.EmailSend;
 import cn.bunny.dao.model.email.EmailSendInit;

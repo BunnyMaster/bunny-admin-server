@@ -1,4 +1,4 @@
-package cn.bunny.common.service.exception;
+package cn.bunny.services.exception;
 
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import lombok.Getter;

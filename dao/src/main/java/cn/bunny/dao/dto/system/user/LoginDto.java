@@ -41,4 +41,5 @@ public class LoginDto {
 
     @Schema(name = "readMeDay", title = "记住我的天数")
     private Long readMeDay = 1L;
+
 }

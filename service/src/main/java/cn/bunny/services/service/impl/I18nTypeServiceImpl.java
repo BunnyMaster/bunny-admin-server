@@ -1,12 +1,12 @@
 package cn.bunny.services.service.impl;
 
-import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.dto.i18n.I18nTypeAddDto;
 import cn.bunny.dao.dto.i18n.I18nTypeDto;
 import cn.bunny.dao.dto.i18n.I18nTypeUpdateDto;
 import cn.bunny.dao.entity.i18n.I18nType;
 import cn.bunny.dao.vo.i18n.I18nTypeVo;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
+import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.I18nTypeMapper;
 import cn.bunny.services.service.I18nTypeService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

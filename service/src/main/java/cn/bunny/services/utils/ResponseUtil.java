@@ -1,4 +1,4 @@
-package cn.bunny.common.service.utils;
+package cn.bunny.services.utils;
 
 import cn.bunny.dao.vo.result.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;

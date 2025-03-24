@@ -1,5 +1,7 @@
 package cn.bunny.dao.entity.quartz;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -24,6 +26,7 @@ import java.io.Serializable;
 public class Schedulers implements Serializable {
 
     @Schema(name = "jobName", title = "任务名称")
+    @TableId(type = IdType.NONE)
     private String jobName;
 
     @Schema(name = "jobGroup", title = "任务分组")

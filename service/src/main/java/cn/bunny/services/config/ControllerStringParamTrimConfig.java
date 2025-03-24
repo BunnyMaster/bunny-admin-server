@@ -1,4 +1,4 @@
-package cn.bunny.common.service.config;
+package cn.bunny.services.config;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

@@ -1,4 +1,4 @@
-package cn.bunny.common.service.utils;
+package cn.bunny.services.utils;
 
 import org.springframework.stereotype.Component;
 

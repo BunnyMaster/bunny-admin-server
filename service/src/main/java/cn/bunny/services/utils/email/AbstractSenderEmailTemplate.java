@@ -1,13 +1,13 @@
 package cn.bunny.services.utils.email;
 
-import cn.bunny.common.service.exception.AuthCustomerException;
-import cn.bunny.common.service.utils.mail.MailSenderUtil;
 import cn.bunny.dao.entity.system.EmailTemplate;
 import cn.bunny.dao.entity.system.EmailUsers;
 import cn.bunny.dao.model.email.EmailSend;
 import cn.bunny.dao.model.email.EmailSendInit;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
+import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.EmailUsersMapper;
+import cn.bunny.services.utils.mail.MailSenderUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.BeanUtils;

@@ -1,9 +1,9 @@
 package cn.bunny.services.security.handelr;
 
-import cn.bunny.common.service.utils.ResponseUtil;
 import cn.bunny.dao.vo.result.Result;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.services.security.custom.CustomAuthenticationException;
+import cn.bunny.services.utils.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

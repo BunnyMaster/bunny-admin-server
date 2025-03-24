@@ -1,4 +1,4 @@
-package cn.bunny.common.service.utils.ip;
+package cn.bunny.services.utils.ip;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;

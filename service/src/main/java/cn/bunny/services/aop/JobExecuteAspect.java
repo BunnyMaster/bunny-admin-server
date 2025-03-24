@@ -104,5 +104,4 @@ public class JobExecuteAspect {
     @Pointcut("execution(* cn.bunny.services.quartz.*.execute(..))")
     public void pointCut() {
     }
-
 }

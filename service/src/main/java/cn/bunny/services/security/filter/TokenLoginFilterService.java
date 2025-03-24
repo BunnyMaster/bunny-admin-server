@@ -1,7 +1,5 @@
 package cn.bunny.services.security.filter;
 
-
-import cn.bunny.common.service.utils.ResponseUtil;
 import cn.bunny.dao.dto.system.user.LoginDto;
 import cn.bunny.dao.enums.LoginEnums;
 import cn.bunny.dao.vo.result.Result;
@@ -9,6 +7,7 @@ import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.security.handelr.SecurityAuthenticationFailureHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationSuccessHandler;
 import cn.bunny.services.service.UserService;
+import cn.bunny.services.utils.ResponseUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;

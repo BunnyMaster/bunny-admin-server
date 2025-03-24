@@ -1,10 +1,11 @@
-package cn.bunny.common.service.exception;
+package cn.bunny.services.exception;
 
 
-import cn.bunny.common.service.context.BaseContext;
 import cn.bunny.dao.vo.result.Result;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
+import cn.bunny.services.context.BaseContext;
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -38,7 +39,8 @@ public class GlobalExceptionHandler {
     public Result<Object> exceptionHandler(RuntimeException exception) {
         String message = exception.getMessage();
         message = StringUtils.hasText(message) ? message : "服务器异常";
-
+        exception.printStackTrace();
+        
         // 解析异常
         String jsonParseError = "JSON parse error (.*)";
         Matcher jsonParseErrorMatcher = Pattern.compile(jsonParseError).matcher(message);
@@ -67,34 +69,12 @@ public class GlobalExceptionHandler {
             return Result.error(null, 500, "表达式 " + cronExpressionMatcher.group(1) + " 不合法");
         }
 
+        if (exception instanceof MyBatisSystemException) {
+            return Result.error(null, 500, "数据库异常");
+        }
+
         log.error("GlobalExceptionHandler===>运行时异常信息：{}", message);
-        exception.printStackTrace();
         return Result.error(null, 500, message);
-    }
-
-    // 捕获系统异常
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public Result<Object> error(Exception exception) {
-        log.error("捕获系统异常：{}", exception.getMessage());
-        log.error("GlobalExceptionHandler===>系统异常信息：{}", (Object) exception.getStackTrace());
-
-        // 错误消息
-        String message = exception.getMessage();
-
-        // 匹配到内容
-        String patternString = "Request method '(\\w+)' is not supported";
-        Matcher matcher = Pattern.compile(patternString).matcher(message);
-        if (matcher.find()) return Result.error(null, 500, "请求方法错误，不是 " + matcher.group(1) + "类型请求");
-
-        // 请求API不存在
-        String noStaticResource = "No static resource (.*)\\.";
-        Matcher noStaticResourceMatcher = Pattern.compile(noStaticResource).matcher(message);
-        if (noStaticResourceMatcher.find())
-            return Result.error(null, 500, "请求API不存在 " + noStaticResourceMatcher.group(1));
-
-        // 返回错误内容
-        return Result.error(null, 500, "系统异常");
     }
 
     // 表单验证字段

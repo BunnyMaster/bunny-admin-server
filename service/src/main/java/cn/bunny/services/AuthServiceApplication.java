@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCaching
 @EnableTransactionManagement
 @SpringBootApplication
-public class ServiceApplication {
+public class AuthServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ServiceApplication.class, args);
+        SpringApplication.run(AuthServiceApplication.class, args);
     }
 }

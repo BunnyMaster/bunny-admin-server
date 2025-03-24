@@ -1,9 +1,9 @@
-package cn.bunny.common.service.utils.minio;
+package cn.bunny.services.utils.minio;
 
-import cn.bunny.common.service.exception.AuthCustomerException;
 import cn.bunny.dao.constant.MinioConstant;
 import cn.bunny.dao.model.file.MinioFilePath;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
+import cn.bunny.services.exception.AuthCustomerException;
 import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
