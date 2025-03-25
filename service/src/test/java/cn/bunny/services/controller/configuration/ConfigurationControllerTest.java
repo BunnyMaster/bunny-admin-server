@@ -10,10 +10,8 @@ import cn.bunny.services.utils.UserUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,13 +26,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @WebAppConfiguration
-// @AutoConfigureMockMvc
 class ConfigurationControllerTest {
     private static final String prefix = "/api/config";
 
@@ -51,8 +46,6 @@ class ConfigurationControllerTest {
 
     private MockMvc mockMvc;
 
-    private ChromeDriver chromeDriver;
-
     @BeforeEach
     void setUpMockMvc() {
         AdminUser adminUser = userMapper.selectOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getUsername, "Administrator"));
@@ -63,18 +56,9 @@ class ConfigurationControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(SecurityMockMvcConfigurers.springSecurity())
                 .build();
-
-        chromeDriver = new ChromeDriver();
-    }
-
-    @AfterEach
-    void tearDown() {
-        chromeDriver.quit();
     }
 
     @Test
-        // @WithMockUser(username = "Administrator", password = "admin123", roles = "admin")
-        // @WithUserDetails("Administrator")
     void webConfig() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get(prefix + "/noAuth/webConfig")
@@ -187,12 +171,5 @@ class ConfigurationControllerTest {
                     }
                     System.out.println(contentAsString);
                 });
-    }
-
-    @Test
-    void openChrome() throws InterruptedException {
-        chromeDriver.get("http://localhost:7000/");
-        TimeUnit.MINUTES.sleep(100);
-        chromeDriver.manage().timeouts().implicitlyWait(Duration.of(1000L, TimeUnit.SECONDS.toChronoUnit()));
     }
 }

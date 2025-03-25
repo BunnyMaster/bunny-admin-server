@@ -2,10 +2,13 @@ package cn.bunny.services.utils;
 
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import io.micrometer.common.lang.Nullable;
 import org.springframework.util.StringUtils;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +23,7 @@ public class JwtHelper {
     private static final String subject = "Bunny";
     // 默认时间
     private static final Date time = new Date(System.currentTimeMillis() + tokenExpiration * 7);
+    static SecretKey key = Jwts.SIG.HS256.key().build();
 
     /**
      * 使用默认主题，默认时间，默认秘钥，创建自定义集合token
@@ -29,12 +33,12 @@ public class JwtHelper {
      */
     public static String createTokenWithMap(Map<String, Object> map) {
         return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(time)
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .compressWith(CompressionCodecs.GZIP).compact();
+                .subject(subject)
+                .expiration(time)
+                .signWith(key)
+                .claims(map)
+                .id(UUID.randomUUID().toString())
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -46,12 +50,12 @@ public class JwtHelper {
      */
     public static String createTokenWithMap(Map<String, Object> map, Date time) {
         return Jwts.builder()
-                .setSubject(subject)
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .setExpiration(time)
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .compressWith(CompressionCodecs.GZIP).compact();
+                .subject(subject)
+                .signWith(key)
+                .expiration(time)
+                .claims(map)
+                .id(UUID.randomUUID().toString())
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -63,12 +67,12 @@ public class JwtHelper {
      */
     public static String createTokenWithMap(Map<String, Object> map, Integer day) {
         return Jwts.builder()
-                .setSubject(subject)
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration * day))
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .compressWith(CompressionCodecs.GZIP).compact();
+                .subject(subject)
+                .signWith(key)
+                .expiration(new Date(System.currentTimeMillis() + tokenExpiration * day))
+                .claims(map)
+                .id(UUID.randomUUID().toString())
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -80,12 +84,12 @@ public class JwtHelper {
      */
     public static String createTokenWithMap(Map<String, Object> map, String tokenSignKey) {
         return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(time)
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .compressWith(CompressionCodecs.GZIP).compact();
+                .subject(subject)
+                .expiration(time)
+                .signWith(key)
+                .claims(map)
+                .id(UUID.randomUUID().toString())
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -98,13 +102,12 @@ public class JwtHelper {
      */
     public static String createTokenWithMap(Map<String, Object> map, String subject, Date time) {
         return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(time)
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .compressWith(CompressionCodecs.GZIP)
-                .compact();
+                .subject(subject)
+                .expiration(time)
+                .claims(map)
+                .id(UUID.randomUUID().toString())
+                .signWith(key)
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -117,12 +120,12 @@ public class JwtHelper {
      */
     public static String createTokenWithMap(Map<String, Object> map, String subject, String tokenSignKey) {
         return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(time)
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .compressWith(CompressionCodecs.GZIP).compact();
+                .subject(subject)
+                .expiration(time)
+                .claims(map)
+                .id(UUID.randomUUID().toString())
+                .signWith(key)
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -135,13 +138,12 @@ public class JwtHelper {
      */
     public static String createTokenWithMap(Map<String, Object> map, String tokenSignKey, Integer time) {
         return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration * time))
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .compressWith(CompressionCodecs.GZIP)
-                .compact();
+                .subject(subject)
+                .expiration(new Date(System.currentTimeMillis() + tokenExpiration * time))
+                .claims(map)
+                .id(UUID.randomUUID().toString())
+                .signWith(key)
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -154,13 +156,12 @@ public class JwtHelper {
      */
     public static String createTokenWithMap(Map<String, Object> map, String subject, String tokenSignKey, Integer day) {
         return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration * day))
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .compressWith(CompressionCodecs.GZIP)
-                .compact();
+                .subject(subject)
+                .expiration(new Date(System.currentTimeMillis() + tokenExpiration * day))
+                .claims(map)
+                .id(UUID.randomUUID().toString())
+                .signWith(key)
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -173,13 +174,12 @@ public class JwtHelper {
      */
     public static String createTokenWithMap(Map<String, Object> map, String subject, String tokenSignKey, Date time) {
         return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(time)
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .compressWith(CompressionCodecs.GZIP)
-                .compact();
+                .subject(subject)
+                .expiration(time)
+                .claims(map)
+                .id(UUID.randomUUID().toString())
+                .signWith(key)
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -192,14 +192,13 @@ public class JwtHelper {
      */
     public static String createToken(Long userId, String username, Integer day) {
         return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration * day))
+                .subject(subject)
+                .expiration(new Date(System.currentTimeMillis() + tokenExpiration * day))
                 .claim("userId", userId)
                 .claim("username", username)
-                .setId(UUID.randomUUID().toString())
-                .signWith(SignatureAlgorithm.HS256, tokenSignKey)
-                .compressWith(CompressionCodecs.GZIP)
-                .compact();
+                .id(UUID.randomUUID().toString())
+                .signWith(key)
+                .compressWith(Jwts.ZIP.GZIP).compact();
     }
 
     /**
@@ -211,8 +210,7 @@ public class JwtHelper {
     public static Map<String, Object> getMapByToken(String token) {
         try {
             if (!StringUtils.hasText(token)) throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
-            Claims claims = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token).getBody();
-
+            Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
             // 将 body 值转为map
             return new HashMap<>(claims);
 
@@ -231,8 +229,8 @@ public class JwtHelper {
     public static Map<String, Object> getMapByToken(String token, String signKey) {
         try {
             if (!StringUtils.hasText(token)) throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(signKey).parseClaimsJws(token);
-            Claims body = claimsJws.getBody();
+            Jws<Claims> claimsJws = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+            Claims body = claimsJws.getPayload();
             // 将 body 值转为map
             return new HashMap<>(body);
 
@@ -255,8 +253,8 @@ public class JwtHelper {
     private static String getSubjectByTokenHandler(String token, String tokenSignKey) {
         try {
             if (!StringUtils.hasText(token)) throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
-            Claims body = claimsJws.getBody();
+            Jws<Claims> claimsJws = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+            Claims body = claimsJws.getPayload();
 
             return body.getSubject();
 
@@ -285,8 +283,8 @@ public class JwtHelper {
         try {
             if (!StringUtils.hasText(token)) throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
 
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
-            Claims claims = claimsJws.getBody();
+            Jws<Claims> claimsJws = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+            Claims claims = claimsJws.getPayload();
 
             return Long.valueOf(String.valueOf(claims.get("userId")));
         } catch (Exception exception) {
@@ -304,8 +302,8 @@ public class JwtHelper {
         try {
             if (!StringUtils.hasText(token)) return "";
 
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
-            Claims claims = claimsJws.getBody();
+            Jws<Claims> claimsJws = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+            Claims claims = claimsJws.getPayload();
             return (String) claims.get("username");
         } catch (Exception exception) {
             throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
@@ -341,8 +339,8 @@ public class JwtHelper {
      */
     private static boolean isExpiredUtil(String token, String tokenSignKey) {
         try {
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
-            Date expiration = claimsJws.getBody().getExpiration();
+            Jws<Claims> claimsJws = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+            Date expiration = claimsJws.getPayload().getExpiration();
 
             return expiration != null && expiration.before(new Date());
         } catch (Exception exception) {
