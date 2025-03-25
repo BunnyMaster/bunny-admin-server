@@ -6,7 +6,7 @@ import cn.bunny.dao.vo.result.Result;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.security.handelr.SecurityAuthenticationFailureHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationSuccessHandler;
-import cn.bunny.services.service.UserService;
+import cn.bunny.services.service.system.UserService;
 import cn.bunny.services.utils.ResponseUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;

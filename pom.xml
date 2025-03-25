@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.2</version>
+        <version>3.4.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.bunny</groupId>
@@ -88,7 +88,7 @@
                 <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
                 <version>${dynamic.datasource.version}</version>
             </dependency>
-            <!-- knife4j -->
+            <!-- knife 4 j-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>

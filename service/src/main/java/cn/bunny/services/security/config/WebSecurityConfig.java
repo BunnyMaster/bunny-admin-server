@@ -7,7 +7,7 @@ import cn.bunny.services.security.custom.CustomAuthorizationManagerServiceImpl;
 import cn.bunny.services.security.filter.TokenLoginFilterService;
 import cn.bunny.services.security.handelr.SecurityAccessDeniedHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationEntryPoint;
-import cn.bunny.services.service.UserService;
+import cn.bunny.services.service.system.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
