@@ -4,7 +4,7 @@ import cn.bunny.dao.dto.log.ScheduleExecuteLogDto;
 import cn.bunny.dao.entity.log.ScheduleExecuteLog;
 import cn.bunny.dao.vo.log.QuartzExecuteLogVo;
 import cn.bunny.dao.vo.result.PageResult;
-import cn.bunny.services.mapper.ScheduleExecuteLogMapper;
+import cn.bunny.services.mapper.schedule.ScheduleExecuteLogMapper;
 import cn.bunny.services.service.schedule.ScheduleExecuteLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

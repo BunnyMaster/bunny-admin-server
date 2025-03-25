@@ -11,7 +11,7 @@ import cn.bunny.dao.vo.system.message.MessageReceivedWithMessageVo;
 import cn.bunny.dao.vo.system.message.MessageUserVo;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.exception.AuthCustomerException;
-import cn.bunny.services.mapper.MessageReceivedMapper;
+import cn.bunny.services.mapper.message.MessageReceivedMapper;
 import cn.bunny.services.service.message.MessageReceivedService;
 import cn.bunny.services.utils.UserUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;

@@ -1,7 +1,7 @@
 package cn.bunny.services.utils.email;
 
 import cn.bunny.dao.entity.system.EmailTemplate;
-import cn.bunny.services.mapper.EmailTemplateMapper;
+import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

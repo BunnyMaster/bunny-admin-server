@@ -4,7 +4,7 @@ import cn.bunny.dao.constant.LocalDateTimeConstant;
 import cn.bunny.dao.entity.log.ScheduleExecuteLog;
 import cn.bunny.dao.enums.JobEnums;
 import cn.bunny.dao.model.quartz.ScheduleExecuteLogJson;
-import cn.bunny.services.mapper.ScheduleExecuteLogMapper;
+import cn.bunny.services.mapper.schedule.ScheduleExecuteLogMapper;
 import com.alibaba.fastjson2.JSON;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

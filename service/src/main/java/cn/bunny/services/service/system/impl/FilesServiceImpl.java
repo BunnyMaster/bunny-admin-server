@@ -12,7 +12,7 @@ import cn.bunny.dao.vo.system.files.FileInfoVo;
 import cn.bunny.dao.vo.system.files.FilesVo;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.exception.AuthCustomerException;
-import cn.bunny.services.mapper.FilesMapper;
+import cn.bunny.services.mapper.system.FilesMapper;
 import cn.bunny.services.service.system.FilesService;
 import cn.bunny.services.utils.FileUtil;
 import cn.bunny.services.utils.minio.MinioProperties;

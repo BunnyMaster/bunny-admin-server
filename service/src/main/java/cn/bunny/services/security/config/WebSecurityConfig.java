@@ -2,7 +2,7 @@ package cn.bunny.services.security.config;
 
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
-import cn.bunny.services.mapper.UserMapper;
+import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.security.custom.CustomAuthorizationManagerServiceImpl;
 import cn.bunny.services.security.filter.TokenLoginFilterService;
 import cn.bunny.services.security.handelr.SecurityAccessDeniedHandler;

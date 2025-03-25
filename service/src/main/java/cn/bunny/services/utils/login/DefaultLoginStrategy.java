@@ -2,7 +2,7 @@ package cn.bunny.services.utils.login;
 
 import cn.bunny.dao.dto.system.user.LoginDto;
 import cn.bunny.dao.entity.system.AdminUser;
-import cn.bunny.services.mapper.UserMapper;
+import cn.bunny.services.mapper.system.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 /**

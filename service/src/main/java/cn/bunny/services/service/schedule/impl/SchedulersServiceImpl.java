@@ -11,7 +11,7 @@ import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.services.aop.AnnotationScanner;
 import cn.bunny.services.aop.annotation.QuartzSchedulers;
 import cn.bunny.services.exception.AuthCustomerException;
-import cn.bunny.services.mapper.SchedulersMapper;
+import cn.bunny.services.mapper.schedule.SchedulersMapper;
 import cn.bunny.services.service.schedule.SchedulersService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

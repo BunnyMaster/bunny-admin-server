@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.schedule.SchedulersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.quartz.Schedulers">
+        <id column="job_name" property="jobName"/>
+        <id column="job_group" property="jobGroup"/>
+        <id column="description" property="description"/>
+        <id column="job_class_name" property="jobClassName"/>
+        <id column="cron_expression" property="cronExpression"/>
+        <id column="trigger_name" property="triggerName"/>
+        <id column="trigger_state" property="triggerState"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        job_name, job_group, description, job_class_name, cron_expression, trigger_name, trigger_state
+    </sql>
+
+    <!-- 分页查询Schedulers视图内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.dao.entity.quartz.Schedulers">
+        select
+        <include refid="Base_Column_List"/>
+        from view_qrtz_schedulers
+        <where>
+            <if test="dto.jobName != null and dto.jobName != ''">
+                and job_name like CONCAT('%',#{dto.jobName},'%')
+            </if>
+            <if test="dto.jobGroup != null and dto.jobGroup != ''">
+                and job_group like CONCAT('%',#{dto.jobGroup},'%')
+            </if>
+            <if test="dto.description != null and dto.description != ''">
+                and description like CONCAT('%',#{dto.description},'%')
+            </if>
+            <if test="dto.jobClassName != null and dto.jobClassName != ''">
+                and job_class_name like CONCAT('%',#{dto.jobClassName},'%')
+            </if>
+            <if test="dto.triggerName != null and dto.triggerName != ''">
+                and trigger_name like CONCAT('%',#{dto.triggerName},'%')
+            </if>
+            <if test="dto.triggerState != null and dto.triggerState != ''">
+                and trigger_state like CONCAT('%',#{dto.triggerState},'%')
+            </if>
+            <if test="dto.jobMethodName != null and dto.jobMethodName != ''">
+                and job_method_name like CONCAT('%',#{dto.jobMethodName},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

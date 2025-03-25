@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.system.RolePowerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.dao.entity.system.RolePower">
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="power_id" property="powerId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_id, power_id, create_time, update_time, create_user, update_user, is_deleted
+    </sql>
+
+    <!-- 根据权限id列表删除角色权限相关 -->
+    <delete id="deleteBatchPowerIdsWithPhysics">
+        delete
+        from sys_role_power
+        where power_id in
+        <foreach collection="powerIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据角色id删除角色权限 -->
+    <delete id="deleteBatchRoleIdsWithPhysics">
+        delete
+        from sys_role_power
+        where role_id in
+        <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据角色id获取权限内容 -->
+    <select id="selectPowerListByRoleId" resultType="cn.bunny.dao.entity.system.RolePower">
+        select *
+        from sys_role_power
+        where role_id = #{roleId}
+    </select>
+
+    <!-- 查看所有角色关联的权限 -->
+    <select id="viewRolePowerWithAll" resultType="cn.bunny.dao.views.ViewRolePower">
+        SELECT rp.power_id,
+               power.parent_id,
+               power.power_code,
+               power.power_name,
+               power.request_url,
+               rp.role_id,
+               role.role_code,
+               role.description
+        FROM sys_role_power rp
+                 LEFT JOIN sys_role role ON rp.role_id = role.id
+                 LEFT JOIN sys_power power ON rp.power_id = power.id
+    </select>
+
+</mapper>

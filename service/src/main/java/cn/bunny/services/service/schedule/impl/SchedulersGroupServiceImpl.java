@@ -6,7 +6,7 @@ import cn.bunny.dao.dto.quartz.group.SchedulersGroupUpdateDto;
 import cn.bunny.dao.entity.quartz.SchedulersGroup;
 import cn.bunny.dao.vo.quartz.SchedulersGroupVo;
 import cn.bunny.dao.vo.result.PageResult;
-import cn.bunny.services.mapper.SchedulersGroupMapper;
+import cn.bunny.services.mapper.schedule.SchedulersGroupMapper;
 import cn.bunny.services.service.schedule.SchedulersGroupService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

@@ -28,7 +28,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  */
 public class TokenLoginFilterService extends UsernamePasswordAuthenticationFilter {
     private final UserService userService;
-    LoginDto loginDto;
+    private LoginDto loginDto;
 
     public TokenLoginFilterService(AuthenticationConfiguration authenticationConfiguration, UserService customUserDetailsService) throws Exception {
         this.setAuthenticationSuccessHandler(new SecurityAuthenticationSuccessHandler());

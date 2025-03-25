@@ -7,7 +7,7 @@ import cn.bunny.dao.entity.i18n.I18nType;
 import cn.bunny.dao.vo.i18n.I18nTypeVo;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
-import cn.bunny.services.mapper.I18nTypeMapper;
+import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nTypeService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

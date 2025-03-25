@@ -4,7 +4,7 @@ import cn.bunny.dao.constant.RedisUserConstant;
 import cn.bunny.dao.dto.system.user.LoginDto;
 import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
-import cn.bunny.services.mapper.UserMapper;
+import cn.bunny.services.mapper.system.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

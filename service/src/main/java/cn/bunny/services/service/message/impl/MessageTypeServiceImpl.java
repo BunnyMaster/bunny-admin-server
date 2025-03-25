@@ -6,7 +6,7 @@ import cn.bunny.dao.dto.system.message.MessageTypeUpdateDto;
 import cn.bunny.dao.entity.system.MessageType;
 import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.system.message.MessageTypeVo;
-import cn.bunny.services.mapper.MessageTypeMapper;
+import cn.bunny.services.mapper.message.MessageTypeMapper;
 import cn.bunny.services.service.message.MessageTypeService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

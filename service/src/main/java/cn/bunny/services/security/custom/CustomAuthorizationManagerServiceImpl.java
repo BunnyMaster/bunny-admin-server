@@ -6,14 +6,13 @@ import cn.bunny.dao.entity.system.Role;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.context.BaseContext;
-import cn.bunny.services.mapper.PowerMapper;
-import cn.bunny.services.mapper.RoleMapper;
+import cn.bunny.services.mapper.system.PowerMapper;
+import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.utils.JwtHelper;
 import cn.bunny.services.utils.RoleUtil;
 import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -35,15 +34,25 @@ import java.util.function.Supplier;
 @Slf4j
 public class CustomAuthorizationManagerServiceImpl implements AuthorizationManager<RequestAuthorizationContext> {
 
-    @Autowired
-    private PowerMapper powerMapper;
+    private final PowerMapper powerMapper;
 
-    @Autowired
-    private RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
+    public CustomAuthorizationManagerServiceImpl(PowerMapper powerMapper, RoleMapper roleMapper, RedisTemplate<String, Object> redisTemplate) {
+        this.powerMapper = powerMapper;
+        this.roleMapper = roleMapper;
+        this.redisTemplate = redisTemplate;
+    }
+
+    /**
+     * 检查请求的Token是否携带，并判断是否过期
+     *
+     * @param authentication Supplier
+     * @param context        RequestAuthorizationContext
+     * @return AuthorizationDecision
+     */
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
         // 用户的token和用户id、请求Url

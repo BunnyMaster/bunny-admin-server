@@ -8,7 +8,7 @@ import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.MenuIconVo;
 import cn.bunny.services.exception.AuthCustomerException;
-import cn.bunny.services.mapper.MenuIconMapper;
+import cn.bunny.services.mapper.configuration.MenuIconMapper;
 import cn.bunny.services.service.configuration.MenuIconService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

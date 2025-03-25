@@ -9,7 +9,7 @@ import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
 import cn.bunny.dao.vo.system.email.EmailUsersVo;
 import cn.bunny.services.exception.AuthCustomerException;
-import cn.bunny.services.mapper.EmailUsersMapper;
+import cn.bunny.services.mapper.configuration.EmailUsersMapper;
 import cn.bunny.services.service.configuration.EmailUsersService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

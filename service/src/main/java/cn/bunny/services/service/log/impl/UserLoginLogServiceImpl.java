@@ -6,7 +6,7 @@ import cn.bunny.dao.vo.log.UserLoginLogLocalVo;
 import cn.bunny.dao.vo.log.UserLoginLogVo;
 import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.services.context.BaseContext;
-import cn.bunny.services.mapper.UserLoginLogMapper;
+import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.service.log.UserLoginLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

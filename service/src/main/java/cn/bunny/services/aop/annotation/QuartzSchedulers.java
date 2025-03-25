@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 public @interface QuartzSchedulers {
     String value() default "";
 
-    // 类型
+    /* 类型 */
     String type();
 
-    // 详情
+    /* 详情 */
     String description();
 }
