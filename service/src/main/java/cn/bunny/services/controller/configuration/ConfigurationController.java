@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 @Tag(name = "系统配置", description = "系统配置相关接口")
 @RestController
@@ -35,9 +34,9 @@ public class ConfigurationController {
 
     @Operation(summary = "更新web配置文件", description = "更新web配置文件")
     @PutMapping("updateWebConfiguration")
-    public Mono<Result<String>> updateWebConfiguration(@Valid @RequestBody WebConfigurationDto dto) {
+    public Result<Object> updateWebConfiguration(@Valid @RequestBody WebConfigurationDto dto) {
         configurationService.updateWebConfiguration(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
 }

@@ -7,11 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 @Schema(name = "WebConfiguration对象", title = "前端配置选项", description = "前端配置选项")
 public class WebConfigurationDto {
 
