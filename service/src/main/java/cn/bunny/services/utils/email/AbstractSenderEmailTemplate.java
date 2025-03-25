@@ -12,14 +12,11 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 
-@Component
 public abstract class AbstractSenderEmailTemplate {
-
     @Autowired
     private EmailUsersMapper emailUsersMapper;
 
@@ -38,7 +35,10 @@ public abstract class AbstractSenderEmailTemplate {
         Long emailUser = emailTemplate.getEmailUser();
         EmailUsers emailUsers;
         if (emailUser == null) {
+            // 如果用户不存在就是用默认用户进行邮件发送
             emailUsers = emailUsersMapper.selectOne(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getIsDefault, true));
+
+            // 默认发送用户也不存在
             if (emailUsers == null) throw new AuthCustomerException(ResultCodeEnum.EMAIL_USER_IS_EMPTY);
         } else {
             emailUsers = emailUsersMapper.selectOne(Wrappers.<EmailUsers>lambdaQuery().eq(EmailUsers::getId, emailUser));

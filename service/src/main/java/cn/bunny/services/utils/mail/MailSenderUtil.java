@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Objects;
 import java.util.Properties;
 
+/**
+ * 邮件发送工具
+ */
 public class MailSenderUtil {
     private MailSenderUtil() {
         // 私有化构造器

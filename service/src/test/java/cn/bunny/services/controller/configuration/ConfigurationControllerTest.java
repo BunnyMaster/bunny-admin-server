@@ -6,7 +6,7 @@ import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.vo.result.Result;
 import cn.bunny.dao.vo.system.user.LoginVo;
 import cn.bunny.services.mapper.system.UserMapper;
-import cn.bunny.services.utils.UserUtil;
+import cn.bunny.services.utils.system.UserUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

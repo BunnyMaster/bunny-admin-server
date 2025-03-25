@@ -14,7 +14,7 @@ import cn.bunny.services.mapper.system.RolePowerMapper;
 import cn.bunny.services.mapper.system.RouterRoleMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RoleService;
-import cn.bunny.services.utils.RoleUtil;
+import cn.bunny.services.utils.system.RoleUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

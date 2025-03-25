@@ -1,4 +1,4 @@
-package cn.bunny.services.utils;
+package cn.bunny.services.utils.system;
 
 import cn.bunny.dao.constant.LocalDateTimeConstant;
 import cn.bunny.dao.constant.RedisUserConstant;
@@ -13,11 +13,12 @@ import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.mapper.system.PowerMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.mapper.system.UserMapper;
+import cn.bunny.services.utils.JwtHelper;
 import cn.bunny.services.utils.ip.IpUtil;
 import cn.bunny.services.utils.minio.MinioUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,25 +34,24 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@RequiredArgsConstructor
 @Component
 public class UserUtil {
-    @Autowired
-    private PowerMapper powerMapper;
+    private final MinioUtil minioUtil;
+    private final PowerMapper powerMapper;
+    private final RoleMapper roleMapper;
+    private final UserMapper userMapper;
+    private final UserLoginLogMapper userLoginLogMapper;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    @Autowired
-    private RoleMapper roleMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private UserLoginLogMapper userLoginLogMapper;
-
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
-
-    @Autowired
-    private MinioUtil minioUtil;
+    // public UserUtil(MinioUtil minioUtil, PowerMapper powerMapper, RoleMapper roleMapper, UserMapper userMapper, UserLoginLogMapper userLoginLogMapper, RedisTemplate<String, Object> redisTemplate) {
+    //     this.minioUtil = minioUtil;
+    //     this.powerMapper = powerMapper;
+    //     this.roleMapper = roleMapper;
+    //     this.userMapper = userMapper;
+    //     this.userLoginLogMapper = userLoginLogMapper;
+    //     this.redisTemplate = redisTemplate;
+    // }
 
     /**
      * 构建登录用户返回对象

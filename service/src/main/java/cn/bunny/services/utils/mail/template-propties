@@ -1,5 +1,6 @@
 Configuration example
 
+# 在配置文件中的参考
 mail:
     host: smtp.qq.com # 邮箱地址
     port: 465 # 邮箱端口号

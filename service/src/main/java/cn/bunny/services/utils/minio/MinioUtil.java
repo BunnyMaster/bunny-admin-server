@@ -8,7 +8,6 @@ import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,16 +21,19 @@ import java.util.UUID;
 
 /**
  * Minio操作工具类 简化操作步骤
- * By：Bunny0212
+ * 自定义封装
  */
 @Component
 @Slf4j
 public class MinioUtil {
-    @Autowired
-    private MinioProperties properties;
+    private final MinioProperties properties;
 
-    @Autowired
-    private MinioClient minioClient;
+    private final MinioClient minioClient;
+
+    public MinioUtil(MinioProperties properties, MinioClient minioClient) {
+        this.properties = properties;
+        this.minioClient = minioClient;
+    }
 
     /**
      * 获取Minio文件路径

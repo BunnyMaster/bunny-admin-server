@@ -8,7 +8,7 @@ import cn.bunny.services.mapper.system.RolePowerMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RolePowerService;
-import cn.bunny.services.utils.RoleUtil;
+import cn.bunny.services.utils.system.RoleUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

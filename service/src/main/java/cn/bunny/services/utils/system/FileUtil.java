@@ -1,11 +1,16 @@
-package cn.bunny.services.utils;
+package cn.bunny.services.utils.system;
 
-import org.springframework.stereotype.Component;
 
-@Component
+/*
+ * 文件工具类
+ * 格式化字节大小
+ */
 public class FileUtil {
     /**
-     * * 获取文件大小字符串
+     * 获取文件大小字符串
+     *
+     * @param fileSize 文件大小
+     * @return 格式化后文件大小
      */
     public static String getSize(Long fileSize) {
         double fileSizeInKB = fileSize / 1024.00;

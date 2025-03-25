@@ -13,7 +13,7 @@ import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.message.MessageReceivedMapper;
 import cn.bunny.services.service.message.MessageReceivedService;
-import cn.bunny.services.utils.UserUtil;
+import cn.bunny.services.utils.system.UserUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

@@ -9,7 +9,7 @@ import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.mapper.system.PowerMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.utils.JwtHelper;
-import cn.bunny.services.utils.RoleUtil;
+import cn.bunny.services.utils.system.RoleUtil;
 import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

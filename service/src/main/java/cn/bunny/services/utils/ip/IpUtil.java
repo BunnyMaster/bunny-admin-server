@@ -14,6 +14,9 @@ import java.net.InetAddress;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 用户请求的IP地址转成归属地
+ */
 @Slf4j
 public class IpUtil {
 

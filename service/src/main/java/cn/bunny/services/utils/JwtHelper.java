@@ -83,6 +83,7 @@ public class JwtHelper {
      * @return token
      */
     public static String createTokenWithMap(Map<String, Object> map, String tokenSignKey) {
+
         return Jwts.builder()
                 .subject(subject)
                 .expiration(time)
@@ -239,18 +240,8 @@ public class JwtHelper {
         }
     }
 
-    /**
-     * 根据token获取主题
-     *
-     * @param token token
-     * @return 主题
-     */
-    public static String getSubjectByToken(String token) {
-        return getSubjectByTokenHandler(token, tokenSignKey);
-    }
-
     @Nullable
-    private static String getSubjectByTokenHandler(String token, String tokenSignKey) {
+    private static String getSubjectByTokenHandler(String token) {
         try {
             if (!StringUtils.hasText(token)) throw new AuthCustomerException(ResultCodeEnum.TOKEN_PARSING_FAILED);
             Jws<Claims> claimsJws = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
@@ -269,8 +260,8 @@ public class JwtHelper {
      * @param token token
      * @return 主题
      */
-    public static String getSubjectByToken(String token, String tokenSignKey) {
-        return getSubjectByTokenHandler(token, tokenSignKey);
+    public static String getSubjectByToken(String token) {
+        return getSubjectByTokenHandler(token);
     }
 
     /**
@@ -317,27 +308,16 @@ public class JwtHelper {
      * @return 是否过期
      */
     public static boolean isExpired(String token) {
-        return isExpiredUtil(token, tokenSignKey);
-    }
-
-    /**
-     * 判断token是否过期
-     *
-     * @param token token
-     * @return 是否过期
-     */
-    public static boolean isExpired(String token, String tokenSignKey) {
-        return isExpiredUtil(token, tokenSignKey);
+        return isExpiredUtil(token);
     }
 
     /**
      * 判断是否过期
      *
-     * @param token        token
-     * @param tokenSignKey key值
+     * @param token token
      * @return 是否过期
      */
-    private static boolean isExpiredUtil(String token, String tokenSignKey) {
+    private static boolean isExpiredUtil(String token) {
         try {
             Jws<Claims> claimsJws = Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
             Date expiration = claimsJws.getPayload().getExpiration();

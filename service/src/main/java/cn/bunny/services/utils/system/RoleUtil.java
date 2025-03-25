@@ -1,4 +1,4 @@
-package cn.bunny.services.utils;
+package cn.bunny.services.utils.system;
 
 import cn.bunny.dao.constant.RedisUserConstant;
 import cn.bunny.dao.entity.system.AdminUser;

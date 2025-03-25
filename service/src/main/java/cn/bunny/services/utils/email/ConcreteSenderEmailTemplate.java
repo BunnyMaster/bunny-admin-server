@@ -3,15 +3,17 @@ package cn.bunny.services.utils.email;
 import cn.bunny.dao.entity.system.EmailTemplate;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
 @Component
 public class ConcreteSenderEmailTemplate extends AbstractSenderEmailTemplate {
-    @Autowired
-    private EmailTemplateMapper emailTemplateMapper;
+    private final EmailTemplateMapper emailTemplateMapper;
+
+    public ConcreteSenderEmailTemplate(EmailTemplateMapper emailTemplateMapper) {
+        this.emailTemplateMapper = emailTemplateMapper;
+    }
 
     /**
      * 发送邮件模板

@@ -11,7 +11,7 @@ import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.UserRoleService;
-import cn.bunny.services.utils.UserUtil;
+import cn.bunny.services.utils.system.UserUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

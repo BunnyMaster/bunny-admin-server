@@ -19,7 +19,7 @@ import cn.bunny.services.mapper.message.MessageReceivedMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.service.message.MessageReceivedService;
 import cn.bunny.services.service.message.MessageService;
-import cn.bunny.services.utils.UserUtil;
+import cn.bunny.services.utils.system.UserUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

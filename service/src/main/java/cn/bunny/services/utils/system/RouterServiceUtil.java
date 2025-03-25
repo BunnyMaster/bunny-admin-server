@@ -1,4 +1,4 @@
-package cn.bunny.services.utils;
+package cn.bunny.services.utils.system;
 
 import cn.bunny.dao.vo.system.router.UserRouterVo;
 import org.jetbrains.annotations.NotNull;
