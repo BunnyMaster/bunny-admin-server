@@ -40,11 +40,12 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
     public PageResult<UserLoginLogVo> getUserLoginLogList(Page<UserLoginLog> pageParams, UserLoginLogDto dto) {
         IPage<UserLoginLogVo> page = baseMapper.selectListByPage(pageParams, dto);
 
-        List<UserLoginLogVo> voList = page.getRecords().stream().map(userLoginLog -> {
-            UserLoginLogVo userLoginLogVo = new UserLoginLogVo();
-            BeanUtils.copyProperties(userLoginLog, userLoginLogVo);
-            return userLoginLogVo;
-        }).toList();
+        List<UserLoginLogVo> voList = page.getRecords().stream()
+                .map(userLoginLog -> {
+                    UserLoginLogVo userLoginLogVo = new UserLoginLogVo();
+                    BeanUtils.copyProperties(userLoginLog, userLoginLogVo);
+                    return userLoginLogVo;
+                }).toList();
 
         return PageResult.<UserLoginLogVo>builder()
                 .list(voList)
@@ -79,11 +80,12 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
         Long userId = BaseContext.getUserId();
         IPage<UserLoginLog> page = baseMapper.selectListByPageWithLocalUser(pageParams, userId);
 
-        List<UserLoginLogLocalVo> voList = page.getRecords().stream().map(userLoginLog -> {
-            UserLoginLogLocalVo userLoginLogVo = new UserLoginLogLocalVo();
-            BeanUtils.copyProperties(userLoginLog, userLoginLogVo);
-            return userLoginLogVo;
-        }).toList();
+        List<UserLoginLogLocalVo> voList = page.getRecords().stream()
+                .map(userLoginLog -> {
+                    UserLoginLogLocalVo userLoginLogVo = new UserLoginLogLocalVo();
+                    BeanUtils.copyProperties(userLoginLog, userLoginLogVo);
+                    return userLoginLogVo;
+                }).toList();
 
         return PageResult.<UserLoginLogLocalVo>builder()
                 .list(voList)

@@ -5,25 +5,27 @@ import cn.bunny.services.exception.AuthCustomerException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import io.micrometer.common.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class JwtHelper {
+    // JWT 的 秘钥
+    // static SecretKey key = new SecretKeySpec("Bunny-Java-Template".getBytes(), "AES");
+    private static final SecretKey key = Keys.hmacShaKeyFor("Bunny-Auth-Server-Private-SecretKey".getBytes(StandardCharsets.UTF_8));
     // 时间 按天 计算
     private static final long tokenExpiration = 24 * 60 * 60 * 1000;
-    // JWT 的 秘钥
-    private static final String tokenSignKey = "Bunny-Java-Template";
     // 默认主题
     private static final String subject = "Bunny";
     // 默认时间
     private static final Date time = new Date(System.currentTimeMillis() + tokenExpiration * 7);
-    static SecretKey key = Jwts.SIG.HS256.key().build();
 
     /**
      * 使用默认主题，默认时间，默认秘钥，创建自定义集合token
@@ -324,6 +326,7 @@ public class JwtHelper {
 
             return expiration != null && expiration.before(new Date());
         } catch (Exception exception) {
+            exception.printStackTrace();
             return true;
         }
     }

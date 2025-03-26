@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
         String message = exception.getMessage();
         message = StringUtils.hasText(message) ? message : "服务器异常";
         exception.printStackTrace();
-        
+
         // 解析异常
         String jsonParseError = "JSON parse error (.*)";
         Matcher jsonParseErrorMatcher = Pattern.compile(jsonParseError).matcher(message);

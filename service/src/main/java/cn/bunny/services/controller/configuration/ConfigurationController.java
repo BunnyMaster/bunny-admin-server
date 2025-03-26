@@ -8,7 +8,6 @@ import cn.bunny.services.service.configuration.ConfigurationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "系统配置", description = "系统配置相关接口")
@@ -16,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/config")
 public class ConfigurationController {
 
-    @Autowired
-    private ConfigurationService configurationService;
+    private final ConfigurationService configurationService;
+
+    public ConfigurationController(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
 
     @Operation(summary = "读取web配置文件", description = "读取web配置文件")
     @GetMapping("noAuth/webConfig")
@@ -38,5 +40,4 @@ public class ConfigurationController {
         configurationService.updateWebConfiguration(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
-
 }

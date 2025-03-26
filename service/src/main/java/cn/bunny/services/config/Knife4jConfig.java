@@ -18,9 +18,14 @@ public class Knife4jConfig {
         // 作者等信息
         Contact contact = new Contact().name("Bunny").email("1319900154@qq.com").url("http://bunny-web.site");
         // 使用协议
-        License license = new License().name("MIT").url("https://MUT.com");
+        License license = new License().name("MIT").url("https://mit-license.org");
         // 相关信息
-        Info info = new Info().title("Bunny-Admin").description("权限管理模板").version("v1.0.0").contact(contact).license(license).termsOfService("MIT");
+        Info info = new Info().title("Bunny-Admin")
+                .contact(contact).license(license)
+                .description("权限管理模板")
+                .summary("Auth权限模板")
+                .termsOfService("http://bunny-web.site")
+                .version("v1.0.0");
 
         return new OpenAPI().info(info).externalDocs(new ExternalDocumentation());
     }

@@ -30,9 +30,9 @@ public class WebSecurityConfig {
 
     // 需要排出的无需验证的请求路径
     public static String[] annotations = {
-            "/", "/ws/**",
+            "/", "/ws/**", "/**.html",
+            "/media.ico", "/favicon.ico", "/webjars/**", "/v3/api-docs/**", "/swagger-ui/**",
             "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
-            "/media.ico", "/favicon.ico", "*.html", "/webjars/**", "/v3/api-docs/**", "/swagger-ui/**",
             "/error", "/*/i18n/getI18n",
     };
 

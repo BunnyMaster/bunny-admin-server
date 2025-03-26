@@ -44,15 +44,6 @@ public class UserUtil {
     private final UserLoginLogMapper userLoginLogMapper;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    // public UserUtil(MinioUtil minioUtil, PowerMapper powerMapper, RoleMapper roleMapper, UserMapper userMapper, UserLoginLogMapper userLoginLogMapper, RedisTemplate<String, Object> redisTemplate) {
-    //     this.minioUtil = minioUtil;
-    //     this.powerMapper = powerMapper;
-    //     this.roleMapper = roleMapper;
-    //     this.userMapper = userMapper;
-    //     this.userLoginLogMapper = userLoginLogMapper;
-    //     this.redisTemplate = redisTemplate;
-    // }
-
     /**
      * 构建登录用户返回对象
      *

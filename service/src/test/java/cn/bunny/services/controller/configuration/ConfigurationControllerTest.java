@@ -2,14 +2,10 @@ package cn.bunny.services.controller.configuration;
 
 import cn.bunny.dao.dto.system.configuration.WebConfigurationDto;
 import cn.bunny.dao.entity.configuration.WebConfiguration;
-import cn.bunny.dao.entity.system.AdminUser;
 import cn.bunny.dao.vo.result.Result;
-import cn.bunny.dao.vo.system.user.LoginVo;
-import cn.bunny.services.mapper.system.UserMapper;
-import cn.bunny.services.utils.system.UserUtil;
+import cn.bunny.services.utils.TokenUtilsTest;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
@@ -37,22 +33,15 @@ class ConfigurationControllerTest {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
-    private UserUtil userUtil;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    private String token;
+    private TokenUtilsTest tokenUtils;
 
     private MockMvc mockMvc;
 
+    private String token;
+
     @BeforeEach
     void setUpMockMvc() {
-        AdminUser adminUser = userMapper.selectOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getUsername, "Administrator"));
-        adminUser.setPassword("admin123");
-        LoginVo loginVo = userUtil.buildLoginUserVo(adminUser, 7);
-        token = loginVo.getToken();
-
+        token = tokenUtils.getToken();
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .apply(SecurityMockMvcConfigurers.springSecurity())
                 .build();
@@ -73,7 +62,6 @@ class ConfigurationControllerTest {
                     if (!webConfiguration.getTitle().equals("BunnyAdmin")) {
                         throw new Exception();
                     }
-
 
                     System.out.println(webConfiguration);
                 });
