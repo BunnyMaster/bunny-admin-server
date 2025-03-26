@@ -1,4 +1,4 @@
-package cn.bunny.services.mapper.schedule;
+package cn.bunny.services.mapper.log;
 
 import cn.bunny.dao.dto.log.ScheduleExecuteLogDto;
 import cn.bunny.dao.entity.log.ScheduleExecuteLog;

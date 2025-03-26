@@ -1,11 +1,11 @@
-package cn.bunny.services.service.schedule.impl;
+package cn.bunny.services.service.log.impl;
 
 import cn.bunny.dao.dto.log.ScheduleExecuteLogDto;
 import cn.bunny.dao.entity.log.ScheduleExecuteLog;
 import cn.bunny.dao.vo.log.QuartzExecuteLogVo;
 import cn.bunny.dao.vo.result.PageResult;
-import cn.bunny.services.mapper.schedule.ScheduleExecuteLogMapper;
-import cn.bunny.services.service.schedule.ScheduleExecuteLogService;
+import cn.bunny.services.mapper.log.ScheduleExecuteLogMapper;
+import cn.bunny.services.service.log.ScheduleExecuteLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

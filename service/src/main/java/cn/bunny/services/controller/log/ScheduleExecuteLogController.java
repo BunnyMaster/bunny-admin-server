@@ -1,4 +1,4 @@
-package cn.bunny.services.controller.schedule;
+package cn.bunny.services.controller.log;
 
 import cn.bunny.dao.dto.log.ScheduleExecuteLogDto;
 import cn.bunny.dao.entity.log.ScheduleExecuteLog;
@@ -6,7 +6,7 @@ import cn.bunny.dao.vo.log.QuartzExecuteLogVo;
 import cn.bunny.dao.vo.result.PageResult;
 import cn.bunny.dao.vo.result.Result;
 import cn.bunny.dao.vo.result.ResultCodeEnum;
-import cn.bunny.services.service.schedule.ScheduleExecuteLogService;
+import cn.bunny.services.service.log.ScheduleExecuteLogService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
