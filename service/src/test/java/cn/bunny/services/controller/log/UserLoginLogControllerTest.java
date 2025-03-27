@@ -18,7 +18,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -98,16 +101,11 @@ class UserLoginLogControllerTest {
         Map<String, String> params = JSON.parseObject(JSON.toJSONString(dto), new TypeReference<>() {
         });
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("token", token);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Map<String, String>> request = new HttpEntity<>(params, headers);
-
         // 发送请求
         ResponseEntity<Result<PageResult<UserLoginLogVo>>> response = restTemplate.exchange(
-                "http://localhost:7070" + prefix + "/getUserLoginLogList/1/10",
+                prefix + "/getUserLoginLogList/1/10",
                 HttpMethod.GET,
-                request,
+                new HttpEntity<>(params),
                 new ParameterizedTypeReference<>() {
                 }
         );

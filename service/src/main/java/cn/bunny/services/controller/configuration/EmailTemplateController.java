@@ -14,9 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -34,12 +32,15 @@ import java.util.Map;
 @RequestMapping("api/emailTemplate")
 public class EmailTemplateController {
 
-    @Autowired
-    private EmailTemplateService emailTemplateService;
+    private final EmailTemplateService emailTemplateService;
+
+    public EmailTemplateController(EmailTemplateService emailTemplateService) {
+        this.emailTemplateService = emailTemplateService;
+    }
 
     @Operation(summary = "分页查询邮件模板", description = "分页查询邮件模板")
     @GetMapping("getEmailTemplateList/{page}/{limit}")
-    public Mono<Result<PageResult<EmailTemplateVo>>> getEmailTemplateList(
+    public Result<PageResult<EmailTemplateVo>> getEmailTemplateList(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,
             @Parameter(name = "limit", description = "每页记录数", required = true)
@@ -47,34 +48,34 @@ public class EmailTemplateController {
             EmailTemplateDto dto) {
         Page<EmailTemplate> pageParams = new Page<>(page, limit);
         PageResult<EmailTemplateVo> pageResult = emailTemplateService.getEmailTemplateList(pageParams, dto);
-        return Mono.just(Result.success(pageResult));
+        return Result.success(pageResult);
     }
 
     @Operation(summary = "获取邮件模板类型字段", description = "获取邮件模板类型字段")
     @GetMapping("getEmailTypes")
-    public Mono<Result<List<Map<String, String>>>> getEmailTypes() {
+    public Result<List<Map<String, String>>> getEmailTypes() {
         List<Map<String, String>> list = emailTemplateService.getEmailTypes();
-        return Mono.just(Result.success(list));
+        return Result.success(list);
     }
 
     @Operation(summary = "添加邮件模板", description = "添加邮件模板")
     @PostMapping("addEmailTemplate")
-    public Mono<Result<String>> addEmailTemplate(@Valid @RequestBody EmailTemplateAddDto dto) {
+    public Result<String> addEmailTemplate(@Valid @RequestBody EmailTemplateAddDto dto) {
         emailTemplateService.addEmailTemplate(dto);
-        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+        return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @Operation(summary = "更新邮件模板", description = "更新邮件模板")
     @PutMapping("updateEmailTemplate")
-    public Mono<Result<String>> updateEmailTemplate(@Valid @RequestBody EmailTemplateUpdateDto dto) {
+    public Result<String> updateEmailTemplate(@Valid @RequestBody EmailTemplateUpdateDto dto) {
         emailTemplateService.updateEmailTemplate(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @Operation(summary = "删除邮件模板", description = "删除邮件模板")
     @DeleteMapping("deleteEmailTemplate")
-    public Mono<Result<String>> deleteEmailTemplate(@RequestBody List<Long> ids) {
+    public Result<String> deleteEmailTemplate(@RequestBody List<Long> ids) {
         emailTemplateService.deleteEmailTemplate(ids);
-        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
+        return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 }
