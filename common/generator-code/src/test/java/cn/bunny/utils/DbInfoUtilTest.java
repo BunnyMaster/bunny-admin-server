@@ -1,7 +1,7 @@
 package cn.bunny.utils;
 
-import cn.bunny.entity.ColumnMetaData;
-import cn.bunny.entity.TableMetaData;
+import cn.bunny.dao.entity.ColumnMetaData;
+import cn.bunny.dao.entity.TableMetaData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +13,7 @@ import java.util.List;
 class DbInfoUtilTest {
 
     String tableName = "sys_i18n";
-    
+
     @Autowired
     private DbInfoUtil dbInfoUtil;
 

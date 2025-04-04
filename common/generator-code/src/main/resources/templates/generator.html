@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/semantic-ui.css}">
+    <script th:src="@{/js/semantic.min.js}"></script>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <title>代码生成页面</title>
+</head>
+<body>
+<div class="ui container" style="margin-top: 20px;">
+    <div class="ui cards">
+        <div class="card" style="width: 100%;">
+            <div class="content">
+                <div class="header" th:text="'表名：'+${tableMetaData.tableName}"></div>
+                <div class="meta" th:text="'表注释：'+${tableMetaData.comment}">Friend</div>
+                <div class="description"
+                     th:text="'数据库名：'+${tableMetaData.tableCat}+'；类型：'+${tableMetaData.tableType}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui secondary  menu">
+        <a class="item" th:href="@{'/preview/'+${tableMetaData.tableName}}">
+            预览
+        </a>
+        <a class="item active" th:href="@{'/generator/'+${tableMetaData.tableName}}">
+            生成页面
+        </a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,17 +1,15 @@
-package cn.bunny.entity;
+package cn.bunny.dao.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TableMetaData {
+public class TableInfoVo {
 
     /* 表目录 */
     private String tableCat;
@@ -21,9 +19,6 @@ public class TableMetaData {
 
     /* 表类型（通常是"TABLE"） */
     private String tableType;
-
-    /* 表的注释/描述 */
-    private String remarks;
 
     /* 类型的目录（可能为null） */
     private String typeCat;
@@ -46,9 +41,7 @@ public class TableMetaData {
     /* 类名 */
     private String className;
 
-    /* 注释内哦让那个 */
+    /* 注释内容 */
     private String comment;
 
-    /* 列名称 */
-    private List<ColumnMetaData> columns;
 }

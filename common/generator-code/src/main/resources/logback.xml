@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <contextName>logback</contextName>
+
+    <!-- 格式化 年-月-日 输出 -->
+    <timestamp key="datetime" datePattern="yyyy-MM-dd"/>
+
+    <!--编码-->
+    <property name="ENCODING" value="UTF-8"/>
+
+    <!-- 控制台日志 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 临界值过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>%cyan([%thread %d{yyyy-MM-dd HH:mm:ss}]) %yellow(%-5level) %green(%logger{100}).%boldRed(%method)-%boldMagenta(%line)-%blue(%msg%n)
+            </pattern>
+            <charset>${ENCODING}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 文件日志 -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/${datetime}/financial-server.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss} [%-5level] %thread %file:%line %logger %msg%n</pattern>
+            <charset>${ENCODING}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 让SpringBoot内部日志ERROR级别 减少日志输出 -->
+    <logger name="org.springframework" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- 让mybatis整合包日志ERROR 减少日志输出 -->
+    <logger name="org.mybatis" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- 让ibatis 日志ERROR 减少日志输出 -->
+    <logger name="org.apache.ibatis" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- 让 tomcat包打印日志 日志ERROR 减少日志输出 -->
+    <logger name="org.apache" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- 我们自己开发的程序为DEBUG -->
+    <logger name="cn.bunny" level="DEBUG" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <logger name="com.baomidou" level="ERROR" additivity="false">
+        <appender-ref ref="STOUT"/>
+    </logger>
+
+    <!-- 根日志记录器：INFO级别  -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>

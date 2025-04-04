@@ -2,19 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" th:href="@{/css/semantic-ui.css}">
+    <script th:src="@{/js/semantic.min.js}"></script>
+    <script th:src="@{/js/jquery.min.js}"></script>
     <title>主页</title>
 </head>
 <body>
-<h1>666</h1>
-<button class="bg-red-500">555</button>
+<div class="ui container" style="margin-top: 20px;">
+    <h1 style="text-align: center">代码生成</h1>
 
-<form action="">
-    <label>
-        111:
-        <input class="border-2 border-solid" type="text">
-    </label>
+    <table class="ui celled padded table">
+        <thead>
+        <tr>
+            <th>数据库名称</th>
+            <th>表类型</th>
+            <th class="single line"> 表名</th>
+            <th>注释内容</th>
+        </tr>
+        </thead>
 
-</form>
+        <tbody>
+        <tr th:each="item : ${list}">
+            <td class="ui center aligned" th:text="${item.tableCat}"></td>
+            <td class="ui center aligned" th:text="${item.tableType}"></td>
+            <td class="ui center aligned">
+                <a class="ui blue label" th:href="@{'/preview/'+${item.tableName}}" th:text="${item.tableName}"></a>
+            </td>
+            <td class="single line center aligned ">
+                <a class="ui grey label" th:href="@{'/preview/'+${item.tableName}}" th:text="${item.comment}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

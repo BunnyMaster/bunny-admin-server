@@ -1,8 +1,8 @@
 package cn.bunny.utils;
 
 import cn.bunny.config.DatabaseMetadataHolder;
-import cn.bunny.entity.ColumnMetaData;
-import cn.bunny.entity.TableMetaData;
+import cn.bunny.dao.entity.ColumnMetaData;
+import cn.bunny.dao.entity.TableMetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,12 +10,48 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class DbInfoUtil {
     @Autowired
     private DatabaseMetadataHolder metadataHolder;
+
+    /**
+     * 获取表的所有主键列名
+     *
+     * @param tableName 表名
+     * @return 主键列名的集合
+     */
+    public Set<String> getPrimaryKeyColumns(String tableName) throws SQLException {
+        Set<String> primaryKeys = new HashSet<>();
+        DatabaseMetaData metaData = metadataHolder.getMetaData();
+
+        try (ResultSet pkResultSet = metaData.getPrimaryKeys(null, null, tableName)) {
+            while (pkResultSet.next()) {
+                primaryKeys.add(pkResultSet.getString("COLUMN_NAME" ).toLowerCase());
+            }
+        }
+
+        return primaryKeys;
+    }
+
+    public List<TableMetaData> getAllTableInfo() throws SQLException {
+        DatabaseMetaData metaData = metadataHolder.getMetaData();
+        ResultSet tables = metaData.getTables(null, null, "%" , new String[]{"TABLE"});
+
+        List<TableMetaData> list = new ArrayList<>();
+
+        while (tables.next()) {
+            String tableName = tables.getString("TABLE_NAME" );
+            TableMetaData tableMetaData = tableInfo(tableName);
+            list.add(tableMetaData);
+        }
+
+        return list;
+    }
 
     /**
      * 获取表注释信息
@@ -43,7 +79,7 @@ public class DbInfoUtil {
 
             tableMetaData = TableMetaData.builder()
                     .tableName(tableName)
-                    .remarks(remarks)
+                    .comment(remarks)
                     .tableCat(tableCat)
                     .tableSchem(tableSchem)
                     .tableType(tableType)
@@ -69,18 +105,25 @@ public class DbInfoUtil {
         DatabaseMetaData metaData = metadataHolder.getMetaData();
         List<ColumnMetaData> columns = new ArrayList<>();
 
+        Set<String> primaryKeyColumns = getPrimaryKeyColumns(tableName);
+
         try (ResultSet columnsRs = metaData.getColumns(null, null, tableName, null)) {
             while (columnsRs.next()) {
                 ColumnMetaData column = new ColumnMetaData();
-                column.setColumnName(columnsRs.getString("COLUMN_NAME" ));
+                String columnName = columnsRs.getString("COLUMN_NAME" );
+
+                column.setColumnName(columnName);
                 column.setFieldName(ConvertUtil.convertToFieldName(column.getColumnName()));
                 column.setJdbcType(columnsRs.getString("TYPE_NAME" ));
                 column.setJavaType(ConvertUtil.convertToJavaType(column.getJdbcType()));
                 column.setComment(columnsRs.getString("REMARKS" ));
+                column.setIsPrimaryKey(primaryKeyColumns.contains(columnName));
 
                 columns.add(column);
             }
         }
+
+        columns.get(0).setIsPrimaryKey(true);
 
         return columns;
     }

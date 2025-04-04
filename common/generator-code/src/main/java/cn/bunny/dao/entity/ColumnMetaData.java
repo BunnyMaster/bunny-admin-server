@@ -1,4 +1,4 @@
-package cn.bunny.entity;
+package cn.bunny.dao.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
