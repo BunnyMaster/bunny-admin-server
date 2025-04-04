@@ -1,0 +1,121 @@
+<script lang="ts" setup>
+    import {onMounted, ref} from 'vue';
+    import {deleteIds, onSearch} from '';
+    import {FormInstance} from "element-plus";
+
+    const tableRef = ref();
+    const formRef = ref();
+    const ${lowercaseName}Store = use${originalName}Store();
+
+    /** 当前页改变时 */
+    const onCurrentPageChange = async (value: number) => {
+            ${lowercaseName}Store.pagination.currentPage = value;
+        await onSearch();
+    };
+
+    /** 当分页发生变化 */
+    const onPageSizeChange = async (value: number) => {
+            ${lowercaseName}Store.pagination.pageSize = value;
+        await onSearch();
+    };
+
+    /** 选择多行 */
+    const onSelectionChange = (rows: Array<any>) => {
+        deleteIds.value = rows.map((row: any) => row.id);
+    };
+
+    /** 重置表单 */
+    const resetForm = async (formEl: FormInstance | undefined) => {
+        if (!formEl) return;
+        formEl.resetFields();
+        await onSearch();
+    };
+
+    onMounted(() => {
+        onSearch();
+    });
+</script>
+
+<template>
+    <div class="main">
+        <el-form ref="formRef" :inline="true" :model="${lowercaseName}Store.form" class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto">
+            #foreach($item in $formList)
+
+                <!-- $item.annotation -->
+                <el-form-item :label="$t('${item.name}')" prop="${item.name}">
+                    <el-input v-model="${lowercaseName}Store.form.${item.name}" :placeholder="`$leftBrace$t('input')}$leftBrace$t('${item.name}')}`"
+                              class="!w-[180px]" clearable/>
+                </el-form-item>
+            #end
+            <el-form-item>
+                <el-button :icon="useRenderIcon('ri:search-line')" :loading="${lowercaseName}Store.loading" type="primary" @click="onSearch"> {{ $t('search')
+                    }}
+                </el-button>
+                <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)"> {{ $t('buttons.reset') }}</el-button>
+            </el-form-item>
+        </el-form>
+
+        <PureTableBar :columns="columns" title="${classDescription}" @fullscreen="tableRef.setAdaptive()" @refresh="onSearch">
+            <template #buttons>
+                <el-button :icon="useRenderIcon(AddFill)" type="primary" @click="onAdd"> {{ $t('addNew') }}</el-button>
+
+                <!-- 批量删除按钮 -->
+                <el-button v-show="deleteIds.length > 0" :icon="useRenderIcon(Delete)" type="danger" @click="onDeleteBatch">
+                    {{ $t('delete_batches') }}
+                </el-button>
+            </template>
+
+            <template v-slot="{ size, dynamicColumns }">
+                <pure-table
+                        ref="tableRef"
+                        :adaptiveConfig="{ offsetBottom: 96 }"
+                        :columns="dynamicColumns"
+                        :data="${lowercaseName}Store.datalist"
+                        :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
+                        :loading="${lowercaseName}Store.loading"
+                        :size="size"
+                        adaptive
+                        align-whole="center"
+                        border
+                        highlight-current-row
+                        row-key="id"
+                        showOverflowTooltip
+                        table-layout="auto"
+                        :pagination="${lowercaseName}Store.pagination"
+                        @page-size-change="onPageSizeChange"
+                        @selection-change="onSelectionChange"
+                        @page-current-change="onCurrentPageChange"
+                >
+
+                    <template #createUser="{ row }">
+                        <el-button v-show="row.createUser" link type="primary" @click="selectUserinfo(row.createUser)">
+                            {{ row.createUsername }}
+                        </el-button>
+                    </template>
+
+                    <template #updateUser="{ row }">
+                        <el-button v-show="row.updateUser" link type="primary" @click="selectUserinfo(row.updateUser)">
+                            {{ row.updateUsername }}
+                        </el-button>
+                    </template>
+
+                    <template #operation="{ row }">
+                        <el-button :icon="useRenderIcon(EditPen)" :size="size" class="reset-margin" link type="primary" @click="onUpdate(row)"> {{ $t('modify')
+                            }}
+                        </el-button>
+                        <el-button :icon="useRenderIcon(AddFill)" :size="size" class="reset-margin" link type="primary" @click="onAdd"> {{ $t('addNew') }}
+                        </el-button>
+                        <!-- TODO 待完成 -->
+                        <el-popconfirm :title="`${leftBrace}$t('delete')}${row.email}?`" @confirm="onDelete(row)">
+                            <template #reference>
+                                <el-button :icon="useRenderIcon(Delete)" :size="size" class="reset-margin" link type="primary">
+                                    {{ $t('delete') }}
+                                </el-button>
+                            </template>
+                        </el-popconfirm>
+                    </template>
+                </pure-table>
+            </template>
+        </PureTableBar>
+    </div>
+</template>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.${originalName}Mapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="$type">
+        #foreach($field in $baseResultMaps)
+            <id column="$field.column" property="$field.property"/>
+        #end
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        $baseColumnList
+    </sql>
+
+    <!-- 分页查询${classTitle}内容 -->
+    <select id="selectListByPage" resultType="${voClassType}">
+        select
+        base.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from $tableName base
+        left join sys_user create_user on create_user.id = base.create_user
+        left join sys_user update_user on update_user.id = base.update_user
+        <where>
+            base.is_deleted = 0
+            #foreach($field in $pageQueryMap)
+                <if test="dto.${field.property} != null and dto.${field.property} != ''">
+                    and base.$field.column like CONCAT('%',#{dto.${field.property}},'%')
+                </if>
+            #end
+        </where>
+    </select>
+
+    <!-- 物理删除${classTitle} -->
+    <delete id="deleteBatchIdsWithPhysics">
+        delete
+        from $tableName
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,49 @@
+package cn.bunny.services.service;
+
+import cn.bunny.dao.entity.system.MenuIcon;
+import cn.bunny.dao.pojo.result.PageResult;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.validation.Valid;
+
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * <p>
+ * ${classTitle} 服务类
+ * </p>
+ *
+ * @author Bunny
+ * @since ${date}
+ */
+public interface ${originalName}Service extends IService<${originalName}> {
+
+    /**
+     * * 获取${classTitle}列表
+     *
+     * @return ${classTitle}返回列表
+     */
+    PageResult<${originalName}Vo> get${originalName}List(Page<${originalName}> pageParams, ${originalName}Dto dto);
+
+    /**
+     * * 添加${classTitle}
+     *
+     * @param dto 添加表单
+     */
+    void add${originalName}(@Valid ${originalName}AddDto dto);
+
+    /**
+     * * 更新${classTitle}
+     *
+     * @param dto 更新表单
+     */
+    void update${originalName}(@Valid ${originalName}UpdateDto dto);
+
+    /**
+     * * 删除|批量删除${classTitle}类型
+     *
+     * @param ids 删除id列表
+     */
+    void delete${originalName}(List<Long> ids);
+}

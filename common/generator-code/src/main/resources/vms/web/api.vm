@@ -1,0 +1,22 @@
+import { http } from '@/api/service/request';
+import type { BaseResult, ResultTable } from '@/api/service/types';
+
+/** ${classDescription}---获取${classDescription}列表 */
+export const fetchGet${originalName}List = (data: any) => {
+    return http.request<BaseResult<ResultTable>>('get', `${lowercaseName}/get${originalName}List/${data.currentPage}/${data.pageSize}`, { params: data });
+};
+
+/** ${classDescription}---添加${classDescription} */
+export const fetchAdd${originalName} = (data: any) => {
+    return http.request<BaseResult<object>>('post', '${lowercaseName}/add${originalName}', { data });
+};
+
+/** ${classDescription}---更新${classDescription} */
+export const fetchUpdate${originalName} = (data: any) => {
+    return http.request<BaseResult<object>>('put', '${lowercaseName}/update${originalName}', { data });
+};
+
+/** ${classDescription}---删除${classDescription} */
+export const fetchDelete${originalName} = (data: any) => {
+    return http.request<BaseResult<object>>('delete', '${lowercaseName}/delete${originalName}', { data });
+};
