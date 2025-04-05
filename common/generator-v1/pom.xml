@@ -7,7 +7,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>common-generator</artifactId>
+    <artifactId>generator-v1</artifactId>
     <packaging>jar</packaging>
 
     <name>common-utils</name>

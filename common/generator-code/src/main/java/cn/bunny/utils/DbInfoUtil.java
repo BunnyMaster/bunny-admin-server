@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Component
 public class DbInfoUtil {
-    
+
     @Autowired
     private DataSource dataSource;
 
@@ -35,7 +35,7 @@ public class DbInfoUtil {
             ResultSet pkResultSet = metaData.getPrimaryKeys(null, null, tableName);
 
             while (pkResultSet.next()) {
-                primaryKeys.add(pkResultSet.getString("COLUMN_NAME" ).toLowerCase());
+                primaryKeys.add(pkResultSet.getString("COLUMN_NAME").toLowerCase());
             }
 
             return primaryKeys;
@@ -45,12 +45,12 @@ public class DbInfoUtil {
     public List<TableMetaData> getAllTableInfo() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet tables = metaData.getTables(null, null, "%" , new String[]{"TABLE"});
+            ResultSet tables = metaData.getTables(null, null, "%", new String[]{"TABLE"});
 
             List<TableMetaData> list = new ArrayList<>();
 
             while (tables.next()) {
-                String tableName = tables.getString("TABLE_NAME" );
+                String tableName = tables.getString("TABLE_NAME");
                 TableMetaData tableMetaData = tableInfo(tableName);
                 list.add(tableMetaData);
             }
@@ -67,7 +67,7 @@ public class DbInfoUtil {
      * @throws SQLException SQLException
      */
     public TableMetaData tableInfo(String tableName) throws SQLException {
-        TableMetaData tableMetaData = null;
+        TableMetaData tableMetaData;
 
         try (Connection connection = dataSource.getConnection()) {
             DatabaseMetaData metaData = connection.getMetaData();
@@ -75,15 +75,15 @@ public class DbInfoUtil {
 
             // 获取表的注释信息
             if (tables.next()) {
-                String remarks = tables.getString("REMARKS" );
-                String tableCat = tables.getString("TABLE_CAT" );
-                String tableSchem = tables.getString("TABLE_SCHEM" );
-                String tableType = tables.getString("TABLE_TYPE" );
-                String typeCat = tables.getString("TYPE_CAT" );
-                String typeSchem = tables.getString("TYPE_SCHEM" );
-                String typeName = tables.getString("TYPE_NAME" );
-                String selfReferencingColName = tables.getString("SELF_REFERENCING_COL_NAME" );
-                String refGeneration = tables.getString("REF_GENERATION" );
+                String remarks = tables.getString("REMARKS");
+                String tableCat = tables.getString("TABLE_CAT");
+                String tableSchem = tables.getString("TABLE_SCHEM");
+                String tableType = tables.getString("TABLE_TYPE");
+                String typeCat = tables.getString("TYPE_CAT");
+                String typeSchem = tables.getString("TYPE_SCHEM");
+                String typeName = tables.getString("TYPE_NAME");
+                String selfReferencingColName = tables.getString("SELF_REFERENCING_COL_NAME");
+                String refGeneration = tables.getString("REF_GENERATION");
 
                 tableMetaData = TableMetaData.builder()
                         .tableName(tableName)
@@ -98,7 +98,7 @@ public class DbInfoUtil {
                         .refGeneration(refGeneration)
                         .build();
             } else {
-                throw new RuntimeException("数据表不存在" );
+                throw new RuntimeException("数据表不存在");
             }
 
             return tableMetaData;
@@ -122,13 +122,13 @@ public class DbInfoUtil {
             try (ResultSet columnsRs = metaData.getColumns(null, null, tableName, null)) {
                 while (columnsRs.next()) {
                     ColumnMetaData column = new ColumnMetaData();
-                    String columnName = columnsRs.getString("COLUMN_NAME" );
+                    String columnName = columnsRs.getString("COLUMN_NAME");
 
                     column.setColumnName(columnName);
                     column.setFieldName(ConvertUtil.convertToFieldName(column.getColumnName()));
-                    column.setJdbcType(columnsRs.getString("TYPE_NAME" ));
+                    column.setJdbcType(columnsRs.getString("TYPE_NAME"));
                     column.setJavaType(ConvertUtil.convertToJavaType(column.getJdbcType()));
-                    column.setComment(columnsRs.getString("REMARKS" ));
+                    column.setComment(columnsRs.getString("REMARKS"));
 
                     // 确保 primaryKeyColumns 不为空
                     if (!primaryKeyColumns.isEmpty()) {

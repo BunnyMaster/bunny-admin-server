@@ -13,7 +13,7 @@
     <url>https://maven.apache.org</url>
     <modules>
         <!-- <module>service-utils</module> -->
-        <module>common-generator</module>
+        <module>generator-v1</module>
     </modules>
 
     <dependencies>
