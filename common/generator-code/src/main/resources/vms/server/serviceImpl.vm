@@ -1,8 +1,8 @@
-package cn.bunny.services.service.impl;
+package ${package}.service.impl;
 
 import cn.bunny.dao.pojo.result.PageResult;
-import cn.bunny.services.mapper.${originalName}Mapper;
-import cn.bunny.services.service.${originalName}Service;
+import ${package}.mapper.${classUppercaseName}Mapper;
+import ${package}.service.${classUppercaseName}Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,66 +13,67 @@ import java.util.List;
 
 /**
  * <p>
- * ${classTitle} 服务实现类
+ * ${comment} 服务实现类
  * </p>
  *
  * @author Bunny
  * @since ${date}
  */
 @Service
-public class ${originalName}ServiceImpl extends ServiceImpl<${originalName}Mapper, ${originalName}> implements ${originalName}Service {
+public class ${classUppercaseName}ServiceImpl extends ServiceImpl<${classUppercaseName}Mapper, ${classUppercaseName}> implements ${classUppercaseName}Service {
 
     /**
-     * * ${classTitle} 服务实现类
+     * * ${comment} 服务实现类
      *
-     * @param pageParams ${classTitle}分页查询page对象
-     * @param dto        ${classTitle}分页查询对象
-     * @return 查询分页${classTitle}返回对象
+     * @param pageParams ${comment}分页查询page对象
+     * @param dto        ${comment}分页查询对象
+     * @return 查询分页${comment}返回对象
      */
     @Override
-    public PageResult<${originalName}Vo> get${originalName}List(Page<${originalName}> pageParams, ${originalName}Dto dto) {
-        IPage<${originalName}Vo> page = baseMapper.selectListByPage(pageParams, dto);
+    public PageResult<${classUppercaseName}Vo> get${classUppercaseName}List(Page<${classUppercaseName}> pageParams, ${classUppercaseName}Dto dto) {
+        IPage<${classUppercaseName}Vo> page = baseMapper.selectListByPage(pageParams, dto);
 
-        return PageResult.<${originalName}Vo>builder()
+        return PageResult.<${classUppercaseName}Vo>builder()
                 .list(page.getRecords())
                 .pageNo(page.getCurrent())
                 .pageSize(page.getSize())
                 .total(page.getTotal())
                 .build();
     }
+
     /**
-     * 添加${classTitle}
+     * 添加${comment}
      *
-     * @param dto ${classTitle}添加
+     * @param dto ${comment}添加
      */
     @Override
-    public void add${originalName}(@Valid ${originalName}AddDto dto) {
+    public void add${classUppercaseName}(@Valid ${classUppercaseName}AddDto dto) {
         // 保存数据
-        ${originalName} ${lowercaseName} = new ${originalName}();
-        BeanUtils.copyProperties(dto, ${lowercaseName});
-        save(${lowercaseName});
+        ${classUppercaseName} ${classLowercaseName} =new ${classUppercaseName}();
+        BeanUtils.copyProperties(dto, ${classLowercaseName});
+        save(${classLowercaseName});
     }
 
     /**
-     * 更新${classTitle}
+     * 更新${comment}
      *
-     * @param dto ${classTitle}更新
+     * @param dto ${comment}更新
      */
     @Override
-    public void update${originalName}(@Valid ${originalName}UpdateDto dto) {
+    public void update${classUppercaseName}(@Valid ${classUppercaseName}UpdateDto dto) {
         // 更新内容
-        ${originalName} ${lowercaseName} = new ${originalName}();
-        BeanUtils.copyProperties(dto, ${lowercaseName});
-        updateById(${lowercaseName});
+        ${classUppercaseName} ${classLowercaseName} =new ${classUppercaseName}();
+        BeanUtils.copyProperties(dto, ${classLowercaseName});
+        updateById(${classLowercaseName});
     }
 
     /**
-     * 删除|批量删除${classTitle}
+     * 删除|批量删除${comment}
      *
      * @param ids 删除id列表
      */
     @Override
-    public void delete${originalName}(List<Long> ids) {
+    public void delete${classUppercaseName}(List<Long> ids) {
         baseMapper.deleteBatchIdsWithPhysics(ids);
     }
 }

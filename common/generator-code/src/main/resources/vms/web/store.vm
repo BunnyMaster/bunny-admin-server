@@ -1,69 +1,69 @@
-import { defineStore } from 'pinia';
-import { fetchAdd${originalName}, fetchDelete${originalName}, fetchGet${originalName}List, fetchUpdate${originalName} } from '${apiPath}';
-import { pageSizes } from '@/enums/baseConstant';
-import { storeMessage } from '@/utils/message';
-import { storePagination } from '@/store/useStorePagination';
+import {defineStore} from 'pinia';
+import {fetchAdd${classUppercaseName}, fetchDelete${classUppercaseName}, fetchUpdate${classUppercaseName}} from '';
+import {pageSizes} from '@/enums/baseConstant';
+import {storeMessage} from '@/utils/message';
+import {storePagination} from '@/store/useStorePagination';
 
 /**
-* ${classTitle} Store
-*/
-export const use${originalName}Store = defineStore('${lowercaseName}Store', {
-state() {
-return {
-// ${classTitle}列表
-datalist: [],
-// 查询表单
-form: {
-#foreach($item in $formList)
-// $!{item.annotation}
-    $!{item.name}: undefined,
-#end
-},
-// 分页查询结果
-pagination: {
-currentPage: 1,
-pageSize: 30,
-total: 1,
-pageSizes,
-},
-// 加载
-loading: false,
-};
-},
-getters: {},
-actions: {
-/** 获取${classTitle} */
-async get${originalName}List() {
-// 整理请求参数
-const data = { ...this.pagination, ...this.form };
-delete data.pageSizes;
-delete data.total;
-delete data.background;
+ * ${comment} Store
+ */
+export const use${classUppercaseName}Store = defineStore('${lowercaseName}Store', {
+    state() {
+        return {
+            // ${comment}列表
+            datalist: [],
+            // 查询表单
+            form: {
+                #foreach($item in $columnInfoList)
+                    // $!{item.comment}
+                        $!{item.fieldName}: undefined,
+                #end
+            },
+            // 分页查询结果
+            pagination: {
+                currentPage: 1,
+                pageSize: 30,
+                total: 1,
+                pageSizes,
+            },
+            // 加载
+            loading: false,
+        };
+    },
+    getters: {},
+    actions: {
+        /** 获取${comment} */
+        async get${classUppercaseName}List() {
+            // 整理请求参数
+            const data = {...this.pagination, ...this.form};
+            delete data.pageSizes;
+            delete data.total;
+            delete data.background;
 
-// 获取${classTitle}列表
-const result = await fetchGet${originalName}List(data);
+            // 获取${comment}列表
+            const result = await fetchGet${classUppercaseName}List(data);
 
-// 公共页面函数hook
-const pagination = storePagination.bind(this);
-return pagination(result);
-},
+            // 公共页面函数hook
+            const pagination = storePagination.bind(this);
+            return pagination(result);
+        },
 
-/** 添加${classTitle} */
-async add${originalName}(data: any) {
-const result = await fetchAdd${originalName}(data);
-return storeMessage(result);
-},
+        /** 添加${comment} */
+        async add${classUppercaseName}(data: any) {
+            const result = await fetchAdd${classUppercaseName}(data);
+            return storeMessage(result);
+        },
 
-/** 修改${classTitle} */
-async update${originalName}(data: any) {
-const result = await fetchUpdate${originalName}(data);
-return storeMessage(result);
-},
+        /** 修改${comment} */
+        async update${classUppercaseName}(data: any) {
+            const result = await fetchUpdate${classUppercaseName}(data);
+            return storeMessage(result);
+        },
 
-/** 删除${classTitle} */
-async delete${originalName}(data: any) {
-const result = await fetchDelete${originalName}(data);
-return storeMessage(result);
-},
-},
+        /** 删除${comment} */
+        async delete${classUppercaseName}(data: any) {
+            const result = await fetchDelete${classUppercaseName}(data);
+            return storeMessage(result);
+        },
+    },
 });

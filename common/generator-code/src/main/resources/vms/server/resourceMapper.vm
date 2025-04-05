@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.bunny.services.mapper.${originalName}Mapper">
+<mapper namespace="${package}.mapper.${classUppercaseName}Mapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="$type">
-        #foreach($field in $baseResultMaps)
-            <id column="$field.column" property="$field.property"/>
+    <resultMap id="BaseResultMap" type="${classUppercaseName}">
+        #foreach($field in ${columnInfoList})
+            <id column="${field.column}" property="${field.fieldName}"/>
         #end
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        $baseColumnList
+        ${baseColumnList}
     </sql>
 
-    <!-- 分页查询${classTitle}内容 -->
+    <!-- 分页查询${comment}内容 -->
     <select id="selectListByPage" resultType="${voClassType}">
         select
         base.*,
@@ -25,18 +25,17 @@
         left join sys_user update_user on update_user.id = base.update_user
         <where>
             base.is_deleted = 0
-            #foreach($field in $pageQueryMap)
-                <if test="dto.${field.property} != null and dto.${field.property} != ''">
-                    and base.$field.column like CONCAT('%',#{dto.${field.property}},'%')
+            #foreach($field in $columnInfoList)
+                <if test="dto.${field.fieldName} != null and dto.${field.fieldName} != ''">
+                    and base.${field.columnName} like CONCAT('%',#{dto.${field.fieldName}},'%')
                 </if>
             #end
         </where>
     </select>
 
-    <!-- 物理删除${classTitle} -->
+    <!-- 物理删除${comment} -->
     <delete id="deleteBatchIdsWithPhysics">
-        delete
-        from $tableName
+        delete from ${tableName}
         where id in
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}

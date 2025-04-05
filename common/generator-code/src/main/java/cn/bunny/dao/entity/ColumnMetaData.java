@@ -23,6 +23,9 @@ public class ColumnMetaData {
     /* Java类型 */
     private String javaType;
 
+    /* Javascript类型 */
+    private String javascriptType;
+
     /* 是否为主键 */
     private Boolean isPrimaryKey;
 

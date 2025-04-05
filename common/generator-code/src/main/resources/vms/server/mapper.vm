@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * <p>
- * ${tableName} Mapper 接口
+ * ${comment} Mapper 接口
  * </p>
  *
  * @author ${author}
@@ -19,16 +19,16 @@ import java.util.List;
 public interface ${classUppercaseName}Mapper extends BaseMapper<${classUppercaseName}> {
 
     /**
-     * * 分页查询${tableName}内容
+     * * 分页查询${comment}内容
      *
-     * @param pageParams ${tableName}分页参数
-     * @param dto        ${tableName}查询表单
-     * @return ${tableName}分页结果
+     * @param pageParams ${comment}分页参数
+     * @param dto        ${comment}查询表单
+     * @return ${comment}分页结果
      */
-    IPage<${classUppercaseName}Vo> selectListByPage(@Param("page") Page<${classUppercaseName}> pageParams, @Param("dto") ${classUppercaseName}Dto dto);
+    IPage<${classUppercaseName}Vo> selectListByPage(@Param("page" ) Page<${classUppercaseName}> pageParams, @Param("dto" ) ${classUppercaseName}Dto dto);
 
     /**
-     * 物理删除${tableName}
+     * 物理删除${comment}
      *
      * @param ids 删除 id 列表
      */

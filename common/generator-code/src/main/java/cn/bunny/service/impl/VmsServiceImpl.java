@@ -30,30 +30,41 @@ public class VmsServiceImpl implements VmsService {
      */
     @Override
     public List<GeneratorVo> generator(VmsArgumentDto dto) {
+        String tableName = dto.getTableName();
+
         return dto.getPath().stream().map(path -> {
             StringWriter writer = new StringWriter();
 
-            String vmsPath = "vms/" + path + ".vm";
-            String tableName = dto.getTableName();
-
+            // 表格属性名 和 列信息
             TableInfoVo tableMetaData = tableService.getTableMetaData(tableName);
-            List<ColumnMetaData> columnInfo = tableService.getColumnInfo(tableName);
+            List<ColumnMetaData> columnInfoList = tableService.getColumnInfo(tableName);
+            List<String> list = columnInfoList.stream().map(ColumnMetaData::getColumnName).toList();
 
-
+            // 添加要生成的属性
             VelocityContext context = new VelocityContext();
-            context.put("tableName", tableMetaData.getComment());
-            context.put("package", dto.getPackageName());
-            context.put("columnInfo", columnInfo);
 
-            // VmsUtil.commonVms(writer, context, "vms/server/controller.vm", dto);
-            VmsUtil.commonVms(writer, context, vmsPath, dto);
-            String code = writer.toString();
+            // 当前的表名
+            context.put("tableName", tableMetaData.getTableName());
+
+            // 表字段的注释内容
+            context.put("comment", tableMetaData.getComment());
+
+            // 设置包名称
+            context.put("package", dto.getPackageName());
+
+            // 当前表的列信息
+            context.put("columnInfoList", columnInfoList);
+
+            // 数据库sql列
+            context.put("baseColumnList", String.join(",", list));
+
+            VmsUtil.commonVms(writer, context, "vms/" + path + ".vm", dto);
 
             return GeneratorVo.builder()
-                    .code(code)
+                    .code(writer.toString())
                     .comment(tableMetaData.getComment())
                     .tableName(tableMetaData.getTableName())
-                    .path(vmsPath)
+                    .path(path)
                     .build();
         }).toList();
     }

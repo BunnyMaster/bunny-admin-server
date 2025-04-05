@@ -15,13 +15,13 @@ import java.util.List;
 
 /**
  * <p>
- * ${tableName}表 前端控制器
+ * ${comment}表 前端控制器
  * </p>
  *
  * @author ${author}
  * @since ${date}
  */
-@Tag(name = "${tableName}" , description = "${tableName}相关接口" )
+@Tag(name = "${comment}", description = "${comment}相关接口" )
 @RestController
 @RequestMapping("${requestMapping}/${classLowercaseName}" )
 public class ${classUppercaseName}Controller {
@@ -29,37 +29,37 @@ public class ${classUppercaseName}Controller {
     @Autowired
     private ${classUppercaseName}Service ${classLowercaseName}Service;
 
-    @Operation(summary = "分页查询${tableName}" , description = "分页查询${tableName}" )
+    @Operation(summary = "分页查询${comment}", description = "分页查询${comment}" )
     @GetMapping("get${classUppercaseName}List/{page}/{limit}" )
     public Result<PageResult<${classUppercaseName}Vo>> get${classUppercaseName}List(
-            @Parameter(name = "page" , description = "当前页" , required = true)
+            @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page" ) Integer page,
-            @Parameter(name = "limit" , description = "每页记录数" , required = true)
+            @Parameter(name = "limit", description = "每页记录数", required = true)
             @PathVariable("limit" ) Integer limit,
             ${classUppercaseName}Dto dto) {
         Page<${classUppercaseName}> pageParams = new Page<>(page, limit);
         PageResult<${classUppercaseName}Vo> pageResult = ${classLowercaseName}Service.get${classUppercaseName}List(pageParams, dto);
-        return Mono.just(Result.success(pageResult));
+        return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加${tableName}" , description = "添加${tableName}" )
+    @Operation(summary = "添加${comment}", description = "添加${comment}" )
     @PostMapping("add${classUppercaseName}" )
     public Result<String> add${classUppercaseName}(@Valid @RequestBody ${classUppercaseName}AddDto dto) {
             ${classLowercaseName}Service.add${classUppercaseName}(dto);
-        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+        return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新${tableName}" , description = "更新${tableName}" )
+    @Operation(summary = "更新${comment}", description = "更新${comment}" )
     @PutMapping("update${classUppercaseName}" )
     public Result<String> update${classUppercaseName}(@Valid @RequestBody ${classUppercaseName}UpdateDto dto) {
             ${classLowercaseName}Service.update${classUppercaseName}(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除${tableName}" , description = "删除${tableName}" )
+    @Operation(summary = "删除${comment}", description = "删除${comment}" )
     @DeleteMapping("delete${classUppercaseName}" )
     public Result<String> delete${classUppercaseName}(@RequestBody List<Long> ids) {
             ${classLowercaseName}Service.delete${classUppercaseName}(ids);
-        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
+        return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 }

@@ -30,11 +30,12 @@ public class VmsUtil {
         }
 
         String date = new SimpleDateFormat(dto.getSimpleDateFormat()).format(new Date());
-        context.put("date" , date);
-        context.put("author" , author);
-        context.put("requestMapping" , requestMapping);
-        context.put("classLowercaseName" , ConvertUtil.convertToCamelCase(replaceTableName.get()));
-        context.put("classUppercaseName" , ConvertUtil.convertToCamelCase(replaceTableName.get(), true));
+        context.put("leftBrace", "{" );
+        context.put("date", date);
+        context.put("author", author);
+        context.put("requestMapping", requestMapping);
+        context.put("classLowercaseName", ConvertUtil.convertToCamelCase(replaceTableName.get()));
+        context.put("classUppercaseName", ConvertUtil.convertToCamelCase(replaceTableName.get(), true));
 
         Template servicePathTemplate = Velocity.getTemplate(templateName, "UTF-8" );
         servicePathTemplate.merge(context, writer);
