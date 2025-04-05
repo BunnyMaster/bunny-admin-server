@@ -38,9 +38,7 @@ public class ConvertUtil {
      * @param firstLetterCapital 首字母是否大写
      */
     public static String convertToCamelCase(String name, boolean firstLetterCapital) {
-        if (name == null || name.isEmpty()) {
-            return name;
-        }
+        if (name == null || name.isEmpty()) return name;
 
         StringBuilder result = new StringBuilder();
         String[] parts = name.split("_" );

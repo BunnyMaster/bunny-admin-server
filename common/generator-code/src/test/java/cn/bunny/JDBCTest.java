@@ -1,7 +1,6 @@
 package cn.bunny;
 
 
-import cn.bunny.config.DatabaseMetadataHolder;
 import cn.bunny.dao.entity.ColumnMetaData;
 import cn.bunny.dao.entity.TableMetaData;
 import cn.bunny.utils.ConvertUtil;
@@ -10,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,13 +21,15 @@ import java.util.List;
 public class JDBCTest {
 
     DatabaseMetaData metaData;
-
+    
     @Autowired
-    private DatabaseMetadataHolder metadataHolder;
+    private DataSource dataSource;
 
     @BeforeEach
     public void setUp() throws Exception {
-        metaData = metadataHolder.getMetaData();
+        try (Connection connection = dataSource.getConnection()) {
+            metaData = connection.getMetaData();
+        }
     }
 
     @Test

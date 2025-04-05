@@ -1,39 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/semantic-ui.css}">
-    <script th:src="@{/js/semantic.min.js}"></script>
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <title>主页</title>
+    <meta charset="UTF-8"/>
+    <link href="/favicon.ico" rel="icon" type="image/svg+xml"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>代码生成器</title>
+  <script type="module" crossorigin src="/static/js/index-CzX1Gtq9.js"></script>
+  <link rel="modulepreload" crossorigin href="/static/js/vendor-B_wa1CoW.js">
+  <link rel="stylesheet" crossorigin href="/static/css/vendor-D-laMJ-n.css">
+  <link rel="stylesheet" crossorigin href="/static/css/index-BbMOaAOF.css">
 </head>
 <body>
-<div class="ui container" style="margin-top: 20px;">
-    <h1 style="text-align: center">代码生成</h1>
-
-    <table class="ui celled padded table">
-        <thead>
-        <tr>
-            <th>数据库名称</th>
-            <th>表类型</th>
-            <th class="single line"> 表名</th>
-            <th>注释内容</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each="item : ${list}">
-            <td class="ui center aligned" th:text="${item.tableCat}"></td>
-            <td class="ui center aligned" th:text="${item.tableType}"></td>
-            <td class="ui center aligned">
-                <a class="ui blue label" th:href="@{'/preview/'+${item.tableName}}" th:text="${item.tableName}"></a>
-            </td>
-            <td class="single line center aligned ">
-                <a class="ui grey label" th:href="@{'/preview/'+${item.tableName}}" th:text="${item.comment}"></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<div id="app"></div>
 </body>
 </html>
