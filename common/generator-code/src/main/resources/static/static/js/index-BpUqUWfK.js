@@ -1,0 +1,1 @@
+import{g as a,A as e,q as s,c as r,o as t}from"./vendor-BkJtItE3.js";const o=a({__name:"index",setup(a){const o=e(),p=s(),{params:n,query:u}=o,{path:c}=n;return p.replace({path:"/"+c,query:u}),(a,e)=>(t(),r("div"))}});export{o as default};
