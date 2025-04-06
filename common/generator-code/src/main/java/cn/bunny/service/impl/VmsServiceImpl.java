@@ -4,14 +4,19 @@ import cn.bunny.dao.dto.VmsArgumentDto;
 import cn.bunny.dao.entity.ColumnMetaData;
 import cn.bunny.dao.vo.GeneratorVo;
 import cn.bunny.dao.vo.TableInfoVo;
+import cn.bunny.dao.vo.VmsPathVo;
 import cn.bunny.service.TableService;
 import cn.bunny.service.VmsService;
+import cn.bunny.utils.ResourceFileUtil;
 import cn.bunny.utils.VmsUtil;
+import lombok.SneakyThrows;
 import org.apache.velocity.VelocityContext;
 import org.springframework.stereotype.Service;
 
 import java.io.StringWriter;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -58,7 +63,7 @@ public class VmsServiceImpl implements VmsService {
             // 数据库sql列
             context.put("baseColumnList", String.join(",", list));
 
-            VmsUtil.commonVms(writer, context, "vms/" + path + ".vm", dto);
+            VmsUtil.commonVms(writer, context, "vms/" + path, dto);
 
             return GeneratorVo.builder()
                     .code(writer.toString())
@@ -67,5 +72,25 @@ public class VmsServiceImpl implements VmsService {
                     .path(path)
                     .build();
         }).toList();
+    }
+
+    /**
+     * 获取vms文件路径
+     *
+     * @return vms下的文件路径
+     */
+    @SneakyThrows
+    @Override
+    public Map<String, List<VmsPathVo>> getVmsPathList() {
+        List<String> vmsRelativeFiles;
+
+        vmsRelativeFiles = ResourceFileUtil.getRelativeFiles("vms");
+
+        return vmsRelativeFiles.stream().map(vmFile -> {
+            String[] filepathList = vmFile.split("/");
+            String filename = filepathList[filepathList.length - 1].replace(".vm", "");
+
+            return VmsPathVo.builder().name(vmFile).label(filename).type(filepathList[0]).build();
+        }).collect(Collectors.groupingBy(VmsPathVo::getType));
     }
 }
