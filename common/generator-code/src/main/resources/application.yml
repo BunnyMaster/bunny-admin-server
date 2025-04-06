@@ -10,22 +10,8 @@ spring:
     check-template-location: false
 
   datasource:
-    dynamic:
-      primary: master #设置默认的数据源或者数据源组,默认值即为master
-      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
-      grace-destroy: false #是否优雅关闭数据源，默认为false，设置为true时，关闭数据源时如果数据源中还存在活跃连接，至多等待10s后强制关闭
-      datasource:
-        master:
-          type: com.zaxxer.hikari.HikariDataSource
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://${bunny.master.host}:${bunny.master.port}/${bunny.master.database}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
-          username: ${bunny.master.username}
-          password: ${bunny.master.password}
-        connect:
-          type: com.zaxxer.hikari.HikariDataSource
-          driver-class-name: org.sqlite.JDBC
-          url: ${bunny.connect.url}
-          username: ${bunny.connect.username}
-          password: ${bunny.connect.password}
-      aop:
-        enabled: true
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${bunny.master.host}:${bunny.master.port}/${bunny.master.database}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+    username: ${bunny.master.username}
+    password: ${bunny.master.password}
