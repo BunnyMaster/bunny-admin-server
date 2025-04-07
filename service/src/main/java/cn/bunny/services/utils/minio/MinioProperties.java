@@ -1,6 +1,9 @@
 package cn.bunny.services.utils.minio;
 
+import io.minio.BucketExistsArgs;
+import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
+import io.minio.SetBucketPolicyArgs;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -24,6 +27,30 @@ public class MinioProperties {
 
     @Bean
     public MinioClient minioClient() {
-        return MinioClient.builder().endpoint(endpointUrl).credentials(accessKey, secretKey).build();
+        MinioClient minioClient = MinioClient.builder().endpoint(endpointUrl).credentials(accessKey, secretKey).build();
+
+        try {
+            boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+            if (!found) {
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+                String publicPolicy = String.format("{\n" +
+                        "  \"Version\": \"2012-10-17\",\n" +
+                        "  \"Statement\": [\n" +
+                        "    {\n" +
+                        "      \"Effect\": \"Allow\",\n" +
+                        "      \"Principal\": \"*\",\n" +
+                        "      \"Action\": [\"s3:GetObject\"],\n" +
+                        "      \"Resource\": [\"arn:aws:s3:::%s/*\"]\n" +
+                        "    }\n" +
+                        "  ]\n" +
+                        "}", bucketName);
+
+                minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(publicPolicy).build());
+            }
+        } catch (Exception exception) {
+            exception.getStackTrace();
+        }
+
+        return minioClient;
     }
 }

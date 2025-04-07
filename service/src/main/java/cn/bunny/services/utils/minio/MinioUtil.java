@@ -175,4 +175,40 @@ public class MinioUtil {
             throw new AuthCustomerException(e.getMessage());
         }
     }
+
+    /**
+     * 判断桶是否存在
+     *
+     * @param bucketName 桶名称
+     * @return 布尔值，是否存在
+     */
+    public boolean createBucketIfNotExists(String bucketName) {
+        boolean found = false;
+        try {
+            found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+
+            // 如果 bucket 不存在就创建
+            if (!found) makeBucket(bucketName);
+
+            return found;
+        } catch (Exception exception) {
+            log.error("判断桶是否存在 ------ 失败消息:{}", exception.getLocalizedMessage());
+            exception.getStackTrace();
+        }
+        throw new AuthCustomerException("未初始化 bucket");
+    }
+
+    /**
+     * 创建桶
+     *
+     * @param bucketName 桶的名称
+     */
+    public void makeBucket(String bucketName) {
+        try {
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+        } catch (Exception exception) {
+            exception.getStackTrace();
+            throw new AuthCustomerException("创建失败");
+        }
+    }
 }
