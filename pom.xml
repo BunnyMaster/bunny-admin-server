@@ -19,7 +19,6 @@
         <module>common</module>
         <module>dao</module>
         <module>service</module>
-        <module>common/generator-code</module>
     </modules>
 
     <properties>
