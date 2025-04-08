@@ -8,6 +8,30 @@
 
 **Pure-admin文档**：https://pure-admin.github.io/pure-admin-doc
 
+## 视频和地址
+
+**介绍视频视频**
+
+[环境搭建](https://www.bilibili.com/video/BV17odHY6E3S/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
+[运行项目](https://www.bilibili.com/video/BV1qodHYzErA/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
+[前端部署](https://www.bilibili.com/video/BV1BddHYgEPq/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
+[后端部署](https://www.bilibili.com/video/BV1BddHYgEFt/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
+[Bunny v0.0.1 代码生成器](https://www.bilibili.com/video/BV1qddHYgErv/?spm_id_from=333.1387.homepage.video_card.click)
+
+**Github地址**
+
+- 权限后端：https://github.com/BunnyMaster/bunny-admin-server
+- 权限前端：https://github.com/BunnyMaster/bunny-admin-web
+- 代码生成器前端：https://github.com/BunnyMaster/generator-code-web
+- 代码生成器后端：https://github.com/BunnyMaster/generator-code-server
+
+**`Gitee`地址**
+
+- 权限后端：https://gitee.com/BunnyBoss/bunny-admin-server
+- 权限前端：https://gitee.com/BunnyBoss/bunny-admin-web
+- 代码生成器前端：https://gitee.com/BunnyBoss/generator-code-web
+- 代码生成器后端：https://gitee.com/BunnyBoss/generator-code-server
+
 # 项目预览
 
 **线上地址**
@@ -23,20 +47,6 @@
 > Edge方式如下：
 >
 > ![image-20250108225915189](http://129.211.31.58:9000/docs/image-20250108225915189.png)
-
-**打包视频**
-
-https://www.bilibili.com/video/BV1AYm8YSEKY/
-
-**Github地址**
-
-- [前端地址](https://github.com/BunnyMaster/bunny-admin-web.git)
-- [后端地址](https://github.com/BunnyMaster/bunny-admin-server)
-
-**`Gitee`地址**
-
-- [前端地址](https://gitee.com/BunnyBoss/bunny-admin-web)
-- [后端地址](https://gitee.com/BunnyBoss/bunny-admin-server)
 
 ## 环境搭建
 
@@ -106,7 +116,7 @@ exit
 > ```json
 > # 创建目录
 > sudo mkdir -p /etc/docker
-> 
+>
 > # 写入配置文件
 > sudo tee /etc/docker/daemon.json <<-'EOF'
 > {
@@ -117,7 +127,7 @@ exit
 >     ]
 > }
 > EOF
-> 
+>
 > # 重启docker服务
 > sudo systemctl daemon-reload && sudo systemctl restart docker
 > ```
@@ -342,8 +352,8 @@ swagger接口地址：http://localhost:7070/swagger-ui/index.html
 
 3. 可以点击已读和全部进行筛选消息
 
-3. 可以根据标题进行搜搜
-4. 包含分页
+4. 可以根据标题进行搜搜
+5. 包含分页
 
 #### 实现思路
 
