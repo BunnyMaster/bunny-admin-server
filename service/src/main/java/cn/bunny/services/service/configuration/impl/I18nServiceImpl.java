@@ -12,23 +12,31 @@ import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nMapper;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nService;
+import cn.bunny.services.utils.system.I18nUtil;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * <p>
@@ -42,8 +50,11 @@ import java.util.stream.Collectors;
 @Transactional
 public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I18nService {
 
-    @Autowired
-    private I18nTypeMapper i18nTypeMapper;
+    private final I18nTypeMapper i18nTypeMapper;
+
+    public I18nServiceImpl(I18nTypeMapper i18nTypeMapper) {
+        this.i18nTypeMapper = i18nTypeMapper;
+    }
 
     /**
      * * 获取多语言内容
@@ -57,17 +68,12 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
         I18nType i18nType = i18nTypeMapper.selectOne(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getIsDefault, true));
         List<I18n> i18nList = list();
 
-        // 整理集合
-        Map<String, Map<String, String>> map = i18nList.stream()
-                .collect(Collectors.groupingBy(
-                        I18n::getTypeName,
-                        Collectors.toMap(I18n::getKeyName, I18n::getTranslation)));
-
-        // 返回集合
-        HashMap<String, Object> hashMap = new HashMap<>(map);
+        HashMap<String, Object> hashMap = I18nUtil.getMap(i18nList);
         hashMap.put("local", Objects.requireNonNull(i18nType.getTypeName(), "zh"));
+
         return hashMap;
     }
+
 
     /**
      * * 获取管理多语言列表
@@ -139,5 +145,48 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         baseMapper.deleteBatchIdsWithPhysics(ids);
+    }
+
+    /**
+     * 下载多语言配置
+     *
+     * @return 文件内容
+     */
+    @Override
+    public ResponseEntity<byte[]> downloadI18n() {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+        // 查找默认语言内容
+        List<I18n> i18nList = list();
+        HashMap<String, Object> hashMap = I18nUtil.getMap(i18nList);
+
+        hashMap.forEach((k, v) -> {
+            try {
+                ZipEntry zipEntry = new ZipEntry(k + ".json");
+                zipOutputStream.putNextEntry(zipEntry);
+
+                zipOutputStream.write(JSON.toJSONString(v).getBytes(StandardCharsets.UTF_8));
+                zipOutputStream.closeEntry();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        try {
+            zipOutputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 设置响应头
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=i18n.zip");
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);
     }
 }

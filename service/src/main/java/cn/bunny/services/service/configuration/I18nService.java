@@ -9,6 +9,7 @@ import cn.bunny.dao.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,4 +58,11 @@ public interface I18nService extends IService<I18n> {
      * @param ids 删除id列表
      */
     void deleteI18n(List<Long> ids);
+
+    /**
+     * 下载多语言配置
+     *
+     * @return 文件内容
+     */
+    ResponseEntity<byte[]> downloadI18n();
 }

@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -34,29 +33,29 @@ public class I18nTypeController {
 
     @Operation(summary = "获取多语言类型", description = "获取多语言类型")
     @GetMapping("/noAuth/getI18nTypeList")
-    public Mono<Result<List<I18nTypeVo>>> getI18nTypeList(I18nTypeDto dto) {
+    public Result<List<I18nTypeVo>> getI18nTypeList(I18nTypeDto dto) {
         List<I18nTypeVo> voList = i18nTypeService.getI18nTypeList(dto);
-        return Mono.just(Result.success(voList));
+        return Result.success(voList);
     }
 
     @Operation(summary = "添加多语言类型", description = "添加多语言类型")
     @PostMapping("addI18nType")
-    public Mono<Result<String>> addI18nType(@Valid @RequestBody I18nTypeAddDto dto) {
+    public Result<Object> addI18nType(@Valid @RequestBody I18nTypeAddDto dto) {
         i18nTypeService.addI18nType(dto);
-        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+        return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @Operation(summary = "更新多语言类型", description = "更新多语言类型")
     @PutMapping("updateI18nType")
-    public Mono<Result<String>> updateI18nType(@Valid @RequestBody I18nTypeUpdateDto dto) {
+    public Result<Object> updateI18nType(@Valid @RequestBody I18nTypeUpdateDto dto) {
         i18nTypeService.updateI18nType(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @Operation(summary = "删除多语言类型", description = "删除多语言类型")
     @DeleteMapping("deleteI18nType")
-    public Mono<Result<String>> deleteI18nType(@RequestBody List<Long> ids) {
+    public Result<Object> deleteI18nType(@RequestBody List<Long> ids) {
         i18nTypeService.deleteI18nType(ids);
-        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
+        return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 }

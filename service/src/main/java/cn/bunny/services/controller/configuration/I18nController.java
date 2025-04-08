@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -46,7 +47,7 @@ public class I18nController {
 
     @Operation(summary = "获取管理多语言列", description = "获取管理多语言列")
     @GetMapping("getI18nList/{page}/{limit}")
-    public Mono<Result<PageResult<I18nVo>>> getI18nList(
+    public Result<PageResult<I18nVo>> getI18nList(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,
             @Parameter(name = "limit", description = "每页记录数", required = true)
@@ -54,27 +55,33 @@ public class I18nController {
             I18nDto dto) {
         Page<I18n> pageParams = new Page<>(page, limit);
         PageResult<I18nVo> vo = i18nService.getI18nList(pageParams, dto);
-        return Mono.just(Result.success(vo));
+        return Result.success(vo);
+    }
+
+    @Operation(summary = "下载多语言配置", description = "下载多语言配置")
+    @GetMapping("downloadI18n")
+    public ResponseEntity<byte[]> downloadI18n() {
+        return i18nService.downloadI18n();
     }
 
     @Operation(summary = "添加多语言", description = "添加多语言")
     @PostMapping("addI18n")
-    public Mono<Result<String>> addI18n(@Valid @RequestBody I18nAddDto dto) {
+    public Result<Object> addI18n(@Valid @RequestBody I18nAddDto dto) {
         i18nService.addI18n(dto);
-        return Mono.just(Result.success(ResultCodeEnum.ADD_SUCCESS));
+        return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @Operation(summary = "更新多语言", description = "更新多语言")
     @PutMapping("updateI18n")
-    public Mono<Result<String>> updateI18n(@Valid @RequestBody I18nUpdateDto dto) {
+    public Result<Object> updateI18n(@Valid @RequestBody I18nUpdateDto dto) {
         i18nService.updateI18n(dto);
-        return Mono.just(Result.success(ResultCodeEnum.UPDATE_SUCCESS));
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @Operation(summary = "删除多语言", description = "删除多语言")
     @DeleteMapping("deleteI18n")
-    public Mono<Result<String>> deleteI18n(@RequestBody List<Long> ids) {
+    public Result<Object> deleteI18n(@RequestBody List<Long> ids) {
         i18nService.deleteI18n(ids);
-        return Mono.just(Result.success(ResultCodeEnum.DELETE_SUCCESS));
+        return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 }
