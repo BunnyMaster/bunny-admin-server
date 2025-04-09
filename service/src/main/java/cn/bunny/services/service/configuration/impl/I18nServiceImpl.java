@@ -155,26 +155,23 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
     @Override
     public ResponseEntity<byte[]> downloadI18n() {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
 
-        // 查找默认语言内容
-        List<I18n> i18nList = list();
-        HashMap<String, Object> hashMap = I18nUtil.getMap(i18nList);
+            // 查找默认语言内容
+            List<I18n> i18nList = list();
+            HashMap<String, Object> hashMap = I18nUtil.getMap(i18nList);
 
-        hashMap.forEach((k, v) -> {
-            try {
-                ZipEntry zipEntry = new ZipEntry(k + ".json");
-                zipOutputStream.putNextEntry(zipEntry);
+            hashMap.forEach((k, v) -> {
+                try {
+                    ZipEntry zipEntry = new ZipEntry(k + ".json");
+                    zipOutputStream.putNextEntry(zipEntry);
 
-                zipOutputStream.write(JSON.toJSONString(v).getBytes(StandardCharsets.UTF_8));
-                zipOutputStream.closeEntry();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        try {
-            zipOutputStream.close();
+                    zipOutputStream.write(JSON.toJSONString(v).getBytes(StandardCharsets.UTF_8));
+                    zipOutputStream.closeEntry();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

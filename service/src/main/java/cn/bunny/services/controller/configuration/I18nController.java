@@ -17,7 +17,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -40,9 +39,9 @@ public class I18nController {
 
     @Operation(summary = "获取多语言内容", description = "获取多语言内容")
     @GetMapping("getI18n")
-    public Mono<Result<Map<String, Object>>> getI18n() {
+    public Result<Map<String, Object>> getI18n() {
         Map<String, Object> vo = i18nService.getI18n();
-        return Mono.just(Result.success(vo));
+        return Result.success(vo);
     }
 
     @Operation(summary = "获取管理多语言列", description = "获取管理多语言列")
