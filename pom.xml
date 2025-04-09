@@ -16,7 +16,7 @@
     <description>bunny-template</description>
 
     <modules>
-        <module>common</module>
+        <module>generator-code</module>
         <module>dao</module>
         <module>service</module>
     </modules>
