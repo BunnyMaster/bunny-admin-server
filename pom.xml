@@ -5,15 +5,15 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.3</version>
+        <version>3.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.bunny</groupId>
-    <artifactId>auth-server-java</artifactId>
+    <artifactId>auth-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>bunny-template</name>
-    <description>bunny-template</description>
+    <name>auth-admin</name>
+    <description>auth-admin</description>
 
     <modules>
         <module>generator-code</module>
