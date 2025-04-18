@@ -1,0 +1,18 @@
+server:
+  port: 8800
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: generator-code
+  thymeleaf:
+    check-template-location: false
+    prefix: classpath:/static/
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${bunny.master.host}:${bunny.master.port}/${bunny.master.database}?serverTimezone=GMT%2B8&useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+    username: ${bunny.master.username}
+    password: ${bunny.master.password}

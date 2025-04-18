@@ -1,0 +1,78 @@
+package cn.bunny.services.controller.message;
+
+import cn.bunny.domain.message.dto.MessageTypeAddDto;
+import cn.bunny.domain.message.dto.MessageTypeDto;
+import cn.bunny.domain.message.dto.MessageTypeUpdateDto;
+import cn.bunny.domain.message.entity.MessageType;
+import cn.bunny.domain.message.vo.MessageTypeVo;
+import cn.bunny.domain.vo.result.PageResult;
+import cn.bunny.domain.vo.result.Result;
+import cn.bunny.domain.vo.result.ResultCodeEnum;
+import cn.bunny.services.service.message.MessageTypeService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * <p>
+ * 系统消息类型表 前端控制器
+ * </p>
+ *
+ * @author Bunny
+ * @since 2024-10-30 13:19:33
+ */
+@Tag(name = "系统消息类型", description = "系统消息类型相关接口")
+@RestController
+@RequestMapping("api/messageType")
+public class MessageTypeController {
+
+    @Resource
+    private MessageTypeService messageTypeService;
+
+    @Operation(summary = "分页查询系统消息类型", description = "分页查询系统消息类型")
+    @GetMapping("getMessageTypeList/{page}/{limit}")
+    public Result<PageResult<MessageTypeVo>> getMessageTypeList(
+            @Parameter(name = "page", description = "当前页", required = true)
+            @PathVariable("page") Integer page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable("limit") Integer limit,
+            MessageTypeDto dto) {
+        Page<MessageType> pageParams = new Page<>(page, limit);
+        PageResult<MessageTypeVo> pageResult = messageTypeService.getMessageTypeList(pageParams, dto);
+        return Result.success(pageResult);
+    }
+
+    @Operation(summary = "获取所有消息类型", description = "获取所有消息类型")
+    @GetMapping("noManage/getAllMessageTypes")
+    public Result<List<MessageTypeVo>> getNoManageMessageTypes() {
+        List<MessageTypeVo> voList = messageTypeService.getNoManageMessageTypes();
+        return Result.success(voList);
+    }
+
+    @Operation(summary = "添加系统消息类型", description = "添加系统消息类型")
+    @PostMapping("addMessageType")
+    public Result<String> addMessageType(@Valid @RequestBody MessageTypeAddDto dto) {
+        messageTypeService.addMessageType(dto);
+        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    }
+
+    @Operation(summary = "更新系统消息类型", description = "更新系统消息类型")
+    @PutMapping("updateMessageType")
+    public Result<String> updateMessageType(@Valid @RequestBody MessageTypeUpdateDto dto) {
+        messageTypeService.updateMessageType(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "删除系统消息类型", description = "删除系统消息类型")
+    @DeleteMapping("deleteMessageType")
+    public Result<String> deleteMessageType(@RequestBody List<Long> ids) {
+        messageTypeService.deleteMessageType(ids);
+        return Result.success(ResultCodeEnum.DELETE_SUCCESS);
+    }
+}

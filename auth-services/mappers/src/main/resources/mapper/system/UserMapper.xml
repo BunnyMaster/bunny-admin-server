@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.system.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.system.entity.AdminUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="password" property="password"/>
+        <result column="avatar" property="avatar"/>
+        <result column="sex" property="sex"/>
+        <result column="summary" property="summary"/>
+        <result column="ip_address" property="ipAddress"/>
+        <result column="ip_region" property="ipRegion"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, nickname, email, phone, password, avatar, sex, summary, ip_address, ip_region, status, create_user, create_time, update_time, update_user, is_deleted
+    </sql>
+
+    <!-- 分页查询用户信息内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.domain.views.ViewUserDept">
+        select
+        user.*,
+        user_dept.dept_id,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_user user
+        left join sys_user_dept user_dept on user.id = user_dept.user_id
+        left join sys_user create_user on create_user.id = user.create_user
+        left join sys_user update_user on update_user.id = user.update_user
+        <where>
+            user.is_deleted = 0
+            <if test="dto.username != null and dto.username != ''">
+                and user.username like CONCAT('%',#{dto.username},'%')
+            </if>
+            <if test="dto.nickname != null and dto.nickname != ''">
+                and user.nickname like CONCAT('%',#{dto.nickname},'%')
+            </if>
+            <if test="dto.email != null and dto.email != ''">
+                and user.email like CONCAT('%',#{dto.email},'%')
+            </if>
+            <if test="dto.phone != null and dto.phone != ''">
+                and user.phone like CONCAT('%',#{dto.phone},'%')
+            </if>
+            <if test="dto.sex != null and dto.sex != ''">
+                and user.sex = #{dto.sex}
+            </if>
+            <if test="dto.summary != null and dto.summary != ''">
+                and user.summary like CONCAT('%',#{dto.summary},'%')
+            </if>
+            <if test="dto.status != null and dto.status != ''">
+                and user.status = #{dto.status}
+            </if>
+            <if test="dto.deptIds != null and dto.deptIds.size() > 0">
+                and user_dept.dept_id in
+                <foreach collection="dto.deptIds" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询用户 -->
+    <select id="queryUser" resultType="cn.bunny.domain.system.entity.AdminUser">
+        select *
+        from sys_user
+        <where>
+            <if test="keyword != null and keyword != ''">
+                username like CONCAT('%', #{keyword}, '%')
+                or nickname like CONCAT('%', #{keyword}, '%')
+                or email like CONCAT('%', #{keyword}, '%')
+                or phone like CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 物理删除用户信息 -->
+    <delete id="deleteBatchIdsWithPhysics">
+        delete
+        from sys_user
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

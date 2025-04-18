@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>cn.bunny</groupId>
     <artifactId>auth-server</artifactId>
@@ -16,9 +16,9 @@
     <description>auth-admin</description>
 
     <modules>
-        <module>generator-code</module>
-        <module>dao</module>
-        <module>service</module>
+        <module>common</module>
+        <module>auth-admin</module>
+        <module>auth-services</module>
     </modules>
 
     <properties>
