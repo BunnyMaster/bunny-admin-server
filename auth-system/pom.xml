@@ -7,16 +7,17 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>common</artifactId>
+    <artifactId>auth-system</artifactId>
     <packaging>pom</packaging>
 
-    <name>common</name>
+    <name>auth-system</name>
     <url>https://maven.apache.org</url>
 
     <modules>
-        <module>common-domain</module>
-        <module>common-config</module>
-        <module>generator-code</module>
+        <module>controllers</module>
+        <module>services</module>
+        <module>mappers</module>
+        <module>domain</module>
     </modules>
 
     <properties>

@@ -3,27 +3,24 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.bunny</groupId>
-        <artifactId>auth-server</artifactId>
+        <artifactId>auth-system</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>common</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>domain</artifactId>
+    <packaging>jar</packaging>
 
-    <name>common</name>
+    <name>domain</name>
     <url>https://maven.apache.org</url>
-
-    <modules>
-        <module>common-domain</module>
-        <module>common-config</module>
-        <module>generator-code</module>
-    </modules>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>cn.bunny</groupId>
+            <artifactId>common-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

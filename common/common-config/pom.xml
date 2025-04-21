@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.bunny</groupId>
-        <artifactId>auth-server</artifactId>
+        <artifactId>common</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.bunny</groupId>
-            <artifactId>domain-system</artifactId>
+            <artifactId>domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

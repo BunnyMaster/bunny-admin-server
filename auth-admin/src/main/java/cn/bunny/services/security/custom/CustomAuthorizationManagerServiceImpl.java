@@ -11,6 +11,7 @@ import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.utils.JwtHelper;
 import cn.bunny.services.utils.system.RoleUtil;
 import com.alibaba.fastjson2.JSON;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,17 +35,14 @@ import java.util.function.Supplier;
 @Slf4j
 public class CustomAuthorizationManagerServiceImpl implements AuthorizationManager<RequestAuthorizationContext> {
 
-    private final PowerMapper powerMapper;
+    @Resource
+    private PowerMapper powerMapper;
 
-    private final RoleMapper roleMapper;
+    @Resource
+    private RoleMapper roleMapper;
 
-    private final RedisTemplate<String, Object> redisTemplate;
-
-    public CustomAuthorizationManagerServiceImpl(PowerMapper powerMapper, RoleMapper roleMapper, RedisTemplate<String, Object> redisTemplate) {
-        this.powerMapper = powerMapper;
-        this.roleMapper = roleMapper;
-        this.redisTemplate = redisTemplate;
-    }
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 检查请求的Token是否携带，并判断是否过期

@@ -13,11 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class MethodSecurityConfig {
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     /**
      * 使用数据库方式

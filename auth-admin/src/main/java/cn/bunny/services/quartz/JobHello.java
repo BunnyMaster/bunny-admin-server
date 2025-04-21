@@ -11,6 +11,7 @@ import org.quartz.JobExecutionException;
 public class JobHello implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        // 测试使用
         System.out.print("执行任务--JobHello。。。。。。。。。");
     }
 }

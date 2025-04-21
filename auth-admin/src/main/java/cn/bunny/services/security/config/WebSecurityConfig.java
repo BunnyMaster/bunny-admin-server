@@ -1,20 +1,16 @@
 package cn.bunny.services.security.config;
 
 import cn.bunny.services.security.custom.CustomAuthorizationManagerServiceImpl;
-import cn.bunny.services.security.filter.TokenLoginFilterService;
 import cn.bunny.services.security.handelr.SecurityAccessDeniedHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationEntryPoint;
-import cn.bunny.services.service.system.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
@@ -24,20 +20,15 @@ public class WebSecurityConfig {
 
     // 需要排出的无需验证的请求路径
     public static String[] annotations = {
-            "/", "/ws/**", "/**.html",
+            "/", "/ws/**", "/**.html", "/error",
             "/media.ico", "/favicon.ico", "/webjars/**", "/v3/api-docs/**", "/swagger-ui/**",
+            "/*/*/login",
             "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
-            "/error", "/*/i18n/getI18n",
+            "/*/i18n/getI18n",
     };
 
     @Resource
-    private UserService userService;
-
-    @Resource
     private CustomAuthorizationManagerServiceImpl customAuthorizationManagerService;
-
-    @Resource
-    private AuthenticationConfiguration authenticationConfiguration;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -65,9 +56,7 @@ public class WebSecurityConfig {
                     // 没有权限访问
                     exception.accessDeniedHandler(new SecurityAccessDeniedHandler());
                 })
-                // 登录验证过滤器
-                .addFilterBefore(new TokenLoginFilterService(authenticationConfiguration, userService), UsernamePasswordAuthenticationFilter.class);
+        ;
         return httpSecurity.build();
     }
-
 }
