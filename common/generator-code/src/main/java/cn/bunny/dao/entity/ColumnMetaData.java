@@ -14,8 +14,11 @@ public class ColumnMetaData {
     /* 列名称 */
     private String columnName;
 
-    /* 字段名称 */
-    private String fieldName;
+    /* 字段名称，小驼峰名称 */
+    private String lowercaseName;
+
+    /* 大驼峰名称 */
+    private String uppercaseName;
 
     /* 数据库字段类型 */
     private String jdbcType;

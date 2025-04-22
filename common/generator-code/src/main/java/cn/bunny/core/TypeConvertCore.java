@@ -1,11 +1,12 @@
-package cn.bunny.utils;
+package cn.bunny.core;
 
 import com.google.common.base.CaseFormat;
 import org.assertj.core.util.introspection.CaseFormatUtils;
 
 import java.util.regex.Pattern;
 
-public class ConvertUtil {
+/* 类型转换，数据库转Java类型等 */
+public class TypeConvertCore {
 
     /**
      * 将数据库类型转换为Java类型

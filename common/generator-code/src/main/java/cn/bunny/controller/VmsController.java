@@ -7,6 +7,7 @@ import cn.bunny.dao.vo.VmsPathVo;
 import cn.bunny.service.VmsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,16 +20,13 @@ import java.util.Map;
 @RequestMapping("/api/vms")
 public class VmsController {
 
-    private final VmsService vmsService;
-
-    public VmsController(VmsService vmsService) {
-        this.vmsService = vmsService;
-    }
+    @Resource
+    private VmsService vmsService;
 
     @Operation(summary = "获取vms文件路径", description = "获取所有vms下的文件路径")
-    @GetMapping("getVmsPathList")
-    public Result<Map<String, List<VmsPathVo>>> getVmsPathList() {
-        Map<String, List<VmsPathVo>> list = vmsService.getVmsPathList();
+    @GetMapping("vmsResourcePathList")
+    public Result<Map<String, List<VmsPathVo>>> vmsResourcePathList() {
+        Map<String, List<VmsPathVo>> list = vmsService.vmsResourcePathList();
         return Result.success(list);
     }
 

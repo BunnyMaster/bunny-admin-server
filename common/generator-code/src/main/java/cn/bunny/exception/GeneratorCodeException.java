@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @ToString
 @Slf4j
-public class AuthCustomerException extends RuntimeException {
+public class GeneratorCodeException extends RuntimeException {
     // 状态码
     Integer code;
 
@@ -20,19 +20,18 @@ public class AuthCustomerException extends RuntimeException {
     // 返回结果状态
     ResultCodeEnum resultCodeEnum;
 
-
-    public AuthCustomerException(Integer code, String message) {
+    public GeneratorCodeException(Integer code, String message) {
         super(message);
         this.code = code;
         this.message = message;
     }
 
-    public AuthCustomerException(String message) {
+    public GeneratorCodeException(String message) {
         super(message);
         this.message = message;
     }
 
-    public AuthCustomerException(ResultCodeEnum codeEnum) {
+    public GeneratorCodeException(ResultCodeEnum codeEnum) {
         super(codeEnum.getMessage());
         this.code = codeEnum.getCode();
         this.message = codeEnum.getMessage();

@@ -8,7 +8,6 @@ spring:
     name: generator-code
   thymeleaf:
     check-template-location: false
-    prefix: classpath:/static/
 
   datasource:
     type: com.zaxxer.hikari.HikariDataSource

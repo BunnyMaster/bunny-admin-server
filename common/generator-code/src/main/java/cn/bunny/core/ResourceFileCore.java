@@ -1,4 +1,4 @@
-package cn.bunny.utils;
+package cn.bunny.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +15,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
 
-public class ResourceFileUtil {
+/* 当前生产/开发下的资源文件 */
+public class ResourceFileCore {
 
     /**
      * 获取目标文件夹下所有文件完整路径

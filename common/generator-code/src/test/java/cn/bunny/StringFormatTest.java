@@ -1,6 +1,6 @@
 package cn.bunny;
 
-import cn.bunny.utils.ConvertUtil;
+import cn.bunny.core.TypeConvertCore;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.introspection.CaseFormatUtils;
 import org.junit.jupiter.api.Test;
@@ -28,9 +28,9 @@ public class StringFormatTest {
 
     @Test
     void test2() {
-        System.out.println(ConvertUtil.convertToCamelCase("user_login_A"));
-        System.out.println(ConvertUtil.convertToCamelCase("User_Login_A"));
-        System.out.println(ConvertUtil.convertToCamelCase("userLoginA"));
-        System.out.println(ConvertUtil.convertToCamelCase("UserLoginA"));
+        System.out.println(TypeConvertCore.convertToCamelCase("user_login_A"));
+        System.out.println(TypeConvertCore.convertToCamelCase("User_Login_A"));
+        System.out.println(TypeConvertCore.convertToCamelCase("userLoginA"));
+        System.out.println(TypeConvertCore.convertToCamelCase("UserLoginA"));
     }
 }

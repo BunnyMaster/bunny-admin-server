@@ -1,7 +1,10 @@
-package cn.bunny.utils;
+package cn.bunny.core;
 
 import cn.bunny.dao.entity.ColumnMetaData;
+import cn.bunny.dao.entity.DatabaseInfoMetaData;
 import cn.bunny.dao.entity.TableMetaData;
+import jakarta.annotation.Resource;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -9,20 +12,17 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/* 数据库信息内容 */
 @Component
-public class DbInfoUtil {
+public class DatabaseInfoCore {
 
-    private final DataSource dataSource;
-
-    public DbInfoUtil(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    @Resource
+    private DataSource dataSource;
 
     /**
      * 获取表的所有主键列名
@@ -30,7 +30,8 @@ public class DbInfoUtil {
      * @param tableName 表名
      * @return 主键列名的集合
      */
-    public Set<String> getPrimaryKeyColumns(String tableName) throws SQLException {
+    @SneakyThrows
+    public Set<String> getPrimaryKeyColumns(String tableName) {
         // 主键的key
         Set<String> primaryKeys = new HashSet<>();
 
@@ -51,42 +52,13 @@ public class DbInfoUtil {
     }
 
     /**
-     * 获取数据库中所有的表
-     *
-     * @param dbName 数据库名称，如果不传为数据库中所有的表
-     * @return 当前/所有 的数据库表
-     */
-    public List<TableMetaData> getDbTableList(String dbName) throws SQLException {
-        // 所有的表属性
-        List<TableMetaData> list = new ArrayList<>();
-
-        try (Connection connection = dataSource.getConnection()) {
-            DatabaseMetaData metaData = connection.getMetaData();
-
-            // 当前数据库中所有的表
-            ResultSet tables = metaData.getTables(dbName, null, "%", new String[]{"TABLE"});
-
-            while (tables.next()) {
-                // 表名称
-                dbName = tables.getString("TABLE_NAME");
-
-                // 设置表信息
-                TableMetaData tableMetaData = tableInfo(dbName);
-                list.add(tableMetaData);
-            }
-
-            return list;
-        }
-    }
-
-    /**
      * 获取表注释信息
      *
      * @param tableName 数据库表名
      * @return 表信息
-     * @throws SQLException SQLException
      */
-    public TableMetaData tableInfo(String tableName) throws SQLException {
+    @SneakyThrows
+    public TableMetaData tableInfoMetaData(String tableName) {
         TableMetaData tableMetaData;
 
         try (Connection connection = dataSource.getConnection()) {
@@ -119,18 +91,46 @@ public class DbInfoUtil {
     }
 
     /**
-     * 数据库表列信息
+     * 获取[当前/所有]数据库表
      *
-     * @param tableName 表名
-     * @return 列表信息
-     * @throws SQLException SQLException
+     * @return 所有表信息
      */
-    public List<ColumnMetaData> columnInfo(String tableName) throws SQLException {
+    @SneakyThrows
+    public List<TableMetaData> databaseTableList(String dbName) {
+        // 当前数据库数据库所有的表
+        List<TableMetaData> allTableInfo = new ArrayList<>();
+
         try (Connection connection = dataSource.getConnection()) {
             DatabaseMetaData metaData = connection.getMetaData();
 
-            List<ColumnMetaData> columns = new ArrayList<>();
+            // 当前数据库中所有的表
+            ResultSet tables = metaData.getTables(dbName, null, "%", new String[]{"TABLE"});
 
+            while (tables.next()) {
+                // 表名称
+                dbName = tables.getString("TABLE_NAME");
+
+                // 设置表信息
+                TableMetaData tableMetaData = tableInfoMetaData(dbName);
+
+                allTableInfo.add(tableMetaData);
+            }
+        }
+
+        return allTableInfo;
+    }
+
+    /**
+     * 获取当前表的列属性
+     *
+     * @param tableName 表名称
+     * @return 当前表所有的列内容
+     */
+    @SneakyThrows
+    public List<ColumnMetaData> tableColumnInfo(String tableName) {
+        try (Connection connection = dataSource.getConnection()) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            List<ColumnMetaData> columns = new ArrayList<>();
             // 当前表的主键
             Set<String> primaryKeyColumns = getPrimaryKeyColumns(tableName);
 
@@ -138,25 +138,23 @@ public class DbInfoUtil {
             try (ResultSet columnsRs = metaData.getColumns(null, null, tableName, null)) {
                 while (columnsRs.next()) {
                     ColumnMetaData column = new ColumnMetaData();
-
                     // 列字段
                     String columnName = columnsRs.getString("COLUMN_NAME");
-
                     // 将当前表的列类型转成 Java 类型
-                    String javaType = ConvertUtil.convertToJavaType(column.getJdbcType());
+                    String javaType = TypeConvertCore.convertToJavaType(column.getJdbcType());
 
                     // 设置列字段
                     column.setColumnName(columnName);
                     // 列字段转成 下划线 -> 小驼峰
-                    column.setFieldName(ConvertUtil.convertToCamelCase(column.getColumnName()));
-
+                    column.setLowercaseName(TypeConvertCore.convertToCamelCase(column.getColumnName()));
+                    // 列字段转成 下划线 -> 大驼峰名称
+                    column.setUppercaseName(TypeConvertCore.convertToCamelCase(column.getColumnName(), true));
                     // 字段类型
                     column.setJdbcType(columnsRs.getString("TYPE_NAME"));
                     // 字段类型转 Java 类型
                     column.setJavaType(javaType);
                     // 字段类型转 JavaScript 类型
                     column.setJavascriptType(StringUtils.uncapitalize(javaType));
-
                     // 备注信息
                     column.setComment(columnsRs.getString("REMARKS"));
 
@@ -171,7 +169,6 @@ public class DbInfoUtil {
             }
 
             columns.get(0).setIsPrimaryKey(true);
-
             return columns;
         }
     }
@@ -179,16 +176,21 @@ public class DbInfoUtil {
     /**
      * 数据库所有的信息
      *
-     * @param tableName 表名
-     * @return 表内容
-     * @throws SQLException SQLException
+     * @return 当前连接的数据库信息属性
      */
-    public TableMetaData dbInfo(String tableName) throws SQLException {
-        List<ColumnMetaData> columnMetaData = columnInfo(tableName);
-        TableMetaData tableMetaData = tableInfo(tableName);
+    @SneakyThrows
+    public DatabaseInfoMetaData databaseInfoMetaData() {
+        try (Connection connection = dataSource.getConnection()) {
+            DatabaseMetaData metaData = connection.getMetaData();
 
-        tableMetaData.setColumns(columnMetaData);
-
-        return tableMetaData;
+            return DatabaseInfoMetaData.builder()
+                    .databaseProductName(metaData.getDatabaseProductName())
+                    .databaseProductVersion(metaData.getDatabaseProductVersion())
+                    .driverName(metaData.getDriverName())
+                    .driverVersion(metaData.getDriverVersion())
+                    .url(metaData.getURL())
+                    .username(metaData.getUserName())
+                    .build();
+        }
     }
 }

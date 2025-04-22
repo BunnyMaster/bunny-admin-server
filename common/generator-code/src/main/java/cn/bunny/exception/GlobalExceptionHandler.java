@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.nio.file.AccessDeniedException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,9 +23,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GlobalExceptionHandler {
     // 自定义异常信息
-    @ExceptionHandler(AuthCustomerException.class)
+    @ExceptionHandler(GeneratorCodeException.class)
     @ResponseBody
-    public Result<Object> exceptionHandler(AuthCustomerException exception) {
+    public Result<Object> exceptionHandler(GeneratorCodeException exception) {
         Integer code = exception.getCode() != null ? exception.getCode() : 500;
         return Result.error(null, code, exception.getMessage());
     }
@@ -50,24 +49,24 @@ public class GlobalExceptionHandler {
         String dataTooLongError = "Data too long for column (.*?) at row 1";
         Matcher dataTooLongErrorMatcher = Pattern.compile(dataTooLongError).matcher(message);
         if (dataTooLongErrorMatcher.find()) {
-            return Result.error(null, 500, dataTooLongErrorMatcher.group(1) + " 字段数据过大" );
+            return Result.error(null, 500, dataTooLongErrorMatcher.group(1) + " 字段数据过大");
         }
 
         // 主键冲突
         String primaryKeyError = "Duplicate entry '(.*?)' for key .*";
         Matcher primaryKeyErrorMatcher = Pattern.compile(primaryKeyError).matcher(message);
         if (primaryKeyErrorMatcher.find()) {
-            return Result.error(null, 500, "[" + primaryKeyErrorMatcher.group(1) + "]已存在" );
+            return Result.error(null, 500, "[" + primaryKeyErrorMatcher.group(1) + "]已存在");
         }
 
         // corn表达式错误
         String cronExpression = "CronExpression '(.*?)' is invalid";
         Matcher cronExpressionMatcher = Pattern.compile(cronExpression).matcher(message);
         if (cronExpressionMatcher.find()) {
-            return Result.error(null, 500, "表达式 " + cronExpressionMatcher.group(1) + " 不合法" );
+            return Result.error(null, 500, "表达式 " + cronExpressionMatcher.group(1) + " 不合法");
         }
 
-        log.error("GlobalExceptionHandler===>运行时异常信息：{}" , message);
+        log.error("GlobalExceptionHandler===>运行时异常信息：{}", message);
         return Result.error(null, 500, message);
     }
 
@@ -76,7 +75,7 @@ public class GlobalExceptionHandler {
     public Result<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         String errorMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.joining(", " ));
+                .collect(Collectors.joining(", "));
         return Result.error(null, 201, errorMessage);
     }
 
@@ -84,28 +83,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ArithmeticException.class)
     @ResponseBody
     public Result<Object> error(ArithmeticException exception) {
-        log.error("GlobalExceptionHandler===>特定异常信息：{}" , exception.getMessage());
+        log.error("GlobalExceptionHandler===>特定异常信息：{}", exception.getMessage());
 
         return Result.error(null, 500, exception.getMessage());
-    }
-
-    // spring security异常
-    @ExceptionHandler(AccessDeniedException.class)
-    @ResponseBody
-    public Result<String> error(AccessDeniedException exception) throws AccessDeniedException {
-        log.error("GlobalExceptionHandler===>spring security异常：{}" , exception.getMessage());
-
-        return Result.error(ResultCodeEnum.SERVICE_ERROR);
     }
 
     // 处理SQL异常
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     @ResponseBody
     public Result<String> exceptionHandler(SQLIntegrityConstraintViolationException exception) {
-        log.error("GlobalExceptionHandler===>处理SQL异常:{}" , exception.getMessage());
+        log.error("GlobalExceptionHandler===>处理SQL异常:{}", exception.getMessage());
 
         String message = exception.getMessage();
-        if (message.contains("Duplicate entry" )) {
+        if (message.contains("Duplicate entry")) {
             // 错误信息
             return Result.error(ResultCodeEnum.USER_IS_EMPTY);
         } else {

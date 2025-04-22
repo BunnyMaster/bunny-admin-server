@@ -1,9 +1,9 @@
 package cn.bunny;
 
 
+import cn.bunny.core.TypeConvertCore;
 import cn.bunny.dao.entity.ColumnMetaData;
 import cn.bunny.dao.entity.TableMetaData;
-import cn.bunny.utils.ConvertUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -84,9 +84,9 @@ public class JDBCTest {
             while (columnsRs.next()) {
                 ColumnMetaData column = new ColumnMetaData();
                 column.setColumnName(columnsRs.getString("COLUMN_NAME"));
-                column.setFieldName(ConvertUtil.convertToCamelCase(column.getColumnName()));
+                column.setLowercaseName(TypeConvertCore.convertToCamelCase(column.getColumnName()));
                 column.setJdbcType(columnsRs.getString("TYPE_NAME"));
-                column.setJavaType(ConvertUtil.convertToJavaType(column.getJdbcType()));
+                column.setJavaType(TypeConvertCore.convertToJavaType(column.getJdbcType()));
                 column.setComment(columnsRs.getString("REMARKS"));
 
                 columns.add(column);
