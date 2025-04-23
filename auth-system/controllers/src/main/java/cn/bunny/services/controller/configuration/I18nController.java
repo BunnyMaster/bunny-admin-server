@@ -60,8 +60,8 @@ public class I18nController {
 
     @Operation(summary = "下载多语言配置", description = "下载多语言配置")
     @GetMapping("downloadI18n")
-    public ResponseEntity<byte[]> downloadI18n() {
-        return i18nService.downloadI18n();
+    public ResponseEntity<byte[]> downloadI18n(String type) {
+        return i18nService.downloadI18n(type);
     }
 
     @Operation(summary = "添加多语言", description = "添加多语言")

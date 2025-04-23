@@ -63,9 +63,10 @@ public interface I18nService extends IService<I18n> {
     /**
      * 下载多语言配置
      *
+     * @param type 下载类型
      * @return 文件内容
      */
-    ResponseEntity<byte[]> downloadI18n();
+    ResponseEntity<byte[]> downloadI18n(String type);
 
     /**
      * 用文件更新多语言

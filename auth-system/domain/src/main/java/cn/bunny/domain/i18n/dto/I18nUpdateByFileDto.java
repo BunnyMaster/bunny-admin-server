@@ -25,4 +25,9 @@ public class I18nUpdateByFileDto {
     @NotNull(message = "文件不能为空")
     private MultipartFile file;
 
+    @Schema(name = "fileType", title = "文件类型/json/excel")
+    @NotNull(message = "文件不能为空")
+    @NotBlank(message = "多语言key不能为空")
+    private String fileType;
+
 }

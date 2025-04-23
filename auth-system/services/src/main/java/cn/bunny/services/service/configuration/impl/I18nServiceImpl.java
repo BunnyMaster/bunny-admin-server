@@ -1,5 +1,6 @@
 package cn.bunny.services.service.configuration.impl;
 
+import cn.bunny.domain.constant.FileType;
 import cn.bunny.domain.entity.BaseEntity;
 import cn.bunny.domain.i18n.dto.I18nAddDto;
 import cn.bunny.domain.i18n.dto.I18nDto;
@@ -7,14 +8,17 @@ import cn.bunny.domain.i18n.dto.I18nUpdateByFileDto;
 import cn.bunny.domain.i18n.dto.I18nUpdateDto;
 import cn.bunny.domain.i18n.entity.I18n;
 import cn.bunny.domain.i18n.entity.I18nType;
+import cn.bunny.domain.i18n.excel.I18nExcel;
 import cn.bunny.domain.i18n.vo.I18nVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
+import cn.bunny.services.excel.I18nExcelListener;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nMapper;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nService;
-import cn.bunny.services.utils.system.I18nUtil;
+import cn.bunny.services.utils.i8n.I18nUtil;
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -37,12 +41,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -77,7 +80,6 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
 
         return hashMap;
     }
-
 
     /**
      * * 获取管理多语言列表
@@ -154,35 +156,30 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
     /**
      * 下载多语言配置
      *
+     * @param type 下载类型
      * @return 文件内容
      */
     @Override
-    public ResponseEntity<byte[]> downloadI18n() {
+    public ResponseEntity<byte[]> downloadI18n(String type) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
 
             // 查找默认语言内容
             List<I18n> i18nList = list();
-            HashMap<String, Object> hashMap = I18nUtil.getMap(i18nList);
 
-            hashMap.forEach((k, v) -> {
-                try {
-                    ZipEntry zipEntry = new ZipEntry(k + ".json");
-                    zipOutputStream.putNextEntry(zipEntry);
+            if (type.equals(FileType.JSON)) {
+                I18nUtil.writeJson(i18nList, zipOutputStream);
+            } else if (type.equals(FileType.EXCEL)) {
+                I18nUtil.writeExcel(i18nList, zipOutputStream);
+            }
 
-                    zipOutputStream.write(JSON.toJSONString(v).getBytes(StandardCharsets.UTF_8));
-                    zipOutputStream.closeEntry();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         // 设置响应头
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=i18n.zip");
+        headers.add("Content-Disposition", "attachment; filename=" + "i18n.zip");
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
@@ -201,12 +198,11 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
     public void updateI18nByFile(I18nUpdateByFileDto dto) {
         String type = dto.getType();
         MultipartFile file = dto.getFile();
+        String fileType = dto.getFileType();
 
         // 判断是否有这个语言的key
         List<I18nType> i18nTypeList = i18nTypeMapper.selectList(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getTypeName, type));
-        if (i18nTypeList.isEmpty() && !file.isEmpty()) {
-            throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
-        }
+        if (i18nTypeList.isEmpty() && !file.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         try {
             // 内容是否为空
@@ -216,8 +212,6 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
             }
 
             // 内容存在，删除这个数据库中所有关于这个key的多语言
-            Map<String, Object> parseObject = JSON.parseObject(content, new TypeReference<>() {
-            });
             List<I18n> i18nList = baseMapper.selectList(Wrappers.<I18n>lambdaQuery().eq(I18n::getTypeName, type));
             List<Long> ids = i18nList.stream().map(BaseEntity::getId).toList();
             if (!ids.isEmpty()) {
@@ -225,17 +219,25 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
             }
 
             // 存入内容
-            i18nList = parseObject.entrySet().stream().map(item -> {
-                String key = item.getKey();
-                String value = item.getValue().toString();
+            if (fileType.equals(FileType.JSON)) {
+                Map<String, Object> parseObject = JSON.parseObject(content, new TypeReference<>() {
+                });
+                i18nList = parseObject.entrySet().stream().map(item -> {
+                    String key = item.getKey();
+                    String value = item.getValue().toString();
 
-                I18n i18n = new I18n();
-                i18n.setTypeName(type);
-                i18n.setKeyName(key);
-                i18n.setTranslation(value);
-                return i18n;
-            }).toList();
-            saveBatch(i18nList);
+                    I18n i18n = new I18n();
+                    i18n.setTypeName(type);
+                    i18n.setKeyName(key);
+                    i18n.setTranslation(value);
+                    return i18n;
+                }).toList();
+                saveBatch(i18nList);
+            } else if (fileType.equals(FileType.EXCEL)) {
+                InputStream fileInputStream = file.getInputStream();
+                EasyExcel.read(fileInputStream, I18nExcel.class, new I18nExcelListener(this, type)).sheet().doRead();
+            }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
