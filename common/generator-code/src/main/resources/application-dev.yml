@@ -3,6 +3,6 @@ bunny:
     # host: 192.168.3.137
     host: localhost
     port: 3306
-    database: auth_admin
+    database: bunny_admin
     username: root
     password: "123456"
