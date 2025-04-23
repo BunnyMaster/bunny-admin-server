@@ -1,6 +1,5 @@
-package cn.bunny.domain.system.vo.user;
+package cn.bunny.domain.vo;
 
-import cn.bunny.domain.vo.BaseVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

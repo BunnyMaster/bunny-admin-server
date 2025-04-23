@@ -7,8 +7,8 @@ import cn.bunny.domain.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.service.configuration.ConfigurationService;
 import com.alibaba.fastjson2.JSON;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ import java.io.InputStream;
 @Transactional
 public class ConfigurationServiceImpl implements ConfigurationService {
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     /**

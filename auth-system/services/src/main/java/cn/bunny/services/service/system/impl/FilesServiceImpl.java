@@ -21,10 +21,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -55,13 +55,13 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     @Value("${spring.servlet.multipart.max-file-size}")
     private String maxFileSize;
 
-    @Autowired
+    @Resource
     private MinioProperties properties;
 
-    @Autowired
+    @Resource
     private MinioUtil minioUtil;
 
-    @Autowired
+    @Resource
     private FilesMapper filesMapper;
 
     /**

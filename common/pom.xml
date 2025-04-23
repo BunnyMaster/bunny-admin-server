@@ -14,7 +14,7 @@
     <url>https://maven.apache.org</url>
 
     <modules>
-        <module>common-domain</module>
+        <module>domain-common</module>
         <module>common-config</module>
         <module>generator-code</module>
     </modules>

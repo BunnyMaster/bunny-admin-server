@@ -10,7 +10,7 @@
     <artifactId>domain</artifactId>
     <packaging>jar</packaging>
 
-    <name>domain</name>
+    <name>domain-system</name>
     <url>https://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.bunny</groupId>
-            <artifactId>common-domain</artifactId>
+            <artifactId>domain-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

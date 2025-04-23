@@ -1,10 +1,10 @@
 package cn.bunny.services.service.schedule.impl;
 
-import cn.bunny.domain.quartz.vo.SchedulersOperationDto;
 import cn.bunny.domain.quartz.dto.SchedulersAddDto;
 import cn.bunny.domain.quartz.dto.SchedulersDto;
 import cn.bunny.domain.quartz.dto.SchedulersUpdateDto;
 import cn.bunny.domain.quartz.entity.Schedulers;
+import cn.bunny.domain.quartz.vo.SchedulersOperationDto;
 import cn.bunny.domain.quartz.vo.SchedulersVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
@@ -16,10 +16,10 @@ import cn.bunny.services.service.schedule.SchedulersService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.quartz.*;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -35,10 +35,10 @@ import java.util.*;
 @Service
 public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedulers> implements SchedulersService {
 
-    @Autowired
+    @Resource
     private Scheduler scheduler;
 
-    @Autowired
+    @Resource
     private AnnotationScanner annotationScanner;
 
     /**

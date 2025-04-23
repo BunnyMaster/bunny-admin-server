@@ -14,8 +14,8 @@ import cn.bunny.services.service.system.DeptService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements DeptService {
 
-    @Autowired
+    @Resource
     private UserDeptMapper userDeptMapper;
 
     /**

@@ -12,8 +12,12 @@ import cn.bunny.domain.system.dto.user.*;
 import cn.bunny.domain.system.entity.AdminUser;
 import cn.bunny.domain.system.entity.Role;
 import cn.bunny.domain.system.entity.UserDept;
-import cn.bunny.domain.system.vo.user.*;
+import cn.bunny.domain.system.vo.user.AdminUserVo;
+import cn.bunny.domain.system.vo.user.RefreshTokenVo;
+import cn.bunny.domain.system.vo.user.SearchUserinfoVo;
+import cn.bunny.domain.system.vo.user.UserVo;
 import cn.bunny.domain.views.ViewUserDept;
+import cn.bunny.domain.vo.LoginVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
 import cn.bunny.services.context.BaseContext;
@@ -71,24 +75,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
     @Resource
     private UserUtil userUtil;
+
     @Resource
     private ConcreteSenderEmailTemplate concreteSenderEmailTemplate;
+
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
+
     @Resource
     private FilesService filesService;
+
     @Resource
     private UserDeptMapper userDeptMapper;
+
     @Resource
     private UserRoleMapper userRoleMapper;
+
     @Resource
     private UserLoginLogMapper userLoginLogMapper;
+
     @Resource
     private EmailTemplateMapper emailTemplateMapper;
+
     @Resource
     private RoleMapper roleMapper;
+
     @Resource
     private UserMapper userMapper;
+    
     @Resource
     private PasswordEncoder passwordEncoder;
 

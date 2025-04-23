@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
@@ -56,11 +57,8 @@ import java.util.zip.ZipOutputStream;
 @Transactional
 public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I18nService {
 
-    private final I18nTypeMapper i18nTypeMapper;
-
-    public I18nServiceImpl(I18nTypeMapper i18nTypeMapper) {
-        this.i18nTypeMapper = i18nTypeMapper;
-    }
+    @Resource
+    private I18nTypeMapper i18nTypeMapper;
 
     /**
      * * 获取多语言内容

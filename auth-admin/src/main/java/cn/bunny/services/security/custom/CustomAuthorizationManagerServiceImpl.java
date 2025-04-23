@@ -3,7 +3,7 @@ package cn.bunny.services.security.custom;
 import cn.bunny.domain.constant.RedisUserConstant;
 import cn.bunny.domain.system.entity.Power;
 import cn.bunny.domain.system.entity.Role;
-import cn.bunny.domain.system.vo.user.LoginVo;
+import cn.bunny.domain.vo.LoginVo;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.mapper.system.PowerMapper;

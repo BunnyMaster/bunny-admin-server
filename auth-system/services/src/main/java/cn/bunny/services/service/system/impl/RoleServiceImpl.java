@@ -1,10 +1,10 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.domain.system.entity.Role;
-import cn.bunny.domain.system.entity.UserRole;
 import cn.bunny.domain.system.dto.role.RoleAddDto;
 import cn.bunny.domain.system.dto.role.RoleDto;
 import cn.bunny.domain.system.dto.role.RoleUpdateDto;
+import cn.bunny.domain.system.entity.Role;
+import cn.bunny.domain.system.entity.UserRole;
 import cn.bunny.domain.system.vo.RoleVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
@@ -19,9 +19,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -39,16 +39,16 @@ import java.util.List;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
-    @Autowired
+    @Resource
     private UserRoleMapper userRoleMapper;
 
-    @Autowired
+    @Resource
     private RolePowerMapper rolePowerMapper;
 
-    @Autowired
+    @Resource
     private RouterRoleMapper routerRoleMapper;
 
-    @Autowired
+    @Resource
     private RoleUtil roleUtil;
 
     /**

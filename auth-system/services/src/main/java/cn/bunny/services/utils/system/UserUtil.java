@@ -7,7 +7,7 @@ import cn.bunny.domain.log.entity.UserLoginLog;
 import cn.bunny.domain.system.entity.AdminUser;
 import cn.bunny.domain.system.entity.Power;
 import cn.bunny.domain.system.entity.Role;
-import cn.bunny.domain.system.vo.user.LoginVo;
+import cn.bunny.domain.vo.LoginVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.mapper.system.PowerMapper;

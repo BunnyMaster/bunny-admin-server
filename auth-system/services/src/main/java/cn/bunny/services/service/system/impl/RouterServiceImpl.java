@@ -1,11 +1,11 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.domain.system.entity.Role;
-import cn.bunny.domain.system.entity.Router;
 import cn.bunny.domain.system.dto.router.RouterAddDto;
 import cn.bunny.domain.system.dto.router.RouterManageDto;
 import cn.bunny.domain.system.dto.router.RouterUpdateByIdWithRankDto;
 import cn.bunny.domain.system.dto.router.RouterUpdateDto;
+import cn.bunny.domain.system.entity.Role;
+import cn.bunny.domain.system.entity.Router;
 import cn.bunny.domain.system.vo.router.RouterManageVo;
 import cn.bunny.domain.system.vo.router.RouterMeta;
 import cn.bunny.domain.system.vo.router.UserRouterVo;
@@ -26,8 +26,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,16 +45,16 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> implements RouterService {
-    @Autowired
+    @Resource
     private RouterServiceUtil routerServiceUtil;
 
-    @Autowired
+    @Resource
     private RoleMapper roleMapper;
 
-    @Autowired
+    @Resource
     private RouterRoleMapper routerRoleMapper;
 
-    @Autowired
+    @Resource
     private RolePowerMapper rolePowerMapper;
 
     /**

@@ -1,10 +1,10 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.domain.system.entity.Power;
 import cn.bunny.domain.system.dto.power.PowerAddDto;
 import cn.bunny.domain.system.dto.power.PowerDto;
 import cn.bunny.domain.system.dto.power.PowerUpdateBatchByParentIdDto;
 import cn.bunny.domain.system.dto.power.PowerUpdateDto;
+import cn.bunny.domain.system.entity.Power;
 import cn.bunny.domain.system.vo.PowerVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
@@ -17,9 +17,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ import java.util.List;
 @Transactional
 public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements PowerService {
 
-    @Autowired
+    @Resource
     private RolePowerMapper rolePowerMapper;
 
     /**

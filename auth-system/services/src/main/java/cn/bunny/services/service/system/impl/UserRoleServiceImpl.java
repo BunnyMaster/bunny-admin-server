@@ -4,7 +4,7 @@ import cn.bunny.domain.constant.RedisUserConstant;
 import cn.bunny.domain.system.dto.user.AssignRolesToUsersDto;
 import cn.bunny.domain.system.entity.AdminUser;
 import cn.bunny.domain.system.entity.UserRole;
-import cn.bunny.domain.system.vo.user.LoginVo;
+import cn.bunny.domain.vo.LoginVo;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.exception.AuthCustomerException;
@@ -14,7 +14,7 @@ import cn.bunny.services.service.system.UserRoleService;
 import cn.bunny.services.utils.system.UserUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,16 +34,16 @@ import java.util.concurrent.TimeUnit;
 @Transactional
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
-    @Autowired
+    @Resource
     private UserRoleMapper userRoleMapper;
 
-    @Autowired
+    @Resource
     private UserUtil userUtil;
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     /**

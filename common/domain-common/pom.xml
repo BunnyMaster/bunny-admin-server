@@ -7,7 +7,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>common-domain</artifactId>
+    <artifactId>domain-common</artifactId>
     <packaging>jar</packaging>
 
     <name>common-domain</name>
