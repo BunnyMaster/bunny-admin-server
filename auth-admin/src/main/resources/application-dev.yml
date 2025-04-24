@@ -19,20 +19,20 @@ logging:
 
 bunny:
   master:
-    host: localhost
+    host: 192.168.3.137 # localhost
     port: 3306
     database: auth_admin
     username: root
     password: "123456"
 
   redis:
-    host: localhost
+    host: 192.168.3.137
     port: 6379
     database: 0
     password: "123456"
 
   minio:
-    endpointUrl: "http://localhost:9000" # 连接地址
+    endpointUrl: "http://192.168.3.137:9000" # 连接地址
     accessKey: bunny # 用户名
     secretKey: "12345678" # 登录密码
     bucket-name: auth-admin # 指定哪个桶

@@ -35,7 +35,7 @@ public class I18nExcel {
     @Schema(name = "translation", title = "多语言翻译名称")
     @ExcelProperty("translation/多语言翻译")
     // 列宽
-    @ColumnWidth(166)
+    @ColumnWidth(106)
     // fontHeightInPoints：字体大小，颜色：color 【天蓝色】
     @ContentFontStyle(fontHeightInPoints = 18, color = 40, bold = BooleanEnum.TRUE)
     private String translation;
