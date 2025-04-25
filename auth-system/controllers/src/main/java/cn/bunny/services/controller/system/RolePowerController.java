@@ -19,7 +19,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-09-26
  */
-@Tag(name = "角色和权限", description = "角色和权限相关接口")
+@Tag(name = "系统角色和权限", description = "角色和权限相关接口")
 @RestController
 @RequestMapping("api/rolePower")
 public class RolePowerController {

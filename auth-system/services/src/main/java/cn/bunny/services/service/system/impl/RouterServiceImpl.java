@@ -65,7 +65,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
         // 当前的所有的路由列表
         List<Router> routerList = list();
-
+      
         // 查询路由角色列表
         Map<Long, List<ViewRouterRole>> routerRoleList = routerRoleMapper.selectRouterRoleList().stream()
                 .collect(Collectors.groupingBy(ViewRouterRole::getRouterId, Collectors.toList()));
@@ -74,7 +74,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         Map<Long, List<ViewRolePermission>> rolePermissionList = rolePermissionMapper.viewRolePowerWithAll().stream()
                 .collect(Collectors.groupingBy(ViewRolePermission::getRoleId, Collectors.toList()));
 
-        // 整理web用户所能看到的路由列表
+        // 整理web用户所能看到的路由列表，并检查当前用户是否是admin
         List<WebUserRouterVo> webUserRouterVoList = routerUtil.getWebUserRouterVos(routerList, routerRoleList, rolePermissionList);
 
         // 添加 admin 管理路由权限

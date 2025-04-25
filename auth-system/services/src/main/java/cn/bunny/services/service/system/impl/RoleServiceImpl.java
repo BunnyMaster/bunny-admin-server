@@ -1,5 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.domain.i18n.excel.RoleExcel;
 import cn.bunny.domain.system.dto.role.RoleAddDto;
 import cn.bunny.domain.system.dto.role.RoleDto;
 import cn.bunny.domain.system.dto.role.RoleUpdateDto;
@@ -8,13 +9,16 @@ import cn.bunny.domain.system.entity.UserRole;
 import cn.bunny.domain.system.vo.RoleVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
+import cn.bunny.services.excel.RoleExcelListener;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.RouterRoleMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RoleService;
+import cn.bunny.services.utils.FileUtil;
 import cn.bunny.services.utils.system.RoleUtil;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,9 +28,19 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * <p>
@@ -77,12 +91,71 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     @Cacheable(cacheNames = "role", key = "'allRole'", cacheManager = "cacheManagerWithMouth")
-    public List<RoleVo> getAllRoles() {
+    public List<RoleVo> allRoles() {
         return list().stream().map(role -> {
             RoleVo roleVo = new RoleVo();
             BeanUtils.copyProperties(role, roleVo);
             return roleVo;
         }).toList();
+    }
+
+    /**
+     * 使用Excel导出导出角色列表
+     *
+     * @return Excel
+     */
+    @Override
+    public ResponseEntity<byte[]> exportByExcel() {
+        String filename = FileUtil.buildFilenameBefore("role-");
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
+
+            List<RoleExcel> list = list().stream().map(role -> {
+                RoleExcel roleExcel = new RoleExcel();
+                BeanUtils.copyProperties(role, roleExcel);
+
+                roleExcel.setId(role.getId().toString());
+                return roleExcel;
+            }).toList();
+
+            // 创建临时ByteArrayOutputStream
+            ByteArrayOutputStream excelOutputStream = new ByteArrayOutputStream();
+
+            ZipEntry zipEntry = new ZipEntry(filename + ".xlsx");
+            zipOutputStream.putNextEntry(zipEntry);
+
+            // 先写入到临时流
+            EasyExcel.write(excelOutputStream, RoleExcel.class).sheet("role").doWrite(list);
+            zipOutputStream.write(excelOutputStream.toByteArray());
+            zipOutputStream.closeEntry();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 设置响应头
+        HttpHeaders headers = FileUtil.buildHttpHeadersByBinary(filename + ".zip");
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * 使用Excel更新角色列表
+     *
+     * @param file Excel文件
+     */
+    @Override
+    @CacheEvict(cacheNames = "role", key = "'allRole'", beforeInvocation = true)
+    public void updateRoleByFile(MultipartFile file) {
+        InputStream fileInputStream;
+        try {
+            fileInputStream = file.getInputStream();
+            EasyExcel.read(fileInputStream, RoleExcel.class, new RoleExcelListener(this)).sheet().doRead();
+        } catch (IOException e) {
+            throw new AuthCustomerException(ResultCodeEnum.UPLOAD_ERROR);
+        }
     }
 
     /**

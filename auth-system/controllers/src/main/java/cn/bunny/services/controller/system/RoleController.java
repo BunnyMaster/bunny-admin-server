@@ -1,13 +1,14 @@
 package cn.bunny.services.controller.system;
 
-import cn.bunny.domain.system.entity.Role;
 import cn.bunny.domain.system.dto.role.RoleAddDto;
 import cn.bunny.domain.system.dto.role.RoleDto;
 import cn.bunny.domain.system.dto.role.RoleUpdateDto;
+import cn.bunny.domain.system.entity.Role;
 import cn.bunny.domain.system.vo.RoleVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.Result;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
+import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.service.system.RoleService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +16,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,7 +30,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-03 14:26:24
  */
-@Tag(name = "角色", description = "角色相关接口")
+@Tag(name = "系统角色", description = "角色相关接口")
 @RestController
 @RequestMapping("api/role")
 public class RoleController {
@@ -49,10 +52,26 @@ public class RoleController {
     }
 
     @Operation(summary = "获取所有角色", description = "获取所有角色")
-    @GetMapping("noManage/getAllRoles")
-    public Result<List<RoleVo>> getAllRoles() {
-        List<RoleVo> roleVoList = roleService.getAllRoles();
+    @GetMapping("noManage/allRoles")
+    public Result<List<RoleVo>> allRoles() {
+        List<RoleVo> roleVoList = roleService.allRoles();
         return Result.success(roleVoList);
+    }
+
+    @Operation(summary = "导出角色列表", description = "使用Excel导出导出角色列表")
+    @GetMapping("exportByExcel")
+    public ResponseEntity<byte[]> exportByExcel() {
+        return roleService.exportByExcel();
+    }
+
+    @Operation(summary = "更新角色列表", description = "使用Excel更新角色列表")
+    @PutMapping("update/roleByFile")
+    public Result<String> updateRoleByFile(MultipartFile file) {
+        if (file == null) {
+            throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        }
+        roleService.updateRoleByFile(file);
+        return Result.success();
     }
 
     @Operation(summary = "添加角色", description = "添加角色")

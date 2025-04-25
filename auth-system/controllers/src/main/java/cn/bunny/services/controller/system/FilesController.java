@@ -82,15 +82,6 @@ public class FilesController {
         return filesService.downloadFilesByFilepath(filepath);
     }
 
-    // // 无法做权限校验
-    // @Operation(summary = "根据文件名访问resource下图片文件", description = "根据文件名访问resource下文件")
-    // @GetMapping("noAuth/getResourceImagesByFilename/{filename}")
-    // public ResponseEntity<Resource> getResourceImagesByFilename(@PathVariable String filename) {
-    //     Resource file = new ClassPathResource("static/images/" + filename);
-    //     if (!file.exists()) throw new BunnyException(ResultCodeEnum.FILE_NOT_EXIST);
-    //     return ResponseEntity.ok().body(file);
-    // }
-
     @Operation(summary = "更新系统文件", description = "更新系统文件")
     @PutMapping("updateFiles")
     public Result<String> updateFiles(@Valid FilesUpdateDto dto) {

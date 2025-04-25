@@ -28,7 +28,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-03 16:00:52
  */
-@Tag(name = "权限", description = "权限相关接口")
+@Tag(name = "系统权限", description = "权限相关接口")
 @RestController
 @RequestMapping("api/power")
 public class PowerController {

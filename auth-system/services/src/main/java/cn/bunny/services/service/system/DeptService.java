@@ -55,5 +55,5 @@ public interface DeptService extends IService<Dept> {
      *
      * @return 所有部门列表
      */
-    List<DeptVo> getAllDeptList();
+    List<DeptVo> allDeptList();
 }

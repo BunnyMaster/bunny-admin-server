@@ -10,6 +10,7 @@ import cn.bunny.domain.vo.LoginVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.Result;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
+import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.service.system.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,9 +45,9 @@ public class UserController {
     }
 
     @Operation(summary = "获取本地登录用户信息", description = "获取用户信息从Redis中获取")
-    @GetMapping("noManage/getUserinfo")
-    public Result<LoginVo> getUserinfo() {
-        LoginVo vo = userService.getUserinfo();
+    @GetMapping("noManage/userinfo")
+    public Result<LoginVo> userinfo() {
+        LoginVo vo = BaseContext.getLoginVo();
         return Result.success(vo);
     }
 

@@ -24,7 +24,7 @@ public class WebSecurityConfig {
             "/media.ico", "/favicon.ico", "/webjars/**", "/v3/api-docs/**", "/swagger-ui/**",
             "/*/*/login",
             "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
-            "/*/i18n/getI18n",
+            "/*/i18n/getI18n"
     };
 
     @Resource

@@ -1,14 +1,16 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.domain.system.entity.Role;
 import cn.bunny.domain.system.dto.role.RoleAddDto;
 import cn.bunny.domain.system.dto.role.RoleDto;
 import cn.bunny.domain.system.dto.role.RoleUpdateDto;
+import cn.bunny.domain.system.entity.Role;
 import cn.bunny.domain.system.vo.RoleVo;
 import cn.bunny.domain.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -55,5 +57,19 @@ public interface RoleService extends IService<Role> {
      *
      * @return 所有角色列表
      */
-    List<RoleVo> getAllRoles();
+    List<RoleVo> allRoles();
+
+    /**
+     * 使用Excel导出导出角色列表
+     *
+     * @return Excel
+     */
+    ResponseEntity<byte[]> exportByExcel();
+
+    /**
+     * 使用Excel更新角色列表
+     *
+     * @param file Excel文件
+     */
+    void updateRoleByFile(MultipartFile file);
 }

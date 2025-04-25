@@ -65,7 +65,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      */
     @Override
     @Cacheable(cacheNames = "dept", key = "'allDept'", cacheManager = "cacheManagerWithMouth")
-    public List<DeptVo> getAllDeptList() {
+    public List<DeptVo> allDeptList() {
         return list().stream().map(dept -> {
             DeptVo deptVo = new DeptVo();
             BeanUtils.copyProperties(dept, deptVo);

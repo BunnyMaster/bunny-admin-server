@@ -334,11 +334,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public List<SearchUserinfoVo> queryUser(String keyword) {
         if (!StringUtils.hasText(keyword)) {
-            return list(Page.of(1, 20), Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getStatus, false)).stream().map(adminUser -> {
-                SearchUserinfoVo adminUserVo = new SearchUserinfoVo();
-                BeanUtils.copyProperties(adminUser, adminUserVo);
-                return adminUserVo;
-            }).toList();
+            return list(Page.of(1, 20), Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getStatus, false)).stream()
+                    .map(adminUser -> {
+                        SearchUserinfoVo adminUserVo = new SearchUserinfoVo();
+                        BeanUtils.copyProperties(adminUser, adminUserVo);
+                        return adminUserVo;
+                    }).toList();
         }
 
         List<AdminUser> list = baseMapper.queryUser(keyword);
@@ -369,16 +370,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
             adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
             redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
         }
-    }
-
-    /**
-     * * 获取本地登录用户信息
-     *
-     * @return 用户信息
-     */
-    @Override
-    public LoginVo getUserinfo() {
-        return BaseContext.getLoginVo();
     }
 
     /**

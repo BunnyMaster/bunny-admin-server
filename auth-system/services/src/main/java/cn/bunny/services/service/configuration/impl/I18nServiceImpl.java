@@ -17,6 +17,7 @@ import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nMapper;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nService;
+import cn.bunny.services.utils.FileUtil;
 import cn.bunny.services.utils.i8n.I18nUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson2.JSON;
@@ -178,11 +179,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
         }
 
         // 设置响应头
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=" + "i18n.zip");
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
+        HttpHeaders headers = FileUtil.buildHttpHeadersByBinary("i18n-configuration.zip");
 
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);

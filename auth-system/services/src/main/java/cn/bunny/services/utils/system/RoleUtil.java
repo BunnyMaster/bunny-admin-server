@@ -6,7 +6,7 @@ import cn.bunny.domain.system.entity.AdminUser;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.mapper.system.UserMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +15,13 @@ import java.util.List;
 @Component
 public class RoleUtil {
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
-    @Autowired
+    @Resource
     private UserUtil userUtil;
 
     /**

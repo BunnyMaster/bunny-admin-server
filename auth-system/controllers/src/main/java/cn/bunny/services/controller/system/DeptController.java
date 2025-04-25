@@ -49,9 +49,9 @@ public class DeptController {
     }
 
     @Operation(summary = "获取所有部门", description = "获取所有部门")
-    @GetMapping("noManage/getAllDeptList")
-    public Result<List<DeptVo>> getAllDeptList() {
-        List<DeptVo> voList = deptService.getAllDeptList();
+    @GetMapping("noManage/allDeptList")
+    public Result<List<DeptVo>> allDeptList() {
+        List<DeptVo> voList = deptService.allDeptList();
         return Result.success(voList);
     }
 
