@@ -1,4 +1,4 @@
-package cn.bunny.domain.views;
+package cn.bunny.domain.system.views;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,29 +22,20 @@ public class ViewRouterRole {
     @Schema(name = "path", title = "在项目中路径")
     private String path;
 
-    @Schema(name = "component", title = "组件位置")
-    private String component;
-
-    @Schema(name = "frameSrc", title = "frame路径")
-    private String frameSrc;
-
     @Schema(name = "routeName", title = "路由名称")
     private String routeName;
 
-    @Schema(name = "title", title = "路由title")
-    private String title;
+    @Schema(name = "redirect", title = "路由重定向")
+    private String redirect;
+
+    @Schema(name = "component", title = "组件位置")
+    private String component;
 
     @Schema(name = "menuType", title = "菜单类型")
     private Integer menuType;
 
-    @Schema(name = "icon", title = "图标")
-    private String icon;
-
-    @Schema(name = "routerRank", title = "等级")
-    private Integer routerRank;
-
-    @Schema(name = "visible", title = "是否显示")
-    private Boolean visible;
+    @Schema(name = "meta", title = "路由meta")
+    private String meta;
 
     @Schema(name = "roleId", title = "角色ID")
     private Long roleId;

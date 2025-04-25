@@ -1,8 +1,7 @@
 package cn.bunny.domain.system.dto.router;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import cn.bunny.domain.system.entity.RouterMeta;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,44 +20,29 @@ public class RouterUpdateDto {
     @NotNull(message = "id不能为空")
     private Long id;
 
-    @Schema(name = "menuType", title = "菜单类型")
-    @NotNull(message = "菜单类型不能为空")
-    private Integer menuType;
-
     @Schema(name = "parentId", title = "父级id")
     private Long parentId;
 
-    @Schema(name = "title", title = "路由title")
-    @NotBlank(message = "菜单名称不能为空")
-    @NotNull(message = "菜单名称不能为空")
-    private String title;
-
-    @Schema(name = "routeName", title = "路由名称")
-    @JsonProperty("name")
-    @NotBlank(message = "路由名称不能为空")
-    @NotNull(message = "路由名称不能为空")
-    private String routeName;
-
     @Schema(name = "path", title = "在项目中路径")
     @NotBlank(message = "路由路径不能为空")
-    @NotNull(message = "路由路径不能为空")
     private String path;
+
+    @Schema(name = "routeName", title = "路由名称")
+    @NotBlank(message = "路由名称不能为空")
+    private String routeName;
+
+    @Schema(name = "redirect", title = "路由重定向")
+    private String redirect;
 
     @Schema(name = "component", title = "组件位置")
     private String component;
 
-    @Schema(name = "routerRank", title = "等级")
-    @JsonProperty("rank")
-    @Max(value = 999, message = "不能超过999")
-    private Integer routerRank;
+    @Schema(name = "menuType", title = "菜单类型")
+    @NotNull(message = "菜单类型不能为空")
+    private Integer menuType;
 
-    @Schema(name = "icon", title = "图标")
-    private String icon;
+    @Schema(name = "meta", title = "菜单meta")
+    private RouterMeta meta;
 
-    @Schema(name = "frameSrc", title = "frame路径")
-    private String frameSrc;
-
-    @Schema(name = "visible", title = "是否显示")
-    private Boolean visible;
 }
 

@@ -71,7 +71,6 @@ public class DatabaseBackupJob implements Job {
         StringBuilder stringBuilder = new StringBuilder();
         while ((line = reader.readLine()) != null) {
             stringBuilder.append(line);
-            System.out.println(line);
         }
         jobDataMap.put("output", stringBuilder.toString());
     }

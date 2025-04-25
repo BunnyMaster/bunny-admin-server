@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper.system;
 
 import cn.bunny.domain.system.entity.RouterRole;
-import cn.bunny.domain.views.ViewRouterRole;
+import cn.bunny.domain.system.views.ViewRouterRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,30 +19,31 @@ import java.util.List;
 public interface RouterRoleMapper extends BaseMapper<RouterRole> {
 
     /**
-     * 根据路由id删除所有角色和路由信息
+     * 查看所有路由关联角色
      *
-     * @param routerIds 路由id
+     * @return 路由角色关系视图列表
      */
-    void deleteBatchIdsByRouterIdsWithPhysics(List<Long> routerIds);
+    List<ViewRouterRole> selectRouterRoleList();
 
     /**
-     * * 根据角色id列表删除角色和路由相关
+     * 根据【路由id】删除所有角色和路由信息
+     *
+     * @param ids 路由id
+     */
+    void deleteBatchIdsByRouterIdsWithPhysics(List<Long> ids);
+
+    /**
+     * * 根据【角色id】列表删除角色和路由相关
      *
      * @param roleIds 角色id列表
      */
     void deleteBatchIdsByRoleIdsWithPhysics(List<Long> roleIds);
 
     /**
-     * 查看所有路由关联角色
-     *
-     * @return 路由角色关系视图列表
-     */
-    List<ViewRouterRole> viewRouterRolesWithAll();
-
-    /**
-     * 根据Id列表物理删除路由角色关系表
+     * 根据【Id列表】物理删除路由角色关系表
      *
      * @param ids 路由角色关系表ids
      */
     void deleteBatchIdsWithPhysics(List<Long> ids);
 }
+

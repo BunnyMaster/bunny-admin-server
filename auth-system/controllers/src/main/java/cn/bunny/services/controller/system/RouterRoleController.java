@@ -1,11 +1,10 @@
 package cn.bunny.services.controller.system;
 
-import cn.bunny.domain.system.dto.router.AssignRolesToRoutersDto;
 import cn.bunny.domain.vo.result.Result;
 import cn.bunny.services.service.system.RouterRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
 @RequestMapping("api/routerRole")
 public class RouterRoleController {
 
-    @Autowired
+    @Resource
     private RouterRoleService routerRoleService;
 
     @Operation(summary = "根据菜单id获取所有角色", description = "根据菜单id获取所有角色")
@@ -31,20 +30,6 @@ public class RouterRoleController {
     public Result<List<String>> getRoleListByRouterId(Long routerId) {
         List<String> roleListByRouterId = routerRoleService.getRoleListByRouterId(routerId);
         return Result.success(roleListByRouterId);
-    }
-
-    @Operation(summary = "为菜单分配角色", description = "为菜单分配角色")
-    @PostMapping("assignRolesToRouter")
-    public Result<String> assignRolesToRouter(@RequestBody AssignRolesToRoutersDto dto) {
-        routerRoleService.assignRolesToRouter(dto);
-        return Result.success();
-    }
-
-    @Operation(summary = "批量为菜单添加角色", description = "批量为菜单添加角色")
-    @PostMapping("assignAddBatchRolesToRouter")
-    public Result<String> assignAddBatchRolesToRouter(@RequestBody AssignRolesToRoutersDto dto) {
-        routerRoleService.assignAddBatchRolesToRouter(dto);
-        return Result.success();
     }
 
     @Operation(summary = "清除选中菜单所有角色", description = "清除选中菜单所有角色")

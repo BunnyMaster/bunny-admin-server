@@ -43,7 +43,7 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
      * @return 查询分页系统菜单图标返回对象
      */
     @Override
-    public PageResult<MenuIconVo> getMenuIconList(Page<MenuIcon> pageParams, MenuIconDto dto) {
+    public PageResult<MenuIconVo> menuIconList(Page<MenuIcon> pageParams, MenuIconDto dto) {
         // 分页查询菜单图标
         IPage<MenuIconVo> page = baseMapper.selectListByPage(pageParams, dto);
         return PageResult.<MenuIconVo>builder()

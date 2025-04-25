@@ -8,9 +8,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@TableName("sys_power")
+@TableName("sys_permission")
 @Schema(name = "Power对象", title = "权限", description = "权限")
-public class Power extends BaseEntity {
+public class Permission extends BaseEntity {
 
     @Schema(name = "parentId", title = "父级id")
     private Long parentId;

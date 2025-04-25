@@ -12,9 +12,9 @@ import lombok.experimental.Accessors;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("sys_role_power")
+@TableName("sys_role_permission")
 @Schema(name = "RolePower对象", title = "角色权限关系", description = "角色权限关系")
-public class RolePower extends BaseEntity {
+public class RolePermission extends BaseEntity {
 
     @Schema(name = "roleId", title = "角色id")
     private Long roleId;

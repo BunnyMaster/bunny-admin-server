@@ -10,7 +10,7 @@ import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.RoleMapper;
-import cn.bunny.services.mapper.system.RolePowerMapper;
+import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.RouterRoleMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RoleService;
@@ -43,7 +43,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private UserRoleMapper userRoleMapper;
 
     @Resource
-    private RolePowerMapper rolePowerMapper;
+    private RolePermissionMapper rolePermissionMapper;
 
     @Resource
     private RouterRoleMapper routerRoleMapper;
@@ -137,7 +137,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         baseMapper.deleteBatchIdsWithPhysics(ids);
 
         // 删除角色权限相关
-        rolePowerMapper.deleteBatchRoleIdsWithPhysics(ids);
+        rolePermissionMapper.deleteBatchRoleIdsWithPhysics(ids);
 
         // 删除角色和用户相关
         userRoleMapper.deleteBatchIdsByRoleIdsWithPhysics(ids);

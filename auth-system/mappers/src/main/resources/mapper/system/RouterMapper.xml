@@ -8,13 +8,9 @@
         <result column="parent_id" property="parentId"/>
         <result column="path" property="path"/>
         <result column="component" property="component"/>
-        <result column="frame_src" property="frameSrc"/>
         <result column="route_name" property="routeName"/>
-        <result column="title" property="title"/>
         <result column="menu_type" property="menuType"/>
-        <result column="icon" property="icon"/>
-        <result column="router_rank" property="routerRank"/>
-        <result column="visible" property="visible"/>
+        <result column="meta" property="meta"/>
         <result column="create_user" property="createUser"/>
         <result column="update_user" property="updateUser"/>
         <result column="update_time" property="updateTime"/>
@@ -24,7 +20,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, parent_id, path, component, frame_src, route_name, title, menu_type, icon, router_rank, visible, create_user, update_user, update_time, create_time, is_deleted
+        id, parent_id, path, component, route_name, menu_type, meta, create_user, update_user, update_time, create_time, is_deleted
     </sql>
 
     <!-- 物理删除路由菜单 -->
@@ -37,58 +33,8 @@
         </foreach>
     </delete>
 
-    <!-- 根据用户ID查找路由列表 -->
-    <select id="selectListByUserId" resultType="java.lang.Long">
-        SELECT router.id
-        FROM sys_user_role user_role
-                 LEFT JOIN sys_user user ON user_role.user_id = user.id
-                 LEFT JOIN sys_router_role router_role ON user_role.role_id = router_role.role_id
-                 LEFT JOIN sys_router router ON router_role.router_id = router.id
-        WHERE user.is_deleted = 0
-          AND user.id = #{userId}
-    </select>
-
-    <!-- 递归查询所有父级Id，直到查询到父级Id为0 -->
-    <select id="selectParentListByRouterId" resultType="cn.bunny.domain.system.entity.Router">
-        WITH RECURSIVE ParentChain AS (
-        SELECT * FROM sys_router
-        WHERE id IN
-        <foreach collection="ids" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
-        UNION ALL
-        SELECT r.* FROM sys_router r
-        INNER JOIN ParentChain pc ON r.id = pc.parent_id
-        )
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM ParentChain;
-    </select>
-
-    <!-- 管理菜单列表 -->
-    <select id="selectListByPage" resultType="cn.bunny.domain.system.vo.router.RouterManageVo">
-        select
-        router.*,
-        create_user.username as create_username,
-        update_user.username as update_username
-        from sys_router router
-        left join sys_user create_user on create_user.id = router.create_user
-        left join sys_user update_user on update_user.id = router.update_user
-        <where>
-            role.is_deleted = 0
-            <if test="dto.title != null and dto.title != ''">
-                and router.title like CONCAT('%',#{dto.title},'%')
-            </if>
-            <if test="dto.visible != null">
-                and router.visible = #{dto.visible}
-            </if>
-        </where>
-    </select>
-
-    <!-- 管理菜单列表不分页 -->
-    <select id="selectAllList" resultType="cn.bunny.domain.system.vo.router.RouterManageVo">
-        select
-        router.*,
+    <select id="selectMenuList" resultType="cn.bunny.domain.system.vo.router.RouterVo">
+        select router.*,
         create_user.username as create_username,
         update_user.username as update_username
         from sys_router router
@@ -96,12 +42,6 @@
         left join sys_user update_user on update_user.id = router.update_user
         <where>
             router.is_deleted = 0
-            <if test="dto.title != null and dto.title != ''">
-                and router.title like CONCAT('%',#{dto.title},'%')
-            </if>
-            <if test="dto.visible != null">
-                and router.visible = #{dto.visible}
-            </if>
         </where>
     </select>
 </mapper>

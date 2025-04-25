@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper.system;
 
-import cn.bunny.domain.system.entity.Power;
 import cn.bunny.domain.system.dto.power.PowerDto;
+import cn.bunny.domain.system.entity.Permission;
 import cn.bunny.domain.system.vo.PowerVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2024-10-03 16:00:52
  */
 @Mapper
-public interface PowerMapper extends BaseMapper<Power> {
+public interface PowerMapper extends BaseMapper<Permission> {
 
     /**
      * * 分页查询权限内容
@@ -29,7 +29,7 @@ public interface PowerMapper extends BaseMapper<Power> {
      * @param dto        权限查询表单
      * @return 权限分页结果
      */
-    IPage<PowerVo> selectListByPage(@Param("page") Page<Power> pageParams, @Param("dto") PowerDto dto);
+    IPage<PowerVo> selectListByPage(@Param("page") Page<Permission> pageParams, @Param("dto") PowerDto dto);
 
     /**
      * 物理删除权限
@@ -43,6 +43,6 @@ public interface PowerMapper extends BaseMapper<Power> {
      *
      * @param userId 用户id
      */
-    List<Power> selectListByUserId(long userId);
+    List<Permission> selectListByUserId(long userId);
 
 }

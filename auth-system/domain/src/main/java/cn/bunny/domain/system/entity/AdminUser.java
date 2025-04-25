@@ -68,5 +68,6 @@ public class AdminUser extends BaseEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
+
 }
 

@@ -1,26 +1,16 @@
-package cn.bunny.domain.system.entity;
+package cn.bunny.domain.system.vo.router;
 
-import cn.bunny.domain.entity.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
+import cn.bunny.domain.vo.BaseUserVo;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.*;
 
-/**
- * <p>
- * 系统菜单表
- * </p>
- *
- * @author Bunny
- * @since 2024-09-29
- */
-@Getter
-@Setter
-@Accessors(chain = true)
-@TableName("sys_router")
-@Schema(name = "Router对象", title = "系统菜单表", description = "系统菜单表")
-public class Router extends BaseEntity {
+@EqualsAndHashCode(callSuper = true)
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Schema(name = "RouterVo对象", title = "Router返回对象,含用户名等继承 BaseUserVo", description = "Router返回对象包含用户名等返回信息")
+public class RouterVo extends BaseUserVo {
 
     @Schema(name = "parentId", title = "父级id")
     private Long parentId;
@@ -44,4 +34,3 @@ public class Router extends BaseEntity {
     private String meta;
 
 }
-

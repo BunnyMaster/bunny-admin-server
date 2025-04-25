@@ -1,4 +1,4 @@
-package cn.bunny.domain.views;
+package cn.bunny.domain.system.views;
 
 import cn.bunny.domain.entity.BaseUserEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -36,7 +36,7 @@ public class ViewUserDept extends BaseUserEntity {
 
     @Schema(name = "password", title = "密码")
     private String password;
-
+ 
     @Schema(name = "avatar", title = "头像")
     private String avatar;
 

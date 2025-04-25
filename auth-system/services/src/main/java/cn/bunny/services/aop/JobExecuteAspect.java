@@ -6,13 +6,13 @@ import cn.bunny.domain.log.entity.ScheduleExecuteLog;
 import cn.bunny.domain.model.quartz.ScheduleExecuteLogJson;
 import cn.bunny.services.mapper.log.ScheduleExecuteLogMapper;
 import com.alibaba.fastjson2.JSON;
+import jakarta.annotation.Resource;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -26,7 +26,7 @@ public class JobExecuteAspect {
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(LocalDateTimeConstant.YYYY_MM_DD_HH_MM_SS);
 
-    @Autowired
+    @Resource
     private ScheduleExecuteLogMapper scheduleExecuteLogMapper;
 
     @Around(value = "pointCut()")

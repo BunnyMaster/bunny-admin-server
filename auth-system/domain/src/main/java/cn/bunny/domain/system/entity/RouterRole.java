@@ -20,3 +20,4 @@ public class RouterRole extends BaseEntity {
     @Schema(name = "roleId", title = "角色ID")
     private Long roleId;
 }
+

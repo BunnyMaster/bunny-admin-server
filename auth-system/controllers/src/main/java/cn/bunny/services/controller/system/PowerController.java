@@ -1,10 +1,10 @@
 package cn.bunny.services.controller.system;
 
-import cn.bunny.domain.system.entity.Power;
 import cn.bunny.domain.system.dto.power.PowerAddDto;
 import cn.bunny.domain.system.dto.power.PowerDto;
 import cn.bunny.domain.system.dto.power.PowerUpdateBatchByParentIdDto;
 import cn.bunny.domain.system.dto.power.PowerUpdateDto;
+import cn.bunny.domain.system.entity.Permission;
 import cn.bunny.domain.system.vo.PowerVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.Result;
@@ -44,7 +44,7 @@ public class PowerController {
             @Parameter(name = "limit", description = "每页记录数", required = true)
             @PathVariable("limit") Integer limit,
             PowerDto dto) {
-        Page<Power> pageParams = new Page<>(page, limit);
+        Page<Permission> pageParams = new Page<>(page, limit);
         PageResult<PowerVo> pageResult = powerService.getPowerList(pageParams, dto);
         return Result.success(pageResult);
     }

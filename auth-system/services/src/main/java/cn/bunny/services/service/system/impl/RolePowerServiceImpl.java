@@ -2,9 +2,9 @@ package cn.bunny.services.service.system.impl;
 
 import cn.bunny.domain.system.dto.AssignPowersToRoleDto;
 import cn.bunny.domain.system.entity.AdminUser;
-import cn.bunny.domain.system.entity.RolePower;
+import cn.bunny.domain.system.entity.RolePermission;
 import cn.bunny.domain.system.entity.UserRole;
-import cn.bunny.services.mapper.system.RolePowerMapper;
+import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RolePowerService;
@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower> implements RolePowerService {
+public class RolePowerServiceImpl extends ServiceImpl<RolePermissionMapper, RolePermission> implements RolePowerService {
 
     @Resource
     private UserMapper userMapper;
@@ -46,8 +46,8 @@ public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower
      */
     @Override
     public List<String> getPowerListByRoleId(Long id) {
-        List<RolePower> rolePowerList = baseMapper.selectPowerListByRoleId(id);
-        return rolePowerList.stream().map(rolePower -> rolePower.getPowerId().toString()).toList();
+        List<RolePermission> rolePermissionList = baseMapper.selectPowerListByRoleId(id);
+        return rolePermissionList.stream().map(rolePermission -> rolePermission.getPowerId().toString()).toList();
     }
 
     /**
@@ -64,13 +64,13 @@ public class RolePowerServiceImpl extends ServiceImpl<RolePowerMapper, RolePower
         baseMapper.deleteBatchRoleIdsWithPhysics(List.of(roleId));
 
         // 保存分配数据
-        List<RolePower> rolePowerList = powerIds.stream().map(powerId -> {
-            RolePower rolePower = new RolePower();
-            rolePower.setRoleId(roleId);
-            rolePower.setPowerId(powerId);
-            return rolePower;
+        List<RolePermission> rolePermissionList = powerIds.stream().map(powerId -> {
+            RolePermission rolePermission = new RolePermission();
+            rolePermission.setRoleId(roleId);
+            rolePermission.setPowerId(powerId);
+            return rolePermission;
         }).toList();
-        saveBatch(rolePowerList);
+        saveBatch(rolePermissionList);
 
         // 找到所有和当前更新角色相同的用户
         List<Long> roleIds = userRoleMapper.selectList(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getRoleId, roleId))

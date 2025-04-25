@@ -1,10 +1,10 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.domain.system.entity.Power;
 import cn.bunny.domain.system.dto.power.PowerAddDto;
 import cn.bunny.domain.system.dto.power.PowerDto;
 import cn.bunny.domain.system.dto.power.PowerUpdateBatchByParentIdDto;
 import cn.bunny.domain.system.dto.power.PowerUpdateDto;
+import cn.bunny.domain.system.entity.Permission;
 import cn.bunny.domain.system.vo.PowerVo;
 import cn.bunny.domain.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,14 +21,14 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-03 16:00:52
  */
-public interface PowerService extends IService<Power> {
+public interface PowerService extends IService<Permission> {
 
     /**
      * * 获取权限列表
      *
      * @return 权限返回列表
      */
-    PageResult<PowerVo> getPowerList(Page<Power> pageParams, PowerDto dto);
+    PageResult<PowerVo> getPowerList(Page<Permission> pageParams, PowerDto dto);
 
     /**
      * * 添加权限

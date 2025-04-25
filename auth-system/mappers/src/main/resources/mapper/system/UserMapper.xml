@@ -29,7 +29,7 @@
     </sql>
 
     <!-- 分页查询用户信息内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.domain.views.ViewUserDept">
+    <select id="selectListByPage" resultType="cn.bunny.domain.system.views.ViewUserDept">
         select
         user.*,
         user_dept.dept_id,

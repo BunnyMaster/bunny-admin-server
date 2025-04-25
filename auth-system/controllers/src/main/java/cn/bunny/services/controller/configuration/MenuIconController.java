@@ -36,15 +36,15 @@ public class MenuIconController {
     private MenuIconService menuIconService;
 
     @Operation(summary = "分页查询系统菜单图标", description = "分页查询系统菜单图标")
-    @GetMapping("getMenuIconList/{page}/{limit}")
-    public Result<PageResult<MenuIconVo>> getMenuIconList(
+    @GetMapping("menuIconList/{page}/{limit}")
+    public Result<PageResult<MenuIconVo>> menuIconList(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,
             @Parameter(name = "limit", description = "每页记录数", required = true)
             @PathVariable("limit") Integer limit,
             MenuIconDto dto) {
         Page<MenuIcon> pageParams = new Page<>(page, limit);
-        PageResult<MenuIconVo> pageResult = menuIconService.getMenuIconList(pageParams, dto);
+        PageResult<MenuIconVo> pageResult = menuIconService.menuIconList(pageParams, dto);
         return Result.success(pageResult);
     }
 

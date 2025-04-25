@@ -1,4 +1,4 @@
-package cn.bunny.domain.views;
+package cn.bunny.domain.system.views;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,9 +9,9 @@ import lombok.experimental.Accessors;
 @Setter
 @Getter
 @Accessors(chain = true)
-@TableName("sys_role_power")
+@TableName("sys_role_permission")
 @Schema(name = "ViewRolePower对象", title = "角色权限关系视图", description = "角色权限关系视图")
-public class ViewRolePower {
+public class ViewRolePermission {
 
     @Schema(name = "roleId", title = "角色ID")
     private Long roleId;

@@ -4,13 +4,13 @@ import cn.bunny.domain.system.dto.power.PowerAddDto;
 import cn.bunny.domain.system.dto.power.PowerDto;
 import cn.bunny.domain.system.dto.power.PowerUpdateBatchByParentIdDto;
 import cn.bunny.domain.system.dto.power.PowerUpdateDto;
-import cn.bunny.domain.system.entity.Power;
+import cn.bunny.domain.system.entity.Permission;
 import cn.bunny.domain.system.vo.PowerVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.PowerMapper;
-import cn.bunny.services.mapper.system.RolePowerMapper;
+import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.service.system.PowerService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -37,10 +37,10 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements PowerService {
+public class PowerServiceImpl extends ServiceImpl<PowerMapper, Permission> implements PowerService {
 
     @Resource
-    private RolePowerMapper rolePowerMapper;
+    private RolePermissionMapper rolePermissionMapper;
 
     /**
      * * 权限 服务实现类
@@ -50,7 +50,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
      * @return 查询分页权限返回对象
      */
     @Override
-    public PageResult<PowerVo> getPowerList(Page<Power> pageParams, PowerDto dto) {
+    public PageResult<PowerVo> getPowerList(Page<Permission> pageParams, PowerDto dto) {
         IPage<PowerVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<PowerVo>builder()
@@ -69,8 +69,8 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
     @Override
     @Cacheable(cacheNames = "power", key = "'allPower'", cacheManager = "cacheManagerWithMouth")
     public List<PowerVo> getAllPowers() {
-        List<Power> powerList = list();
-        return powerList.stream().map(power -> {
+        List<Permission> permissionList = list();
+        return permissionList.stream().map(power -> {
             PowerVo powerVo = new PowerVo();
             BeanUtils.copyProperties(power, powerVo);
             return powerVo;
@@ -86,17 +86,17 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
     @CacheEvict(cacheNames = "power", key = "'allPower'", beforeInvocation = true)
     public void addPower(@Valid PowerAddDto dto) {
         // 添加权限时确保权限码和请求地址是唯一的
-        LambdaQueryWrapper<Power> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Power::getPowerCode, dto.getPowerCode())
+        LambdaQueryWrapper<Permission> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Permission::getPowerCode, dto.getPowerCode())
                 .or()
-                .eq(Power::getRequestUrl, dto.getRequestUrl());
-        List<Power> powerList = list(wrapper);
-        if (!powerList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_EXIST);
+                .eq(Permission::getRequestUrl, dto.getRequestUrl());
+        List<Permission> permissionList = list(wrapper);
+        if (!permissionList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_EXIST);
 
         // 保存数据
-        Power power = new Power();
-        BeanUtils.copyProperties(dto, power);
-        save(power);
+        Permission permission = new Permission();
+        BeanUtils.copyProperties(dto, permission);
+        save(permission);
     }
 
     /**
@@ -108,14 +108,14 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
     @CacheEvict(cacheNames = "power", key = "'allPower'", beforeInvocation = true)
     public void updatePower(@Valid PowerUpdateDto dto) {
         Long id = dto.getId();
-        List<Power> powerList = list(Wrappers.<Power>lambdaQuery().eq(Power::getId, id));
-        if (powerList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
+        List<Permission> permissionList = list(Wrappers.<Permission>lambdaQuery().eq(Permission::getId, id));
+        if (permissionList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
         if (dto.getId().equals(dto.getParentId())) throw new AuthCustomerException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
 
         // 更新内容
-        Power power = new Power();
-        BeanUtils.copyProperties(dto, power);
-        updateById(power);
+        Permission permission = new Permission();
+        BeanUtils.copyProperties(dto, permission);
+        updateById(permission);
     }
 
     /**
@@ -133,7 +133,7 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
         baseMapper.deleteBatchIdsWithPhysics(ids);
 
         // 删除角色部门相关
-        rolePowerMapper.deleteBatchPowerIdsWithPhysics(ids);
+        rolePermissionMapper.deleteBatchPowerIdsWithPhysics(ids);
     }
 
     /**
@@ -144,13 +144,13 @@ public class PowerServiceImpl extends ServiceImpl<PowerMapper, Power> implements
     @Override
     @CacheEvict(cacheNames = "power", key = "'allPower'", beforeInvocation = true)
     public void updateBatchByPowerWithParentId(PowerUpdateBatchByParentIdDto dto) {
-        List<Power> powerList = dto.getIds().stream().map(id -> {
-            Power power = new Power();
-            power.setId(id);
-            power.setParentId(dto.getParentId());
-            return power;
+        List<Permission> permissionList = dto.getIds().stream().map(id -> {
+            Permission permission = new Permission();
+            permission.setId(id);
+            permission.setParentId(dto.getParentId());
+            return permission;
         }).toList();
 
-        updateBatchById(powerList);
+        updateBatchById(permissionList);
     }
 }

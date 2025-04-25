@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.system.PowerMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.domain.system.entity.Power">
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.system.entity.Permission">
         <id column="id" property="id"/>
         <id column="create_time" property="createTime"/>
         <id column="update_time" property="updateTime"/>
@@ -25,22 +25,22 @@
     <!-- 分页查询权限内容 -->
     <select id="selectListByPage" resultType="cn.bunny.domain.system.vo.PowerVo">
         select
-        power.*,
+        permission.*,
         create_user.username as create_username,
         update_user.username as update_username
-        from sys_power power
-        left join sys_user create_user on create_user.id = power.create_user
-        left join sys_user update_user on update_user.id = power.update_user
+        from sys_permission permission
+        left join sys_user create_user on create_user.id = permission.create_user
+        left join sys_user update_user on update_user.id = permission.update_user
         <where>
-            power.is_deleted = 0
+            permission.is_deleted = 0
             <if test="dto.powerCode != null and dto.powerCode != ''">
-                and power.power_code like CONCAT('%',#{dto.powerCode},'%')
+                and permission.power_code like CONCAT('%',#{dto.powerCode},'%')
             </if>
             <if test="dto.powerName != null and dto.powerName != ''">
-                and power.power_name like CONCAT('%',#{dto.powerName},'%')
+                and permission.power_name like CONCAT('%',#{dto.powerName},'%')
             </if>
             <if test="dto.requestUrl != null and dto.requestUrl != ''">
-                and power.request_url like CONCAT('%',#{dto.requestUrl},'%')
+                and permission.request_url like CONCAT('%',#{dto.requestUrl},'%')
             </if>
         </where>
     </select>
@@ -48,7 +48,7 @@
     <!-- 物理删除权限 -->
     <delete id="deleteBatchIdsWithPhysics">
         delete
-        from sys_power
+        from sys_permission
         where id in
         <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}
@@ -56,16 +56,16 @@
     </delete>
 
     <!-- 根据用户id查询当前用户所有权限 -->
-    <select id="selectListByUserId" resultType="cn.bunny.domain.system.entity.Power">
+    <select id="selectListByUserId" resultType="cn.bunny.domain.system.entity.Permission">
         SELECT p.*
         FROM sys_user u,
-        sys_user_role ur,
-        sys_role_power rp,
-        sys_power p
+             sys_user_role ur,
+             sys_role_permission rp,
+             sys_permission p
         WHERE u.id = ur.user_id
-        AND u.is_deleted = 0
-        AND ur.role_id = rp.role_id
-        AND rp.power_id = p.id
-        AND u.id = #{userId}
+          AND u.is_deleted = 0
+          AND ur.role_id = rp.role_id
+          AND rp.power_id = p.id
+          AND u.id = #{userId}
     </select>
 </mapper>

@@ -1,7 +1,7 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.domain.system.entity.RolePower;
 import cn.bunny.domain.system.dto.AssignPowersToRoleDto;
+import cn.bunny.domain.system.entity.RolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-09-26
  */
-public interface RolePowerService extends IService<RolePower> {
+public interface RolePowerService extends IService<RolePermission> {
 
     /**
      * * 根据角色id获取权限内容

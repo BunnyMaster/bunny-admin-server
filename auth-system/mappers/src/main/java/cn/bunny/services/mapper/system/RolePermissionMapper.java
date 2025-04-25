@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper.system;
 
-import cn.bunny.domain.system.entity.RolePower;
-import cn.bunny.domain.views.ViewRolePower;
+import cn.bunny.domain.system.entity.RolePermission;
+import cn.bunny.domain.system.views.ViewRolePermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2024-09-26
  */
 @Mapper
-public interface RolePowerMapper extends BaseMapper<RolePower> {
+public interface RolePermissionMapper extends BaseMapper<RolePermission> {
 
     /**
      * * 根据权限id列表删除角色权限相关
@@ -38,12 +38,12 @@ public interface RolePowerMapper extends BaseMapper<RolePower> {
      * @param roleId 角色id
      * @return 已选择的权限列表
      */
-    List<RolePower> selectPowerListByRoleId(Long roleId);
+    List<RolePermission> selectPowerListByRoleId(Long roleId);
 
     /**
      * 查看所有角色关联的权限
      *
      * @return 角色权限关系视图
      */
-    List<ViewRolePower> viewRolePowerWithAll();
+    List<ViewRolePermission> viewRolePowerWithAll();
 }

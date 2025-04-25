@@ -24,7 +24,7 @@
         delete
         from sys_router_role
         where router_id in
-        <foreach collection="routerIds" item="id" open="(" close=")" separator=",">
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
     </delete>
@@ -50,18 +50,15 @@
     </delete>
 
     <!-- 查看所有路由的角色 -->
-    <select id="viewRouterRolesWithAll" resultType="cn.bunny.domain.views.ViewRouterRole">
+    <select id="selectRouterRoleList" resultType="cn.bunny.domain.system.views.ViewRouterRole">
         SELECT rr.router_id,
                router.parent_id,
                router.path,
                router.component,
-               router.frame_src,
+               router.redirect,
                router.route_name,
-               router.title,
                router.menu_type,
-               router.icon,
-               router.router_rank,
-               router.visible,
+               router.meta,
                rr.role_id,
                role.role_code,
                role.description

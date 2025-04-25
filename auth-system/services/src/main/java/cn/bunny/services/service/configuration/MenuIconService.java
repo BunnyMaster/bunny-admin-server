@@ -27,7 +27,7 @@ public interface MenuIconService extends IService<MenuIcon> {
      *
      * @return 系统菜单图标返回列表
      */
-    PageResult<MenuIconVo> getMenuIconList(Page<MenuIcon> pageParams, MenuIconDto dto);
+    PageResult<MenuIconVo> menuIconList(Page<MenuIcon> pageParams, MenuIconDto dto);
 
     /**
      * * 添加系统菜单图标

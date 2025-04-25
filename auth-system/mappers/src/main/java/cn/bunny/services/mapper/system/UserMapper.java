@@ -2,7 +2,7 @@ package cn.bunny.services.mapper.system;
 
 import cn.bunny.domain.system.dto.user.AdminUserDto;
 import cn.bunny.domain.system.entity.AdminUser;
-import cn.bunny.domain.views.ViewUserDept;
+import cn.bunny.domain.system.views.ViewUserDept;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

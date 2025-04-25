@@ -8,7 +8,6 @@ import cn.bunny.services.service.configuration.I18nService;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.alibaba.excel.util.ListUtils;
-import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -73,7 +72,5 @@ public class I18nExcelListener implements ReadListener<I18nExcel> {
             throw new AuthCustomerException(ResultCodeEnum.DATA_TOO_LARGE);
         }
         i18nService.saveBatch(i18nList);
-
-        System.out.println(JSON.toJSONString(i18nList));
     }
 }

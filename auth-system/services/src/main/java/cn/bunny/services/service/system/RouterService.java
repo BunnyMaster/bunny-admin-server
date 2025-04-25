@@ -1,14 +1,10 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.domain.system.entity.Router;
 import cn.bunny.domain.system.dto.router.RouterAddDto;
-import cn.bunny.domain.system.dto.router.RouterManageDto;
-import cn.bunny.domain.system.dto.router.RouterUpdateByIdWithRankDto;
 import cn.bunny.domain.system.dto.router.RouterUpdateDto;
+import cn.bunny.domain.system.entity.Router;
 import cn.bunny.domain.system.vo.router.RouterManageVo;
-import cn.bunny.domain.system.vo.router.UserRouterVo;
-import cn.bunny.domain.vo.result.PageResult;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cn.bunny.domain.system.vo.router.WebUserRouterVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
 
@@ -28,23 +24,14 @@ public interface RouterService extends IService<Router> {
      *
      * @return 路遇列表
      */
-    List<UserRouterVo> getRouterAsync();
-
-    /**
-     * * 管理菜单列表
-     *
-     * @param pageParams 分页想去
-     * @param dto        路由查询表单
-     * @return 系统菜单表分页
-     */
-    PageResult<RouterManageVo> getMenusByPage(Page<Router> pageParams, RouterManageDto dto);
+    List<WebUserRouterVo> routerAsync();
 
     /**
      * * 管理菜单列表
      *
      * @return 系统菜单表
      */
-    List<RouterManageVo> getMenusList(RouterManageDto dto);
+    List<RouterManageVo> menuList();
 
     /**
      * * 添加路由菜单
@@ -66,11 +53,4 @@ public interface RouterService extends IService<Router> {
      * @param ids 删除id列表
      */
     void deletedMenuByIds(List<Long> ids);
-
-    /**
-     * * 快速更新菜单排序
-     *
-     * @param dto 根据菜单Id更新菜单排序
-     */
-    void updateMenuByIdWithRank(RouterUpdateByIdWithRankDto dto);
 }

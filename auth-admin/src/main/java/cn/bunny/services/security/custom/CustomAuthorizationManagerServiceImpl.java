@@ -1,7 +1,7 @@
 package cn.bunny.services.security.custom;
 
 import cn.bunny.domain.constant.RedisUserConstant;
-import cn.bunny.domain.system.entity.Power;
+import cn.bunny.domain.system.entity.Permission;
 import cn.bunny.domain.system.entity.Role;
 import cn.bunny.domain.vo.LoginVo;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
@@ -116,10 +116,10 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         if (requestURI.contains("noManage")) return true;
 
         // 根据角色列表查询权限信息
-        List<Power> powerList = powerMapper.selectListByUserId(userId);
+        List<Permission> permissionList = powerMapper.selectListByUserId(userId);
 
         // 判断是否与请求路径匹配
-        return powerList.stream().map(Power::getRequestUrl)
+        return permissionList.stream().map(Permission::getRequestUrl)
                 .filter(Objects::nonNull)
                 .anyMatch(requestUrl -> {
                     if ((requestUrl.contains("/*") || requestUrl.contains("/**"))) {

@@ -5,7 +5,7 @@ import cn.bunny.domain.constant.RedisUserConstant;
 import cn.bunny.domain.constant.UserConstant;
 import cn.bunny.domain.log.entity.UserLoginLog;
 import cn.bunny.domain.system.entity.AdminUser;
-import cn.bunny.domain.system.entity.Power;
+import cn.bunny.domain.system.entity.Permission;
 import cn.bunny.domain.system.entity.Role;
 import cn.bunny.domain.vo.LoginVo;
 import cn.bunny.services.exception.AuthCustomerException;
@@ -123,7 +123,7 @@ public class UserUtil {
         // 判断是否是 admin 如果是admin 赋予所有权限
         boolean isAdmin = RoleUtil.checkAdmin(roles, permissions, user);
         if (!isAdmin) {
-            permissions = powerMapper.selectListByUserId(userId).stream().map(Power::getPowerCode).toList();
+            permissions = powerMapper.selectListByUserId(userId).stream().map(Permission::getPowerCode).toList();
         }
 
         // 计算过期时间，并格式化返回

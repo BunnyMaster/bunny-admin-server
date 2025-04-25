@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.bunny.services.mapper.system.RolePowerMapper">
+<mapper namespace="cn.bunny.services.mapper.system.RolePermissionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.domain.system.entity.RolePower">
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.system.entity.RolePermission">
         <id column="id" property="id"/>
         <result column="role_id" property="roleId"/>
         <result column="power_id" property="powerId"/>
@@ -22,7 +22,7 @@
     <!-- 根据权限id列表删除角色权限相关 -->
     <delete id="deleteBatchPowerIdsWithPhysics">
         delete
-        from sys_role_power
+        from sys_role_permission
         where power_id in
         <foreach collection="powerIds" item="id" open="(" close=")" separator=",">
             #{id}
@@ -32,7 +32,7 @@
     <!-- 根据角色id删除角色权限 -->
     <delete id="deleteBatchRoleIdsWithPhysics">
         delete
-        from sys_role_power
+        from sys_role_permission
         where role_id in
         <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
             #{id}
@@ -40,25 +40,25 @@
     </delete>
 
     <!-- 根据角色id获取权限内容 -->
-    <select id="selectPowerListByRoleId" resultType="cn.bunny.domain.system.entity.RolePower">
+    <select id="selectPowerListByRoleId" resultType="cn.bunny.domain.system.entity.RolePermission">
         select *
-        from sys_role_power
+        from sys_role_permission
         where role_id = #{roleId}
     </select>
 
     <!-- 查看所有角色关联的权限 -->
-    <select id="viewRolePowerWithAll" resultType="cn.bunny.domain.views.ViewRolePower">
+    <select id="viewRolePowerWithAll" resultType="cn.bunny.domain.system.views.ViewRolePermission">
         SELECT rp.power_id,
-               power.parent_id,
-               power.power_code,
-               power.power_name,
-               power.request_url,
+               permission.parent_id,
+               permission.power_code,
+               permission.power_name,
+               permission.request_url,
                rp.role_id,
                role.role_code,
                role.description
-        FROM sys_role_power rp
+        FROM sys_role_permission rp
                  LEFT JOIN sys_role role ON rp.role_id = role.id
-                 LEFT JOIN sys_power power ON rp.power_id = power.id
+                 LEFT JOIN sys_permission permission ON rp.power_id = permission.id
     </select>
 
 </mapper>

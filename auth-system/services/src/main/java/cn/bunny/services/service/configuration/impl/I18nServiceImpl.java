@@ -203,7 +203,6 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
         // 判断是否有这个语言的key
         List<I18nType> i18nTypeList = i18nTypeMapper.selectList(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getTypeName, type));
         if (i18nTypeList.isEmpty() && !file.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
-
         try {
             // 内容是否为空
             String content = new String(file.getBytes());
