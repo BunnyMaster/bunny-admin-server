@@ -10,7 +10,7 @@ import cn.bunny.domain.system.entity.Role;
 import cn.bunny.domain.vo.LoginVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.log.UserLoginLogMapper;
-import cn.bunny.services.mapper.system.PowerMapper;
+import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.utils.JwtHelper;
@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 @Component
 public class UserUtil {
     private final MinioUtil minioUtil;
-    private final PowerMapper powerMapper;
+    private final PermissionMapper permissionMapper;
     private final RoleMapper roleMapper;
     private final UserMapper userMapper;
     private final UserLoginLogMapper userLoginLogMapper;
@@ -123,7 +123,7 @@ public class UserUtil {
         // 判断是否是 admin 如果是admin 赋予所有权限
         boolean isAdmin = RoleUtil.checkAdmin(roles, permissions, user);
         if (!isAdmin) {
-            permissions = powerMapper.selectListByUserId(userId).stream().map(Permission::getPowerCode).toList();
+            permissions = permissionMapper.selectListByUserId(userId).stream().map(Permission::getPowerCode).toList();
         }
 
         // 计算过期时间，并格式化返回

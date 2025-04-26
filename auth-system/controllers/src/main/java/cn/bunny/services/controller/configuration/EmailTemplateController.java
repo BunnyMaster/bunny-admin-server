@@ -37,7 +37,7 @@ public class EmailTemplateController {
     private EmailTemplateService emailTemplateService;
 
     @Operation(summary = "分页查询邮件模板", description = "分页查询邮件模板")
-    @GetMapping("getEmailTemplateList/{page}/{limit}")
+    @GetMapping("query/page/{page}/{limit}")
     public Result<PageResult<EmailTemplateVo>> getEmailTemplateList(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,
@@ -50,14 +50,14 @@ public class EmailTemplateController {
     }
 
     @Operation(summary = "获取邮件模板类型字段", description = "获取邮件模板类型字段")
-    @GetMapping("getEmailTypes")
+    @GetMapping("query/emailTypes")
     public Result<List<Map<String, String>>> getEmailTypes() {
         List<Map<String, String>> list = emailTemplateService.getEmailTypes();
         return Result.success(list);
     }
 
     @Operation(summary = "添加邮件模板", description = "添加邮件模板")
-    @PostMapping("addEmailTemplate")
+    @PostMapping("add/emailTemplate")
     public Result<String> addEmailTemplate(@Valid @RequestBody EmailTemplateAddDto dto) {
         emailTemplateService.addEmailTemplate(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);

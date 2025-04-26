@@ -9,7 +9,7 @@ import cn.bunny.domain.system.vo.PowerVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
-import cn.bunny.services.mapper.system.PowerMapper;
+import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.service.system.PowerService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -37,7 +37,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class PowerServiceImpl extends ServiceImpl<PowerMapper, Permission> implements PowerService {
+public class PowerServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PowerService {
 
     @Resource
     private RolePermissionMapper rolePermissionMapper;

@@ -31,6 +31,9 @@ public class PowerVo extends BaseUserVo {
     @Schema(name = "requestUrl", title = "请求路径")
     private String requestUrl;
 
+    @Schema(name = "requestMethod", title = "请求路径")
+    private String requestMethod;
+
     @Schema(name = "children", title = "子级")
     private List<PowerVo> children;
 

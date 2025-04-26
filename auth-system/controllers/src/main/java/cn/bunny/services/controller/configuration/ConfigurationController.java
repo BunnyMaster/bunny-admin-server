@@ -26,14 +26,14 @@ public class ConfigurationController {
     }
 
     @Operation(summary = "获取修改web配置文件", description = "获取修改web配置文件")
-    @GetMapping("getWebConfig")
+    @GetMapping()
     public Result<WebConfiguration> getWebConfig() {
         WebConfiguration webConfiguration = configurationService.webConfig();
         return Result.success(webConfiguration);
     }
 
     @Operation(summary = "更新web配置文件", description = "更新web配置文件")
-    @PutMapping("updateWebConfiguration")
+    @PutMapping()
     public Result<Object> updateWebConfiguration(@Valid @RequestBody WebConfigurationDto dto) {
         configurationService.updateWebConfiguration(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);

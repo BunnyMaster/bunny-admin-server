@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2024-10-03 16:00:52
  */
 @Mapper
-public interface PowerMapper extends BaseMapper<Permission> {
+public interface PermissionMapper extends BaseMapper<Permission> {
 
     /**
      * * 分页查询权限内容

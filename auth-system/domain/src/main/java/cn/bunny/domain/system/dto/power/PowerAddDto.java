@@ -34,5 +34,8 @@ public class PowerAddDto {
     @Schema(name = "requestUrl", title = "请求路径")
     private String requestUrl;
 
+    @Schema(name = "requestMethod", title = "请求方法")
+    private String requestMethod;
+
 }
 

@@ -65,7 +65,7 @@ public class PowerController {
 
     @Operation(summary = "更新权限", description = "更新权限")
     @PutMapping("updatePower")
-    public Result<Object> updatePower(@Valid @RequestBody PowerUpdateDto dto) {
+    public Result<String> updatePower(@Valid @RequestBody PowerUpdateDto dto) {
         powerService.updatePower(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

@@ -6,7 +6,7 @@ import cn.bunny.domain.system.entity.Role;
 import cn.bunny.domain.vo.LoginVo;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
 import cn.bunny.services.context.BaseContext;
-import cn.bunny.services.mapper.system.PowerMapper;
+import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.utils.JwtHelper;
 import cn.bunny.services.utils.system.RoleUtil;
@@ -36,7 +36,7 @@ import java.util.function.Supplier;
 public class CustomAuthorizationManagerServiceImpl implements AuthorizationManager<RequestAuthorizationContext> {
 
     @Resource
-    private PowerMapper powerMapper;
+    private PermissionMapper permissionMapper;
 
     @Resource
     private RoleMapper roleMapper;
@@ -100,6 +100,7 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
      * @param request 请求url地址
      */
     private Boolean hasAuth(HttpServletRequest request) {
+        String requestMethod = request.getMethod();
         // 根据用户ID查询角色数据
         Long userId = BaseContext.getUserId();
         List<Role> roleList = roleMapper.selectListByUserId(userId);
@@ -116,10 +117,12 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         if (requestURI.contains("noManage")) return true;
 
         // 根据角色列表查询权限信息
-        List<Permission> permissionList = powerMapper.selectListByUserId(userId);
+        List<Permission> permissionList = permissionMapper.selectListByUserId(userId);
 
         // 判断是否与请求路径匹配
-        return permissionList.stream().map(Permission::getRequestUrl)
+        return permissionList.stream()
+                .filter(permission -> permission.getRequestMethod().equals(requestMethod))
+                .map(Permission::getRequestUrl)
                 .filter(Objects::nonNull)
                 .anyMatch(requestUrl -> {
                     if ((requestUrl.contains("/*") || requestUrl.contains("/**"))) {
