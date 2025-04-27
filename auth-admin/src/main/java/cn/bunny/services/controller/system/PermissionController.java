@@ -16,7 +16,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -68,6 +70,19 @@ public class PermissionController {
     public Result<Object> deletePermission(@RequestBody List<Long> ids) {
         permissionService.deletePermission(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
+    }
+
+    @Operation(summary = "导出权限", description = "导出权限为Excel")
+    @GetMapping("file/export")
+    public ResponseEntity<byte[]> exportPermission() {
+        return permissionService.exportPermission();
+    }
+
+    @Operation(summary = "导入权限", description = "导入权限")
+    @PutMapping("file/import")
+    public Result<String> importPermission(@RequestParam(value = "file") MultipartFile file) {
+        permissionService.importPermission(file);
+        return Result.success(ResultCodeEnum.SUCCESS);
     }
 
     @Operation(summary = "获取所有权限", description = "获取所有权限")

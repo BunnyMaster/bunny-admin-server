@@ -1,5 +1,6 @@
 server:
   port: 8000
+
 spring:
   profiles:
     active: @profiles.active@
@@ -8,7 +9,6 @@ spring:
   servlet:
     multipart:
       max-file-size: 6MB
-
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -37,10 +37,10 @@ spring:
       password: ${bunny.redis.password}
       lettuce:
         pool:
-          max-active: 20 #最大连接数
-          max-wait: -1    #最大阻塞等待时间(负数表示没限制)
-          max-idle: 5    #最大空闲
-          min-idle: 0     #最小空闲
+          max-active: 20 # 最大连接数
+          max-wait: -1    # 最大阻塞等待时间(负数表示没限制)
+          max-idle: 5    # 最大空闲
+          min-idle: 0     # 最小空闲
 
   quartz:
     job-store-type: jdbc
@@ -99,7 +99,6 @@ management:
       enabled: true
     os:
       enabled: true
-
   endpoint:
     health:
       show-details: always

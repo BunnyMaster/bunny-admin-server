@@ -10,6 +10,8 @@ import cn.bunny.domain.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -64,4 +66,18 @@ public interface PermissionService extends IService<Permission> {
      * @param dto 批量修改权限表单
      */
     void updatePermissionListByParentId(PermissionUpdateBatchByParentIdDto dto);
+
+    /**
+     * 导出权限为Excel
+     *
+     * @return Excel 文件
+     */
+    ResponseEntity<byte[]> exportPermission();
+
+    /**
+     * 导入权限
+     *
+     * @param file 导入的Excel
+     */
+    void importPermission(MultipartFile file);
 }

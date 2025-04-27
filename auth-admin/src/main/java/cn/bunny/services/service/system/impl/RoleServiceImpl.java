@@ -39,6 +39,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -108,7 +110,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public ResponseEntity<byte[]> exportByExcel() {
-        String filename = FileUtil.buildFilenameBefore("role-");
+        String timeFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss").format(new Date());
+        String zipFilename = "role-" + timeFormat + ".zip";
+
+        String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String filename = "role-" + dateFormat + ".xlsx";
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
@@ -124,7 +130,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             // 创建临时ByteArrayOutputStream
             ByteArrayOutputStream excelOutputStream = new ByteArrayOutputStream();
 
-            ZipEntry zipEntry = new ZipEntry(filename + ".xlsx");
+            ZipEntry zipEntry = new ZipEntry(filename);
             zipOutputStream.putNextEntry(zipEntry);
 
             // 先写入到临时流
@@ -137,7 +143,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         }
 
         // 设置响应头
-        HttpHeaders headers = FileUtil.buildHttpHeadersByBinary(filename + ".zip");
+        HttpHeaders headers = FileUtil.buildHttpHeadersByBinary(zipFilename);
 
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);

@@ -8,10 +8,14 @@ import cn.bunny.domain.system.entity.Permission;
 import cn.bunny.domain.system.vo.PermissionVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
+import cn.bunny.services.excel.PermissionExcelListener;
+import cn.bunny.services.excel.entity.PermissionExcel;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.service.system.PermissionService;
+import cn.bunny.services.utils.FileUtil;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,10 +25,22 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * <p>
@@ -142,5 +158,71 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         }).toList();
 
         updateBatchById(permissionList);
+    }
+
+    /**
+     * 导出权限为Excel
+     *
+     * @return Excel 文件
+     */
+    @Override
+    public ResponseEntity<byte[]> exportPermission() {
+        String timeFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss").format(new Date());
+        String zipFilename = "permission-" + timeFormat + ".zip";
+
+        String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String filename = "permission-" + dateFormat + ".xlsx";
+
+        // 创建btye输出流
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        // 权限列表
+        List<Permission> permissionList = list();
+        List<PermissionExcel> permissionExcelList = permissionList.stream().map(permission -> {
+            PermissionExcel permissionExcel = new PermissionExcel();
+            BeanUtils.copyProperties(permission, permissionExcel);
+            return permissionExcel;
+        }).toList();
+
+        // Zip写入流
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
+            ByteArrayOutputStream excelOutputStream = new ByteArrayOutputStream();
+
+            EasyExcel.write(excelOutputStream, PermissionExcel.class).sheet(dateFormat).doWrite(permissionExcelList);
+
+            // 将Excel写入到Zip中
+            ZipEntry zipEntry = new ZipEntry(filename);
+            zipOutputStream.putNextEntry(zipEntry);
+            zipOutputStream.write(excelOutputStream.toByteArray());
+            zipOutputStream.closeEntry();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // 设置响应头
+        HttpHeaders headers = FileUtil.buildHttpHeadersByBinary(zipFilename);
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * 导入权限
+     *
+     * @param file 导入的Excel
+     */
+    @Override
+    public void importPermission(MultipartFile file) {
+        if (file == null) {
+            throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
+        }
+
+        InputStream fileInputStream;
+        try {
+            fileInputStream = file.getInputStream();
+            EasyExcel.read(fileInputStream, PermissionExcel.class, new PermissionExcelListener(this)).sheet().doRead();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
