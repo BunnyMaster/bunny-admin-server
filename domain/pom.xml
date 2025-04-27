@@ -1,0 +1,28 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.bunny</groupId>
+        <artifactId>auth-server</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>domain</artifactId>
+    <packaging>pom</packaging>
+
+    <name>domain</name>
+    <url>https://maven.apache.org</url>
+
+    <modules>
+        <module>domain-system</module>
+        <module>domain-common</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+
+    </dependencies>
+</project>

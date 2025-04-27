@@ -67,7 +67,7 @@ class EmailTemplateControllerTest {
     }
 
     @Test
-    void getEmailTemplateList() throws Exception {
+    void getEmailTemplatePage() throws Exception {
         String api = prefix + "/getEmailTemplateList/1/10";
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -88,7 +88,7 @@ class EmailTemplateControllerTest {
     }
 
     @Test
-    void getEmailTypes() throws Exception {
+    void getEmailTypeList() throws Exception {
         String api = prefix + "/getEmailTypes";
 
         mockMvc.perform(MockMvcRequestBuilders.get(api).header("token", token))
@@ -131,7 +131,7 @@ class EmailTemplateControllerTest {
                     System.out.println(jsonObject);
                 });
 
-        getEmailTemplateList();
+        getEmailTemplatePage();
     }
 
     @Test

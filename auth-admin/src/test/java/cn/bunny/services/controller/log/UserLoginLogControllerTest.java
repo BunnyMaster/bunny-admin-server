@@ -75,7 +75,7 @@ class UserLoginLogControllerTest {
     }
 
     @Test
-    void getUserLoginLogList() throws Exception {
+    void getUserLoginLogPage() throws Exception {
         UserLoginLogDto dto = UserLoginLogDto.builder()
                 .username("bunny")
                 .build();
@@ -94,7 +94,7 @@ class UserLoginLogControllerTest {
     }
 
     @Test
-    void getUserLoginLogList2() {
+    void getUserLoginLogPage2() {
         UserLoginLogDto dto = UserLoginLogDto.builder()
                 .username("bunny")
                 .build();
@@ -115,7 +115,7 @@ class UserLoginLogControllerTest {
     }
 
     @Test
-    void getUserLoginLogListByLocalUser() throws Exception {
+    void getUserLoginLogPageByUser() throws Exception {
         String api = prefix + "/noManage/getUserLoginLogListByLocalUser/1/10";
 
         mockMvc.perform(MockMvcRequestBuilders.get(api)
@@ -130,7 +130,7 @@ class UserLoginLogControllerTest {
     }
 
     @Test
-    void getUserLoginLogListByLocalUser2() {
+    void getUserLoginLogPageByUser2() {
         String api = prefix + "/noManage/getUserLoginLogListByLocalUser/1/10";
 
         testClient.get()

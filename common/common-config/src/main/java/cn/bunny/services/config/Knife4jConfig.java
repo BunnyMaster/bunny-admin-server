@@ -55,7 +55,7 @@ public class Knife4jConfig {
         return GroupedOpenApi.builder().group("系统")
                 .pathsToMatch("/api/dept/**", "/api/files/**", "/api/power/**",
                         "/api/rolePower/**", "/api/role/**", "/api/router/**",
-                        "/api/routerRole/**", "/api/user/**", "/api/userRole/**"
+                        "/api/router/**", "/api/user/**", "/api/userRole/**"
                 ).build();
     }
 

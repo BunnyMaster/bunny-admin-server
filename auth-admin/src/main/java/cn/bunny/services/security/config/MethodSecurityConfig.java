@@ -18,7 +18,7 @@ public class MethodSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    
     /**
      * 使用数据库方式
      * 登录方式：邮箱+用户名

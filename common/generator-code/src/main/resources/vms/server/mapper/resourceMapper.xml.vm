@@ -33,13 +33,4 @@
         </where>
     </select>
 
-    <!-- 物理删除${comment} -->
-    <delete id="deleteBatchIdsWithPhysics">
-        delete from ${tableName}
-        where id in
-        <foreach collection="ids" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
-    </delete>
-
 </mapper>

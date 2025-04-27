@@ -8,6 +8,7 @@ import cn.bunny.domain.vo.result.ResultCodeEnum;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
+import cn.bunny.services.security.config.WebSecurityConfig;
 import cn.bunny.services.utils.JwtHelper;
 import cn.bunny.services.utils.system.RoleUtil;
 import com.alibaba.fastjson2.JSON;
@@ -101,6 +102,7 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
      */
     private Boolean hasAuth(HttpServletRequest request) {
         String requestMethod = request.getMethod();
+
         // 根据用户ID查询角色数据
         Long userId = BaseContext.getUserId();
         List<Role> roleList = roleMapper.selectListByUserId(userId);
@@ -114,14 +116,21 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
 
         // 判断请求地址是否是 noManage 不需要被验证的
         String requestURI = request.getRequestURI();
-        if (requestURI.contains("noManage")) return true;
+        for (String userAuth : WebSecurityConfig.userAuths) {
+            if (requestURI.contains(userAuth)) return true;
+        }
 
         // 根据角色列表查询权限信息
         List<Permission> permissionList = permissionMapper.selectListByUserId(userId);
 
         // 判断是否与请求路径匹配
         return permissionList.stream()
-                .filter(permission -> permission.getRequestMethod().equals(requestMethod))
+                // 过滤并转成小写进行比较
+                .filter(permission -> {
+                    String lowerCase = permission.getRequestMethod().toLowerCase();
+                    String requestMethodLowerCase = requestMethod.toLowerCase();
+                    return lowerCase.equals(requestMethodLowerCase);
+                })
                 .map(Permission::getRequestUrl)
                 .filter(Objects::nonNull)
                 .anyMatch(requestUrl -> {

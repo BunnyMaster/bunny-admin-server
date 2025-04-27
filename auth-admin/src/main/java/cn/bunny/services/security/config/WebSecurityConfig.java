@@ -23,9 +23,11 @@ public class WebSecurityConfig {
             "/", "/ws/**", "/**.html", "/error",
             "/media.ico", "/favicon.ico", "/webjars/**", "/v3/api-docs/**", "/swagger-ui/**",
             "/*/*/login",
-            "/*/*/noAuth/**", "/*/noAuth/**", "/noAuth/**",
-            "/*/i18n/getI18n"
+            "/*/*/public/**", "/*/public/**", "/public/**"
     };
+
+    // 用户登录之后才能访问，不能与接口名称重复！！！不能与接口名称包含！！！
+    public static String[] userAuths = {"private"};
 
     @Resource
     private CustomAuthorizationManagerServiceImpl customAuthorizationManagerService;
@@ -47,7 +49,8 @@ public class WebSecurityConfig {
                 .sessionManagement(AbstractHttpConfigurer::disable)
                 // 前后端分离不需要---记住我
                 .rememberMe(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers(annotations).permitAll()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(annotations).permitAll()
                         .requestMatchers(RegexRequestMatcher.regexMatcher(".*\\.(css|js)$")).permitAll()
                         .anyRequest().access(customAuthorizationManagerService))
                 .exceptionHandling(exception -> {

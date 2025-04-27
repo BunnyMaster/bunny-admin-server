@@ -74,6 +74,6 @@ public class ${classUppercaseName}ServiceImpl extends ServiceImpl<${classUpperca
      */
     @Override
     public void delete${classUppercaseName}(List<Long> ids) {
-        baseMapper.deleteBatchIdsWithPhysics(ids);
+        removeByIds(ids);
     }
 }

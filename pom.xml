@@ -18,7 +18,7 @@
     <modules>
         <module>common</module>
         <module>auth-admin</module>
-        <module>auth-system</module>
+        <module>domain</module>
     </modules>
 
     <properties>

@@ -25,12 +25,5 @@ public interface ${classUppercaseName}Mapper extends BaseMapper<${classUppercase
      * @param dto        ${comment}查询表单
      * @return ${comment}分页结果
      */
-    IPage<${classUppercaseName}Vo> selectListByPage(@Param("page" ) Page<${classUppercaseName}> pageParams, @Param("dto" ) ${classUppercaseName}Dto dto);
-
-    /**
-     * 物理删除${comment}
-     *
-     * @param ids 删除 id 列表
-     */
-    void deleteBatchIdsWithPhysics(List<Long> ids);
+    IPage<${classUppercaseName}Vo> selectListByPage(@Param("page") Page<${classUppercaseName}> pageParams, @Param("dto") ${classUppercaseName}Dto dto);
 }

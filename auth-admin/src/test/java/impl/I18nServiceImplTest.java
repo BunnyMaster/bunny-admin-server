@@ -1,7 +1,7 @@
 package impl;
 
 import cn.bunny.domain.i18n.entity.I18n;
-import cn.bunny.domain.i18n.excel.I18nExcel;
+import cn.bunny.services.excel.entity.I18nExcel;
 import cn.bunny.services.mapper.configuration.I18nMapper;
 import cn.bunny.services.utils.i8n.I18nUtil;
 import com.alibaba.excel.EasyExcel;

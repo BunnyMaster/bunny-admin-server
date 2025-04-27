@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.system.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.system.entity.Role">
+        <id column="id" property="id"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="create_user" property="createUser"/>
+        <id column="update_user" property="updateUser"/>
+        <id column="is_deleted" property="isDeleted"/>
+        <id column="role_code" property="roleCode"/>
+        <id column="description" property="description"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , create_time, update_time, create_user, update_user, is_deleted, role_code, description
+    </sql>
+
+    <!-- 分页查询角色内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.domain.system.vo.RoleVo">
+        select
+        role.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_role role
+        left join sys_user create_user on create_user.id = role.create_user
+        left join sys_user update_user on update_user.id = role.update_user
+        <where>
+            role.is_deleted = 0
+            <if test="dto.roleCode != null and dto.roleCode != ''">
+                and role.role_code like CONCAT('%',#{dto.roleCode},'%')
+            </if>
+            <if test="dto.description != null and dto.description != ''">
+                and role.description like CONCAT('%',#{dto.description},'%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据用户id查询当前用户所有角色 -->
+    <select id="selectListByUserId" resultType="cn.bunny.domain.system.entity.Role">
+        SELECT r.*
+        FROM sys_user u,
+             sys_role r,
+             sys_user_role ur
+        WHERE u.id = ur.user_id
+          AND u.is_deleted = 0
+          AND r.id = ur.role_id
+          AND ur.user_id = #{userId}
+    </select>
+
+    <!-- 根据用户Id列表查询用户角色 -->
+    <select id="selectListByUserIds" resultType="cn.bunny.domain.system.entity.Role">
+        SELECT r.*
+        FROM sys_role r,
+        sys_user_role ur
+        WHERE r.id = ur.role_id
+        AND ur.user_id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>
