@@ -1,5 +1,6 @@
 package cn.bunny.services.excel.entity;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.*;
 import com.alibaba.excel.enums.BooleanEnum;
@@ -9,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -55,4 +59,7 @@ public class PermissionExcel {
     @ContentFontStyle(fontHeightInPoints = 14, color = 17, bold = BooleanEnum.TRUE)
     private String requestMethod;
 
+    // 忽略子集
+    @ExcelIgnore
+    private List<PermissionExcel> children = new ArrayList<>();
 }

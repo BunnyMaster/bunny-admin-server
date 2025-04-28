@@ -85,7 +85,7 @@ public class I18nController {
         return i18nService.downloadI18n(type);
     }
 
-    @Operation(summary = "文件更新多语言", description = "文件更新多语言可以是JSON、Excel")
+    @Operation(summary = "文件导入多语言", description = "文件更新多语言可以是JSON、Excel")
     @PutMapping("file")
     public Result<String> uploadI18nFile(@Valid I18nUpdateByFileDto dto) {
         i18nService.uploadI18nFile(dto);

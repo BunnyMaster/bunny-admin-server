@@ -81,7 +81,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         webUserRouterVoList.forEach(routerVo -> {
             // 递归添加路由节点
             if (routerVo.getParentId() == 0) {
-                routerVo.setChildren(routerUtil.handleGetChildrenWIthRouter(routerVo.getId(), webUserRouterVoList));
+                routerVo.setChildren(routerUtil.buildTreeSetChildren(routerVo.getId(), webUserRouterVoList));
                 voList.add(routerVo);
             }
         });

@@ -15,7 +15,10 @@ import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.service.system.PermissionService;
 import cn.bunny.services.utils.FileUtil;
+import cn.bunny.services.utils.system.PermissionUtil;
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,7 +42,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -163,64 +165,82 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     /**
      * 导出权限为Excel
      *
+     * @param type 导出类型
      * @return Excel 文件
      */
     @Override
-    public ResponseEntity<byte[]> exportPermission() {
+    public ResponseEntity<byte[]> exportPermission(String type) {
         String timeFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss").format(new Date());
         String zipFilename = "permission-" + timeFormat + ".zip";
 
         String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String filename = "permission-" + dateFormat + ".xlsx";
-
-        // 创建btye输出流
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        String filename = "permission-" + dateFormat;
 
         // 权限列表
-        List<Permission> permissionList = list();
-        List<PermissionExcel> permissionExcelList = permissionList.stream().map(permission -> {
+        List<PermissionExcel> permissionExcelList = list().stream().map(permission -> {
             PermissionExcel permissionExcel = new PermissionExcel();
             BeanUtils.copyProperties(permission, permissionExcel);
             return permissionExcel;
         }).toList();
 
+        // 构建树型结构
+        List<PermissionExcel> buildTree = PermissionUtil.buildTree(permissionExcelList);
+
+        // 创建btye输出流
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
         // Zip写入流
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
-            ByteArrayOutputStream excelOutputStream = new ByteArrayOutputStream();
 
-            EasyExcel.write(excelOutputStream, PermissionExcel.class).sheet(dateFormat).doWrite(permissionExcelList);
-
-            // 将Excel写入到Zip中
-            ZipEntry zipEntry = new ZipEntry(filename);
-            zipOutputStream.putNextEntry(zipEntry);
-            zipOutputStream.write(excelOutputStream.toByteArray());
-            zipOutputStream.closeEntry();
+            // 判断导出类型是什么
+            if (type.equals("xlsx")) {
+                PermissionUtil.writExcel(permissionExcelList, zipOutputStream, filename + ".xlsx");
+            } else {
+                PermissionUtil.writeJson(buildTree, zipOutputStream, filename + ".json");
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         // 设置响应头
         HttpHeaders headers = FileUtil.buildHttpHeadersByBinary(zipFilename);
-
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);
     }
+
 
     /**
      * 导入权限
      *
      * @param file 导入的Excel
+     * @param type 导出类型
      */
     @Override
-    public void importPermission(MultipartFile file) {
+    public void importPermission(MultipartFile file, String type) {
         if (file == null) {
             throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
         }
 
-        InputStream fileInputStream;
         try {
-            fileInputStream = file.getInputStream();
-            EasyExcel.read(fileInputStream, PermissionExcel.class, new PermissionExcelListener(this)).sheet().doRead();
+            if (type.equals("xlsx")) {
+                InputStream fileInputStream = file.getInputStream();
+                EasyExcel.read(fileInputStream, PermissionExcel.class, new PermissionExcelListener(this)).sheet().doRead();
+            } else {
+                // 将文件转成字符串
+                String json = new String(file.getBytes());
+                // 解析文件字符串并转成JSON
+                List<PermissionExcel> list = JSON.parseObject(json, new TypeReference<>() {
+                });
+                // 格式化数据，保存到数据库
+                List<PermissionExcel> flattenedTree = PermissionUtil.flattenTree(list);
+                List<Permission> permissionList = flattenedTree.stream().map(permissionExcel -> {
+                    Permission permission = new Permission();
+                    BeanUtils.copyProperties(permissionExcel, permission);
+                    return permission;
+                }).toList();
+
+                saveOrUpdateBatch(permissionList);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

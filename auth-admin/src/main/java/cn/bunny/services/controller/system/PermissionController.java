@@ -74,14 +74,14 @@ public class PermissionController {
 
     @Operation(summary = "导出权限", description = "导出权限为Excel")
     @GetMapping("file/export")
-    public ResponseEntity<byte[]> exportPermission() {
-        return permissionService.exportPermission();
+    public ResponseEntity<byte[]> exportPermission(String type) {
+        return permissionService.exportPermission(type);
     }
 
     @Operation(summary = "导入权限", description = "导入权限")
     @PutMapping("file/import")
-    public Result<String> importPermission(@RequestParam(value = "file") MultipartFile file) {
-        permissionService.importPermission(file);
+    public Result<String> importPermission(@RequestParam(value = "file") MultipartFile file, String type) {
+        permissionService.importPermission(file, type);
         return Result.success(ResultCodeEnum.SUCCESS);
     }
 

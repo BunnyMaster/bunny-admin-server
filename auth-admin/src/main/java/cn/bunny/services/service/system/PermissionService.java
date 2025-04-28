@@ -70,14 +70,16 @@ public interface PermissionService extends IService<Permission> {
     /**
      * 导出权限为Excel
      *
+     * @param type 导出类型
      * @return Excel 文件
      */
-    ResponseEntity<byte[]> exportPermission();
+    ResponseEntity<byte[]> exportPermission(String type);
 
     /**
      * 导入权限
      *
      * @param file 导入的Excel
+     * @param type 导出类型
      */
-    void importPermission(MultipartFile file);
+    void importPermission(MultipartFile file, String type);
 }

@@ -31,11 +31,11 @@ public class RouterUtil {
      * @param webUserRouterVoList 返回VO列表
      * @return 返回路由列表
      */
-    public List<WebUserRouterVo> handleGetChildrenWIthRouter(Long id, @NotNull List<WebUserRouterVo> webUserRouterVoList) {
+    public List<WebUserRouterVo> buildTreeSetChildren(Long id, @NotNull List<WebUserRouterVo> webUserRouterVoList) {
         List<WebUserRouterVo> list = new ArrayList<>();
         for (WebUserRouterVo webUserRouterVo : webUserRouterVoList) {
             if (webUserRouterVo.getParentId().equals(id)) {
-                webUserRouterVo.setChildren(handleGetChildrenWIthRouter(webUserRouterVo.getId(), webUserRouterVoList));
+                webUserRouterVo.setChildren(buildTreeSetChildren(webUserRouterVo.getId(), webUserRouterVoList));
                 list.add(webUserRouterVo);
             }
         }
