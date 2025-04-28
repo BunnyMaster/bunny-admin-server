@@ -27,7 +27,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-02 12:18:29
  */
-@Tag(name = "系统菜单图标", description = "系统菜单图标相关接口")
+@Tag(name = "菜单图标", description = "菜单图标相关接口")
 @RestController
 @RequestMapping("api/menuIcon")
 public class MenuIconController {

@@ -11,7 +11,7 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "系统配置", description = "系统配置相关接口")
+@Tag(name = "web配置", description = "web配置相关接口")
 @RestController
 @RequestMapping("/api/config")
 public class ConfigurationController {

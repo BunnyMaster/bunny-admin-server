@@ -126,7 +126,7 @@ public class PermissionUtil {
      */
     public static boolean isPathAuthorized(String path) {
         if (!StringUtils.hasText(path)) {
-            return false;
+            return true;
         }
 
         // 需要登录的路径模式检查

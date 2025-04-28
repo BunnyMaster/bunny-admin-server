@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -127,14 +128,17 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         return permissionList.stream()
                 // 过滤并转成小写进行比较
                 .filter(permission -> {
-                    String lowerCase = permission.getRequestMethod().toLowerCase();
-                    String requestMethodLowerCase = requestMethod.toLowerCase();
-                    return lowerCase.equals(requestMethodLowerCase)
-                            || requestURI.contains("/**");
+                    String permissionRequestMethod = permission.getRequestMethod();
+                    if (StringUtils.hasText(permissionRequestMethod)) {
+                        String lowerCase = permissionRequestMethod.toLowerCase();
+                        String requestMethodLowerCase = requestMethod.toLowerCase();
+                        return lowerCase.equals(requestMethodLowerCase)
+                                || requestURI.contains("/**");
+                    }
+                    return false;
                 })
                 .map(Permission::getRequestUrl)
                 .filter(Objects::nonNull)
-
                 .anyMatch(requestUrl -> {
                     if ((requestUrl.contains("/*") || requestUrl.contains("/**"))) {
                         return new AntPathRequestMatcher(requestUrl).matches(request);

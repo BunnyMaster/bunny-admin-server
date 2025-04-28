@@ -23,7 +23,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-09-28
  */
-@Tag(name = "多语言类型", description = "多语言类型相关接口")
+@Tag(name = "i18n多语言类型", description = "i18n多语言类型相关接口")
 @RestController
 @RequestMapping("api/i18nType")
 public class I18nTypeController {

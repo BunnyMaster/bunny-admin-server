@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "RouterMetaTransition对象", title = "系统菜单动画属性", description = "系统菜单动画属性")
 public class RouterMetaTransition {
 
     @Schema(name = "enterTransition", title = "入场动画")

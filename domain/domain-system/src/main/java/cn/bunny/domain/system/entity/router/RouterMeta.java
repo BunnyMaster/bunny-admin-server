@@ -1,18 +1,15 @@
 package cn.bunny.domain.system.entity.router;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
+@Schema(name = "RouterMeta对象", title = "系统菜单属性", description = "系统菜单属性")
 public class RouterMeta {
 
     @Schema(name = "title", title = "路由title")

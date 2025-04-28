@@ -25,7 +25,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-19 01:01:01
  */
-@Tag(name = "用户登录日志", description = "用户登录日志相关接口")
+@Tag(name = "系统用户登录日志", description = "用户登录日志相关接口")
 @RestController
 @RequestMapping("api/userLoginLog")
 public class UserLoginLogController {

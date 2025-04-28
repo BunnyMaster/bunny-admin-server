@@ -30,7 +30,7 @@ import java.util.Map;
  * @author Bunny
  * @since 2024-09-28
  */
-@Tag(name = "多语言", description = "多语言相关接口")
+@Tag(name = "i18n多语言", description = "i18n多语言相关接口")
 @RestController
 @RequestMapping("api/i18n")
 public class I18nController {

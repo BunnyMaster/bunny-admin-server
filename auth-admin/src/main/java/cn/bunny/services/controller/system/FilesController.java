@@ -33,7 +33,7 @@ import java.util.Set;
  * @author Bunny
  * @since 2024-10-09 16:28:01
  */
-@Tag(name = "系统文件表", description = "系统文件相关接口")
+@Tag(name = "系统文件", description = "系统文件相关接口")
 @RestController
 @RequestMapping("api/files")
 public class FilesController {

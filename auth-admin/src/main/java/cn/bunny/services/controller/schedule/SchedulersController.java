@@ -28,7 +28,7 @@ import java.util.Map;
  * @author Bunny
  * @since 2024-10-15 16:35:10
  */
-@Tag(name = "调度任务", description = "调度任务相关接口")
+@Tag(name = "任务调度", description = "调度任务相关接口")
 @RestController
 @RequestMapping("api/schedulers")
 public class SchedulersController {

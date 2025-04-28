@@ -88,7 +88,7 @@ public class PermissionController {
     }
 
     @Operation(summary = "获取所有权限", description = "获取所有权限", tags = {"permission::query"})
-    @GetMapping("getPermissionList")
+    @GetMapping("private/getPermissionList")
     public Result<List<PermissionVo>> getPermissionList() {
         List<PermissionVo> voList = permissionService.getPermissionList();
         return Result.success(voList);

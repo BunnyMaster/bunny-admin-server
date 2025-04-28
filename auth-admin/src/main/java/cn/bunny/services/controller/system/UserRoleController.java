@@ -18,7 +18,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-09-26
  */
-@Tag(name = "用户和角色", description = "用户和角色相关接口")
+@Tag(name = "系统用户和角色", description = "用户和角色相关接口")
 @RestController
 @RequestMapping("api/userRole")
 public class UserRoleController {

@@ -24,7 +24,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-18 12:56:39
  */
-@Tag(name = "调度任务执行日志", description = "调度任务执行日志相关接口")
+@Tag(name = "任务调度执行日志", description = "调度任务执行日志相关接口")
 @RestController
 @RequestMapping("api/scheduleExecuteLog")
 public class ScheduleExecuteLogController {

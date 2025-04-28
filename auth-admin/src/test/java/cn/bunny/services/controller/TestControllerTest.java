@@ -30,25 +30,26 @@ class TestControllerTest {
             permission.setPowerName(parent.getSummary());
             permission.setRequestUrl(parentPath);
             permissionService.saveOrUpdate(permission);
+            // System.out.println(permission);
 
             List<Permission> permissionList = parent.getChildren().stream()
                     .map(children -> {
-                        String childrenPath = children.getPath();
-                        String requestMethod = children.getHttpMethod();
-
                         Permission childrenPermission = new Permission();
                         childrenPermission.setParentId(permission.getId());
                         childrenPermission.setPowerName(children.getSummary());
                         if (!children.getPowerCodes().isEmpty()) {
                             String ChildrenPowerCode = children.getPowerCodes().get(0);
                             childrenPermission.setPowerCode(ChildrenPowerCode);
-
                         }
+
+                        String childrenPath = children.getPath();
                         childrenPermission.setRequestUrl(childrenPath);
-                        childrenPermission.setRequestMethod(requestMethod);
+                        childrenPermission.setRequestMethod(children.getHttpMethod());
 
                         return childrenPermission;
-                    }).toList();
+                    })
+                    .toList();
+            // System.out.println(JSON.toJSONString(permissionList));
             permissionService.saveOrUpdateBatch(permissionList);
         });
     }

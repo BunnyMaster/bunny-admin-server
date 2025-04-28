@@ -217,6 +217,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
      * @param type 导出类型
      */
     @Override
+    @CacheEvict(cacheNames = "permission", key = "'permissionList'", beforeInvocation = true)
     public void importPermission(MultipartFile file, String type) {
         if (file == null) {
             throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
