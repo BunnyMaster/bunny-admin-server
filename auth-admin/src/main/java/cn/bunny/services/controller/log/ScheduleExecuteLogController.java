@@ -32,7 +32,7 @@ public class ScheduleExecuteLogController {
     @Resource
     private ScheduleExecuteLogService scheduleExecuteLogService;
 
-    @Operation(summary = "分页查询", description = "分页查询调度任务执行日志")
+    @Operation(summary = "分页查询", description = "分页查询调度任务执行日志", tags = "scheduleExecuteLog::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<ScheduleExecuteLogVo>> getScheduleExecuteLogPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -45,7 +45,7 @@ public class ScheduleExecuteLogController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "删除", description = "删除调度任务执行日志")
+    @Operation(summary = "删除", description = "删除调度任务执行日志", tags = "scheduleExecuteLog::delete")
     @DeleteMapping()
     public Result<String> deleteScheduleExecuteLog(@RequestBody List<Long> ids) {
         scheduleExecuteLogService.deleteScheduleExecuteLog(ids);

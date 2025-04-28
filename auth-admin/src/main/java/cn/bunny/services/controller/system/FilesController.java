@@ -41,7 +41,7 @@ public class FilesController {
     @Resource
     private FilesService filesService;
 
-    @Operation(summary = "分页查询", description = "分页查询系统文件")
+    @Operation(summary = "分页查询", description = "分页查询系统文件", tags = "files::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<FilesVo>> getFilesPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -54,41 +54,41 @@ public class FilesController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "更新", description = "更新系统文件")
+    @Operation(summary = "更新", description = "更新系统文件", tags = "files::update")
     @PutMapping()
     public Result<String> updateFiles(@Valid FilesUpdateDto dto) {
         filesService.updateFiles(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "添加", description = "添加系统文件")
+    @Operation(summary = "添加", description = "添加系统文件", tags = "files::add")
     @PostMapping()
     public Result<Object> addFiles(@Valid FilesAddDto dto) {
         filesService.addFiles(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除系统文件")
+    @Operation(summary = "删除", description = "删除系统文件", tags = "files::delete")
     @DeleteMapping()
     public Result<String> deleteFiles(@RequestBody List<Long> ids) {
         filesService.deleteFiles(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "下载文件", description = "根据文件id下载文件")
+    @Operation(summary = "下载文件", description = "根据文件id下载文件", tags = "files::query")
     @GetMapping("file/{fileId}")
     public ResponseEntity<byte[]> downloadFilesByFileId(@PathVariable Long fileId) {
         return filesService.downloadFilesByFileId(fileId);
     }
 
-    @Operation(summary = "获取所有文件类型", description = "获取所有文件类型")
+    @Operation(summary = "获取所有文件类型", description = "获取所有文件类型", tags = "files::query")
     @GetMapping("private/getMediaTypeList")
     public Result<Set<String>> getMediaTypeList() {
         Set<String> list = filesService.getMediaTypeList();
         return Result.success(list);
     }
 
-    @Operation(summary = "获取所有文件存储基础路径", description = "获取所有文件存储基础路径")
+    @Operation(summary = "获取所有文件存储基础路径", description = "获取所有文件存储基础路径", tags = "files::query")
     @GetMapping("private/getAllFilesStoragePath")
     public Result<List<String>> getAllFilesStoragePath() {
         Map<String, String> typeMap = MinioConstant.typeMap;
@@ -97,7 +97,7 @@ public class FilesController {
         return Result.success(list);
     }
 
-    @Operation(summary = "上传文件", description = "上传文件")
+    @Operation(summary = "上传文件", description = "上传文件", tags = "files::add")
     @PostMapping("private/upload")
     public Result<FileInfoVo> upload(FileUploadDto dto) {
         FileInfoVo vo = filesService.upload(dto);

@@ -33,7 +33,7 @@ public class UserRoleController {
         return Result.success(roleVoList);
     }
 
-    @Operation(summary = "为用户分配角色", description = "为用户分配角色")
+    @Operation(summary = "为用户分配角色", description = "为用户分配角色", tags = "user::add")
     @PostMapping()
     public Result<String> addUserRole(@RequestBody AssignRolesToUsersDto dto) {
         userRoleService.addUserRole(dto);

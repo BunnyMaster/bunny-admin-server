@@ -4,11 +4,11 @@ import cn.bunny.domain.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @TableName("sys_permission")
 @Schema(name = "Power对象", title = "权限", description = "权限")
 public class Permission extends BaseEntity {

@@ -36,7 +36,7 @@ public class EmailTemplateController {
     @Resource
     private EmailTemplateService emailTemplateService;
 
-    @Operation(summary = "分页查询", description = "分页查询邮件模板")
+    @Operation(summary = "分页查询", description = "分页查询邮件模板", tags = "emailTemplate::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<EmailTemplateVo>> getEmailTemplatePage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -49,28 +49,28 @@ public class EmailTemplateController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加", description = "添加邮件模板")
+    @Operation(summary = "添加", description = "添加邮件模板", tags = "emailTemplate::add")
     @PostMapping()
     public Result<String> addEmailTemplate(@Valid @RequestBody EmailTemplateAddDto dto) {
         emailTemplateService.addEmailTemplate(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新邮件模板")
+    @Operation(summary = "更新", description = "更新邮件模板", tags = "emailTemplate::update")
     @PutMapping()
     public Result<String> updateEmailTemplate(@Valid @RequestBody EmailTemplateUpdateDto dto) {
         emailTemplateService.updateEmailTemplate(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除邮件模板")
+    @Operation(summary = "删除", description = "删除邮件模板", tags = "emailTemplate::delete")
     @DeleteMapping()
     public Result<String> deleteEmailTemplate(@RequestBody List<Long> ids) {
         emailTemplateService.deleteEmailTemplate(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "全部邮件类型列表", description = "获取全部邮件类型列表")
+    @Operation(summary = "全部邮件类型列表", description = "获取全部邮件类型列表", tags = "emailTemplate::query")
     @GetMapping("public")
     public Result<List<Map<String, String>>> getEmailTypeList() {
         List<Map<String, String>> list = emailTemplateService.getEmailTypeList();

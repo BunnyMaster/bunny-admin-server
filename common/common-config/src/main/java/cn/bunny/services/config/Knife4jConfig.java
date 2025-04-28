@@ -25,7 +25,7 @@ public class Knife4jConfig {
                 .description("权限管理模板")
                 .summary("Auth权限模板")
                 .termsOfService("http://bunny-web.site")
-                .version("v1.0.0");
+                .version("v4.0.0");
 
         return new OpenAPI().info(info).externalDocs(new ExternalDocumentation());
     }

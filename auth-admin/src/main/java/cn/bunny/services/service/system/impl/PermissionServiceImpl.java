@@ -1,5 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.domain.constant.FileType;
 import cn.bunny.domain.system.dto.power.PermissionAddDto;
 import cn.bunny.domain.system.dto.power.PermissionDto;
 import cn.bunny.domain.system.dto.power.PermissionUpdateBatchByParentIdDto;
@@ -180,6 +181,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         List<PermissionExcel> permissionExcelList = list().stream().map(permission -> {
             PermissionExcel permissionExcel = new PermissionExcel();
             BeanUtils.copyProperties(permission, permissionExcel);
+
             return permissionExcel;
         }).toList();
 
@@ -193,7 +195,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
 
             // 判断导出类型是什么
-            if (type.equals("xlsx")) {
+            if (type.equals(FileType.EXCEL)) {
                 PermissionUtil.writExcel(permissionExcelList, zipOutputStream, filename + ".xlsx");
             } else {
                 PermissionUtil.writeJson(buildTree, zipOutputStream, filename + ".json");
@@ -208,7 +210,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);
     }
 
-
     /**
      * 导入权限
      *
@@ -222,7 +223,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         }
 
         try {
-            if (type.equals("xlsx")) {
+            if (type.equals(FileType.EXCEL)) {
                 InputStream fileInputStream = file.getInputStream();
                 EasyExcel.read(fileInputStream, PermissionExcel.class, new PermissionExcelListener(this)).sheet().doRead();
             } else {
@@ -236,6 +237,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
                 List<Permission> permissionList = flattenedTree.stream().map(permissionExcel -> {
                     Permission permission = new Permission();
                     BeanUtils.copyProperties(permissionExcel, permission);
+
                     return permission;
                 }).toList();
 

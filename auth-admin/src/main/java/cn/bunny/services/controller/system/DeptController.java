@@ -35,7 +35,7 @@ public class DeptController {
     @Resource
     private DeptService deptService;
 
-    @Operation(summary = "分页查询部门", description = "分页查询部门")
+    @Operation(summary = "分页查询部门", description = "分页查询部门", tags = "schedulersGroup::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<DeptVo>> getDeptPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -48,28 +48,28 @@ public class DeptController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加部门", description = "添加部门")
+    @Operation(summary = "添加部门", description = "添加部门", tags = "schedulersGroup::add")
     @PostMapping()
     public Result<String> addDept(@Valid @RequestBody DeptAddDto dto) {
         deptService.addDept(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新部门", description = "更新部门")
+    @Operation(summary = "更新部门", description = "更新部门", tags = "schedulersGroup::update")
     @PutMapping()
     public Result<String> updateDept(@Valid @RequestBody DeptUpdateDto dto) {
         deptService.updateDept(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除部门", description = "删除部门")
+    @Operation(summary = "删除部门", description = "删除部门", tags = "schedulersGroup::delete")
     @DeleteMapping()
     public Result<String> deleteDept(@RequestBody List<Long> ids) {
         deptService.deleteDept(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "获取所有部门", description = "获取所有部门")
+    @Operation(summary = "获取所有部门", description = "获取所有部门", tags = "schedulersGroup::query")
     @GetMapping("private/getDeptList")
     public Result<List<DeptVo>> getDeptPage() {
         List<DeptVo> voList = deptService.getDeptPage();

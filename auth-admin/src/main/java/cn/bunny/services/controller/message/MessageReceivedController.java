@@ -36,7 +36,7 @@ public class MessageReceivedController {
     @Resource
     private MessageReceivedService messageReceivedService;
 
-    @Operation(summary = "分页查询", description = "管理员分页查询用户消息")
+    @Operation(summary = "分页查询", description = "管理员分页查询用户消息", tags = "messageReceived::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<MessageReceivedWithMessageVo>> getMessageReceivedPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -49,21 +49,21 @@ public class MessageReceivedController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "更新", description = "管理员将用户消息标为已读")
+    @Operation(summary = "更新", description = "管理员将用户消息标为已读", tags = "messageReceived::update")
     @PutMapping()
     public Result<String> updateMarkMessageReceived(@Valid @RequestBody MessageReceivedUpdateDto dto) {
         messageReceivedService.updateMarkMessageReceived(dto);
         return Result.success();
     }
 
-    @Operation(summary = "删除", description = "管理删除用户消息")
+    @Operation(summary = "删除", description = "管理删除用户消息", tags = "messageReceived::delete")
     @DeleteMapping()
     public Result<String> deleteMessageReceived(@RequestBody List<Long> ids) {
         messageReceivedService.deleteMessageReceived(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "分页查询用户消息", description = "分页查询用户消息")
+    @Operation(summary = "分页查询用户消息", description = "分页查询用户消息", tags = "messageReceived::query")
     @GetMapping("private/{page}/{limit}")
     public Result<PageResult<MessageUserVo>> getMessagePageByUser(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -76,14 +76,14 @@ public class MessageReceivedController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "用户将消息标为已读", description = "用户将消息标为已读")
+    @Operation(summary = "用户将消息标为已读", description = "用户将消息标为已读", tags = "messageReceived::update")
     @PutMapping("private/markAsRead")
     public Result<String> markAsReadByUser(@Valid @RequestBody List<Long> ids) {
         messageReceivedService.markAsReadByUser(ids);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "用户删除消息", description = "用户删除消息")
+    @Operation(summary = "用户删除消息", description = "用户删除消息", tags = "messageReceived::delete")
     @DeleteMapping("private/deleteMessage")
     public Result<String> deleteMessageByUser(@RequestBody List<Long> ids) {
         messageReceivedService.deleteMessageByUser(ids);

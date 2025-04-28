@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
     @Operation(summary = "访问首页", description = "访问首页")
-    @GetMapping("/readme")
+    @GetMapping("/index")
     public String index() {
         return "index";
     }

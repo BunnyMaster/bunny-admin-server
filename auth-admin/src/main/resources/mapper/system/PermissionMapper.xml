@@ -47,6 +47,7 @@
                 and permission.request_method like CONCAT('%',#{dto.requestMethod},'%')
             </if>
         </where>
+        order by permission.update_time desc
     </select>
 
     <!-- 根据用户id查询当前用户所有权限 -->

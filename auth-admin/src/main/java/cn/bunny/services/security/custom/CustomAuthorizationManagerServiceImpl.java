@@ -114,7 +114,7 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         boolean checkedAdmin = RoleUtil.checkAdmin(roleCodeList);
         if (checkedAdmin) return true;
 
-        // 判断请求地址是否是 noManage 不需要被验证的
+        // 判断请求地址是否是登录之后才需要访问的，已经登录了不需要验证的
         String requestURI = request.getRequestURI();
         for (String userAuth : WebSecurityConfig.userAuths) {
             if (requestURI.contains(userAuth)) return true;
@@ -129,10 +129,12 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
                 .filter(permission -> {
                     String lowerCase = permission.getRequestMethod().toLowerCase();
                     String requestMethodLowerCase = requestMethod.toLowerCase();
-                    return lowerCase.equals(requestMethodLowerCase);
+                    return lowerCase.equals(requestMethodLowerCase)
+                            || requestURI.contains("/**");
                 })
                 .map(Permission::getRequestUrl)
                 .filter(Objects::nonNull)
+
                 .anyMatch(requestUrl -> {
                     if ((requestUrl.contains("/*") || requestUrl.contains("/**"))) {
                         return new AntPathRequestMatcher(requestUrl).matches(request);

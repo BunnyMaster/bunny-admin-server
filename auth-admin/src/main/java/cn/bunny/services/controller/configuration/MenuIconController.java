@@ -35,7 +35,7 @@ public class MenuIconController {
     @Resource
     private MenuIconService menuIconService;
 
-    @Operation(summary = "分页查询", description = "分页查询系统菜单图标")
+    @Operation(summary = "分页查询", description = "分页查询系统菜单图标", tags = "menuIcon::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<MenuIconVo>> getMenuIconPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -48,28 +48,28 @@ public class MenuIconController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加", description = "添加系统菜单图标")
+    @Operation(summary = "添加", description = "添加系统菜单图标", tags = "menuIcon::add")
     @PostMapping()
     public Result<String> addMenuIcon(@Valid @RequestBody MenuIconAddDto dto) {
         menuIconService.addMenuIcon(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新系统菜单图标")
+    @Operation(summary = "更新", description = "更新系统菜单图标", tags = "menuIcon::update")
     @PutMapping()
     public Result<String> updateMenuIcon(@Valid @RequestBody MenuIconUpdateDto dto) {
         menuIconService.updateMenuIcon(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除系统菜单图标")
+    @Operation(summary = "删除", description = "删除系统菜单图标", tags = "menuIcon::delete")
     @DeleteMapping()
     public Result<String> deleteMenuIcon(@RequestBody List<Long> ids) {
         menuIconService.deleteMenuIcon(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "搜索图标", description = "根据名称搜索图标")
+    @Operation(summary = "搜索图标", description = "根据名称搜索图标", tags = "menuIcon::query")
     @GetMapping("public")
     public Result<List<MenuIconVo>> getIconNameListByIconName(String iconName) {
         List<MenuIconVo> voList = menuIconService.getIconNameListByIconName(iconName);

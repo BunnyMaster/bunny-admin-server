@@ -7,8 +7,8 @@ import cn.bunny.domain.quartz.entity.Schedulers;
 import cn.bunny.domain.quartz.vo.SchedulersVo;
 import cn.bunny.domain.vo.result.PageResult;
 import cn.bunny.domain.vo.result.ResultCodeEnum;
-import cn.bunny.services.aop.AnnotationScanner;
 import cn.bunny.services.aop.annotation.QuartzSchedulers;
+import cn.bunny.services.aop.scanner.AnnotationScanner;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.schedule.SchedulersMapper;
 import cn.bunny.services.service.schedule.SchedulersService;
@@ -37,8 +37,6 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
     @Resource
     private Scheduler scheduler;
 
-    @Resource
-    private AnnotationScanner annotationScanner;
 
     /**
      * * Schedulers视图 服务实现类
@@ -72,7 +70,8 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      */
     @Override
     public List<Map<String, String>> getScheduleJobList() {
-        Set<Class<?>> classesWithAnnotation = annotationScanner.getClassesWithAnnotation(QuartzSchedulers.class);
+        // 通过扫描注解拿到注解列表，反射拿到类信息和注解上标注的内容信息
+        Set<Class<?>> classesWithAnnotation = AnnotationScanner.getClassesWithAnnotation(QuartzSchedulers.class);
         return classesWithAnnotation.stream().map(cls -> {
             Map<String, String> hashMap = new HashMap<>();
 

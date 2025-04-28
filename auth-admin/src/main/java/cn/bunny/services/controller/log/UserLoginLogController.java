@@ -33,7 +33,7 @@ public class UserLoginLogController {
     @Resource
     private UserLoginLogService userLoginLogService;
 
-    @Operation(summary = "分页查询", description = "分页查询用户登录日志")
+    @Operation(summary = "分页查询", description = "分页查询用户登录日志", tags = "userLoginLog::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<UserLoginLogVo>> getUserLoginLogPage(
             @Parameter(name = "page", description = "当前页", required = true) @PathVariable("page") Integer page,
@@ -44,14 +44,14 @@ public class UserLoginLogController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "删除", description = "删除用户登录日志")
+    @Operation(summary = "删除", description = "删除用户登录日志", tags = "userLoginLog::delete")
     @DeleteMapping()
     public Result<Object> deleteUserLoginLog(@RequestBody List<Long> ids) {
         userLoginLogService.deleteUserLoginLog(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "分页查询本地用户登录日志", description = "分页查询本地用户登录日志")
+    @Operation(summary = "分页查询本地用户登录日志", description = "分页查询本地用户登录日志", tags = "userLoginLog::query")
     @GetMapping("private/{page}/{limit}")
     public Result<PageResult<UserLoginLogLocalVo>> getUserLoginLogPageByUser(
             @Parameter(name = "page", description = "当前页", required = true) @PathVariable("page") Integer page,

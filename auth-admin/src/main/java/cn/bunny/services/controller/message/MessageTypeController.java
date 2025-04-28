@@ -35,7 +35,7 @@ public class MessageTypeController {
     @Resource
     private MessageTypeService messageTypeService;
 
-    @Operation(summary = "分页查询", description = "分页查询系统消息类型")
+    @Operation(summary = "分页查询", description = "分页查询系统消息类型", tags = "messageType::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<MessageTypeVo>> getMessageTypePage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -48,28 +48,28 @@ public class MessageTypeController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加", description = "添加系统消息类型")
+    @Operation(summary = "添加", description = "添加系统消息类型", tags = "messageType::add")
     @PostMapping()
     public Result<String> addMessageType(@Valid @RequestBody MessageTypeAddDto dto) {
         messageTypeService.addMessageType(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新系统消息类型")
+    @Operation(summary = "更新", description = "更新系统消息类型", tags = "messageType::update")
     @PutMapping()
     public Result<String> updateMessageType(@Valid @RequestBody MessageTypeUpdateDto dto) {
         messageTypeService.updateMessageType(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除系统消息类型")
+    @Operation(summary = "删除", description = "删除系统消息类型", tags = "messageType::delete")
     @DeleteMapping()
     public Result<String> deleteMessageType(@RequestBody List<Long> ids) {
         messageTypeService.deleteMessageType(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "所有消息列表", description = "获取所有消息列表")
+    @Operation(summary = "所有消息列表", description = "获取所有消息列表", tags = "messageType::query")
     @GetMapping("private/getMessageList")
     public Result<List<MessageTypeVo>> getMessageList() {
         List<MessageTypeVo> voList = messageTypeService.getMessageList();

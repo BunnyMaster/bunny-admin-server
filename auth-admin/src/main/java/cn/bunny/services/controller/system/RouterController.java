@@ -31,35 +31,35 @@ public class RouterController {
     @Resource
     private RouterService routerService;
 
-    @Operation(summary = "获取用户菜单", description = "获取用户菜单")
+    @Operation(summary = "获取用户菜单", description = "获取用户菜单", tags = "router::query")
     @GetMapping("private/routerAsync")
     public Result<List<WebUserRouterVo>> routerAsync() {
         List<WebUserRouterVo> voList = routerService.routerAsync();
         return Result.success(voList);
     }
 
-    @Operation(summary = "查询管理菜单列表", description = "查询管理菜单列表")
+    @Operation(summary = "查询管理菜单列表", description = "查询管理菜单列表", tags = "router::query")
     @GetMapping("routerList")
     public Result<List<RouterManageVo>> routerList() {
         List<RouterManageVo> voPageResult = routerService.routerList();
         return Result.success(voPageResult);
     }
 
-    @Operation(summary = "添加", description = "添加路由菜单")
+    @Operation(summary = "添加", description = "添加路由菜单", tags = "router::add")
     @PostMapping()
     public Result<String> addRouter(@Valid @RequestBody RouterAddDto dto) {
         routerService.addRouter(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新路由菜单")
+    @Operation(summary = "更新", description = "更新路由菜单", tags = "router::update")
     @PutMapping()
     public Result<String> updateRouter(@Valid @RequestBody RouterUpdateDto dto) {
         routerService.updateRouter(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除路由菜单")
+    @Operation(summary = "删除", description = "删除路由菜单", tags = "router::delete")
     @DeleteMapping()
     public Result<String> deletedRouterByIds(@RequestBody List<Long> ids) {
         routerService.deletedRouterByIds(ids);

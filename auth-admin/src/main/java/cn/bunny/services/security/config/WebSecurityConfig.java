@@ -23,7 +23,7 @@ public class WebSecurityConfig {
             "/", "/ws/**", "/**.html", "/error",
             "/media.ico", "/favicon.ico", "/webjars/**", "/v3/api-docs/**", "/swagger-ui/**",
             "/*/*/login",
-            "/*/*/public/**", "/*/public/**", "/public/**"
+            "/*/*/public/**", "/*/public/**", "/public/**", "/*/*/public"
     };
 
     // 用户登录之后才能访问，不能与接口名称重复！！！不能与接口名称包含！！！

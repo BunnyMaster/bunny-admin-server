@@ -25,7 +25,7 @@ public class ConfigurationController {
         return configurationService.webConfig();
     }
 
-    @Operation(summary = "更新web配置文件", description = "更新web配置文件，重启应用失效")
+    @Operation(summary = "更新web配置文件", description = "更新web配置文件，重启应用失效", tags = "config::update")
     @PutMapping()
     public Result<Object> updateWebConfiguration(@Valid @RequestBody WebConfigurationDto dto) {
         configurationService.updateWebConfiguration(dto);

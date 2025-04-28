@@ -27,14 +27,14 @@ public class RolePermissionController {
     @Resource
     private RolePermissionService rolePermissionService;
 
-    @Operation(summary = "根据角色id获取权限内容", description = "根据角色id获取权限内容")
+    @Operation(summary = "根据角色id获取权限内容", description = "根据角色id获取权限内容", tags = "rolePermission::query")
     @GetMapping("private/getPermissionListByRoleId")
     public Result<List<String>> getPermissionListByRoleId(Long id) {
         List<String> voList = rolePermissionService.getPermissionListByRoleId(id);
         return Result.success(voList);
     }
 
-    @Operation(summary = "为角色分配权限", description = "为角色分配权限")
+    @Operation(summary = "为角色分配权限", description = "为角色分配权限", tags = "rolePermission::update")
     @PostMapping()
     public Result<String> addRolPermission(@Valid @RequestBody AssignPowersToRoleDto dto) {
         rolePermissionService.addRolPermission(dto);

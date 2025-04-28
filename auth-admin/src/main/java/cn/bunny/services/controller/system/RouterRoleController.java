@@ -25,14 +25,14 @@ public class RouterRoleController {
     @Resource
     private RouterRoleService routerRoleService;
 
-    @Operation(summary = "根据菜单id获取所有角色", description = "根据菜单id获取所有角色")
+    @Operation(summary = "根据菜单id获取所有角色", description = "根据菜单id获取所有角色", tags = "routerRole::query")
     @GetMapping("private/getRoleListByRouterId")
     public Result<List<String>> getRoleListByRouterId(Long routerId) {
         List<String> roleListByRouterId = routerRoleService.getRoleListByRouterId(routerId);
         return Result.success(roleListByRouterId);
     }
 
-    @Operation(summary = "清除选中菜单所有角色", description = "清除选中菜单所有角色")
+    @Operation(summary = "清除选中菜单所有角色", description = "清除选中菜单所有角色", tags = "routerRole::delete")
     @DeleteMapping("clearRouterRole")
     public Result<String> clearRouterRole(@RequestBody List<Long> routerIds) {
         routerRoleService.clearRouterRole(routerIds);

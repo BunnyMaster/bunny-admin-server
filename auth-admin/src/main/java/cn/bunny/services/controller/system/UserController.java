@@ -72,7 +72,7 @@ public class UserController {
     // -----------------------------------------
     // 管理用户CURD
     // -----------------------------------------
-    @Operation(summary = "分页查询", description = "分页查询用户信息")
+    @Operation(summary = "分页查询", description = "分页查询用户信息", tags = "user::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<AdminUserVo>> getUserPageByAdmin(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -85,14 +85,14 @@ public class UserController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加", description = "添加用户信息")
+    @Operation(summary = "添加", description = "添加用户信息", tags = "user::add")
     @PostMapping()
     public Result<Object> addUserByAdmin(@Valid @RequestBody AdminUserAddDto dto) {
         userService.addUserByAdmin(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新用户信息，需要更新Redis中的内容")
+    @Operation(summary = "更新", description = "更新用户信息，需要更新Redis中的内容", tags = "user::update")
     @PutMapping()
     public Result<String> updateUserByAdmin(
             @Valid AdminUserUpdateDto dto,
@@ -104,28 +104,28 @@ public class UserController {
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除用户", description = "删除用户")
+    @Operation(summary = "删除用户", description = "删除用户", tags = "user::delete")
     @DeleteMapping()
     public Result<Object> deleteUserByAdmin(@RequestBody List<Long> ids) {
         userService.deleteUserByAdmin(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "根据用户id查询", description = "根据用户ID获取用户信息，不包含Redis中的信息")
+    @Operation(summary = "根据用户id查询", description = "根据用户ID获取用户信息，不包含Redis中的信息", tags = "user::query")
     @GetMapping("private/getUserinfoById")
     public Result<UserVo> getUserinfoById(Long id) {
         UserVo vo = userService.getUserinfoById(id);
         return Result.success(vo);
     }
 
-    @Operation(summary = "根据用户名查询用户列表", description = "根据用户名查询用户列表")
+    @Operation(summary = "根据用户名查询用户列表", description = "根据用户名查询用户列表", tags = "user::query")
     @GetMapping("private/getUserListByKeyword")
     public Result<List<UserVo>> getUserListByKeyword(String keyword) {
         List<UserVo> voList = userService.getUserListByKeyword(keyword);
         return Result.success(voList);
     }
 
-    @Operation(summary = "强制退出", description = "强制退出")
+    @Operation(summary = "强制退出", description = "强制退出", tags = "user::update")
     @PutMapping("forcedOffline")
     public Result<String> forcedOfflineByAdmin(@RequestBody Long id) {
         userService.forcedOfflineByAdmin(id);
