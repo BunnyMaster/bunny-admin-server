@@ -38,6 +38,8 @@
 
 ## ✨ v4.0.0 重大更新
 
+新分支` sysn_6.0.0`与上游【Pure Admin】合并
+
 ### 核心改进
 
 - **全面重构**：后端接口、实体类等重构，前端重构部分j+优化操作体验
@@ -50,13 +52,14 @@
 ### 技术亮点
 
 - **注解扫描**：通过 `AnnotationScanner.java` 自动扫描想要的注解
-  
+
   ```java
   // 示例：扫描特定注解的类
   public static Set<Class<?>> getClassesWithAnnotation(Class<?> annotation) {
       // 实现细节...
   }
   ```
+
 - **应用场景**：
   - 定时任务配置
   - 权限接口发现
@@ -80,6 +83,7 @@
 | 私有接口 | `/api/private/**` | 需登录   | 路径包含 `private` 关键字 |
 
 ### 路径匹配策略
+
 ```java
 public static String[] annotations = { ... };
 
@@ -107,14 +111,14 @@ http.authorizeHttpRequests(auth -> auth
   const auth = {
     add: ['i18nType::add'],
     update: ['i18nType::update'],
-    delete: ['i18nType::delete']
+    delete: ['i18nType::delete'],
   };
   ```
 
 ### 2. 纯后端控制模式
 
 - 接口级权限：分页这种就可以添加为`/api/permission/*/*`
-  
+
   ```java
   @Tag(name = "系统权限")
   @RestController
@@ -131,6 +135,7 @@ http.authorizeHttpRequests(auth -> auth
   ```
 
 ### 3. 全栈控制模式
+
 前两个结合
 
 ## 🛡️ 安全配置
@@ -149,11 +154,13 @@ AntPath详情：https://juejin.cn/spost/7498247273660743732
 ## 🧰 技术栈
 
 ### 前端
+
 - Vue 3 + PureAdmin 模板
 - 自定义权限组件
 - 国际化支持
 
 ### 后端
+
 - Spring Boot 3 + Spring Security 6
 - JDK 17
 - MySQL + Redis + MinIO
@@ -179,8 +186,8 @@ docker compose up -d
    // 或者
    @Operation(summary = "接口摘要", tags = "权限码")
    ```
-   
 2. **权限码设计**：
+
    - 模块::操作 (如 `user::create`)
    - 分层级设计 (如 `system:user:update`)
 
@@ -200,7 +207,7 @@ docker compose up -d
 
 1. 多语言更新会完全替换现有配置
 2. 生产环境建议禁用 Swagger 端点
-4. 复杂权限建议使用 Excel 批量管理
+3. 复杂权限建议使用 Excel 批量管理
 
 ## 📈 后续规划
 
