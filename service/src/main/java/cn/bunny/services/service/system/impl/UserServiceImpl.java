@@ -424,12 +424,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
         if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
-        // 如果更新了用户名，删除之前的用户数据，并且用户id 不能为 1
-        if (!dto.getUsername().equals(adminUser.getUsername()) && !userId.equals(1L)) {
-            String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername());
-            redisTemplate.delete(adminLoginInfoPrefix);
-        }
-
         // 更新用户
         adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
@@ -450,6 +444,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         // 更新头像
         userUtil.uploadAvatarByAdmin(dto, adminUser);
 
+        // 构建用户返回信息，同步到redis
         userUtil.buildUserVo(adminUser, RedisUserConstant.REDIS_EXPIRATION_TIME);
 
         // 更新密码，放在最后，如果更新密码就将密码删除
@@ -476,6 +471,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         // 逻辑删除
         removeByIds(ids);
 
+        // 删除用 也要删除对应的 角色和部门，但是如果做的时物理删除就不需要，因为数据库中设置了外键检查，如果删除用户，相关表也会删除
         // 删除部门相关
         userDeptMapper.deleteBatchIdsByUserIds(ids);
 

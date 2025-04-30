@@ -8,6 +8,22 @@
 >
 > **Pure-admin文档**：https://pure-admin.github.io/pure-admin-doc
 
+> [!TIP]
+>
+> 项目中有一个默认管理员，数据库中用户`id`是`1`：
+>
+> 用户名：`Administrator`
+>
+> 密码：`admin123`
+
+> [!WARNING]
+>
+> 如果刚初始化登录的时候，发现管理员【`Administrator`】密码错误。
+>
+> 找到数据库`sys_user`，将`Administrator`替换成下面的密码。
+>
+> `$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe`
+
 ## 视频说明地址
 
 **介绍视频视频**

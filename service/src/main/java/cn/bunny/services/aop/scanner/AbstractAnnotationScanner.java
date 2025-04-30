@@ -2,7 +2,6 @@ package cn.bunny.services.aop.scanner;
 
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
-import cn.bunny.services.service.schedule.impl.SchedulersServiceImpl;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
@@ -16,7 +15,7 @@ import java.util.Set;
  * 传入要扫描的注解类，反射拿到类信息
  * 只需要将反射的类传入到 {@link AbstractAnnotationScanner#getClassesWithAnnotation(Class)}
  *
- * @see SchedulersServiceImpl#getScheduleJobList() <- 其中一个示例
+ * @see QuartzSchedulersScanner#getScheduleJobList() <- 其中一个示例
  */
 public abstract class AbstractAnnotationScanner {
 
