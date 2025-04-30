@@ -1,8 +1,8 @@
 package cn.bunny.services.exception;
 
 
-import cn.bunny.services.domain.common.vo.result.Result;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.Result;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.context.BaseContext;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.MyBatisSystemException;

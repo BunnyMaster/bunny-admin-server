@@ -1,6 +1,6 @@
 package cn.bunny.services.service.message.impl;
 
-import cn.bunny.services.domain.common.entity.BaseEntity;
+import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import cn.bunny.services.domain.system.message.dto.MessageAddDto;
 import cn.bunny.services.domain.system.message.dto.MessageDto;
 import cn.bunny.services.domain.system.message.dto.MessageUpdateDto;
@@ -10,8 +10,8 @@ import cn.bunny.services.domain.system.message.vo.MessageDetailVo;
 import cn.bunny.services.domain.system.message.vo.MessageReceivedWithMessageVo;
 import cn.bunny.services.domain.system.message.vo.MessageReceivedWithUserVo;
 import cn.bunny.services.domain.system.message.vo.MessageVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.message.MessageMapper;

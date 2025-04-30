@@ -5,7 +5,7 @@ import cn.bunny.services.domain.system.system.dto.role.RoleDto;
 import cn.bunny.services.domain.system.system.dto.role.RoleUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Role;
 import cn.bunny.services.domain.system.system.vo.RoleVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

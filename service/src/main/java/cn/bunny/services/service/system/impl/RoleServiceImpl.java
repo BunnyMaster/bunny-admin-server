@@ -1,8 +1,8 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.domain.common.excel.RoleExcel;
-import cn.bunny.services.domain.common.vo.result.PageResult;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.dto.excel.RoleExcel;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.role.RoleAddDto;
 import cn.bunny.services.domain.system.system.dto.role.RoleDto;
 import cn.bunny.services.domain.system.system.dto.role.RoleUpdateDto;

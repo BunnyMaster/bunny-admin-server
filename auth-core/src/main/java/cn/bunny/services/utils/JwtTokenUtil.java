@@ -1,6 +1,6 @@
 package cn.bunny.services.utils;
 
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class JwtHelper {
+public class JwtTokenUtil {
     // JWT 的 秘钥
     // static SecretKey key = new SecretKeySpec("Bunny-Java-Template".getBytes(), "AES");
     private static final SecretKey key = Keys.hmacShaKeyFor("Bunny-Auth-Server-Private-SecretKey".getBytes(StandardCharsets.UTF_8));

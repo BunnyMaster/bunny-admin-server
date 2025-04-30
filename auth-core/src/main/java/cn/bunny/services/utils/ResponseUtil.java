@@ -1,6 +1,6 @@
 package cn.bunny.services.utils;
 
-import cn.bunny.services.domain.common.vo.result.Result;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletResponse;

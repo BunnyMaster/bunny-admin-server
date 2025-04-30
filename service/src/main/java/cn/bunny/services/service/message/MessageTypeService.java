@@ -5,7 +5,7 @@ import cn.bunny.services.domain.system.message.dto.MessageTypeDto;
 import cn.bunny.services.domain.system.message.dto.MessageTypeUpdateDto;
 import cn.bunny.services.domain.system.message.entity.MessageType;
 import cn.bunny.services.domain.system.message.vo.MessageTypeVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

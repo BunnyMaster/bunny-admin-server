@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.model.file;
+package cn.bunny.services.domain.common.model.dto.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

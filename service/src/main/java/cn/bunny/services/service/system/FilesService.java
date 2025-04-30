@@ -7,7 +7,7 @@ import cn.bunny.services.domain.system.files.dto.FilesUpdateDto;
 import cn.bunny.services.domain.system.files.entity.Files;
 import cn.bunny.services.domain.system.files.vo.FileInfoVo;
 import cn.bunny.services.domain.system.files.vo.FilesVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

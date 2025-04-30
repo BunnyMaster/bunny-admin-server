@@ -1,8 +1,8 @@
 package cn.bunny.services.config.minio;
 
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.common.constant.MinioConstant;
-import cn.bunny.services.domain.common.model.file.MinioFilePath;
+import cn.bunny.services.domain.common.model.dto.file.MinioFilePath;
 import cn.bunny.services.exception.AuthCustomerException;
 import io.minio.*;
 import io.minio.messages.DeleteError;

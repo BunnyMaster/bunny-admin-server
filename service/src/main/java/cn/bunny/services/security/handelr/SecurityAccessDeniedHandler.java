@@ -1,7 +1,7 @@
 package cn.bunny.services.security.handelr;
 
-import cn.bunny.services.domain.common.vo.result.Result;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.Result;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import com.alibaba.fastjson2.JSON;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

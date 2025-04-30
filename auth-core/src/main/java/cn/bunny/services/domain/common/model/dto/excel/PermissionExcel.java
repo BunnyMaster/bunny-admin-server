@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.excel;
+package cn.bunny.services.domain.common.model.dto.excel;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;

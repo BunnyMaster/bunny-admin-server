@@ -1,8 +1,8 @@
 package cn.bunny.services.security.config;
 
-import cn.bunny.services.security.custom.CustomAuthorizationManagerServiceImpl;
 import cn.bunny.services.security.handelr.SecurityAccessDeniedHandler;
 import cn.bunny.services.security.handelr.SecurityAuthenticationEntryPoint;
+import cn.bunny.services.security.service.CustomAuthorizationManagerServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,7 +52,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(annotations).permitAll()
                         .requestMatchers(RegexRequestMatcher.regexMatcher(".*\\.(css|js)$")).permitAll()
-                        .anyRequest().access(customAuthorizationManagerService))
+                        .anyRequest().access(customAuthorizationManagerService)
+                )
                 .exceptionHandling(exception -> {
                     // 请求未授权接口
                     exception.authenticationEntryPoint(new SecurityAuthenticationEntryPoint());
@@ -60,6 +61,7 @@ public class WebSecurityConfig {
                     exception.accessDeniedHandler(new SecurityAccessDeniedHandler());
                 })
         ;
+
         return httpSecurity.build();
     }
 }

@@ -1,10 +1,10 @@
 package cn.bunny.services.service.configuration.impl;
 
-import cn.bunny.services.domain.common.entity.BaseEntity;
-import cn.bunny.services.domain.common.vo.result.PageResult;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.common.constant.FileType;
-import cn.bunny.services.domain.common.excel.I18nExcel;
+import cn.bunny.services.domain.common.model.entity.BaseEntity;
+import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.i18n.dto.I18nAddDto;
 import cn.bunny.services.domain.system.i18n.dto.I18nDto;
 import cn.bunny.services.domain.system.i18n.dto.I18nUpdateByFileDto;

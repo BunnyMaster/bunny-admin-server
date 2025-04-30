@@ -7,7 +7,7 @@ import cn.bunny.services.domain.system.message.entity.Message;
 import cn.bunny.services.domain.system.message.entity.MessageReceived;
 import cn.bunny.services.domain.system.message.vo.MessageReceivedWithMessageVo;
 import cn.bunny.services.domain.system.message.vo.MessageUserVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

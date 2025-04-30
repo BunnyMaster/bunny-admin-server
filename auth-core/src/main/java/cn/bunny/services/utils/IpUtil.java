@@ -1,6 +1,6 @@
 package cn.bunny.services.utils;
 
-import cn.bunny.services.domain.common.ip.IpEntity;
+import cn.bunny.services.domain.common.model.dto.ip.IpEntity;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

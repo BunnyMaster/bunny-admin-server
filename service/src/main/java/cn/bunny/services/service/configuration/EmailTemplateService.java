@@ -5,7 +5,7 @@ import cn.bunny.services.domain.system.email.dto.EmailTemplateDto;
 import cn.bunny.services.domain.system.email.dto.EmailTemplateUpdateDto;
 import cn.bunny.services.domain.system.email.entity.EmailTemplate;
 import cn.bunny.services.domain.system.email.vo.EmailTemplateVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

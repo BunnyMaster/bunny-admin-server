@@ -1,6 +1,6 @@
 package cn.bunny.services.domain.system.log.vo;
 
-import cn.bunny.services.domain.common.vo.BaseVo;
+import cn.bunny.services.domain.common.model.vo.BaseVo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

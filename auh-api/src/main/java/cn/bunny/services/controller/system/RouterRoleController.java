@@ -1,6 +1,6 @@
 package cn.bunny.services.controller.system;
 
-import cn.bunny.services.domain.common.vo.result.Result;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.service.system.RouterRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

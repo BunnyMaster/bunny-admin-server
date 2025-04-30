@@ -1,6 +1,6 @@
 package cn.bunny.services.excel;
 
-import cn.bunny.services.domain.common.excel.I18nExcel;
+import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
 import cn.bunny.services.domain.system.i18n.entity.I18n;
 import cn.bunny.services.service.configuration.I18nService;
 import com.alibaba.excel.context.AnalysisContext;

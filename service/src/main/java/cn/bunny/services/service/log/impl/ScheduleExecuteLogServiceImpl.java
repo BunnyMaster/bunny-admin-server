@@ -3,7 +3,7 @@ package cn.bunny.services.service.log.impl;
 import cn.bunny.services.domain.system.log.dto.ScheduleExecuteLogDto;
 import cn.bunny.services.domain.system.log.entity.ScheduleExecuteLog;
 import cn.bunny.services.domain.system.log.vo.ScheduleExecuteLogVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.mapper.log.ScheduleExecuteLogMapper;
 import cn.bunny.services.service.log.ScheduleExecuteLogService;
 import com.baomidou.mybatisplus.core.metadata.IPage;

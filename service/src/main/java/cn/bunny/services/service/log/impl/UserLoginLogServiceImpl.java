@@ -4,7 +4,7 @@ import cn.bunny.services.domain.system.log.dto.UserLoginLogDto;
 import cn.bunny.services.domain.system.log.entity.UserLoginLog;
 import cn.bunny.services.domain.system.log.vo.UserLoginLogLocalVo;
 import cn.bunny.services.domain.system.log.vo.UserLoginLogVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.service.log.UserLoginLogService;

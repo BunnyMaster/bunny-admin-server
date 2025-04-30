@@ -5,7 +5,7 @@ import cn.bunny.services.domain.system.message.dto.MessageTypeDto;
 import cn.bunny.services.domain.system.message.dto.MessageTypeUpdateDto;
 import cn.bunny.services.domain.system.message.entity.MessageType;
 import cn.bunny.services.domain.system.message.vo.MessageTypeVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.mapper.message.MessageTypeMapper;
 import cn.bunny.services.service.message.MessageTypeService;
 import com.baomidou.mybatisplus.core.metadata.IPage;

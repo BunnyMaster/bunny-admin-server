@@ -1,6 +1,6 @@
 package cn.bunny.services.aop.scanner;
 
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.service.schedule.impl.SchedulersServiceImpl;
 import org.springframework.beans.factory.config.BeanDefinition;

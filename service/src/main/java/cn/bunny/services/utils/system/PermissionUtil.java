@@ -1,6 +1,6 @@
 package cn.bunny.services.utils.system;
 
-import cn.bunny.services.domain.common.excel.PermissionExcel;
+import cn.bunny.services.domain.common.model.dto.excel.PermissionExcel;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson2.JSON;
 

@@ -1,12 +1,12 @@
 package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.context.BaseContext;
-import cn.bunny.services.domain.common.vo.LoginVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.enums.EmailTemplateEnums;
 import cn.bunny.services.domain.common.enums.LoginEnums;
+import cn.bunny.services.domain.common.model.vo.LoginVo;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.email.entity.EmailTemplate;
 import cn.bunny.services.domain.system.log.entity.UserLoginLog;
 import cn.bunny.services.domain.system.system.dto.user.*;
@@ -25,9 +25,9 @@ import cn.bunny.services.mapper.system.UserDeptMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.UserService;
-import cn.bunny.services.utils.JwtHelper;
-import cn.bunny.services.utils.email.ConcreteSenderEmailTemplate;
 import cn.bunny.services.utils.IpUtil;
+import cn.bunny.services.utils.JwtTokenUtil;
+import cn.bunny.services.utils.email.ConcreteSenderEmailTemplate;
 import cn.bunny.services.utils.login.DefaultLoginStrategy;
 import cn.bunny.services.utils.login.EmailLoginStrategy;
 import cn.bunny.services.utils.login.LoginContext;
@@ -175,7 +175,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @NotNull
     @Override
     public RefreshTokenVo refreshToken(@NotNull RefreshTokenDto dto) {
-        Long userId = JwtHelper.getUserId(dto.getRefreshToken());
+        Long userId = JwtTokenUtil.getUserId(dto.getRefreshToken());
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
 
         // 用户存在且没有禁用

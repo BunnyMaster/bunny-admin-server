@@ -1,7 +1,7 @@
 package cn.bunny.services.service.schedule.impl;
 
-import cn.bunny.services.domain.common.vo.result.PageResult;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.quartz.dto.SchedulersAddDto;
 import cn.bunny.services.domain.system.quartz.dto.SchedulersDto;
 import cn.bunny.services.domain.system.quartz.dto.SchedulersUpdateDto;

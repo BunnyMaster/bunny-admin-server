@@ -1,6 +1,6 @@
 package cn.bunny.services.excel;
 
-import cn.bunny.services.domain.common.excel.PermissionExcel;
+import cn.bunny.services.domain.common.model.dto.excel.PermissionExcel;
 import cn.bunny.services.domain.system.system.entity.Permission;
 import cn.bunny.services.service.system.PermissionService;
 import com.alibaba.excel.context.AnalysisContext;

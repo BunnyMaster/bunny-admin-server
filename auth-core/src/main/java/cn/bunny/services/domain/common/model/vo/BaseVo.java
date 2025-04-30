@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.vo;
+package cn.bunny.services.domain.common.model.vo;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;

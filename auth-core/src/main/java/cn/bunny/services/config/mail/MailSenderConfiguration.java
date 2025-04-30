@@ -1,7 +1,7 @@
 package cn.bunny.services.config.mail;
 
-import cn.bunny.services.domain.common.model.email.EmailSend;
-import cn.bunny.services.domain.common.model.email.EmailSendInit;
+import cn.bunny.services.domain.common.model.dto.email.EmailSend;
+import cn.bunny.services.domain.common.model.dto.email.EmailSendInit;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;

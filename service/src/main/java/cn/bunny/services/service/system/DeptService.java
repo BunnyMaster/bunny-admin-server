@@ -5,7 +5,7 @@ import cn.bunny.services.domain.system.system.dto.dept.DeptDto;
 import cn.bunny.services.domain.system.system.dto.dept.DeptUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Dept;
 import cn.bunny.services.domain.system.system.vo.DeptVo;
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

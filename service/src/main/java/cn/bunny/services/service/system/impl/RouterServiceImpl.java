@@ -10,7 +10,7 @@ import cn.bunny.services.domain.system.system.views.ViewRouterRole;
 import cn.bunny.services.domain.system.system.vo.router.RouterManageVo;
 import cn.bunny.services.domain.system.system.vo.router.RouterVo;
 import cn.bunny.services.domain.system.system.vo.router.WebUserRouterVo;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.RouterMapper;

@@ -38,8 +38,6 @@
 
 ## ✨ v4.0.0 重大更新
 
-新分支` sysn_6.0.0`与上游【Pure Admin】合并
-
 ### 核心改进
 
 - **全面重构**：后端接口、实体类等重构，前端重构部分j+优化操作体验
@@ -92,6 +90,21 @@ http.authorizeHttpRequests(auth -> auth
     .authorizeHttpRequests(authorize -> authorize
     .requestMatchers(annotations).permitAll()
 );
+```
+
+### Maven工程结构
+
+```mermaid
+graph TD
+
+父工程 -->|主项目| auth-api
+父工程 -->|代码生成器| generator-code
+auth-api -->|启动项、控制器| service
+service -->|mapper| dao
+service -->|包含domain、配置等| auth-core
+dao -->|包含domain、配置等| auth-code
+
+
 ```
 
 ## 🛠️ 应用场景
@@ -216,7 +229,10 @@ docker compose up -d
 - [ ] 用户设置持久化存储到数据库
 - [ ] 权限弹窗页面优化
 - [ ] 后端文档注释完善
-- [ ] 系统监控后端返回403停止请求
+- [x] 系统监控后端返回403停止请求
+- [ ] 优化用户配置权限逻辑，配置后热更新逻辑等
+- [ ] 完善后端注释，有需要添加ReadMe文档
+- [ ] Redis中获取活跃用户
 
 ## 前后端接口规范
 

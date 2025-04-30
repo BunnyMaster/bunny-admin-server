@@ -1,6 +1,6 @@
 package cn.bunny.services.domain.system.message.vo;
 
-import cn.bunny.services.domain.common.vo.BaseVo;
+import cn.bunny.services.domain.common.model.vo.BaseVo;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

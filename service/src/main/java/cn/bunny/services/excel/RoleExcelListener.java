@@ -1,7 +1,7 @@
 package cn.bunny.services.excel;
 
-import cn.bunny.services.domain.common.excel.RoleExcel;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.dto.excel.RoleExcel;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.entity.Role;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.service.system.RoleService;

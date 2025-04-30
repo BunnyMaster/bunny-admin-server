@@ -1,7 +1,7 @@
 package cn.bunny.services.utils;
 
 import cn.bunny.services.domain.system.system.entity.AdminUser;
-import cn.bunny.services.domain.common.vo.LoginVo;
+import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.utils.system.UserUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

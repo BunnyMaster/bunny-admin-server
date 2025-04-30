@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.model.email;
+package cn.bunny.services.domain.common.model.dto.email;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

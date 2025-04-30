@@ -1,7 +1,7 @@
 package cn.bunny.services.context;
 
 
-import cn.bunny.services.domain.common.vo.LoginVo;
+import cn.bunny.services.domain.common.model.vo.LoginVo;
 
 public class BaseContext {
     private static final ThreadLocal<Long> userId = new ThreadLocal<>();

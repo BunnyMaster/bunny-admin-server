@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.vo;
+package cn.bunny.services.domain.common.model.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

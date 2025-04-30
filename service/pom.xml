@@ -23,6 +23,11 @@
             <artifactId>dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>cn.bunny</groupId>
+            <artifactId>auth-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- 单元测试 -->
         <dependency>

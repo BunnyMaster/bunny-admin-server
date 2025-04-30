@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.services.domain.common.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.system.system.dto.power.PermissionAddDto;
 import cn.bunny.services.domain.system.system.dto.power.PermissionDto;
 import cn.bunny.services.domain.system.system.dto.power.PermissionUpdateBatchByParentIdDto;

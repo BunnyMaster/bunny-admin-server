@@ -1,6 +1,6 @@
 package impl;
 
-import cn.bunny.services.domain.common.excel.I18nExcel;
+import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
 import cn.bunny.services.domain.system.i18n.entity.I18n;
 import cn.bunny.services.mapper.configuration.I18nMapper;
 import cn.bunny.services.utils.i8n.I18nUtil;

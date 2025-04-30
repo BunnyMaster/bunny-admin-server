@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.entity;
+package cn.bunny.services.domain.common.model.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;

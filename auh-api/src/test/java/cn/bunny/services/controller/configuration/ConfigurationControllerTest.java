@@ -2,7 +2,7 @@ package cn.bunny.services.controller.configuration;
 
 import cn.bunny.services.domain.system.configuration.dto.WebConfigurationDto;
 import cn.bunny.services.domain.system.configuration.entity.WebConfiguration;
-import cn.bunny.services.domain.common.vo.result.Result;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.utils.TokenUtilsTest;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;

@@ -1,6 +1,6 @@
 package cn.bunny.services.domain.system.email.entity;
 
-import cn.bunny.services.domain.common.entity.BaseEntity;
+import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;

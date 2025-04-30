@@ -1,6 +1,6 @@
 package cn.bunny.services.domain.system.email.vo;
 
-import cn.bunny.services.domain.common.vo.BaseUserVo;
+import cn.bunny.services.domain.common.model.vo.BaseUserVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

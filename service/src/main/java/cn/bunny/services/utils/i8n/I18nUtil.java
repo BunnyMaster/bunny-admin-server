@@ -1,6 +1,6 @@
 package cn.bunny.services.utils.i8n;
 
-import cn.bunny.services.domain.common.excel.I18nExcel;
+import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
 import cn.bunny.services.domain.system.i18n.entity.I18n;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson2.JSON;

@@ -14,8 +14,6 @@ public class RedisUserConstant {
 
     private static final String ADMIN_LOGIN_INFO_PREFIX = "admin::login_info::";
     private static final String ADMIN_EMAIL_CODE_PREFIX = "admin::email_code::";
-    private static final String USER_LOGIN_INFO_PREFIX = "user::login_info::";
-    private static final String USER_EMAIL_CODE_PREFIX = "user::email_code::";
 
     public static String getAdminLoginInfoPrefix(String adminUser) {
         return ADMIN_LOGIN_INFO_PREFIX + adminUser;

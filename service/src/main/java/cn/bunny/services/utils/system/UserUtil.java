@@ -1,12 +1,12 @@
 package cn.bunny.services.utils.system;
 
 import cn.bunny.services.config.minio.MinioUtil;
-import cn.bunny.services.domain.common.vo.LoginVo;
-import cn.bunny.services.domain.common.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.common.constant.LocalDateTimeConstant;
 import cn.bunny.services.domain.common.constant.MinioConstant;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
+import cn.bunny.services.domain.common.model.vo.LoginVo;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.files.dto.FileUploadDto;
 import cn.bunny.services.domain.system.files.vo.FileInfoVo;
 import cn.bunny.services.domain.system.log.entity.UserLoginLog;
@@ -20,8 +20,8 @@ import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.service.system.FilesService;
-import cn.bunny.services.utils.JwtHelper;
 import cn.bunny.services.utils.IpUtil;
+import cn.bunny.services.utils.JwtTokenUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
@@ -76,7 +76,7 @@ public class UserUtil {
         String username = user.getUsername();
 
         // 使用用户名创建token
-        String token = JwtHelper.createToken(userId, username, (int) readMeDay);
+        String token = JwtTokenUtil.createToken(userId, username, (int) readMeDay);
 
         // 获取IP地址并更新用户登录信息
         String ipAddr = IpUtil.getCurrentUserIpAddress().getIpAddr();
@@ -116,7 +116,7 @@ public class UserUtil {
         String loginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(username);
 
         // 使用用户名创建token
-        String token = JwtHelper.createToken(userId, username, (int) readMeDay);
+        String token = JwtTokenUtil.createToken(userId, username, (int) readMeDay);
 
         // 设置用户返回信息
         LoginVo loginVo = setLoginVo(user, token, readMeDay, user.getIpAddress(), user.getIpRegion());
