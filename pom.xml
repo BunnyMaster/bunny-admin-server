@@ -16,9 +16,11 @@
     <description>auth-admin</description>
 
     <modules>
-        <module>common</module>
-        <module>auth-admin</module>
-        <module>domain</module>
+        <module>service</module>
+        <module>dao</module>
+        <module>auth-core</module>
+        <module>auh-api</module>
+        <module>generator-code</module>
     </modules>
 
     <properties>

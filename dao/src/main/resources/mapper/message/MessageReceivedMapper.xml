@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.message.MessageReceivedMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.message.entity.MessageReceived">
+        <id column="id" property="id"/>
+        <result column="received_user_id" property="receivedUserId"/>
+        <result column="message_id" property="messageId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, received_user_id, message_id
+    </sql>
+
+    <!-- 根据消息Id删除-->
+    <delete id="deleteBatchMessageIds">
+        delete
+        from sys_message_received
+        where message_id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 用户消息接收管理分页查询 -->
+    <select id="selectListByMessageReceivedPage"
+            resultType="cn.bunny.services.domain.system.message.vo.MessageReceivedWithMessageVo">
+        SELECT
+        message_received.status AS status,
+        message_received.received_user_id AS received_user_id,
+        message_received.id AS id,
+        message.id as message_id,
+        message.create_time,
+        message.update_time,
+        message.create_user,
+        message.update_user,
+        message.is_deleted,
+        message.title,
+        message.send_user_id,
+        message.content,
+        message.cover,
+        message.summary,
+        message.editor_type,
+        message.level,
+        message.extra,
+        message_type.message_name AS message_type,
+        message_type.id AS message_type_id,
+        received_user.nickname received_user_nickname,
+        create_user.username AS create_username,
+        update_user.username AS update_username,
+        send_user.nickname AS send_nickname
+        FROM
+        sys_message_received message_received
+        LEFT JOIN sys_user create_user ON create_user.id = message_received.create_user
+        LEFT JOIN sys_user update_user ON update_user.id = message_received.update_user
+        LEFT JOIN sys_user received_user ON message_received.received_user_id = received_user.id
+        LEFT JOIN sys_message message ON message_received.message_id = message.id
+        LEFT JOIN sys_user send_user ON send_user.id = message.send_user_id
+        LEFT JOIN sys_message_type message_type ON message_type.id = message.message_type
+        <where>
+            message_received.is_deleted = 0
+            <if test="dto.title != null and dto.title != ''">
+                and message.title like CONCAT('%',#{dto.title},'%')
+            </if>
+            <if test="dto.sendNickname != null and dto.sendNickname != ''">
+                and send_user.nickname like CONCAT('%',#{dto.sendNickname},'%')
+            </if>
+            <if test="dto.messageType != null and dto.messageType != ''">
+                and message_type.message_type = #{dto.messageType}
+            </if>
+            <if test="dto.editorType != null and dto.editorType != ''">
+                and message.editor_type = #{dto.editorType}
+            </if>
+            <if test="dto.level != null and dto.level != ''">
+                and message.level = #{dto.level}
+            </if>
+            <if test="dto.extra != null and dto.extra != ''">
+                and message.extra like CONCAT('%',#{dto.extra},'%')
+            </if>
+            <if test="dto.status != null">
+                and message_received.status = #{dto.status}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据消息所有包含匹配当前消息Id的列表 -->
+    <select id="selectListByUserMessagePage" resultType="cn.bunny.services.domain.system.message.vo.MessageUserVo">
+        SELECT
+        message.id,
+        message.title,
+        message.cover,
+        message.summary,
+        message.level,
+        message.extra,
+        message.update_time,
+        message_received.id AS message_received_id,
+        message_received.status AS status,
+        message_type.message_type AS message_type
+        FROM sys_message message
+        LEFT JOIN sys_user create_user ON create_user.id = message.create_user
+        LEFT JOIN sys_user update_user ON update_user.id = message.update_user
+        LEFT JOIN sys_message_type message_type ON message_type.id = message.message_type
+        INNER JOIN sys_message_received message_received ON message_received.received_user_id = #{userId}
+        AND message.id = message_received.message_id
+        <where>
+            message.is_deleted = 0 and
+            message_received.is_deleted = 0
+            <if test="dto.status != null">
+                and message_received.status = #{dto.status}
+            </if>
+            <if test="dto.messageType != null and dto.messageType != ''">
+                and message_type.message_type = #{dto.messageType}
+            </if>
+            <if test="dto.title != null and dto.title != ''">
+                and message.title like CONCAT('%',#{dto.title},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>
