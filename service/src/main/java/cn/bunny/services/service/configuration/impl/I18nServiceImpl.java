@@ -1,8 +1,8 @@
 package cn.bunny.services.service.configuration.impl;
 
 import cn.bunny.services.domain.common.constant.FileType;
-import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
+import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.i18n.dto.I18nAddDto;
@@ -17,8 +17,8 @@ import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nMapper;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nService;
+import cn.bunny.services.service.configuration.helper.i18n.I18nHelper;
 import cn.bunny.services.utils.FileUtil;
-import cn.bunny.services.utils.i8n.I18nUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
@@ -76,7 +76,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
         I18nType i18nType = i18nTypeMapper.selectOne(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getIsDefault, true));
         List<I18n> i18nList = list();
 
-        HashMap<String, Object> hashMap = I18nUtil.getMap(i18nList);
+        HashMap<String, Object> hashMap = I18nHelper.getMapByI18nList(i18nList);
         hashMap.put("local", Objects.requireNonNull(i18nType.getTypeName(), "zh"));
 
         return hashMap;
@@ -170,22 +170,21 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
 
             // 类型是Excel写入Excel
             if (type.equals(FileType.EXCEL)) {
-                I18nUtil.writeExcel(i18nList, zipOutputStream);
+                I18nHelper.writeExcel(i18nList, zipOutputStream);
             }
             // 其他格式写入JSON
             else {
-                I18nUtil.writeJson(i18nList, zipOutputStream);
+                I18nHelper.writeJson(i18nList, zipOutputStream);
             }
 
+            // 设置响应头
+            HttpHeaders headers = FileUtil.buildHttpHeadersByBinary("i18n-configuration.zip");
+
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        // 设置响应头
-        HttpHeaders headers = FileUtil.buildHttpHeadersByBinary("i18n-configuration.zip");
-
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-        return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);
     }
 
     /**

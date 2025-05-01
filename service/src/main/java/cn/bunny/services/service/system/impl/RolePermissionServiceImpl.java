@@ -8,7 +8,7 @@ import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RolePermissionService;
-import cn.bunny.services.utils.system.RoleUtil;
+import cn.bunny.services.service.system.helper.role.RoleHelper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
@@ -33,7 +33,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     private UserMapper userMapper;
 
     @Resource
-    private RoleUtil roleUtil;
+    private RoleHelper roleHelper;
 
     @Resource
     private UserRoleMapper userRoleMapper;
@@ -86,6 +86,6 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
 
         // 更新Redis中用户信息
         List<Long> userIds = adminUsers.stream().map(AdminUser::getId).toList();
-        roleUtil.updateUserRedisInfo(userIds);
+        roleHelper.updateUserRedisInfo(userIds);
     }
 }

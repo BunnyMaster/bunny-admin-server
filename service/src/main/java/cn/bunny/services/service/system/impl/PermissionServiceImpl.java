@@ -15,8 +15,8 @@ import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.service.system.PermissionService;
+import cn.bunny.services.service.system.helper.PermissionHelper;
 import cn.bunny.services.utils.FileUtil;
-import cn.bunny.services.utils.system.PermissionUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
@@ -187,7 +187,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         }).toList();
 
         // 构建树型结构
-        List<PermissionExcel> buildTree = PermissionUtil.buildTree(permissionExcelList);
+        List<PermissionExcel> buildTree = PermissionHelper.buildTree(permissionExcelList);
 
         // 创建btye输出流
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -197,9 +197,9 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
             // 判断导出类型是什么
             if (type.equals(FileType.EXCEL)) {
-                PermissionUtil.writExcel(permissionExcelList, zipOutputStream, filename + ".xlsx");
+                PermissionHelper.writExcel(permissionExcelList, zipOutputStream, filename + ".xlsx");
             } else {
-                PermissionUtil.writeJson(buildTree, zipOutputStream, filename + ".json");
+                PermissionHelper.writeJson(buildTree, zipOutputStream, filename + ".json");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -235,7 +235,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
                 List<PermissionExcel> list = JSON.parseObject(json, new TypeReference<>() {
                 });
                 // 格式化数据，保存到数据库
-                List<PermissionExcel> flattenedTree = PermissionUtil.flattenTree(list);
+                List<PermissionExcel> flattenedTree = PermissionHelper.flattenTree(list);
                 List<Permission> permissionList = flattenedTree.stream().map(permissionExcel -> {
                     Permission permission = new Permission();
                     BeanUtils.copyProperties(permissionExcel, permission);

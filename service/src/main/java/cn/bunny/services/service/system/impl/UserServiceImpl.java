@@ -102,9 +102,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     }
 
     /**
-     * 强制退出
+     * 管理员强制用户下线
      *
-     * @param id 用户id
+     * <p><b>功能说明</b>：管理员强制指定用户退出登录状态，并记录操作日志</p>
+     *
+     * <p><b>处理流程</b>：</p>
+     * <ol>
+     *   <li>参数校验：检查用户ID是否为空</li>
+     *   <li>查询用户信息：根据ID获取用户实体</li>
+     *   <li>记录操作日志：保存强制下线记录到用户登录日志表</li>
+     *   <li>清除登录状态：删除Redis中的用户登录信息</li>
+     * </ol>
+     *
+     * <p><b>注意事项</b>：</p>
+     * <ul>
+     *   <li>会中断用户当前会话，无需用户确认</li>
+     *   <li>操作会记录到用户登录日志，用于审计追踪</li>
+     *   <li>Redis键使用用户名作为唯一标识</li>
+     * </ul>
+     *
+     * @param id 用户ID（不可为空）
+     * @see RedisUserConstant#getAdminLoginInfoPrefix Redis键生成规则
+     * @see UserConstant#FORCE_LOGOUT 强制下线类型常量
      */
     @Override
     public void forcedOfflineByAdmin(Long id) {
@@ -117,6 +136,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         // 将用户登录保存在用户登录日志表中
         UserLoginLog userLoginLog = new UserLoginLog();
         BeanUtils.copyProperties(adminUser, userLoginLog);
+        userLoginLog.setId(null);
         userLoginLog.setUserId(adminUser.getId());
         userLoginLog.setType(UserConstant.FORCE_LOGOUT);
         userLoginLogMapper.insert(userLoginLog);

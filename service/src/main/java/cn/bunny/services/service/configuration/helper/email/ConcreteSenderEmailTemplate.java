@@ -1,4 +1,4 @@
-package cn.bunny.services.utils.email;
+package cn.bunny.services.service.configuration.helper.email;
 
 import cn.bunny.services.domain.system.email.entity.EmailTemplate;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;

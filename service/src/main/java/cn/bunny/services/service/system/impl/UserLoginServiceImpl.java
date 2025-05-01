@@ -15,6 +15,7 @@ import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import cn.bunny.services.mapper.system.UserMapper;
+import cn.bunny.services.service.configuration.helper.email.ConcreteSenderEmailTemplate;
 import cn.bunny.services.service.system.UserLoginService;
 import cn.bunny.services.service.system.helper.UserLoginHelper;
 import cn.bunny.services.service.system.helper.login.DefaultLoginStrategy;
@@ -23,7 +24,6 @@ import cn.bunny.services.service.system.helper.login.LoginContext;
 import cn.bunny.services.service.system.helper.login.LoginStrategy;
 import cn.bunny.services.utils.IpUtil;
 import cn.bunny.services.utils.JwtTokenUtil;
-import cn.bunny.services.utils.email.ConcreteSenderEmailTemplate;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -103,9 +103,25 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
     }
 
     /**
-     * 登录发送邮件验证码
+     * 发送登录邮件验证码
      *
-     * @param email 邮箱
+     * <p>完整处理流程：</p>
+     * <ol>
+     *   <li><b>查询模板</b>：从数据库获取默认的验证码邮件模板</li>
+     *   <li><b>生成验证码</b>：创建4位数字验证码</li>
+     *   <li><b>模板处理</b>：替换模板中的动态变量（系统名称、验证码等）</li>
+     *   <li><b>发送邮件</b>：通过邮件服务发送处理后的模板</li>
+     *   <li><b>缓存验证码</b>：将验证码存入Redis 有效期 xxx</li>
+     * </ol>
+     *
+     * @param email 接收邮箱地址（不可为空）
+     *              <ul>
+     *                <li>未找到默认邮件模板</li>
+     *                <li>邮件发送失败</li>
+     *                <li>Redis操作异常</li>
+     *              </ul>
+     * @see EmailTemplateEnums#VERIFICATION_CODE 验证码模板类型枚举
+     * @see RedisUserConstant  Redis键和过期时间常量
      */
     @Override
     public void sendLoginEmail(@NotNull String email) {
@@ -131,7 +147,8 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         concreteSenderEmailTemplate.sendEmailTemplate(email, emailTemplate, hashMap);
 
         // 在Redis中存储验证码
-        redisTemplate.opsForValue().set(RedisUserConstant.getAdminUserEmailCodePrefix(email), emailCode, RedisUserConstant.REDIS_EXPIRATION_TIME, TimeUnit.MINUTES);
+        String emailCodePrefix = RedisUserConstant.getAdminUserEmailCodePrefix(email);
+        redisTemplate.opsForValue().set(emailCodePrefix, emailCode, RedisUserConstant.REDIS_EXPIRATION_TIME, TimeUnit.MINUTES);
     }
 
     /**

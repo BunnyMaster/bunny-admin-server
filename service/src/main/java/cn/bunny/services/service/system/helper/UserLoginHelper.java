@@ -13,9 +13,9 @@ import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.minio.MinioHelper;
+import cn.bunny.services.service.system.helper.role.RoleHelper;
 import cn.bunny.services.utils.IpUtil;
 import cn.bunny.services.utils.JwtTokenUtil;
-import cn.bunny.services.utils.system.RoleUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -94,7 +94,7 @@ public class UserLoginHelper {
 
         // 判断是否是 admin 如果是admin 赋予所有权限
         List<String> permissions = new ArrayList<>();
-        boolean isAdmin = RoleUtil.checkAdmin(roles, permissions, user);
+        boolean isAdmin = RoleHelper.checkAdmin(roles, permissions, user);
         if (!isAdmin) {
             permissions = permissionMapper.selectListByUserId(userId).stream()
                     .map(Permission::getPowerCode)

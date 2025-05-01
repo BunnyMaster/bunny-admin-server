@@ -1,4 +1,4 @@
-package cn.bunny.services.utils.system;
+package cn.bunny.services.service.system.helper.role;
 
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
@@ -6,7 +6,6 @@ import cn.bunny.services.domain.common.constant.SecurityConfigConstant;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.service.system.helper.UserLoginHelper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class RoleUtil {
+public class RoleHelper {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -73,36 +72,53 @@ public class RoleUtil {
      */
     public static boolean checkAdmin(List<String> roleList) {
         // 可以放行的权限
-        List<String> permitAllList = SecurityConfigConstant.PERMIT_ALL_LIST;
+        List<String> permissionList = SecurityConfigConstant.PERMIT_ACCESS_LIST;
 
         // 判断是否是超级管理员
         if (BaseContext.getUserId().equals(1L)) return true;
 
         // 判断是否是 admin
-        return roleList.stream().anyMatch(permitAllList::contains);
+        return roleList.stream().anyMatch(permissionList::contains);
     }
 
     /**
-     * 批量更新Redis中用户信息
+     * 批量更新Redis中用户权限信息
      *
-     * @param userIds 用户Id列表
+     * <p><b>使用场景</b>：当用户角色或权限变更时，同步更新Redis中的用户权限数据</p>
+     *
+     * <p><b>实现策略</b>：</p>
+     * <ol>
+     *   <li><b>主动更新（当前实现）</b>：重新构建用户权限信息并更新Redis缓存</li>
+     *   <li><b>强制下线</b>：删除用户登录态，强制重新认证获取最新权限</li>
+     * </ol>
+     *
+     * <p><b>技术实现</b>：</p>
+     * <ul>
+     *   <li>采用Spring事件驱动机制触发更新</li>
+     *   <li>使用并行流(parallelStream)提高批量处理效率</li>
+     *   <li>仅更新Redis中存在登录态的用户</li>
+     * </ul>
+     *
+     * @param userIds 需要更新的用户ID集合
+     *                （仅处理集合中存在的有效用户）
+     * @see RedisUserConstant  Redis键前缀常量
+     * @see UserLoginHelper#buildLoginUserVo 用户登录信息构建方法
      */
     public void updateUserRedisInfo(List<Long> userIds) {
         if (userIds.isEmpty()) return;
 
-        // 根据Id查找所有用户
-        List<AdminUser> adminUsers = userMapper.selectList(Wrappers.<AdminUser>lambdaQuery().in(AdminUser::getId, userIds));
+        // 批量查询用户
+        List<AdminUser> adminUsers = userMapper.selectBatchIds(userIds);
 
-        // 用户为空时不更新Redis的key
-        if (adminUsers.isEmpty()) return;
+        // 并行处理用户更新
+        adminUsers.parallelStream()
+                .filter(user -> redisTemplate.hasKey(RedisUserConstant.getAdminLoginInfoPrefix(user.getUsername())))
+                .forEach(user -> {
+                    // 策略1: 更新用户权限信息
+                    userloginHelper.buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
 
-        // 更新Redis中用户信息
-        adminUsers.stream()
-                .filter(user -> {
-                    String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(user.getUsername());
-                    Object object = redisTemplate.opsForValue().get(adminLoginInfoPrefix);
-                    return object != null;
-                })
-                .forEach(user -> userloginHelper.buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME));
+                    // 或者策略2: 强制用户下线
+                    // redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(user.getUsername()));
+                });
     }
 }

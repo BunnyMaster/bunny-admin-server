@@ -6,7 +6,7 @@ import cn.bunny.services.domain.system.system.entity.Role;
 import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.security.config.WebSecurityConfig;
-import cn.bunny.services.utils.system.RoleUtil;
+import cn.bunny.services.service.system.helper.role.RoleHelper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -44,7 +44,7 @@ public class PermissionCheckService {
         List<String> roleCodeList = roleList.stream().map(Role::getRoleCode).toList();
 
         // 判断是否是管理员用户
-        boolean checkedAdmin = RoleUtil.checkAdmin(roleCodeList);
+        boolean checkedAdmin = RoleHelper.checkAdmin(roleCodeList);
         if (checkedAdmin) return true;
 
         // 判断请求地址是否是登录之后才需要访问的，已经登录了不需要验证的

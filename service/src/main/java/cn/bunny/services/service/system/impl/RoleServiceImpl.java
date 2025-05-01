@@ -16,8 +16,8 @@ import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.RouterRoleMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RoleService;
+import cn.bunny.services.service.system.helper.role.RoleUpdatedEvent;
 import cn.bunny.services.utils.FileUtil;
-import cn.bunny.services.utils.system.RoleUtil;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -28,6 +28,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +68,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private RouterRoleMapper routerRoleMapper;
 
     @Resource
-    private RoleUtil roleUtil;
+    private ApplicationEventPublisher eventPublisher;
 
     /**
      * * 角色 服务实现类
@@ -203,7 +204,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         // 找到所有和当前更新角色相同的用户，并更新Redis中用户信息
         List<Long> userIds = userRoleMapper.selectList(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getRoleId, dto.getId()))
                 .stream().map(UserRole::getUserId).toList();
-        roleUtil.updateUserRedisInfo(userIds);
+        // TODO 1
+        // roleUtil.updateUserRedisInfo(userIds);
+        // 发布角色更新事件
+        eventPublisher.publishEvent(new RoleUpdatedEvent(this, dto.getId()));
     }
 
 
