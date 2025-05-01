@@ -212,7 +212,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         }).toList();
 
         // 删除这个消息id下所有用户消息关系内容
-        messageReceivedMapper.deleteBatchIds(List.of(dto.getId()));
+        messageReceivedMapper.deleteBatchMessageIds(List.of(dto.getId()));
 
         // 插入接收者和消息表
         messageReceivedService.saveBatch(receivedList);
