@@ -88,6 +88,6 @@ public class RoleController {
     @PutMapping("file/import")
     public Result<String> updateRoleByFile(MultipartFile file) {
         roleService.updateRoleByFile(file);
-        return Result.success();
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 }

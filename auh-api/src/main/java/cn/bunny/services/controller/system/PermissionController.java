@@ -84,7 +84,7 @@ public class PermissionController {
     @PutMapping("file/import")
     public Result<String> importPermission(@RequestParam(value = "file") MultipartFile file, String type) {
         permissionService.importPermission(file, type);
-        return Result.success(ResultCodeEnum.SUCCESS);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @Operation(summary = "获取所有权限", description = "获取所有权限", tags = {"permission::query"})

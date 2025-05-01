@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +15,6 @@ import java.util.List;
  * 邮件发送对象
  */
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(name = "EmailSend", title = "邮件发送表单", description = "邮件发送表单")

@@ -4,16 +4,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Schema(name = "MessageAddDto对象", title = "添加系统消息", description = "添加系统消息")
 public class MessageAddDto {
 
@@ -22,7 +21,7 @@ public class MessageAddDto {
     private String title;
 
     @Schema(name = "receivedUserIds", title = "接收人用户ID")
-    private List<Long> receivedUserIds;
+    private List<Long> receivedUserIds = new ArrayList<>();
 
     @Schema(name = "sendUserId", title = "发送人用户ID")
     private Long sendUserId;

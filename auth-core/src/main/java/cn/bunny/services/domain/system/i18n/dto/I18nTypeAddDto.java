@@ -3,14 +3,12 @@ package cn.bunny.services.domain.system.i18n.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Schema(name = "I18nTypeAddDto对象", title = "多语言类型添加", description = "多语言类型添加内容")
 public class I18nTypeAddDto {
 

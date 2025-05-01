@@ -7,22 +7,27 @@ import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.security.exception.CustomAuthenticationException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.function.Supplier;
 
 
 /**
- * 自定义权限判断
- * 判断用户有哪些权限
+ * 自定义授权管理器服务实现
+ *
+ * <p>负责处理API请求的授权决策，主要功能：</p>
+ * <ol>
+ *   <li>验证请求Token的有效性</li>
+ *   <li>检查用户状态（是否禁用）</li>
+ *   <li>设置当前请求上下文信息</li>
+ *   <li>执行权限检查</li>
+ * </ol>
  */
-@Component
-@Slf4j
+@Service
 public class CustomAuthorizationManagerServiceImpl implements AuthorizationManager<RequestAuthorizationContext> {
 
     @Resource
@@ -32,11 +37,17 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
     private PermissionCheckService permissionCheckService;
 
     /**
-     * 检查请求的Token是否携带，并判断是否过期
+     * 授权决策主方法
+     * <ul>
+     *  <li>Token验证失败</li>
+     *  <li>用户状态异常</li>
+     *  <li>权限检查失败</li>
+     * </ul>
      *
-     * @param authentication Supplier
-     * @param context        RequestAuthorizationContext
-     * @return AuthorizationDecision
+     * @param authentication 认证信息提供者
+     * @param context        请求授权上下文
+     * @return 授权决策结果（允许/拒绝）
+     * @throws CustomAuthenticationException 当出现以下情况时抛出：
      */
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
@@ -59,6 +70,12 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         return new AuthorizationDecision(hasPermission);
     }
 
+    /**
+     * 验证用户状态
+     *
+     * @param loginVo 用户登录信息
+     * @throws CustomAuthenticationException 当用户状态异常时抛出
+     */
     private void validateUserStatus(LoginVo loginVo) {
         // 登录信息为空
         if (loginVo == null) {
@@ -71,3 +88,4 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         }
     }
 }
+
