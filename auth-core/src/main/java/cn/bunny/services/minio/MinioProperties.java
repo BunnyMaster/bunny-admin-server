@@ -1,4 +1,4 @@
-package cn.bunny.services.config.minio;
+package cn.bunny.services.minio;
 
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;

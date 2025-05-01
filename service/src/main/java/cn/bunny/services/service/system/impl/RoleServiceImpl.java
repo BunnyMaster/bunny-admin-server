@@ -94,7 +94,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @return 所有角色列表
      */
     @Override
-    @Cacheable(cacheNames = "role", key = "'allRole'", cacheManager = "cacheManagerWithMouth")
+    @Cacheable(cacheNames = "role", key = "'roleList'", cacheManager = "cacheManagerWithMouth")
     public List<RoleVo> roleList() {
         return list().stream().map(role -> {
             RoleVo roleVo = new RoleVo();
@@ -155,7 +155,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @param file Excel文件
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'allRole'", beforeInvocation = true)
+    @CacheEvict(cacheNames = "role", key = "'roleList'", beforeInvocation = true)
     public void updateRoleByFile(MultipartFile file) {
         if (file == null) {
             throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
@@ -176,7 +176,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @param dto 角色添加
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'allRole'", beforeInvocation = true)
+    @CacheEvict(cacheNames = "role", key = "'roleList'", beforeInvocation = true)
     public void addRole(@Valid RoleAddDto dto) {
         Role role = new Role();
         BeanUtils.copyProperties(dto, role);
@@ -189,7 +189,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @param dto 角色更新
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'allRole'", beforeInvocation = true)
+    @CacheEvict(cacheNames = "role", key = "'roleList'", beforeInvocation = true)
     public void updateRole(@Valid RoleUpdateDto dto) {
         // 查询更新的角色是否存在
         List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, dto.getId()));
@@ -213,7 +213,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @param ids 删除id列表
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'allRole'", beforeInvocation = true)
+    @CacheEvict(cacheNames = "role", key = "'roleList'", beforeInvocation = true)
     public void deleteRole(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);

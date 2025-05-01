@@ -1,11 +1,9 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.config.minio.MinioProperties;
-import cn.bunny.services.config.minio.MinioUtil;
 import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.domain.common.model.dto.file.MinioFilePath;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
-import cn.bunny.services.domain.common.model.dto.file.MinioFilePath;
 import cn.bunny.services.domain.system.files.dto.FileUploadDto;
 import cn.bunny.services.domain.system.files.dto.FilesAddDto;
 import cn.bunny.services.domain.system.files.dto.FilesDto;
@@ -15,6 +13,9 @@ import cn.bunny.services.domain.system.files.vo.FileInfoVo;
 import cn.bunny.services.domain.system.files.vo.FilesVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.FilesMapper;
+import cn.bunny.services.minio.MinioHelper;
+import cn.bunny.services.minio.MinioProperties;
+import cn.bunny.services.minio.MinioService;
 import cn.bunny.services.service.system.FilesService;
 import cn.bunny.services.utils.FileUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -59,10 +60,14 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     private MinioProperties properties;
 
     @Resource
-    private MinioUtil minioUtil;
+    private MinioService minioService;
 
     @Resource
+    private MinioHelper minioHelper;
+    
+    @Resource
     private FilesMapper filesMapper;
+
 
     /**
      * * 系统文件表 服务实现类
@@ -92,7 +97,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     public void addFiles(FilesAddDto dto) {
         List<Files> list = dto.getFiles().stream().map(file -> {
             try {
-                MinioFilePath minioFilePath = minioUtil.uploadObjectReturnFilePath(file, dto.getFilepath());
+                MinioFilePath minioFilePath = minioService.uploadObjectReturnFilePath(file, dto.getFilepath());
 
                 Files files = new Files();
                 files.setFileType(file.getContentType());
@@ -124,7 +129,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         if (file != null) {
             // 文件路径
             String filePath = files.getFilepath().replace("/" + properties.getBucketName() + "/", "");
-            minioUtil.updateFile(properties.getBucketName(), filePath, file);
+            minioService.updateFile(properties.getBucketName(), filePath, file);
 
             // 设置文件信息
             files.setFileSize(file.getSize());
@@ -160,7 +165,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         String filename = file.getOriginalFilename();
 
         // 上传文件
-        MinioFilePath minioFIlePath = minioUtil.uploadObjectReturnFilePath(file, type);
+        MinioFilePath minioFIlePath = minioService.uploadObjectReturnFilePath(file, type);
         String bucketNameFilepath = minioFIlePath.getBucketNameFilepath();
 
         // 盘读研数据是否过大
@@ -183,7 +188,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
                 .fileSize(fileSize)
                 .fileType(contentType)
                 .filename(filename)
-                .url(minioUtil.getObjectNameFullPath(bucketNameFilepath))
+                .url(minioHelper.getObjectNameFullPath(bucketNameFilepath))
                 .build();
     }
 
@@ -205,7 +210,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
                 }).toList();
 
         // 删除目标文件
-        minioUtil.removeObjects(list);
+        minioService.removeObjects(list);
 
         // 删除数据库内容
         removeByIds(ids);
@@ -229,7 +234,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         String filepath = files.getFilepath();
         int end = filepath.indexOf("/", 1);
         filepath = filepath.substring(end + 1);
-        byte[] bytes = minioUtil.getBucketObjectByte(filepath);
+        byte[] bytes = minioService.getBucketObjectByte(filepath);
 
         // 设置响应头
         HttpHeaders headers = new HttpHeaders();

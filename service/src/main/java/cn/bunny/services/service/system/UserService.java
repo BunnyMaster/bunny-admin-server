@@ -1,16 +1,16 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.services.domain.system.system.dto.user.*;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.vo.user.AdminUserVo;
-import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
 import cn.bunny.services.domain.system.system.vo.user.UserVo;
-import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -23,14 +23,6 @@ import java.util.List;
  * @since 2024-09-26
  */
 public interface UserService extends IService<AdminUser> {
-
-    /**
-     * 前台用户登录接口
-     *
-     * @param loginDto 登录参数
-     * @return 登录后结果返回
-     */
-    LoginVo login(LoginDto loginDto);
 
     /**
      * * 获取用户信息列表
@@ -59,27 +51,6 @@ public interface UserService extends IService<AdminUser> {
      * @param ids 删除id列表
      */
     void deleteUserByAdmin(List<Long> ids);
-
-    /**
-     * 登录发送邮件验证码
-     *
-     * @param email 邮箱
-     */
-    void sendLoginEmail(@NotNull String email);
-
-    /**
-     * 刷新用户token
-     *
-     * @param dto 请求token
-     * @return 刷新token返回内容
-     */
-    @NotNull
-    RefreshTokenVo refreshToken(@NotNull RefreshTokenDto dto);
-
-    /**
-     * * 退出登录
-     */
-    void logout();
 
     /**
      * * 获取用户信息

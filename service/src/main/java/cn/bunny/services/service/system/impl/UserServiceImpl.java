@@ -1,40 +1,34 @@
 package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.domain.common.constant.MinioConstant;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
-import cn.bunny.services.domain.common.enums.EmailTemplateEnums;
-import cn.bunny.services.domain.common.enums.LoginEnums;
-import cn.bunny.services.domain.common.model.vo.LoginVo;
+import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
-import cn.bunny.services.domain.system.email.entity.EmailTemplate;
+import cn.bunny.services.domain.system.files.dto.FileUploadDto;
+import cn.bunny.services.domain.system.files.vo.FileInfoVo;
 import cn.bunny.services.domain.system.log.entity.UserLoginLog;
-import cn.bunny.services.domain.system.system.dto.user.*;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.entity.Role;
 import cn.bunny.services.domain.system.system.entity.UserDept;
 import cn.bunny.services.domain.system.system.views.ViewUserDept;
 import cn.bunny.services.domain.system.system.vo.user.AdminUserVo;
-import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
 import cn.bunny.services.domain.system.system.vo.user.UserVo;
 import cn.bunny.services.exception.AuthCustomerException;
-import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.mapper.system.UserDeptMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
+import cn.bunny.services.minio.MinioHelper;
+import cn.bunny.services.service.system.FilesService;
 import cn.bunny.services.service.system.UserService;
-import cn.bunny.services.utils.IpUtil;
-import cn.bunny.services.utils.JwtTokenUtil;
-import cn.bunny.services.utils.email.ConcreteSenderEmailTemplate;
-import cn.bunny.services.utils.login.DefaultLoginStrategy;
-import cn.bunny.services.utils.login.EmailLoginStrategy;
-import cn.bunny.services.utils.login.LoginContext;
-import cn.bunny.services.utils.login.LoginStrategy;
-import cn.bunny.services.utils.system.UserUtil;
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.CircleCaptcha;
+import cn.bunny.services.service.system.helper.UserLoginHelper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -42,18 +36,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -67,11 +58,13 @@ import java.util.concurrent.TimeUnit;
 public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implements UserService {
 
     @Resource
-    private UserUtil userUtil;
+    private UserLoginHelper userloginHelper;
     @Resource
-    private ConcreteSenderEmailTemplate concreteSenderEmailTemplate;
+    private PasswordEncoder passwordEncoder;
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    private FilesService filesService;
     @Resource
     private UserDeptMapper userDeptMapper;
     @Resource
@@ -79,138 +72,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Resource
     private UserLoginLogMapper userLoginLogMapper;
     @Resource
-    private EmailTemplateMapper emailTemplateMapper;
-    @Resource
     private RoleMapper roleMapper;
     @Resource
-    private UserMapper userMapper;
-    @Resource
-    private PasswordEncoder passwordEncoder;
-
-    /**
-     * 前台用户登录接口
-     * 这里不用判断用户是否为空，因为在登录时已经校验过了
-     * <p>
-     * 抛出异常使用自带的 UsernameNotFoundException 或者自己封装<br/>
-     * 但是这两个效果传入参数都是一样的，所以全部使用 UsernameNotFoundException
-     * </p>
-     *
-     * @param loginDto 登录参数
-     * @return 登录后结果返回
-     */
-    @Override
-    public LoginVo login(LoginDto loginDto) {
-        Long readMeDay = loginDto.getReadMeDay();
-
-        // 初始化所有策略（可扩展）
-        HashMap<String, LoginStrategy> loginStrategyHashMap = new HashMap<>();
-        // 默认的登录方式
-        loginStrategyHashMap.put(LoginEnums.default_STRATEGY.getValue(), new DefaultLoginStrategy(userMapper));
-        // 注册邮箱
-        loginStrategyHashMap.put(LoginEnums.EMAIL_STRATEGY.getValue(), new EmailLoginStrategy(redisTemplate, userMapper));
-
-        // 使用登录上下文调用登录策略
-        LoginContext loginContext = new LoginContext(loginStrategyHashMap, passwordEncoder);
-        AdminUser user = loginContext.executeStrategy(loginDto);
-
-        // 验证登录逻辑
-        if (user == null) throw new UsernameNotFoundException(ResultCodeEnum.USER_IS_EMPTY.getMessage());
-
-        // 数据库密码
-        String dbPassword = user.getPassword();
-
-        // 用户登录密码
-        String password = loginDto.getPassword();
-
-        if (!passwordEncoder.matches(password, dbPassword)) {
-            throw new UsernameNotFoundException(ResultCodeEnum.LOGIN_ERROR.getMessage());
-        }
-
-        // 判断用户是否禁用
-        if (user.getStatus()) {
-            throw new UsernameNotFoundException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED.getMessage());
-        }
-
-        return userUtil.buildLoginUserVo(user, readMeDay);
-    }
-
-    /**
-     * 登录发送邮件验证码
-     *
-     * @param email 邮箱
-     */
-    @Override
-    public void sendLoginEmail(@NotNull String email) {
-        // 查询验证码邮件模板
-        LambdaQueryWrapper<EmailTemplate> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(EmailTemplate::getIsDefault, true);
-        lambdaQueryWrapper.eq(EmailTemplate::getType, EmailTemplateEnums.VERIFICATION_CODE.getType());
-        EmailTemplate emailTemplate = emailTemplateMapper.selectOne(lambdaQueryWrapper);
-
-        // 生成验证码
-        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(150, 48, 4, 2);
-        String emailCode = captcha.getCode();
-
-        // 需要替换模板内容
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("#title#", "BunnyAdmin");
-        hashMap.put("#verifyCode#", emailCode);
-        hashMap.put("#expires#", 15);
-        hashMap.put("#sendEmailUser#", emailTemplate.getEmailUser());
-        hashMap.put("#companyName#", "BunnyAdmin");
-
-        // 发送邮件
-        concreteSenderEmailTemplate.sendEmailTemplate(email, emailTemplate, hashMap);
-
-        // 在Redis中存储验证码
-        redisTemplate.opsForValue().set(RedisUserConstant.getAdminUserEmailCodePrefix(email), emailCode, RedisUserConstant.REDIS_EXPIRATION_TIME, TimeUnit.MINUTES);
-    }
-
-    /**
-     * 刷新用户token
-     *
-     * @param dto 请求token
-     * @return 刷新token返回内容
-     */
-    @NotNull
-    @Override
-    public RefreshTokenVo refreshToken(@NotNull RefreshTokenDto dto) {
-        Long userId = JwtTokenUtil.getUserId(dto.getRefreshToken());
-        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-
-        // 用户存在且没有禁用
-        if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
-        if (adminUser.getStatus()) throw new AuthCustomerException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
-
-        LoginVo buildUserVo = userUtil.buildLoginUserVo(adminUser, dto.getReadMeDay());
-        RefreshTokenVo refreshTokenVo = new RefreshTokenVo();
-        BeanUtils.copyProperties(buildUserVo, refreshTokenVo);
-
-        return refreshTokenVo;
-    }
-
-    /**
-     * 退出登录
-     */
-    @Override
-    public void logout() {
-        // 获取上下文对象中的用户ID和用户token
-        LoginVo loginVo = BaseContext.getLoginVo();
-        String token = loginVo.getToken();
-        Long userId = BaseContext.getUserId();
-
-        // 获取IP地址
-        String ipAddr = IpUtil.getCurrentUserIpAddress().getIpAddr();
-        String ipRegion = IpUtil.getCurrentUserIpAddress().getIpRegion();
-
-        // 查询用户信息
-        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-        UserLoginLog userLoginLog = userUtil.setUserLoginLog(adminUser, token, ipAddr, ipRegion, "logout");
-        userLoginLogMapper.insert(userLoginLog);
-
-        // 删除Redis中用户信息
-        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
-    }
+    private MinioHelper minioHelper;
 
     /**
      * * 获取用户信息
@@ -226,18 +90,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 用户是否存在
         if (user == null) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
-
         // 用户头像
         String avatar = user.getAvatar();
+
         UserVo userVo = new UserVo();
         BeanUtils.copyProperties(user, userVo);
 
-        userVo.setAvatar(userUtil.checkGetUserAvatar(avatar));
+        String userAvatar = minioHelper.getUserAvatar(avatar);
+        userVo.setAvatar(userAvatar);
         return userVo;
     }
 
     /**
-     * * 强制退出
+     * 强制退出
      *
      * @param id 用户id
      */
@@ -251,11 +116,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 将用户登录保存在用户登录日志表中
         UserLoginLog userLoginLog = new UserLoginLog();
+        BeanUtils.copyProperties(adminUser, userLoginLog);
         userLoginLog.setUserId(adminUser.getId());
-        userLoginLog.setIpAddress(adminUser.getIpAddress());
-        userLoginLog.setIpRegion(adminUser.getIpRegion());
-        userLoginLog.setToken(null);
-        userLoginLog.setType("forcedOffline");
+        userLoginLog.setType(UserConstant.FORCE_LOGOUT);
         userLoginLogMapper.insert(userLoginLog);
 
         // 删除Redis中用户信息
@@ -304,8 +167,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         AdminUser user = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
         if (user == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
 
-        // 检查用户头像
-        dto.setAvatar(userUtil.checkPostUserAvatar(dto.getAvatar()));
+        // 检查用户头像，因为更新用户信息会带着用户之前的信息，如果没有更新头像，前端显示的http:xxx
+        String userAvatar = minioHelper.formatUserAvatar(dto.getAvatar());
+        dto.setAvatar(userAvatar);
 
         // 更新用户
         AdminUser adminUser = new AdminUser();
@@ -315,7 +179,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 重新生成用户信息到Redis中
         BeanUtils.copyProperties(dto, user);
-        userUtil.buildUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
+        userloginHelper.buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
     }
 
     /**
@@ -363,7 +227,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         List<AdminUserVo> voList = page.getRecords().stream()
                 .map(adminUser -> {
                     // 如果存在用户头像，则设置用户头像
-                    String avatar = userUtil.checkGetUserAvatar(adminUser.getAvatar());
+                    String avatar = minioHelper.getUserAvatar(adminUser.getAvatar());
 
                     AdminUserVo adminUserVo = new AdminUserVo();
                     BeanUtils.copyProperties(adminUser, adminUserVo);
@@ -442,15 +306,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         }
 
         // 更新头像
-        userUtil.uploadAvatarByAdmin(dto, adminUser);
+        uploadAvatarByAdmin(dto, adminUser);
 
         // 构建用户返回信息，同步到redis
-        userUtil.buildUserVo(adminUser, RedisUserConstant.REDIS_EXPIRATION_TIME);
+        userloginHelper.buildLoginUserVo(adminUser, RedisUserConstant.REDIS_EXPIRATION_TIME);
 
         // 更新密码，放在最后，如果更新密码就将密码删除
-        userUtil.updateUserPasswordByAdmin(adminUser);
+        updateUserPasswordByAdmin(adminUser);
 
         updateById(adminUser);
+        // 删除Redis中用户信息
+        String loginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername());
+        redisTemplate.delete(loginInfoPrefix);
     }
 
     /**
@@ -471,11 +338,56 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         // 逻辑删除
         removeByIds(ids);
 
-        // 删除用 也要删除对应的 角色和部门，但是如果做的时物理删除就不需要，因为数据库中设置了外键检查，如果删除用户，相关表也会删除
         // 删除部门相关
         userDeptMapper.deleteBatchIdsByUserIds(ids);
 
         // 删除用户角色相关
         userRoleMapper.deleteBatchIdsByUserIds(ids);
+    }
+
+    /**
+     * * 管理员修改管理员用户密码
+     *
+     * @param adminUser 管理员用户修改密码
+     */
+    private void updateUserPasswordByAdmin(AdminUser adminUser) {
+        Long userId = adminUser.getId();
+        String password = adminUser.getPassword();
+
+        // 密码更新是否存在
+        if (!StringUtils.hasText(password)) return;
+
+        // 对密码加密
+        String encode = passwordEncoder.encode(password);
+
+        // 判断新密码是否与旧密码相同
+        if (adminUser.getPassword().equals(encode)) {
+            throw new AuthCustomerException(ResultCodeEnum.UPDATE_NEW_PASSWORD_SAME_AS_OLD_PASSWORD);
+        }
+
+        // 更新用户密码
+        adminUser.setPassword(encode);
+        adminUser.setId(userId);
+    }
+
+    /**
+     * 管理员上传用户头像
+     *
+     * @param dto 管理员用户修改头像
+     */
+    private void uploadAvatarByAdmin(AdminUserUpdateDto dto, AdminUser adminUser) {
+        MultipartFile avatar = dto.getAvatar();
+        Long userId = dto.getId();
+
+        // 上传头像是否存在
+        if (avatar == null) return;
+
+        // 上传头像
+        FileUploadDto uploadDto = FileUploadDto.builder().file(avatar).type(MinioConstant.avatar).build();
+        FileInfoVo fileInfoVo = filesService.upload(uploadDto);
+
+        // 更新用户
+        adminUser.setId(userId);
+        adminUser.setAvatar(fileInfoVo.getFilepath());
     }
 }

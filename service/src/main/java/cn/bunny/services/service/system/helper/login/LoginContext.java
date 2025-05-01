@@ -1,9 +1,8 @@
-package cn.bunny.services.utils.login;
+package cn.bunny.services.service.system.helper.login;
 
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Map;
 
@@ -13,11 +12,9 @@ import java.util.Map;
 public class LoginContext {
 
     private final Map<String, LoginStrategy> strategies;
-    private final PasswordEncoder passwordEncoder;
 
-    public LoginContext(Map<String, LoginStrategy> strategies, PasswordEncoder passwordEncoder) {
+    public LoginContext(Map<String, LoginStrategy> strategies) {
         this.strategies = strategies;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -36,5 +33,17 @@ public class LoginContext {
         }
 
         return strategy.authenticate(loginDto);
+    }
+
+    /**
+     * 登录完成后的内容
+     *
+     * @param loginDto 登录参数
+     */
+    public void loginAfter(LoginDto loginDto, AdminUser adminUser) {
+        String type = loginDto.getType();
+        LoginStrategy strategy = strategies.get(type);
+
+        strategy.authenticateAfter(loginDto, adminUser);
     }
 }

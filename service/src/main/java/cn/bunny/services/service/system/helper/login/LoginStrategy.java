@@ -1,4 +1,4 @@
-package cn.bunny.services.utils.login;
+package cn.bunny.services.service.system.helper.login;
 
 
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
@@ -16,4 +16,12 @@ public interface LoginStrategy {
      * @return 鉴定身份验证
      */
     AdminUser authenticate(LoginDto loginDto);
+
+    /**
+     * 登录完成后的内容
+     *
+     * @param loginDto  登录参数
+     * @param adminUser
+     */
+    void authenticateAfter(LoginDto loginDto, AdminUser adminUser);
 }

@@ -1,14 +1,15 @@
-package cn.bunny.services.config.minio;
+package cn.bunny.services.minio;
 
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.common.constant.MinioConstant;
 import cn.bunny.services.domain.common.model.dto.file.MinioFilePath;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,17 +24,14 @@ import java.util.UUID;
  * Minio操作工具类 简化操作步骤
  * 自定义封装
  */
-@Component
 @Slf4j
-public class MinioUtil {
-    private final MinioProperties properties;
+@Service
+public class MinioService {
+    @Resource
+    private MinioProperties properties;
 
-    private final MinioClient minioClient;
-
-    public MinioUtil(MinioProperties properties, MinioClient minioClient) {
-        this.properties = properties;
-        this.minioClient = minioClient;
-    }
+    @Resource
+    private MinioClient minioClient;
 
     /**
      * 获取Minio文件路径
@@ -110,18 +108,6 @@ public class MinioUtil {
             exception.printStackTrace();
         }
         throw new AuthCustomerException(ResultCodeEnum.GET_BUCKET_EXCEPTION);
-    }
-
-    /**
-     * 获取Minio全路径名，Object带有桶名称
-     *
-     * @param objectName 对象名称
-     * @return 全路径
-     */
-    public String getObjectNameFullPath(String objectName) {
-        String url = properties.getEndpointUrl();
-
-        return url + objectName;
     }
 
     /**
@@ -211,4 +197,5 @@ public class MinioUtil {
             throw new AuthCustomerException("创建失败");
         }
     }
+
 }

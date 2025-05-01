@@ -1,5 +1,8 @@
 package cn.bunny.services.service.message.impl;
 
+import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.message.dto.MessageReceivedDto;
 import cn.bunny.services.domain.system.message.dto.MessageReceivedUpdateDto;
 import cn.bunny.services.domain.system.message.dto.MessageUserDto;
@@ -7,13 +10,10 @@ import cn.bunny.services.domain.system.message.entity.Message;
 import cn.bunny.services.domain.system.message.entity.MessageReceived;
 import cn.bunny.services.domain.system.message.vo.MessageReceivedWithMessageVo;
 import cn.bunny.services.domain.system.message.vo.MessageUserVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
-import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.message.MessageReceivedMapper;
+import cn.bunny.services.minio.MinioHelper;
 import cn.bunny.services.service.message.MessageReceivedService;
-import cn.bunny.services.utils.system.UserUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -39,7 +39,7 @@ import java.util.List;
 public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMapper, MessageReceived> implements MessageReceivedService {
 
     @Resource
-    private UserUtil userUtil;
+    private MinioHelper minioHelper;
 
     /**
      * 管理员管理用户消息接收分页查询
@@ -58,7 +58,7 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
 
             // 设置封面返回内容
             String cover = vo.getCover();
-            cover = userUtil.checkGetUserAvatar(cover);
+            cover = minioHelper.getUserAvatar(cover);
             vo.setCover(cover);
             return vo;
         }).toList();
@@ -113,7 +113,7 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
 
             // 设置封面返回内容
             String cover = vo.getCover();
-            cover = userUtil.checkGetUserAvatar(cover);
+            cover = minioHelper.getUserAvatar(cover);
             vo.setCover(cover);
             return vo;
         }).toList();

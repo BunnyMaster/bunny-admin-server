@@ -1,9 +1,9 @@
-package cn.bunny.services.utils.login;
+package cn.bunny.services.service.system.helper.login;
 
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.mapper.system.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -53,4 +53,18 @@ public class EmailLoginStrategy implements LoginStrategy {
         queryWrapper.eq(AdminUser::getEmail, username);
         return userMapper.selectOne(queryWrapper);
     }
+
+    /**
+     * 登录完成后的内容
+     *
+     * @param loginDto  登录参数
+     * @param adminUser 用户
+     */
+    @Override
+    public void authenticateAfter(LoginDto loginDto, AdminUser adminUser) {
+        // 将Redis中验证码删除
+        String emailCodePrefix = RedisUserConstant.getAdminUserEmailCodePrefix(loginDto.getUsername());
+        redisTemplate.delete(emailCodePrefix);
+    }
+
 }

@@ -3,7 +3,7 @@ package cn.bunny.services.aop;
 import cn.bunny.services.domain.common.constant.LocalDateTimeConstant;
 import cn.bunny.services.domain.common.enums.JobEnums;
 import cn.bunny.services.domain.system.log.entity.ScheduleExecuteLog;
-import cn.bunny.services.domain.common.model.dto.quartz.ScheduleExecuteLogJson;
+import cn.bunny.services.domain.common.quartz.ScheduleExecuteLogJson;
 import cn.bunny.services.mapper.log.ScheduleExecuteLogMapper;
 import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;

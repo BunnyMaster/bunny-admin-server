@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.model.dto.security;
+package cn.bunny.services.domain.common.security;
 
 import cn.bunny.services.domain.common.model.vo.LoginVo;
 import io.swagger.v3.oas.annotations.media.Schema;

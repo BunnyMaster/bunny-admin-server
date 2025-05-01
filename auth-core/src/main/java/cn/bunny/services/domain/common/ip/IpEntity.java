@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.model.dto.ip;
+package cn.bunny.services.domain.common.ip;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

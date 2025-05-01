@@ -1,16 +1,15 @@
 package cn.bunny.services.controller.system;
 
-import cn.bunny.services.context.BaseContext;
-import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
-import cn.bunny.services.domain.system.system.dto.user.*;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.vo.user.AdminUserVo;
-import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
 import cn.bunny.services.domain.system.system.vo.user.UserVo;
-import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.service.system.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,7 +17,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,49 +31,6 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    // -----------------------------------------
-    // 用户登录和退出
-    // -----------------------------------------
-    @Operation(summary = "用户登录", description = "前端用户登录")
-    @PostMapping("login")
-    public Result<LoginVo> login(@Valid @RequestBody LoginDto loginDto) {
-        LoginVo loginVo = userService.login(loginDto);
-        return Result.success(loginVo);
-    }
-
-    @Operation(summary = "登录发送邮件验证码", description = "登录发送邮件验证码")
-    @PostMapping("public/sendLoginEmail")
-    public Result<String> sendLoginEmail(String email) {
-        if (!StringUtils.hasText(email)) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
-
-        userService.sendLoginEmail(email);
-        return Result.success(ResultCodeEnum.EMAIL_CODE_SEND_SUCCESS);
-    }
-
-    @Operation(summary = "刷新token", description = "刷新用户token")
-    @PostMapping("private/refreshToken")
-    public Result<RefreshTokenVo> refreshToken(@Valid @RequestBody RefreshTokenDto dto) {
-        RefreshTokenVo vo = userService.refreshToken(dto);
-        return Result.success(vo);
-    }
-
-    @Operation(summary = "获取本地登录用户信息", description = "获取用户信息从Redis中获取")
-    @GetMapping("private/userinfo")
-    public Result<LoginVo> userinfo() {
-        LoginVo vo = BaseContext.getLoginVo();
-        return Result.success(vo);
-    }
-
-    @Operation(summary = "退出登录", description = "退出登录")
-    @PostMapping("private/logout")
-    public Result<String> logout() {
-        userService.logout();
-        return Result.success(ResultCodeEnum.LOGOUT_SUCCESS);
-    }
-
-    // -----------------------------------------
-    // 管理用户CURD
-    // -----------------------------------------
     @Operation(summary = "分页查询", description = "分页查询用户信息", tags = "user::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<AdminUserVo>> getUserPageByAdmin(
@@ -89,21 +44,19 @@ public class UserController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加", description = "添加用户信息", tags = "user::add")
+    @Operation(summary = "添加用户", description = "添加用户信息", tags = "user::add")
     @PostMapping()
     public Result<Object> addUserByAdmin(@Valid @RequestBody AdminUserAddDto dto) {
         userService.addUserByAdmin(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新用户信息，需要更新Redis中的内容", tags = "user::update")
+    @Operation(summary = "更新用户", description = "更新用户信息，需要更新Redis中的内容", tags = "user::update")
     @PutMapping()
-    public Result<String> updateUserByAdmin(
-            @Valid AdminUserUpdateDto dto,
-            @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
-        if (avatar != null) {
-            dto.setAvatar(avatar);
-        }
+    public Result<String> updateUserByAdmin(@Valid AdminUserUpdateDto dto,
+                                            @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
+        if (avatar != null) dto.setAvatar(avatar);
+        
         userService.updateUserByAdmin(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
@@ -129,16 +82,13 @@ public class UserController {
         return Result.success(voList);
     }
 
-    @Operation(summary = "强制退出", description = "强制退出", tags = "user::update")
+    @Operation(summary = "强制退出用户", description = "强制退出", tags = "user::update")
     @PutMapping("forcedOffline")
     public Result<String> forcedOfflineByAdmin(@RequestBody Long id) {
         userService.forcedOfflineByAdmin(id);
         return Result.success();
     }
 
-    // -----------------------------------------
-    // 普通用户
-    // -----------------------------------------
     @Operation(summary = "更新本地用户信息", description = "更新本地用户信息，需要更新Redis中的内容")
     @PutMapping("private/update/userinfo")
     public Result<String> updateAdminUserByLocalUser(@Valid @RequestBody AdminUserUpdateByLocalUserDto dto) {

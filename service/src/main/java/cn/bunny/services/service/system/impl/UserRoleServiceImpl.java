@@ -1,17 +1,17 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
+import cn.bunny.services.domain.common.model.vo.LoginVo;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.AssignRolesToUsersDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.entity.UserRole;
-import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
-import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.UserRoleService;
-import cn.bunny.services.utils.system.UserUtil;
+import cn.bunny.services.service.system.helper.UserLoginHelper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
@@ -35,14 +35,11 @@ import java.util.concurrent.TimeUnit;
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
     @Resource
-    private UserRoleMapper userRoleMapper;
-
+    private UserLoginHelper userloginHelper;
     @Resource
-    private UserUtil userUtil;
-
+    private UserRoleMapper userRoleMapper;
     @Resource
     private UserMapper userMapper;
-
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -94,7 +91,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 
         // 重新设置Redis中的用户存储信息vo对象
         String username = adminUser.getUsername();
-        loginVo = userUtil.buildLoginUserVo(adminUser, readMeDay);
+        loginVo = userloginHelper.buildLoginUserVo(adminUser, readMeDay);
         redisTemplate.opsForValue().set(RedisUserConstant.getAdminLoginInfoPrefix(username), loginVo, readMeDay, TimeUnit.DAYS);
     }
 }

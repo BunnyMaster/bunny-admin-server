@@ -1,6 +1,9 @@
 package cn.bunny.services.service.message.impl;
 
+import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.model.entity.BaseEntity;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.message.dto.MessageAddDto;
 import cn.bunny.services.domain.system.message.dto.MessageDto;
 import cn.bunny.services.domain.system.message.dto.MessageUpdateDto;
@@ -10,16 +13,13 @@ import cn.bunny.services.domain.system.message.vo.MessageDetailVo;
 import cn.bunny.services.domain.system.message.vo.MessageReceivedWithMessageVo;
 import cn.bunny.services.domain.system.message.vo.MessageReceivedWithUserVo;
 import cn.bunny.services.domain.system.message.vo.MessageVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
-import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.message.MessageMapper;
 import cn.bunny.services.mapper.message.MessageReceivedMapper;
 import cn.bunny.services.mapper.system.UserMapper;
+import cn.bunny.services.minio.MinioHelper;
 import cn.bunny.services.service.message.MessageReceivedService;
 import cn.bunny.services.service.message.MessageService;
-import cn.bunny.services.utils.system.UserUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -48,16 +48,13 @@ import java.util.stream.Collectors;
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements MessageService {
 
     @Resource
-    private UserUtil userUtil;
-
-    @Resource
     private MessageReceivedMapper messageReceivedMapper;
-
     @Resource
     private UserMapper userMapper;
-
     @Resource
     private MessageReceivedService messageReceivedService;
+    @Resource
+    private MinioHelper minioHelper;
 
     /**
      * 分页查询发送消息
@@ -152,7 +149,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
         // 设置封面返回内容
         String cover = dto.getCover();
-        dto.setCover(userUtil.checkGetUserAvatar(cover));
+        dto.setCover(minioHelper.getUserAvatar(cover));
 
         // 先保存消息数据，之后拿到保存消息的id
         Message message = new Message();
@@ -198,7 +195,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
         // 设置封面返回内容
         String cover = dto.getCover();
-        dto.setCover(userUtil.checkGetUserAvatar(cover));
+        dto.setCover(minioHelper.getUserAvatar(cover));
 
         // 更新内容
         Message message = new Message();

@@ -1,4 +1,4 @@
-package cn.bunny.services.utils.login;
+package cn.bunny.services.service.system.helper.login;
 
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
@@ -31,4 +31,16 @@ public class DefaultLoginStrategy implements LoginStrategy {
         queryWrapper.eq(AdminUser::getUsername, username);
         return userMapper.selectOne(queryWrapper);
     }
+
+    /**
+     * 登录完成后的内容
+     *
+     * @param loginDto  登录参数
+     * @param adminUser 用户
+     */
+    @Override
+    public void authenticateAfter(LoginDto loginDto, AdminUser adminUser) {
+
+    }
+
 }

@@ -1,9 +1,9 @@
 package cn.bunny.services.utils;
 
-import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
+import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.mapper.system.UserMapper;
-import cn.bunny.services.utils.system.UserUtil;
+import cn.bunny.services.service.system.helper.UserLoginHelper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TokenUtilsTest {
     @Autowired
-    private UserUtil userUtil;
+    private UserLoginHelper userUtil;
 
     @Autowired
     private UserMapper userMapper;
