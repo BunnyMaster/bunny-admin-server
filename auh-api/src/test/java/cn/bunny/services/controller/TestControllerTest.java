@@ -1,7 +1,7 @@
 package cn.bunny.services.controller;
 
 import cn.bunny.services.aop.scanner.ControllerApiPermissionScanner;
-import cn.bunny.services.domain.common.scanner.ScannerControllerInfoVo;
+import cn.bunny.services.domain.common.model.dto.scanner.ScannerControllerInfoVo;
 import cn.bunny.services.domain.system.system.entity.Permission;
 import cn.bunny.services.service.system.PermissionService;
 import org.junit.jupiter.api.Test;

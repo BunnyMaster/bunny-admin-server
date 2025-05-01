@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.scanner;
+package cn.bunny.services.domain.common.model.dto.scanner;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

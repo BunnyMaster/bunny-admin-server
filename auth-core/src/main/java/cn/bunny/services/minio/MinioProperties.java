@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "bunny.minio")
-@ConditionalOnProperty(name = "bunny.minio.bucket-name")// 当属性有值时这个配置才生效
+// 当属性有值时这个配置才生效
+@ConditionalOnProperty(name = "bunny.minio.bucket-name")
 @Data
 public class MinioProperties {
 
@@ -30,6 +31,7 @@ public class MinioProperties {
         MinioClient minioClient = MinioClient.builder().endpoint(endpointUrl).credentials(accessKey, secretKey).build();
 
         try {
+            // 判断桶是否存在，不存在则创建，并且可以有公开访问权限
             boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
             if (!found) {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());

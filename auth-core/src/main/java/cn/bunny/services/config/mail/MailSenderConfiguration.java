@@ -1,4 +1,4 @@
-package cn.bunny.services.mail;
+package cn.bunny.services.config.mail;
 
 import cn.bunny.services.domain.common.model.dto.email.EmailSend;
 import cn.bunny.services.domain.common.model.dto.email.EmailSendInit;

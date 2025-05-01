@@ -1,8 +1,8 @@
 package cn.bunny.services.aop.scanner;
 
-import cn.bunny.services.domain.common.scanner.ControllerInfo;
-import cn.bunny.services.domain.common.scanner.MethodInfo;
-import cn.bunny.services.domain.common.scanner.ScannerControllerInfoVo;
+import cn.bunny.services.domain.common.model.dto.scanner.ControllerInfo;
+import cn.bunny.services.domain.common.model.dto.scanner.MethodInfo;
+import cn.bunny.services.domain.common.model.dto.scanner.ScannerControllerInfoVo;
 import cn.bunny.services.security.config.WebSecurityConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

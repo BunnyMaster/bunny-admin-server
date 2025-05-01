@@ -1,7 +1,7 @@
 package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.context.BaseContext;
-import cn.bunny.services.domain.common.model.dto.file.MinioFilePath;
+import cn.bunny.services.domain.common.model.dto.minio.MinioUploadFileInfo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.files.dto.FileUploadDto;
@@ -64,7 +64,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
 
     @Resource
     private MinioHelper minioHelper;
-    
+
     @Resource
     private FilesMapper filesMapper;
 
@@ -81,10 +81,8 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         IPage<FilesVo> page = baseMapper.selectListByPage(pageParams, dto);
 
         return PageResult.<FilesVo>builder()
-                .list(page.getRecords())
-                .pageNo(page.getCurrent())
-                .pageSize(page.getSize())
-                .total(page.getTotal())
+                .list(page.getRecords()).pageNo(page.getCurrent())
+                .pageSize(page.getSize()).total(page.getTotal())
                 .build();
     }
 
@@ -97,13 +95,13 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
     public void addFiles(FilesAddDto dto) {
         List<Files> list = dto.getFiles().stream().map(file -> {
             try {
-                MinioFilePath minioFilePath = minioService.uploadObjectReturnFilePath(file, dto.getFilepath());
+                MinioUploadFileInfo minioUploadFileInfo = minioService.uploadWithFileInfo(file, dto.getFilepath());
 
                 Files files = new Files();
                 files.setFileType(file.getContentType());
                 files.setFileSize(file.getSize());
-                files.setFilepath("/" + properties.getBucketName() + minioFilePath.getFilepath());
-                files.setFilename(minioFilePath.getFilename());
+                files.setFilepath("/" + properties.getBucketName() + minioUploadFileInfo.getFilepath());
+                files.setFilename(minioUploadFileInfo.getFilename());
                 files.setDownloadCount(dto.getDownloadCount());
                 return files;
             } catch (IOException e) {
@@ -111,7 +109,6 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
             }
         }).toList();
 
-        // 保存数据
         saveBatch(list);
     }
 
@@ -165,8 +162,8 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
         String filename = file.getOriginalFilename();
 
         // 上传文件
-        MinioFilePath minioFIlePath = minioService.uploadObjectReturnFilePath(file, type);
-        String bucketNameFilepath = minioFIlePath.getBucketNameFilepath();
+        MinioUploadFileInfo minioUploadFIleInfo = minioService.uploadWithFileInfo(file, type);
+        String bucketNameFilepath = minioUploadFIleInfo.getBucketNameFilepath();
 
         // 盘读研数据是否过大
         String mb = maxFileSize.replace("MB", "");
@@ -183,12 +180,9 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
 
         // 返回信息内容化
         return FileInfoVo.builder()
-                .size(FileUtil.getSize(fileSize))
-                .filepath(bucketNameFilepath)
-                .fileSize(fileSize)
-                .fileType(contentType)
-                .filename(filename)
-                .url(minioHelper.getObjectNameFullPath(bucketNameFilepath))
+                .size(FileUtil.getSize(fileSize)).filepath(bucketNameFilepath)
+                .fileSize(fileSize).fileType(contentType)
+                .filename(filename).url(minioHelper.getObjectNameFullPath(bucketNameFilepath))
                 .build();
     }
 
