@@ -1,0 +1,40 @@
+server:
+  port: 7070
+
+logging:
+  level:
+    cn.bunny.service.mapper: warn
+    cn.bunny.service.controller: warn
+    cn.bunny.service.service: warn
+    root: warn
+  pattern:
+    dateformat: HH:mm:ss:SSS
+  file:
+    path: "logs/${spring.application.name}"
+    name: "logs/${spring.application.name}"
+
+# mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
+
+bunny:
+  master:
+    host: rm-bp12z6hlv46vi6g8mro.mysql.rds.aliyuncs.com
+    port: 3306
+    database: auth_admin
+    username: auth_admin_prod
+    password: "0212auth_admin"
+
+  redis:
+    host: 111.229.137.235
+    port: 6379
+    database: 0
+    password: "123456"
+
+  minio:
+    endpointUrl: "http://129.211.31.58:9000" # 连接地址
+    accessKey: bunny # 用户名
+    secretKey: "02120212" # 登录密码
+    bucket-name: auth-admin # 指定哪个桶
+
+  backPath: "/home/backup"
