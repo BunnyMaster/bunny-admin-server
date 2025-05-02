@@ -6,6 +6,7 @@ target/
 logs/
 
 application-prod.yml
+application-staging.yml
 
 ### STS ###
 .apt_generated
