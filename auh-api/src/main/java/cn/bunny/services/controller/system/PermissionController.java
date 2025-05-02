@@ -102,9 +102,16 @@ public class PermissionController {
     }
 
     @Operation(summary = "批量修改权限父级", description = "批量修改权限父级", tags = "permission::update")
-    @PutMapping("update/permissionListByParentId")
+    @PatchMapping("update/permissionListByParentId")
     public Result<String> updatePermissionListByParentId(@RequestBody @Valid PermissionUpdateBatchByParentIdDto dto) {
         permissionService.updatePermissionListByParentId(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "批量修改权", description = "批量修改权", tags = "permission::update")
+    @PatchMapping("update/permissionBatch")
+    public Result<String> updatePermissionBatch(@RequestBody List<PermissionUpdateDto> list) {
+        permissionService.updatePermissionBatch(list);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 }

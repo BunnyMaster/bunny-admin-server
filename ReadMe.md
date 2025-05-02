@@ -32,21 +32,19 @@
 - [运行项目](https://www.bilibili.com/video/BV1qodHYzErA/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
 - [前端部署](https://www.bilibili.com/video/BV1BddHYgEPq/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
 - [后端部署](https://www.bilibili.com/video/BV1BddHYgEFt/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
-- [Bunny v0.0.1 代码生成器](https://www.bilibili.com/video/BV1qddHYgErv/?spm_id_from=333.1387.homepage.video_card.click)
+- [代码生成器](https://www.bilibili.com/video/BV1d4Lxz9E3j/?vd_source=d42b5b664efb958be39eef8ee1196a7e)
 
 **Github地址**
 
 - 权限后端：https://github.com/BunnyMaster/bunny-admin-server
 - 权限前端：https://github.com/BunnyMaster/bunny-admin-web
-- 代码生成器前端：https://github.com/BunnyMaster/generator-code-web
-- 代码生成器后端：https://github.com/BunnyMaster/generator-code-server
+- 代码生成器端：https://github.com/BunnyMaster/generator-code-server
 
-**`Gitee`地址**
+**Gitee地址**
 
 - 权限后端：https://gitee.com/BunnyBoss/bunny-admin-server
 - 权限前端：https://gitee.com/BunnyBoss/bunny-admin-web
-- 代码生成器前端：https://gitee.com/BunnyBoss/generator-code-web
-- 代码生成器后端：https://gitee.com/BunnyBoss/generator-code-server
+- 代码生成器端：https://gitee.com/BunnyBoss/generator-code-server
 
 ## 🚀 项目简介
 
@@ -82,6 +80,21 @@
 
 ![权限管理界面](./images/image-20250428223816172.png)
 ![角色管理界面](./images/image-20250428223843974.png)
+
+## :tipping_hand_man:用法提示
+
+> [!TIP]
+>
+> 多语言使用提示：
+>
+> 虽然直接让用户操作JSON文件有一定门槛（多数用户不熟悉JSON格式），但在多语言项目开发中，JSON格式具有独特优势：
+>
+> 1. 结构化特性 - 纯文本格式便于AI解析处理
+> 2. 高效翻译流程：
+>    - 开发者只需完成中文版本
+>    - 上传JSON文件至AI翻译工具
+>    - 简单指令即可批量生成英文/繁体中文/韩语等版本
+> 3. 显著节省开发时间 - 实现"一次编写，多语言适配"的高效工作流
 
 ## 🔐 权限控制体系
 
@@ -240,10 +253,10 @@ docker compose up -d
 
 ## 📈 后续规划
 
-- [ ] 权限级别拖拽
-- [ ] 权限树型结构动态添加、更新、删除
+- [x] 权限级别拖拽
+- [x] 权限树型结构动态添加、更新、删除
 - [ ] 用户设置持久化存储到数据库
-- [ ] 权限弹窗页面优化
+- [x] 权限弹窗页面优化
 - [x] 后端文档注释完善
 - [x] 系统监控后端返回403停止请求
 - [x] 优化用户配置权限逻辑，配置后热更新逻辑等

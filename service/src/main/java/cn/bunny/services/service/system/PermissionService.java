@@ -82,4 +82,11 @@ public interface PermissionService extends IService<Permission> {
      * @param type 导出类型
      */
     void importPermission(MultipartFile file, String type);
+
+    /**
+     * 批量修改权限
+     *
+     * @param dto 权限数组
+     */
+    void updatePermissionBatch(@Valid List<PermissionUpdateDto> list);
 }

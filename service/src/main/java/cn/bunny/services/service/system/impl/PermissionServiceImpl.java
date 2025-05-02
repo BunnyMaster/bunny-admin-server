@@ -249,4 +249,20 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * 批量修改权限
+     *
+     * @param list 权限数组
+     */
+    @Override
+    public void updatePermissionBatch(List<PermissionUpdateDto> list) {
+        List<Permission> permissionList = list.stream()
+                .map(permissionUpdateDto -> {
+                    Permission permission = new Permission();
+                    BeanUtils.copyProperties(permissionUpdateDto, permission);
+                    return permission;
+                }).toList();
+        saveOrUpdateBatch(permissionList);
+    }
 }
