@@ -1,0 +1,71 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  # 定义全局变量
+  DOCKER_IMAGE: "bunny-auth-server:4.0.0"
+
+# 定义在所有作业之前运行的脚本
+before_script:
+  - echo "Starting CI/CD pipeline"
+
+build-job:
+  stage: build
+  script:
+    - echo "Compiling the code..."
+    - mvn package  # 如果是Java项目
+    # 或 npm run build  # 如果是Node.js项目
+  artifacts:
+    paths:
+      - target/*.jar  # 保存构建产物
+  only:
+    - master  # 只在master分支运行
+
+unit-test:
+  stage: test
+  script:
+    - echo "Running unit tests..."
+    - mvn test
+    # 或 npm test
+
+integration-test:
+  stage: test
+  script:
+    - echo "Running integration tests..."
+    - mvn verify
+  needs: ["unit-test"]  # 依赖unit-test完成
+
+deploy-prod:
+  stage: deploy
+  script:
+    - echo "Deploying to production..."
+    - scp target/*.jar user@production-server:/app/
+  when: manual  # 需要手动触发
+  only:
+    - master
+
+build-docker:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t $DOCKER_IMAGE .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $DOCKER_IMAGE
+
+deploy-staging:
+  stage: deploy
+  script:
+    - echo "Deploying to staging environment"
+  environment:
+    name: staging
+    url: https://staging.example.com
+
+test-multiple-versions:
+  stage: test
+  parallel: 5
+  script:
+    - echo "Testing with version $CI_NODE_INDEX"
