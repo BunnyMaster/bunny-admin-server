@@ -8,6 +8,7 @@ import cn.bunny.services.domain.common.enums.LoginEnums;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.email.entity.EmailTemplate;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.dto.user.RefreshTokenDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
@@ -15,6 +16,7 @@ import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import cn.bunny.services.mapper.system.UserMapper;
+import cn.bunny.services.minio.MinioHelper;
 import cn.bunny.services.service.configuration.helper.email.ConcreteSenderEmailTemplate;
 import cn.bunny.services.service.system.UserLoginService;
 import cn.bunny.services.service.system.helper.UserLoginHelper;
@@ -30,6 +32,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -54,6 +57,8 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
     private EmailTemplateMapper emailTemplateMapper;
     @Resource
     private ConcreteSenderEmailTemplate concreteSenderEmailTemplate;
+    @Resource
+    private MinioHelper minioHelper;
 
     /**
      * 前台用户登录接口
@@ -197,5 +202,65 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         // 删除Redis中用户信息
         String loginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername());
         redisTemplate.delete(loginInfoPrefix);
+    }
+
+
+    /**
+     * * 更新本地用户信息
+     *
+     * @param dto 用户信息
+     */
+    @Override
+    public void updateAdminUserByLocalUser(AdminUserUpdateByLocalUserDto dto) {
+        Long userId = BaseContext.getUserId();
+
+        // 判断是否存在这个用户
+        AdminUser user = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+        if (user == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
+
+        // 检查用户头像，因为更新用户信息会带着用户之前的信息，如果没有更新头像，前端显示的http:xxx
+        String userAvatar = minioHelper.formatUserAvatar(dto.getAvatar());
+        dto.setAvatar(userAvatar);
+
+        // 更新用户
+        AdminUser adminUser = new AdminUser();
+        adminUser.setId(userId);
+        BeanUtils.copyProperties(dto, adminUser);
+        updateById(adminUser);
+
+        // 重新生成用户信息到Redis中
+        BeanUtils.copyProperties(dto, user);
+        userloginHelper.buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
+    }
+
+    /**
+     * * 更新本地用户密码
+     *
+     * @param password 更新本地用户密码
+     */
+    @Override
+    public void updateUserPasswordByLocalUser(@Valid String password) {
+        // 根据当前用户查询用户信息
+        Long userId = BaseContext.getUserId();
+        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
+
+        // 判断用户是否存在
+        if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
+
+        // 数据库中的密码
+        String dbPassword = adminUser.getPassword();
+        password = passwordEncoder.encode(password);
+
+        // 判断数据库中密码是否和更新用户密码相同
+        if (dbPassword.equals(password)) throw new AuthCustomerException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
+
+        // 更新用户密码
+        adminUser = new AdminUser();
+        adminUser.setId(userId);
+        adminUser.setPassword(password);
+        updateById(adminUser);
+
+        // 删除Redis中登录用户信息
+        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
     }
 }

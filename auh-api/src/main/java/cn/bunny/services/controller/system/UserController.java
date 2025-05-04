@@ -1,11 +1,11 @@
 package cn.bunny.services.controller.system;
 
+import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.vo.user.AdminUserVo;
@@ -56,7 +56,7 @@ public class UserController {
     public Result<String> updateUserByAdmin(@Valid AdminUserUpdateDto dto,
                                             @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
         if (avatar != null) dto.setAvatar(avatar);
-        
+
         userService.updateUserByAdmin(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
@@ -89,17 +89,16 @@ public class UserController {
         return Result.success();
     }
 
-    @Operation(summary = "更新本地用户信息", description = "更新本地用户信息，需要更新Redis中的内容")
-    @PutMapping("private/update/userinfo")
-    public Result<String> updateAdminUserByLocalUser(@Valid @RequestBody AdminUserUpdateByLocalUserDto dto) {
-        userService.updateAdminUserByLocalUser(dto);
-        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    @Operation(summary = "已登录用户", description = "查询缓存中已登录用户", tags = "user::query")
+    @GetMapping("getCacheUserPage/{page}/{limit}")
+    public Result<PageResult<LoginVo>> getCacheUserPage(
+            @Parameter(name = "page", description = "当前页", required = true)
+            @PathVariable("page") Integer page,
+            @Parameter(name = "limit", description = "每页记录数", required = true)
+            @PathVariable("limit") Integer limit) {
+        Page<AdminUser> pageParams = new Page<>(page, limit);
+        PageResult<LoginVo> pageResult = userService.getCacheUserPage(pageParams);
+        return Result.success(pageResult);
     }
 
-    @Operation(summary = "更新本地用户密码", description = "更新本地用户密码")
-    @PutMapping("private/update/password")
-    public Result<String> updateUserPasswordByLocalUser(String password) {
-        userService.updateUserPasswordByLocalUser(password);
-        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
-    }
 }

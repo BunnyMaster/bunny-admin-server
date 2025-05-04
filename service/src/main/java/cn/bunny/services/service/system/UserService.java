@@ -1,9 +1,9 @@
 package cn.bunny.services.service.system;
 
+import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.vo.user.AdminUserVo;
@@ -76,16 +76,10 @@ public interface UserService extends IService<AdminUser> {
     List<UserVo> getUserListByKeyword(String keyword);
 
     /**
-     * * 更新本地用户信息
+     * 查询缓存中已登录用户
      *
-     * @param dto 用户信息
+     * @param pageParams 分页查询
+     * @return 分页查询结果
      */
-    void updateAdminUserByLocalUser(AdminUserUpdateByLocalUserDto dto);
-
-    /**
-     * * 更新本地用户密码
-     *
-     * @param password 更新本地用户密码
-     */
-    void updateUserPasswordByLocalUser(@Valid String password);
+    PageResult<LoginVo> getCacheUserPage(Page<AdminUser> pageParams);
 }

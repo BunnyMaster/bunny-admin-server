@@ -135,4 +135,14 @@ public class IpUtil {
         }
         return ipAddress;
     }
+
+    /**
+     * 替换IP地址格式：127.**.**.1 、192.**.**.100
+     *
+     * @param ipAddress IP地址
+     * @return 新的IP地址格式
+     */
+    public static String replaceIp(String ipAddress) {
+        return ipAddress.replaceAll("(\\d{1,3}\\.)(\\d{1,3}\\.)(\\d{1,3}\\.)(\\d{1,3})", "$1**.**.$4");
+    }
 }
