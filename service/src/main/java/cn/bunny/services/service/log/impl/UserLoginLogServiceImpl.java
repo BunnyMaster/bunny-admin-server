@@ -1,13 +1,14 @@
 package cn.bunny.services.service.log.impl;
 
+import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.system.log.dto.UserLoginLogDto;
 import cn.bunny.services.domain.system.log.entity.UserLoginLog;
 import cn.bunny.services.domain.system.log.vo.UserLoginLogLocalVo;
 import cn.bunny.services.domain.system.log.vo.UserLoginLogVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.service.log.UserLoginLogService;
+import cn.bunny.services.utils.IpUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -44,6 +45,10 @@ public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogMapper, Use
                 .map(userLoginLog -> {
                     UserLoginLogVo userLoginLogVo = new UserLoginLogVo();
                     BeanUtils.copyProperties(userLoginLog, userLoginLogVo);
+
+                    // 隐藏部分IP地址
+                    String ipAddress = userLoginLogVo.getIpAddress();
+                    userLoginLogVo.setIpAddress(IpUtil.replaceIp(ipAddress));
                     return userLoginLogVo;
                 }).toList();
 

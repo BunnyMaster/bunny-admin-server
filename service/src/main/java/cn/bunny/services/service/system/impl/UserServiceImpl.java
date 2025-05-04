@@ -1,9 +1,9 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.constant.MinioConstant;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
+import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.files.dto.FileUploadDto;
@@ -11,7 +11,6 @@ import cn.bunny.services.domain.system.files.vo.FileInfoVo;
 import cn.bunny.services.domain.system.log.entity.UserLoginLog;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.entity.Role;
@@ -26,9 +25,12 @@ import cn.bunny.services.mapper.system.UserDeptMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.minio.MinioHelper;
+import cn.bunny.services.redis.RedisService;
 import cn.bunny.services.service.system.FilesService;
 import cn.bunny.services.service.system.UserService;
 import cn.bunny.services.service.system.helper.UserLoginHelper;
+import cn.bunny.services.utils.IpUtil;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -37,6 +39,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -75,6 +78,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     private RoleMapper roleMapper;
     @Resource
     private MinioHelper minioHelper;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * * 获取用户信息
@@ -175,63 +180,36 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     }
 
     /**
-     * * 更新本地用户信息
+     * 查询缓存中已登录用户
      *
-     * @param dto 用户信息
+     * @param pageParams 分页查询
+     * @return 分页查询结果
      */
     @Override
-    public void updateAdminUserByLocalUser(AdminUserUpdateByLocalUserDto dto) {
-        Long userId = BaseContext.getUserId();
+    public PageResult<LoginVo> getCacheUserPage(Page<AdminUser> pageParams) {
+        long pageNum = pageParams.getCurrent();
+        long pageSize = pageParams.getSize();
+        List<String> keys = redisService.scannerRedisKeyByPage(pageNum, pageSize);
 
-        // 判断是否存在这个用户
-        AdminUser user = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-        if (user == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
+        List<LoginVo> list = keys.stream().map(key -> {
+            Object object = redisTemplate.opsForValue().get(key);
+            LoginVo loginVo = JSON.parseObject(JSON.toJSONString(object), LoginVo.class);
 
-        // 检查用户头像，因为更新用户信息会带着用户之前的信息，如果没有更新头像，前端显示的http:xxx
-        String userAvatar = minioHelper.formatUserAvatar(dto.getAvatar());
-        dto.setAvatar(userAvatar);
+            // 隐藏IP地址
+            String ip = IpUtil.replaceIp(loginVo.getIpAddress());
+            loginVo.setIpAddress(ip);
 
-        // 更新用户
-        AdminUser adminUser = new AdminUser();
-        adminUser.setId(userId);
-        BeanUtils.copyProperties(dto, adminUser);
-        updateById(adminUser);
+            loginVo.setPassword("********");
 
-        // 重新生成用户信息到Redis中
-        BeanUtils.copyProperties(dto, user);
-        userloginHelper.buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
+            return loginVo;
+        }).toList();
+
+        return PageResult.<LoginVo>builder()
+                .pageNo(pageNum).pageSize(pageSize)
+                .list(list).total((long) keys.size())
+                .build();
     }
 
-    /**
-     * * 更新本地用户密码
-     *
-     * @param password 更新本地用户密码
-     */
-    @Override
-    public void updateUserPasswordByLocalUser(@Valid String password) {
-        // 根据当前用户查询用户信息
-        Long userId = BaseContext.getUserId();
-        AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
-
-        // 判断用户是否存在
-        if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
-
-        // 数据库中的密码
-        String dbPassword = adminUser.getPassword();
-        password = passwordEncoder.encode(password);
-
-        // 判断数据库中密码是否和更新用户密码相同
-        if (dbPassword.equals(password)) throw new AuthCustomerException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
-
-        // 更新用户密码
-        adminUser = new AdminUser();
-        adminUser.setId(userId);
-        adminUser.setPassword(password);
-        updateById(adminUser);
-
-        // 删除Redis中登录用户信息
-        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
-    }
 
     /**
      * * 用户信息 服务实现类

@@ -4,6 +4,7 @@ import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.dto.user.RefreshTokenDto;
 import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
@@ -59,5 +60,19 @@ public class UserLoginController {
     public Result<String> logout() {
         userLoginService.logout();
         return Result.success(ResultCodeEnum.LOGOUT_SUCCESS);
+    }
+
+    @Operation(summary = "更新本地用户信息", description = "更新本地用户信息，需要更新Redis中的内容")
+    @PutMapping("private/update/userinfo")
+    public Result<String> updateAdminUserByLocalUser(@Valid @RequestBody AdminUserUpdateByLocalUserDto dto) {
+        userLoginService.updateAdminUserByLocalUser(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "更新本地用户密码", description = "更新本地用户密码")
+    @PutMapping("private/update/password")
+    public Result<String> updateUserPasswordByLocalUser(String password) {
+        userLoginService.updateUserPasswordByLocalUser(password);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 }

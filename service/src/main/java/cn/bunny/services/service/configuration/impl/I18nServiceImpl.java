@@ -178,7 +178,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
             }
 
             // 设置响应头
-            HttpHeaders headers = FileUtil.buildHttpHeadersByBinary("i18n-configuration.zip");
+            HttpHeaders headers = FileUtil.buildHttpHeadersByBinary("i18n-configuration-" + type + ".zip");
 
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
             return new ResponseEntity<>(byteArrayInputStream.readAllBytes(), headers, HttpStatus.OK);
@@ -212,9 +212,9 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
             // 内容存在，删除这个数据库中所有关于这个key的多语言
             List<I18n> i18nList = baseMapper.selectList(Wrappers.<I18n>lambdaQuery().eq(I18n::getTypeName, type));
             List<Long> ids = i18nList.stream().map(BaseEntity::getId).toList();
-            if (!ids.isEmpty()) {
-                removeByIds(ids);
-            }
+
+            // 删除这个类型下所有的多语言
+            if (!ids.isEmpty()) removeByIds(ids);
 
             // 存入内容
             if (fileType.equals(FileType.JSON)) {

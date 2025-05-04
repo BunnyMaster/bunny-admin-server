@@ -1,11 +1,13 @@
 package cn.bunny.services.service.system;
 
 import cn.bunny.services.domain.common.model.vo.LoginVo;
+import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.dto.user.RefreshTokenDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 
 public interface UserLoginService extends IService<AdminUser> {
@@ -35,8 +37,22 @@ public interface UserLoginService extends IService<AdminUser> {
     RefreshTokenVo refreshToken(@NotNull RefreshTokenDto dto);
 
     /**
-     * * 退出登录
+     * 退出登录
      */
     void logout();
 
+    /**
+     * 更新本地用户信息
+     *
+     * @param dto 用户信息
+     */
+    void updateAdminUserByLocalUser(AdminUserUpdateByLocalUserDto dto);
+
+    /**
+     * 更新本地用户密码
+     *
+     * @param password 更新本地用户密码
+     */
+    void updateUserPasswordByLocalUser(@Valid String password);
+    
 }
