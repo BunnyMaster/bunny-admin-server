@@ -11,7 +11,7 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 04/05/2025 19:27:24
+ Date: 04/05/2025 19:34:38
 */
 
 SET NAMES utf8mb4;
@@ -3050,7 +3050,7 @@ INSERT INTO `sys_router` VALUES (1851491818972856321, 1851488898978103297, '/mes
 INSERT INTO `sys_router` VALUES (1851525168378875906, 1851488898978103297, '/message/message-received', 'MessageReceived', '/message-manger/message-received/index', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"wpf:gps-receiving\",\"keepAlive\":false,\"rank\":10,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"messageReceivingManagement\",\"transition\":{\"enterTransition\":\"\",\"leaveTransition\":\"\"}}', 1, 1, '2025-04-26 09:37:15', '2024-10-30 15:22:54', 0);
 INSERT INTO `sys_router` VALUES (1852321196101464065, 0, '/logManagement', 'logManagement', '', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"octicon:log-16\",\"keepAlive\":false,\"rank\":6,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"logManagement\",\"transition\":{\"enterTransition\":\"animate__fadeIn\",\"leaveTransition\":\"animate__tada\"}}', 1, 1, '2025-04-26 09:36:43', '2024-11-01 20:06:02', 0);
 INSERT INTO `sys_router` VALUES (1853083388413304834, 1851488898978103297, '/message/message-send', 'MessageSender', '/message-manger/message-send/index', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"lets-icons:message-alt-fill\",\"keepAlive\":false,\"rank\":8,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"messageSendManagement\",\"transition\":{\"enterTransition\":\"\",\"leaveTransition\":\"\"}}', 1, 1, '2025-04-26 09:37:05', '2024-11-03 22:34:43', 0);
-INSERT INTO `sys_router` VALUES (1918937765434429441, 1844644093987880962, '/monitor/logged-in', 'MonitorLoggedIn', '/monitor/logged-in/index.vue', '', 0, '{\"activePath\":\"\",\"auths\":[],\"fixedTag\":false,\"frameLoading\":true,\"frameSrc\":\"\",\"hiddenTag\":false,\"icon\":\"material-symbols:login\",\"keepAlive\":false,\"rank\":5,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"logged_in\",\"transition\":{\"enterTransition\":\"\",\"leaveTransition\":\"\"}}', 1, 1, '2025-05-04 16:42:22', '2025-05-04 15:56:30', 0);
+INSERT INTO `sys_router` VALUES (1918937765434429441, 1844644093987880962, '/monitor/logged-in', 'MonitorLoggedIn', '/monitor/logged-in/index.vue', '', 0, '{\"activePath\":\"\",\"auths\":[],\"fixedTag\":false,\"frameLoading\":true,\"frameSrc\":\"\",\"hiddenTag\":false,\"icon\":\"material-symbols:login\",\"keepAlive\":false,\"rank\":5,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"logged_in_user\",\"transition\":{\"enterTransition\":\"\",\"leaveTransition\":\"\"}}', 1, 1, '2025-05-04 19:34:26', '2025-05-04 15:56:30', 0);
 
 -- ----------------------------
 -- Table structure for sys_router_role
