@@ -1,5 +1,6 @@
 package cn.bunny.services.domain.common.model.vo.result;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

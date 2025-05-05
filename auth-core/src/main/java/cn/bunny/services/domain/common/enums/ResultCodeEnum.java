@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.common.model.vo.result;
+package cn.bunny.services.domain.common.enums;
 
 import lombok.Getter;
 

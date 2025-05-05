@@ -3,7 +3,7 @@ package cn.bunny.services.security.service;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.model.dto.security.TokenInfo;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.security.exception.CustomAuthenticationException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

@@ -3,7 +3,7 @@ package cn.bunny.services.service.message.impl;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.message.dto.MessageAddDto;
 import cn.bunny.services.domain.system.message.dto.MessageDto;
 import cn.bunny.services.domain.system.message.dto.MessageUpdateDto;

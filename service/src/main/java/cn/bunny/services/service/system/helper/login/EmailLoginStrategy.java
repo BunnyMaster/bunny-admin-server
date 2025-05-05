@@ -1,7 +1,7 @@
 package cn.bunny.services.service.system.helper.login;
 
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.mapper.system.UserMapper;

@@ -3,7 +3,7 @@ package cn.bunny.services.controller.configuration;
 import cn.bunny.services.domain.system.configuration.dto.WebConfigurationDto;
 import cn.bunny.services.domain.system.configuration.entity.WebConfiguration;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.configuration.ConfigurationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

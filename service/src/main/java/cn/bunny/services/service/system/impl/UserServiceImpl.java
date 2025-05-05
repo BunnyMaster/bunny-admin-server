@@ -5,7 +5,7 @@ import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.files.dto.FileUploadDto;
 import cn.bunny.services.domain.system.files.vo.FileInfoVo;
 import cn.bunny.services.domain.system.log.entity.UserLoginLog;

@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.router.RouterAddDto;
 import cn.bunny.services.domain.system.system.dto.router.RouterUpdateDto;
 import cn.bunny.services.domain.system.system.entity.router.Router;

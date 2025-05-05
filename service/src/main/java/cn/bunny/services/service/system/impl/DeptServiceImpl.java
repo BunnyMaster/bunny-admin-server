@@ -6,7 +6,7 @@ import cn.bunny.services.domain.system.system.dto.dept.DeptUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Dept;
 import cn.bunny.services.domain.system.system.vo.DeptVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.DeptMapper;
 import cn.bunny.services.mapper.system.UserDeptMapper;

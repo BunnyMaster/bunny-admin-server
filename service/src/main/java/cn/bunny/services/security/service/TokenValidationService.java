@@ -3,7 +3,7 @@ package cn.bunny.services.security.service;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.model.dto.security.TokenInfo;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.security.exception.CustomAuthenticationException;
 import cn.bunny.services.utils.JwtTokenUtil;
 import com.alibaba.fastjson2.JSON;

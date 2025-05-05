@@ -3,7 +3,7 @@ package cn.bunny.services.controller.system;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.dto.user.RefreshTokenDto;

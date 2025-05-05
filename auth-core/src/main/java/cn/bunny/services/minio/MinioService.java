@@ -2,7 +2,7 @@ package cn.bunny.services.minio;
 
 import cn.bunny.services.domain.common.constant.MinioConstant;
 import cn.bunny.services.domain.common.model.dto.minio.MinioUploadFileInfo;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import io.minio.*;
 import io.minio.messages.DeleteError;

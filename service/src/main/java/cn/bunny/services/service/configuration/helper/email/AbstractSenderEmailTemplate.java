@@ -3,7 +3,7 @@ package cn.bunny.services.service.configuration.helper.email;
 import cn.bunny.services.config.mail.MailSenderConfiguration;
 import cn.bunny.services.domain.common.model.dto.email.EmailSend;
 import cn.bunny.services.domain.common.model.dto.email.EmailSendInit;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.email.entity.EmailTemplate;
 import cn.bunny.services.domain.system.email.entity.EmailUsers;
 import cn.bunny.services.exception.AuthCustomerException;

@@ -3,7 +3,7 @@ package cn.bunny.services.service.system.impl;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.AssignRolesToUsersDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.entity.UserRole;

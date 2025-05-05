@@ -7,7 +7,7 @@ import cn.bunny.services.domain.system.quartz.entity.SchedulersGroup;
 import cn.bunny.services.domain.system.quartz.vo.SchedulersGroupVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.schedule.SchedulersGroupService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
