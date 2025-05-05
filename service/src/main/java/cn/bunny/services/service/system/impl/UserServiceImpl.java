@@ -1,11 +1,12 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.services.cache.RedisService;
+import cn.bunny.services.cache.UserCacheService;
 import cn.bunny.services.domain.common.constant.MinioConstant;
-import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.files.dto.FileUploadDto;
 import cn.bunny.services.domain.system.files.vo.FileInfoVo;
 import cn.bunny.services.domain.system.log.entity.UserLoginLog;
@@ -25,12 +26,8 @@ import cn.bunny.services.mapper.system.UserDeptMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.minio.MinioHelper;
-import cn.bunny.services.redis.RedisService;
 import cn.bunny.services.service.system.FilesService;
 import cn.bunny.services.service.system.UserService;
-import cn.bunny.services.service.system.helper.UserLoginHelper;
-import cn.bunny.services.utils.IpUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -39,8 +36,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,28 +56,35 @@ import java.util.List;
 public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implements UserService {
 
     @Resource
-    private UserLoginHelper userloginHelper;
-    @Resource
     private PasswordEncoder passwordEncoder;
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+
     @Resource
     private FilesService filesService;
+
     @Resource
     private UserDeptMapper userDeptMapper;
+
     @Resource
     private UserRoleMapper userRoleMapper;
+
     @Resource
     private UserLoginLogMapper userLoginLogMapper;
+
     @Resource
     private RoleMapper roleMapper;
+
     @Resource
     private MinioHelper minioHelper;
-    @Autowired
+
+    @Resource
     private RedisService redisService;
 
+    @Resource
+    private UserCacheService userCacheService;
+
+
     /**
-     * * 获取用户信息
+     * 获取用户信息
      *
      * @param id 用户id
      * @return 用户信息
@@ -119,15 +121,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      *   <li>清除登录状态：删除Redis中的用户登录信息</li>
      * </ol>
      *
-     * <p><b>注意事项</b>：</p>
-     * <ul>
-     *   <li>会中断用户当前会话，无需用户确认</li>
-     *   <li>操作会记录到用户登录日志，用于审计追踪</li>
-     *   <li>Redis键使用用户名作为唯一标识</li>
-     * </ul>
-     *
      * @param id 用户ID（不可为空）
-     * @see RedisUserConstant#getAdminLoginInfoPrefix Redis键生成规则
      * @see UserConstant#FORCE_LOGOUT 强制下线类型常量
      */
     @Override
@@ -136,7 +130,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 根据id查询用户登录前缀
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, id));
-        String adminLoginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername());
 
         // 将用户登录保存在用户登录日志表中
         UserLoginLog userLoginLog = new UserLoginLog();
@@ -147,18 +140,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         userLoginLogMapper.insert(userLoginLog);
 
         // 删除Redis中用户信息
-        redisTemplate.delete(adminLoginInfoPrefix);
+        String username = adminUser.getUsername();
+        userCacheService.deleteUserCache(username);
     }
 
     /**
-     * * 查询用户
+     * 查询用户
      *
      * @param keyword 查询用户信息关键字
      * @return 用户信息列表
      */
     @Override
     public List<UserVo> getUserListByKeyword(String keyword) {
-        // 如果没有输入
+        // 如果没有输入，返回前20条用户信息
         if (!StringUtils.hasText(keyword)) {
             Page<AdminUser> page = Page.of(1, 20);
             LambdaQueryWrapper<AdminUser> queryWrapper = Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getStatus, false);
@@ -186,25 +180,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      * @return 分页查询结果
      */
     @Override
-    public PageResult<LoginVo> getCacheUserPage(Page<AdminUser> pageParams) {
+    public PageResult<UserVo> getCacheUserPage(Page<AdminUser> pageParams) {
         long pageNum = pageParams.getCurrent();
         long pageSize = pageParams.getSize();
         List<String> keys = redisService.scannerRedisKeyByPage(pageNum, pageSize);
 
-        List<LoginVo> list = keys.stream().map(key -> {
-            Object object = redisTemplate.opsForValue().get(key);
-            LoginVo loginVo = JSON.parseObject(JSON.toJSONString(object), LoginVo.class);
+        List<UserVo> list = keys.stream().map(key -> {
+            LoginVo loginVo = userCacheService.getLoginVoByUsername(key);
 
-            // 隐藏IP地址
-            String ip = IpUtil.replaceIp(loginVo.getIpAddress());
-            loginVo.setIpAddress(ip);
-
-            loginVo.setPassword("********");
-
-            return loginVo;
+            UserVo userVo = new UserVo();
+            BeanUtils.copyProperties(loginVo, userVo);
+            return userVo;
         }).toList();
 
-        return PageResult.<LoginVo>builder()
+        return PageResult.<UserVo>builder()
                 .pageNo(pageNum).pageSize(pageSize)
                 .list(list).total((long) keys.size())
                 .build();
@@ -212,7 +201,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
 
     /**
-     * * 用户信息 服务实现类
+     * 用户信息 服务实现类
      *
      * @param pageParams 用户信息分页查询page对象
      * @param dto        用户信息分页查询对象
@@ -244,7 +233,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     }
 
     /**
-     * * 添加用户信息
+     * 添加用户信息
      * 需要确认用户名-username是唯一的
      * 需要确认邮箱-email是唯一的
      *
@@ -253,12 +242,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Override
     public void addUserByAdmin(@Valid AdminUserAddDto dto) {
         // 对密码加密
-        String encode = passwordEncoder.encode(dto.getPassword());
+        String encodePassword = passwordEncoder.encode(dto.getPassword());
 
         // 保存数据
         AdminUser adminUser = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
-        adminUser.setPassword(encode);
+        adminUser.setPassword(encodePassword);
         save(adminUser);
 
         // 插入用户部门关系表
@@ -287,7 +276,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 更新用户
-        adminUser = new AdminUser();
+        // AdminUser user = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
 
         // 部门Id
@@ -306,16 +295,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         // 更新头像
         uploadAvatarByAdmin(dto, adminUser);
 
-        // 构建用户返回信息，同步到redis
-        userloginHelper.buildLoginUserVo(adminUser, RedisUserConstant.REDIS_EXPIRATION_TIME);
-
         // 更新密码，放在最后，如果更新密码就将密码删除
         updateUserPasswordByAdmin(adminUser);
 
+        // 更新用户信息
         updateById(adminUser);
-        // 删除Redis中用户信息
-        String loginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername());
-        redisTemplate.delete(loginInfoPrefix);
+
+        // 同步到 Redis
+        userCacheService.updateUserRedisInfo(List.of(adminUser.getId()));
     }
 
     /**
@@ -333,18 +320,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         List<Role> roleList = list.stream().filter(role -> role.getRoleCode().equals("admin") || ids.contains(1L)).toList();
         if (!roleList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.ADMIN_ROLE_CAN_NOT_DELETED);
 
-        // 逻辑删除
-        removeByIds(ids);
+        // 清除Redis中数据
+        List<AdminUser> adminUserList = list(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, ids));
+        adminUserList.parallelStream().forEach(adminUser -> {
+            String username = adminUser.getUsername();
+            userCacheService.deleteLoginUserCache(username);
+        });
 
         // 删除部门相关
         userDeptMapper.deleteBatchIdsByUserIds(ids);
 
         // 删除用户角色相关
         userRoleMapper.deleteBatchIdsByUserIds(ids);
+
+        // 逻辑删除
+        removeByIds(ids);
     }
 
     /**
-     * * 管理员修改管理员用户密码
+     * 管理员修改管理员用户密码
      *
      * @param adminUser 管理员用户修改密码
      */

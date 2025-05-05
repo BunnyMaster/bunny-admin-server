@@ -53,7 +53,8 @@ public enum ResultCodeEnum {
     LOGIN_AUTH(208, "请先登陆"),
     AUTHENTICATION_EXPIRED(208, "身份验证过期"),
     SESSION_EXPIRATION(208, "会话过期"),
-
+    FAIL_NO_ACCESS_DENIED_USER_LOCKED(208, "该账户已封禁"),
+    
     // 209
     THE_SAME_USER_HAS_LOGGED_IN(209, "相同用户已登录"),
 
@@ -71,7 +72,6 @@ public enum ResultCodeEnum {
     FAIL_NO_ACCESS_DENIED(403, "无权访问"),
     FAIL_NO_ACCESS_DENIED_USER_OFFLINE(403, "用户强制下线"),
     TOKEN_PARSING_FAILED(403, "token解析失败"),
-    FAIL_NO_ACCESS_DENIED_USER_LOCKED(403, "该账户已封禁"),
 
     // 系统错误 500
     UNKNOWN_EXCEPTION(500, "服务异常"),

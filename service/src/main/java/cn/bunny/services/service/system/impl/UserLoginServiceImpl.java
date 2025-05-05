@@ -1,12 +1,14 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.services.cache.EmailCacheService;
+import cn.bunny.services.cache.UserCacheService;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.enums.EmailTemplateEnums;
 import cn.bunny.services.domain.common.enums.LoginEnums;
-import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.system.email.entity.EmailTemplate;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
@@ -19,7 +21,7 @@ import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.minio.MinioHelper;
 import cn.bunny.services.service.configuration.helper.email.ConcreteSenderEmailTemplate;
 import cn.bunny.services.service.system.UserLoginService;
-import cn.bunny.services.service.system.helper.UserLoginHelper;
+import cn.bunny.services.service.system.helper.UserServiceHelper;
 import cn.bunny.services.service.system.helper.login.DefaultLoginStrategy;
 import cn.bunny.services.service.system.helper.login.EmailLoginStrategy;
 import cn.bunny.services.service.system.helper.login.LoginContext;
@@ -32,33 +34,40 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> implements UserLoginService {
+
     @Resource
-    private UserLoginHelper userloginHelper;
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private UserServiceHelper userServiceHelper;
+
     @Resource
     private PasswordEncoder passwordEncoder;
+
     @Resource
     private UserMapper userMapper;
+
     @Resource
     private EmailTemplateMapper emailTemplateMapper;
+
     @Resource
     private ConcreteSenderEmailTemplate concreteSenderEmailTemplate;
+
     @Resource
     private MinioHelper minioHelper;
+
+    @Resource
+    private UserCacheService userCacheService;
+
+    @Resource
+    private EmailCacheService emailCacheService;
 
     /**
      * 前台用户登录接口
@@ -78,7 +87,7 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         // 默认的登录方式
         loginStrategyHashMap.put(LoginEnums.default_STRATEGY.getValue(), new DefaultLoginStrategy(userMapper));
         // 注册邮箱
-        loginStrategyHashMap.put(LoginEnums.EMAIL_STRATEGY.getValue(), new EmailLoginStrategy(redisTemplate, userMapper));
+        loginStrategyHashMap.put(LoginEnums.EMAIL_STRATEGY.getValue(), new EmailLoginStrategy(emailCacheService, userMapper));
 
         // 使用登录上下文调用登录策略
         LoginContext loginContext = new LoginContext(loginStrategyHashMap);
@@ -102,9 +111,26 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         // 登录结束后的操作
         loginContext.loginAfter(loginDto, user);
 
-        user.setUpdateUser(user.getId());
+        // 获取IP地址并更新用户登录信息，
+        String ipAddr = IpUtil.getCurrentUserIpAddress().getIpAddr();
+        String ipRegion = IpUtil.getCurrentUserIpAddress().getIpRegion();
+        // 设置用户IP地址，并更新用户信息
+        user.setIpAddress(ipAddr);
+        user.setIpRegion(ipRegion);
+
+        // 设置用户创建用户id 和 更新用户id
         user.setCreateUser(user.getId());
-        return userloginHelper.buildLoginUserVo(user, loginDto.getReadMeDay());
+        user.setUpdateUser(user.getId());
+        updateById(user);
+
+        // 构建用户返回对象
+        Long readMeDay = loginDto.getReadMeDay();
+        LoginVo loginVo = userCacheService.buildLoginUserVo(user, readMeDay);
+
+        // 将用户登录保存在用户登录日志表中
+        userServiceHelper.setUserLoginLog(user, loginVo.getToken(), UserConstant.LOGIN);
+
+        return loginVo;
     }
 
     /**
@@ -150,11 +176,9 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
 
         // 发送邮件
         concreteSenderEmailTemplate.sendEmailTemplate(email, emailTemplate, hashMap);
-
-        // 在Redis中存储验证码
-        String emailCodePrefix = RedisUserConstant.getAdminUserEmailCodePrefix(email);
-        redisTemplate.opsForValue().set(emailCodePrefix, emailCode, RedisUserConstant.REDIS_EXPIRATION_TIME, TimeUnit.MINUTES);
+        emailCacheService.buildEmailCodeCache(email, emailCode);
     }
+
 
     /**
      * 刷新用户token
@@ -172,9 +196,10 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
         if (adminUser.getStatus()) throw new AuthCustomerException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
 
-        LoginVo buildUserVo = userloginHelper.buildLoginUserVo(adminUser, dto.getReadMeDay());
+        // 构建 LoginVo 对象
+        LoginVo loginVo = userCacheService.buildLoginUserVo(adminUser, dto.getReadMeDay());
         RefreshTokenVo refreshTokenVo = new RefreshTokenVo();
-        BeanUtils.copyProperties(buildUserVo, refreshTokenVo);
+        BeanUtils.copyProperties(loginVo, refreshTokenVo);
 
         return refreshTokenVo;
     }
@@ -197,16 +222,17 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
         adminUser.setIpAddress(ipAddr);
         adminUser.setIpRegion(ipRegion);
-        userloginHelper.setUserLoginLog(adminUser, token, UserConstant.LOGOUT);
+        userServiceHelper.setUserLoginLog(adminUser, token, UserConstant.LOGOUT);
 
         // 删除Redis中用户信息
-        String loginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername());
-        redisTemplate.delete(loginInfoPrefix);
+        String username = adminUser.getUsername();
+
+        userCacheService.deleteUserCache(username);
     }
 
 
     /**
-     * * 更新本地用户信息
+     * 更新本地用户信息
      *
      * @param dto 用户信息
      */
@@ -223,23 +249,20 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         dto.setAvatar(userAvatar);
 
         // 更新用户
-        AdminUser adminUser = new AdminUser();
-        adminUser.setId(userId);
-        BeanUtils.copyProperties(dto, adminUser);
-        updateById(adminUser);
+        BeanUtils.copyProperties(dto, user);
+        updateById(user);
 
         // 重新生成用户信息到Redis中
-        BeanUtils.copyProperties(dto, user);
-        userloginHelper.buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
+        userCacheService.buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
     }
 
     /**
-     * * 更新本地用户密码
+     * 更新本地用户密码
      *
      * @param password 更新本地用户密码
      */
     @Override
-    public void updateUserPasswordByLocalUser(@Valid String password) {
+    public void updateUserPasswordByLocalUser(String password) {
         // 根据当前用户查询用户信息
         Long userId = BaseContext.getUserId();
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
@@ -249,18 +272,20 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
 
         // 数据库中的密码
         String dbPassword = adminUser.getPassword();
-        password = passwordEncoder.encode(password);
 
         // 判断数据库中密码是否和更新用户密码相同
-        if (dbPassword.equals(password)) throw new AuthCustomerException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
+        if (passwordEncoder.matches(password, dbPassword)) {
+            throw new AuthCustomerException(ResultCodeEnum.NEW_PASSWORD_SAME_OLD_PASSWORD);
+        }
 
         // 更新用户密码
+        String encodePassword = passwordEncoder.encode(password);
         adminUser = new AdminUser();
         adminUser.setId(userId);
-        adminUser.setPassword(password);
+        adminUser.setPassword(encodePassword);
         updateById(adminUser);
 
-        // 删除Redis中登录用户信息
-        redisTemplate.delete(RedisUserConstant.getAdminLoginInfoPrefix(adminUser.getUsername()));
+        // 删除Redis中登录用户信息、角色、权限信息
+        userCacheService.deleteUserCache(adminUser.getUsername());
     }
 }

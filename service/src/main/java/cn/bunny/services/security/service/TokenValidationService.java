@@ -1,25 +1,23 @@
 package cn.bunny.services.security.service;
 
-import cn.bunny.services.domain.common.constant.RedisUserConstant;
+import cn.bunny.services.cache.UserCacheService;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.security.TokenInfo;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.security.exception.CustomAuthenticationException;
 import cn.bunny.services.utils.JwtTokenUtil;
-import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * 处理Token相关逻辑
  */
-@Component
+@Service
 public class TokenValidationService {
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private UserCacheService userCacheService;
 
     public TokenInfo validateToken(HttpServletRequest request) {
         // 判断是否有 token
@@ -39,8 +37,7 @@ public class TokenValidationService {
         Long userId = JwtTokenUtil.getUserId(token);
 
         // 查找 Redis
-        Object loginVoObject = redisTemplate.opsForValue().get(RedisUserConstant.getAdminLoginInfoPrefix(username));
-        LoginVo loginVo = JSON.parseObject(JSON.toJSONString(loginVoObject), LoginVo.class);
+        LoginVo loginVo = userCacheService.getLoginVoByUsername(username);
 
         return TokenInfo.builder().userId(userId).username(username).token(token).loginVo(loginVo).build();
     }

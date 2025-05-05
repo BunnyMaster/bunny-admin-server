@@ -22,6 +22,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -43,6 +45,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> implements RouterService {
+    private static final String CACHE_NAMES = "router";
 
     @Resource
     private RouterRoleMapper routerRoleMapper;
@@ -95,6 +98,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      * @return 系统菜单表
      */
     @Override
+    @Cacheable(cacheNames = CACHE_NAMES, key = "'routerList'", cacheManager = "cacheManagerWithMouth")
     public List<RouterManageVo> routerList() {
         // 查询菜单路由
         List<RouterVo> routerList = baseMapper.selectRouterList();
@@ -124,11 +128,12 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     }
 
     /**
-     * * 添加路由菜单
+     * 添加路由菜单
      *
      * @param dto 添加菜单表单
      */
     @Override
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
     public void addRouter(RouterAddDto dto) {
         // 添加路由
         Router router = new Router();
@@ -154,6 +159,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      * @param dto 更新表单
      */
     @Override
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
     public void updateRouter(RouterUpdateDto dto) {
         // 更新路由
         Router router = new Router();
@@ -181,6 +187,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      * @param ids 删除id列表
      */
     @Override
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
     public void deletedRouterByIds(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);

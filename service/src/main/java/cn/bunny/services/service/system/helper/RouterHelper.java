@@ -8,7 +8,6 @@ import cn.bunny.services.domain.system.system.views.ViewRolePermission;
 import cn.bunny.services.domain.system.system.views.ViewRouterRole;
 import cn.bunny.services.domain.system.system.vo.router.WebUserRouterVo;
 import cn.bunny.services.service.system.RouterRoleService;
-import cn.bunny.services.service.system.helper.role.RoleHelper;
 import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -90,7 +89,7 @@ public class RouterHelper {
     public List<WebUserRouterVo> getWebUserRouterVos(List<Router> routerList, Map<Long, List<ViewRouterRole>> routerRoleList, Map<Long, List<ViewRolePermission>> rolePermissionList) {
         // 检查当前是否是 admin 用户
         List<String> roles = BaseContext.getLoginVo().getRoles();
-        List<String> allAuths = !RoleHelper.checkAdmin(roles) ? new ArrayList<>() : List.of("*:*:*", "*:*", "*", "admin");
+        List<String> allAuths = !RoleServiceHelper.checkAdmin(roles) ? new ArrayList<>() : List.of("*:*:*", "*:*", "*", "admin");
 
         // 查询路由所有数据，整理前端需要的路和、角色、权限
         return routerList.stream().map(view -> {

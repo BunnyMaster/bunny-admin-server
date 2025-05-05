@@ -1,23 +1,22 @@
 package cn.bunny.services.service.system.helper.login;
 
-import cn.bunny.services.domain.common.constant.RedisUserConstant;
+import cn.bunny.services.cache.EmailCacheService;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.mapper.system.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * 邮箱登录策略
  */
 public class EmailLoginStrategy implements LoginStrategy {
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final EmailCacheService emailCacheService;
     private final UserMapper userMapper;
 
-    public EmailLoginStrategy(RedisTemplate<String, Object> redisTemplate, UserMapper userMapper) {
-        this.redisTemplate = redisTemplate;
+    public EmailLoginStrategy(EmailCacheService emailCacheService, UserMapper userMapper) {
+        this.emailCacheService = emailCacheService;
         this.userMapper = userMapper;
     }
 
@@ -38,13 +37,10 @@ public class EmailLoginStrategy implements LoginStrategy {
         String emailCode = loginDto.getEmailCode().toLowerCase();
 
         // 查找Redis中的验证码
-        Object redisEmailCode = redisTemplate.opsForValue().get(RedisUserConstant.getAdminUserEmailCodePrefix(username));
-        if (redisEmailCode == null) {
-            throw new UsernameNotFoundException(ResultCodeEnum.EMAIL_CODE_EMPTY.getMessage());
-        }
+        String redisEmailCode = emailCacheService.getEmailCode(username);
 
         // 判断用户邮箱验证码是否和Redis中发送的验证码
-        if (!emailCode.equals(redisEmailCode.toString().toLowerCase())) {
+        if (!emailCode.equals(redisEmailCode.toLowerCase())) {
             throw new UsernameNotFoundException(ResultCodeEnum.EMAIL_CODE_NOT_MATCHING.getMessage());
         }
 
@@ -63,8 +59,7 @@ public class EmailLoginStrategy implements LoginStrategy {
     @Override
     public void authenticateAfter(LoginDto loginDto, AdminUser adminUser) {
         // 将Redis中验证码删除
-        String emailCodePrefix = RedisUserConstant.getAdminUserEmailCodePrefix(loginDto.getUsername());
-        redisTemplate.delete(emailCodePrefix);
+        emailCacheService.deleteEmailCodeCache(loginDto.getUsername());
     }
 
 }

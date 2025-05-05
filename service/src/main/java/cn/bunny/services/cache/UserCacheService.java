@@ -1,30 +1,22 @@
-package cn.bunny.services.service.system.helper;
+package cn.bunny.services.cache;
 
 import cn.bunny.services.domain.common.constant.LocalDateTimeConstant;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
-import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.system.log.entity.UserLoginLog;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.entity.Permission;
 import cn.bunny.services.domain.system.system.entity.Role;
-import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.minio.MinioHelper;
-import cn.bunny.services.service.system.helper.role.RoleHelper;
-import cn.bunny.services.utils.IpUtil;
+import cn.bunny.services.service.system.helper.RoleServiceHelper;
 import cn.bunny.services.utils.JwtTokenUtil;
+import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -32,26 +24,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
-@Component
-@Transactional
-public class UserLoginHelper {
+@Service
+public class UserCacheService {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
-    @Resource
-    private UserMapper userMapper;
-    @Resource
-    private UserLoginLogMapper userLoginLogMapper;
-    @Resource
-    private RoleMapper roleMapper;
-    @Resource
-    private PermissionMapper permissionMapper;
+
     @Resource
     private MinioHelper minioHelper;
 
+    @Resource
+    private UserMapper userMapper;
+
+    @Resource
+    private RoleMapper roleMapper;
+
+    @Resource
+    private PermissionMapper permissionMapper;
+
+    @Resource
+    private UserAuthorizationCacheService userAuthorizationCacheService;
+
     /**
-     * 构建用户登录返回对象(LoginVo)
+     * 根据用户名获取缓存中内容
+     *
+     * @param username 用户名
+     * @return LoginVo
+     */
+    public LoginVo getLoginVoByUsername(String username) {
+        Object loginVoObject = redisTemplate.opsForValue().get(RedisUserConstant.getUserLoginInfoPrefix(username));
+        return JSON.parseObject(JSON.toJSONString(loginVoObject), LoginVo.class);
+    }
+
+    /**
+     * 构建用户登录返回对象(LoginVo) 更新用户相关就用这个包括登录
      *
      * <p>主要处理流程：</p>
      * <ol>
@@ -94,24 +100,18 @@ public class UserLoginHelper {
 
         // 判断是否是 admin 如果是admin 赋予所有权限
         List<String> permissions = new ArrayList<>();
-        boolean isAdmin = RoleHelper.checkAdmin(roles, permissions, user);
+        boolean isAdmin = RoleServiceHelper.checkAdmin(roles, permissions, user);
         if (!isAdmin) {
             permissions = permissionMapper.selectListByUserId(userId).stream()
                     .map(Permission::getPowerCode)
                     .toList();
         }
-        // 为这两个去重
+
+        // 为这两个去重，在判断 checkAdmin 会重新赋值
         permissions = permissions.stream().distinct().toList();
         roles = roles.stream().distinct().toList();
 
-        // 获取IP地址并更新用户登录信息，
-        String ipAddr = IpUtil.getCurrentUserIpAddress().getIpAddr();
-        String ipRegion = IpUtil.getCurrentUserIpAddress().getIpRegion();
-        // 设置用户IP地址，并更新用户信息
-        user.setIpAddress(ipAddr);
-        user.setIpRegion(ipRegion);
-        userMapper.updateById(user);
-
+        // 设置用户返回对象
         LoginVo loginVo = new LoginVo();
         BeanUtils.copyProperties(user, loginVo);
         loginVo.setPersonDescription(user.getSummary());
@@ -135,55 +135,68 @@ public class UserLoginHelper {
         String userAvatar = minioHelper.getUserAvatar(user.getAvatar());
         loginVo.setAvatar(userAvatar);
 
-        // 将用户登录保存在用户登录日志表中
-        setUserLoginLog(user, token, UserConstant.LOGIN);
-
-        // 将信息保存在Redis中，一定要确保用户名是唯一的
-        String loginInfoPrefix = RedisUserConstant.getAdminLoginInfoPrefix(username);
+        String loginInfoPrefix = RedisUserConstant.getUserLoginInfoPrefix(username);
         redisTemplate.opsForValue().set(loginInfoPrefix, loginVo, readMeDay, TimeUnit.DAYS);
-
         return loginVo;
     }
 
     /**
-     * 设置用户登录日志内容
-     * <p>
-     * 该方法用于将管理员用户信息复制到用户登录日志对象中，同时处理特殊字段映射关系。
-     * <p>
-     * 实现说明：
-     * 1. 使用BeanUtils.copyProperties()复制属性时，会自动将AdminUser.id复制到UserLoginLog.id
-     * 2. 由于UserLoginLog实际需要的是userId字段而非id字段，需要特殊处理：
-     * - 先进行属性复制
-     * - 然后将UserLoginLog.userId设置为AdminUser.id
-     * - 最后将UserLoginLog.id显式设为null（避免自动生成的id被覆盖）
+     * 批量更新Redis中用户权限信息，设计用户和角色就用这个
      *
-     * @param user  管理员用户实体对象，包含用户基本信息
-     * @param token 本次登录/退出的认证令牌
-     * @param type  操作类型（LOGIN-登录/LOGOUT-退出）
+     * <p><b>使用场景</b>：当用户角色或权限变更时，同步更新Redis中的用户权限数据</p>
+     *
+     * <p><b>实现策略</b>：</p>
+     * <ol>
+     *   <li><b>主动更新（当前实现）</b>：重新构建用户权限信息并更新Redis缓存</li>
+     *   <li><b>强制下线</b>：删除用户登录态，强制重新认证获取最新权限</li>
+     * </ol>
+     *
+     * <p><b>技术实现</b>：</p>
+     * <ul>
+     *   <li>采用Spring事件驱动机制触发更新</li>
+     *   <li>使用并行流(parallelStream)提高批量处理效率</li>
+     *   <li>仅更新Redis中存在登录态的用户</li>
+     * </ul>
+     *
+     * @param userIds 需要更新的用户ID集合
+     *                （仅处理集合中存在的有效用户）
+     * @see RedisUserConstant  Redis键前缀常量
      */
-    public void setUserLoginLog(AdminUser user, String token, String type) {
-        UserLoginLog userLoginLog = new UserLoginLog();
-        BeanUtils.copyProperties(user, userLoginLog);
-        userLoginLog.setUserId(user.getId());
-        userLoginLog.setId(null);
-        userLoginLog.setToken(token);
-        userLoginLog.setType(type);
+    public void updateUserRedisInfo(List<Long> userIds) {
+        if (userIds.isEmpty()) return;
 
-        // 当前请求request
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (requestAttributes != null) {
-            HttpServletRequest request = requestAttributes.getRequest();
+        // 批量查询用户
+        List<AdminUser> adminUsers = userMapper.selectBatchIds(userIds);
+        // 并行处理用户更新
+        adminUsers.stream()
+                .filter(user -> redisTemplate.hasKey(RedisUserConstant.getUserLoginInfoPrefix(user.getUsername())))
+                .forEach(user -> {
+                    // 更新时清除缓存中的角色和权限
+                    String username = user.getUsername();
+                    userAuthorizationCacheService.deleteRoleAndPermissionCache(username);
 
-            // 获取User-Agent
-            String userAgent = request.getHeader("User-Agent");
-            userLoginLog.setUserAgent(userAgent);
-
-            // 获取X-Requested-With
-            String xRequestedWith = request.getHeader("X-Requested-With");
-            userLoginLog.setXRequestedWith(xRequestedWith);
-        }
-
-        userLoginLogMapper.insert(userLoginLog);
+                    // 更新用户权限信息
+                    buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
+                });
     }
 
+    /**
+     * 清除用户登录时的缓存
+     *
+     * @param username 用户名
+     */
+    public void deleteLoginUserCache(String username) {
+        String userRolesCodePrefix = RedisUserConstant.getUserRolesCodePrefix(username);
+        redisTemplate.delete(userRolesCodePrefix);
+    }
+
+    /**
+     * 清除用户登录时的缓存
+     *
+     * @param username 用户名
+     */
+    public void deleteUserCache(String username) {
+        userAuthorizationCacheService.deleteRoleAndPermissionCache(username);
+        deleteLoginUserCache(username);
+    }
 }

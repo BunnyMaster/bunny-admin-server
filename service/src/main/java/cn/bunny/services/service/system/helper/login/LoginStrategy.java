@@ -21,7 +21,7 @@ public interface LoginStrategy {
      * 登录完成后的内容
      *
      * @param loginDto  登录参数
-     * @param adminUser
+     * @param adminUser {@link AdminUser}
      */
     void authenticateAfter(LoginDto loginDto, AdminUser adminUser);
 }

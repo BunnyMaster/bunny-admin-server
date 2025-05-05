@@ -1,10 +1,10 @@
 package cn.bunny.services.service.configuration.impl;
 
 import cn.bunny.services.domain.common.constant.FileType;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
 import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.i18n.dto.I18nAddDto;
 import cn.bunny.services.domain.system.i18n.dto.I18nDto;
 import cn.bunny.services.domain.system.i18n.dto.I18nUpdateByFileDto;
@@ -60,6 +60,7 @@ import java.util.zip.ZipOutputStream;
 @Service
 @Transactional
 public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I18nService {
+    private static final String CACHE_NAMES = "i18n";
 
     @Resource
     private I18nTypeMapper i18nTypeMapper;
@@ -70,7 +71,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @return 多语言返回内容
      */
     @Override
-    @Cacheable(cacheNames = "i18n", key = "'i18n'", cacheManager = "cacheManagerWithMouth")
+    @Cacheable(cacheNames = CACHE_NAMES, key = "'i18nMap'", cacheManager = "cacheManagerWithMouth")
     public HashMap<String, Object> getI18nMap() {
         // 查找默认语言内容
         I18nType i18nType = i18nTypeMapper.selectOne(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getIsDefault, true));
@@ -105,7 +106,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @param dto 添加表单
      */
     @Override
-    @CacheEvict(cacheNames = "i18n", key = "'i18n'", beforeInvocation = true)
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true)
     public void addI18n(@Valid I18nAddDto dto) {
         String keyName = dto.getKeyName();
         String typeName = dto.getTypeName();
@@ -126,7 +127,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @param dto 更新表单
      */
     @Override
-    @CacheEvict(cacheNames = "i18n", key = "'i18n'", beforeInvocation = true)
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true)
     public void updateI18n(@Valid I18nUpdateDto dto) {
         Long id = dto.getId();
 
@@ -146,7 +147,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @param ids 删除id列表
      */
     @Override
-    @CacheEvict(cacheNames = "i18n", key = "'i18n'", beforeInvocation = true)
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true)
     public void deleteI18n(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
@@ -193,7 +194,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      * @param dto 文件更新对象
      */
     @Override
-    @CacheEvict(cacheNames = "i18n", key = "'i18n'", beforeInvocation = true)
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true)
     public void uploadI18nFile(I18nUpdateByFileDto dto) {
         String type = dto.getType();
         MultipartFile file = dto.getFile();

@@ -7,7 +7,6 @@ import cn.bunny.services.domain.system.system.dto.user.RefreshTokenDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 
 public interface UserLoginService extends IService<AdminUser> {
@@ -53,6 +52,6 @@ public interface UserLoginService extends IService<AdminUser> {
      *
      * @param password 更新本地用户密码
      */
-    void updateUserPasswordByLocalUser(@Valid String password);
-    
+    void updateUserPasswordByLocalUser(String password);
+
 }

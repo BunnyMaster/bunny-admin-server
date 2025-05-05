@@ -1,4 +1,4 @@
-package cn.bunny.services.redis;
+package cn.bunny.services.cache;
 
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import jakarta.annotation.Resource;
@@ -26,7 +26,7 @@ public class RedisService {
      */
     @NotNull
     public List<String> scannerRedisKeyByPage(long pageNum, long pageSize) {
-        String prefix = RedisUserConstant.getAdminLoginInfoPrefix("*");
+        String prefix = RedisUserConstant.getUserLoginInfoPrefix("*");
 
         List<String> keys = new ArrayList<>();
         ScanOptions scanOptions = ScanOptions.scanOptions()

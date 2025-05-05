@@ -53,15 +53,11 @@
     <!-- 根据用户id查询当前用户所有权限 -->
     <select id="selectListByUserId" resultType="cn.bunny.services.domain.system.system.entity.Permission">
         SELECT p.*
-        FROM sys_user u,
-             sys_user_role ur,
-             sys_role_permission rp,
-             sys_permission p
-        WHERE u.id = ur.user_id
-          AND u.is_deleted = 0
-          AND ur.role_id = rp.role_id
-          AND rp.power_id = p.id
-          AND u.id = #{userId}
+        FROM sys_permission p
+                 INNER JOIN sys_role_permission rp ON p.id = rp.power_id
+                 INNER JOIN sys_user_role ur ON rp.role_id = ur.role_id
+                 INNER JOIN sys_user u ON ur.user_id = u.id AND u.is_deleted = 0
+        WHERE u.id = #{userId}
     </select>
 
 </mapper>
