@@ -1,22 +1,18 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.services.core.event.event.UpdateUserinfoByRoleIdsEvent;
+import cn.bunny.services.core.event.listener.excel.RoleExcelListener;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.RoleExcel;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.role.RoleAddDto;
 import cn.bunny.services.domain.system.system.dto.role.RoleDto;
 import cn.bunny.services.domain.system.system.dto.role.RoleUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Role;
-import cn.bunny.services.domain.system.system.entity.UserRole;
 import cn.bunny.services.domain.system.system.vo.RoleVo;
-import cn.bunny.services.excel.RoleExcelListener;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.RoleMapper;
-import cn.bunny.services.mapper.system.RolePermissionMapper;
-import cn.bunny.services.mapper.system.RouterRoleMapper;
-import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RoleService;
-import cn.bunny.services.service.system.helper.role.RoleUpdatedEvent;
 import cn.bunny.services.utils.FileUtil;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -28,6 +24,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -57,21 +54,13 @@ import java.util.zip.ZipOutputStream;
 @Service
 @Transactional
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
+    private static final String CACHE_NAMES = "role";
 
     @Resource
-    private UserRoleMapper userRoleMapper;
-
-    @Resource
-    private RolePermissionMapper rolePermissionMapper;
-
-    @Resource
-    private RouterRoleMapper routerRoleMapper;
-
-    @Resource
-    private ApplicationEventPublisher eventPublisher;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
-     * * 角色 服务实现类
+     * 角色 服务实现类
      *
      * @param pageParams 角色分页查询page对象
      * @param dto        角色分页查询对象
@@ -95,7 +84,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @return 所有角色列表
      */
     @Override
-    @Cacheable(cacheNames = "role", key = "'roleList'", cacheManager = "cacheManagerWithMouth")
+    @Cacheable(cacheNames = CACHE_NAMES, key = "'roleList'", cacheManager = "cacheManagerWithMouth")
     public List<RoleVo> roleList() {
         return list().stream().map(role -> {
             RoleVo roleVo = new RoleVo();
@@ -152,11 +141,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     /**
      * 使用Excel更新角色列表
+     * 不做任何操作有需要让用户重新登录
      *
      * @param file Excel文件
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'roleList'", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
+    })
     public void updateRoleByFile(MultipartFile file) {
         if (file == null) {
             throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
@@ -177,7 +169,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @param dto 角色添加
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'roleList'", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
+    })
     public void addRole(@Valid RoleAddDto dto) {
         Role role = new Role();
         BeanUtils.copyProperties(dto, role);
@@ -185,15 +179,39 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     /**
-     * 更新角色
+     * 更新角色信息及关联用户缓存
      *
-     * @param dto 角色更新
+     * <p><b>功能说明</b>：</p>
+     * <ol>
+     *   <li>更新角色基础信息</li>
+     *   <li>触发关联用户权限信息更新（通过事件机制异步处理）</li>
+     *   <li>清理相关缓存数据</li>
+     * </ol>
+     *
+     * <p><b>处理流程</b>：</p>
+     * <ol>
+     *   <li>校验角色是否存在</li>
+     *   <li>更新角色实体信息</li>
+     *   <li>清理角色列表和用户角色列表缓存</li>
+     * </ol>
+     *
+     * <p><b>注意事项</b>：</p>
+     * <ul>
+     *   <li>使用 {@code @CacheEvict} 在方法执行前清理缓存，保证数据一致性</li>
+     *   <li>通过事件机制解耦用户权限更新操作，提高响应速度</li>
+     * </ul>
+     *
+     * @param dto 角色更新数据传输对象，包含角色ID和更新字段
+     * @throws AuthCustomerException 当指定角色不存在时抛出（错误码：DATA_NOT_EXIST）
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'roleList'", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
+    })
     public void updateRole(@Valid RoleUpdateDto dto) {
         // 查询更新的角色是否存在
-        List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, dto.getId()));
+        Long roleId = dto.getId();
+        List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, roleId));
         if (roleList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 更新内容
@@ -201,37 +219,29 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         BeanUtils.copyProperties(dto, role);
         updateById(role);
 
-        // 找到所有和当前更新角色相同的用户，并更新Redis中用户信息
-        List<Long> userIds = userRoleMapper.selectList(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getRoleId, dto.getId()))
-                .stream().map(UserRole::getUserId).toList();
-        // TODO 1
-        // roleUtil.updateUserRedisInfo(userIds);
         // 发布角色更新事件
-        eventPublisher.publishEvent(new RoleUpdatedEvent(this, dto.getId()));
+        List<Long> ids = List.of(roleId);
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByRoleIdsEvent(this, ids));
     }
-
 
     /**
      * 删除|批量删除角色
+     * 做的物理删除，已经将角色路由、角色权限做了外键
      *
      * @param ids 删除id列表
      */
     @Override
-    @CacheEvict(cacheNames = "role", key = "'roleList'", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
+    })
     public void deleteRole(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
+        // 重新构建角色和用户缓存
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByRoleIdsEvent(this, ids));
+
         // 删除角色
         removeByIds(ids);
-
-        // 删除角色权限相关
-        rolePermissionMapper.deleteBatchRoleIds(ids);
-
-        // 删除角色和用户相关
-        userRoleMapper.deleteBatchIdsByRoleIds(ids);
-
-        // 删除角色和路由相关
-        routerRoleMapper.deleteBatchIdsByRoleIds(ids);
     }
 }

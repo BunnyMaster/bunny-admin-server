@@ -1,9 +1,8 @@
 package cn.bunny.services.controller.system;
 
-import cn.bunny.services.domain.common.model.vo.LoginVo;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
@@ -91,13 +90,13 @@ public class UserController {
 
     @Operation(summary = "已登录用户", description = "查询缓存中已登录用户", tags = "user::query")
     @GetMapping("getCacheUserPage/{page}/{limit}")
-    public Result<PageResult<LoginVo>> getCacheUserPage(
+    public Result<PageResult<UserVo>> getCacheUserPage(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,
             @Parameter(name = "limit", description = "每页记录数", required = true)
             @PathVariable("limit") Integer limit) {
         Page<AdminUser> pageParams = new Page<>(page, limit);
-        PageResult<LoginVo> pageResult = userService.getCacheUserPage(pageParams);
+        PageResult<UserVo> pageResult = userService.getCacheUserPage(pageParams);
         return Result.success(pageResult);
     }
 

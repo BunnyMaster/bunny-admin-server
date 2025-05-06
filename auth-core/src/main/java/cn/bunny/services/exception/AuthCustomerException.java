@@ -1,6 +1,6 @@
 package cn.bunny.services.exception;
 
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

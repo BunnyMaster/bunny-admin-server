@@ -10,7 +10,7 @@ import cn.bunny.services.domain.system.files.vo.FileInfoVo;
 import cn.bunny.services.domain.system.files.vo.FilesVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.system.FilesService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;

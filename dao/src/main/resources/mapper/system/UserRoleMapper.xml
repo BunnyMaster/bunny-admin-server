@@ -39,4 +39,12 @@
         </foreach>
     </delete>
 
+    <!-- 根据角色id列表查询 -->
+    <select id="selectListByRoleIds" resultType="cn.bunny.services.domain.system.system.entity.UserRole">
+        SELECT * FROM sys_user_role WHERE role_id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

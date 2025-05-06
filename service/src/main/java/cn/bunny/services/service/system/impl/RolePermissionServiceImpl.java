@@ -1,5 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.services.core.event.event.UpdateUserinfoByRoleIdsEvent;
 import cn.bunny.services.domain.system.system.dto.AssignPowersToRoleDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.entity.RolePermission;
@@ -8,10 +9,10 @@ import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RolePermissionService;
-import cn.bunny.services.service.system.helper.role.RoleHelper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,10 +34,10 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     private UserMapper userMapper;
 
     @Resource
-    private RoleHelper roleHelper;
+    private UserRoleMapper userRoleMapper;
 
     @Resource
-    private UserRoleMapper userRoleMapper;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * * 根据角色id获取权限内容
@@ -46,14 +47,14 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
      */
     @Override
     public List<String> getPermissionListByRoleId(Long id) {
-        List<RolePermission> rolePermissionList = baseMapper.selectPowerListByRoleId(id);
+        List<RolePermission> rolePermissionList = baseMapper.selectRolePermissionListByRoleId(id);
         return rolePermissionList.stream()
                 .map(rolePermission -> rolePermission.getPowerId().toString())
                 .toList();
     }
 
     /**
-     * * 为角色分配权限
+     * 为角色分配权限
      *
      * @param dto 为角色分配权限表单
      */
@@ -63,7 +64,8 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
         Long roleId = dto.getRoleId();
 
         // 删除这个角色下所有权限
-        baseMapper.deleteBatchRoleIds(List.of(roleId));
+        List<Long> ids = List.of(roleId);
+        baseMapper.deleteBatchRoleIds(ids);
 
         // 保存分配数据
         List<RolePermission> rolePermissionList = powerIds.stream().map(powerId -> {
@@ -84,8 +86,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
         // 用户为空时不更新Redis的key
         if (adminUsers.isEmpty()) return;
 
-        // 更新Redis中用户信息
-        List<Long> userIds = adminUsers.stream().map(AdminUser::getId).toList();
-        roleHelper.updateUserRedisInfo(userIds);
+        // 更新角色绑定的用户
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByRoleIdsEvent(this, ids));
     }
 }

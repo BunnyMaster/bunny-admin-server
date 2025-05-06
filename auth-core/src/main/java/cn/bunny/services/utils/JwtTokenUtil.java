@@ -1,6 +1,6 @@
 package cn.bunny.services.utils;
 
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

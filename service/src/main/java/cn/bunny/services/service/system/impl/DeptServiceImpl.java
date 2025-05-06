@@ -1,12 +1,12 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.system.system.dto.dept.DeptAddDto;
 import cn.bunny.services.domain.system.system.dto.dept.DeptDto;
 import cn.bunny.services.domain.system.system.dto.dept.DeptUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Dept;
 import cn.bunny.services.domain.system.system.vo.DeptVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.DeptMapper;
 import cn.bunny.services.mapper.system.UserDeptMapper;
@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements DeptService {
+    private static final String CACHE_NAMES = "dept";
 
     @Resource
     private UserDeptMapper userDeptMapper;
@@ -64,7 +65,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      * @return 所有部门列表
      */
     @Override
-    @Cacheable(cacheNames = "dept", key = "'deptList'", cacheManager = "cacheManagerWithMouth")
+    @Cacheable(cacheNames = CACHE_NAMES, key = "'deptList'", cacheManager = "cacheManagerWithMouth")
     public List<DeptVo> getDeptPage() {
         return list().stream().map(dept -> {
             DeptVo deptVo = new DeptVo();
@@ -79,7 +80,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      * @param dto 部门添加
      */
     @Override
-    @CacheEvict(cacheNames = "dept", key = "'deptList'", beforeInvocation = true)
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'deptList'", beforeInvocation = true)
     public void addDept(DeptAddDto dto) {
         // 整理管理者人员
         String mangerList = dto.getManager().stream().map(String::trim).collect(Collectors.joining(","));
@@ -98,7 +99,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      * @param dto 部门更新
      */
     @Override
-    @CacheEvict(cacheNames = "dept", key = "'deptList'", beforeInvocation = true)
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'deptList'", beforeInvocation = true)
     public void updateDept(DeptUpdateDto dto) {
         if (dto.getId().equals(dto.getParentId())) throw new AuthCustomerException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
 
@@ -119,7 +120,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      * @param ids 删除id列表
      */
     @Override
-    @CacheEvict(cacheNames = "dept", key = "'deptList'", beforeInvocation = true)
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'deptList'", beforeInvocation = true)
     public void deleteDept(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);

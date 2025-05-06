@@ -43,7 +43,7 @@
         <velocity-tools.version>3.1</velocity-tools.version>
         <HikariCP.version>6.2.1</HikariCP.version>
         <dynamic.datasource.version>4.3.1</dynamic.datasource.version>
-        <jackson-dataType.version>2.12.3</jackson-dataType.version>
+        <jackson-dataType.version>2.19.0</jackson-dataType.version>
         <quartz-scheduler.version>2.3.2</quartz-scheduler.version>
     </properties>
 

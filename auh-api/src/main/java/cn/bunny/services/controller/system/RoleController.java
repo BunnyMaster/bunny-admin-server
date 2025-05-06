@@ -7,7 +7,7 @@ import cn.bunny.services.domain.system.system.entity.Role;
 import cn.bunny.services.domain.system.system.vo.RoleVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.system.RoleService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;

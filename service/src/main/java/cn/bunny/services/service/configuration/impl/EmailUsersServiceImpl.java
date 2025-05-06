@@ -6,7 +6,7 @@ import cn.bunny.services.domain.system.email.dto.EmailUsersUpdateDto;
 import cn.bunny.services.domain.system.email.entity.EmailUsers;
 import cn.bunny.services.domain.system.email.vo.EmailUsersVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailUsersMapper;
 import cn.bunny.services.service.configuration.EmailUsersService;

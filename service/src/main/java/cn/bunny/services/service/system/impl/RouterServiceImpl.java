@@ -1,6 +1,7 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.core.utils.RouterServiceHelper;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.router.RouterAddDto;
 import cn.bunny.services.domain.system.system.dto.router.RouterUpdateDto;
 import cn.bunny.services.domain.system.system.entity.router.Router;
@@ -16,12 +17,13 @@ import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.RouterMapper;
 import cn.bunny.services.mapper.system.RouterRoleMapper;
 import cn.bunny.services.service.system.RouterService;
-import cn.bunny.services.service.system.helper.RouterHelper;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -43,12 +45,13 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> implements RouterService {
+    private static final String CACHE_NAMES = "router";
 
     @Resource
     private RouterRoleMapper routerRoleMapper;
 
     @Resource
-    private RouterHelper routerHelper;
+    private RouterServiceHelper routerServiceHelper;
 
     @Resource
     private RolePermissionMapper rolePermissionMapper;
@@ -75,13 +78,13 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
                 .collect(Collectors.groupingBy(ViewRolePermission::getRoleId, Collectors.toList()));
 
         // 整理web用户所能看到的路由列表，并检查当前用户是否是admin
-        List<WebUserRouterVo> webUserRouterVoList = routerHelper.getWebUserRouterVos(routerList, routerRoleList, rolePermissionList);
+        List<WebUserRouterVo> webUserRouterVoList = routerServiceHelper.getWebUserRouterVos(routerList, routerRoleList, rolePermissionList);
 
         // 添加 admin 管理路由权限
         webUserRouterVoList.forEach(routerVo -> {
             // 递归添加路由节点
             if (routerVo.getParentId() == 0) {
-                routerVo.setChildren(routerHelper.buildTreeSetChildren(routerVo.getId(), webUserRouterVoList));
+                routerVo.setChildren(routerServiceHelper.buildTreeSetChildren(routerVo.getId(), webUserRouterVoList));
                 voList.add(routerVo);
             }
         });
@@ -95,6 +98,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      * @return 系统菜单表
      */
     @Override
+    @Cacheable(cacheNames = CACHE_NAMES, key = "'routerList'", cacheManager = "cacheManagerWithMouth")
     public List<RouterManageVo> routerList() {
         // 查询菜单路由
         List<RouterVo> routerList = baseMapper.selectRouterList();
@@ -124,11 +128,12 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     }
 
     /**
-     * * 添加路由菜单
+     * 添加路由菜单
      *
      * @param dto 添加菜单表单
      */
     @Override
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
     public void addRouter(RouterAddDto dto) {
         // 添加路由
         Router router = new Router();
@@ -141,7 +146,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
         // 将数据提出role 和 power 存储到数据库
         Long id = router.getId();
-        routerHelper.insertRouterRoleAndPermission(meta, id);
+        routerServiceHelper.insertRouterRoleAndPermission(meta, id);
 
         // 添加路由
         save(router);
@@ -154,6 +159,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      * @param dto 更新表单
      */
     @Override
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
     public void updateRouter(RouterUpdateDto dto) {
         // 更新路由
         Router router = new Router();
@@ -169,7 +175,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         routerRoleMapper.deleteBatchIdsByRouterIds(List.of(id));
 
         // 将数据提出role 和 power 存储到数据库
-        routerHelper.insertRouterRoleAndPermission(meta, id);
+        routerServiceHelper.insertRouterRoleAndPermission(meta, id);
 
         // 更新路由信息
         updateById(router);
@@ -181,6 +187,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      * @param ids 删除id列表
      */
     @Override
+    @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
     public void deletedRouterByIds(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);

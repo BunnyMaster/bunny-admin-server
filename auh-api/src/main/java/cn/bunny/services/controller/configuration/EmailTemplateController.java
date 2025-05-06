@@ -1,13 +1,13 @@
 package cn.bunny.services.controller.configuration;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.email.dto.EmailTemplateAddDto;
 import cn.bunny.services.domain.system.email.dto.EmailTemplateDto;
 import cn.bunny.services.domain.system.email.dto.EmailTemplateUpdateDto;
 import cn.bunny.services.domain.system.email.entity.EmailTemplate;
 import cn.bunny.services.domain.system.email.vo.EmailTemplateVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.service.configuration.EmailTemplateService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,7 +71,7 @@ public class EmailTemplateController {
     }
 
     @Operation(summary = "全部邮件类型列表", description = "获取全部邮件类型列表", tags = "emailTemplate::query")
-    @GetMapping("public")
+    @GetMapping("private")
     public Result<List<Map<String, String>>> getEmailTypeList() {
         List<Map<String, String>> list = emailTemplateService.getEmailTypeList();
         return Result.success(list);

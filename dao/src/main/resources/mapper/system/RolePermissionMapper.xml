@@ -24,7 +24,7 @@
         delete
         from sys_role_permission
         where power_id in
-        <foreach collection="powerIds" item="id" open="(" close=")" separator=",">
+        <foreach collection="permissionIds" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
     </delete>
@@ -40,7 +40,8 @@
     </delete>
 
     <!-- 根据角色id获取权限内容 -->
-    <select id="selectPowerListByRoleId" resultType="cn.bunny.services.domain.system.system.entity.RolePermission">
+    <select id="selectRolePermissionListByRoleId"
+            resultType="cn.bunny.services.domain.system.system.entity.RolePermission">
         select *
         from sys_role_permission
         where role_id = #{roleId}
@@ -59,6 +60,16 @@
         FROM sys_role_permission rp
                  LEFT JOIN sys_role role ON rp.role_id = role.id
                  LEFT JOIN sys_permission permission ON rp.power_id = permission.id
+    </select>
+
+    <!-- 根据权限id列表查询角色和权限 -->
+    <select id="selectRolePermissionListByPermissionIds"
+            resultType="cn.bunny.services.domain.system.system.entity.RolePermission">
+        SELECT * FROM
+        sys_role_permission WHERE power_id IN
+        <foreach collection="permissionIds" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
     </select>
 
 </mapper>

@@ -1,6 +1,5 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
@@ -81,5 +80,5 @@ public interface UserService extends IService<AdminUser> {
      * @param pageParams 分页查询
      * @return 分页查询结果
      */
-    PageResult<LoginVo> getCacheUserPage(Page<AdminUser> pageParams);
+    PageResult<UserVo> getCacheUserPage(Page<AdminUser> pageParams);
 }

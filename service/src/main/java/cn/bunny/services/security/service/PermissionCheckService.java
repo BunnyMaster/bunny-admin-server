@@ -1,12 +1,11 @@
 package cn.bunny.services.security.service;
 
 import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.core.cache.UserAuthorizationCacheService;
+import cn.bunny.services.core.utils.RoleHelper;
 import cn.bunny.services.domain.system.system.entity.Permission;
 import cn.bunny.services.domain.system.system.entity.Role;
-import cn.bunny.services.mapper.system.PermissionMapper;
-import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.security.config.WebSecurityConfig;
-import cn.bunny.services.service.system.helper.role.RoleHelper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -23,10 +22,7 @@ import java.util.Objects;
 public class PermissionCheckService {
 
     @Resource
-    private PermissionMapper permissionMapper;
-
-    @Resource
-    private RoleMapper roleMapper;
+    private UserAuthorizationCacheService authorizationCacheService;
 
     /**
      * 查询用户所属的角色信息
@@ -38,7 +34,9 @@ public class PermissionCheckService {
 
         // 根据用户ID查询角色数据
         Long userId = BaseContext.getUserId();
-        List<Role> roleList = roleMapper.selectListByUserId(userId);
+        String username = BaseContext.getUsername();
+        // List<Role> roleList = roleMapper.selectListByUserId(userId);
+        List<Role> roleList = authorizationCacheService.getRolesByUser(userId, username);
 
         // 角色代码
         List<String> roleCodeList = roleList.stream().map(Role::getRoleCode).toList();
@@ -54,7 +52,8 @@ public class PermissionCheckService {
         }
 
         // 根据角色列表查询权限信息
-        List<Permission> permissionList = permissionMapper.selectListByUserId(userId);
+        // List<Permission> permissionList = permissionMapper.selectListByUserId(userId);
+        List<Permission> permissionList = authorizationCacheService.getPermissionsByUser(userId, username);
 
         // 判断是否与请求路径匹配
         return permissionList.stream()

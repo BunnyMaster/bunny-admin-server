@@ -7,7 +7,7 @@ import cn.bunny.services.domain.system.email.entity.EmailTemplate;
 import cn.bunny.services.domain.system.email.vo.EmailTemplateVo;
 import cn.bunny.services.domain.common.enums.EmailTemplateEnums;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import cn.bunny.services.service.configuration.EmailTemplateService;

@@ -3,7 +3,7 @@ package cn.bunny.services.service.configuration.impl;
 import cn.bunny.services.domain.system.configuration.dto.WebConfigurationDto;
 import cn.bunny.services.domain.system.configuration.entity.WebConfiguration;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.service.configuration.ConfigurationService;
 import com.alibaba.fastjson2.JSON;

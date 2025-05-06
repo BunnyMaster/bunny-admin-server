@@ -21,9 +21,9 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
     /**
      * * 根据权限id列表删除角色权限相关
      *
-     * @param powerIds 权限id列表
+     * @param permissionIds 权限id列表
      */
-    void deleteBatchPowerIds(List<Long> powerIds);
+    void deleteBatchPowerIds(List<Long> permissionIds);
 
     /**
      * * 根据角色id删除角色权限
@@ -38,7 +38,7 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
      * @param roleId 角色id
      * @return 已选择的权限列表
      */
-    List<RolePermission> selectPowerListByRoleId(Long roleId);
+    List<RolePermission> selectRolePermissionListByRoleId(Long roleId);
 
     /**
      * 查看所有角色关联的权限
@@ -46,4 +46,12 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
      * @return 角色权限关系视图
      */
     List<ViewRolePermission> viewRolePowerWithAll();
+
+    /**
+     * 根据权限id列表查询角色和权限
+     *
+     * @param permissionIds 权限id列表
+     * @return List<RolePermission>
+     */
+    List<RolePermission> selectRolePermissionListByPermissionIds(List<Long> permissionIds);
 }

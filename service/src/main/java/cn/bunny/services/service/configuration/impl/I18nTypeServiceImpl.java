@@ -1,17 +1,20 @@
 package cn.bunny.services.service.configuration.impl;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.i18n.dto.I18nTypeAddDto;
 import cn.bunny.services.domain.system.i18n.dto.I18nTypeDto;
 import cn.bunny.services.domain.system.i18n.dto.I18nTypeUpdateDto;
 import cn.bunny.services.domain.system.i18n.entity.I18nType;
 import cn.bunny.services.domain.system.i18n.vo.I18nTypeVo;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nTypeService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,7 @@ import java.util.List;
 @Service
 @Transactional
 public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> implements I18nTypeService {
+    private static final String CACHE_NAMES = "i18n";
 
     /**
      * 获取多语言类型
@@ -35,6 +39,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
      * @return 多语言类型列表
      */
     @Override
+    @Cacheable(cacheNames = CACHE_NAMES, key = "'i18nTypeList'", cacheManager = "cacheManagerWithMouth")
     public List<I18nTypeVo> getI18nTypeList(I18nTypeDto dto) {
         List<I18nType> i18nTypeList = baseMapper.selectListByPage(dto);
         return i18nTypeList.stream().map(i18nType -> {
@@ -50,6 +55,10 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
      * @param dto 多语言类型添加
      */
     @Override
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true),
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nTypeList'", beforeInvocation = true),
+    })
     public void addI18nType(I18nTypeAddDto dto) {
         String typeName = dto.getTypeName();
         Boolean isDefault = dto.getIsDefault();
@@ -77,14 +86,18 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
      * @param dto 多语言类型更新
      */
     @Override
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true),
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nTypeList'", beforeInvocation = true),
+    })
     public void updateI18nType(I18nTypeUpdateDto dto) {
         Long id = dto.getId();
         Boolean isDefault = dto.getIsDefault();
         I18nType i18nType = new I18nType();
 
         // 查询更新的内容是否存在
-        List<I18nType> i18nTypeList = list(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getId, id));
-        if (i18nTypeList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
+        I18nType dbI18nType = getOne(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getId, id));
+        if (dbI18nType == null) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 如果是默认，将其它内容设为false
         if (isDefault) {
@@ -104,6 +117,10 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
      * @param ids 删除id列表
      */
     @Override
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true),
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nTypeList'", beforeInvocation = true),
+    })
     public void deleteI18nType(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);

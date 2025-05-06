@@ -1,21 +1,23 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.services.core.event.event.UpdateUserinfoByPermissionIdsEvent;
+import cn.bunny.services.core.event.listener.excel.PermissionExcelListener;
+import cn.bunny.services.core.strategy.export.ExcelExportStrategy;
+import cn.bunny.services.core.strategy.export.JsonExportStrategy;
+import cn.bunny.services.core.template.PermissionTreeProcessor;
 import cn.bunny.services.domain.common.constant.FileType;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.PermissionExcel;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.power.PermissionAddDto;
 import cn.bunny.services.domain.system.system.dto.power.PermissionDto;
 import cn.bunny.services.domain.system.system.dto.power.PermissionUpdateBatchByParentIdDto;
 import cn.bunny.services.domain.system.system.dto.power.PermissionUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Permission;
 import cn.bunny.services.domain.system.system.vo.PermissionVo;
-import cn.bunny.services.excel.PermissionExcelListener;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.PermissionMapper;
-import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.service.system.PermissionService;
-import cn.bunny.services.service.system.helper.PermissionHelper;
 import cn.bunny.services.utils.FileUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson2.JSON;
@@ -29,6 +31,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +45,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipOutputStream;
@@ -56,9 +61,31 @@ import java.util.zip.ZipOutputStream;
 @Service
 @Transactional
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
+    private static final String CACHE_NAMES = "permission";
 
     @Resource
-    private RolePermissionMapper rolePermissionMapper;
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    /**
+     * 将树形结构权限数据扁平化为列表
+     *
+     * <p>使用递归处理树形结构</p>
+     *
+     * @param list 树形结构的权限列表，每个节点可能包含children子节点
+     * @return 扁平化后的权限列表（
+     */
+    public static List<PermissionExcel> flattenTree(List<PermissionExcel> list) {
+        List<PermissionExcel> result = new ArrayList<>();
+
+        for (PermissionExcel node : list) {
+            result.add(node);
+            if (node.getChildren() != null && !node.getChildren().isEmpty()) {
+                result.addAll(flattenTree(node.getChildren()));
+            }
+        }
+
+        return result;
+    }
 
     /**
      * * 权限 服务实现类
@@ -80,12 +107,12 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     /**
-     * * 获取所有权限
+     * 获取所有权限
      *
      * @return 所有权限列表
      */
     @Override
-    @Cacheable(cacheNames = "permission", key = "'permissionList'", cacheManager = "cacheManagerWithMouth")
+    @Cacheable(cacheNames = CACHE_NAMES, key = "'permissionList'", cacheManager = "cacheManagerWithMouth")
     public List<PermissionVo> getPermissionList() {
         List<Permission> permissionList = list();
         return permissionList.stream().map(power -> {
@@ -101,7 +128,9 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
      * @param dto 权限添加
      */
     @Override
-    @CacheEvict(cacheNames = "permission", key = "'permissionList'", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
+    })
     public void addPermission(@Valid PermissionAddDto dto) {
         Permission permission = new Permission();
         BeanUtils.copyProperties(dto, permission);
@@ -114,7 +143,9 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
      * @param dto 权限更新
      */
     @Override
-    @CacheEvict(cacheNames = "permission", key = "'permissionList'", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
+    })
     public void updatePermission(@Valid PermissionUpdateDto dto) {
         Long id = dto.getId();
         List<Permission> permissionList = list(Wrappers.<Permission>lambdaQuery().eq(Permission::getId, id));
@@ -125,40 +156,52 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         Permission permission = new Permission();
         BeanUtils.copyProperties(dto, permission);
         updateById(permission);
+
+        List<Long> ids = List.of(dto.getId());
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByPermissionIdsEvent(this, ids));
     }
 
     /**
      * 删除|批量删除权限
+     * 使用物理删除，数据库中设置了外键检查，会自动删除角色权限关联表中的内容
      *
      * @param ids 删除id列表
      */
     @Override
-    @CacheEvict(cacheNames = "permission", key = "'permissionList'", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
+    })
     public void deletePermission(List<Long> ids) {
         // 判断数据请求是否为空
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
+        // 删除缓存中所有这个权限关联的用户，角色和权限信息
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByPermissionIdsEvent(this, ids));
+
         // 删除权限
         removeByIds(ids);
-
-        // 删除角色部门相关
-        rolePermissionMapper.deleteBatchPowerIds(ids);
     }
 
     /**
-     * * 批量修改权限父级
+     * 批量修改权限父级
      *
      * @param dto 批量修改权限表单
      */
     @Override
-    @CacheEvict(cacheNames = "permission", key = "'permissionList'", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
+    })
     public void updatePermissionListByParentId(PermissionUpdateBatchByParentIdDto dto) {
-        List<Permission> permissionList = dto.getIds().stream().map(id -> {
+        List<Long> ids = dto.getIds();
+        List<Permission> permissionList = ids.stream().map(id -> {
             Permission permission = new Permission();
             permission.setId(id);
             permission.setParentId(dto.getParentId());
             return permission;
         }).toList();
+
+        // 删除缓存中所有这个权限关联的用户，角色和权限信息
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByPermissionIdsEvent(this, ids));
 
         updateBatchById(permissionList);
     }
@@ -178,7 +221,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         String filename = "permission-" + dateFormat;
 
         // 权限列表
-
         List<PermissionExcel> permissionExcelList = list().stream().map(permission -> {
             PermissionExcel permissionExcel = new PermissionExcel();
             BeanUtils.copyProperties(permission, permissionExcel);
@@ -187,19 +229,21 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         }).toList();
 
         // 构建树型结构
-        List<PermissionExcel> buildTree = PermissionHelper.buildTree(permissionExcelList);
+        PermissionTreeProcessor permissionTreeProcessor = new PermissionTreeProcessor();
+        List<PermissionExcel> buildTree = permissionTreeProcessor.process(permissionExcelList);
 
         // 创建btye输出流
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         // Zip写入流
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
-
             // 判断导出类型是什么
             if (type.equals(FileType.EXCEL)) {
-                PermissionHelper.writExcel(permissionExcelList, zipOutputStream, filename + ".xlsx");
+                ExcelExportStrategy excelExportStrategy = new ExcelExportStrategy(PermissionExcel.class, "permission");
+                excelExportStrategy.export(permissionExcelList, zipOutputStream, filename + ".xlsx");
             } else {
-                PermissionHelper.writeJson(buildTree, zipOutputStream, filename + ".json");
+                JsonExportStrategy jsonExportStrategy = new JsonExportStrategy();
+                jsonExportStrategy.export(buildTree, zipOutputStream, filename + ".json");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -213,12 +257,15 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
     /**
      * 导入权限
+     * 不做任何操作，如果有需要清除所有权限id，或者让用户手动重新登录
      *
      * @param file 导入的Excel
      * @param type 导出类型
      */
     @Override
-    @CacheEvict(cacheNames = "permission", key = "'permissionList'", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
+    })
     public void importPermission(MultipartFile file, String type) {
         if (file == null) {
             throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
@@ -235,7 +282,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
                 List<PermissionExcel> list = JSON.parseObject(json, new TypeReference<>() {
                 });
                 // 格式化数据，保存到数据库
-                List<PermissionExcel> flattenedTree = PermissionHelper.flattenTree(list);
+                List<PermissionExcel> flattenedTree = flattenTree(list);
                 List<Permission> permissionList = flattenedTree.stream().map(permissionExcel -> {
                     Permission permission = new Permission();
                     BeanUtils.copyProperties(permissionExcel, permission);
@@ -264,5 +311,10 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
                     return permission;
                 }).toList();
         saveOrUpdateBatch(permissionList);
+
+
+        // 删除缓存中所有这个权限关联的用户，角色和权限信息
+        List<Long> ids = list.stream().map(PermissionUpdateDto::getId).toList();
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByPermissionIdsEvent(this, ids));
     }
 }
