@@ -1,10 +1,10 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.core.excel.PermissionExcelListener;
+import cn.bunny.services.core.event.event.UpdateUserinfoByPermissionIdsEvent;
+import cn.bunny.services.core.event.listener.excel.PermissionExcelListener;
 import cn.bunny.services.core.strategy.export.ExcelExportStrategy;
 import cn.bunny.services.core.strategy.export.JsonExportStrategy;
 import cn.bunny.services.core.template.PermissionTreeProcessor;
-import cn.bunny.services.core.utils.UserServiceHelper;
 import cn.bunny.services.domain.common.constant.FileType;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.PermissionExcel;
@@ -32,6 +32,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +64,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     private static final String CACHE_NAMES = "permission";
 
     @Resource
-    private UserServiceHelper userServiceHelper;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * 将树形结构权限数据扁平化为列表
@@ -156,7 +157,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         BeanUtils.copyProperties(dto, permission);
         updateById(permission);
 
-        userServiceHelper.updateBatchUserRedisInfoByPermissionId(List.of(dto.getId()));
+        List<Long> ids = List.of(dto.getId());
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByPermissionIdsEvent(this, ids));
     }
 
     /**
@@ -174,7 +176,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 删除缓存中所有这个权限关联的用户，角色和权限信息
-        userServiceHelper.updateBatchUserRedisInfoByPermissionId(ids);
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByPermissionIdsEvent(this, ids));
 
         // 删除权限
         removeByIds(ids);
@@ -190,7 +192,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
     })
     public void updatePermissionListByParentId(PermissionUpdateBatchByParentIdDto dto) {
-        List<Permission> permissionList = dto.getIds().stream().map(id -> {
+        List<Long> ids = dto.getIds();
+        List<Permission> permissionList = ids.stream().map(id -> {
             Permission permission = new Permission();
             permission.setId(id);
             permission.setParentId(dto.getParentId());
@@ -198,7 +201,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         }).toList();
 
         // 删除缓存中所有这个权限关联的用户，角色和权限信息
-        userServiceHelper.updateBatchUserRedisInfoByPermissionId(dto.getIds());
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByPermissionIdsEvent(this, ids));
 
         updateBatchById(permissionList);
     }
@@ -312,6 +315,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
         // 删除缓存中所有这个权限关联的用户，角色和权限信息
         List<Long> ids = list.stream().map(PermissionUpdateDto::getId).toList();
-        userServiceHelper.updateBatchUserRedisInfoByPermissionId(ids);
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByPermissionIdsEvent(this, ids));
     }
 }

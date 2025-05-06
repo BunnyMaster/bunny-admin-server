@@ -1,4 +1,4 @@
-package cn.bunny.services.core.excel;
+package cn.bunny.services.core.event.listener.excel;
 
 import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
 import cn.bunny.services.domain.system.i18n.entity.I18n;

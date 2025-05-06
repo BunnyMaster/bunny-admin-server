@@ -1,7 +1,7 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.core.excel.RoleExcelListener;
-import cn.bunny.services.core.utils.UserServiceHelper;
+import cn.bunny.services.core.event.event.UpdateUserinfoByRoleIdsEvent;
+import cn.bunny.services.core.event.listener.excel.RoleExcelListener;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.RoleExcel;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
@@ -12,9 +12,6 @@ import cn.bunny.services.domain.system.system.entity.Role;
 import cn.bunny.services.domain.system.system.vo.RoleVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.RoleMapper;
-import cn.bunny.services.mapper.system.RolePermissionMapper;
-import cn.bunny.services.mapper.system.RouterRoleMapper;
-import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RoleService;
 import cn.bunny.services.utils.FileUtil;
 import com.alibaba.excel.EasyExcel;
@@ -28,6 +25,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,16 +57,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private static final String CACHE_NAMES = "role";
 
     @Resource
-    private UserRoleMapper userRoleMapper;
-
-    @Resource
-    private RolePermissionMapper rolePermissionMapper;
-
-    @Resource
-    private RouterRoleMapper routerRoleMapper;
-
-    @Resource
-    private UserServiceHelper userServiceHelper;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * 角色 服务实现类
@@ -231,7 +220,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         updateById(role);
 
         // 发布角色更新事件
-        userServiceHelper.updateBatchUserRedisInfoByRoleId(List.of(roleId));
+        List<Long> ids = List.of(roleId);
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByRoleIdsEvent(this, ids));
     }
 
     /**
@@ -249,7 +239,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         if (ids.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
         // 重新构建角色和用户缓存
-        userServiceHelper.updateBatchUserRedisInfoByRoleId(ids);
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByRoleIdsEvent(this, ids));
 
         // 删除角色
         removeByIds(ids);

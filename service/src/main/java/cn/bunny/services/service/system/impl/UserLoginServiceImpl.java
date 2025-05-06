@@ -3,12 +3,12 @@ package cn.bunny.services.service.system.impl;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.core.cache.EmailCacheService;
 import cn.bunny.services.core.cache.UserLoginVoBuilderCacheService;
+import cn.bunny.services.core.event.event.ClearAllUserCacheEvent;
 import cn.bunny.services.core.strategy.login.DefaultLoginStrategy;
 import cn.bunny.services.core.strategy.login.EmailLoginStrategy;
 import cn.bunny.services.core.strategy.login.LoginContext;
 import cn.bunny.services.core.strategy.login.LoginStrategy;
 import cn.bunny.services.core.template.email.ConcreteSenderEmailTemplate;
-import cn.bunny.services.core.utils.UserServiceHelper;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.enums.EmailTemplateEnums;
@@ -16,6 +16,7 @@ import cn.bunny.services.domain.common.enums.LoginEnums;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.system.email.entity.EmailTemplate;
+import cn.bunny.services.domain.system.log.entity.UserLoginLog;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.dto.user.RefreshTokenDto;
@@ -23,6 +24,7 @@ import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
+import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.minio.MinioHelper;
 import cn.bunny.services.service.system.UserLoginService;
@@ -34,19 +36,20 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.HashMap;
 
 @Service
 public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> implements UserLoginService {
-
-    @Resource
-    private UserServiceHelper userServiceHelper;
 
     @Resource
     private PasswordEncoder passwordEncoder;
@@ -56,6 +59,9 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
 
     @Resource
     private EmailTemplateMapper emailTemplateMapper;
+
+    @Resource
+    private UserLoginLogMapper userLoginLogMapper;
 
     @Resource
     private ConcreteSenderEmailTemplate concreteSenderEmailTemplate;
@@ -70,7 +76,7 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
     private EmailCacheService emailCacheService;
 
     @Resource
-    private UserServiceHelper serviceHelper;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * 前台用户登录接口
@@ -131,7 +137,7 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         LoginVo loginVo = userLoginVoBuilderCacheService.buildLoginUserVo(user, readMeDay);
 
         // 将用户登录保存在用户登录日志表中
-        userServiceHelper.setUserLoginLog(user, loginVo.getToken(), UserConstant.LOGIN);
+        setUserLoginLog(user, loginVo.getToken(), UserConstant.LOGIN);
 
         return loginVo;
     }
@@ -225,12 +231,11 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         AdminUser adminUser = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
         adminUser.setIpAddress(ipAddr);
         adminUser.setIpRegion(ipRegion);
-        userServiceHelper.setUserLoginLog(adminUser, token, UserConstant.LOGOUT);
+        setUserLoginLog(adminUser, token, UserConstant.LOGOUT);
 
         // 删除Redis中用户信息
         String username = adminUser.getUsername();
-
-        serviceHelper.deleteUserCache(username);
+        applicationEventPublisher.publishEvent(new ClearAllUserCacheEvent(this, username));
     }
 
 
@@ -289,6 +294,48 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         updateById(adminUser);
 
         // 删除Redis中登录用户信息、角色、权限信息
-        serviceHelper.deleteUserCache(adminUser.getUsername());
+        String username = adminUser.getUsername();
+        applicationEventPublisher.publishEvent(new ClearAllUserCacheEvent(this, username));
+    }
+
+    /**
+     * 设置用户登录日志内容
+     * <p>
+     * 该方法用于将管理员用户信息复制到用户登录日志对象中，同时处理特殊字段映射关系。
+     * <p>
+     * 实现说明：
+     * 1. 使用BeanUtils.copyProperties()复制属性时，会自动将AdminUser.id复制到UserLoginLog.id
+     * 2. 由于UserLoginLog实际需要的是userId字段而非id字段，需要特殊处理：
+     * - 先进行属性复制
+     * - 然后将UserLoginLog.userId设置为AdminUser.id
+     * - 最后将UserLoginLog.id显式设为null（避免自动生成的id被覆盖）
+     *
+     * @param user  管理员用户实体对象，包含用户基本信息
+     * @param token 本次登录/退出的认证令牌
+     * @param type  操作类型（LOGIN-登录/LOGOUT-退出）
+     */
+    public void setUserLoginLog(AdminUser user, String token, String type) {
+        UserLoginLog userLoginLog = new UserLoginLog();
+        BeanUtils.copyProperties(user, userLoginLog);
+        userLoginLog.setUserId(user.getId());
+        userLoginLog.setId(null);
+        userLoginLog.setToken(token);
+        userLoginLog.setType(type);
+
+        // 当前请求request
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (requestAttributes != null) {
+            HttpServletRequest request = requestAttributes.getRequest();
+
+            // 获取User-Agent
+            String userAgent = request.getHeader("User-Agent");
+            userLoginLog.setUserAgent(userAgent);
+
+            // 获取X-Requested-With
+            String xRequestedWith = request.getHeader("X-Requested-With");
+            userLoginLog.setXRequestedWith(xRequestedWith);
+        }
+
+        userLoginLogMapper.insert(userLoginLog);
     }
 }

@@ -1,9 +1,10 @@
 package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.core.cache.RedisService;
-import cn.bunny.services.core.cache.UserCacheService;
-import cn.bunny.services.core.utils.UserServiceHelper;
+import cn.bunny.services.core.event.event.ClearAllUserCacheEvent;
+import cn.bunny.services.core.event.event.UpdateUserinfoByUserIdsEvent;
 import cn.bunny.services.domain.common.constant.MinioConstant;
+import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
@@ -29,6 +30,7 @@ import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.minio.MinioHelper;
 import cn.bunny.services.service.system.FilesService;
 import cn.bunny.services.service.system.UserService;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -37,6 +39,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,10 +85,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     private RedisService redisService;
 
     @Resource
-    private UserCacheService userCacheService;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Resource
-    private UserServiceHelper userServiceHelper;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * 获取用户信息
@@ -144,7 +148,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 删除Redis中用户信息
         String username = adminUser.getUsername();
-        userServiceHelper.deleteUserCache(username);
+        applicationEventPublisher.publishEvent(new ClearAllUserCacheEvent(this, username));
     }
 
     /**
@@ -189,7 +193,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         List<String> keys = redisService.scannerRedisKeyByPage(pageNum, pageSize);
 
         List<UserVo> list = keys.stream().map(key -> {
-            LoginVo loginVo = userCacheService.getLoginVoByUsername(key);
+            Object loginVoObject = redisTemplate.opsForValue().get(RedisUserConstant.getUserLoginInfoPrefix(key));
+            LoginVo loginVo = JSON.parseObject(JSON.toJSONString(loginVoObject), LoginVo.class);
 
             UserVo userVo = new UserVo();
             BeanUtils.copyProperties(loginVo, userVo);
@@ -305,7 +310,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         updateById(adminUser);
 
         // 同步到 Redis
-        userServiceHelper.updateUserRedisInfo(List.of(adminUser.getId()));
+        List<Long> ids = List.of(adminUser.getId());
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByUserIdsEvent(this, ids));
     }
 
     /**
@@ -324,11 +330,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (!roleList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.ADMIN_ROLE_CAN_NOT_DELETED);
 
         // 清除Redis中数据
-        List<AdminUser> adminUserList = list(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, ids));
-        adminUserList.parallelStream().forEach(adminUser -> {
-            String username = adminUser.getUsername();
-            userServiceHelper.deleteLoginUserCache(username);
-        });
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByUserIdsEvent(this, ids));
 
         // 删除部门相关
         userDeptMapper.deleteBatchIdsByUserIds(ids);

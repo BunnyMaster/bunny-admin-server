@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.core.utils.UserServiceHelper;
+import cn.bunny.services.core.event.event.UpdateUserinfoByUserIdsEvent;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.AssignRolesToUsersDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
@@ -12,6 +12,7 @@ import cn.bunny.services.service.system.UserRoleService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     private UserMapper userMapper;
 
     @Resource
-    private UserServiceHelper serviceHelper;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * * 根据用户id获取角色列表
@@ -69,7 +70,8 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         }
 
         // 删除这个用户下所有已经分配好的角色内容
-        baseMapper.deleteBatchIdsByUserIds(List.of(userId));
+        List<Long> ids = List.of(userId);
+        baseMapper.deleteBatchIdsByUserIds(ids);
 
         // 保存分配好的角色信息
         List<UserRole> roleList = roleIds.stream().map(roleId -> {
@@ -81,6 +83,6 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         saveBatch(roleList);
 
         // 重新设置Redis中的用户存储信息vo对象
-        serviceHelper.updateUserRedisInfo(List.of(userId));
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByUserIdsEvent(this, ids));
     }
 }

@@ -107,15 +107,4 @@ public class UserAuthorizationCacheService {
 
         return permissionList;
     }
-
-    /**
-     * 清除缓存
-     * 如有需要清除当前服务缓存
-     */
-    public void deleteRoleAndPermissionCache(String key) {
-        String permissionCodePrefix = RedisUserConstant.getUserPermissionCodePrefix(key);
-        String rolesCodePrefix = RedisUserConstant.getUserRolesCodePrefix(key);
-        redisTemplate.delete(permissionCodePrefix);
-        redisTemplate.delete(rolesCodePrefix);
-    }
 }

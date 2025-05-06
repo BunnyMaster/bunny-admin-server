@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.core.utils.UserServiceHelper;
+import cn.bunny.services.core.event.event.UpdateUserinfoByRoleIdsEvent;
 import cn.bunny.services.domain.system.system.dto.AssignPowersToRoleDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.entity.RolePermission;
@@ -12,6 +12,7 @@ import cn.bunny.services.service.system.RolePermissionService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     private UserRoleMapper userRoleMapper;
 
     @Resource
-    private UserServiceHelper userServiceHelper;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     /**
      * * 根据角色id获取权限内容
@@ -63,7 +64,8 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
         Long roleId = dto.getRoleId();
 
         // 删除这个角色下所有权限
-        baseMapper.deleteBatchRoleIds(List.of(roleId));
+        List<Long> ids = List.of(roleId);
+        baseMapper.deleteBatchRoleIds(ids);
 
         // 保存分配数据
         List<RolePermission> rolePermissionList = powerIds.stream().map(powerId -> {
@@ -85,6 +87,6 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
         if (adminUsers.isEmpty()) return;
 
         // 更新角色绑定的用户
-        userServiceHelper.updateBatchUserRedisInfoByRoleId(List.of(roleId));
+        applicationEventPublisher.publishEvent(new UpdateUserinfoByRoleIdsEvent(this, ids));
     }
 }
