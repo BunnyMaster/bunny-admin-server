@@ -1,5 +1,8 @@
 package cn.bunny.services.service.configuration.impl;
 
+import cn.bunny.services.core.excel.I18nExcelListener;
+import cn.bunny.services.core.strategy.export.ExcelExportStrategy;
+import cn.bunny.services.core.strategy.export.JsonExportStrategy;
 import cn.bunny.services.domain.common.constant.FileType;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
@@ -12,12 +15,10 @@ import cn.bunny.services.domain.system.i18n.dto.I18nUpdateDto;
 import cn.bunny.services.domain.system.i18n.entity.I18n;
 import cn.bunny.services.domain.system.i18n.entity.I18nType;
 import cn.bunny.services.domain.system.i18n.vo.I18nVo;
-import cn.bunny.services.excel.I18nExcelListener;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nMapper;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nService;
-import cn.bunny.services.service.configuration.helper.i18n.I18nHelper;
 import cn.bunny.services.utils.FileUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson2.JSON;
@@ -29,6 +30,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -47,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -77,7 +80,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
         I18nType i18nType = i18nTypeMapper.selectOne(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getIsDefault, true));
         List<I18n> i18nList = list();
 
-        HashMap<String, Object> hashMap = I18nHelper.getMapByI18nList(i18nList);
+        HashMap<String, Object> hashMap = getMapByI18nList(i18nList);
         hashMap.put("local", Objects.requireNonNull(i18nType.getTypeName(), "zh"));
 
         return hashMap;
@@ -164,18 +167,35 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
     @Override
     public ResponseEntity<byte[]> downloadI18n(String type) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
 
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
             // 查找默认语言内容
             List<I18n> i18nList = list();
 
             // 类型是Excel写入Excel
             if (type.equals(FileType.EXCEL)) {
-                I18nHelper.writeExcel(i18nList, zipOutputStream);
+                i18nList.stream()
+                        .collect(Collectors.groupingBy(
+                                I18n::getTypeName,
+                                Collectors.mapping((I18n i18n) -> {
+                                    String keyName = i18n.getKeyName();
+                                    String translation = i18n.getTranslation();
+                                    return I18nExcel.builder().keyName(keyName).translation(translation).build();
+                                }, Collectors.toList())
+                        ))
+                        .forEach((key, value) -> {
+                            ExcelExportStrategy excelExportStrategy = new ExcelExportStrategy(I18nExcel.class, key);
+                            excelExportStrategy.export(value, zipOutputStream, key + ".xlsx");
+                        });
             }
             // 其他格式写入JSON
             else {
-                I18nHelper.writeJson(i18nList, zipOutputStream);
+                HashMap<String, Object> hashMap = getMapByI18nList(i18nList);
+
+                hashMap.forEach((k, v) -> {
+                    JsonExportStrategy jsonExportStrategy = new JsonExportStrategy();
+                    jsonExportStrategy.export(v, zipOutputStream, k + ".json");
+                });
             }
 
             // 设置响应头
@@ -240,5 +260,33 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 将国际化资源列表转换为结构化Map
+     *
+     * <p>转换规则：</p>
+     * <ul>
+     *   <li>外层Key: 资源类型(typeName)</li>
+     *   <li>内层Key: 资源键名(keyName)</li>
+     *   <li>值: 翻译文本(translation)</li>
+     * </ul>
+     * <p>详细结构和结果示例看前端传递的 {@link I18nServiceImpl#getI18nMap} 控制器</p>
+     * <p>/api/i18n/public</p>
+     *
+     * @param i18nList 国际化资源列表
+     * @return 结构化Map {typeName: {keyName: translation}}
+     * @throws IllegalArgumentException 当参数为null时抛出
+     */
+    @NotNull
+    public HashMap<String, Object> getMapByI18nList(@NotNull List<I18n> i18nList) {
+        // 整理集合
+        Map<String, Map<String, String>> map = i18nList.stream()
+                .collect(Collectors.groupingBy(
+                        I18n::getTypeName,
+                        Collectors.toMap(I18n::getKeyName, I18n::getTranslation)));
+
+        // 返回集合
+        return new HashMap<>(map);
     }
 }

@@ -1,5 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.services.core.utils.UserServiceHelper;
 import cn.bunny.services.domain.system.system.dto.AssignPowersToRoleDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
 import cn.bunny.services.domain.system.system.entity.RolePermission;
@@ -8,7 +9,6 @@ import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import cn.bunny.services.service.system.RolePermissionService;
-import cn.bunny.services.service.system.helper.UserServiceHelper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;

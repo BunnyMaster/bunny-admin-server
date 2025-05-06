@@ -1,6 +1,6 @@
 package cn.bunny.services.security.service;
 
-import cn.bunny.services.cache.UserCacheService;
+import cn.bunny.services.core.cache.UserCacheService;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.security.TokenInfo;
 import cn.bunny.services.domain.common.model.vo.LoginVo;

@@ -1,8 +1,14 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.cache.EmailCacheService;
-import cn.bunny.services.cache.UserCacheService;
 import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.core.cache.EmailCacheService;
+import cn.bunny.services.core.cache.UserLoginVoBuilderCacheService;
+import cn.bunny.services.core.strategy.login.DefaultLoginStrategy;
+import cn.bunny.services.core.strategy.login.EmailLoginStrategy;
+import cn.bunny.services.core.strategy.login.LoginContext;
+import cn.bunny.services.core.strategy.login.LoginStrategy;
+import cn.bunny.services.core.template.email.ConcreteSenderEmailTemplate;
+import cn.bunny.services.core.utils.UserServiceHelper;
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.enums.EmailTemplateEnums;
@@ -19,13 +25,7 @@ import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.minio.MinioHelper;
-import cn.bunny.services.service.configuration.helper.email.ConcreteSenderEmailTemplate;
 import cn.bunny.services.service.system.UserLoginService;
-import cn.bunny.services.service.system.helper.UserServiceHelper;
-import cn.bunny.services.service.system.helper.login.DefaultLoginStrategy;
-import cn.bunny.services.service.system.helper.login.EmailLoginStrategy;
-import cn.bunny.services.service.system.helper.login.LoginContext;
-import cn.bunny.services.service.system.helper.login.LoginStrategy;
 import cn.bunny.services.utils.IpUtil;
 import cn.bunny.services.utils.JwtTokenUtil;
 import cn.hutool.captcha.CaptchaUtil;
@@ -64,10 +64,13 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
     private MinioHelper minioHelper;
 
     @Resource
-    private UserCacheService userCacheService;
+    private UserLoginVoBuilderCacheService userLoginVoBuilderCacheService;
 
     @Resource
     private EmailCacheService emailCacheService;
+
+    @Resource
+    private UserServiceHelper serviceHelper;
 
     /**
      * 前台用户登录接口
@@ -125,7 +128,7 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
 
         // 构建用户返回对象
         Long readMeDay = loginDto.getReadMeDay();
-        LoginVo loginVo = userCacheService.buildLoginUserVo(user, readMeDay);
+        LoginVo loginVo = userLoginVoBuilderCacheService.buildLoginUserVo(user, readMeDay);
 
         // 将用户登录保存在用户登录日志表中
         userServiceHelper.setUserLoginLog(user, loginVo.getToken(), UserConstant.LOGIN);
@@ -197,7 +200,7 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         if (adminUser.getStatus()) throw new AuthCustomerException(ResultCodeEnum.FAIL_NO_ACCESS_DENIED_USER_LOCKED);
 
         // 构建 LoginVo 对象
-        LoginVo loginVo = userCacheService.buildLoginUserVo(adminUser, dto.getReadMeDay());
+        LoginVo loginVo = userLoginVoBuilderCacheService.buildLoginUserVo(adminUser, dto.getReadMeDay());
         RefreshTokenVo refreshTokenVo = new RefreshTokenVo();
         BeanUtils.copyProperties(loginVo, refreshTokenVo);
 
@@ -227,7 +230,7 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         // 删除Redis中用户信息
         String username = adminUser.getUsername();
 
-        userCacheService.deleteUserCache(username);
+        serviceHelper.deleteUserCache(username);
     }
 
 
@@ -253,7 +256,7 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         updateById(user);
 
         // 重新生成用户信息到Redis中
-        userCacheService.buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
+        userLoginVoBuilderCacheService.buildLoginUserVo(user, RedisUserConstant.REDIS_EXPIRATION_TIME);
     }
 
     /**
@@ -286,6 +289,6 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         updateById(adminUser);
 
         // 删除Redis中登录用户信息、角色、权限信息
-        userCacheService.deleteUserCache(adminUser.getUsername());
+        serviceHelper.deleteUserCache(adminUser.getUsername());
     }
 }

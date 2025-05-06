@@ -1,5 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
+import cn.bunny.services.core.utils.RouterServiceHelper;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.router.RouterAddDto;
 import cn.bunny.services.domain.system.system.dto.router.RouterUpdateDto;
@@ -16,7 +17,6 @@ import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.RouterMapper;
 import cn.bunny.services.mapper.system.RouterRoleMapper;
 import cn.bunny.services.service.system.RouterService;
-import cn.bunny.services.service.system.helper.RouterHelper;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -51,7 +51,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
     private RouterRoleMapper routerRoleMapper;
 
     @Resource
-    private RouterHelper routerHelper;
+    private RouterServiceHelper routerServiceHelper;
 
     @Resource
     private RolePermissionMapper rolePermissionMapper;
@@ -78,13 +78,13 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
                 .collect(Collectors.groupingBy(ViewRolePermission::getRoleId, Collectors.toList()));
 
         // 整理web用户所能看到的路由列表，并检查当前用户是否是admin
-        List<WebUserRouterVo> webUserRouterVoList = routerHelper.getWebUserRouterVos(routerList, routerRoleList, rolePermissionList);
+        List<WebUserRouterVo> webUserRouterVoList = routerServiceHelper.getWebUserRouterVos(routerList, routerRoleList, rolePermissionList);
 
         // 添加 admin 管理路由权限
         webUserRouterVoList.forEach(routerVo -> {
             // 递归添加路由节点
             if (routerVo.getParentId() == 0) {
-                routerVo.setChildren(routerHelper.buildTreeSetChildren(routerVo.getId(), webUserRouterVoList));
+                routerVo.setChildren(routerServiceHelper.buildTreeSetChildren(routerVo.getId(), webUserRouterVoList));
                 voList.add(routerVo);
             }
         });
@@ -146,7 +146,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
         // 将数据提出role 和 power 存储到数据库
         Long id = router.getId();
-        routerHelper.insertRouterRoleAndPermission(meta, id);
+        routerServiceHelper.insertRouterRoleAndPermission(meta, id);
 
         // 添加路由
         save(router);
@@ -175,7 +175,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
         routerRoleMapper.deleteBatchIdsByRouterIds(List.of(id));
 
         // 将数据提出role 和 power 存储到数据库
-        routerHelper.insertRouterRoleAndPermission(meta, id);
+        routerServiceHelper.insertRouterRoleAndPermission(meta, id);
 
         // 更新路由信息
         updateById(router);

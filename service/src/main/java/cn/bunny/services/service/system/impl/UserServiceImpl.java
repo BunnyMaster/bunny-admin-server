@@ -1,7 +1,8 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.cache.RedisService;
-import cn.bunny.services.cache.UserCacheService;
+import cn.bunny.services.core.cache.RedisService;
+import cn.bunny.services.core.cache.UserCacheService;
+import cn.bunny.services.core.utils.UserServiceHelper;
 import cn.bunny.services.domain.common.constant.MinioConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
@@ -82,6 +83,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     @Resource
     private UserCacheService userCacheService;
 
+    @Resource
+    private UserServiceHelper userServiceHelper;
 
     /**
      * 获取用户信息
@@ -141,7 +144,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 删除Redis中用户信息
         String username = adminUser.getUsername();
-        userCacheService.deleteUserCache(username);
+        userServiceHelper.deleteUserCache(username);
     }
 
     /**
@@ -302,7 +305,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         updateById(adminUser);
 
         // 同步到 Redis
-        userCacheService.updateUserRedisInfo(List.of(adminUser.getId()));
+        userServiceHelper.updateUserRedisInfo(List.of(adminUser.getId()));
     }
 
     /**
@@ -324,7 +327,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         List<AdminUser> adminUserList = list(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, ids));
         adminUserList.parallelStream().forEach(adminUser -> {
             String username = adminUser.getUsername();
-            userCacheService.deleteLoginUserCache(username);
+            userServiceHelper.deleteLoginUserCache(username);
         });
 
         // 删除部门相关

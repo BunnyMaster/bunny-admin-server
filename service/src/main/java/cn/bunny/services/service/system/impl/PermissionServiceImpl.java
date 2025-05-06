@@ -1,6 +1,10 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.cache.UserAuthorizationCacheService;
+import cn.bunny.services.core.excel.PermissionExcelListener;
+import cn.bunny.services.core.strategy.export.ExcelExportStrategy;
+import cn.bunny.services.core.strategy.export.JsonExportStrategy;
+import cn.bunny.services.core.template.PermissionTreeProcessor;
+import cn.bunny.services.core.utils.UserServiceHelper;
 import cn.bunny.services.domain.common.constant.FileType;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.PermissionExcel;
@@ -11,12 +15,9 @@ import cn.bunny.services.domain.system.system.dto.power.PermissionUpdateBatchByP
 import cn.bunny.services.domain.system.system.dto.power.PermissionUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Permission;
 import cn.bunny.services.domain.system.system.vo.PermissionVo;
-import cn.bunny.services.excel.PermissionExcelListener;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.service.system.PermissionService;
-import cn.bunny.services.service.system.helper.PermissionHelper;
-import cn.bunny.services.service.system.helper.UserServiceHelper;
 import cn.bunny.services.utils.FileUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson2.JSON;
@@ -43,6 +44,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipOutputStream;
@@ -61,10 +63,28 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     private static final String CACHE_NAMES = "permission";
 
     @Resource
-    private UserAuthorizationCacheService userAuthorizationCacheService;
-
-    @Resource
     private UserServiceHelper userServiceHelper;
+
+    /**
+     * 将树形结构权限数据扁平化为列表
+     *
+     * <p>使用递归处理树形结构</p>
+     *
+     * @param list 树形结构的权限列表，每个节点可能包含children子节点
+     * @return 扁平化后的权限列表（
+     */
+    public static List<PermissionExcel> flattenTree(List<PermissionExcel> list) {
+        List<PermissionExcel> result = new ArrayList<>();
+
+        for (PermissionExcel node : list) {
+            result.add(node);
+            if (node.getChildren() != null && !node.getChildren().isEmpty()) {
+                result.addAll(flattenTree(node.getChildren()));
+            }
+        }
+
+        return result;
+    }
 
     /**
      * * 权限 服务实现类
@@ -206,19 +226,21 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         }).toList();
 
         // 构建树型结构
-        List<PermissionExcel> buildTree = PermissionHelper.buildTree(permissionExcelList);
+        PermissionTreeProcessor permissionTreeProcessor = new PermissionTreeProcessor();
+        List<PermissionExcel> buildTree = permissionTreeProcessor.process(permissionExcelList);
 
         // 创建btye输出流
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         // Zip写入流
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
-
             // 判断导出类型是什么
             if (type.equals(FileType.EXCEL)) {
-                PermissionHelper.writExcel(permissionExcelList, zipOutputStream, filename + ".xlsx");
+                ExcelExportStrategy excelExportStrategy = new ExcelExportStrategy(PermissionExcel.class, "permission");
+                excelExportStrategy.export(permissionExcelList, zipOutputStream, filename + ".xlsx");
             } else {
-                PermissionHelper.writeJson(buildTree, zipOutputStream, filename + ".json");
+                JsonExportStrategy jsonExportStrategy = new JsonExportStrategy();
+                jsonExportStrategy.export(buildTree, zipOutputStream, filename + ".json");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -257,7 +279,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
                 List<PermissionExcel> list = JSON.parseObject(json, new TypeReference<>() {
                 });
                 // 格式化数据，保存到数据库
-                List<PermissionExcel> flattenedTree = PermissionHelper.flattenTree(list);
+                List<PermissionExcel> flattenedTree = flattenTree(list);
                 List<Permission> permissionList = flattenedTree.stream().map(permissionExcel -> {
                     Permission permission = new Permission();
                     BeanUtils.copyProperties(permissionExcel, permission);
@@ -292,5 +314,4 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         List<Long> ids = list.stream().map(PermissionUpdateDto::getId).toList();
         userServiceHelper.updateBatchUserRedisInfoByPermissionId(ids);
     }
-
 }

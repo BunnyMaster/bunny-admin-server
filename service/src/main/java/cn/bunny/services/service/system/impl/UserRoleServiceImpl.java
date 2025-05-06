@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.cache.UserCacheService;
+import cn.bunny.services.core.utils.UserServiceHelper;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.AssignRolesToUsersDto;
 import cn.bunny.services.domain.system.system.entity.AdminUser;
@@ -36,7 +36,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     private UserMapper userMapper;
 
     @Resource
-    private UserCacheService userCacheService;
+    private UserServiceHelper serviceHelper;
 
     /**
      * * 根据用户id获取角色列表
@@ -81,6 +81,6 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
         saveBatch(roleList);
 
         // 重新设置Redis中的用户存储信息vo对象
-        userCacheService.updateUserRedisInfo(List.of(userId));
+        serviceHelper.updateUserRedisInfo(List.of(userId));
     }
 }
