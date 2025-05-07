@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class MethodSecurityConfig {
-
+    
     /**
      * 设置密码校验器
      *

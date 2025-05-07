@@ -2,8 +2,8 @@ package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.core.event.event.UpdateUserinfoByPermissionIdsEvent;
 import cn.bunny.services.core.event.listener.excel.PermissionExcelListener;
-import cn.bunny.services.core.strategy.export.ExcelExportStrategy;
-import cn.bunny.services.core.strategy.export.JsonExportStrategy;
+import cn.bunny.services.core.strategy.export.ExcelZipExportStrategy;
+import cn.bunny.services.core.strategy.export.JsonZipExportStrategy;
 import cn.bunny.services.core.template.PermissionTreeProcessor;
 import cn.bunny.services.domain.common.constant.FileType;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
@@ -239,11 +239,11 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)) {
             // 判断导出类型是什么
             if (type.equals(FileType.EXCEL)) {
-                ExcelExportStrategy excelExportStrategy = new ExcelExportStrategy(PermissionExcel.class, "permission");
-                excelExportStrategy.export(permissionExcelList, zipOutputStream, filename + ".xlsx");
+                ExcelZipExportStrategy excelZipExportStrategy = new ExcelZipExportStrategy(PermissionExcel.class, "permission");
+                excelZipExportStrategy.export(permissionExcelList, zipOutputStream, filename + ".xlsx");
             } else {
-                JsonExportStrategy jsonExportStrategy = new JsonExportStrategy();
-                jsonExportStrategy.export(buildTree, zipOutputStream, filename + ".json");
+                JsonZipExportStrategy jsonZipExportStrategy = new JsonZipExportStrategy();
+                jsonZipExportStrategy.export(buildTree, zipOutputStream, filename + ".json");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

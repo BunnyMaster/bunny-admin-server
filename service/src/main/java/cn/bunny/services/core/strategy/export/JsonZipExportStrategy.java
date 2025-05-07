@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class JsonExportStrategy implements ExportStrategy<Object> {
+public class JsonZipExportStrategy implements ExportStrategy<Object> {
 
     @Override
     public void export(Object data, ZipOutputStream zipOutputStream, String filename) {

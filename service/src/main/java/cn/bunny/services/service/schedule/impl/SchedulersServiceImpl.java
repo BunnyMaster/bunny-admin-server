@@ -1,7 +1,7 @@
 package cn.bunny.services.service.schedule.impl;
 
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.system.quartz.dto.SchedulersAddDto;
 import cn.bunny.services.domain.system.quartz.dto.SchedulersDto;
 import cn.bunny.services.domain.system.quartz.dto.SchedulersUpdateDto;
@@ -106,13 +106,13 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
 
         try {
             // 动态创建Class对象
-            Class<?> className = Class.forName(dto.getJobClassName());
+            Class<?> clazz = Class.forName(dto.getJobClassName());
 
             // 获取无参构造函数
-            className.getConstructor().newInstance();
+            clazz.getConstructor().newInstance();
 
             // 创建任务
-            JobDetail jobDetail = JobBuilder.newJob((Class<? extends Job>) className)
+            JobDetail jobDetail = JobBuilder.newJob((Class<? extends Job>) clazz)
                     .withIdentity(jobName, jobGroup)
                     .withDescription(dto.getDescription())
                     .build();

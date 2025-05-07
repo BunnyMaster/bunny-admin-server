@@ -1,9 +1,9 @@
 package cn.bunny.services.security.service;
 
 import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.security.TokenInfo;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.security.exception.CustomAuthenticationException;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,19 +36,6 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
     @Resource
     private PermissionCheckService permissionCheckService;
 
-    /**
-     * 授权决策主方法
-     * <ul>
-     *  <li>Token验证失败</li>
-     *  <li>用户状态异常</li>
-     *  <li>权限检查失败</li>
-     * </ul>
-     *
-     * @param authentication 认证信息提供者
-     * @param context        请求授权上下文
-     * @return 授权决策结果（允许/拒绝）
-     * @throws CustomAuthenticationException 当出现以下情况时抛出：
-     */
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
         // 用户的token和用户id、请求Url
@@ -70,12 +57,6 @@ public class CustomAuthorizationManagerServiceImpl implements AuthorizationManag
         return new AuthorizationDecision(hasPermission);
     }
 
-    /**
-     * 验证用户状态
-     *
-     * @param loginVo 用户登录信息
-     * @throws CustomAuthenticationException 当用户状态异常时抛出
-     */
     private void validateUserStatus(LoginVo loginVo) {
         // 登录信息为空
         if (loginVo == null) {

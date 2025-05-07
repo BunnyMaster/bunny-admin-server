@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class ExcelExportStrategy implements ExportStrategy<List<?>> {
+public class ExcelZipExportStrategy implements ExportStrategy<List<?>> {
 
     private final Class<?> clazz;
     private final String sheetName;
 
-    public ExcelExportStrategy(Class<?> clazz, String sheetName) {
+    public ExcelZipExportStrategy(Class<?> clazz, String sheetName) {
         this.clazz = clazz;
         this.sheetName = sheetName;
     }

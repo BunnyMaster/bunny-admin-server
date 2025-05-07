@@ -28,10 +28,11 @@
 
 **介绍视频视频**
 
-- [环境搭建](https://www.bilibili.com/video/BV17odHY6E3S/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
-- [运行项目](https://www.bilibili.com/video/BV1qodHYzErA/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
-- [前端部署](https://www.bilibili.com/video/BV1BddHYgEPq/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
-- [后端部署](https://www.bilibili.com/video/BV1BddHYgEFt/?spm_id_from=333.1387.homepage.video_card.click&vd_source=d42b5b664efb958be39eef8ee1196a7e)
+- [RBAC中URL的权限数据库、后端设计](https://www.bilibili.com/video/BV1nGVazrEKf/)
+- [bunny-admin 配置说明](https://www.bilibili.com/video/BV177VazMEiM/)
+- [Bunny-Admin 用户相关操作](https://www.bilibili.com/video/BV1B7VazME72/)
+- [Bunny-Admin 角色权限](https://www.bilibili.com/video/BV1ELVazzEnC/)
+- [Bunny-Admin 剩下的业务逻辑](https://www.bilibili.com/video/BV1ELVazzE7S/)
 - [代码生成器](https://www.bilibili.com/video/BV1d4Lxz9E3j/?vd_source=d42b5b664efb958be39eef8ee1196a7e)
 
 **Github地址**
@@ -131,7 +132,7 @@ graph TD
 auth-api -->|启动项、控制器| service
 service -->|mapper| dao
 service -->|包含domain、配置等| auth-core
-dao -->|包含domain、配置等| auth-code
+dao -->|包含domain、配置等| auth-core
 
 
 ```
