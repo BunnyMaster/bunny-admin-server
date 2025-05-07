@@ -1,8 +1,8 @@
 package cn.bunny.services.service.configuration.impl;
 
 import cn.bunny.services.core.event.listener.excel.I18nExcelListener;
-import cn.bunny.services.core.strategy.export.ExcelExportStrategy;
-import cn.bunny.services.core.strategy.export.JsonExportStrategy;
+import cn.bunny.services.core.strategy.export.ExcelZipExportStrategy;
+import cn.bunny.services.core.strategy.export.JsonZipExportStrategy;
 import cn.bunny.services.domain.common.constant.FileType;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
@@ -184,8 +184,8 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
                                 }, Collectors.toList())
                         ))
                         .forEach((key, value) -> {
-                            ExcelExportStrategy excelExportStrategy = new ExcelExportStrategy(I18nExcel.class, key);
-                            excelExportStrategy.export(value, zipOutputStream, key + ".xlsx");
+                            ExcelZipExportStrategy excelZipExportStrategy = new ExcelZipExportStrategy(I18nExcel.class, key);
+                            excelZipExportStrategy.export(value, zipOutputStream, key + ".xlsx");
                         });
             }
             // 其他格式写入JSON
@@ -193,8 +193,8 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
                 HashMap<String, Object> hashMap = getMapByI18nList(i18nList);
 
                 hashMap.forEach((k, v) -> {
-                    JsonExportStrategy jsonExportStrategy = new JsonExportStrategy();
-                    jsonExportStrategy.export(v, zipOutputStream, k + ".json");
+                    JsonZipExportStrategy jsonZipExportStrategy = new JsonZipExportStrategy();
+                    jsonZipExportStrategy.export(v, zipOutputStream, k + ".json");
                 });
             }
 

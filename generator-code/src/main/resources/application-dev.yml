@@ -1,8 +1,7 @@
 bunny:
   master:
-    # host: 192.168.3.137
-    host: localhost
+    host: 192.168.3.137 # localhost
     port: 3306
-    database: bunny_admin
+    database: auth_admin
     username: root
     password: "123456"

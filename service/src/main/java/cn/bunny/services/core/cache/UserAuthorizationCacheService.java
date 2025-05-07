@@ -64,7 +64,7 @@ public class UserAuthorizationCacheService {
             // 防止 list 为空报错
             roleList = list != null ? list : new ArrayList<>();
         }
-
+    
         return roleList;
     }
 

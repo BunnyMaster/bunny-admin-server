@@ -32,7 +32,6 @@ public class RedisUserConstant {
      */
     public static String getUserLoginInfoPrefix(String user) {
         return USER_LOGIN_INFO_PREFIX + user;
-
     }
 
     /**

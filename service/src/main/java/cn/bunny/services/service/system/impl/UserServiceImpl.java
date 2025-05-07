@@ -4,7 +4,6 @@ import cn.bunny.services.core.cache.RedisService;
 import cn.bunny.services.core.event.event.ClearAllUserCacheEvent;
 import cn.bunny.services.core.event.event.UpdateUserinfoByUserIdsEvent;
 import cn.bunny.services.domain.common.constant.MinioConstant;
-import cn.bunny.services.domain.common.constant.RedisUserConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
@@ -193,11 +192,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         List<String> keys = redisService.scannerRedisKeyByPage(pageNum, pageSize);
 
         List<UserVo> list = keys.stream().map(key -> {
-            Object loginVoObject = redisTemplate.opsForValue().get(RedisUserConstant.getUserLoginInfoPrefix(key));
+            Object loginVoObject = redisTemplate.opsForValue().get(key);
             LoginVo loginVo = JSON.parseObject(JSON.toJSONString(loginVoObject), LoginVo.class);
 
             UserVo userVo = new UserVo();
             BeanUtils.copyProperties(loginVo, userVo);
+            userVo.setSummary(loginVo.getPersonDescription());
             return userVo;
         }).toList();
 
@@ -206,7 +206,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
                 .list(list).total((long) keys.size())
                 .build();
     }
-
 
     /**
      * 用户信息 服务实现类
@@ -284,7 +283,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (adminUser == null) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
 
         // 更新用户
-        // AdminUser user = new AdminUser();
         BeanUtils.copyProperties(dto, adminUser);
 
         // 部门Id

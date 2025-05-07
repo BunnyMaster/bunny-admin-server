@@ -12,6 +12,7 @@ import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
 import jakarta.annotation.Resource;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class UserinfoUpdateListener extends AbstractUserInfoUpdateHandler {
 
     /* 根据用户id更新用户信息，重新生成LoginVo对象 */
     @EventListener
+    @Async
     public void handlerUpdateUserinfoByUserIds(UpdateUserinfoByUserIdsEvent event) {
         List<Long> userIds = event.getUserIds();
         processUserUpdate(userIds, user -> {
@@ -40,6 +42,7 @@ public class UserinfoUpdateListener extends AbstractUserInfoUpdateHandler {
 
     /* 根据角色id更新用户信息，重新生成LoginVo对象 */
     @EventListener
+    @Async
     public void handlerUserinfoUpdateByRoleId(UpdateUserinfoByRoleIdsEvent event) {
         List<Long> roleIds = event.getRoleIds();
         List<UserRole> userRoles = userRoleMapper.selectListByRoleIds(roleIds);
@@ -51,6 +54,7 @@ public class UserinfoUpdateListener extends AbstractUserInfoUpdateHandler {
 
     /* 根据角色id更新用户信息，重新生成LoginVo对象 */
     @EventListener
+    @Async
     public void handlerUserinfoUpdateByPermissionId(UpdateUserinfoByPermissionIdsEvent event) {
         List<Long> permissionIds = event.getPermissionIds();
         List<RolePermission> rolePermissions = rolePermissionMapper.selectRolePermissionListByPermissionIds(permissionIds);
@@ -62,6 +66,7 @@ public class UserinfoUpdateListener extends AbstractUserInfoUpdateHandler {
 
     /* 清除用户登录、角色、权限所有缓存 */
     @EventListener
+    @Async
     public void handlerDeleteAllUserCache(ClearAllUserCacheEvent event) {
         userCacheCleaner.cleanAllUserCache(event.getKey());
     }

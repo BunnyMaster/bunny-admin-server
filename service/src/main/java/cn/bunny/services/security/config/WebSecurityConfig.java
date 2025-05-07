@@ -34,6 +34,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity
                 // 前端段分离不需要---禁用明文验证
                 .httpBasic(AbstractHttpConfigurer::disable)

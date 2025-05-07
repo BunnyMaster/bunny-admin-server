@@ -188,7 +188,6 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         emailCacheService.buildEmailCodeCache(email, emailCode);
     }
 
-
     /**
      * 刷新用户token
      *
@@ -237,7 +236,6 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         String username = adminUser.getUsername();
         applicationEventPublisher.publishEvent(new ClearAllUserCacheEvent(this, username));
     }
-
 
     /**
      * 更新本地用户信息
