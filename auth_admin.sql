@@ -464,11 +464,6 @@ CREATE TABLE `sys_email_users`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '邮箱发送表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sys_email_users
--- ----------------------------
-INSERT INTO `sys_email_users` VALUES (2, '3324855376@qq.com', 'fdehkkbmavalcjea', 'smtp.qq.com', 465, 'smtps', 0, 1, '2024-05-14 18:43:50', '2025-05-01 00:09:04', 0, 1, 0);
-
--- ----------------------------
 -- Table structure for sys_files
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_files`;
