@@ -28,4 +28,8 @@ public class I18nUpdateByFileDto {
     @NotBlank(message = "多语言key不能为空")
     private String fileType;
 
+    @Schema(name = "append", title = "文件类型/json/excel")
+    @NotNull(message = "是否追加")
+    private Boolean append = true;
+
 }

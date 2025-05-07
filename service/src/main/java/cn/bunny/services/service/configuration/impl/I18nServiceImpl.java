@@ -219,6 +219,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
         String type = dto.getType();
         MultipartFile file = dto.getFile();
         String fileType = dto.getFileType();
+        Boolean append = dto.getAppend();
 
         // 判断是否有这个语言的key
         List<I18nType> i18nTypeList = i18nTypeMapper.selectList(Wrappers.<I18nType>lambdaQuery().eq(I18nType::getTypeName, type));
@@ -235,7 +236,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
             List<Long> ids = i18nList.stream().map(BaseEntity::getId).toList();
 
             // 删除这个类型下所有的多语言
-            if (!ids.isEmpty()) removeByIds(ids);
+            if (!ids.isEmpty() && !append) removeByIds(ids);
 
             // 存入内容
             if (fileType.equals(FileType.JSON)) {
