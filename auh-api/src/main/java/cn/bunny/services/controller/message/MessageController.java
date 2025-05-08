@@ -1,5 +1,8 @@
 package cn.bunny.services.controller.message;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.message.dto.MessageAddDto;
 import cn.bunny.services.domain.system.message.dto.MessageDto;
 import cn.bunny.services.domain.system.message.dto.MessageUpdateDto;
@@ -7,9 +10,6 @@ import cn.bunny.services.domain.system.message.entity.Message;
 import cn.bunny.services.domain.system.message.vo.MessageDetailVo;
 import cn.bunny.services.domain.system.message.vo.MessageReceivedWithUserVo;
 import cn.bunny.services.domain.system.message.vo.MessageVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.message.MessageService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +37,7 @@ public class MessageController {
     @Resource
     private MessageService messageService;
 
-    @Operation(summary = "分页查询", description = "分页查询发送消息", tags = "message::query")
+    @Operation(summary = "分页查询系统消息", description = "分页查询发送消息", tags = "message::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<MessageVo>> getMessagePage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -50,21 +50,21 @@ public class MessageController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加", description = "添加系统消息", tags = "message::add")
+    @Operation(summary = "添加系统消息", description = "添加系统消息", tags = "message::add")
     @PostMapping()
     public Result<String> addMessage(@Valid @RequestBody MessageAddDto dto) {
         messageService.addMessage(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新系统消息", tags = "message::update")
+    @Operation(summary = "更系统消息", description = "更新系统消息", tags = "message::update")
     @PutMapping()
     public Result<String> updateMessage(@Valid @RequestBody MessageUpdateDto dto) {
         messageService.updateMessage(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除系统消息", tags = "message::delete")
+    @Operation(summary = "删除系统消息", description = "删除系统消息", tags = "message::delete")
     @DeleteMapping()
     public Result<String> deleteMessage(@RequestBody List<Long> ids) {
         messageService.deleteMessage(ids);

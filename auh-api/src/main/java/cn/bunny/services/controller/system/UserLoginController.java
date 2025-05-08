@@ -1,9 +1,9 @@
 package cn.bunny.services.controller.system;
 
 import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.system.dto.user.LoginDto;
 import cn.bunny.services.domain.system.system.dto.user.RefreshTokenDto;
@@ -17,7 +17,7 @@ import jakarta.validation.Valid;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "用户登录", description = "用户登录相关接口")
+@Tag(name = "普通用户登录", description = "用户登录相关接口")
 @RestController
 @RequestMapping("/api/user")
 public class UserLoginController {
@@ -25,14 +25,14 @@ public class UserLoginController {
     @Resource
     private UserLoginService userLoginService;
 
-    @Operation(summary = "用户登录", description = "前端用户登录")
+    @Operation(summary = "普通用户登录", description = "前端用户登录")
     @PostMapping("login")
     public Result<LoginVo> login(@Valid @RequestBody LoginDto loginDto) {
         LoginVo loginVo = userLoginService.login(loginDto);
         return Result.success(loginVo);
     }
 
-    @Operation(summary = "登录发送邮件验证码", description = "登录发送邮件验证码")
+    @Operation(summary = "普通用户登录发送邮件验证码", description = "登录发送邮件验证码")
     @PostMapping("public/sendLoginEmail")
     public Result<String> sendLoginEmail(String email) {
         if (!StringUtils.hasText(email)) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
@@ -41,7 +41,7 @@ public class UserLoginController {
         return Result.success(ResultCodeEnum.EMAIL_CODE_SEND_SUCCESS);
     }
 
-    @Operation(summary = "刷新token", description = "刷新用户token")
+    @Operation(summary = "普通用户登录刷新token", description = "刷新用户token")
     @PostMapping("private/refreshToken")
     public Result<RefreshTokenVo> refreshToken(@Valid @RequestBody RefreshTokenDto dto) {
         RefreshTokenVo vo = userLoginService.refreshToken(dto);
@@ -55,7 +55,7 @@ public class UserLoginController {
         return Result.success(vo);
     }
 
-    @Operation(summary = "退出登录", description = "退出登录")
+    @Operation(summary = "普通用户登录退出登录", description = "退出登录")
     @PostMapping("private/logout")
     public Result<String> logout() {
         userLoginService.logout();

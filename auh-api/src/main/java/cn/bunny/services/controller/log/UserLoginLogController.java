@@ -1,12 +1,12 @@
 package cn.bunny.services.controller.log;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.log.dto.UserLoginLogDto;
 import cn.bunny.services.domain.system.log.entity.UserLoginLog;
 import cn.bunny.services.domain.system.log.vo.UserLoginLogLocalVo;
 import cn.bunny.services.domain.system.log.vo.UserLoginLogVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.log.UserLoginLogService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,13 +19,13 @@ import java.util.List;
 
 /**
  * <p>
- * 用户登录日志表 前端控制器
+ * 用户登录日志 前端控制器
  * </p>
  *
  * @author Bunny
  * @since 2024-10-19 01:01:01
  */
-@Tag(name = "系统用户登录日志", description = "用户登录日志相关接口")
+@Tag(name = "用户登录日志", description = "用户登录日志相关接口")
 @RestController
 @RequestMapping("api/userLoginLog")
 public class UserLoginLogController {
@@ -33,7 +33,7 @@ public class UserLoginLogController {
     @Resource
     private UserLoginLogService userLoginLogService;
 
-    @Operation(summary = "分页查询", description = "分页查询用户登录日志", tags = "userLoginLog::query")
+    @Operation(summary = "分页查询用户登录日志", description = "分页查询用户登录日志", tags = "userLoginLog::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<UserLoginLogVo>> getUserLoginLogPage(
             @Parameter(name = "page", description = "当前页", required = true) @PathVariable("page") Integer page,
@@ -44,14 +44,14 @@ public class UserLoginLogController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "删除", description = "删除用户登录日志", tags = "userLoginLog::delete")
+    @Operation(summary = "删除用户登录日志", description = "删除用户登录日志", tags = "userLoginLog::delete")
     @DeleteMapping()
     public Result<Object> deleteUserLoginLog(@RequestBody List<Long> ids) {
         userLoginLogService.deleteUserLoginLog(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "分页查询本地用户登录日志", description = "分页查询本地用户登录日志", tags = "userLoginLog::query")
+    @Operation(summary = "分页查询当前用户登录日志", description = "分页查询本地用户登录日志", tags = "userLoginLog::query")
     @GetMapping("private/{page}/{limit}")
     public Result<PageResult<UserLoginLogLocalVo>> getUserLoginLogPageByUser(
             @Parameter(name = "page", description = "当前页", required = true) @PathVariable("page") Integer page,

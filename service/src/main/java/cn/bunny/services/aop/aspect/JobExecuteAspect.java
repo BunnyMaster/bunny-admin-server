@@ -1,4 +1,4 @@
-package cn.bunny.services.aop;
+package cn.bunny.services.aop.aspect;
 
 import cn.bunny.services.domain.common.constant.LocalDateTimeConstant;
 import cn.bunny.services.domain.common.enums.JobEnums;

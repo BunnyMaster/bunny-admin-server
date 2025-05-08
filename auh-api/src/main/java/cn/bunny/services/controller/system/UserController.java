@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
-@Tag(name = "系统用户", description = "用户信息相关接口")
+@Tag(name = "用户", description = "用户信息相关接口")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -30,7 +30,7 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @Operation(summary = "分页查询", description = "分页查询用户信息", tags = "user::query")
+    @Operation(summary = "分页查询用户", description = "分页查询用户信息", tags = "user::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<AdminUserVo>> getUserPageByAdmin(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -67,14 +67,14 @@ public class UserController {
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "根据用户id查询", description = "根据用户ID获取用户信息，不包含Redis中的信息", tags = "user::query")
+    @Operation(summary = "根据用户id查询用户", description = "根据用户ID获取用户信息，不包含Redis中的信息", tags = "user::query")
     @GetMapping("private/getUserinfoById")
     public Result<UserVo> getUserinfoById(Long id) {
         UserVo vo = userService.getUserinfoById(id);
         return Result.success(vo);
     }
 
-    @Operation(summary = "根据用户名查询用户列表", description = "根据用户名查询用户列表", tags = "user::query")
+    @Operation(summary = "根据关键字查询用户", description = "根据用户名查询用户列表", tags = "user::query")
     @GetMapping("private/getUserListByKeyword")
     public Result<List<UserVo>> getUserListByKeyword(String keyword) {
         List<UserVo> voList = userService.getUserListByKeyword(keyword);

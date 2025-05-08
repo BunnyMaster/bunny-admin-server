@@ -32,7 +32,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-03 16:00:52
  */
-@Tag(name = "系统权限", description = "权限相关接口")
+@Tag(name = "权限", description = "权限相关接口")
 @RestController
 @RequestMapping("api/permission")
 public class PermissionController {
@@ -40,7 +40,7 @@ public class PermissionController {
     @Resource
     private PermissionService permissionService;
 
-    @Operation(summary = "分页查询", description = "分页查询权限", tags = {"permission::page", "permission::queryPage"})
+    @Operation(summary = "分页查询权限", description = "分页查询权限", tags = {"permission::page", "permission::queryPage"})
     @GetMapping("{page}/{limit}")
     public Result<PageResult<PermissionVo>> getPermissionPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -53,21 +53,21 @@ public class PermissionController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加", description = "添加权限", tags = "permission::add")
+    @Operation(summary = "添加权限", description = "添加权限", tags = "permission::add")
     @PostMapping()
     public Result<String> addPermission(@Valid @RequestBody PermissionAddDto dto) {
         permissionService.addPermission(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新权限", tags = "permission::update")
+    @Operation(summary = "更新权限", description = "更新权限", tags = "permission::update")
     @PutMapping()
     public Result<String> updatePermission(@Valid @RequestBody PermissionUpdateDto dto) {
         permissionService.updatePermission(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除权限", tags = "permission::delete")
+    @Operation(summary = "删除权限", description = "删除权限", tags = "permission::delete")
     @DeleteMapping()
     public Result<Object> deletePermission(@RequestBody List<Long> ids) {
         permissionService.deletePermission(ids);

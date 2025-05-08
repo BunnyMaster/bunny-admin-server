@@ -1,13 +1,13 @@
 package cn.bunny.services.controller.system;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.system.dto.dept.DeptAddDto;
 import cn.bunny.services.domain.system.system.dto.dept.DeptDto;
 import cn.bunny.services.domain.system.system.dto.dept.DeptUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Dept;
 import cn.bunny.services.domain.system.system.vo.DeptVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.system.DeptService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +27,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-04 10:39:08
  */
-@Tag(name = "系统部门", description = "部门相关接口")
+@Tag(name = "部门", description = "部门相关接口")
 @RestController
 @RequestMapping("/api/dept")
 public class DeptController {

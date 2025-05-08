@@ -17,7 +17,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-09-26
  */
-@Tag(name = "路由和角色", description = "路由和角色相关接口")
+@Tag(name = "路由菜单和角色", description = "路由和角色相关接口")
 @RestController
 @RequestMapping("api/routerRole")
 public class RouterRoleController {

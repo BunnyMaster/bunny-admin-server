@@ -1,7 +1,7 @@
 package cn.bunny.services.controller.system;
 
-import cn.bunny.services.domain.system.system.dto.AssignPowersToRoleDto;
 import cn.bunny.services.domain.common.model.vo.result.Result;
+import cn.bunny.services.domain.system.system.dto.AssignPowersToRoleDto;
 import cn.bunny.services.service.system.RolePermissionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-09-26
  */
-@Tag(name = "系统角色和权限", description = "角色和权限相关接口")
+@Tag(name = "角色和权限", description = "角色和权限相关接口")
 @RestController
 @RequestMapping("api/rolePermission")
 public class RolePermissionController {

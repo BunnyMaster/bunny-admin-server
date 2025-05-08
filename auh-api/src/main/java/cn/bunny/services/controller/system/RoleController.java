@@ -1,13 +1,13 @@
 package cn.bunny.services.controller.system;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.system.dto.role.RoleAddDto;
 import cn.bunny.services.domain.system.system.dto.role.RoleDto;
 import cn.bunny.services.domain.system.system.dto.role.RoleUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Role;
 import cn.bunny.services.domain.system.system.vo.RoleVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.system.RoleService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +29,7 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-03 14:26:24
  */
-@Tag(name = "系统角色", description = "角色相关接口")
+@Tag(name = "角色", description = "角色相关接口")
 @RestController
 @RequestMapping("api/role")
 public class RoleController {
@@ -50,21 +50,21 @@ public class RoleController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加", description = "添加角色", tags = "role::add")
+    @Operation(summary = "添加角色", description = "添加角色", tags = "role::add")
     @PostMapping()
     public Result<Object> addRole(@Valid @RequestBody RoleAddDto dto) {
         roleService.addRole(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新角色", tags = "role::update")
+    @Operation(summary = "更新角色", description = "更新角色", tags = "role::update")
     @PutMapping()
     public Result<Object> updateRole(@Valid @RequestBody RoleUpdateDto dto) {
         roleService.updateRole(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除角色", tags = "role::delete")
+    @Operation(summary = "删除角色", description = "删除角色", tags = "role::delete")
     @DeleteMapping()
     public Result<Object> deleteRole(@RequestBody List<Long> ids) {
         roleService.deleteRole(ids);

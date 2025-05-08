@@ -1,6 +1,9 @@
 package cn.bunny.services.controller.system;
 
 import cn.bunny.services.domain.common.constant.MinioConstant;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.files.dto.FileUploadDto;
 import cn.bunny.services.domain.system.files.dto.FilesAddDto;
 import cn.bunny.services.domain.system.files.dto.FilesDto;
@@ -8,9 +11,6 @@ import cn.bunny.services.domain.system.files.dto.FilesUpdateDto;
 import cn.bunny.services.domain.system.files.entity.Files;
 import cn.bunny.services.domain.system.files.vo.FileInfoVo;
 import cn.bunny.services.domain.system.files.vo.FilesVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.system.FilesService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +33,7 @@ import java.util.Set;
  * @author Bunny
  * @since 2024-10-09 16:28:01
  */
-@Tag(name = "系统文件", description = "系统文件相关接口")
+@Tag(name = "文件", description = "系统文件相关接口")
 @RestController
 @RequestMapping("api/files")
 public class FilesController {
@@ -41,7 +41,7 @@ public class FilesController {
     @Resource
     private FilesService filesService;
 
-    @Operation(summary = "分页查询", description = "分页查询系统文件", tags = "files::query")
+    @Operation(summary = "分页查询文件", description = "分页查询系统文件", tags = "files::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<FilesVo>> getFilesPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -54,21 +54,21 @@ public class FilesController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "更新", description = "更新系统文件", tags = "files::update")
+    @Operation(summary = "更新文件", description = "更新系统文件", tags = "files::update")
     @PutMapping()
     public Result<String> updateFiles(@Valid FilesUpdateDto dto) {
         filesService.updateFiles(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "添加", description = "添加系统文件", tags = "files::add")
+    @Operation(summary = "添加文件", description = "添加系统文件", tags = "files::add")
     @PostMapping()
     public Result<Object> addFiles(@Valid FilesAddDto dto) {
         filesService.addFiles(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除系统文件", tags = "files::delete")
+    @Operation(summary = "删除文件", description = "删除系统文件", tags = "files::delete")
     @DeleteMapping()
     public Result<String> deleteFiles(@RequestBody List<Long> ids) {
         filesService.deleteFiles(ids);

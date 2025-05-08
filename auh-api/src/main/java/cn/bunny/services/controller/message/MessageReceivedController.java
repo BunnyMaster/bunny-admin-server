@@ -1,14 +1,14 @@
 package cn.bunny.services.controller.message;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.message.dto.MessageReceivedDto;
 import cn.bunny.services.domain.system.message.dto.MessageReceivedUpdateDto;
 import cn.bunny.services.domain.system.message.dto.MessageUserDto;
 import cn.bunny.services.domain.system.message.entity.Message;
 import cn.bunny.services.domain.system.message.vo.MessageReceivedWithMessageVo;
 import cn.bunny.services.domain.system.message.vo.MessageUserVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.message.MessageReceivedService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,7 +36,7 @@ public class MessageReceivedController {
     @Resource
     private MessageReceivedService messageReceivedService;
 
-    @Operation(summary = "分页查询", description = "管理员分页查询用户消息", tags = "messageReceived::query")
+    @Operation(summary = "分页查询消息接收", description = "管理员分页查询用户消息", tags = "messageReceived::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<MessageReceivedWithMessageVo>> getMessageReceivedPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -49,21 +49,21 @@ public class MessageReceivedController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "更新", description = "管理员将用户消息标为已读", tags = "messageReceived::update")
+    @Operation(summary = "更新消息接收", description = "管理员将用户消息标为已读", tags = "messageReceived::update")
     @PutMapping()
     public Result<String> updateMarkMessageReceived(@Valid @RequestBody MessageReceivedUpdateDto dto) {
         messageReceivedService.updateMarkMessageReceived(dto);
         return Result.success();
     }
 
-    @Operation(summary = "删除", description = "管理删除用户消息", tags = "messageReceived::delete")
+    @Operation(summary = "删除消息接收", description = "管理删除用户消息", tags = "messageReceived::delete")
     @DeleteMapping()
     public Result<String> deleteMessageReceived(@RequestBody List<Long> ids) {
         messageReceivedService.deleteMessageReceived(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "分页查询用户消息", description = "分页查询用户消息", tags = "messageReceived::query")
+    @Operation(summary = "分页查询消息接收", description = "分页查询用户消息", tags = "messageReceived::query")
     @GetMapping("private/{page}/{limit}")
     public Result<PageResult<MessageUserVo>> getMessagePageByUser(
             @Parameter(name = "page", description = "当前页", required = true)

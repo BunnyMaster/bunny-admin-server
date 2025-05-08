@@ -1,13 +1,13 @@
 package cn.bunny.services.controller.configuration;
 
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.email.dto.EmailUsersAddDto;
 import cn.bunny.services.domain.system.email.dto.EmailUsersDto;
 import cn.bunny.services.domain.system.email.dto.EmailUsersUpdateDto;
 import cn.bunny.services.domain.system.email.entity.EmailUsers;
 import cn.bunny.services.domain.system.email.vo.EmailUsersVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.configuration.EmailUsersService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +28,7 @@ import java.util.Map;
  * @author Bunny
  * @since 2024-10-10 15:19:22
  */
-@Tag(name = "邮箱用户发送配置", description = "邮箱用户发送配置相关接口")
+@Tag(name = "邮箱用户配置", description = "邮箱用户发送配置相关接口")
 @RestController
 @RequestMapping("api/emailUsers")
 public class EmailUsersController {
@@ -36,7 +36,7 @@ public class EmailUsersController {
     @Resource
     private EmailUsersService emailUsersService;
 
-    @Operation(summary = "分页查询", description = "分页查询邮箱用户发送配置", tags = "emailUsers::query")
+    @Operation(summary = "分页查询邮箱用户配置", description = "分页查询邮箱用户配置", tags = "emailUsers::query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<EmailUsersVo>> getEmailUserPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -49,28 +49,28 @@ public class EmailUsersController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加", description = "添加邮箱用户发送配置", tags = "emailUsers::add")
+    @Operation(summary = "添加邮箱用户配置", description = "添加邮箱用户配置", tags = "emailUsers::add")
     @PostMapping()
     public Result<String> addEmailUsers(@Valid @RequestBody EmailUsersAddDto dto) {
         emailUsersService.addEmailUsers(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新", description = "更新邮箱用户发送配置", tags = "emailUsers::update")
+    @Operation(summary = "更新邮箱用户配置", description = "更新邮箱用户配置", tags = "emailUsers::update")
     @PutMapping()
     public Result<String> updateEmailUsers(@Valid @RequestBody EmailUsersUpdateDto dto) {
         emailUsersService.updateEmailUsers(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除", description = "删除邮箱用户", tags = "emailUsers::delete")
+    @Operation(summary = "删除邮箱用户配置", description = "删除邮箱用户配置", tags = "emailUsers::delete")
     @DeleteMapping()
     public Result<String> deleteEmailUsers(@RequestBody List<Long> ids) {
         emailUsersService.deleteEmailUsers(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "全部邮件用户配置", description = "获取全部邮件用户配置", tags = "emailUsers::query")
+    @Operation(summary = "全部邮箱用户配置", description = "获取全部邮箱用户配置", tags = "emailUsers::query")
     @GetMapping("private")
     public Result<List<Map<String, String>>> getEmailUserList() {
         List<Map<String, String>> list = emailUsersService.getAllMailboxConfigurationUsers();
