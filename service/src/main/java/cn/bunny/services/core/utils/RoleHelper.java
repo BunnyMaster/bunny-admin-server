@@ -17,8 +17,8 @@ public class RoleHelper {
      * <p>
      * 权限控制说明：
      * - 管理员权限用于前端按钮级权限控制，支持以下通配符格式：
-     * - "*::*::*"：全部模块的全部操作权限
-     * - "*::*"    ：指定模块的全部操作权限
+     * - "*:*:*"：全部模块的全部操作权限
+     * - "*:*"    ：指定模块的全部操作权限
      * - "*"       ：基础通配权限
      * - 若无细粒度按钮控制需求，可不设置具体权限
      * 详细查看
@@ -40,8 +40,8 @@ public class RoleHelper {
         if (isIdAdmin || isAdmin) {
             roleList.add("admin");
             permissions.add("*");
-            permissions.add("*::*");
-            permissions.add("*::*::*");
+            permissions.add("*:*");
+            permissions.add("*:*:*");
             return true;
         }
 

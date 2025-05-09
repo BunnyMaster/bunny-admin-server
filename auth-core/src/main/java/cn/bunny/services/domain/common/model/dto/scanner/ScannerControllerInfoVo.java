@@ -27,8 +27,8 @@ public class ScannerControllerInfoVo {
     @Schema(name = "description", title = "详情")
     private String description;
 
-    @Schema(name = "powerCodes", title = "权限码")
-    private List<String> powerCodes;
+    @Schema(name = "powerCode", title = "权限码")
+    private String powerCode;
 
     @Schema(name = "description", title = "标签")
     private List<ScannerControllerInfoVo> children;

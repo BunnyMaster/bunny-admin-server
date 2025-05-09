@@ -28,6 +28,9 @@ public class ControllerInfo {
     @Schema(name = "basePath", title = "基础请求路径，RequestMapping中的")
     private String basePath;
 
+    @Schema(name = "permission", title = "权限标识")
+    private String permission;
+
     @Schema(name = "methods", title = "控制器啊中所有方法")
     private List<MethodInfo> methods;
 

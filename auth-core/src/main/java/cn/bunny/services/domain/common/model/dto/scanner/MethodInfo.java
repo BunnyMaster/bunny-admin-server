@@ -24,6 +24,9 @@ public class MethodInfo {
     @Schema(name = "summary", title = "请求方法简介")
     private String summary;
 
+    @Schema(name = "permission", title = "权限标识")
+    private String permission;
+
     @Schema(name = "description", title = "请求方法详情")
     private String description;
 

@@ -1,11 +1,12 @@
 package cn.bunny.services.controller.log;
 
+import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.log.dto.ScheduleExecuteLogDto;
 import cn.bunny.services.domain.system.log.entity.ScheduleExecuteLog;
 import cn.bunny.services.domain.system.log.vo.ScheduleExecuteLogVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.log.ScheduleExecuteLogService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,6 +26,7 @@ import java.util.List;
  * @since 2024-10-18 12:56:39
  */
 @Tag(name = "任务调度执行日志", description = "调度任务执行日志相关接口")
+@PermissionTag(permission = "scheduleExecuteLog:*")
 @RestController
 @RequestMapping("api/scheduleExecuteLog")
 public class ScheduleExecuteLogController {
@@ -32,7 +34,8 @@ public class ScheduleExecuteLogController {
     @Resource
     private ScheduleExecuteLogService scheduleExecuteLogService;
 
-    @Operation(summary = "分页查询", description = "分页查询调度任务执行日志", tags = "scheduleExecuteLog::query")
+    @Operation(summary = "分页查询任务调度执行日志", description = "分页查询调度任务执行日志")
+    @PermissionTag(permission = "scheduleExecuteLog:query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<ScheduleExecuteLogVo>> getScheduleExecuteLogPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -45,7 +48,8 @@ public class ScheduleExecuteLogController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "删除", description = "删除调度任务执行日志", tags = "scheduleExecuteLog::delete")
+    @Operation(summary = "删除任务调度执行日志", description = "删除调度任务执行日志")
+    @PermissionTag(permission = "scheduleExecuteLog:delete")
     @DeleteMapping()
     public Result<String> deleteScheduleExecuteLog(@RequestBody List<Long> ids) {
         scheduleExecuteLogService.deleteScheduleExecuteLog(ids);

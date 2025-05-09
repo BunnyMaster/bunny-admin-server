@@ -1,13 +1,14 @@
 package cn.bunny.services.controller.system;
 
+import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.system.dto.dept.DeptAddDto;
 import cn.bunny.services.domain.system.system.dto.dept.DeptDto;
 import cn.bunny.services.domain.system.system.dto.dept.DeptUpdateDto;
 import cn.bunny.services.domain.system.system.entity.Dept;
 import cn.bunny.services.domain.system.system.vo.DeptVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.service.system.DeptService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +28,8 @@ import java.util.List;
  * @author Bunny
  * @since 2024-10-04 10:39:08
  */
-@Tag(name = "系统部门", description = "部门相关接口")
+@Tag(name = "部门", description = "部门相关接口")
+@PermissionTag(permission = "dept:*")
 @RestController
 @RequestMapping("/api/dept")
 public class DeptController {
@@ -35,7 +37,8 @@ public class DeptController {
     @Resource
     private DeptService deptService;
 
-    @Operation(summary = "分页查询部门", description = "分页查询部门", tags = "dept::query")
+    @Operation(summary = "分页查询部门", description = "分页查询部门")
+    @PermissionTag(permission = "dept:query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<DeptVo>> getDeptPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -48,28 +51,31 @@ public class DeptController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加部门", description = "添加部门", tags = "dept::add")
+    @Operation(summary = "添加部门", description = "添加部门")
+    @PermissionTag(permission = "dept:add")
     @PostMapping()
     public Result<String> addDept(@Valid @RequestBody DeptAddDto dto) {
         deptService.addDept(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新部门", description = "更新部门", tags = "dept::update")
+    @Operation(summary = "更新部门", description = "更新部门")
+    @PermissionTag(permission = "dept:update")
     @PutMapping()
     public Result<String> updateDept(@Valid @RequestBody DeptUpdateDto dto) {
         deptService.updateDept(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除部门", description = "删除部门", tags = "dept::delete")
+    @Operation(summary = "删除部门", description = "删除部门")
+    @PermissionTag(permission = "dept:delete")
     @DeleteMapping()
     public Result<String> deleteDept(@RequestBody List<Long> ids) {
         deptService.deleteDept(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "获取所有部门", description = "获取所有部门", tags = "dept::query")
+    @Operation(summary = "获取所有部门", description = "获取所有部门")
     @GetMapping("private/getDeptList")
     public Result<List<DeptVo>> getDeptPage() {
         List<DeptVo> voList = deptService.getDeptPage();

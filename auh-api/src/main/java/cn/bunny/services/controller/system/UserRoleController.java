@@ -1,7 +1,8 @@
 package cn.bunny.services.controller.system;
 
-import cn.bunny.services.domain.system.system.dto.user.AssignRolesToUsersDto;
+import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.model.vo.result.Result;
+import cn.bunny.services.domain.system.system.dto.user.AssignRolesToUsersDto;
 import cn.bunny.services.service.system.UserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,7 +19,8 @@ import java.util.List;
  * @author Bunny
  * @since 2024-09-26
  */
-@Tag(name = "系统用户和角色", description = "用户和角色相关接口")
+@Tag(name = "用户和角色", description = "用户和角色相关接口")
+@PermissionTag(permission = "userRole:*")
 @RestController
 @RequestMapping("api/userRole")
 public class UserRoleController {
@@ -33,7 +35,8 @@ public class UserRoleController {
         return Result.success(roleVoList);
     }
 
-    @Operation(summary = "为用户分配角色", description = "为用户分配角色", tags = "user::add")
+    @Operation(summary = "为用户分配角色", description = "为用户分配角色")
+    @PermissionTag(permission = "userRole:add")
     @PostMapping()
     public Result<String> addUserRole(@RequestBody AssignRolesToUsersDto dto) {
         userRoleService.addUserRole(dto);

@@ -3,7 +3,7 @@ package cn.bunny.services.service.system.impl;
 import cn.bunny.services.core.cache.RedisService;
 import cn.bunny.services.core.event.event.ClearAllUserCacheEvent;
 import cn.bunny.services.core.event.event.UpdateUserinfoByUserIdsEvent;
-import cn.bunny.services.domain.common.constant.MinioConstant;
+import cn.bunny.services.domain.common.constant.FileStorageConstant;
 import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
@@ -26,8 +26,7 @@ import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.mapper.system.UserDeptMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
-import cn.bunny.services.minio.MinioHelper;
-import cn.bunny.services.service.system.FilesService;
+import cn.bunny.services.service.file.FilesService;
 import cn.bunny.services.service.system.UserService;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -78,9 +77,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
     private RoleMapper roleMapper;
 
     @Resource
-    private MinioHelper minioHelper;
-
-    @Resource
     private RedisService redisService;
 
     @Resource
@@ -103,14 +99,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         // 用户是否存在
         if (user == null) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
-        // 用户头像
-        String avatar = user.getAvatar();
 
         UserVo userVo = new UserVo();
         BeanUtils.copyProperties(user, userVo);
 
-        String userAvatar = minioHelper.getUserAvatar(avatar);
-        userVo.setAvatar(userAvatar);
         return userVo;
     }
 
@@ -220,12 +212,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
 
         List<AdminUserVo> voList = page.getRecords().stream()
                 .map(adminUser -> {
-                    // 如果存在用户头像，则设置用户头像
-                    String avatar = minioHelper.getUserAvatar(adminUser.getAvatar());
-
                     AdminUserVo adminUserVo = new AdminUserVo();
                     BeanUtils.copyProperties(adminUser, adminUserVo);
-                    adminUserVo.setAvatar(avatar);
                     return adminUserVo;
                 })
                 .filter(adminUserVo -> !adminUserVo.getId().equals(1L))
@@ -378,11 +366,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
         if (avatar == null) return;
 
         // 上传头像
-        FileUploadDto uploadDto = FileUploadDto.builder().file(avatar).type(MinioConstant.avatar).build();
+        FileUploadDto uploadDto = FileUploadDto.builder().file(avatar).type(FileStorageConstant.AVATAR).build();
         FileInfoVo fileInfoVo = filesService.upload(uploadDto);
 
         // 更新用户
         adminUser.setId(userId);
-        adminUser.setAvatar(fileInfoVo.getFilepath());
+        adminUser.setAvatar(fileInfoVo.getUrl());
     }
 }

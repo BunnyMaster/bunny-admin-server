@@ -2,13 +2,11 @@
 
 > [!IMPORTANT]
 >
-> 前端项目整体都由此模板开发
->
-> 项目由[小铭](https://github.com/xiaoxian521)开源权限模板[Pure-admin](https://pure-admin.github.io/vue-pure-admin/)
+> 开源权限模板[Pure-admin](https://pure-admin.github.io/vue-pure-admin/)
 >
 > **Pure-admin文档**：https://pure-admin.github.io/pure-admin-doc
-
-> [!TIP]
+>
+> **默认凭证**
 >
 > 项目中有一个默认管理员，数据库中用户`id`是`1`：
 >
@@ -24,7 +22,9 @@
 >
 > `$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe`
 
-## 视频说明地址
+可粗可细的权限控制，多平台文件上传。
+
+## 📽️视频说明地址
 
 **介绍视频视频**
 
@@ -51,9 +51,23 @@
 
 一个基于 Spring Security 6 的现代化动态权限控制系统，提供完整的 RBAC 权限管理解决方案。支持前后端分离架构，可灵活配置细粒度权限控制。
 
-## ✨ v4.0.0 重大更新
+## 😋控制器上注解说明
+
+整个项目是基于URL，方便定义权限接口，即使项目中接口不存在，通过URL的方式增删权限。
+
+比如项目需要为`dept`分配了角色，这个角色可以访问`dept`下所有的接口，那么就可以写成`api/dept/**`，如果需要`dept`下某个接口，`/api/dept/aaa/bbb`，这种形式。
+
+如果针对分页查询，分页参数写在URL上的，可以这样做，`/api/dept/*/*`这样就可以做到灵活的权限控制。
+
+但是在部分场景下，接口就是我们的权限，这时如果手动一个一个添加URL很麻烦，所以使用的swagger自带的注解和`PermissionTag`，自定义的注解的方式，如果这时的项目需求是，为整个接口添加权限，就可以用反射的方式添加。
+
+使用放射的方式已经放在controller的目录下，看`ReadMe`文档即可。
+
+## ✨重大更新
 
 ### 核心改进
+
+**v4.0.0**
 
 - **全面重构**：后端接口、实体类等重构，前端重构部分j+优化操作体验
 - **批量操作支持**：
@@ -62,27 +76,13 @@
   - ✅ 角色管理：支持 Excel 批量更新
   - ✅ 多语言配置：支持 JSON/Excel 更新（全量替换模式）
 
-### 技术亮点
+**v4.0.1**
 
-- **注解扫描**：通过 `AnnotationScanner.java` 自动扫描想要的注解
+- 文件系统支持多平台，只需要手动配置即可。
+- 有需要参考文档：https://x-file-storage.xuyanwu.cn/#/
+- 文件删除和下载等需要实现对应接口`FileRecorder `，目前以实现，对应代码和控制器都在文件夹`file`下，如有需要修改可以参考【x-file-storage】文档修改。
 
-  ```java
-  // 示例：扫描特定注解的类
-  public static Set<Class<?>> getClassesWithAnnotation(Class<?> annotation) {
-      // 实现细节...
-  }
-  ```
-
-- **应用场景**：
-  - 定时任务配置
-  - 权限接口发现
-
-### 界面优化
-
-![权限管理界面](./images/image-20250428223816172.png)
-![角色管理界面](./images/image-20250428223843974.png)
-
-## :tipping_hand_man:用法提示
+## 🧠用法提示
 
 > [!TIP]
 >
@@ -124,17 +124,15 @@ http.authorizeHttpRequests(auth -> auth
 
 ### Maven工程结构
 
-```mermaid
-graph TD
-
-父工程 -->|主项目| auth-api
-父工程 -->|代码生成器| generator-code
-auth-api -->|启动项、控制器| service
-service -->|mapper| dao
-service -->|包含domain、配置等| auth-core
-dao -->|包含domain、配置等| auth-core
-
-
+```
+bunny-auth/
+├── auth-api      # 接口定义层
+├── auth-core     # 核心模块
+│   ├── config    # 安全配置
+│   └── domain    # domain
+│   └── ......    # 还要很多...
+├── service       # 业务实现
+└── dao           # 数据持久层
 ```
 
 ## 🛠️ 应用场景
@@ -164,10 +162,12 @@ dao -->|包含domain、配置等| auth-core
 
   ```java
   @Tag(name = "系统权限")
+  @PermissionTag(permission = "permission::*")
   @RestController
   @RequestMapping("api/permission")
   public class PermissionController {
-      @Operation(summary = "分页查询", tags = {"permission::page"})
+      @Operation(summary = "分页查询")
+      @PermissionTag(permission = "permission::query")
       @GetMapping("{page}/{limit}")
       public Result<PageResult<PermissionVo>> getPermissionPage(
           @PathVariable Integer page,
@@ -196,20 +196,20 @@ AntPath详情：https://juejin.cn/spost/7498247273660743732
 
 ## 🧰 技术栈
 
-### 前端
+### 😄前端
 
 - Vue 3 + PureAdmin 模板
 - 自定义权限组件
 - 国际化支持
 
-### 后端
+### 😃后端
 
 - Spring Boot 3 + Spring Security 6
 - JDK 17
 - MySQL + Redis + MinIO
 - Swagger + Knife4j 文档
 
-### 开发环境
+### 😀开发环境
 
 根据不同docker 启动方式不一样
 
@@ -254,19 +254,11 @@ docker compose up -d
 
 ## 📈 后续规划
 
-- [x] 权限级别拖拽
-- [x] 权限树型结构动态添加、更新、删除
-- [ ] 用户设置持久化存储到数据库
-- [x] 权限弹窗页面优化
-- [x] 后端文档注释完善
-- [x] 系统监控后端返回403停止请求
-- [x] 优化用户配置权限逻辑，配置后热更新逻辑等
-- [x] 完善后端注释，有需要添加ReadMe文档
-- [x] 获取Redis中活跃用户
+暂无
 
-## 前后端接口规范
+## 📏前后端接口规范
 
-### 前端示例规范
+### 🌐前端示例规范
 
 | **操作** | **API 层**    | **Pinia 层**    |
 | :------- | :------------ | :-------------- |
@@ -277,7 +269,7 @@ docker compose up -d
 | 更新数据 | `updateUser`  | `editUser`      |
 | 删除数据 | `deleteUser`  | `removeUser`    |
 
-### 后端接口示例规范
+### 🛟后端接口示例规范
 
 遵循Restful
 

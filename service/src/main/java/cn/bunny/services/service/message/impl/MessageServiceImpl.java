@@ -1,9 +1,9 @@
 package cn.bunny.services.service.message.impl;
 
 import cn.bunny.services.context.BaseContext;
+import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.system.message.dto.MessageAddDto;
 import cn.bunny.services.domain.system.message.dto.MessageDto;
 import cn.bunny.services.domain.system.message.dto.MessageUpdateDto;
@@ -17,7 +17,6 @@ import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.message.MessageMapper;
 import cn.bunny.services.mapper.message.MessageReceivedMapper;
 import cn.bunny.services.mapper.system.UserMapper;
-import cn.bunny.services.minio.MinioHelper;
 import cn.bunny.services.service.message.MessageReceivedService;
 import cn.bunny.services.service.message.MessageService;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -26,7 +25,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,12 +47,12 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
     @Resource
     private MessageReceivedMapper messageReceivedMapper;
+
     @Resource
     private UserMapper userMapper;
+
     @Resource
     private MessageReceivedService messageReceivedService;
-    @Resource
-    private MinioHelper minioHelper;
 
     /**
      * 分页查询发送消息
@@ -143,13 +141,9 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @param dto 系统消息添加
      */
     @Override
-    public void addMessage(@Valid MessageAddDto dto) {
+    public void addMessage(MessageAddDto dto) {
         // 如果发送人为空设置当前登录的人的ID
         if (dto.getSendUserId() == null) dto.setSendUserId(BaseContext.getUserId());
-
-        // 设置封面返回内容
-        String cover = dto.getCover();
-        dto.setCover(minioHelper.getUserAvatar(cover));
 
         // 先保存消息数据，之后拿到保存消息的id
         Message message = new Message();
@@ -182,7 +176,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @param dto 系统消息更新
      */
     @Override
-    public void updateMessage(@Valid MessageUpdateDto dto) {
+    public void updateMessage(MessageUpdateDto dto) {
         // 如果发送人为空设置当前登录的人的ID
         Long sendUserId = dto.getSendUserId();
         if (sendUserId == null) dto.setSendUserId(BaseContext.getUserId());
@@ -192,10 +186,6 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         if (receivedUserIds.isEmpty()) {
             receivedUserIds = userMapper.selectList(null).stream().map(BaseEntity::getId).toList();
         }
-
-        // 设置封面返回内容
-        String cover = dto.getCover();
-        dto.setCover(minioHelper.getUserAvatar(cover));
 
         // 更新内容
         Message message = new Message();

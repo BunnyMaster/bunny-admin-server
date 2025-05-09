@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.file.FilesParDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.files.entity.FilesParDetail">
+        <id column="id" property="id"/>
+        <id column="platform" property="platform"/>
+        <id column="upload_id" property="uploadId"/>
+        <id column="e_tag" property="eTag"/>
+        <id column="part_number" property="partNumber"/>
+        <id column="part_size" property="partSize"/>
+        <id column="hash_info" property="hashInfo"/>
+        <id column="create_user" property="createUser"/>
+        <id column="update_user" property="updateUser"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 分页查询文件分片信息表，仅在手动分片上传时使用内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.services.domain.system.files.vo.FilesParDetailVo">
+        select
+        base.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_files_part_detail base
+        left join sys_user create_user on create_user.id = base.create_user
+        left join sys_user update_user on update_user.id = base.update_user
+        <where>
+            base.is_deleted = 0
+            <if test="dto.id != null and dto.id != ''">
+                and base.id like CONCAT('%',#{dto.id},'%')
+            </if>
+            <if test="dto.platform != null and dto.platform != ''">
+                and base.platform like CONCAT('%',#{dto.platform},'%')
+            </if>
+            <if test="dto.uploadId != null and dto.uploadId != ''">
+                and base.upload_id like CONCAT('%',#{dto.uploadId},'%')
+            </if>
+            <if test="dto.eTag != null and dto.eTag != ''">
+                and base.e_tag like CONCAT('%',#{dto.eTag},'%')
+            </if>
+            <if test="dto.partNumber != null and dto.partNumber != ''">
+                and base.part_number like CONCAT('%',#{dto.partNumber},'%')
+            </if>
+            <if test="dto.partSize != null and dto.partSize != ''">
+                and base.part_size like CONCAT('%',#{dto.partSize},'%')
+            </if>
+            <if test="dto.hashInfo != null and dto.hashInfo != ''">
+                and base.hash_info like CONCAT('%',#{dto.hashInfo},'%')
+            </if>
+            <if test="dto.createUser != null and dto.createUser != ''">
+                and base.create_user like CONCAT('%',#{dto.createUser},'%')
+            </if>
+            <if test="dto.updateUser != null and dto.updateUser != ''">
+                and base.update_user like CONCAT('%',#{dto.updateUser},'%')
+            </if>
+            <if test="dto.createTime != null and dto.createTime != ''">
+                and base.create_time like CONCAT('%',#{dto.createTime},'%')
+            </if>
+            <if test="dto.updateTime != null and dto.updateTime != ''">
+                and base.update_time like CONCAT('%',#{dto.updateTime},'%')
+            </if>
+            <if test="dto.isDeleted != null and dto.isDeleted != ''">
+                and base.is_deleted like CONCAT('%',#{dto.isDeleted},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>
