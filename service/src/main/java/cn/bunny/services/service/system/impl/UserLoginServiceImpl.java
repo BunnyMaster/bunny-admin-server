@@ -26,7 +26,6 @@ import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.mapper.system.UserMapper;
-import cn.bunny.services.minio.MinioHelper;
 import cn.bunny.services.service.system.UserLoginService;
 import cn.bunny.services.utils.IpUtil;
 import cn.bunny.services.utils.JwtTokenUtil;
@@ -65,9 +64,6 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
 
     @Resource
     private ConcreteSenderEmailTemplate concreteSenderEmailTemplate;
-
-    @Resource
-    private MinioHelper minioHelper;
 
     @Resource
     private UserLoginVoBuilderCacheService userLoginVoBuilderCacheService;
@@ -249,10 +245,6 @@ public class UserLoginServiceImpl extends ServiceImpl<UserMapper, AdminUser> imp
         // 判断是否存在这个用户
         AdminUser user = getOne(Wrappers.<AdminUser>lambdaQuery().eq(AdminUser::getId, userId));
         if (user == null) throw new AuthCustomerException(ResultCodeEnum.USER_IS_EMPTY);
-
-        // 检查用户头像，因为更新用户信息会带着用户之前的信息，如果没有更新头像，前端显示的http:xxx
-        String userAvatar = minioHelper.formatUserAvatar(dto.getAvatar());
-        dto.setAvatar(userAvatar);
 
         // 更新用户
         BeanUtils.copyProperties(dto, user);

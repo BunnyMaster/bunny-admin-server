@@ -20,7 +20,6 @@
         <module>dao</module>
         <module>auth-core</module>
         <module>auh-api</module>
-        <module>generator-code</module>
     </modules>
 
     <properties>

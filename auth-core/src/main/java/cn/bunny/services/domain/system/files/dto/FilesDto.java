@@ -19,8 +19,14 @@ public class FilesDto {
     @Schema(name = "filepath", title = "文件在服务器上的存储路径")
     private String filepath;
 
-    @Schema(name = "fileType", title = "文件的MIME类型")
-    private String fileType;
+    @Schema(name = "contentType", title = "文件的MIME类型")
+    private String contentType;
+
+    @Schema(name = "ext", title = "扩展名")
+    private String ext;
+
+    @Schema(name = "platform", title = "存储平台")
+    private String platform;
 
     @Schema(name = "downloadCount", title = "下载数量")
     private Integer downloadCount;

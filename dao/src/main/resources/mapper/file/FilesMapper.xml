@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.services.mapper.file.FilesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.files.entity.Files">
+        <id column="id" property="id"/>
+        <id column="url" property="url"/>
+        <id column="size" property="size"/>
+        <id column="filename" property="filename"/>
+        <id column="original_filename" property="originalFilename"/>
+        <id column="base_path" property="basePath"/>
+        <id column="filepath" property="filepath"/>
+        <id column="ext" property="ext"/>
+        <id column="content_type" property="contentType"/>
+        <id column="platform" property="platform"/>
+        <id column="th_url" property="thUrl"/>
+        <id column="th_filename" property="thFilename"/>
+        <id column="th_size" property="thSize"/>
+        <id column="th_content_type" property="thContentType"/>
+        <id column="object_id" property="objectId"/>
+        <id column="object_type" property="objectType"/>
+        <id column="metadata" property="metadata"/>
+        <id column="user_metadata" property="userMetadata"/>
+        <id column="th_metadata" property="thMetadata"/>
+        <id column="th_user_metadata" property="thUserMetadata"/>
+        <id column="attr" property="attr"/>
+        <id column="file_acl" property="fileAcl"/>
+        <id column="th_file_acl" property="thFileAcl"/>
+        <id column="hash_info" property="hashInfo"/>
+        <id column="upload_id" property="uploadId"/>
+        <id column="upload_status" property="uploadStatus"/>
+        <id column="download_count" property="downloadCount"/>
+        <id column="create_user" property="createUser"/>
+        <id column="update_user" property="updateUser"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="is_deleted" property="isDeleted"/>
+        <id column="id" property="id"/>
+        <id column="filename" property="filename"/>
+        <id column="filepath" property="filepath"/>
+    </resultMap>
+
+    <!-- 分页查询系统文件表内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.services.domain.system.files.vo.FilesVo">
+        select
+        files.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from sys_files files
+        left join sys_user create_user on create_user.id = files.create_user
+        left join sys_user update_user on update_user.id = files.update_user
+        <where>
+            files.is_deleted = 0
+            <if test="dto.filename != null and dto.filename != ''">
+                and files.filename like CONCAT('%',#{dto.filename},'%')
+            </if>
+            <if test="dto.filepath != null and dto.filepath != ''">
+                and files.filepath like CONCAT('%',#{dto.filepath},'%')
+            </if>
+            <if test="dto.contentType != null and dto.contentType != ''">
+                and files.content_type like CONCAT('%',#{dto.contentType},'%')
+            </if>
+            <if test="dto.ext != null and dto.ext != ''">
+                and files.ext like CONCAT('%',#{dto.ext},'%')
+            </if>
+            <if test="dto.platform != null and dto.platform != ''">
+                and files.platform like CONCAT('%',#{dto.platform},'%')
+            </if>
+            <if test="dto.downloadCount != null">
+                and files.download_count = #{dto.downloadCount}
+            </if>
+        </where>
+    </select>
+
+</mapper>

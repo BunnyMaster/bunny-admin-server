@@ -9,7 +9,6 @@ import cn.bunny.services.domain.system.system.entity.Permission;
 import cn.bunny.services.domain.system.system.entity.Role;
 import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
-import cn.bunny.services.minio.MinioHelper;
 import cn.bunny.services.utils.JwtTokenUtil;
 import jakarta.annotation.Resource;
 import lombok.Value;
@@ -28,9 +27,6 @@ public class UserLoginVoBuilderCacheService {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
-
-    @Resource
-    private MinioHelper minioHelper;
 
     @Resource
     private RoleMapper roleMapper;
@@ -60,10 +56,6 @@ public class UserLoginVoBuilderCacheService {
         // 计算过期时间，并格式化返回
         String expires = calculateExpires(readMeDay);
         loginVo.setExpires(expires);
-
-        // 设置用户头像
-        String userAvatar = minioHelper.getUserAvatar(user.getAvatar());
-        loginVo.setAvatar(userAvatar);
 
         String loginInfoPrefix = RedisUserConstant.getUserLoginInfoPrefix(username);
         redisTemplate.opsForValue().set(loginInfoPrefix, loginVo, readMeDay, TimeUnit.DAYS);

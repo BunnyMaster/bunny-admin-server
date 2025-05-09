@@ -128,7 +128,6 @@ http.authorizeHttpRequests(auth -> auth
 graph TD
 
 父工程 -->|主项目| auth-api
-父工程 -->|代码生成器| generator-code
 auth-api -->|启动项、控制器| service
 service -->|mapper| dao
 service -->|包含domain、配置等| auth-core

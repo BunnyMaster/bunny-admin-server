@@ -24,4 +24,7 @@ public class FileUploadDto {
     @NotBlank(message = "文件类型不能为空")
     private String type;
 
+    @Schema(name = "platform", title = "指定的平台")
+    private String platform;
+
 }

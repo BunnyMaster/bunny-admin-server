@@ -1,7 +1,0 @@
-bunny:
-  master:
-    host: 192.168.3.137 # localhost
-    port: 3306
-    database: auth_admin
-    username: root
-    password: "123456"
