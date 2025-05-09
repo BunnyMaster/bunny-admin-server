@@ -37,7 +37,6 @@ public class BuildPermissionApiTest {
             String path = parent.getPath();
             String httpMethod = parent.getHttpMethod();
             String powerCodes = parent.getPowerCode();
-            String description = parent.getDescription();
 
             // 设置 powerCode
             String powerCode = Objects.isNull(powerCodes) ? "" : powerCodes;
