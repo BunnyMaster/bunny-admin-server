@@ -38,6 +38,10 @@ public class ControllerApiPermissionScanner extends AbstractAnnotationScanner {
         return controllerClasses.stream()
                 .map(ControllerApiPermissionScanner::processControllerClass)
                 .filter(Objects::nonNull)
+                .peek(scannerControllerInfoVo -> {
+                    String path = scannerControllerInfoVo.getPath();
+                    scannerControllerInfoVo.setPath(path + "/**");
+                })
                 .collect(Collectors.toList());
     }
 

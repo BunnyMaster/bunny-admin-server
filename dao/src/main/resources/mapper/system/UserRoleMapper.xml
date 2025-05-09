@@ -14,37 +14,39 @@
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, user_id, role_id, create_time, update_time, create_user, update_user, is_deleted
-    </sql>
-
     <!-- 删除这个用户id下所有的角色信息 -->
     <delete id="deleteBatchIdsByUserIds">
         delete
         from sys_user_role
-        where user_id in
-        <foreach collection="userIds" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
+        <if test="userIds != null and !userIds.isEmpty()">
+            where user_id in
+            <foreach collection="userIds" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
     </delete>
 
     <!-- 根据角色id删除用户和角色 -->
     <delete id="deleteBatchIdsByRoleIds">
         delete
         from sys_user_role
-        where role_id in
-        <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            where role_id in
+            <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
     </delete>
 
     <!-- 根据角色id列表查询 -->
     <select id="selectListByRoleIds" resultType="cn.bunny.services.domain.system.system.entity.UserRole">
-        SELECT * FROM sys_user_role WHERE role_id IN
-        <foreach collection="ids" item="id" open="(" close=")" separator=",">
-            #{id}
-        </foreach>
+        SELECT * FROM sys_user_role
+        <if test="ids != null and !ids.isEmpty()">
+            WHERE role_id IN
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
     </select>
 
 </mapper>
