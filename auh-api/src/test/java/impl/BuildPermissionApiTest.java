@@ -20,12 +20,14 @@ public class BuildPermissionApiTest {
 
     @Test
     void test() {
-        List<ScannerControllerInfoVo> list = ControllerApiPermissionScanner.getSystemApiInfoList();
-        ScannerControllerInfoVo actuatorParent = ScannerControllerInfoVo.builder().powerCodes(List.of("admin::actuator")).summary("actuator端点访问").build();
+        List<ScannerControllerInfoVo> list = ControllerApiPermissionScanner.scanControllerInfo();
+
+        // 添加【Springboot端点】在服务监控中会用到
+        ScannerControllerInfoVo actuatorParent = ScannerControllerInfoVo.builder().powerCode("admin:actuator").summary("actuator端点访问").build();
         ScannerControllerInfoVo actuatorChild = ScannerControllerInfoVo.builder().path("/api/actuator/**")
                 .summary("Springboot端点全部可以访问")
                 .description("系统监控使用")
-                .powerCodes(List.of("actuator::all"))
+                .powerCode("actuator:all")
                 .build();
         actuatorParent.setChildren(List.of(actuatorChild));
         list.add(actuatorParent);
@@ -34,11 +36,11 @@ public class BuildPermissionApiTest {
             String summary = parent.getSummary();
             String path = parent.getPath();
             String httpMethod = parent.getHttpMethod();
-            List<String> powerCodes = parent.getPowerCodes();
+            String powerCodes = parent.getPowerCode();
             String description = parent.getDescription();
 
             // 设置 powerCode
-            String powerCode = Objects.isNull(powerCodes) ? "" : powerCodes.get(0);
+            String powerCode = Objects.isNull(powerCodes) ? "" : powerCodes;
 
             Permission permission = new Permission();
             permission.setParentId(0L);
@@ -57,10 +59,10 @@ public class BuildPermissionApiTest {
                         String childrenSummary = children.getSummary();
                         String childrenPath = children.getPath();
                         String childrenHttpMethod = children.getHttpMethod();
-                        List<String> childrenPowerCodes = children.getPowerCodes();
+                        String childrenPowerCodes = children.getPowerCode();
 
                         // 设置 powerCode
-                        String childrenPowerCode = Objects.isNull(childrenPowerCodes) ? "" : childrenPowerCodes.get(0);
+                        String childrenPowerCode = Objects.isNull(childrenPowerCodes) ? "" : childrenPowerCodes;
 
                         Permission childPermission = new Permission();
                         childPermission.setParentId(permissionId);

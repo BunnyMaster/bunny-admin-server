@@ -33,7 +33,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -208,38 +207,22 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
      * 上传文件文档
      * </a>
      *
-     * @param uploadThumbnail 上传文件 {@link UploadThumbnail}
+     * @param dto 上传文件 {@link UploadThumbnail}
      */
     @Override
-    public FileInfoVo uploadFileByThumbnail(UploadThumbnail uploadThumbnail) {
-        MultipartFile file = uploadThumbnail.getFile();
-        String preType = uploadThumbnail.getPreType();
+    public FileInfoVo uploadFileByThumbnail(FileUploadDto dto) {
+        MultipartFile file = dto.getFile();
+        String preType = dto.getType();
         String type = FileStorageConstant.getType(preType);
         if (file == null) return null;
 
         // 上传文件构造参数
         String filepath = type + DateUtil.format(new Date(), "yyyy-MM-dd") + "/";
-        UploadPretreatment uploadPretreatment = fileStorageService.of(file).setPath(filepath);
-
-        // 缩略图后缀
-        String thumbnailSuffix = uploadThumbnail.getThumbnailSuffix();
-        if (StringUtils.hasText(thumbnailSuffix)) {
-            uploadPretreatment.setThumbnailSuffix(thumbnailSuffix);
-        }
-
-        // 保存文件名称
-        String saveThFilename = uploadThumbnail.getSaveThFilename();
-        if (StringUtils.hasText(saveThFilename)) {
-            uploadPretreatment.setSaveThFilename(saveThFilename);
-        }
-
-        // 缩略图大小不为空
-        Integer thumbnailWidth = uploadThumbnail.getThumbnailWidth();
-        Integer thumbnailHeight = uploadThumbnail.getThumbnailHeight();
-
-        if (thumbnailWidth != null && thumbnailHeight != null) {
-            uploadPretreatment.thumbnail(uploadThumbnail.getThumbnailWidth(), uploadThumbnail.getThumbnailHeight());
-        }
+        UploadPretreatment uploadPretreatment = fileStorageService.of(file)
+                // 指定缩略图后缀，必须是 thumbnailator 支持的图片格式，默认使用全局的
+                // .setThumbnailSuffix(".jpg")
+                .setPath(filepath)
+                .thumbnail(200, 200);
 
         FileInfo fileInfo = uploadPretreatment.upload();
         // 返回信息内容化

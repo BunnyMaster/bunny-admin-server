@@ -1,5 +1,6 @@
 package cn.bunny.services.controller.file;
 
+import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
@@ -26,6 +27,7 @@ import java.util.List;
  * @since 2025-05-08 23:01:19
  */
 @Tag(name = "文件分片信息表，仅在手动分片上传时使用", description = "文件分片信息表，仅在手动分片上传时使用相关接口")
+@PermissionTag(permission = "filesParDetail:*")
 @RestController
 @RequestMapping("/api/filesParDetail")
 public class FilesParDetailController {
@@ -33,7 +35,8 @@ public class FilesParDetailController {
     @Resource
     private FilesParDetailService filesPardetailService;
 
-    @Operation(summary = "分页查询文件分片信息表，仅在手动分片上传时使用", description = "分页文件分片信息表，仅在手动分片上传时使用", tags = "filesParDetail::query")
+    @Operation(summary = "分页查询文件分片信息表，仅在手动分片上传时使用", description = "分页文件分片信息表，仅在手动分片上传时使用")
+    @PermissionTag(permission = "filesParDetail:query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<FilesParDetailVo>> getFilesParDetailPage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -46,21 +49,24 @@ public class FilesParDetailController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加文件分片信息表，仅在手动分片上传时使用", description = "添加文件分片信息表，仅在手动分片上传时使用", tags = "filesParDetail::add")
+    @Operation(summary = "添加文件分片信息表，仅在手动分片上传时使用", description = "添加文件分片信息表，仅在手动分片上传时使用")
+    @PermissionTag(permission = "filesParDetail:add")
     @PostMapping()
     public Result<String> addFilesParDetail(@Valid @RequestBody FilesParDetailDto dto) {
         filesPardetailService.addFilesParDetail(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新文件分片信息表，仅在手动分片上传时使用", description = "更新文件分片信息表，仅在手动分片上传时使用", tags = "filesParDetail::update")
+    @Operation(summary = "更新文件分片信息表，仅在手动分片上传时使用", description = "更新文件分片信息表，仅在手动分片上传时使用")
+    @PermissionTag(permission = "filesParDetail:update")
     @PutMapping()
     public Result<String> updateFilesParDetail(@Valid @RequestBody FilesParDetailDto dto) {
         filesPardetailService.updateFilesParDetail(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除文件分片信息表，仅在手动分片上传时使用", description = "删除文件分片信息表，仅在手动分片上传时使用", tags = "filesParDetail::delete")
+    @Operation(summary = "删除文件分片信息表，仅在手动分片上传时使用", description = "删除文件分片信息表，仅在手动分片上传时使用")
+    @PermissionTag(permission = "filesParDetail:delete")
     @DeleteMapping()
     public Result<String> deleteFilesParDetail(@RequestBody List<Long> ids) {
         filesPardetailService.deleteFilesParDetail(ids);

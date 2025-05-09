@@ -26,11 +26,4 @@ public class UploadThumbnail {
     @Schema(name = "saveThFilename", title = "保存文件名称，不包含扩展名")
     String saveThFilename;
 
-    @Schema(name = "thumbnailWidth", title = "宽度")
-    Integer thumbnailWidth;
-
-    @Schema(name = "thumbnailHeight", title = "高度")
-    Integer thumbnailHeight;
-
-
 }

@@ -1,5 +1,6 @@
 package cn.bunny.services.controller.log;
 
+import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
@@ -26,6 +27,7 @@ import java.util.List;
  * @since 2024-10-19 01:01:01
  */
 @Tag(name = "用户登录日志", description = "用户登录日志相关接口")
+@PermissionTag(permission = "userLoginLog:*")
 @RestController
 @RequestMapping("api/userLoginLog")
 public class UserLoginLogController {
@@ -33,7 +35,8 @@ public class UserLoginLogController {
     @Resource
     private UserLoginLogService userLoginLogService;
 
-    @Operation(summary = "分页查询用户登录日志", description = "分页查询用户登录日志", tags = "userLoginLog::query")
+    @Operation(summary = "分页查询用户登录日志", description = "分页查询用户登录日志")
+    @PermissionTag(permission = "userLoginLog:query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<UserLoginLogVo>> getUserLoginLogPage(
             @Parameter(name = "page", description = "当前页", required = true) @PathVariable("page") Integer page,
@@ -44,14 +47,15 @@ public class UserLoginLogController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "删除用户登录日志", description = "删除用户登录日志", tags = "userLoginLog::delete")
+    @Operation(summary = "删除用户登录日志", description = "删除用户登录日志")
+    @PermissionTag(permission = "userLoginLog:delete")
     @DeleteMapping()
     public Result<Object> deleteUserLoginLog(@RequestBody List<Long> ids) {
         userLoginLogService.deleteUserLoginLog(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "分页查询当前用户登录日志", description = "分页查询本地用户登录日志", tags = "userLoginLog::query")
+    @Operation(summary = "分页查询当前用户登录日志", description = "分页查询本地用户登录日志")
     @GetMapping("private/{page}/{limit}")
     public Result<PageResult<UserLoginLogLocalVo>> getUserLoginLogPageByUser(
             @Parameter(name = "page", description = "当前页", required = true) @PathVariable("page") Integer page,

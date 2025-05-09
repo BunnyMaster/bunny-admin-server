@@ -78,7 +78,7 @@ public interface FilesService extends IService<Files> {
      *
      * @param uploadThumbnail 上传文件 {@link UploadThumbnail}
      */
-    FileInfoVo uploadFileByThumbnail(UploadThumbnail uploadThumbnail);
+    FileInfoVo uploadFileByThumbnail(FileUploadDto uploadThumbnail);
 
     /**
      * 列举当前文件路径所有的文件

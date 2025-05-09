@@ -1,5 +1,6 @@
 package cn.bunny.services.controller.message;
 
+import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
@@ -28,6 +29,7 @@ import java.util.List;
  * @since 2024-10-30 13:19:33
  */
 @Tag(name = "消息类型", description = "系统消息类型相关接口")
+@PermissionTag(permission = "messageType:*")
 @RestController
 @RequestMapping("api/messageType")
 public class MessageTypeController {
@@ -35,7 +37,8 @@ public class MessageTypeController {
     @Resource
     private MessageTypeService messageTypeService;
 
-    @Operation(summary = "分页查询消息类型", description = "分页查询系统消息类型", tags = "messageType::query")
+    @Operation(summary = "分页查询消息类型", description = "分页查询系统消息类型")
+    @PermissionTag(permission = "messageType:query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<MessageTypeVo>> getMessageTypePage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -48,28 +51,31 @@ public class MessageTypeController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加消息类型", description = "添加系统消息类型", tags = "messageType::add")
+    @Operation(summary = "添加消息类型", description = "添加系统消息类型")
+    @PermissionTag(permission = "messageType:add")
     @PostMapping()
     public Result<String> addMessageType(@Valid @RequestBody MessageTypeAddDto dto) {
         messageTypeService.addMessageType(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更新消息类型", description = "更新系统消息类型", tags = "messageType::update")
+    @Operation(summary = "更新消息类型", description = "更新系统消息类型")
+    @PermissionTag(permission = "messageType:update")
     @PutMapping()
     public Result<String> updateMessageType(@Valid @RequestBody MessageTypeUpdateDto dto) {
         messageTypeService.updateMessageType(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除消息类型", description = "删除系统消息类型", tags = "messageType::delete")
+    @Operation(summary = "删除消息类型", description = "删除系统消息类型")
+    @PermissionTag(permission = "messageType:delete")
     @DeleteMapping()
     public Result<String> deleteMessageType(@RequestBody List<Long> ids) {
         messageTypeService.deleteMessageType(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "所有消息列表", description = "获取所有消息列表", tags = "messageType::query")
+    @Operation(summary = "所有消息列表", description = "获取所有消息列表")
     @GetMapping("private/getMessageList")
     public Result<List<MessageTypeVo>> getMessageList() {
         List<MessageTypeVo> voList = messageTypeService.getMessageList();

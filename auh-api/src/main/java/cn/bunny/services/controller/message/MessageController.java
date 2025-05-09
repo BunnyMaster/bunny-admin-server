@@ -1,5 +1,6 @@
 package cn.bunny.services.controller.message;
 
+import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
@@ -30,6 +31,7 @@ import java.util.List;
  * @since 2024-10-30 15:19:56
  */
 @Tag(name = "系统消息", description = "系统消息相关接口")
+@PermissionTag(permission = "message:*")
 @RestController
 @RequestMapping("api/message")
 public class MessageController {
@@ -37,7 +39,8 @@ public class MessageController {
     @Resource
     private MessageService messageService;
 
-    @Operation(summary = "分页查询系统消息", description = "分页查询发送消息", tags = "message::query")
+    @Operation(summary = "分页查询系统消息", description = "分页查询发送消息")
+    @PermissionTag(permission = "message:query")
     @GetMapping("{page}/{limit}")
     public Result<PageResult<MessageVo>> getMessagePage(
             @Parameter(name = "page", description = "当前页", required = true)
@@ -50,35 +53,35 @@ public class MessageController {
         return Result.success(pageResult);
     }
 
-    @Operation(summary = "添加系统消息", description = "添加系统消息", tags = "message::add")
+    @Operation(summary = "添加系统消息", description = "添加系统消息")
     @PostMapping()
     public Result<String> addMessage(@Valid @RequestBody MessageAddDto dto) {
         messageService.addMessage(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
-    @Operation(summary = "更系统消息", description = "更新系统消息", tags = "message::update")
+    @Operation(summary = "更系统消息", description = "更新系统消息")
     @PutMapping()
     public Result<String> updateMessage(@Valid @RequestBody MessageUpdateDto dto) {
         messageService.updateMessage(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
-    @Operation(summary = "删除系统消息", description = "删除系统消息", tags = "message::delete")
+    @Operation(summary = "删除系统消息", description = "删除系统消息")
     @DeleteMapping()
     public Result<String> deleteMessage(@RequestBody List<Long> ids) {
         messageService.deleteMessage(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }
 
-    @Operation(summary = "根据消息id查询消息详情", description = "根据消息id查询消息详情", tags = "message::query")
+    @Operation(summary = "根据消息id查询消息详情", description = "根据消息id查询消息详情")
     @GetMapping("private/getMessageDetailById")
     public Result<MessageDetailVo> getMessageDetailById(Long id) {
         MessageDetailVo vo = messageService.getMessageDetailById(id);
         return Result.success(vo);
     }
 
-    @Operation(summary = "根据消息id获取接收人信息", description = "根据消息id获取接收人信息", tags = "message::query")
+    @Operation(summary = "根据消息id获取接收人信息", description = "根据消息id获取接收人信息")
     @GetMapping("private/getReceivedUserinfoByMessageId")
     public Result<List<MessageReceivedWithUserVo>> getReceivedUserinfoByMessageId(Long messageId) {
         List<MessageReceivedWithUserVo> voList = messageService.getReceivedUserinfoByMessageId(messageId);

@@ -1,5 +1,6 @@
 package cn.bunny.services.controller.configuration;
 
+import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.Result;
 import cn.bunny.services.domain.system.configuration.dto.WebConfigurationDto;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "web配置文件", description = "web配置相关接口")
+@PermissionTag(permission = "config:*")
 @RestController
 @RequestMapping("/api/config")
 public class ConfigurationController {
@@ -25,7 +27,8 @@ public class ConfigurationController {
         return configurationService.webConfig();
     }
 
-    @Operation(summary = "更新web配置文件", description = "更新web配置文件，重启应用失效", tags = "config::update")
+    @Operation(summary = "更新web配置文件", description = "更新web配置文件，重启应用失效")
+    @PermissionTag(permission = "config::update")
     @PutMapping()
     public Result<Object> updateWebConfiguration(@Valid @RequestBody WebConfigurationDto dto) {
         configurationService.updateWebConfiguration(dto);

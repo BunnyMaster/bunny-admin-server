@@ -35,18 +35,6 @@ dromara:
 ## 生成系统需要的权限
 
 ```java
-import cn.bunny.services.AuthServiceApplication;
-import cn.bunny.services.aop.scanner.ControllerApiPermissionScanner;
-import cn.bunny.services.domain.common.model.dto.scanner.ScannerControllerInfoVo;
-import cn.bunny.services.domain.system.system.entity.Permission;
-import cn.bunny.services.service.system.PermissionService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
-import java.util.Objects;
-
 @SpringBootTest(classes = AuthServiceApplication.class, properties = "spring.profiles.active=dev")
 public class BuildPermissionApiTest {
 
@@ -55,12 +43,14 @@ public class BuildPermissionApiTest {
 
     @Test
     void test() {
-        List<ScannerControllerInfoVo> list = ControllerApiPermissionScanner.getSystemApiInfoList();
-        ScannerControllerInfoVo actuatorParent = ScannerControllerInfoVo.builder().powerCodes(List.of("admin::actuator")).summary("actuator端点访问").build();
+        List<ScannerControllerInfoVo> list = ControllerApiPermissionScanner.scanControllerInfo();
+
+        // 添加【Springboot端点】在服务监控中会用到
+        ScannerControllerInfoVo actuatorParent = ScannerControllerInfoVo.builder().powerCode("admin:actuator").summary("actuator端点访问").build();
         ScannerControllerInfoVo actuatorChild = ScannerControllerInfoVo.builder().path("/api/actuator/**")
                 .summary("Springboot端点全部可以访问")
                 .description("系统监控使用")
-                .powerCodes(List.of("actuator::all"))
+                .powerCode("actuator:all")
                 .build();
         actuatorParent.setChildren(List.of(actuatorChild));
         list.add(actuatorParent);
@@ -69,11 +59,11 @@ public class BuildPermissionApiTest {
             String summary = parent.getSummary();
             String path = parent.getPath();
             String httpMethod = parent.getHttpMethod();
-            List<String> powerCodes = parent.getPowerCodes();
+            String powerCodes = parent.getPowerCode();
             String description = parent.getDescription();
 
             // 设置 powerCode
-            String powerCode = Objects.isNull(powerCodes) ? "" : powerCodes.get(0);
+            String powerCode = Objects.isNull(powerCodes) ? "" : powerCodes;
 
             Permission permission = new Permission();
             permission.setParentId(0L);
@@ -92,10 +82,10 @@ public class BuildPermissionApiTest {
                         String childrenSummary = children.getSummary();
                         String childrenPath = children.getPath();
                         String childrenHttpMethod = children.getHttpMethod();
-                        List<String> childrenPowerCodes = children.getPowerCodes();
+                        String childrenPowerCodes = children.getPowerCode();
 
                         // 设置 powerCode
-                        String childrenPowerCode = Objects.isNull(childrenPowerCodes) ? "" : childrenPowerCodes.get(0);
+                        String childrenPowerCode = Objects.isNull(childrenPowerCodes) ? "" : childrenPowerCodes;
 
                         Permission childPermission = new Permission();
                         childPermission.setParentId(permissionId);
@@ -114,6 +104,10 @@ public class BuildPermissionApiTest {
 ```
 
 ## MInio权限设置
+
+因为minio如果第一次创建桶，想要访问，必须将桶设置为public，如果想智能一点，可以用下面的方法，判断桶是否存在，如果存在就将桶设置为公开访问。
+
+问什么要设置公开访问，如果不设置，上传后的图片即使上传好了用户也无法访问。
 
 如果其他平台也需要，根据自己需求进行添加，不需要可以删除这个文件。
 
