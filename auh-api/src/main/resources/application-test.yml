@@ -1,7 +1,7 @@
 server:
   port: 8000
 
-#mybatis-plus:
+# mybatis-plus:
 #  configuration:
 #    map-underscore-to-camel-case: true
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
@@ -55,11 +55,3 @@ bunny:
     port: 6379
     database: 0
     password: "123456"
-
-  minio:
-    endpointUrl: "http://192.168.3.98:9000"
-    accessKey: bunny
-    secretKey: "02120212"
-    bucket-name: auth-admin
-
-  backPath: "/www/root/backup"

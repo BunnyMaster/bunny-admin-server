@@ -108,6 +108,14 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
             throw new AuthCustomerException(ResultCodeEnum.FILE_NOT_EXIST);
         }
 
+        // 更新数据
+        dto.setFilepath(files.getFilepath());
+        BeanUtils.copyProperties(dto, files);
+        updateById(files);
+
+        // 文件存在上傳文件并更新
+        if (file == null) return;
+
         // 删除原来文件
         boolean delete = fileStorageService.delete(files.getUrl());
         if (!delete) {
@@ -123,6 +131,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
                 // 如果有缩略图的话
                 .setSaveThFilename(files.getThFilename())
                 .upload();
+
     }
 
     /**

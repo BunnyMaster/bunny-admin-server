@@ -74,14 +74,14 @@ public class UserController {
     }
 
     @Operation(summary = "根据用户id查询用户", description = "根据用户ID获取用户信息，不包含Redis中的信息")
-    @GetMapping("private/getUserinfoById")
-    public Result<UserVo> getUserinfoById(Long id) {
+    @GetMapping("private/users/{id}")
+    public Result<UserVo> getUserinfoById(@PathVariable Long id) {
         UserVo vo = userService.getUserinfoById(id);
         return Result.success(vo);
     }
 
     @Operation(summary = "根据关键字查询用户", description = "根据用户名查询用户列表")
-    @GetMapping("private/getUserListByKeyword")
+    @GetMapping("private/users/search")
     public Result<List<UserVo>> getUserListByKeyword(String keyword) {
         List<UserVo> voList = userService.getUserListByKeyword(keyword);
         return Result.success(voList);
@@ -89,15 +89,15 @@ public class UserController {
 
     @Operation(summary = "强制退出用户", description = "强制退出")
     @PermissionTag(permission = "user:update")
-    @PutMapping("forcedOffline")
-    public Result<String> forcedOfflineByAdmin(@RequestBody Long id) {
+    @PutMapping("{id}/force-logout")
+    public Result<String> forcedOfflineByAdmin(@PathVariable Long id) {
         userService.forcedOfflineByAdmin(id);
         return Result.success();
     }
 
     @Operation(summary = "已登录用户", description = "查询缓存中已登录用户")
     @PermissionTag(permission = "user:query")
-    @GetMapping("getCacheUserPage/{page}/{limit}")
+    @GetMapping("/users/logged-in/{page}/{limit}")
     public Result<PageResult<UserVo>> getCacheUserPage(
             @Parameter(name = "page", description = "当前页", required = true)
             @PathVariable("page") Integer page,

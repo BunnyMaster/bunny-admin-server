@@ -29,7 +29,7 @@ import java.util.List;
 @Tag(name = "文件分片信息表，仅在手动分片上传时使用", description = "文件分片信息表，仅在手动分片上传时使用相关接口")
 @PermissionTag(permission = "filesParDetail:*")
 @RestController
-@RequestMapping("/api/filesParDetail")
+@RequestMapping("/api/files-par-detail")
 public class FilesParDetailController {
 
     @Resource

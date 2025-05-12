@@ -75,15 +75,15 @@ public class MessageController {
     }
 
     @Operation(summary = "根据消息id查询消息详情", description = "根据消息id查询消息详情")
-    @GetMapping("private/getMessageDetailById")
-    public Result<MessageDetailVo> getMessageDetailById(Long id) {
+    @GetMapping("private/message/{id}")
+    public Result<MessageDetailVo> getMessageDetailById(@PathVariable Long id) {
         MessageDetailVo vo = messageService.getMessageDetailById(id);
         return Result.success(vo);
     }
 
     @Operation(summary = "根据消息id获取接收人信息", description = "根据消息id获取接收人信息")
-    @GetMapping("private/getReceivedUserinfoByMessageId")
-    public Result<List<MessageReceivedWithUserVo>> getReceivedUserinfoByMessageId(Long messageId) {
+    @GetMapping("private/messages/{message-id}/recipients")
+    public Result<List<MessageReceivedWithUserVo>> getReceivedUserinfoByMessageId(Long messageId, @PathVariable("message-id") String parameter) {
         List<MessageReceivedWithUserVo> voList = messageService.getReceivedUserinfoByMessageId(messageId);
         return Result.success(voList);
     }

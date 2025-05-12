@@ -32,7 +32,7 @@ import java.util.Map;
 @Tag(name = "邮箱用户配置", description = "邮箱用户发送配置相关接口")
 @PermissionTag(permission = "emailUsers:*")
 @RestController
-@RequestMapping("api/emailUsers")
+@RequestMapping("api/email-users")
 public class EmailUsersController {
 
     @Resource

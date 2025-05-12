@@ -33,7 +33,7 @@ public class UserLoginController {
     }
 
     @Operation(summary = "普通用户登录发送邮件验证码", description = "登录发送邮件验证码")
-    @PostMapping("public/sendLoginEmail")
+    @PostMapping("public/email-code")
     public Result<String> sendLoginEmail(String email) {
         if (!StringUtils.hasText(email)) throw new AuthCustomerException(ResultCodeEnum.REQUEST_IS_EMPTY);
 
@@ -42,7 +42,7 @@ public class UserLoginController {
     }
 
     @Operation(summary = "普通用户登录刷新token", description = "刷新用户token")
-    @PostMapping("private/refreshToken")
+    @PostMapping("private/refresh-token")
     public Result<RefreshTokenVo> refreshToken(@Valid @RequestBody RefreshTokenDto dto) {
         RefreshTokenVo vo = userLoginService.refreshToken(dto);
         return Result.success(vo);

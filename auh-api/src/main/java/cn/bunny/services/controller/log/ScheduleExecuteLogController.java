@@ -28,7 +28,7 @@ import java.util.List;
 @Tag(name = "任务调度执行日志", description = "调度任务执行日志相关接口")
 @PermissionTag(permission = "scheduleExecuteLog:*")
 @RestController
-@RequestMapping("api/scheduleExecuteLog")
+@RequestMapping("api/schedule-execute-log")
 public class ScheduleExecuteLogController {
 
     @Resource

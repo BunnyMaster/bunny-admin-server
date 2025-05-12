@@ -31,7 +31,7 @@ import java.util.List;
 @Tag(name = "菜单图标", description = "菜单图标相关接口")
 @PermissionTag(permission = "menuIcon:*")
 @RestController
-@RequestMapping("api/menuIcon")
+@RequestMapping("api/menu-icon")
 public class MenuIconController {
 
     @Resource

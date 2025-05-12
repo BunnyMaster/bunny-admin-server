@@ -1,5 +1,5 @@
 FROM openjdk:24-ea-17-jdk-oraclelinux9
-MAINTAINER server
+LABEL maintainer="server"
 
 #系统编码
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8

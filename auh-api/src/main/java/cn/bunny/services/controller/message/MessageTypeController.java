@@ -76,7 +76,7 @@ public class MessageTypeController {
     }
 
     @Operation(summary = "所有消息列表", description = "获取所有消息列表")
-    @GetMapping("private/getMessageList")
+    @GetMapping("private/messages")
     public Result<List<MessageTypeVo>> getMessageList() {
         List<MessageTypeVo> voList = messageTypeService.getMessageList();
         return Result.success(voList);

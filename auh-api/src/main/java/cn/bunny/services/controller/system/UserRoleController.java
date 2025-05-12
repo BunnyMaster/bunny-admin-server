@@ -22,15 +22,15 @@ import java.util.List;
 @Tag(name = "用户和角色", description = "用户和角色相关接口")
 @PermissionTag(permission = "userRole:*")
 @RestController
-@RequestMapping("api/userRole")
+@RequestMapping("api/user-role")
 public class UserRoleController {
 
     @Resource
     private UserRoleService userRoleService;
 
     @Operation(summary = "根据用户id获取角色列", description = "根据用户id获取角色列")
-    @GetMapping("private/getRoleListByUserId")
-    public Result<List<String>> getRoleListByUserId(Long userId) {
+    @GetMapping("private/roles/{userId}")
+    public Result<List<String>> getRoleListByUserId(@PathVariable Long userId) {
         List<String> roleVoList = userRoleService.getRoleListByUserId(userId);
         return Result.success(roleVoList);
     }

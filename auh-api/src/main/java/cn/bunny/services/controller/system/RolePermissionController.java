@@ -30,8 +30,8 @@ public class RolePermissionController {
     private RolePermissionService rolePermissionService;
 
     @Operation(summary = "根据角色id获取权限内容", description = "根据角色id获取权限内容")
-    @GetMapping("private/getPermissionListByRoleId")
-    public Result<List<String>> getPermissionListByRoleId(Long id) {
+    @GetMapping("private/permissions/{id}")
+    public Result<List<String>> getPermissionListByRoleId(@PathVariable Long id) {
         List<String> voList = rolePermissionService.getPermissionListByRoleId(id);
         return Result.success(voList);
     }

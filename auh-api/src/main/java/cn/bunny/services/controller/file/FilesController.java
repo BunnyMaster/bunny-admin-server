@@ -87,7 +87,7 @@ public class FilesController {
     }
 
     @Operation(summary = "获取所有文件存储基础路径", description = "获取所有文件存储基础路径")
-    @GetMapping("private/getAllFilesStoragePath")
+    @GetMapping("private/file-storage-paths")
     public Result<List<String>> getAllFilesStoragePath() {
         Map<String, String> typeMap = FileStorageConstant.typeMap;
         List<String> list = typeMap.keySet().stream().toList();
@@ -96,14 +96,14 @@ public class FilesController {
     }
 
     @Operation(summary = "上传文件", description = "上传文件")
-    @PostMapping("private/upload")
+    @PostMapping("private/file")
     public Result<FileInfoVo> upload(FileUploadDto dto) {
         FileInfoVo vo = filesService.upload(dto);
         return Result.success(vo, ResultCodeEnum.SUCCESS_UPLOAD);
     }
 
     @Operation(summary = "上传图片文件", description = "上传图片文件")
-    @PostMapping("private/uploadImage")
+    @PostMapping("private/image")
     public Result<FileInfoVo> uploadImage(FileUploadDto dto) {
         FileInfoVo vo = filesService.uploadFileByThumbnail(dto);
         return Result.success(vo, ResultCodeEnum.SUCCESS_UPLOAD);

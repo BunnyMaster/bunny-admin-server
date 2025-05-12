@@ -35,7 +35,7 @@ public class RouterController {
 
     @Operation(summary = "获取用户菜单", description = "获取用户菜单")
     @PermissionTag(permission = "router:query")
-    @GetMapping("private/routerAsync")
+    @GetMapping("private/router-async")
     public Result<List<WebUserRouterVo>> routerAsync() {
         List<WebUserRouterVo> voList = routerService.routerAsync();
         return Result.success(voList);
@@ -43,7 +43,7 @@ public class RouterController {
 
     @Operation(summary = "查询管理路由菜单", description = "查询管理菜单列表")
     @PermissionTag(permission = "router:query")
-    @GetMapping("routerList")
+    @GetMapping("routers")
     public Result<List<RouterManageVo>> routerList() {
         List<RouterManageVo> voPageResult = routerService.routerList();
         return Result.success(voPageResult);

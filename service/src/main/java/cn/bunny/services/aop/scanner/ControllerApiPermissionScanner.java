@@ -260,23 +260,14 @@ public class ControllerApiPermissionScanner extends AbstractAnnotationScanner {
             return false;
         }
 
-        // 登录路径特殊处理
-        if (path.equals("login")) {
-            return true;
-        }
-
         // 检查用户认证路径
         for (String userAuth : WebSecurityConfig.userAuths) {
-            if (path.contains(userAuth)) {
-                return true;
-            }
+            if (path.contains(userAuth)) return true;
         }
 
         // 检查不需要权限的注解路径
         for (String annotation : WebSecurityConfig.annotations) {
-            if (PATH_MATCHER.match(annotation, path) || PATH_MATCHER.match(annotation, "/" + path)) {
-                return true;
-            }
+            if (PATH_MATCHER.match(annotation, path) || PATH_MATCHER.match(annotation, "/" + path)) return true;
         }
 
         return false;

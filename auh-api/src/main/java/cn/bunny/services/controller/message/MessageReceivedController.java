@@ -32,7 +32,7 @@ import java.util.List;
 @Tag(name = "消息接收(用户消息)", description = "消息接收(用户消息)相关接口")
 @PermissionTag(permission = "messageReceived:*")
 @RestController
-@RequestMapping("/api/messageReceived")
+@RequestMapping("/api/message-received")
 public class MessageReceivedController {
 
     @Resource
@@ -82,14 +82,14 @@ public class MessageReceivedController {
     }
 
     @Operation(summary = "用户将消息标为已读", description = "用户将消息标为已读")
-    @PutMapping("private/markAsRead")
+    @PutMapping("private/user/messages/read-status")
     public Result<String> markAsReadByUser(@Valid @RequestBody List<Long> ids) {
         messageReceivedService.markAsReadByUser(ids);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @Operation(summary = "用户删除消息", description = "用户删除消息")
-    @DeleteMapping("private/deleteMessage")
+    @DeleteMapping("private/user/messages")
     public Result<String> deleteMessageByUser(@RequestBody List<Long> ids) {
         messageReceivedService.deleteMessageByUser(ids);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);

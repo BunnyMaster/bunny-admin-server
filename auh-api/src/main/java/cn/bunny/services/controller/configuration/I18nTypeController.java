@@ -27,7 +27,7 @@ import java.util.List;
 @Tag(name = "多语言类型", description = "多语言类型相关接口")
 @PermissionTag(permission = "i18n:*")
 @RestController
-@RequestMapping("api/i18nType")
+@RequestMapping("api/i18n-type")
 public class I18nTypeController {
 
     @Resource

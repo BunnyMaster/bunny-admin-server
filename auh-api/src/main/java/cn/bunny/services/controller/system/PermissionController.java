@@ -96,14 +96,14 @@ public class PermissionController {
     }
 
     @Operation(summary = "获取所有权限", description = "获取所有权限")
-    @GetMapping("private/getPermissionList")
+    @GetMapping("private/permissions")
     public Result<List<PermissionVo>> getPermissionList() {
         List<PermissionVo> voList = permissionService.getPermissionList();
         return Result.success(voList);
     }
 
     @Operation(summary = "获取系统API信息列表", description = "系统接口API信息列表")
-    @GetMapping("private/getSystemApiInfoList")
+    @GetMapping("private/system/apis")
     public Result<List<ScannerControllerInfoVo>> getSystemApiInfoList() {
         List<ScannerControllerInfoVo> list = ControllerApiPermissionScanner.scanControllerInfo();
         return Result.success(list);
@@ -111,7 +111,7 @@ public class PermissionController {
 
     @Operation(summary = "批量修改权限父级", description = "批量修改权限父级")
     @PermissionTag(permission = "permission::update")
-    @PatchMapping("update/permissionListByParentId")
+    @PatchMapping("update/permissions/parent")
     public Result<String> updatePermissionListByParentId(@RequestBody @Valid PermissionUpdateBatchByParentIdDto dto) {
         permissionService.updatePermissionListByParentId(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
@@ -119,7 +119,7 @@ public class PermissionController {
 
     @Operation(summary = "批量修改权", description = "批量修改权")
     @PermissionTag(permission = "permission::update")
-    @PatchMapping("update/permissionBatch")
+    @PatchMapping("update/permissions/batch")
     public Result<String> updatePermissionBatch(@RequestBody List<PermissionUpdateDto> list) {
         permissionService.updatePermissionBatch(list);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
