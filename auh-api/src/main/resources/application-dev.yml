@@ -38,6 +38,7 @@ dromara:
     # 访问路径，使用本地在SpringSecurity中要配置权限，如果是和我一样就不用修改了，如果不是api开头，上线需要配置nginx
     path-patterns: /api/local-file/**
     storage-path: D:/Temp # 存储路径
+    # storage-path: ~/bunny-admin/temp # 存储路径
     base-path: "" # 基础路径
   minio:
     endpointUrl: "http://192.168.3.137:9000" # 连接地址

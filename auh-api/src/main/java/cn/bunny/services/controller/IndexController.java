@@ -24,7 +24,7 @@ public class IndexController {
     }
 
     @Operation(summary = "生成验证码", description = "生成验证码")
-    @GetMapping("public/checkCode")
+    @GetMapping("public/check-code")
     public ResponseEntity<byte[]> checkCode() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);

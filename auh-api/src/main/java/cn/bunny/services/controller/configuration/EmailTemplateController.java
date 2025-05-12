@@ -32,7 +32,7 @@ import java.util.Map;
 @Tag(name = "邮件模板", description = "邮件模板相关接口")
 @PermissionTag(permission = "emailTemplate:*")
 @RestController
-@RequestMapping("api/emailTemplate")
+@RequestMapping("api/email-template")
 public class EmailTemplateController {
 
     @Resource

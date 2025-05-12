@@ -31,7 +31,7 @@ import java.util.List;
 @Tag(name = "任务调度分组", description = "任务调度分组相关接口")
 @PermissionTag(permission = "schedulersGroup:*")
 @RestController
-@RequestMapping("api/schedulersGroup")
+@RequestMapping("api/schedulers-group")
 public class SchedulersGroupController {
 
     @Resource
@@ -77,7 +77,7 @@ public class SchedulersGroupController {
 
     @Operation(summary = "获取所有任务调度分组", description = "获取所有任务调度分组")
     @PermissionTag(permission = "schedulersGroup:query")
-    @GetMapping("getSchedulersGroupList")
+    @GetMapping("scheduler-groups")
     public Result<List<SchedulersGroupVo>> getSchedulersGroupList() {
         List<SchedulersGroupVo> voList = schedulersGroupService.getSchedulersGroupList();
         return Result.success(voList);

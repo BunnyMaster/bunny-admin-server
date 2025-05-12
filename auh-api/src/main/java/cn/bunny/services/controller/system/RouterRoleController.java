@@ -21,22 +21,22 @@ import java.util.List;
 @Tag(name = "路由菜单和角色", description = "路由和角色相关接口")
 @PermissionTag(permission = "routerRole:*")
 @RestController
-@RequestMapping("api/routerRole")
+@RequestMapping("api/router-role")
 public class RouterRoleController {
 
     @Resource
     private RouterRoleService routerRoleService;
 
     @Operation(summary = "根据菜单id获取所有角色", description = "根据菜单id获取所有角色")
-    @GetMapping("private/getRoleListByRouterId")
-    public Result<List<String>> getRoleListByRouterId(Long routerId) {
+    @GetMapping("private/roles/{routerId}")
+    public Result<List<String>> getRoleListByRouterId(@PathVariable Long routerId) {
         List<String> roleListByRouterId = routerRoleService.getRoleListByRouterId(routerId);
         return Result.success(roleListByRouterId);
     }
 
     @Operation(summary = "清除选中菜单所有角色", description = "清除选中菜单所有角色")
     @PermissionTag(permission = "routerRole:delete")
-    @DeleteMapping("clearRouterRole")
+    @DeleteMapping("/batch")
     public Result<String> clearRouterRole(@RequestBody List<Long> routerIds) {
         routerRoleService.clearRouterRole(routerIds);
         return Result.success();

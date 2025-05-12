@@ -29,7 +29,7 @@ import java.util.List;
 @Tag(name = "用户登录日志", description = "用户登录日志相关接口")
 @PermissionTag(permission = "userLoginLog:*")
 @RestController
-@RequestMapping("api/userLoginLog")
+@RequestMapping("api/user-login-log")
 public class UserLoginLogController {
 
     @Resource

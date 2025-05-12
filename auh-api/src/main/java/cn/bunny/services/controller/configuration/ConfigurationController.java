@@ -22,7 +22,7 @@ public class ConfigurationController {
     private ConfigurationService configurationService;
 
     @Operation(summary = "获取web配置文件", description = "读取web配置文件并返回给前端")
-    @GetMapping("public/webConfig")
+    @GetMapping("public/web-config")
     public WebConfiguration webConfig() {
         return configurationService.webConfig();
     }

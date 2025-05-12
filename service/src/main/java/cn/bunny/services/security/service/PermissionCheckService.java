@@ -52,7 +52,6 @@ public class PermissionCheckService {
         }
 
         // 根据角色列表查询权限信息
-        // List<Permission> permissionList = permissionMapper.selectListByUserId(userId);
         List<Permission> permissionList = authorizationCacheService.getPermissionsByUser(userId, username);
 
         // 判断是否与请求路径匹配
@@ -61,9 +60,7 @@ public class PermissionCheckService {
                 .filter(permission -> {
                     String method = permission.getRequestMethod();
                     if (StringUtils.hasText(method)) {
-
-                        return method.equalsIgnoreCase(requestMethod)
-                                || requestURI.contains("*");
+                        return method.equalsIgnoreCase(requestMethod) || requestURI.contains("*");
                     }
                     return false;
                 })

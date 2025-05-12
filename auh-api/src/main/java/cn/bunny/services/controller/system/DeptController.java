@@ -76,7 +76,7 @@ public class DeptController {
     }
 
     @Operation(summary = "获取所有部门", description = "获取所有部门")
-    @GetMapping("private/getDeptList")
+    @GetMapping("private/departments")
     public Result<List<DeptVo>> getDeptPage() {
         List<DeptVo> voList = deptService.getDeptPage();
         return Result.success(voList);
