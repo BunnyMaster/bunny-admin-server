@@ -19,7 +19,7 @@
         <module>service</module>
         <module>dao</module>
         <module>auth-core</module>
-        <module>auh-api</module>
+        <module>auth-api</module>
     </modules>
 
     <properties>

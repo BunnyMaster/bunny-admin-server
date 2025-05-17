@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
@@ -46,7 +47,10 @@ public class WebSecurityConfig {
                 // 跨域访问权限，如果需要可以关闭后自己配置跨域访问
                 .cors(AbstractHttpConfigurer::disable)
                 // 前后端分离不需要---因为是无状态的
-                .sessionManagement(AbstractHttpConfigurer::disable)
+                // .sessionManagement(AbstractHttpConfigurer::disable)
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 // 前后端分离不需要---记住我
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
