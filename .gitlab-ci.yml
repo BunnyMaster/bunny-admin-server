@@ -1,0 +1,49 @@
+# 定义CI/CD流水线的阶段
+stages:
+  - build       # 第一阶段：构建应用程序
+  - build-docker # 第二阶段：构建Docker镜像
+  - deploy      # 第三阶段：部署应用程序
+
+# 定义全局变量
+variables:
+  CONTAINER_NAME: "bunny-auth-server"  # Docker容器名称
+  DOCKER_TAG: "4.0.0"                  # Docker镜像标签版本
+
+# 构建任务
+build-job:
+  stage: build  # 指定此任务属于build阶段
+  script:
+    # 打印编译开始信息
+    - echo "Compiling the code..."
+    # 使用Maven编译Java项目，跳过测试
+    - mvn clean package -DskipTests
+    # 打印编译完成信息
+    - echo "Compile complete."
+    # 从Docker Hub拉取OpenJDK基础镜像
+    - docker pull openjdk:24-ea-17-jdk-oraclelinux9
+    # 打印拉取完成信息
+    - echo "docker pull complete."
+    # 使用Dockerfile构建Docker镜像，并打上标签
+    - docker build -f Dockerfile -t $CONTAINER_NAME:$DOCKER_TAG .
+    # 打印构建成功信息
+    - echo "Application successfully deployed."
+
+# 部署任务
+deploy-job:
+  stage: deploy  # 指定此任务属于deploy阶段
+  environment: production  # 指定部署环境为production
+  script:
+    # 打印部署开始信息
+    - echo "Deploying application..."
+    # 停止正在运行的容器（如果存在），|| true确保命令失败不会中断脚本
+    - docker stop $CONTAINER_NAME || true
+    # 删除容器（如果存在）
+    - docker rm $CONTAINER_NAME || true
+    # 运行新的Docker容器
+    # -d: 后台运行
+    # -p: 端口映射（7070和8000）
+    # --name: 容器名称
+    # --restart always: 总是自动重启
+    - docker run -d -p 7070:7070 -p 8000:8000 --name $CONTAINER_NAME --restart always $CONTAINER_NAME:$DOCKER_TAG
+    # 打印部署成功信息
+    - echo "Application successfully deployed."
