@@ -7,7 +7,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>auh-api</artifactId>
+    <artifactId>auth-api</artifactId>
     <packaging>jar</packaging>
 
     <name>auh-api</name>

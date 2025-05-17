@@ -17,6 +17,7 @@ public class LoginContext {
         this.strategies = strategies;
     }
 
+
     /**
      * 执行登录策略
      * 根据情况判断 type 是否为空
