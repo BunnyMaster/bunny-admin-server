@@ -51,7 +51,7 @@ public class UserController {
     @PostMapping()
     public Result<Object> addUserByAdmin(@Valid @RequestBody AdminUserAddDto dto) {
         userService.addUserByAdmin(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新用户", description = "更新用户信息，需要更新Redis中的内容")

@@ -53,9 +53,9 @@ public class MenuIconController {
     @Operation(summary = "添加菜单图标", description = "添加系统菜单图标")
     @PermissionTag(permission = "menuIcon:add")
     @PostMapping()
-    public Result<String> saveMenuIcon(@Validated(ValidationGroups.Add.class) @RequestBody MenuIconDto dto) {
-        menuIconService.saveMenuIcon(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createMenuIcon(@Validated(ValidationGroups.Add.class) @RequestBody MenuIconDto dto) {
+        menuIconService.createMenuIcon(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新菜单图标", description = "更新系统菜单图标")

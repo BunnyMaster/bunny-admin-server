@@ -58,7 +58,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true),
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nTypeList'", beforeInvocation = true),
     })
-    public void saveI18nType(@Valid I18nTypeDto dto) {
+    public void createI18nType(@Valid I18nTypeDto dto) {
         String typeName = dto.getTypeName();
         Boolean isDefault = dto.getIsDefault();
         I18nType i18nType = new I18nType();

@@ -58,7 +58,7 @@ public class RoleController {
     @PostMapping()
     public Result<Object> addRole(@Valid @RequestBody RoleAddDto dto) {
         roleService.addRole(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新角色", description = "更新角色")

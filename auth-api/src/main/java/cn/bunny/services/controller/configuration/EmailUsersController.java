@@ -54,9 +54,9 @@ public class EmailUsersController {
     @Operation(summary = "添加邮箱用户配置", description = "添加邮箱用户配置")
     @PermissionTag(permission = "emailUsers:add")
     @PostMapping()
-    public Result<String> saveEmailUsers(@Validated(ValidationGroups.Add.class) @RequestBody EmailUsersDto dto) {
-        emailUsersService.saveEmailUsers(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createEmailUsers(@Validated(ValidationGroups.Add.class) @RequestBody EmailUsersDto dto) {
+        emailUsersService.createEmailUsers(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新邮箱用户配置", description = "更新邮箱用户配置")

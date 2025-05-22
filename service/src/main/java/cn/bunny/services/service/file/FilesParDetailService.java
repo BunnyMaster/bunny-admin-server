@@ -31,7 +31,7 @@ public interface FilesParDetailService extends IService<FilesParDetail> {
      *
      * @param dto 添加表单
      */
-    void addFilesParDetail(FilesParDetailDto dto);
+    void createFilesParDetail(FilesParDetailDto dto);
 
     /**
      * 更新文件分片信息表，仅在手动分片上传时使用

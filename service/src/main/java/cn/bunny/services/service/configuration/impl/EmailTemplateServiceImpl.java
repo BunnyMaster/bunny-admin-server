@@ -71,7 +71,7 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      * @param dto 邮件模板表添加
      */
     @Override
-    public void saveEmailTemplate(@Valid EmailTemplateDto dto) {
+    public void createEmailTemplate(@Valid EmailTemplateDto dto) {
         String type = dto.getType();
 
         // 保存数据

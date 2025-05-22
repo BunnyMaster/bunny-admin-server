@@ -57,9 +57,9 @@ public class I18nController {
     @Operation(summary = "添加多语言", description = "添加多语言")
     @PermissionTag(permission = "i18n:add")
     @PostMapping()
-    public Result<String> saveI18n(@Validated(ValidationGroups.Update.class) @RequestBody I18nDto dto) {
-        i18nService.saveI18n(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createI18n(@Validated(ValidationGroups.Update.class) @RequestBody I18nDto dto) {
+        i18nService.createI18n(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新多语言", description = "更新多语言")

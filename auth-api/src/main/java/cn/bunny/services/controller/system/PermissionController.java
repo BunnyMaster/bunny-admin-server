@@ -61,7 +61,7 @@ public class PermissionController {
     @PostMapping()
     public Result<String> addPermission(@Valid @RequestBody PermissionAddDto dto) {
         permissionService.addPermission(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新权限", description = "更新权限")

@@ -57,7 +57,7 @@ public class MessageController {
     @PostMapping()
     public Result<String> addMessage(@Valid @RequestBody MessageAddDto dto) {
         messageService.addMessage(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更系统消息", description = "更新系统消息")

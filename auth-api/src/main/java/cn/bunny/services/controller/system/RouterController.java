@@ -54,7 +54,7 @@ public class RouterController {
     @PostMapping()
     public Result<String> addRouter(@Valid @RequestBody RouterAddDto dto) {
         routerService.addRouter(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新路由菜单", description = "更新路由菜单")

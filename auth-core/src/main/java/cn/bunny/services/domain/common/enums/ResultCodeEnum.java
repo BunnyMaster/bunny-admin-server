@@ -9,7 +9,7 @@ import lombok.Getter;
 public enum ResultCodeEnum {
     // 成功操作 200
     SUCCESS(200, "操作成功"),
-    ADD_SUCCESS(200, "添加成功"),
+    CREATE_SUCCESS(200, "添加成功"),
     UPDATE_SUCCESS(200, "修改成功"),
     DELETE_SUCCESS(200, "删除成功"),
     SORT_SUCCESS(200, "排序成功"),
@@ -54,7 +54,7 @@ public enum ResultCodeEnum {
     AUTHENTICATION_EXPIRED(208, "身份验证过期"),
     SESSION_EXPIRATION(208, "会话过期"),
     FAIL_NO_ACCESS_DENIED_USER_LOCKED(208, "该账户已封禁"),
-    
+
     // 209
     THE_SAME_USER_HAS_LOGGED_IN(209, "相同用户已登录"),
 

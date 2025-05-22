@@ -56,7 +56,7 @@ public class DeptController {
     @PostMapping()
     public Result<String> addDept(@Valid @RequestBody DeptAddDto dto) {
         deptService.addDept(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新部门", description = "更新部门")

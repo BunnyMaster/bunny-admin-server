@@ -62,7 +62,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      * @param dto 邮箱用户发送配置添加
      */
     @Override
-    public void saveEmailUsers(@Valid EmailUsersDto dto) {
+    public void createEmailUsers(@Valid EmailUsersDto dto) {
         // 更新邮箱默认状态
         updateEmailUserDefault(dto.getIsDefault());
 

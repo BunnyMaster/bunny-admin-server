@@ -54,9 +54,9 @@ public class EmailTemplateController {
     @Operation(summary = "添加邮件模板", description = "添加邮件模板")
     @PermissionTag(permission = "emailTemplate:add")
     @PostMapping()
-    public Result<String> saveEmailTemplate(@Validated(ValidationGroups.Add.class) @RequestBody EmailTemplateDto dto) {
-        emailTemplateService.saveEmailTemplate(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createEmailTemplate(@Validated(ValidationGroups.Add.class) @RequestBody EmailTemplateDto dto) {
+        emailTemplateService.createEmailTemplate(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新邮件模板", description = "更新邮件模板")

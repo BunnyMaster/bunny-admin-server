@@ -58,7 +58,7 @@ public class SchedulersController {
     @PostMapping()
     public Result<Object> addSchedulers(@Valid @RequestBody SchedulersAddDto dto) {
         schedulersService.addSchedulers(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新任务调度", description = "更新任务")

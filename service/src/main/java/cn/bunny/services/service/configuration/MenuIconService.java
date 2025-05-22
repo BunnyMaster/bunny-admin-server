@@ -31,7 +31,7 @@ public interface MenuIconService extends IService<MenuIcon> {
      *
      * @param dto 添加表单
      */
-    void saveMenuIcon(MenuIconDto dto);
+    void createMenuIcon(MenuIconDto dto);
 
     /**
      * * 更新系统菜单图标

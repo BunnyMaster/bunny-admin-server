@@ -33,7 +33,7 @@ public interface EmailTemplateService extends IService<EmailTemplate> {
      *
      * @param dto 添加表单
      */
-    void saveEmailTemplate(@Valid EmailTemplateDto dto);
+    void createEmailTemplate(@Valid EmailTemplateDto dto);
 
     /**
      * 更新邮件模板表

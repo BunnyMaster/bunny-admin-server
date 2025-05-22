@@ -33,7 +33,7 @@ public interface EmailUsersService extends IService<EmailUsers> {
      *
      * @param dto 添加表单
      */
-    void saveEmailUsers(@Valid EmailUsersDto dto);
+    void createEmailUsers(@Valid EmailUsersDto dto);
 
     /**
      * 更新邮箱用户发送配置

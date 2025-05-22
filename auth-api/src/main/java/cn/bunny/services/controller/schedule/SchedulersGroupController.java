@@ -56,7 +56,7 @@ public class SchedulersGroupController {
     @PostMapping()
     public Result<String> addSchedulersGroup(@Valid @RequestBody SchedulersGroupAddDto dto) {
         schedulersGroupService.addSchedulersGroup(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新任务调度分组", description = "更新任务调度分组")

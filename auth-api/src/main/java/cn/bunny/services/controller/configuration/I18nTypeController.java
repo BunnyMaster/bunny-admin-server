@@ -35,9 +35,9 @@ public class I18nTypeController {
     @Operation(summary = "添加多语言类型", description = "添加多语言类型")
     @PermissionTag(permission = "i18n:query")
     @PostMapping()
-    public Result<String> saveI18nType(@Validated(ValidationGroups.Add.class) @RequestBody I18nTypeDto dto) {
-        i18nTypeService.saveI18nType(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createI18nType(@Validated(ValidationGroups.Add.class) @RequestBody I18nTypeDto dto) {
+        i18nTypeService.createI18nType(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新多语言类型", description = "更新多语言类型")

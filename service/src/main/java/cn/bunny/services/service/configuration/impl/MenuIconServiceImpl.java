@@ -74,7 +74,7 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
      */
     @Override
     @CacheEvict(cacheNames = "menuIcon", key = "'menuIconList'", beforeInvocation = true)
-    public void saveMenuIcon(MenuIconDto dto) {
+    public void createMenuIcon(MenuIconDto dto) {
         MenuIcon menuIcon = new MenuIcon();
         BeanUtils.copyProperties(dto, menuIcon);
         save(menuIcon);

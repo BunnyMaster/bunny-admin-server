@@ -56,7 +56,7 @@ public class MessageTypeController {
     @PostMapping()
     public Result<String> addMessageType(@Valid @RequestBody MessageTypeAddDto dto) {
         messageTypeService.addMessageType(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新消息类型", description = "更新系统消息类型")

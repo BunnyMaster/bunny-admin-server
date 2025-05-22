@@ -52,9 +52,9 @@ public class FilesParDetailController {
     @Operation(summary = "添加文件分片信息表，仅在手动分片上传时使用", description = "添加文件分片信息表，仅在手动分片上传时使用")
     @PermissionTag(permission = "filesParDetail:add")
     @PostMapping()
-    public Result<String> addFilesParDetail(@Valid @RequestBody FilesParDetailDto dto) {
-        filesPardetailService.addFilesParDetail(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createFilesParDetail(@Valid @RequestBody FilesParDetailDto dto) {
+        filesPardetailService.createFilesParDetail(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新文件分片信息表，仅在手动分片上传时使用", description = "更新文件分片信息表，仅在手动分片上传时使用")

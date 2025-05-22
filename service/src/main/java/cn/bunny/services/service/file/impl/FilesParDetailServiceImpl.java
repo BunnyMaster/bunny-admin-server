@@ -53,7 +53,7 @@ public class FilesParDetailServiceImpl extends ServiceImpl<FilesParDetailMapper,
      * @param dto 文件分片信息表，仅在手动分片上传时使用添加
      */
     @Override
-    public void addFilesParDetail(@Valid FilesParDetailDto dto) {
+    public void createFilesParDetail(@Valid FilesParDetailDto dto) {
         FilesParDetail filesPardetail = new FilesParDetail();
         BeanUtils.copyProperties(dto, filesPardetail);
         save(filesPardetail);

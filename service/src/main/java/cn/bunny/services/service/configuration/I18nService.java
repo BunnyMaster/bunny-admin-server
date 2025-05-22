@@ -43,7 +43,7 @@ public interface I18nService extends IService<I18n> {
      *
      * @param dto 添加表单
      */
-    void saveI18n(I18nDto dto);
+    void createI18n(I18nDto dto);
 
     /**
      * * 更新多语言

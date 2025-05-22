@@ -30,7 +30,7 @@ public interface I18nTypeService extends IService<I18nType> {
      *
      * @param dto 多语言类型添加
      */
-    void saveI18nType(@Valid I18nTypeDto dto);
+    void createI18nType(@Valid I18nTypeDto dto);
 
     /**
      * 更新多语言类型

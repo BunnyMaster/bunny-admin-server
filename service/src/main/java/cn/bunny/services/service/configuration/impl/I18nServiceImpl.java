@@ -107,7 +107,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      */
     @Override
     @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true)
-    public void saveI18n(I18nDto dto) {
+    public void createI18n(I18nDto dto) {
         String keyName = dto.getKeyName();
         String typeName = dto.getTypeName();
 
