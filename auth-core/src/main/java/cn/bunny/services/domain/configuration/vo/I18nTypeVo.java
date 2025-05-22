@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.i18n.vo;
+package cn.bunny.services.domain.configuration.vo;
 
 import cn.bunny.services.domain.common.model.vo.BaseUserVo;
 import io.swagger.v3.oas.annotations.media.Schema;

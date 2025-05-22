@@ -1,13 +1,11 @@
 package cn.bunny.services.service.configuration;
 
 
-import cn.bunny.services.domain.i18n.dto.I18nDto;
-import cn.bunny.services.domain.i18n.dto.I18nUpdateByFileDto;
-import cn.bunny.services.domain.i18n.dto.I18nUpdateDto;
-import cn.bunny.services.domain.i18n.entity.I18n;
-import cn.bunny.services.domain.i18n.vo.I18nVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.i18n.dto.I18nAddDto;
+import cn.bunny.services.domain.configuration.dto.I18nDto;
+import cn.bunny.services.domain.configuration.dto.I18nUpdateByFileDto;
+import cn.bunny.services.domain.configuration.entity.I18n;
+import cn.bunny.services.domain.configuration.vo.I18nVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
@@ -45,14 +43,14 @@ public interface I18nService extends IService<I18n> {
      *
      * @param dto 添加表单
      */
-    void addI18n(@Valid I18nAddDto dto);
+    void saveI18n(I18nDto dto);
 
     /**
      * * 更新多语言
      *
      * @param dto 更新表单
      */
-    void updateI18n(@Valid I18nUpdateDto dto);
+    void updateI18n(I18nDto dto);
 
     /**
      * * 删除多语言类型

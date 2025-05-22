@@ -1,7 +1,7 @@
 package cn.bunny.services.core.event.listener.excel;
 
 import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
-import cn.bunny.services.domain.i18n.entity.I18n;
+import cn.bunny.services.domain.configuration.entity.I18n;
 import cn.bunny.services.service.configuration.I18nService;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;

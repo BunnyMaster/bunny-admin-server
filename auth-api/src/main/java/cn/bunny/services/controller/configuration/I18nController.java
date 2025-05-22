@@ -1,15 +1,14 @@
 package cn.bunny.services.controller.configuration;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.i18n.dto.I18nAddDto;
-import cn.bunny.services.domain.i18n.dto.I18nDto;
-import cn.bunny.services.domain.i18n.dto.I18nUpdateByFileDto;
-import cn.bunny.services.domain.i18n.dto.I18nUpdateDto;
-import cn.bunny.services.domain.i18n.entity.I18n;
-import cn.bunny.services.domain.i18n.vo.I18nVo;
+import cn.bunny.services.domain.configuration.dto.I18nDto;
+import cn.bunny.services.domain.configuration.dto.I18nUpdateByFileDto;
+import cn.bunny.services.domain.configuration.entity.I18n;
+import cn.bunny.services.domain.configuration.vo.I18nVo;
 import cn.bunny.services.service.configuration.I18nService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,20 +54,20 @@ public class I18nController {
         return Result.success(vo);
     }
 
-    @Operation(summary = "更新多语言", description = "更新多语言")
-    @PermissionTag(permission = "i18n:update")
-    @PutMapping()
-    public Result<String> updateI18n(@Valid @RequestBody I18nUpdateDto dto) {
-        i18nService.updateI18n(dto);
-        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
-    }
-
     @Operation(summary = "添加多语言", description = "添加多语言")
     @PermissionTag(permission = "i18n:add")
     @PostMapping()
-    public Result<String> addI18n(@Valid @RequestBody I18nAddDto dto) {
-        i18nService.addI18n(dto);
+    public Result<String> saveI18n(@Validated(ValidationGroups.Update.class) @RequestBody I18nDto dto) {
+        i18nService.saveI18n(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    }
+
+    @Operation(summary = "更新多语言", description = "更新多语言")
+    @PermissionTag(permission = "i18n:update")
+    @PutMapping()
+    public Result<String> updateI18n(@Validated(ValidationGroups.Add.class) @RequestBody I18nDto dto) {
+        i18nService.updateI18n(dto);
+        return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
 
     @Operation(summary = "删除多语言", description = "删除多语言")

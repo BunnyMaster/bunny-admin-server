@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.i18n.dto;
+package cn.bunny.services.domain.configuration.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

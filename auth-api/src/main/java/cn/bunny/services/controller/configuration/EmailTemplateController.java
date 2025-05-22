@@ -5,9 +5,9 @@ import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.email.dto.EmailTemplateDto;
-import cn.bunny.services.domain.email.entity.EmailTemplate;
-import cn.bunny.services.domain.email.vo.EmailTemplateVo;
+import cn.bunny.services.domain.configuration.dto.EmailTemplateDto;
+import cn.bunny.services.domain.configuration.entity.EmailTemplate;
+import cn.bunny.services.domain.configuration.vo.EmailTemplateVo;
 import cn.bunny.services.service.configuration.EmailTemplateService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,8 +54,8 @@ public class EmailTemplateController {
     @Operation(summary = "添加邮件模板", description = "添加邮件模板")
     @PermissionTag(permission = "emailTemplate:add")
     @PostMapping()
-    public Result<String> addEmailTemplate(@Validated(ValidationGroups.Add.class) @RequestBody EmailTemplateDto dto) {
-        emailTemplateService.addEmailTemplate(dto);
+    public Result<String> saveEmailTemplate(@Validated(ValidationGroups.Add.class) @RequestBody EmailTemplateDto dto) {
+        emailTemplateService.saveEmailTemplate(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 

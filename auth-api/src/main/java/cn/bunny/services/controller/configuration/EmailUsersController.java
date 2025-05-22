@@ -5,9 +5,9 @@ import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.email.dto.EmailUsersDto;
-import cn.bunny.services.domain.email.entity.EmailUsers;
-import cn.bunny.services.domain.email.vo.EmailUsersVo;
+import cn.bunny.services.domain.configuration.dto.EmailUsersDto;
+import cn.bunny.services.domain.configuration.entity.EmailUsers;
+import cn.bunny.services.domain.configuration.vo.EmailUsersVo;
 import cn.bunny.services.service.configuration.EmailUsersService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,8 +54,8 @@ public class EmailUsersController {
     @Operation(summary = "添加邮箱用户配置", description = "添加邮箱用户配置")
     @PermissionTag(permission = "emailUsers:add")
     @PostMapping()
-    public Result<String> addEmailUsers(@Validated(ValidationGroups.Add.class) @RequestBody EmailUsersDto dto) {
-        emailUsersService.addEmailUsers(dto);
+    public Result<String> saveEmailUsers(@Validated(ValidationGroups.Add.class) @RequestBody EmailUsersDto dto) {
+        emailUsersService.saveEmailUsers(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 

@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.email.dto;
+package cn.bunny.services.domain.configuration.dto;
 
 import cn.bunny.services.domain.common.ValidationGroups.Add;
 import cn.bunny.services.domain.common.ValidationGroups.Update;

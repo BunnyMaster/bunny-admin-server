@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.email.entity;
+package cn.bunny.services.domain.configuration.entity;
 
 import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;

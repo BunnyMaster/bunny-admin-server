@@ -8,13 +8,11 @@ import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.I18nExcel;
 import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.i18n.dto.I18nAddDto;
-import cn.bunny.services.domain.i18n.dto.I18nDto;
-import cn.bunny.services.domain.i18n.dto.I18nUpdateByFileDto;
-import cn.bunny.services.domain.i18n.dto.I18nUpdateDto;
-import cn.bunny.services.domain.i18n.entity.I18n;
-import cn.bunny.services.domain.i18n.entity.I18nType;
-import cn.bunny.services.domain.i18n.vo.I18nVo;
+import cn.bunny.services.domain.configuration.dto.I18nDto;
+import cn.bunny.services.domain.configuration.dto.I18nUpdateByFileDto;
+import cn.bunny.services.domain.configuration.entity.I18n;
+import cn.bunny.services.domain.configuration.entity.I18nType;
+import cn.bunny.services.domain.configuration.vo.I18nVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nMapper;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
@@ -29,7 +27,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
@@ -110,7 +107,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      */
     @Override
     @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true)
-    public void addI18n(@Valid I18nAddDto dto) {
+    public void saveI18n(I18nDto dto) {
         String keyName = dto.getKeyName();
         String typeName = dto.getTypeName();
 
@@ -131,7 +128,7 @@ public class I18nServiceImpl extends ServiceImpl<I18nMapper, I18n> implements I1
      */
     @Override
     @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true)
-    public void updateI18n(@Valid I18nUpdateDto dto) {
+    public void updateI18n(I18nDto dto) {
         Long id = dto.getId();
 
         // 查询数据是否存在

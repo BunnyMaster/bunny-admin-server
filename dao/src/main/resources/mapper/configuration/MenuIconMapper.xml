@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.configuration.MenuIconMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.menuIcon.entity.MenuIcon">
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.configuration.entity.MenuIcon">
         <id column="id" property="id"/>
         <id column="create_time" property="createTime"/>
         <id column="update_time" property="updateTime"/>
@@ -20,7 +20,7 @@
     </sql>
 
     <!-- 分页查询系统菜单图标内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.services.domain.menuIcon.vo.MenuIconVo">
+    <select id="selectListByPage" resultType="cn.bunny.services.domain.configuration.vo.MenuIconVo">
         select
         icon.*,
         create_user.username as create_username,

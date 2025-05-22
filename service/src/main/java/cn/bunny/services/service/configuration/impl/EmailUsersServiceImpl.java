@@ -2,9 +2,9 @@ package cn.bunny.services.service.configuration.impl;
 
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.email.dto.EmailUsersDto;
-import cn.bunny.services.domain.email.entity.EmailUsers;
-import cn.bunny.services.domain.email.vo.EmailUsersVo;
+import cn.bunny.services.domain.configuration.dto.EmailUsersDto;
+import cn.bunny.services.domain.configuration.entity.EmailUsers;
+import cn.bunny.services.domain.configuration.vo.EmailUsersVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailUsersMapper;
 import cn.bunny.services.service.configuration.EmailUsersService;
@@ -62,7 +62,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      * @param dto 邮箱用户发送配置添加
      */
     @Override
-    public void addEmailUsers(@Valid EmailUsersDto dto) {
+    public void saveEmailUsers(@Valid EmailUsersDto dto) {
         // 更新邮箱默认状态
         updateEmailUserDefault(dto.getIsDefault());
 

@@ -3,9 +3,9 @@ package cn.bunny.services.service.configuration.impl;
 import cn.bunny.services.domain.common.enums.EmailTemplateEnums;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.email.dto.EmailTemplateDto;
-import cn.bunny.services.domain.email.entity.EmailTemplate;
-import cn.bunny.services.domain.email.vo.EmailTemplateVo;
+import cn.bunny.services.domain.configuration.dto.EmailTemplateDto;
+import cn.bunny.services.domain.configuration.entity.EmailTemplate;
+import cn.bunny.services.domain.configuration.vo.EmailTemplateVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import cn.bunny.services.service.configuration.EmailTemplateService;
@@ -71,7 +71,7 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      * @param dto 邮件模板表添加
      */
     @Override
-    public void addEmailTemplate(@Valid EmailTemplateDto dto) {
+    public void saveEmailTemplate(@Valid EmailTemplateDto dto) {
         String type = dto.getType();
 
         // 保存数据

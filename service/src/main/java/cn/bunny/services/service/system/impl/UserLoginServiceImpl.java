@@ -15,7 +15,7 @@ import cn.bunny.services.domain.common.enums.EmailTemplateEnums;
 import cn.bunny.services.domain.common.enums.LoginEnums;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.email.entity.EmailTemplate;
+import cn.bunny.services.domain.configuration.entity.EmailTemplate;
 import cn.bunny.services.domain.log.entity.UserLoginLog;
 import cn.bunny.services.domain.system.dto.user.AdminUserUpdateByLocalUserDto;
 import cn.bunny.services.domain.system.dto.user.LoginDto;

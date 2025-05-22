@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.i18n.entity;
+package cn.bunny.services.domain.configuration.entity;
 
 import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 多语言表
+ * 多语言类型表
  * </p>
  *
  * @author Bunny
@@ -19,18 +19,18 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_i18n")
-@Schema(name = "I18n对象", title = "多语言", description = "多语言管理")
-public class I18n extends BaseEntity {
+@TableName("sys_i18n_type")
+@Schema(name = "I18nType对象", title = "多语言类型表", description = "多语言类型表")
+public class I18nType extends BaseEntity {
 
-    @Schema(name = "keyName", title = "多语言key")
-    private String keyName;
-
-    @Schema(name = "translation", title = "多语言翻译名称")
-    private String translation;
-
-    @Schema(name = "typeName", title = "多语言类型id")
+    @Schema(name = "typeName", title = "多语言类型(比如zh,en)")
     private String typeName;
+
+    @Schema(name = "summary", title = "名称解释(比如中文,英文)")
+    private String summary;
+
+    @Schema(name = "isDefault", title = "是否为默认")
+    private Boolean isDefault;
 
     @Schema(name = "isDeleted", title = "是否被删除")
     @TableField(exist = false)

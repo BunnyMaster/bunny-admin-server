@@ -1,12 +1,10 @@
 package cn.bunny.services.service.configuration.impl;
 
-import cn.bunny.services.domain.menuIcon.dto.MenuIconAddDto;
-import cn.bunny.services.domain.menuIcon.dto.MenuIconDto;
-import cn.bunny.services.domain.menuIcon.dto.MenuIconUpdateDto;
-import cn.bunny.services.domain.menuIcon.entity.MenuIcon;
-import cn.bunny.services.domain.menuIcon.vo.MenuIconVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.configuration.dto.MenuIconDto;
+import cn.bunny.services.domain.configuration.entity.MenuIcon;
+import cn.bunny.services.domain.configuration.vo.MenuIconVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.MenuIconMapper;
 import cn.bunny.services.service.configuration.MenuIconService;
@@ -14,7 +12,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -77,7 +74,7 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
      */
     @Override
     @CacheEvict(cacheNames = "menuIcon", key = "'menuIconList'", beforeInvocation = true)
-    public void addMenuIcon(MenuIconAddDto dto) {
+    public void saveMenuIcon(MenuIconDto dto) {
         MenuIcon menuIcon = new MenuIcon();
         BeanUtils.copyProperties(dto, menuIcon);
         save(menuIcon);
@@ -90,7 +87,7 @@ public class MenuIconServiceImpl extends ServiceImpl<MenuIconMapper, MenuIcon> i
      */
     @Override
     @CacheEvict(cacheNames = "menuIcon", key = "'menuIconList'", beforeInvocation = true)
-    public void updateMenuIcon(@Valid MenuIconUpdateDto dto) {
+    public void updateMenuIcon(MenuIconDto dto) {
         MenuIcon menuIcon = new MenuIcon();
         BeanUtils.copyProperties(dto, menuIcon);
         updateById(menuIcon);

@@ -1,17 +1,16 @@
 package cn.bunny.services.controller.configuration;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.i18n.dto.I18nTypeAddDto;
-import cn.bunny.services.domain.i18n.dto.I18nTypeDto;
-import cn.bunny.services.domain.i18n.dto.I18nTypeUpdateDto;
-import cn.bunny.services.domain.i18n.vo.I18nTypeVo;
+import cn.bunny.services.domain.configuration.dto.I18nTypeDto;
+import cn.bunny.services.domain.configuration.vo.I18nTypeVo;
 import cn.bunny.services.service.configuration.I18nTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,15 +35,15 @@ public class I18nTypeController {
     @Operation(summary = "添加多语言类型", description = "添加多语言类型")
     @PermissionTag(permission = "i18n:query")
     @PostMapping()
-    public Result<String> addI18nType(@Valid @RequestBody I18nTypeAddDto dto) {
-        i18nTypeService.addI18nType(dto);
+    public Result<String> saveI18nType(@Validated(ValidationGroups.Add.class) @RequestBody I18nTypeDto dto) {
+        i18nTypeService.saveI18nType(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @Operation(summary = "更新多语言类型", description = "更新多语言类型")
     @PermissionTag(permission = "i18n:update")
     @PutMapping()
-    public Result<String> updateI18nType(@Valid @RequestBody I18nTypeUpdateDto dto) {
+    public Result<String> updateI18nType(@Validated(ValidationGroups.Update.class) @RequestBody I18nTypeDto dto) {
         i18nTypeService.updateI18nType(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

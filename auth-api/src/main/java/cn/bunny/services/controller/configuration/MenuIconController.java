@@ -1,21 +1,20 @@
 package cn.bunny.services.controller.configuration;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.menuIcon.dto.MenuIconAddDto;
-import cn.bunny.services.domain.menuIcon.dto.MenuIconDto;
-import cn.bunny.services.domain.menuIcon.dto.MenuIconUpdateDto;
-import cn.bunny.services.domain.menuIcon.entity.MenuIcon;
-import cn.bunny.services.domain.menuIcon.vo.MenuIconVo;
+import cn.bunny.services.domain.configuration.dto.MenuIconDto;
+import cn.bunny.services.domain.configuration.entity.MenuIcon;
+import cn.bunny.services.domain.configuration.vo.MenuIconVo;
 import cn.bunny.services.service.configuration.MenuIconService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,15 +53,15 @@ public class MenuIconController {
     @Operation(summary = "添加菜单图标", description = "添加系统菜单图标")
     @PermissionTag(permission = "menuIcon:add")
     @PostMapping()
-    public Result<String> addMenuIcon(@Valid @RequestBody MenuIconAddDto dto) {
-        menuIconService.addMenuIcon(dto);
+    public Result<String> saveMenuIcon(@Validated(ValidationGroups.Add.class) @RequestBody MenuIconDto dto) {
+        menuIconService.saveMenuIcon(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
 
     @Operation(summary = "更新菜单图标", description = "更新系统菜单图标")
     @PermissionTag(permission = "menuIcon:update")
     @PutMapping()
-    public Result<String> updateMenuIcon(@Valid @RequestBody MenuIconUpdateDto dto) {
+    public Result<String> updateMenuIcon(@Validated(ValidationGroups.Update.class) @RequestBody MenuIconDto dto) {
         menuIconService.updateMenuIcon(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
