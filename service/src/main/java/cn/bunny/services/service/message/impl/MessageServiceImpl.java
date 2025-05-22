@@ -4,9 +4,7 @@ import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.message.dto.MessageAddDto;
 import cn.bunny.services.domain.message.dto.MessageDto;
-import cn.bunny.services.domain.message.dto.MessageUpdateDto;
 import cn.bunny.services.domain.message.entity.Message;
 import cn.bunny.services.domain.message.entity.MessageReceived;
 import cn.bunny.services.domain.message.vo.MessageDetailVo;
@@ -141,7 +139,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @param dto 系统消息添加
      */
     @Override
-    public void addMessage(MessageAddDto dto) {
+    public void createMessage(MessageDto dto) {
         // 如果发送人为空设置当前登录的人的ID
         if (dto.getSendUserId() == null) dto.setSendUserId(BaseContext.getUserId());
 
@@ -176,7 +174,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @param dto 系统消息更新
      */
     @Override
-    public void updateMessage(MessageUpdateDto dto) {
+    public void updateMessage(MessageDto dto) {
         // 如果发送人为空设置当前登录的人的ID
         Long sendUserId = dto.getSendUserId();
         if (sendUserId == null) dto.setSendUserId(BaseContext.getUserId());

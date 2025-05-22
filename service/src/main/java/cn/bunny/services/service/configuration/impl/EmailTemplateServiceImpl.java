@@ -14,7 +14,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,7 +70,7 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      * @param dto 邮件模板表添加
      */
     @Override
-    public void createEmailTemplate(@Valid EmailTemplateDto dto) {
+    public void createEmailTemplate(EmailTemplateDto dto) {
         String type = dto.getType();
 
         // 保存数据
@@ -104,7 +103,7 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      * @param dto 邮件模板表更新
      */
     @Override
-    public void updateEmailTemplate(@Valid EmailTemplateDto dto) {
+    public void updateEmailTemplate(EmailTemplateDto dto) {
         String type = dto.getType();
 
         // 查询是否有这个模板

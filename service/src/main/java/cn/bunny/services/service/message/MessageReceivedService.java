@@ -1,5 +1,6 @@
 package cn.bunny.services.service.message;
 
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.message.dto.MessageReceivedDto;
 import cn.bunny.services.domain.message.dto.MessageReceivedUpdateDto;
 import cn.bunny.services.domain.message.dto.MessageUserDto;
@@ -7,10 +8,8 @@ import cn.bunny.services.domain.message.entity.Message;
 import cn.bunny.services.domain.message.entity.MessageReceived;
 import cn.bunny.services.domain.message.vo.MessageReceivedWithMessageVo;
 import cn.bunny.services.domain.message.vo.MessageUserVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ public interface MessageReceivedService extends IService<MessageReceived> {
      *
      * @param dto 用户消息表单
      */
-    void updateMarkMessageReceived(@Valid MessageReceivedUpdateDto dto);
+    void updateMarkMessageReceived(MessageReceivedUpdateDto dto);
 
     /**
      * 管理删除用户接受的消息

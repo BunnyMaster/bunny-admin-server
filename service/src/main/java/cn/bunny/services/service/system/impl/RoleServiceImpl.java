@@ -20,7 +20,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -172,7 +171,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
     })
-    public void addRole(@Valid RoleAddDto dto) {
+    public void addRole(RoleAddDto dto) {
         Role role = new Role();
         BeanUtils.copyProperties(dto, role);
         save(role);
@@ -208,7 +207,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
     })
-    public void updateRole(@Valid RoleUpdateDto dto) {
+    public void updateRole(RoleUpdateDto dto) {
         // 查询更新的角色是否存在
         Long roleId = dto.getId();
         List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, roleId));

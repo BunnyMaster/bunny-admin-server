@@ -6,7 +6,6 @@ import cn.bunny.services.domain.configuration.entity.EmailTemplate;
 import cn.bunny.services.domain.configuration.vo.EmailTemplateVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -33,14 +32,14 @@ public interface EmailTemplateService extends IService<EmailTemplate> {
      *
      * @param dto 添加表单
      */
-    void createEmailTemplate(@Valid EmailTemplateDto dto);
+    void createEmailTemplate(EmailTemplateDto dto);
 
     /**
      * 更新邮件模板表
      *
      * @param dto 更新表单
      */
-    void updateEmailTemplate(@Valid EmailTemplateDto dto);
+    void updateEmailTemplate(EmailTemplateDto dto);
 
     /**
      * 删除|批量删除邮件模板表类型

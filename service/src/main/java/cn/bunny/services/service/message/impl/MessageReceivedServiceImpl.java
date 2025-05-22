@@ -17,7 +17,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +63,7 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
      * @param dto 用户消息表单
      */
     @Override
-    public void updateMarkMessageReceived(@Valid MessageReceivedUpdateDto dto) {
+    public void updateMarkMessageReceived(MessageReceivedUpdateDto dto) {
         List<MessageReceived> messageReceivedList = dto.getIds().stream().map(id -> {
             MessageReceived messageReceived = new MessageReceived();
             messageReceived.setId(id);

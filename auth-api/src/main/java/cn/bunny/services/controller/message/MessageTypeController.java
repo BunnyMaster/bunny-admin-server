@@ -1,12 +1,11 @@
 package cn.bunny.services.controller.message;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.message.dto.MessageTypeAddDto;
 import cn.bunny.services.domain.message.dto.MessageTypeDto;
-import cn.bunny.services.domain.message.dto.MessageTypeUpdateDto;
 import cn.bunny.services.domain.message.entity.MessageType;
 import cn.bunny.services.domain.message.vo.MessageTypeVo;
 import cn.bunny.services.service.message.MessageTypeService;
@@ -15,7 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,15 +53,15 @@ public class MessageTypeController {
     @Operation(summary = "添加消息类型", description = "添加系统消息类型")
     @PermissionTag(permission = "messageType:add")
     @PostMapping()
-    public Result<String> addMessageType(@Valid @RequestBody MessageTypeAddDto dto) {
-        messageTypeService.addMessageType(dto);
+    public Result<String> createMessageType(@Validated(ValidationGroups.Add.class) @RequestBody MessageTypeDto dto) {
+        messageTypeService.createMessageType(dto);
         return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新消息类型", description = "更新系统消息类型")
     @PermissionTag(permission = "messageType:update")
     @PutMapping()
-    public Result<String> updateMessageType(@Valid @RequestBody MessageTypeUpdateDto dto) {
+    public Result<String> updateMessageType(@Validated(ValidationGroups.Update.class) @RequestBody MessageTypeDto dto) {
         messageTypeService.updateMessageType(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

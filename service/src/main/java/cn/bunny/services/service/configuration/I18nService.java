@@ -8,7 +8,6 @@ import cn.bunny.services.domain.configuration.entity.I18n;
 import cn.bunny.services.domain.configuration.vo.I18nVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
@@ -72,5 +71,5 @@ public interface I18nService extends IService<I18n> {
      *
      * @param dto 文件更新对象
      */
-    void uploadI18nFile(@Valid I18nUpdateByFileDto dto);
+    void uploadI18nFile(I18nUpdateByFileDto dto);
 }

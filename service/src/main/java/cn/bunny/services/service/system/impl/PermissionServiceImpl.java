@@ -27,7 +27,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -131,7 +130,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
     })
-    public void addPermission(@Valid PermissionAddDto dto) {
+    public void addPermission(PermissionAddDto dto) {
         Permission permission = new Permission();
         BeanUtils.copyProperties(dto, permission);
         save(permission);
@@ -146,7 +145,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
     })
-    public void updatePermission(@Valid PermissionUpdateDto dto) {
+    public void updatePermission(PermissionUpdateDto dto) {
         Long id = dto.getId();
         List<Permission> permissionList = list(Wrappers.<Permission>lambdaQuery().eq(Permission::getId, id));
         if (permissionList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);

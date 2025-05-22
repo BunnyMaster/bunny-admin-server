@@ -1,17 +1,16 @@
 package cn.bunny.services.service.schedule.impl;
 
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.quartz.dto.SchedulersGroupAddDto;
 import cn.bunny.services.domain.quartz.dto.SchedulersGroupDto;
 import cn.bunny.services.domain.quartz.dto.SchedulersGroupUpdateDto;
 import cn.bunny.services.domain.quartz.entity.SchedulersGroup;
 import cn.bunny.services.domain.quartz.vo.SchedulersGroupVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.mapper.schedule.SchedulersGroupMapper;
 import cn.bunny.services.service.schedule.SchedulersGroupService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,7 +68,7 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
      * @param dto 任务调度分组添加
      */
     @Override
-    public void addSchedulersGroup(@Valid SchedulersGroupAddDto dto) {
+    public void addSchedulersGroup(SchedulersGroupAddDto dto) {
         // 保存数据
         SchedulersGroup schedulersGroup = new SchedulersGroup();
         BeanUtils.copyProperties(dto, schedulersGroup);
@@ -82,7 +81,7 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
      * @param dto 任务调度分组更新
      */
     @Override
-    public void updateSchedulersGroup(@Valid SchedulersGroupUpdateDto dto) {
+    public void updateSchedulersGroup(SchedulersGroupUpdateDto dto) {
         // 更新内容
         SchedulersGroup schedulersGroup = new SchedulersGroup();
         BeanUtils.copyProperties(dto, schedulersGroup);

@@ -6,7 +6,6 @@ import cn.bunny.services.domain.configuration.entity.EmailUsers;
 import cn.bunny.services.domain.configuration.vo.EmailUsersVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -33,14 +32,14 @@ public interface EmailUsersService extends IService<EmailUsers> {
      *
      * @param dto 添加表单
      */
-    void createEmailUsers(@Valid EmailUsersDto dto);
+    void createEmailUsers(EmailUsersDto dto);
 
     /**
      * 更新邮箱用户发送配置
      *
      * @param dto 更新表单
      */
-    void updateEmailUsers(@Valid EmailUsersDto dto);
+    void updateEmailUsers(EmailUsersDto dto);
 
     /**
      * 删除|批量删除邮箱用户发送配置类型

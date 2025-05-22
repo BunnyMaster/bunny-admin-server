@@ -1,9 +1,7 @@
 package cn.bunny.services.service.message;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.message.dto.MessageAddDto;
 import cn.bunny.services.domain.message.dto.MessageDto;
-import cn.bunny.services.domain.message.dto.MessageUpdateDto;
 import cn.bunny.services.domain.message.entity.Message;
 import cn.bunny.services.domain.message.vo.MessageDetailVo;
 import cn.bunny.services.domain.message.vo.MessageReceivedWithUserVo;
@@ -44,14 +42,14 @@ public interface MessageService extends IService<Message> {
      *
      * @param dto 添加表单
      */
-    void addMessage(MessageAddDto dto);
+    void createMessage(MessageDto dto);
 
     /**
      * * 更新系统消息
      *
      * @param dto 更新表单
      */
-    void updateMessage(MessageUpdateDto dto);
+    void updateMessage(MessageDto dto);
 
     /**
      * * 删除|批量删除系统消息类型

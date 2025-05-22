@@ -9,7 +9,6 @@ import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nTypeService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -58,7 +57,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true),
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nTypeList'", beforeInvocation = true),
     })
-    public void createI18nType(@Valid I18nTypeDto dto) {
+    public void createI18nType(I18nTypeDto dto) {
         String typeName = dto.getTypeName();
         Boolean isDefault = dto.getIsDefault();
         I18nType i18nType = new I18nType();
@@ -89,7 +88,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true),
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nTypeList'", beforeInvocation = true),
     })
-    public void updateI18nType(@Valid I18nTypeDto dto) {
+    public void updateI18nType(I18nTypeDto dto) {
         Long id = dto.getId();
         Boolean isDefault = dto.getIsDefault();
         I18nType i18nType = new I18nType();

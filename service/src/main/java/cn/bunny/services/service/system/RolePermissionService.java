@@ -3,7 +3,6 @@ package cn.bunny.services.service.system;
 import cn.bunny.services.domain.system.dto.AssignPowersToRoleDto;
 import cn.bunny.services.domain.system.entity.RolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -30,5 +29,5 @@ public interface RolePermissionService extends IService<RolePermission> {
      *
      * @param powerIds 权限id
      */
-    void addRolPermission(@Valid AssignPowersToRoleDto powerIds);
+    void addRolPermission(AssignPowersToRoleDto powerIds);
 }

@@ -9,7 +9,6 @@ import cn.bunny.services.domain.system.entity.Permission;
 import cn.bunny.services.domain.system.vo.PermissionVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,14 +36,14 @@ public interface PermissionService extends IService<Permission> {
      *
      * @param dto 添加表单
      */
-    void addPermission(@Valid PermissionAddDto dto);
+    void addPermission(PermissionAddDto dto);
 
     /**
      * * 更新权限
      *
      * @param dto 更新表单
      */
-    void updatePermission(@Valid PermissionUpdateDto dto);
+    void updatePermission(PermissionUpdateDto dto);
 
     /**
      * * 删除|批量删除权限类型
@@ -86,7 +85,7 @@ public interface PermissionService extends IService<Permission> {
     /**
      * 批量修改权限
      *
-     * @param dto 权限数组
+     * @param list 权限数组
      */
-    void updatePermissionBatch(@Valid List<PermissionUpdateDto> list);
+    void updatePermissionBatch(List<PermissionUpdateDto> list);
 }

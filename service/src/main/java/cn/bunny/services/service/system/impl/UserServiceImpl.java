@@ -35,7 +35,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -235,7 +234,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      * @param dto 用户信息添加
      */
     @Override
-    public void addUserByAdmin(@Valid AdminUserAddDto dto) {
+    public void addUserByAdmin(AdminUserAddDto dto) {
         // 对密码加密
         String encodePassword = passwordEncoder.encode(dto.getPassword());
 

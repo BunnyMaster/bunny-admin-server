@@ -83,7 +83,7 @@ public class MessageReceivedController {
 
     @Operation(summary = "用户将消息标为已读", description = "用户将消息标为已读")
     @PutMapping("private/user/messages/read-status")
-    public Result<String> markAsReadByUser(@Valid @RequestBody List<Long> ids) {
+    public Result<String> markAsReadByUser(@RequestBody List<Long> ids) {
         messageReceivedService.markAsReadByUser(ids);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

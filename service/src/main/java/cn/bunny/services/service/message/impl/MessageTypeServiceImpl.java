@@ -1,18 +1,15 @@
 package cn.bunny.services.service.message.impl;
 
-import cn.bunny.services.domain.message.dto.MessageTypeAddDto;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.message.dto.MessageTypeDto;
-import cn.bunny.services.domain.message.dto.MessageTypeUpdateDto;
 import cn.bunny.services.domain.message.entity.MessageType;
 import cn.bunny.services.domain.message.vo.MessageTypeVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.mapper.message.MessageTypeMapper;
 import cn.bunny.services.service.message.MessageTypeService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +53,7 @@ public class MessageTypeServiceImpl extends ServiceImpl<MessageTypeMapper, Messa
      * @param dto 系统消息类型添加
      */
     @Override
-    public void addMessageType(@Valid MessageTypeAddDto dto) {
+    public void createMessageType(MessageTypeDto dto) {
         // 保存数据
         MessageType messageType = new MessageType();
         BeanUtils.copyProperties(dto, messageType);
@@ -69,7 +66,7 @@ public class MessageTypeServiceImpl extends ServiceImpl<MessageTypeMapper, Messa
      * @param dto 系统消息类型更新
      */
     @Override
-    public void updateMessageType(@Valid MessageTypeUpdateDto dto) {
+    public void updateMessageType(MessageTypeDto dto) {
         // 更新内容
         MessageType messageType = new MessageType();
         BeanUtils.copyProperties(dto, messageType);

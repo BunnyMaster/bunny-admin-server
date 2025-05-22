@@ -13,7 +13,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,7 +61,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      * @param dto 邮箱用户发送配置添加
      */
     @Override
-    public void createEmailUsers(@Valid EmailUsersDto dto) {
+    public void createEmailUsers(EmailUsersDto dto) {
         // 更新邮箱默认状态
         updateEmailUserDefault(dto.getIsDefault());
 
@@ -79,7 +78,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      * @param dto 邮箱用户发送配置更新
      */
     @Override
-    public void updateEmailUsers(@Valid EmailUsersDto dto) {
+    public void updateEmailUsers(EmailUsersDto dto) {
         // 更新邮箱默认状态
         updateEmailUserDefault(dto.getIsDefault());
 

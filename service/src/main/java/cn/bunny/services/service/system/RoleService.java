@@ -1,14 +1,13 @@
 package cn.bunny.services.service.system;
 
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.system.dto.role.RoleAddDto;
 import cn.bunny.services.domain.system.dto.role.RoleDto;
 import cn.bunny.services.domain.system.dto.role.RoleUpdateDto;
 import cn.bunny.services.domain.system.entity.Role;
 import cn.bunny.services.domain.system.vo.RoleVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,14 +35,14 @@ public interface RoleService extends IService<Role> {
      *
      * @param dto 添加表单
      */
-    void addRole(@Valid RoleAddDto dto);
+    void addRole(RoleAddDto dto);
 
     /**
      * * 更新角色
      *
      * @param dto 更新表单
      */
-    void updateRole(@Valid RoleUpdateDto dto);
+    void updateRole(RoleUpdateDto dto);
 
     /**
      * * 删除|批量删除角色类型

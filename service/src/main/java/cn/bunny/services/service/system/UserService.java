@@ -9,7 +9,6 @@ import cn.bunny.services.domain.system.vo.user.AdminUserVo;
 import cn.bunny.services.domain.system.vo.user.UserVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -35,14 +34,14 @@ public interface UserService extends IService<AdminUser> {
      *
      * @param dto 添加表单
      */
-    void addUserByAdmin(@Valid AdminUserAddDto dto);
+    void addUserByAdmin(AdminUserAddDto dto);
 
     /**
      * * 更新用户信息
      *
      * @param dto 更新表单
      */
-    void updateUserByAdmin(@Valid AdminUserUpdateDto dto);
+    void updateUserByAdmin(AdminUserUpdateDto dto);
 
     /**
      * * 删除|批量删除用户信息类型

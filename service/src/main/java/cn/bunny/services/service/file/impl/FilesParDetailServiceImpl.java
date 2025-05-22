@@ -9,7 +9,6 @@ import cn.bunny.services.service.file.FilesParDetailService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +52,7 @@ public class FilesParDetailServiceImpl extends ServiceImpl<FilesParDetailMapper,
      * @param dto 文件分片信息表，仅在手动分片上传时使用添加
      */
     @Override
-    public void createFilesParDetail(@Valid FilesParDetailDto dto) {
+    public void createFilesParDetail(FilesParDetailDto dto) {
         FilesParDetail filesPardetail = new FilesParDetail();
         BeanUtils.copyProperties(dto, filesPardetail);
         save(filesPardetail);
@@ -65,7 +64,7 @@ public class FilesParDetailServiceImpl extends ServiceImpl<FilesParDetailMapper,
      * @param dto 文件分片信息表，仅在手动分片上传时使用更新
      */
     @Override
-    public void updateFilesParDetail(@Valid FilesParDetailDto dto) {
+    public void updateFilesParDetail(FilesParDetailDto dto) {
         FilesParDetail filesPardetail = new FilesParDetail();
         BeanUtils.copyProperties(dto, filesPardetail);
         updateById(filesPardetail);

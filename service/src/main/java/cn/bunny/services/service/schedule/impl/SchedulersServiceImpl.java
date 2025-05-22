@@ -14,7 +14,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.quartz.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -99,7 +98,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void addSchedulers(@Valid SchedulersAddDto dto) {
+    public void addSchedulers(SchedulersAddDto dto) {
         String jobName = dto.getJobName();
         String jobGroup = dto.getJobGroup();
         String cronExpression = dto.getCronExpression();

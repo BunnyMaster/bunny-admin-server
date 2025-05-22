@@ -4,7 +4,6 @@ import cn.bunny.services.domain.configuration.dto.I18nTypeDto;
 import cn.bunny.services.domain.configuration.entity.I18nType;
 import cn.bunny.services.domain.configuration.vo.I18nTypeVo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -30,14 +29,14 @@ public interface I18nTypeService extends IService<I18nType> {
      *
      * @param dto 多语言类型添加
      */
-    void createI18nType(@Valid I18nTypeDto dto);
+    void createI18nType(I18nTypeDto dto);
 
     /**
      * 更新多语言类型
      *
      * @param dto 多语言类型更新
      */
-    void updateI18nType(@Valid I18nTypeDto dto);
+    void updateI18nType(I18nTypeDto dto);
 
     /**
      * 删除多语言类型

@@ -1,14 +1,11 @@
 package cn.bunny.services.service.message;
 
-import cn.bunny.services.domain.message.dto.MessageTypeAddDto;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.message.dto.MessageTypeDto;
-import cn.bunny.services.domain.message.dto.MessageTypeUpdateDto;
 import cn.bunny.services.domain.message.entity.MessageType;
 import cn.bunny.services.domain.message.vo.MessageTypeVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -34,14 +31,14 @@ public interface MessageTypeService extends IService<MessageType> {
      *
      * @param dto 添加表单
      */
-    void addMessageType(@Valid MessageTypeAddDto dto);
+    void createMessageType(MessageTypeDto dto);
 
     /**
      * * 更新系统消息类型
      *
      * @param dto 更新表单
      */
-    void updateMessageType(@Valid MessageTypeUpdateDto dto);
+    void updateMessageType(MessageTypeDto dto);
 
     /**
      * * 删除|批量删除系统消息类型类型

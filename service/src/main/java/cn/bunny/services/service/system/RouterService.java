@@ -6,7 +6,6 @@ import cn.bunny.services.domain.system.entity.router.Router;
 import cn.bunny.services.domain.system.vo.router.RouterManageVo;
 import cn.bunny.services.domain.system.vo.router.WebUserRouterVo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -38,14 +37,14 @@ public interface RouterService extends IService<Router> {
      *
      * @param dto 添加菜单表单
      */
-    void addRouter(@Valid RouterAddDto dto);
+    void addRouter(RouterAddDto dto);
 
     /**
      * * 更新路由菜单
      *
      * @param dto 更新表单
      */
-    void updateRouter(@Valid RouterUpdateDto dto);
+    void updateRouter(RouterUpdateDto dto);
 
     /**
      * * 删除路由菜单

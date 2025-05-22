@@ -8,7 +8,6 @@ import cn.bunny.services.domain.quartz.entity.Schedulers;
 import cn.bunny.services.domain.quartz.vo.SchedulersVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 /**
  * <p>
@@ -32,7 +31,7 @@ public interface SchedulersService extends IService<Schedulers> {
      *
      * @param dto 添加表单
      */
-    void addSchedulers(@Valid SchedulersAddDto dto);
+    void addSchedulers(SchedulersAddDto dto);
 
     /**
      * * 暂停Schedulers任务
