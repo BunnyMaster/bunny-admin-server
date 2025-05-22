@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.system;
 
-import cn.bunny.services.domain.system.system.dto.power.PermissionDto;
-import cn.bunny.services.domain.system.system.entity.Permission;
-import cn.bunny.services.domain.system.system.vo.PermissionVo;
+import cn.bunny.services.domain.system.dto.power.PermissionDto;
+import cn.bunny.services.domain.system.entity.Permission;
+import cn.bunny.services.domain.system.vo.PermissionVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

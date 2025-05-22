@@ -2,8 +2,8 @@ package cn.bunny.services.core.strategy.login;
 
 import cn.bunny.services.core.cache.EmailCacheService;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
-import cn.bunny.services.domain.system.system.dto.user.LoginDto;
-import cn.bunny.services.domain.system.system.entity.AdminUser;
+import cn.bunny.services.domain.system.dto.user.LoginDto;
+import cn.bunny.services.domain.system.entity.AdminUser;
 import cn.bunny.services.mapper.system.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

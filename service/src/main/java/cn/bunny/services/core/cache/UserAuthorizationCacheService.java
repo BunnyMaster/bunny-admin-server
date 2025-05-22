@@ -1,8 +1,8 @@
 package cn.bunny.services.core.cache;
 
 import cn.bunny.services.domain.common.constant.RedisUserConstant;
-import cn.bunny.services.domain.system.system.entity.Permission;
-import cn.bunny.services.domain.system.system.entity.Role;
+import cn.bunny.services.domain.system.entity.Permission;
+import cn.bunny.services.domain.system.entity.Role;
 import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
 import com.alibaba.fastjson2.JSON;

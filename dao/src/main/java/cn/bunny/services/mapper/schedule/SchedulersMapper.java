@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper.schedule;
 
-import cn.bunny.services.domain.system.quartz.dto.SchedulersDto;
-import cn.bunny.services.domain.system.quartz.entity.Schedulers;
+import cn.bunny.services.domain.quartz.dto.SchedulersDto;
+import cn.bunny.services.domain.quartz.entity.Schedulers;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

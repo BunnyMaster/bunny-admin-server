@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.log.ScheduleExecuteLogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.log.entity.ScheduleExecuteLog">
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.log.entity.ScheduleExecuteLog">
         <id column="id" property="id"/>
         <id column="create_time" property="createTime"/>
         <id column="update_time" property="updateTime"/>
@@ -25,7 +25,7 @@
     </sql>
 
     <!-- 分页查询调度任务执行日志内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.services.domain.system.log.vo.ScheduleExecuteLogVo">
+    <select id="selectListByPage" resultType="cn.bunny.services.domain.log.vo.ScheduleExecuteLogVo">
         select
         log.*,
         create_user.username as create_username,

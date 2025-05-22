@@ -2,7 +2,7 @@ package cn.bunny.services.core.utils;
 
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.constant.SecurityConfigConstant;
-import cn.bunny.services.domain.system.system.entity.AdminUser;
+import cn.bunny.services.domain.system.entity.AdminUser;
 
 import java.util.List;
 

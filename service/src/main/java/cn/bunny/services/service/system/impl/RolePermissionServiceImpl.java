@@ -1,10 +1,10 @@
 package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.core.event.event.UpdateUserinfoByRoleIdsEvent;
-import cn.bunny.services.domain.system.system.dto.AssignPowersToRoleDto;
-import cn.bunny.services.domain.system.system.entity.AdminUser;
-import cn.bunny.services.domain.system.system.entity.RolePermission;
-import cn.bunny.services.domain.system.system.entity.UserRole;
+import cn.bunny.services.domain.system.dto.AssignPowersToRoleDto;
+import cn.bunny.services.domain.system.entity.AdminUser;
+import cn.bunny.services.domain.system.entity.RolePermission;
+import cn.bunny.services.domain.system.entity.UserRole;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;

@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.message;
 
-import cn.bunny.services.domain.system.message.dto.MessageTypeDto;
-import cn.bunny.services.domain.system.message.entity.MessageType;
-import cn.bunny.services.domain.system.message.vo.MessageTypeVo;
+import cn.bunny.services.domain.message.dto.MessageTypeDto;
+import cn.bunny.services.domain.message.entity.MessageType;
+import cn.bunny.services.domain.message.vo.MessageTypeVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

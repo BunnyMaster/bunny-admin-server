@@ -1,13 +1,11 @@
 package cn.bunny.services.service.configuration.impl;
 
-import cn.bunny.services.domain.system.email.dto.EmailTemplateAddDto;
-import cn.bunny.services.domain.system.email.dto.EmailTemplateDto;
-import cn.bunny.services.domain.system.email.dto.EmailTemplateUpdateDto;
-import cn.bunny.services.domain.system.email.entity.EmailTemplate;
-import cn.bunny.services.domain.system.email.vo.EmailTemplateVo;
 import cn.bunny.services.domain.common.enums.EmailTemplateEnums;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.email.dto.EmailTemplateDto;
+import cn.bunny.services.domain.email.entity.EmailTemplate;
+import cn.bunny.services.domain.email.vo.EmailTemplateVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import cn.bunny.services.service.configuration.EmailTemplateService;
@@ -73,7 +71,7 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      * @param dto 邮件模板表添加
      */
     @Override
-    public void addEmailTemplate(@Valid EmailTemplateAddDto dto) {
+    public void addEmailTemplate(@Valid EmailTemplateDto dto) {
         String type = dto.getType();
 
         // 保存数据
@@ -106,7 +104,7 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
      * @param dto 邮件模板表更新
      */
     @Override
-    public void updateEmailTemplate(@Valid EmailTemplateUpdateDto dto) {
+    public void updateEmailTemplate(@Valid EmailTemplateDto dto) {
         String type = dto.getType();
 
         // 查询是否有这个模板
@@ -137,7 +135,9 @@ public class EmailTemplateServiceImpl extends ServiceImpl<EmailTemplateMapper, E
 
         // 默认邮件
         List<EmailTemplate> emailTemplates = list(Wrappers.<EmailTemplate>lambdaQuery().eq(EmailTemplate::getType, type));
-        List<EmailTemplate> isEmailTemplateListEmpty = emailTemplates.stream().filter(template -> template.getIsDefault().equals(true)).toList();
+        List<EmailTemplate> isEmailTemplateListEmpty = emailTemplates.stream()
+                .filter(template -> template.getIsDefault().equals(true))
+                .toList();
         if (isEmailTemplateListEmpty.isEmpty()) {
             EmailTemplate template = emailTemplates.get(0);
             template.setIsDefault(Boolean.TRUE);

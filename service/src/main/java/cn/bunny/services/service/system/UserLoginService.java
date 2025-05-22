@@ -1,11 +1,11 @@
 package cn.bunny.services.service.system;
 
 import cn.bunny.services.domain.common.model.vo.LoginVo;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateByLocalUserDto;
-import cn.bunny.services.domain.system.system.dto.user.LoginDto;
-import cn.bunny.services.domain.system.system.dto.user.RefreshTokenDto;
-import cn.bunny.services.domain.system.system.entity.AdminUser;
-import cn.bunny.services.domain.system.system.vo.user.RefreshTokenVo;
+import cn.bunny.services.domain.system.dto.user.AdminUserUpdateByLocalUserDto;
+import cn.bunny.services.domain.system.dto.user.LoginDto;
+import cn.bunny.services.domain.system.dto.user.RefreshTokenDto;
+import cn.bunny.services.domain.system.entity.AdminUser;
+import cn.bunny.services.domain.system.vo.user.RefreshTokenVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.jetbrains.annotations.NotNull;
 

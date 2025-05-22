@@ -2,7 +2,7 @@ package cn.bunny.services.core.event.listener.excel;
 
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.RoleExcel;
-import cn.bunny.services.domain.system.system.entity.Role;
+import cn.bunny.services.domain.system.entity.Role;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.service.system.RoleService;
 import com.alibaba.excel.context.AnalysisContext;

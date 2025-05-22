@@ -2,7 +2,7 @@ package cn.bunny.services.controller.system;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.system.dto.user.AssignRolesToUsersDto;
+import cn.bunny.services.domain.system.dto.user.AssignRolesToUsersDto;
 import cn.bunny.services.service.system.UserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

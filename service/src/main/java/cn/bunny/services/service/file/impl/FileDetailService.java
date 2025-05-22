@@ -1,7 +1,7 @@
 package cn.bunny.services.service.file.impl;
 
-import cn.bunny.services.domain.system.files.entity.Files;
-import cn.bunny.services.domain.system.files.entity.FilesParDetail;
+import cn.bunny.services.domain.files.entity.Files;
+import cn.bunny.services.domain.files.entity.FilesParDetail;
 import cn.bunny.services.mapper.file.FilesMapper;
 import cn.bunny.services.mapper.file.FilesParDetailMapper;
 import cn.bunny.services.utils.FileUtil;

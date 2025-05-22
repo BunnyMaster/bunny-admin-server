@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.system;
 
-import cn.bunny.services.domain.system.system.dto.role.RoleDto;
-import cn.bunny.services.domain.system.system.entity.Role;
-import cn.bunny.services.domain.system.system.vo.RoleVo;
+import cn.bunny.services.domain.system.dto.role.RoleDto;
+import cn.bunny.services.domain.system.entity.Role;
+import cn.bunny.services.domain.system.vo.RoleVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

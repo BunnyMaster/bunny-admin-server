@@ -1,21 +1,20 @@
 package cn.bunny.services.controller.configuration;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.email.dto.EmailTemplateAddDto;
-import cn.bunny.services.domain.system.email.dto.EmailTemplateDto;
-import cn.bunny.services.domain.system.email.dto.EmailTemplateUpdateDto;
-import cn.bunny.services.domain.system.email.entity.EmailTemplate;
-import cn.bunny.services.domain.system.email.vo.EmailTemplateVo;
+import cn.bunny.services.domain.email.dto.EmailTemplateDto;
+import cn.bunny.services.domain.email.entity.EmailTemplate;
+import cn.bunny.services.domain.email.vo.EmailTemplateVo;
 import cn.bunny.services.service.configuration.EmailTemplateService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,7 +54,7 @@ public class EmailTemplateController {
     @Operation(summary = "添加邮件模板", description = "添加邮件模板")
     @PermissionTag(permission = "emailTemplate:add")
     @PostMapping()
-    public Result<String> addEmailTemplate(@Valid @RequestBody EmailTemplateAddDto dto) {
+    public Result<String> addEmailTemplate(@Validated(ValidationGroups.Add.class) @RequestBody EmailTemplateDto dto) {
         emailTemplateService.addEmailTemplate(dto);
         return Result.success(ResultCodeEnum.ADD_SUCCESS);
     }
@@ -63,7 +62,7 @@ public class EmailTemplateController {
     @Operation(summary = "更新邮件模板", description = "更新邮件模板")
     @PermissionTag(permission = "emailTemplate:update")
     @PutMapping()
-    public Result<String> updateEmailTemplate(@Valid @RequestBody EmailTemplateUpdateDto dto) {
+    public Result<String> updateEmailTemplate(@Validated(ValidationGroups.Update.class) @RequestBody EmailTemplateDto dto) {
         emailTemplateService.updateEmailTemplate(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

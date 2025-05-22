@@ -1,10 +1,10 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.services.domain.system.system.dto.router.RouterAddDto;
-import cn.bunny.services.domain.system.system.dto.router.RouterUpdateDto;
-import cn.bunny.services.domain.system.system.entity.router.Router;
-import cn.bunny.services.domain.system.system.vo.router.RouterManageVo;
-import cn.bunny.services.domain.system.system.vo.router.WebUserRouterVo;
+import cn.bunny.services.domain.system.dto.router.RouterAddDto;
+import cn.bunny.services.domain.system.dto.router.RouterUpdateDto;
+import cn.bunny.services.domain.system.entity.router.Router;
+import cn.bunny.services.domain.system.vo.router.RouterManageVo;
+import cn.bunny.services.domain.system.vo.router.WebUserRouterVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
 

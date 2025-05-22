@@ -1,9 +1,9 @@
 package cn.bunny.services.service.file.impl;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.files.dto.FilesParDetailDto;
-import cn.bunny.services.domain.system.files.entity.FilesParDetail;
-import cn.bunny.services.domain.system.files.vo.FilesParDetailVo;
+import cn.bunny.services.domain.files.dto.FilesParDetailDto;
+import cn.bunny.services.domain.files.entity.FilesParDetail;
+import cn.bunny.services.domain.files.vo.FilesParDetailVo;
 import cn.bunny.services.mapper.file.FilesParDetailMapper;
 import cn.bunny.services.service.file.FilesParDetailService;
 import com.baomidou.mybatisplus.core.metadata.IPage;

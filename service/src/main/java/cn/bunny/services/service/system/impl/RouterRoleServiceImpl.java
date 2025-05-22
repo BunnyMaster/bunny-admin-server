@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.domain.system.system.entity.RouterRole;
+import cn.bunny.services.domain.system.entity.RouterRole;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.RouterRoleMapper;

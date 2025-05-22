@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.services.domain.system.system.entity.UserDept;
+import cn.bunny.services.domain.system.entity.UserDept;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

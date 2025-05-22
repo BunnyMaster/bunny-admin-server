@@ -1,11 +1,11 @@
 package cn.bunny.services.service.schedule;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.quartz.dto.SchedulersAddDto;
-import cn.bunny.services.domain.system.quartz.dto.SchedulersDto;
-import cn.bunny.services.domain.system.quartz.dto.SchedulersUpdateDto;
-import cn.bunny.services.domain.system.quartz.entity.Schedulers;
-import cn.bunny.services.domain.system.quartz.vo.SchedulersVo;
+import cn.bunny.services.domain.quartz.dto.SchedulersAddDto;
+import cn.bunny.services.domain.quartz.dto.SchedulersDto;
+import cn.bunny.services.domain.quartz.dto.SchedulersUpdateDto;
+import cn.bunny.services.domain.quartz.entity.Schedulers;
+import cn.bunny.services.domain.quartz.vo.SchedulersVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

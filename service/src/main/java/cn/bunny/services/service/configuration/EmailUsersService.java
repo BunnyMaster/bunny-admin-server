@@ -1,11 +1,9 @@
 package cn.bunny.services.service.configuration;
 
-import cn.bunny.services.domain.system.email.dto.EmailUsersAddDto;
-import cn.bunny.services.domain.system.email.dto.EmailUsersDto;
-import cn.bunny.services.domain.system.email.dto.EmailUsersUpdateDto;
-import cn.bunny.services.domain.system.email.entity.EmailUsers;
-import cn.bunny.services.domain.system.email.vo.EmailUsersVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.email.dto.EmailUsersDto;
+import cn.bunny.services.domain.email.entity.EmailUsers;
+import cn.bunny.services.domain.email.vo.EmailUsersVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;
@@ -35,14 +33,14 @@ public interface EmailUsersService extends IService<EmailUsers> {
      *
      * @param dto 添加表单
      */
-    void addEmailUsers(@Valid EmailUsersAddDto dto);
+    void addEmailUsers(@Valid EmailUsersDto dto);
 
     /**
      * 更新邮箱用户发送配置
      *
      * @param dto 更新表单
      */
-    void updateEmailUsers(@Valid EmailUsersUpdateDto dto);
+    void updateEmailUsers(@Valid EmailUsersDto dto);
 
     /**
      * 删除|批量删除邮箱用户发送配置类型

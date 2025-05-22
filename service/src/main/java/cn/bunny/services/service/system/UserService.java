@@ -1,12 +1,12 @@
 package cn.bunny.services.service.system;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
-import cn.bunny.services.domain.system.system.entity.AdminUser;
-import cn.bunny.services.domain.system.system.vo.user.AdminUserVo;
-import cn.bunny.services.domain.system.system.vo.user.UserVo;
+import cn.bunny.services.domain.system.dto.user.AdminUserAddDto;
+import cn.bunny.services.domain.system.dto.user.AdminUserDto;
+import cn.bunny.services.domain.system.dto.user.AdminUserUpdateDto;
+import cn.bunny.services.domain.system.entity.AdminUser;
+import cn.bunny.services.domain.system.vo.user.AdminUserVo;
+import cn.bunny.services.domain.system.vo.user.UserVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.validation.Valid;

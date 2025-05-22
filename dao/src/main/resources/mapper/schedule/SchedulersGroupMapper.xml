@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.schedule.SchedulersGroupMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.quartz.entity.SchedulersGroup">
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.quartz.entity.SchedulersGroup">
         <id column="id" property="id"/>
         <id column="create_time" property="createTime"/>
         <id column="update_time" property="updateTime"/>
@@ -20,7 +20,7 @@
     </sql>
 
     <!-- 分页查询任务调度分组内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.services.domain.system.quartz.vo.SchedulersGroupVo">
+    <select id="selectListByPage" resultType="cn.bunny.services.domain.quartz.vo.SchedulersGroupVo">
         select
         schedulers_group.*,
         create_user.username as create_username,

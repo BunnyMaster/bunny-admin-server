@@ -1,13 +1,13 @@
 package cn.bunny.services.service.file;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.files.dto.FileUploadDto;
-import cn.bunny.services.domain.system.files.dto.FilesAddOrUpdateDto;
-import cn.bunny.services.domain.system.files.dto.FilesDto;
-import cn.bunny.services.domain.system.files.dto.UploadThumbnail;
-import cn.bunny.services.domain.system.files.entity.Files;
-import cn.bunny.services.domain.system.files.vo.FileInfoVo;
-import cn.bunny.services.domain.system.files.vo.FilesVo;
+import cn.bunny.services.domain.files.dto.FileUploadDto;
+import cn.bunny.services.domain.files.dto.FilesAddOrUpdateDto;
+import cn.bunny.services.domain.files.dto.FilesDto;
+import cn.bunny.services.domain.files.dto.UploadThumbnail;
+import cn.bunny.services.domain.files.entity.Files;
+import cn.bunny.services.domain.files.vo.FileInfoVo;
+import cn.bunny.services.domain.files.vo.FilesVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.dromara.x.file.storage.core.get.RemoteDirInfo;

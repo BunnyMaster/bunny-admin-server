@@ -1,7 +1,7 @@
 package cn.bunny.services.security.config;
 
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
-import cn.bunny.services.domain.system.system.entity.AdminUser;
+import cn.bunny.services.domain.system.entity.AdminUser;
 import cn.bunny.services.mapper.system.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.context.annotation.Bean;

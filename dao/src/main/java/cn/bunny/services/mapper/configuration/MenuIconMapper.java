@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.configuration;
 
-import cn.bunny.services.domain.system.menuIcon.dto.MenuIconDto;
-import cn.bunny.services.domain.system.menuIcon.entity.MenuIcon;
-import cn.bunny.services.domain.system.menuIcon.vo.MenuIconVo;
+import cn.bunny.services.domain.menuIcon.dto.MenuIconDto;
+import cn.bunny.services.domain.menuIcon.entity.MenuIcon;
+import cn.bunny.services.domain.menuIcon.vo.MenuIconVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

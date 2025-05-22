@@ -1,10 +1,10 @@
 package cn.bunny.services.service.configuration;
 
-import cn.bunny.services.domain.system.menuIcon.dto.MenuIconAddDto;
-import cn.bunny.services.domain.system.menuIcon.dto.MenuIconDto;
-import cn.bunny.services.domain.system.menuIcon.dto.MenuIconUpdateDto;
-import cn.bunny.services.domain.system.menuIcon.entity.MenuIcon;
-import cn.bunny.services.domain.system.menuIcon.vo.MenuIconVo;
+import cn.bunny.services.domain.menuIcon.dto.MenuIconAddDto;
+import cn.bunny.services.domain.menuIcon.dto.MenuIconDto;
+import cn.bunny.services.domain.menuIcon.dto.MenuIconUpdateDto;
+import cn.bunny.services.domain.menuIcon.entity.MenuIcon;
+import cn.bunny.services.domain.menuIcon.vo.MenuIconVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

@@ -1,10 +1,10 @@
 package cn.bunny.services.service.schedule;
 
-import cn.bunny.services.domain.system.quartz.dto.SchedulersGroupAddDto;
-import cn.bunny.services.domain.system.quartz.dto.SchedulersGroupDto;
-import cn.bunny.services.domain.system.quartz.dto.SchedulersGroupUpdateDto;
-import cn.bunny.services.domain.system.quartz.entity.SchedulersGroup;
-import cn.bunny.services.domain.system.quartz.vo.SchedulersGroupVo;
+import cn.bunny.services.domain.quartz.dto.SchedulersGroupAddDto;
+import cn.bunny.services.domain.quartz.dto.SchedulersGroupDto;
+import cn.bunny.services.domain.quartz.dto.SchedulersGroupUpdateDto;
+import cn.bunny.services.domain.quartz.entity.SchedulersGroup;
+import cn.bunny.services.domain.quartz.vo.SchedulersGroupVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

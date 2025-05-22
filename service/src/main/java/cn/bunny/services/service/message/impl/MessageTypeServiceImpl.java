@@ -1,10 +1,10 @@
 package cn.bunny.services.service.message.impl;
 
-import cn.bunny.services.domain.system.message.dto.MessageTypeAddDto;
-import cn.bunny.services.domain.system.message.dto.MessageTypeDto;
-import cn.bunny.services.domain.system.message.dto.MessageTypeUpdateDto;
-import cn.bunny.services.domain.system.message.entity.MessageType;
-import cn.bunny.services.domain.system.message.vo.MessageTypeVo;
+import cn.bunny.services.domain.message.dto.MessageTypeAddDto;
+import cn.bunny.services.domain.message.dto.MessageTypeDto;
+import cn.bunny.services.domain.message.dto.MessageTypeUpdateDto;
+import cn.bunny.services.domain.message.entity.MessageType;
+import cn.bunny.services.domain.message.vo.MessageTypeVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.mapper.message.MessageTypeMapper;
 import cn.bunny.services.service.message.MessageTypeService;

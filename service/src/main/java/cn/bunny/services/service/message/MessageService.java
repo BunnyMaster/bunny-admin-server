@@ -1,13 +1,13 @@
 package cn.bunny.services.service.message;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.message.dto.MessageAddDto;
-import cn.bunny.services.domain.system.message.dto.MessageDto;
-import cn.bunny.services.domain.system.message.dto.MessageUpdateDto;
-import cn.bunny.services.domain.system.message.entity.Message;
-import cn.bunny.services.domain.system.message.vo.MessageDetailVo;
-import cn.bunny.services.domain.system.message.vo.MessageReceivedWithUserVo;
-import cn.bunny.services.domain.system.message.vo.MessageVo;
+import cn.bunny.services.domain.message.dto.MessageAddDto;
+import cn.bunny.services.domain.message.dto.MessageDto;
+import cn.bunny.services.domain.message.dto.MessageUpdateDto;
+import cn.bunny.services.domain.message.entity.Message;
+import cn.bunny.services.domain.message.vo.MessageDetailVo;
+import cn.bunny.services.domain.message.vo.MessageReceivedWithUserVo;
+import cn.bunny.services.domain.message.vo.MessageVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 

@@ -1,11 +1,11 @@
 package cn.bunny.services.service.configuration.impl;
 
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
-import cn.bunny.services.domain.system.i18n.dto.I18nTypeAddDto;
-import cn.bunny.services.domain.system.i18n.dto.I18nTypeDto;
-import cn.bunny.services.domain.system.i18n.dto.I18nTypeUpdateDto;
-import cn.bunny.services.domain.system.i18n.entity.I18nType;
-import cn.bunny.services.domain.system.i18n.vo.I18nTypeVo;
+import cn.bunny.services.domain.i18n.dto.I18nTypeAddDto;
+import cn.bunny.services.domain.i18n.dto.I18nTypeDto;
+import cn.bunny.services.domain.i18n.dto.I18nTypeUpdateDto;
+import cn.bunny.services.domain.i18n.entity.I18nType;
+import cn.bunny.services.domain.i18n.vo.I18nTypeVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nTypeService;
