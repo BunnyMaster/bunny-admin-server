@@ -1,11 +1,9 @@
 package cn.bunny.services.service.schedule;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.quartz.dto.SchedulersGroupAddDto;
-import cn.bunny.services.domain.quartz.dto.SchedulersGroupDto;
-import cn.bunny.services.domain.quartz.dto.SchedulersGroupUpdateDto;
-import cn.bunny.services.domain.quartz.entity.SchedulersGroup;
-import cn.bunny.services.domain.quartz.vo.SchedulersGroupVo;
+import cn.bunny.services.domain.schedule.dto.SchedulersGroupDto;
+import cn.bunny.services.domain.schedule.entity.SchedulersGroup;
+import cn.bunny.services.domain.schedule.vo.SchedulersGroupVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -33,14 +31,14 @@ public interface SchedulersGroupService extends IService<SchedulersGroup> {
      *
      * @param dto 添加表单
      */
-    void addSchedulersGroup(SchedulersGroupAddDto dto);
+    void createSchedulersGroup(SchedulersGroupDto dto);
 
     /**
      * * 更新任务调度分组
      *
      * @param dto 更新表单
      */
-    void updateSchedulersGroup(SchedulersGroupUpdateDto dto);
+    void updateSchedulersGroup(SchedulersGroupDto dto);
 
     /**
      * * 删除|批量删除任务调度分组类型

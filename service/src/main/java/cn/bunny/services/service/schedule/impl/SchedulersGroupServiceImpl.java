@@ -1,11 +1,9 @@
 package cn.bunny.services.service.schedule.impl;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.quartz.dto.SchedulersGroupAddDto;
-import cn.bunny.services.domain.quartz.dto.SchedulersGroupDto;
-import cn.bunny.services.domain.quartz.dto.SchedulersGroupUpdateDto;
-import cn.bunny.services.domain.quartz.entity.SchedulersGroup;
-import cn.bunny.services.domain.quartz.vo.SchedulersGroupVo;
+import cn.bunny.services.domain.schedule.dto.SchedulersGroupDto;
+import cn.bunny.services.domain.schedule.entity.SchedulersGroup;
+import cn.bunny.services.domain.schedule.vo.SchedulersGroupVo;
 import cn.bunny.services.mapper.schedule.SchedulersGroupMapper;
 import cn.bunny.services.service.schedule.SchedulersGroupService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -68,7 +66,7 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
      * @param dto 任务调度分组添加
      */
     @Override
-    public void addSchedulersGroup(SchedulersGroupAddDto dto) {
+    public void createSchedulersGroup(SchedulersGroupDto dto) {
         // 保存数据
         SchedulersGroup schedulersGroup = new SchedulersGroup();
         BeanUtils.copyProperties(dto, schedulersGroup);
@@ -81,7 +79,7 @@ public class SchedulersGroupServiceImpl extends ServiceImpl<SchedulersGroupMappe
      * @param dto 任务调度分组更新
      */
     @Override
-    public void updateSchedulersGroup(SchedulersGroupUpdateDto dto) {
+    public void updateSchedulersGroup(SchedulersGroupDto dto) {
         // 更新内容
         SchedulersGroup schedulersGroup = new SchedulersGroup();
         BeanUtils.copyProperties(dto, schedulersGroup);

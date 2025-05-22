@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.quartz.entity;
+package cn.bunny.services.domain.schedule.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

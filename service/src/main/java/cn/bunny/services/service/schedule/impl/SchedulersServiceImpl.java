@@ -2,11 +2,9 @@ package cn.bunny.services.service.schedule.impl;
 
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.quartz.dto.SchedulersAddDto;
-import cn.bunny.services.domain.quartz.dto.SchedulersDto;
-import cn.bunny.services.domain.quartz.dto.SchedulersUpdateDto;
-import cn.bunny.services.domain.quartz.entity.Schedulers;
-import cn.bunny.services.domain.quartz.vo.SchedulersVo;
+import cn.bunny.services.domain.schedule.dto.SchedulersDto;
+import cn.bunny.services.domain.schedule.entity.Schedulers;
+import cn.bunny.services.domain.schedule.vo.SchedulersVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.schedule.SchedulersMapper;
 import cn.bunny.services.service.schedule.SchedulersService;
@@ -67,7 +65,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      * @param dto 更新任务表单
      */
     @Override
-    public void updateSchedulers(SchedulersUpdateDto dto) {
+    public void updateSchedulers(SchedulersDto dto) {
         String jobName = dto.getJobName();
         String jobGroup = dto.getJobGroup();
         String cronExpression = dto.getCronExpression();
@@ -98,7 +96,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void addSchedulers(SchedulersAddDto dto) {
+    public void createSchedulers(SchedulersDto dto) {
         String jobName = dto.getJobName();
         String jobGroup = dto.getJobGroup();
         String cronExpression = dto.getCronExpression();
@@ -143,7 +141,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      * @param dto Schedulers公共操作表单
      */
     @Override
-    public void pauseScheduler(SchedulersUpdateDto dto) {
+    public void pauseScheduler(SchedulersDto dto) {
         try {
             JobKey key = new JobKey(dto.getJobName(), dto.getJobGroup());
             scheduler.pauseJob(key);
@@ -158,7 +156,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      * @param dto Schedulers公共操作表单
      */
     @Override
-    public void resumeScheduler(SchedulersUpdateDto dto) {
+    public void resumeScheduler(SchedulersDto dto) {
         try {
             JobKey key = new JobKey(dto.getJobName(), dto.getJobGroup());
             scheduler.resumeJob(key);
@@ -173,7 +171,7 @@ public class SchedulersServiceImpl extends ServiceImpl<SchedulersMapper, Schedul
      * @param dto Schedulers公共操作表单
      */
     @Override
-    public void deleteSchedulers(SchedulersUpdateDto dto) {
+    public void deleteSchedulers(SchedulersDto dto) {
         try {
             String jobGroup = dto.getJobGroup();
             String jobName = dto.getJobName();

@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.quartz.entity;
+package cn.bunny.services.domain.schedule.entity;
 
 import cn.bunny.services.domain.common.model.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;

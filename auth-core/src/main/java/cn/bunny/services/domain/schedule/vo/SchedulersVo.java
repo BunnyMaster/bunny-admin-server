@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.quartz.vo;
+package cn.bunny.services.domain.schedule.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

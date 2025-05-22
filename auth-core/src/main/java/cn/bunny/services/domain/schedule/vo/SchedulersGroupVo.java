@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.quartz.vo;
+package cn.bunny.services.domain.schedule.vo;
 
 import cn.bunny.services.domain.common.model.vo.BaseUserVo;
 import io.swagger.v3.oas.annotations.media.Schema;
