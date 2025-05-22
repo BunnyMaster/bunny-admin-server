@@ -36,7 +36,6 @@ public class FilesCreateOrUpdateDto {
     private List<MultipartFile> files;
 
     @Schema(name = "file", title = "文件，修改时为 file")
-    @NotNull(message = "文件不能为空", groups = {ValidationGroups.Update.class})
     private MultipartFile file;
 
 }

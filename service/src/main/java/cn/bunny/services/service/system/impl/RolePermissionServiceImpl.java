@@ -59,13 +59,14 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
      * @param dto 为角色分配权限表单
      */
     @Override
-    public void addRolPermission(AssignPowersToRoleDto dto) {
+    public void saveRolPermission(AssignPowersToRoleDto dto) {
         List<Long> powerIds = dto.getPowerIds();
         Long roleId = dto.getRoleId();
 
         // 删除这个角色下所有权限
         List<Long> ids = List.of(roleId);
-        baseMapper.deleteBatchRoleIds(ids);
+        removeByIds(ids);
+        // baseMapper.deleteBatchRoleIds(ids);
 
         // 保存分配数据
         List<RolePermission> rolePermissionList = powerIds.stream().map(powerId -> {

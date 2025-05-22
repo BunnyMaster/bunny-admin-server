@@ -29,5 +29,5 @@ public interface RolePermissionService extends IService<RolePermission> {
      *
      * @param powerIds 权限id
      */
-    void addRolPermission(AssignPowersToRoleDto powerIds);
+    void saveRolPermission(AssignPowersToRoleDto powerIds);
 }

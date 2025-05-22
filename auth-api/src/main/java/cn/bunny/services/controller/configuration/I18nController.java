@@ -54,20 +54,20 @@ public class I18nController {
         return Result.success(vo);
     }
 
-    @Operation(summary = "添加多语言", description = "添加多语言")
-    @PermissionTag(permission = "i18n:add")
-    @PostMapping()
-    public Result<String> createI18n(@Validated(ValidationGroups.Update.class) @RequestBody I18nDto dto) {
-        i18nService.createI18n(dto);
-        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
-    }
-
     @Operation(summary = "更新多语言", description = "更新多语言")
     @PermissionTag(permission = "i18n:update")
     @PutMapping()
-    public Result<String> updateI18n(@Validated(ValidationGroups.Add.class) @RequestBody I18nDto dto) {
+    public Result<String> updateI18n(@Validated(ValidationGroups.Update.class) @RequestBody I18nDto dto) {
         i18nService.updateI18n(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
+    }
+
+    @Operation(summary = "添加多语言", description = "添加多语言")
+    @PermissionTag(permission = "i18n:add")
+    @PostMapping()
+    public Result<String> createI18n(@Validated(ValidationGroups.Add.class) @RequestBody I18nDto dto) {
+        i18nService.createI18n(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "删除多语言", description = "删除多语言")

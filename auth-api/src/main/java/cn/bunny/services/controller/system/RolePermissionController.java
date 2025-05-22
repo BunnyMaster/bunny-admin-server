@@ -39,8 +39,8 @@ public class RolePermissionController {
     @Operation(summary = "为角色分配权限", description = "为角色分配权限")
     @PermissionTag(permission = "rolePermission:update")
     @PostMapping()
-    public Result<String> addRolPermission(@Valid @RequestBody AssignPowersToRoleDto dto) {
-        rolePermissionService.addRolPermission(dto);
+    public Result<String> saveRolPermission(@Valid @RequestBody AssignPowersToRoleDto dto) {
+        rolePermissionService.saveRolPermission(dto);
         return Result.success();
     }
 }
