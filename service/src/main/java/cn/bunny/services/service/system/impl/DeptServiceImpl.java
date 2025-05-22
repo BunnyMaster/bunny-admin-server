@@ -2,9 +2,7 @@ package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.dto.dept.DeptAddDto;
-import cn.bunny.services.domain.system.dto.dept.DeptDto;
-import cn.bunny.services.domain.system.dto.dept.DeptUpdateDto;
+import cn.bunny.services.domain.system.dto.DeptDto;
 import cn.bunny.services.domain.system.entity.Dept;
 import cn.bunny.services.domain.system.vo.DeptVo;
 import cn.bunny.services.exception.AuthCustomerException;
@@ -81,7 +79,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      */
     @Override
     @CacheEvict(cacheNames = CACHE_NAMES, key = "'deptList'", beforeInvocation = true)
-    public void addDept(DeptAddDto dto) {
+    public void createDept(DeptDto dto) {
         // 整理管理者人员
         String mangerList = dto.getManager().stream().map(String::trim).collect(Collectors.joining(","));
 
@@ -100,7 +98,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
      */
     @Override
     @CacheEvict(cacheNames = CACHE_NAMES, key = "'deptList'", beforeInvocation = true)
-    public void updateDept(DeptUpdateDto dto) {
+    public void updateDept(DeptDto dto) {
         if (dto.getId().equals(dto.getParentId())) throw new AuthCustomerException(ResultCodeEnum.ILLEGAL_DATA_REQUEST);
 
         // 将管理员用户逗号分隔

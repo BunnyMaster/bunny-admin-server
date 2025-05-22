@@ -49,8 +49,8 @@ public class UserController {
     @Operation(summary = "添加用户", description = "添加用户信息")
     @PermissionTag(permission = "user:add")
     @PostMapping()
-    public Result<Object> addUserByAdmin(@Valid @RequestBody AdminUserAddDto dto) {
-        userService.addUserByAdmin(dto);
+    public Result<Object> createUserByAdmin(@Valid @RequestBody AdminUserAddDto dto) {
+        userService.createUserByAdmin(dto);
         return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 

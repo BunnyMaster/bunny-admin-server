@@ -1,6 +1,6 @@
 package cn.bunny.services.mapper.system;
 
-import cn.bunny.services.domain.system.dto.power.PermissionDto;
+import cn.bunny.services.domain.system.dto.PermissionDto;
 import cn.bunny.services.domain.system.entity.Permission;
 import cn.bunny.services.domain.system.vo.PermissionVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

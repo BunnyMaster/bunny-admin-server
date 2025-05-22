@@ -1,6 +1,6 @@
 package cn.bunny.services.mapper.system;
 
-import cn.bunny.services.domain.system.dto.dept.DeptDto;
+import cn.bunny.services.domain.system.dto.DeptDto;
 import cn.bunny.services.domain.system.entity.Dept;
 import cn.bunny.services.domain.system.vo.DeptVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

@@ -1,7 +1,6 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.services.domain.system.dto.router.RouterAddDto;
-import cn.bunny.services.domain.system.dto.router.RouterUpdateDto;
+import cn.bunny.services.domain.system.dto.RouterDto;
 import cn.bunny.services.domain.system.entity.router.Router;
 import cn.bunny.services.domain.system.vo.router.RouterManageVo;
 import cn.bunny.services.domain.system.vo.router.WebUserRouterVo;
@@ -37,14 +36,14 @@ public interface RouterService extends IService<Router> {
      *
      * @param dto 添加菜单表单
      */
-    void addRouter(RouterAddDto dto);
+    void createRouter(RouterDto dto);
 
     /**
      * * 更新路由菜单
      *
      * @param dto 更新表单
      */
-    void updateRouter(RouterUpdateDto dto);
+    void updateRouter(RouterDto dto);
 
     /**
      * * 删除路由菜单

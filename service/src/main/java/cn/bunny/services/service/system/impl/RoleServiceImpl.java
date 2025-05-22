@@ -5,9 +5,7 @@ import cn.bunny.services.core.event.listener.excel.RoleExcelListener;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.RoleExcel;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.dto.role.RoleAddDto;
-import cn.bunny.services.domain.system.dto.role.RoleDto;
-import cn.bunny.services.domain.system.dto.role.RoleUpdateDto;
+import cn.bunny.services.domain.system.dto.RoleDto;
 import cn.bunny.services.domain.system.entity.Role;
 import cn.bunny.services.domain.system.vo.RoleVo;
 import cn.bunny.services.exception.AuthCustomerException;
@@ -171,7 +169,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
     })
-    public void addRole(RoleAddDto dto) {
+    public void addRole(RoleDto dto) {
         Role role = new Role();
         BeanUtils.copyProperties(dto, role);
         save(role);
@@ -207,7 +205,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
     })
-    public void updateRole(RoleUpdateDto dto) {
+    public void updateRole(RoleDto dto) {
         // 查询更新的角色是否存在
         Long roleId = dto.getId();
         List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, roleId));

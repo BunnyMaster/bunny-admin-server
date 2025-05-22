@@ -1,12 +1,11 @@
 package cn.bunny.services.controller.system;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.dto.role.RoleAddDto;
-import cn.bunny.services.domain.system.dto.role.RoleDto;
-import cn.bunny.services.domain.system.dto.role.RoleUpdateDto;
+import cn.bunny.services.domain.system.dto.RoleDto;
 import cn.bunny.services.domain.system.entity.Role;
 import cn.bunny.services.domain.system.vo.RoleVo;
 import cn.bunny.services.service.system.RoleService;
@@ -15,8 +14,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,7 +55,7 @@ public class RoleController {
     @Operation(summary = "添加角色", description = "添加角色")
     @PermissionTag(permission = "role:add")
     @PostMapping()
-    public Result<Object> addRole(@Valid @RequestBody RoleAddDto dto) {
+    public Result<Object> addRole(@Validated(ValidationGroups.Add.class) @RequestBody RoleDto dto) {
         roleService.addRole(dto);
         return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
@@ -64,7 +63,7 @@ public class RoleController {
     @Operation(summary = "更新角色", description = "更新角色")
     @PermissionTag(permission = "role:update")
     @PutMapping()
-    public Result<Object> updateRole(@Valid @RequestBody RoleUpdateDto dto) {
+    public Result<Object> updateRole(@Validated(ValidationGroups.Update.class) @RequestBody RoleDto dto) {
         roleService.updateRole(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

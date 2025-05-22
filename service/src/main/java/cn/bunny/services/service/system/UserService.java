@@ -34,7 +34,7 @@ public interface UserService extends IService<AdminUser> {
      *
      * @param dto 添加表单
      */
-    void addUserByAdmin(AdminUserAddDto dto);
+    void createUserByAdmin(AdminUserAddDto dto);
 
     /**
      * * 更新用户信息

@@ -3,7 +3,6 @@ package cn.bunny.services.domain.system.dto.user;
 import cn.bunny.services.domain.common.constant.UserConstant;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,12 +15,10 @@ public class AdminUserUpdateByLocalUserDto {
 
     @Schema(name = "nickname", title = "昵称")
     @NotBlank(message = "昵称不能为空")
-    @NotNull(message = "昵称不能为空")
     private String nickname;
 
     @Schema(name = "email", title = "邮箱")
     @NotBlank(message = "邮箱不能为空")
-    @NotNull(message = "邮箱不能为空")
     private String email;
 
     @Schema(name = "avatar", title = "头像")

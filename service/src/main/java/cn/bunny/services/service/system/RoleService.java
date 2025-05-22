@@ -1,9 +1,7 @@
 package cn.bunny.services.service.system;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.dto.role.RoleAddDto;
-import cn.bunny.services.domain.system.dto.role.RoleDto;
-import cn.bunny.services.domain.system.dto.role.RoleUpdateDto;
+import cn.bunny.services.domain.system.dto.RoleDto;
 import cn.bunny.services.domain.system.entity.Role;
 import cn.bunny.services.domain.system.vo.RoleVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -35,14 +33,14 @@ public interface RoleService extends IService<Role> {
      *
      * @param dto 添加表单
      */
-    void addRole(RoleAddDto dto);
+    void addRole(RoleDto dto);
 
     /**
      * * 更新角色
      *
      * @param dto 更新表单
      */
-    void updateRole(RoleUpdateDto dto);
+    void updateRole(RoleDto dto);
 
     /**
      * * 删除|批量删除角色类型

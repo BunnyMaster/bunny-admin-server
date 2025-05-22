@@ -1,4 +1,4 @@
-package cn.bunny.services.domain.system.dto.power;
+package cn.bunny.services.domain.system.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
@@ -18,7 +18,6 @@ import java.util.List;
 public class PermissionUpdateBatchByParentIdDto {
 
     @Schema(name = "id", title = "主键")
-    @NotNull(message = "id不能为空")
     @NotEmpty(message = "id不能为空")
     private List<Long> ids;
 

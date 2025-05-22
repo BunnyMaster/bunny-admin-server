@@ -1,5 +1,6 @@
-package cn.bunny.services.domain.system.dto.role;
+package cn.bunny.services.domain.system.dto;
 
+import cn.bunny.services.domain.common.ValidationGroups;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,21 +13,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "RoleUpdateDto对象", title = "更新角色", description = "角色管理")
-public class RoleUpdateDto {
+@Schema(name = "RoleDto对象", title = "角色分页查询", description = "角色管理")
+public class RoleDto {
 
     @Schema(name = "id", title = "主键")
-    @NotNull(message = "id不能为空")
+    @NotNull(message = "id不能为空", groups = {ValidationGroups.Update.class})
     private Long id;
 
     @Schema(name = "roleCode", title = "角色代码")
-    @NotBlank(message = "roleCode 不能为空")
-    @NotNull(message = "roleCode 不能为空")
+    @NotBlank(message = "roleCode 不能为空", groups = {ValidationGroups.Add.class, ValidationGroups.Update.class})
     private String roleCode;
 
     @Schema(name = "description", title = "描述")
-    @NotBlank(message = "description 不能为空")
-    @NotNull(message = "description 不能为空")
+    @NotBlank(message = "description 不能为空", groups = {ValidationGroups.Add.class, ValidationGroups.Update.class})
     private String description;
 
 }
+

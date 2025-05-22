@@ -1,17 +1,17 @@
 package cn.bunny.services.controller.system;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.dto.router.RouterAddDto;
-import cn.bunny.services.domain.system.dto.router.RouterUpdateDto;
+import cn.bunny.services.domain.system.dto.RouterDto;
 import cn.bunny.services.domain.system.vo.router.RouterManageVo;
 import cn.bunny.services.domain.system.vo.router.WebUserRouterVo;
 import cn.bunny.services.service.system.RouterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,15 +52,15 @@ public class RouterController {
     @Operation(summary = "添加路由菜单", description = "添加路由菜单")
     @PermissionTag(permission = "router:add")
     @PostMapping()
-    public Result<String> addRouter(@Valid @RequestBody RouterAddDto dto) {
-        routerService.addRouter(dto);
+    public Result<String> createRouter(@Validated({ValidationGroups.Add.class}) @RequestBody RouterDto dto) {
+        routerService.createRouter(dto);
         return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新路由菜单", description = "更新路由菜单")
     @PermissionTag(permission = "router:update")
     @PutMapping()
-    public Result<String> updateRouter(@Valid @RequestBody RouterUpdateDto dto) {
+    public Result<String> updateRouter(@Validated({ValidationGroups.Update.class}) @RequestBody RouterDto dto) {
         routerService.updateRouter(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

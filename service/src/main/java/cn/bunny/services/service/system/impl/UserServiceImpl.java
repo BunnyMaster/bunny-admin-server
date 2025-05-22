@@ -234,7 +234,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      * @param dto 用户信息添加
      */
     @Override
-    public void addUserByAdmin(AdminUserAddDto dto) {
+    public void createUserByAdmin(AdminUserAddDto dto) {
         // 对密码加密
         String encodePassword = passwordEncoder.encode(dto.getPassword());
 

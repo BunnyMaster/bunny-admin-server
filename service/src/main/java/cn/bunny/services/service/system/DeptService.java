@@ -1,9 +1,7 @@
 package cn.bunny.services.service.system;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.dto.dept.DeptAddDto;
-import cn.bunny.services.domain.system.dto.dept.DeptDto;
-import cn.bunny.services.domain.system.dto.dept.DeptUpdateDto;
+import cn.bunny.services.domain.system.dto.DeptDto;
 import cn.bunny.services.domain.system.entity.Dept;
 import cn.bunny.services.domain.system.vo.DeptVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,14 +31,14 @@ public interface DeptService extends IService<Dept> {
      *
      * @param dto 添加表单
      */
-    void addDept(DeptAddDto dto);
+    void createDept(DeptDto dto);
 
     /**
      * * 更新部门
      *
      * @param dto 更新表单
      */
-    void updateDept(DeptUpdateDto dto);
+    void updateDept(DeptDto dto);
 
     /**
      * * 删除|批量删除部门类型

@@ -1,10 +1,8 @@
 package cn.bunny.services.service.system;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.dto.power.PermissionAddDto;
-import cn.bunny.services.domain.system.dto.power.PermissionDto;
-import cn.bunny.services.domain.system.dto.power.PermissionUpdateBatchByParentIdDto;
-import cn.bunny.services.domain.system.dto.power.PermissionUpdateDto;
+import cn.bunny.services.domain.system.dto.PermissionDto;
+import cn.bunny.services.domain.system.dto.PermissionUpdateBatchByParentIdDto;
 import cn.bunny.services.domain.system.entity.Permission;
 import cn.bunny.services.domain.system.vo.PermissionVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -36,14 +34,14 @@ public interface PermissionService extends IService<Permission> {
      *
      * @param dto 添加表单
      */
-    void addPermission(PermissionAddDto dto);
+    void createPermission(PermissionDto dto);
 
     /**
      * * 更新权限
      *
      * @param dto 更新表单
      */
-    void updatePermission(PermissionUpdateDto dto);
+    void updatePermission(PermissionDto dto);
 
     /**
      * * 删除|批量删除权限类型
@@ -87,5 +85,5 @@ public interface PermissionService extends IService<Permission> {
      *
      * @param list 权限数组
      */
-    void updatePermissionBatch(List<PermissionUpdateDto> list);
+    void updatePermissionBatch(List<PermissionDto> list);
 }

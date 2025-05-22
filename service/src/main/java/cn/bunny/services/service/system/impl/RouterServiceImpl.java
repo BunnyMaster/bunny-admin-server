@@ -2,8 +2,7 @@ package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.core.utils.RouterServiceHelper;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
-import cn.bunny.services.domain.system.dto.router.RouterAddDto;
-import cn.bunny.services.domain.system.dto.router.RouterUpdateDto;
+import cn.bunny.services.domain.system.dto.RouterDto;
 import cn.bunny.services.domain.system.entity.router.Router;
 import cn.bunny.services.domain.system.entity.router.RouterMeta;
 import cn.bunny.services.domain.system.entity.router.RouterMetaTransition;
@@ -134,7 +133,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
-    public void addRouter(RouterAddDto dto) {
+    public void createRouter(RouterDto dto) {
         // 添加路由
         Router router = new Router();
         BeanUtils.copyProperties(dto, router);
@@ -159,7 +158,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
-    public void updateRouter(RouterUpdateDto dto) {
+    public void updateRouter(RouterDto dto) {
         // 更新路由
         Router router = new Router();
         BeanUtils.copyProperties(dto, router);

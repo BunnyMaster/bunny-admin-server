@@ -2,7 +2,6 @@ package cn.bunny.services.domain.system.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,6 @@ public class RefreshTokenDto {
 
     @Schema(name = "refreshToken", title = "请求刷新token")
     @NotBlank(message = "请求刷新token不能为空")
-    @NotNull(message = "请求刷新token不能为空")
     private String refreshToken;
 
     @Schema(name = "readMeDay", title = "记住我天数")
