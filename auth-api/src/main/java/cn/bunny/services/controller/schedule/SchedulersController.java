@@ -2,21 +2,20 @@ package cn.bunny.services.controller.schedule;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.aop.scanner.QuartzSchedulersScanner;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.quartz.dto.SchedulersAddDto;
-import cn.bunny.services.domain.system.quartz.dto.SchedulersDto;
-import cn.bunny.services.domain.system.quartz.dto.SchedulersUpdateDto;
-import cn.bunny.services.domain.system.quartz.entity.Schedulers;
-import cn.bunny.services.domain.system.quartz.vo.SchedulersVo;
+import cn.bunny.services.domain.schedule.dto.SchedulersDto;
+import cn.bunny.services.domain.schedule.entity.Schedulers;
+import cn.bunny.services.domain.schedule.vo.SchedulersVo;
 import cn.bunny.services.service.schedule.SchedulersService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,15 +55,15 @@ public class SchedulersController {
     @Operation(summary = "添加任务调度", description = "添加任务")
     @PermissionTag(permission = "schedulers:add")
     @PostMapping()
-    public Result<Object> addSchedulers(@Valid @RequestBody SchedulersAddDto dto) {
-        schedulersService.addSchedulers(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<Object> createSchedulers(@Validated(ValidationGroups.Add.class) @RequestBody SchedulersDto dto) {
+        schedulersService.createSchedulers(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新任务调度", description = "更新任务")
     @PermissionTag(permission = "schedulers:update")
     @PutMapping()
-    public Result<String> updateSchedulers(@Valid @RequestBody SchedulersUpdateDto dto) {
+    public Result<String> updateSchedulers(@Validated(ValidationGroups.Update.class) @RequestBody SchedulersDto dto) {
         schedulersService.updateSchedulers(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
@@ -72,7 +71,7 @@ public class SchedulersController {
     @Operation(summary = "暂停任务调度", description = "暂停任务")
     @PermissionTag(permission = "schedulers:update")
     @PutMapping("pause")
-    public Result<String> pause(@RequestBody SchedulersUpdateDto dto) {
+    public Result<String> pause(@RequestBody SchedulersDto dto) {
         schedulersService.pauseScheduler(dto);
         return Result.success();
     }
@@ -80,7 +79,7 @@ public class SchedulersController {
     @Operation(summary = "恢复任务调度", description = "恢复任务")
     @PermissionTag(permission = "schedulers:update")
     @PutMapping("resume")
-    public Result<String> resume(@RequestBody SchedulersUpdateDto dto) {
+    public Result<String> resume(@RequestBody SchedulersDto dto) {
         schedulersService.resumeScheduler(dto);
         return Result.success();
     }
@@ -88,7 +87,7 @@ public class SchedulersController {
     @Operation(summary = "删除任务调度", description = "删除任务")
     @PermissionTag(permission = "schedulers:delete")
     @DeleteMapping()
-    public Result<String> deleteSchedulers(@RequestBody SchedulersUpdateDto dto) {
+    public Result<String> deleteSchedulers(@RequestBody SchedulersDto dto) {
         schedulersService.deleteSchedulers(dto);
         return Result.success(ResultCodeEnum.DELETE_SUCCESS);
     }

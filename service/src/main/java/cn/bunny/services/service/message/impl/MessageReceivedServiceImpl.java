@@ -3,13 +3,13 @@ package cn.bunny.services.service.message.impl;
 import cn.bunny.services.context.BaseContext;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.message.dto.MessageReceivedDto;
-import cn.bunny.services.domain.system.message.dto.MessageReceivedUpdateDto;
-import cn.bunny.services.domain.system.message.dto.MessageUserDto;
-import cn.bunny.services.domain.system.message.entity.Message;
-import cn.bunny.services.domain.system.message.entity.MessageReceived;
-import cn.bunny.services.domain.system.message.vo.MessageReceivedWithMessageVo;
-import cn.bunny.services.domain.system.message.vo.MessageUserVo;
+import cn.bunny.services.domain.message.dto.MessageReceivedDto;
+import cn.bunny.services.domain.message.dto.MessageReceivedUpdateDto;
+import cn.bunny.services.domain.message.dto.MessageUserDto;
+import cn.bunny.services.domain.message.entity.Message;
+import cn.bunny.services.domain.message.entity.MessageReceived;
+import cn.bunny.services.domain.message.vo.MessageReceivedWithMessageVo;
+import cn.bunny.services.domain.message.vo.MessageUserVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.message.MessageReceivedMapper;
 import cn.bunny.services.service.message.MessageReceivedService;
@@ -17,7 +17,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +63,7 @@ public class MessageReceivedServiceImpl extends ServiceImpl<MessageReceivedMappe
      * @param dto 用户消息表单
      */
     @Override
-    public void updateMarkMessageReceived(@Valid MessageReceivedUpdateDto dto) {
+    public void updateMarkMessageReceived(MessageReceivedUpdateDto dto) {
         List<MessageReceived> messageReceivedList = dto.getIds().stream().map(id -> {
             MessageReceived messageReceived = new MessageReceived();
             messageReceived.setId(id);

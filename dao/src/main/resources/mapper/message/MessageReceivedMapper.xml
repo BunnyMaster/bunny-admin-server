@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.message.MessageReceivedMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.message.entity.MessageReceived">
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.message.entity.MessageReceived">
         <id column="id" property="id"/>
         <result column="received_user_id" property="receivedUserId"/>
         <result column="message_id" property="messageId"/>
@@ -26,7 +26,7 @@
 
     <!-- 用户消息接收管理分页查询 -->
     <select id="selectListByMessageReceivedPage"
-            resultType="cn.bunny.services.domain.system.message.vo.MessageReceivedWithMessageVo">
+            resultType="cn.bunny.services.domain.message.vo.MessageReceivedWithMessageVo">
         SELECT
         message_received.status AS status,
         message_received.received_user_id AS received_user_id,
@@ -86,7 +86,7 @@
     </select>
 
     <!-- 根据消息所有包含匹配当前消息Id的列表 -->
-    <select id="selectListByUserMessagePage" resultType="cn.bunny.services.domain.system.message.vo.MessageUserVo">
+    <select id="selectListByUserMessagePage" resultType="cn.bunny.services.domain.message.vo.MessageUserVo">
         SELECT
         message.id,
         message.title,

@@ -2,7 +2,7 @@ package cn.bunny.services.controller.system;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.system.dto.AssignPowersToRoleDto;
+import cn.bunny.services.domain.system.dto.AssignPowersToRoleDto;
 import cn.bunny.services.service.system.RolePermissionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,8 +39,8 @@ public class RolePermissionController {
     @Operation(summary = "为角色分配权限", description = "为角色分配权限")
     @PermissionTag(permission = "rolePermission:update")
     @PostMapping()
-    public Result<String> addRolPermission(@Valid @RequestBody AssignPowersToRoleDto dto) {
-        rolePermissionService.addRolPermission(dto);
+    public Result<String> saveRolPermission(@Valid @RequestBody AssignPowersToRoleDto dto) {
+        rolePermissionService.saveRolPermission(dto);
         return Result.success();
     }
 }

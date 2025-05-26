@@ -1,21 +1,20 @@
 package cn.bunny.services.controller.configuration;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.email.dto.EmailUsersAddDto;
-import cn.bunny.services.domain.system.email.dto.EmailUsersDto;
-import cn.bunny.services.domain.system.email.dto.EmailUsersUpdateDto;
-import cn.bunny.services.domain.system.email.entity.EmailUsers;
-import cn.bunny.services.domain.system.email.vo.EmailUsersVo;
+import cn.bunny.services.domain.configuration.dto.EmailUsersDto;
+import cn.bunny.services.domain.configuration.entity.EmailUsers;
+import cn.bunny.services.domain.configuration.vo.EmailUsersVo;
 import cn.bunny.services.service.configuration.EmailUsersService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,15 +54,15 @@ public class EmailUsersController {
     @Operation(summary = "添加邮箱用户配置", description = "添加邮箱用户配置")
     @PermissionTag(permission = "emailUsers:add")
     @PostMapping()
-    public Result<String> addEmailUsers(@Valid @RequestBody EmailUsersAddDto dto) {
-        emailUsersService.addEmailUsers(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createEmailUsers(@Validated(ValidationGroups.Add.class) @RequestBody EmailUsersDto dto) {
+        emailUsersService.createEmailUsers(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新邮箱用户配置", description = "更新邮箱用户配置")
     @PermissionTag(permission = "emailUsers:update")
     @PutMapping()
-    public Result<String> updateEmailUsers(@Valid @RequestBody EmailUsersUpdateDto dto) {
+    public Result<String> updateEmailUsers(@Validated(ValidationGroups.Update.class) @RequestBody EmailUsersDto dto) {
         emailUsersService.updateEmailUsers(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

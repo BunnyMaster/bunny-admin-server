@@ -1,23 +1,22 @@
 package cn.bunny.services.controller.message;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.message.dto.MessageAddDto;
-import cn.bunny.services.domain.system.message.dto.MessageDto;
-import cn.bunny.services.domain.system.message.dto.MessageUpdateDto;
-import cn.bunny.services.domain.system.message.entity.Message;
-import cn.bunny.services.domain.system.message.vo.MessageDetailVo;
-import cn.bunny.services.domain.system.message.vo.MessageReceivedWithUserVo;
-import cn.bunny.services.domain.system.message.vo.MessageVo;
+import cn.bunny.services.domain.message.dto.MessageDto;
+import cn.bunny.services.domain.message.entity.Message;
+import cn.bunny.services.domain.message.vo.MessageDetailVo;
+import cn.bunny.services.domain.message.vo.MessageReceivedWithUserVo;
+import cn.bunny.services.domain.message.vo.MessageVo;
 import cn.bunny.services.service.message.MessageService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,14 +54,14 @@ public class MessageController {
 
     @Operation(summary = "添加系统消息", description = "添加系统消息")
     @PostMapping()
-    public Result<String> addMessage(@Valid @RequestBody MessageAddDto dto) {
-        messageService.addMessage(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createMessage(@Validated(ValidationGroups.Add.class) @RequestBody MessageDto dto) {
+        messageService.createMessage(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更系统消息", description = "更新系统消息")
     @PutMapping()
-    public Result<String> updateMessage(@Valid @RequestBody MessageUpdateDto dto) {
+    public Result<String> updateMessage(@Validated(ValidationGroups.Update.class) @RequestBody MessageDto dto) {
         messageService.updateMessage(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

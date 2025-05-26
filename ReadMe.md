@@ -1,5 +1,8 @@
 # BunnyAuth动态权限控制简介
 
+
+![GitHub Stars](https://img.shields.io/github/stars/BunnyMaster/bunny-admin-server?style=social)![GitHub forks](https://img.shields.io/github/forks/BunnyMaster/bunny-admin-server)![GitHub contributors](https://img.shields.io/github/contributors/BunnyMaster/bunny-admin-server)<img alt="GitHub License" src="https://img.shields.io/github/license/BunnyMaster/bunny-admin-server">![GitHub top language](https://img.shields.io/github/languages/top/BunnyMaster/bunny-admin-server)![GitHub Repo Size](https://img.shields.io/github/repo-size/BunnyMaster/bunny-admin-server)
+
 > [!IMPORTANT]
 >
 > 开源权限模板[Pure-admin](https://pure-admin.github.io/vue-pure-admin/)

@@ -4,12 +4,12 @@ import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
-import cn.bunny.services.domain.system.system.entity.AdminUser;
-import cn.bunny.services.domain.system.system.vo.user.AdminUserVo;
-import cn.bunny.services.domain.system.system.vo.user.UserVo;
+import cn.bunny.services.domain.system.dto.user.AdminUserAddDto;
+import cn.bunny.services.domain.system.dto.user.AdminUserDto;
+import cn.bunny.services.domain.system.dto.user.AdminUserUpdateDto;
+import cn.bunny.services.domain.system.entity.AdminUser;
+import cn.bunny.services.domain.system.vo.user.AdminUserVo;
+import cn.bunny.services.domain.system.vo.user.UserVo;
 import cn.bunny.services.service.system.UserService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,9 +49,9 @@ public class UserController {
     @Operation(summary = "添加用户", description = "添加用户信息")
     @PermissionTag(permission = "user:add")
     @PostMapping()
-    public Result<Object> addUserByAdmin(@Valid @RequestBody AdminUserAddDto dto) {
-        userService.addUserByAdmin(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<Object> createUserByAdmin(@Valid @RequestBody AdminUserAddDto dto) {
+        userService.createUserByAdmin(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新用户", description = "更新用户信息，需要更新Redis中的内容")

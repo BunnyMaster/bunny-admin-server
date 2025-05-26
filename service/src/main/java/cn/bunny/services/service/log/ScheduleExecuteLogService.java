@@ -1,8 +1,8 @@
 package cn.bunny.services.service.log;
 
-import cn.bunny.services.domain.system.log.dto.ScheduleExecuteLogDto;
-import cn.bunny.services.domain.system.log.entity.ScheduleExecuteLog;
-import cn.bunny.services.domain.system.log.vo.ScheduleExecuteLogVo;
+import cn.bunny.services.domain.log.dto.ScheduleExecuteLogDto;
+import cn.bunny.services.domain.log.entity.ScheduleExecuteLog;
+import cn.bunny.services.domain.log.vo.ScheduleExecuteLogVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

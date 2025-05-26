@@ -2,16 +2,15 @@ package cn.bunny.services.controller.system;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.aop.scanner.ControllerApiPermissionScanner;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.scanner.ScannerControllerInfoVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.system.dto.power.PermissionAddDto;
-import cn.bunny.services.domain.system.system.dto.power.PermissionDto;
-import cn.bunny.services.domain.system.system.dto.power.PermissionUpdateBatchByParentIdDto;
-import cn.bunny.services.domain.system.system.dto.power.PermissionUpdateDto;
-import cn.bunny.services.domain.system.system.entity.Permission;
-import cn.bunny.services.domain.system.system.vo.PermissionVo;
+import cn.bunny.services.domain.system.dto.PermissionDto;
+import cn.bunny.services.domain.system.dto.PermissionUpdateBatchByParentIdDto;
+import cn.bunny.services.domain.system.entity.Permission;
+import cn.bunny.services.domain.system.vo.PermissionVo;
 import cn.bunny.services.service.system.PermissionService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,15 +59,15 @@ public class PermissionController {
     @Operation(summary = "添加权限", description = "添加权限")
     @PermissionTag(permission = "permission::add")
     @PostMapping()
-    public Result<String> addPermission(@Valid @RequestBody PermissionAddDto dto) {
-        permissionService.addPermission(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createPermission(@Validated(ValidationGroups.Add.class) @RequestBody PermissionDto dto) {
+        permissionService.createPermission(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新权限", description = "更新权限")
     @PermissionTag(permission = "permission::update")
     @PutMapping()
-    public Result<String> updatePermission(@Valid @RequestBody PermissionUpdateDto dto) {
+    public Result<String> updatePermission(@Validated(ValidationGroups.Update.class) @RequestBody PermissionDto dto) {
         permissionService.updatePermission(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
@@ -120,7 +120,7 @@ public class PermissionController {
     @Operation(summary = "批量修改权", description = "批量修改权")
     @PermissionTag(permission = "permission::update")
     @PatchMapping("update/permissions/batch")
-    public Result<String> updatePermissionBatch(@RequestBody List<PermissionUpdateDto> list) {
+    public Result<String> updatePermissionBatch(@RequestBody List<PermissionDto> list) {
         permissionService.updatePermissionBatch(list);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

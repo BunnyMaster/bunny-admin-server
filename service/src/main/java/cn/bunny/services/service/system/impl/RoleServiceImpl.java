@@ -5,11 +5,9 @@ import cn.bunny.services.core.event.listener.excel.RoleExcelListener;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.RoleExcel;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.system.dto.role.RoleAddDto;
-import cn.bunny.services.domain.system.system.dto.role.RoleDto;
-import cn.bunny.services.domain.system.system.dto.role.RoleUpdateDto;
-import cn.bunny.services.domain.system.system.entity.Role;
-import cn.bunny.services.domain.system.system.vo.RoleVo;
+import cn.bunny.services.domain.system.dto.RoleDto;
+import cn.bunny.services.domain.system.entity.Role;
+import cn.bunny.services.domain.system.vo.RoleVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.RoleMapper;
 import cn.bunny.services.service.system.RoleService;
@@ -20,7 +18,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -172,7 +169,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
     })
-    public void addRole(@Valid RoleAddDto dto) {
+    public void addRole(RoleDto dto) {
         Role role = new Role();
         BeanUtils.copyProperties(dto, role);
         save(role);
@@ -208,7 +205,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'roleList'", beforeInvocation = true),
     })
-    public void updateRole(@Valid RoleUpdateDto dto) {
+    public void updateRole(RoleDto dto) {
         // 查询更新的角色是否存在
         Long roleId = dto.getId();
         List<Role> roleList = list(Wrappers.<Role>lambdaQuery().eq(Role::getId, roleId));

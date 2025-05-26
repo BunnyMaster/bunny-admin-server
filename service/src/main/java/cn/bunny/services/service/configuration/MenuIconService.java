@@ -1,14 +1,11 @@
 package cn.bunny.services.service.configuration;
 
-import cn.bunny.services.domain.system.menuIcon.dto.MenuIconAddDto;
-import cn.bunny.services.domain.system.menuIcon.dto.MenuIconDto;
-import cn.bunny.services.domain.system.menuIcon.dto.MenuIconUpdateDto;
-import cn.bunny.services.domain.system.menuIcon.entity.MenuIcon;
-import cn.bunny.services.domain.system.menuIcon.vo.MenuIconVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.configuration.dto.MenuIconDto;
+import cn.bunny.services.domain.configuration.entity.MenuIcon;
+import cn.bunny.services.domain.configuration.vo.MenuIconVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -34,14 +31,14 @@ public interface MenuIconService extends IService<MenuIcon> {
      *
      * @param dto 添加表单
      */
-    void addMenuIcon(@Valid MenuIconAddDto dto);
+    void createMenuIcon(MenuIconDto dto);
 
     /**
      * * 更新系统菜单图标
      *
      * @param dto 更新表单
      */
-    void updateMenuIcon(@Valid MenuIconUpdateDto dto);
+    void updateMenuIcon(MenuIconDto dto);
 
     /**
      * * 删除|批量删除系统菜单图标类型

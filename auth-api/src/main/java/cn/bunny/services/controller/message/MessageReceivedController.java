@@ -4,12 +4,12 @@ import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.message.dto.MessageReceivedDto;
-import cn.bunny.services.domain.system.message.dto.MessageReceivedUpdateDto;
-import cn.bunny.services.domain.system.message.dto.MessageUserDto;
-import cn.bunny.services.domain.system.message.entity.Message;
-import cn.bunny.services.domain.system.message.vo.MessageReceivedWithMessageVo;
-import cn.bunny.services.domain.system.message.vo.MessageUserVo;
+import cn.bunny.services.domain.message.dto.MessageReceivedDto;
+import cn.bunny.services.domain.message.dto.MessageReceivedUpdateDto;
+import cn.bunny.services.domain.message.dto.MessageUserDto;
+import cn.bunny.services.domain.message.entity.Message;
+import cn.bunny.services.domain.message.vo.MessageReceivedWithMessageVo;
+import cn.bunny.services.domain.message.vo.MessageUserVo;
 import cn.bunny.services.service.message.MessageReceivedService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -83,7 +83,7 @@ public class MessageReceivedController {
 
     @Operation(summary = "用户将消息标为已读", description = "用户将消息标为已读")
     @PutMapping("private/user/messages/read-status")
-    public Result<String> markAsReadByUser(@Valid @RequestBody List<Long> ids) {
+    public Result<String> markAsReadByUser(@RequestBody List<Long> ids) {
         messageReceivedService.markAsReadByUser(ids);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }

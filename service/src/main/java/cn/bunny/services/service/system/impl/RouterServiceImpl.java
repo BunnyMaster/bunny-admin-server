@@ -2,16 +2,15 @@ package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.core.utils.RouterServiceHelper;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
-import cn.bunny.services.domain.system.system.dto.router.RouterAddDto;
-import cn.bunny.services.domain.system.system.dto.router.RouterUpdateDto;
-import cn.bunny.services.domain.system.system.entity.router.Router;
-import cn.bunny.services.domain.system.system.entity.router.RouterMeta;
-import cn.bunny.services.domain.system.system.entity.router.RouterMetaTransition;
-import cn.bunny.services.domain.system.system.views.ViewRolePermission;
-import cn.bunny.services.domain.system.system.views.ViewRouterRole;
-import cn.bunny.services.domain.system.system.vo.router.RouterManageVo;
-import cn.bunny.services.domain.system.system.vo.router.RouterVo;
-import cn.bunny.services.domain.system.system.vo.router.WebUserRouterVo;
+import cn.bunny.services.domain.system.dto.RouterDto;
+import cn.bunny.services.domain.system.entity.router.Router;
+import cn.bunny.services.domain.system.entity.router.RouterMeta;
+import cn.bunny.services.domain.system.entity.router.RouterMetaTransition;
+import cn.bunny.services.domain.system.views.ViewRolePermission;
+import cn.bunny.services.domain.system.views.ViewRouterRole;
+import cn.bunny.services.domain.system.vo.router.RouterManageVo;
+import cn.bunny.services.domain.system.vo.router.RouterVo;
+import cn.bunny.services.domain.system.vo.router.WebUserRouterVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.RouterMapper;
@@ -134,7 +133,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
-    public void addRouter(RouterAddDto dto) {
+    public void createRouter(RouterDto dto) {
         // 添加路由
         Router router = new Router();
         BeanUtils.copyProperties(dto, router);
@@ -159,7 +158,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
      */
     @Override
     @CacheEvict(cacheNames = CACHE_NAMES, key = "'routerList'", beforeInvocation = true)
-    public void updateRouter(RouterUpdateDto dto) {
+    public void updateRouter(RouterDto dto) {
         // 更新路由
         Router router = new Router();
         BeanUtils.copyProperties(dto, router);

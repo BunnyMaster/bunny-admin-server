@@ -9,12 +9,10 @@ import cn.bunny.services.domain.common.constant.FileType;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.dto.excel.PermissionExcel;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.system.dto.power.PermissionAddDto;
-import cn.bunny.services.domain.system.system.dto.power.PermissionDto;
-import cn.bunny.services.domain.system.system.dto.power.PermissionUpdateBatchByParentIdDto;
-import cn.bunny.services.domain.system.system.dto.power.PermissionUpdateDto;
-import cn.bunny.services.domain.system.system.entity.Permission;
-import cn.bunny.services.domain.system.system.vo.PermissionVo;
+import cn.bunny.services.domain.system.dto.PermissionDto;
+import cn.bunny.services.domain.system.dto.PermissionUpdateBatchByParentIdDto;
+import cn.bunny.services.domain.system.entity.Permission;
+import cn.bunny.services.domain.system.vo.PermissionVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.PermissionMapper;
 import cn.bunny.services.service.system.PermissionService;
@@ -27,7 +25,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -131,7 +128,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
     })
-    public void addPermission(@Valid PermissionAddDto dto) {
+    public void createPermission(PermissionDto dto) {
         Permission permission = new Permission();
         BeanUtils.copyProperties(dto, permission);
         save(permission);
@@ -146,7 +143,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Caching(evict = {
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'permissionList'", beforeInvocation = true),
     })
-    public void updatePermission(@Valid PermissionUpdateDto dto) {
+    public void updatePermission(PermissionDto dto) {
         Long id = dto.getId();
         List<Permission> permissionList = list(Wrappers.<Permission>lambdaQuery().eq(Permission::getId, id));
         if (permissionList.isEmpty()) throw new AuthCustomerException(ResultCodeEnum.DATA_NOT_EXIST);
@@ -303,7 +300,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
      * @param list 权限数组
      */
     @Override
-    public void updatePermissionBatch(List<PermissionUpdateDto> list) {
+    public void updatePermissionBatch(List<PermissionDto> list) {
         List<Permission> permissionList = list.stream()
                 .map(permissionUpdateDto -> {
                     Permission permission = new Permission();
@@ -314,7 +311,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
 
         // 删除缓存中所有这个权限关联的用户，角色和权限信息
-        List<Long> ids = list.stream().map(PermissionUpdateDto::getId).toList();
+        List<Long> ids = list.stream().map(PermissionDto::getId).toList();
         applicationEventPublisher.publishEvent(new UpdateUserinfoByPermissionIdsEvent(this, ids));
     }
 }

@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.system.RolePermissionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.system.entity.RolePermission">
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.entity.RolePermission">
         <id column="id" property="id"/>
         <result column="role_id" property="roleId"/>
         <result column="power_id" property="powerId"/>
@@ -41,14 +41,14 @@
 
     <!-- 根据角色id获取权限内容 -->
     <select id="selectRolePermissionListByRoleId"
-            resultType="cn.bunny.services.domain.system.system.entity.RolePermission">
+            resultType="cn.bunny.services.domain.system.entity.RolePermission">
         select *
         from sys_role_permission
         where role_id = #{roleId}
     </select>
 
     <!-- 查看所有角色关联的权限 -->
-    <select id="viewRolePowerWithAll" resultType="cn.bunny.services.domain.system.system.views.ViewRolePermission">
+    <select id="viewRolePowerWithAll" resultType="cn.bunny.services.domain.system.views.ViewRolePermission">
         SELECT rp.power_id,
                permission.parent_id,
                permission.power_code,
@@ -64,7 +64,7 @@
 
     <!-- 根据权限id列表查询角色和权限 -->
     <select id="selectRolePermissionListByPermissionIds"
-            resultType="cn.bunny.services.domain.system.system.entity.RolePermission">
+            resultType="cn.bunny.services.domain.system.entity.RolePermission">
         SELECT * FROM
         sys_role_permission WHERE power_id IN
         <foreach collection="permissionIds" item="id" separator="," open="(" close=")">

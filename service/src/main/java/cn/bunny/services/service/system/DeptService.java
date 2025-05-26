@@ -1,14 +1,11 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.services.domain.system.system.dto.dept.DeptAddDto;
-import cn.bunny.services.domain.system.system.dto.dept.DeptDto;
-import cn.bunny.services.domain.system.system.dto.dept.DeptUpdateDto;
-import cn.bunny.services.domain.system.system.entity.Dept;
-import cn.bunny.services.domain.system.system.vo.DeptVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.system.dto.DeptDto;
+import cn.bunny.services.domain.system.entity.Dept;
+import cn.bunny.services.domain.system.vo.DeptVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -34,14 +31,14 @@ public interface DeptService extends IService<Dept> {
      *
      * @param dto 添加表单
      */
-    void addDept(@Valid DeptAddDto dto);
+    void createDept(DeptDto dto);
 
     /**
      * * 更新部门
      *
      * @param dto 更新表单
      */
-    void updateDept(@Valid DeptUpdateDto dto);
+    void updateDept(DeptDto dto);
 
     /**
      * * 删除|批量删除部门类型

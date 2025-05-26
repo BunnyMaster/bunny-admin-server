@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper.system;
 
-import cn.bunny.services.domain.system.system.entity.RouterRole;
-import cn.bunny.services.domain.system.system.views.ViewRouterRole;
+import cn.bunny.services.domain.system.entity.RouterRole;
+import cn.bunny.services.domain.system.views.ViewRouterRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

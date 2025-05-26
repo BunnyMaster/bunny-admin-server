@@ -1,16 +1,17 @@
 package cn.bunny.services.controller.file;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.constant.FileStorageConstant;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.files.dto.FileUploadDto;
-import cn.bunny.services.domain.system.files.dto.FilesAddOrUpdateDto;
-import cn.bunny.services.domain.system.files.dto.FilesDto;
-import cn.bunny.services.domain.system.files.entity.Files;
-import cn.bunny.services.domain.system.files.vo.FileInfoVo;
-import cn.bunny.services.domain.system.files.vo.FilesVo;
+import cn.bunny.services.domain.files.dto.FileUploadDto;
+import cn.bunny.services.domain.files.dto.FilesCreateOrUpdateDto;
+import cn.bunny.services.domain.files.dto.FilesDto;
+import cn.bunny.services.domain.files.entity.Files;
+import cn.bunny.services.domain.files.vo.FileInfoVo;
+import cn.bunny.services.domain.files.vo.FilesVo;
 import cn.bunny.services.service.file.FilesService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,7 +60,7 @@ public class FilesController {
     @Operation(summary = "更新文件", description = "更新系统文件")
     @PermissionTag(permission = "files:update")
     @PutMapping()
-    public Result<String> updateFiles(@Valid FilesAddOrUpdateDto dto) {
+    public Result<String> updateFiles(@Validated(ValidationGroups.Update.class) FilesCreateOrUpdateDto dto) {
         filesService.updateFiles(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
@@ -66,9 +68,9 @@ public class FilesController {
     @Operation(summary = "添加文件", description = "添加系统文件")
     @PermissionTag(permission = "files:add")
     @PostMapping()
-    public Result<Object> addFiles(@Valid FilesAddOrUpdateDto dto) {
-        filesService.addFiles(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<Object> createFiles(@Validated(ValidationGroups.Add.class) FilesCreateOrUpdateDto dto) {
+        filesService.createFiles(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "删除文件", description = "删除系统文件")
@@ -97,14 +99,14 @@ public class FilesController {
 
     @Operation(summary = "上传文件", description = "上传文件")
     @PostMapping("private/file")
-    public Result<FileInfoVo> upload(FileUploadDto dto) {
+    public Result<FileInfoVo> upload(@Valid FileUploadDto dto) {
         FileInfoVo vo = filesService.upload(dto);
         return Result.success(vo, ResultCodeEnum.SUCCESS_UPLOAD);
     }
 
     @Operation(summary = "上传图片文件", description = "上传图片文件")
     @PostMapping("private/image")
-    public Result<FileInfoVo> uploadImage(FileUploadDto dto) {
+    public Result<FileInfoVo> uploadImage(@Valid FileUploadDto dto) {
         FileInfoVo vo = filesService.uploadFileByThumbnail(dto);
         return Result.success(vo, ResultCodeEnum.SUCCESS_UPLOAD);
     }

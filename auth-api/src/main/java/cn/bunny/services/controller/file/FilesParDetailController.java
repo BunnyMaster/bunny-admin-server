@@ -4,9 +4,9 @@ import cn.bunny.services.aop.annotation.PermissionTag;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.files.dto.FilesParDetailDto;
-import cn.bunny.services.domain.system.files.entity.FilesParDetail;
-import cn.bunny.services.domain.system.files.vo.FilesParDetailVo;
+import cn.bunny.services.domain.files.dto.FilesParDetailDto;
+import cn.bunny.services.domain.files.entity.FilesParDetail;
+import cn.bunny.services.domain.files.vo.FilesParDetailVo;
 import cn.bunny.services.service.file.FilesParDetailService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,9 +52,9 @@ public class FilesParDetailController {
     @Operation(summary = "添加文件分片信息表，仅在手动分片上传时使用", description = "添加文件分片信息表，仅在手动分片上传时使用")
     @PermissionTag(permission = "filesParDetail:add")
     @PostMapping()
-    public Result<String> addFilesParDetail(@Valid @RequestBody FilesParDetailDto dto) {
-        filesPardetailService.addFilesParDetail(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createFilesParDetail(@Valid @RequestBody FilesParDetailDto dto) {
+        filesPardetailService.createFilesParDetail(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新文件分片信息表，仅在手动分片上传时使用", description = "更新文件分片信息表，仅在手动分片上传时使用")

@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.log;
 
-import cn.bunny.services.domain.system.log.dto.ScheduleExecuteLogDto;
-import cn.bunny.services.domain.system.log.entity.ScheduleExecuteLog;
-import cn.bunny.services.domain.system.log.vo.ScheduleExecuteLogVo;
+import cn.bunny.services.domain.log.dto.ScheduleExecuteLogDto;
+import cn.bunny.services.domain.log.entity.ScheduleExecuteLog;
+import cn.bunny.services.domain.log.vo.ScheduleExecuteLogVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

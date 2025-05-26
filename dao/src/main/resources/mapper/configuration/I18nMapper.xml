@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.configuration.I18nMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.i18n.entity.I18n">
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.configuration.entity.I18n">
         <id column="id" property="id"/>
         <result column="key_name" property="keyName"/>
         <result column="translation" property="translation"/>
@@ -21,7 +21,7 @@
     </sql>
 
     <!-- 分页查询多语言内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.services.domain.system.i18n.vo.I18nVo">
+    <select id="selectListByPage" resultType="cn.bunny.services.domain.configuration.vo.I18nVo">
         select
         i18n.*,
         create_user.username as create_username,

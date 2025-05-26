@@ -8,18 +8,18 @@ import cn.bunny.services.domain.common.constant.UserConstant;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.LoginVo;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.files.dto.FileUploadDto;
-import cn.bunny.services.domain.system.files.vo.FileInfoVo;
-import cn.bunny.services.domain.system.log.entity.UserLoginLog;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
-import cn.bunny.services.domain.system.system.entity.AdminUser;
-import cn.bunny.services.domain.system.system.entity.Role;
-import cn.bunny.services.domain.system.system.entity.UserDept;
-import cn.bunny.services.domain.system.system.views.ViewUserDept;
-import cn.bunny.services.domain.system.system.vo.user.AdminUserVo;
-import cn.bunny.services.domain.system.system.vo.user.UserVo;
+import cn.bunny.services.domain.files.dto.FileUploadDto;
+import cn.bunny.services.domain.files.vo.FileInfoVo;
+import cn.bunny.services.domain.log.entity.UserLoginLog;
+import cn.bunny.services.domain.system.dto.user.AdminUserAddDto;
+import cn.bunny.services.domain.system.dto.user.AdminUserDto;
+import cn.bunny.services.domain.system.dto.user.AdminUserUpdateDto;
+import cn.bunny.services.domain.system.entity.AdminUser;
+import cn.bunny.services.domain.system.entity.Role;
+import cn.bunny.services.domain.system.entity.UserDept;
+import cn.bunny.services.domain.system.views.ViewUserDept;
+import cn.bunny.services.domain.system.vo.user.AdminUserVo;
+import cn.bunny.services.domain.system.vo.user.UserVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.mapper.system.RoleMapper;
@@ -35,7 +35,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -235,7 +234,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, AdminUser> implemen
      * @param dto 用户信息添加
      */
     @Override
-    public void addUserByAdmin(@Valid AdminUserAddDto dto) {
+    public void createUserByAdmin(AdminUserAddDto dto) {
         // 对密码加密
         String encodePassword = passwordEncoder.encode(dto.getPassword());
 

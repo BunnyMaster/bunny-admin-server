@@ -1,12 +1,10 @@
 package cn.bunny.services.service.configuration.impl;
 
-import cn.bunny.services.domain.system.email.dto.EmailUsersAddDto;
-import cn.bunny.services.domain.system.email.dto.EmailUsersDto;
-import cn.bunny.services.domain.system.email.dto.EmailUsersUpdateDto;
-import cn.bunny.services.domain.system.email.entity.EmailUsers;
-import cn.bunny.services.domain.system.email.vo.EmailUsersVo;
-import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
+import cn.bunny.services.domain.common.model.vo.result.PageResult;
+import cn.bunny.services.domain.configuration.dto.EmailUsersDto;
+import cn.bunny.services.domain.configuration.entity.EmailUsers;
+import cn.bunny.services.domain.configuration.vo.EmailUsersVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailUsersMapper;
 import cn.bunny.services.service.configuration.EmailUsersService;
@@ -15,7 +13,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +61,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      * @param dto 邮箱用户发送配置添加
      */
     @Override
-    public void addEmailUsers(EmailUsersAddDto dto) {
+    public void createEmailUsers(EmailUsersDto dto) {
         // 更新邮箱默认状态
         updateEmailUserDefault(dto.getIsDefault());
 
@@ -81,7 +78,7 @@ public class EmailUsersServiceImpl extends ServiceImpl<EmailUsersMapper, EmailUs
      * @param dto 邮箱用户发送配置更新
      */
     @Override
-    public void updateEmailUsers(@Valid EmailUsersUpdateDto dto) {
+    public void updateEmailUsers(EmailUsersDto dto) {
         // 更新邮箱默认状态
         updateEmailUserDefault(dto.getIsDefault());
 

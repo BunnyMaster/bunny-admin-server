@@ -1,11 +1,9 @@
 package cn.bunny.services.service.configuration.impl;
 
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
-import cn.bunny.services.domain.system.i18n.dto.I18nTypeAddDto;
-import cn.bunny.services.domain.system.i18n.dto.I18nTypeDto;
-import cn.bunny.services.domain.system.i18n.dto.I18nTypeUpdateDto;
-import cn.bunny.services.domain.system.i18n.entity.I18nType;
-import cn.bunny.services.domain.system.i18n.vo.I18nTypeVo;
+import cn.bunny.services.domain.configuration.dto.I18nTypeDto;
+import cn.bunny.services.domain.configuration.entity.I18nType;
+import cn.bunny.services.domain.configuration.vo.I18nTypeVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nTypeService;
@@ -59,7 +57,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true),
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nTypeList'", beforeInvocation = true),
     })
-    public void addI18nType(I18nTypeAddDto dto) {
+    public void createI18nType(I18nTypeDto dto) {
         String typeName = dto.getTypeName();
         Boolean isDefault = dto.getIsDefault();
         I18nType i18nType = new I18nType();
@@ -90,7 +88,7 @@ public class I18nTypeServiceImpl extends ServiceImpl<I18nTypeMapper, I18nType> i
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nMap'", beforeInvocation = true),
             @CacheEvict(cacheNames = CACHE_NAMES, key = "'i18nTypeList'", beforeInvocation = true),
     })
-    public void updateI18nType(I18nTypeUpdateDto dto) {
+    public void updateI18nType(I18nTypeDto dto) {
         Long id = dto.getId();
         Boolean isDefault = dto.getIsDefault();
         I18nType i18nType = new I18nType();

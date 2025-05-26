@@ -3,13 +3,13 @@ package cn.bunny.services.service.file.impl;
 import cn.bunny.services.domain.common.constant.FileStorageConstant;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.files.dto.FileUploadDto;
-import cn.bunny.services.domain.system.files.dto.FilesAddOrUpdateDto;
-import cn.bunny.services.domain.system.files.dto.FilesDto;
-import cn.bunny.services.domain.system.files.dto.UploadThumbnail;
-import cn.bunny.services.domain.system.files.entity.Files;
-import cn.bunny.services.domain.system.files.vo.FileInfoVo;
-import cn.bunny.services.domain.system.files.vo.FilesVo;
+import cn.bunny.services.domain.files.dto.FileUploadDto;
+import cn.bunny.services.domain.files.dto.FilesCreateOrUpdateDto;
+import cn.bunny.services.domain.files.dto.FilesDto;
+import cn.bunny.services.domain.files.dto.UploadThumbnail;
+import cn.bunny.services.domain.files.entity.Files;
+import cn.bunny.services.domain.files.vo.FileInfoVo;
+import cn.bunny.services.domain.files.vo.FilesVo;
 import cn.bunny.services.exception.AuthCustomerException;
 import cn.bunny.services.mapper.file.FilesMapper;
 import cn.bunny.services.service.file.FilesService;
@@ -78,14 +78,12 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
      * @param dto 系统文件表添加
      */
     @Override
-    public void addFiles(FilesAddOrUpdateDto dto) {
+    public void createFiles(FilesCreateOrUpdateDto dto) {
         // 上传文件类型，设置自定义路径
         String preType = dto.getFilepath();
         String filepath = FileStorageConstant.getType(preType) + DateUtil.format(new Date(), "yyyy-MM-dd") + "/";
 
-        dto.getFiles().forEach(file -> {
-            fileStorageService.of(file).setPath(filepath).upload();
-        });
+        dto.getFiles().forEach(file -> fileStorageService.of(file).setPath(filepath).upload());
     }
 
     /**
@@ -95,7 +93,7 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
      * @param dto 系统文件表更新
      */
     @Override
-    public void updateFiles(FilesAddOrUpdateDto dto) {
+    public void updateFiles(FilesCreateOrUpdateDto dto) {
         MultipartFile file = dto.getFile();
         // 先查询文件
         Long id = dto.getId();

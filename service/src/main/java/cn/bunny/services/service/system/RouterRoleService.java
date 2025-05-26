@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.services.domain.system.system.entity.RouterRole;
+import cn.bunny.services.domain.system.entity.RouterRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

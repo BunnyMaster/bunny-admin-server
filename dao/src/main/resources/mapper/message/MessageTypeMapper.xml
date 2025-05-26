@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.message.MessageTypeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.system.message.entity.MessageType">
+    <resultMap id="BaseResultMap" type="cn.bunny.services.domain.message.entity.MessageType">
         <id column="id" property="id"/>
         <id column="create_time" property="createTime"/>
         <id column="update_time" property="updateTime"/>
@@ -22,7 +22,7 @@
     </sql>
 
     <!-- 分页查询系统消息类型内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.services.domain.system.message.vo.MessageTypeVo">
+    <select id="selectListByPage" resultType="cn.bunny.services.domain.message.vo.MessageTypeVo">
         select
         message_type.*,
         create_user.username as create_username,

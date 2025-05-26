@@ -1,6 +1,6 @@
 package cn.bunny.services.core.template.email;
 
-import cn.bunny.services.domain.system.email.entity.EmailTemplate;
+import cn.bunny.services.domain.configuration.entity.EmailTemplate;
 import cn.bunny.services.mapper.configuration.EmailTemplateMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

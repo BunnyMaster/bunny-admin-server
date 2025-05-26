@@ -1,15 +1,14 @@
 package cn.bunny.services.service.system;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserAddDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserDto;
-import cn.bunny.services.domain.system.system.dto.user.AdminUserUpdateDto;
-import cn.bunny.services.domain.system.system.entity.AdminUser;
-import cn.bunny.services.domain.system.system.vo.user.AdminUserVo;
-import cn.bunny.services.domain.system.system.vo.user.UserVo;
+import cn.bunny.services.domain.system.dto.user.AdminUserAddDto;
+import cn.bunny.services.domain.system.dto.user.AdminUserDto;
+import cn.bunny.services.domain.system.dto.user.AdminUserUpdateDto;
+import cn.bunny.services.domain.system.entity.AdminUser;
+import cn.bunny.services.domain.system.vo.user.AdminUserVo;
+import cn.bunny.services.domain.system.vo.user.UserVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -35,14 +34,14 @@ public interface UserService extends IService<AdminUser> {
      *
      * @param dto 添加表单
      */
-    void addUserByAdmin(@Valid AdminUserAddDto dto);
+    void createUserByAdmin(AdminUserAddDto dto);
 
     /**
      * * 更新用户信息
      *
      * @param dto 更新表单
      */
-    void updateUserByAdmin(@Valid AdminUserUpdateDto dto);
+    void updateUserByAdmin(AdminUserUpdateDto dto);
 
     /**
      * * 删除|批量删除用户信息类型

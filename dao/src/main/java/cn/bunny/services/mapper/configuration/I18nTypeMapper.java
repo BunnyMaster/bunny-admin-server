@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper.configuration;
 
-import cn.bunny.services.domain.system.i18n.dto.I18nTypeDto;
-import cn.bunny.services.domain.system.i18n.entity.I18nType;
+import cn.bunny.services.domain.configuration.dto.I18nTypeDto;
+import cn.bunny.services.domain.configuration.entity.I18nType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

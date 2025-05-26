@@ -1,12 +1,10 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.services.domain.system.system.dto.router.RouterAddDto;
-import cn.bunny.services.domain.system.system.dto.router.RouterUpdateDto;
-import cn.bunny.services.domain.system.system.entity.router.Router;
-import cn.bunny.services.domain.system.system.vo.router.RouterManageVo;
-import cn.bunny.services.domain.system.system.vo.router.WebUserRouterVo;
+import cn.bunny.services.domain.system.dto.RouterDto;
+import cn.bunny.services.domain.system.entity.router.Router;
+import cn.bunny.services.domain.system.vo.router.RouterManageVo;
+import cn.bunny.services.domain.system.vo.router.WebUserRouterVo;
 import com.baomidou.mybatisplus.extension.service.IService;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -38,14 +36,14 @@ public interface RouterService extends IService<Router> {
      *
      * @param dto 添加菜单表单
      */
-    void addRouter(@Valid RouterAddDto dto);
+    void createRouter(RouterDto dto);
 
     /**
      * * 更新路由菜单
      *
      * @param dto 更新表单
      */
-    void updateRouter(@Valid RouterUpdateDto dto);
+    void updateRouter(RouterDto dto);
 
     /**
      * * 删除路由菜单

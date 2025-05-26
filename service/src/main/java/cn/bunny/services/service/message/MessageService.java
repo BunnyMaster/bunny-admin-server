@@ -1,13 +1,11 @@
 package cn.bunny.services.service.message;
 
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
-import cn.bunny.services.domain.system.message.dto.MessageAddDto;
-import cn.bunny.services.domain.system.message.dto.MessageDto;
-import cn.bunny.services.domain.system.message.dto.MessageUpdateDto;
-import cn.bunny.services.domain.system.message.entity.Message;
-import cn.bunny.services.domain.system.message.vo.MessageDetailVo;
-import cn.bunny.services.domain.system.message.vo.MessageReceivedWithUserVo;
-import cn.bunny.services.domain.system.message.vo.MessageVo;
+import cn.bunny.services.domain.message.dto.MessageDto;
+import cn.bunny.services.domain.message.entity.Message;
+import cn.bunny.services.domain.message.vo.MessageDetailVo;
+import cn.bunny.services.domain.message.vo.MessageReceivedWithUserVo;
+import cn.bunny.services.domain.message.vo.MessageVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -44,14 +42,14 @@ public interface MessageService extends IService<Message> {
      *
      * @param dto 添加表单
      */
-    void addMessage(MessageAddDto dto);
+    void createMessage(MessageDto dto);
 
     /**
      * * 更新系统消息
      *
      * @param dto 更新表单
      */
-    void updateMessage(MessageUpdateDto dto);
+    void updateMessage(MessageDto dto);
 
     /**
      * * 删除|批量删除系统消息类型

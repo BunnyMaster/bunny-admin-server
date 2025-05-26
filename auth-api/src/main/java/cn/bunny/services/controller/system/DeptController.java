@@ -1,21 +1,20 @@
 package cn.bunny.services.controller.system;
 
 import cn.bunny.services.aop.annotation.PermissionTag;
+import cn.bunny.services.domain.common.ValidationGroups;
 import cn.bunny.services.domain.common.enums.ResultCodeEnum;
 import cn.bunny.services.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.domain.common.model.vo.result.Result;
-import cn.bunny.services.domain.system.system.dto.dept.DeptAddDto;
-import cn.bunny.services.domain.system.system.dto.dept.DeptDto;
-import cn.bunny.services.domain.system.system.dto.dept.DeptUpdateDto;
-import cn.bunny.services.domain.system.system.entity.Dept;
-import cn.bunny.services.domain.system.system.vo.DeptVo;
+import cn.bunny.services.domain.system.dto.DeptDto;
+import cn.bunny.services.domain.system.entity.Dept;
+import cn.bunny.services.domain.system.vo.DeptVo;
 import cn.bunny.services.service.system.DeptService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,15 +53,15 @@ public class DeptController {
     @Operation(summary = "添加部门", description = "添加部门")
     @PermissionTag(permission = "dept:add")
     @PostMapping()
-    public Result<String> addDept(@Valid @RequestBody DeptAddDto dto) {
-        deptService.addDept(dto);
-        return Result.success(ResultCodeEnum.ADD_SUCCESS);
+    public Result<String> createDept(@Validated(ValidationGroups.Add.class) @RequestBody DeptDto dto) {
+        deptService.createDept(dto);
+        return Result.success(ResultCodeEnum.CREATE_SUCCESS);
     }
 
     @Operation(summary = "更新部门", description = "更新部门")
     @PermissionTag(permission = "dept:update")
     @PutMapping()
-    public Result<String> updateDept(@Valid @RequestBody DeptUpdateDto dto) {
+    public Result<String> updateDept(@Validated(ValidationGroups.Update.class) @RequestBody DeptDto dto) {
         deptService.updateDept(dto);
         return Result.success(ResultCodeEnum.UPDATE_SUCCESS);
     }
