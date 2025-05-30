@@ -1,4 +1,4 @@
-package cn.bunny.core.config;
+package cn.bunny.core.config.middleware;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

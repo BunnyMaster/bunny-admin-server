@@ -1,4 +1,4 @@
-package cn.bunny.core.config;
+package cn.bunny.core.config.middleware;
 
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;

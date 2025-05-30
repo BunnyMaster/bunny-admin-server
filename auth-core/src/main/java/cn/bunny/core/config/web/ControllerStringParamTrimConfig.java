@@ -1,4 +1,4 @@
-package cn.bunny.core.config;
+package cn.bunny.core.config.web;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -40,7 +40,7 @@ public class ControllerStringParamTrimConfig {
                         public String deserialize(JsonParser jsonParser, DeserializationContext ctx) throws IOException {
                             // // 去除全部空格
                             // return StringUtils.trimAllWhitespace(jsonParser.getValueAsString());
-                            
+
                             // 仅去除前后空格
                             return jsonParser.getValueAsString().trim();
                         }

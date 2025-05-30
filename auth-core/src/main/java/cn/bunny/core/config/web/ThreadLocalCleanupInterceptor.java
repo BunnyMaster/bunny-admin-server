@@ -1,4 +1,4 @@
-package cn.bunny.core.config;
+package cn.bunny.core.config.web;
 
 import cn.bunny.core.context.BaseContext;
 import jakarta.servlet.http.HttpServletRequest;

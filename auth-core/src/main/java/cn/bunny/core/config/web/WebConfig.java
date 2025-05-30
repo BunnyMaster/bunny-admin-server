@@ -1,4 +1,4 @@
-package cn.bunny.core.config;
+package cn.bunny.core.config.web;
 
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;

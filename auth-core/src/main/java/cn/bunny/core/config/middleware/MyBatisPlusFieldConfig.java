@@ -1,4 +1,4 @@
-package cn.bunny.core.config;
+package cn.bunny.core.config.middleware;
 
 import cn.bunny.core.context.BaseContext;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
