@@ -16,10 +16,9 @@
     <description>auth-admin</description>
 
     <modules>
-        <module>service</module>
-        <module>dao</module>
         <module>auth-core</module>
-        <module>auth-api</module>
+        <module>auth-system</module>
+        <module>domain</module>
     </modules>
 
     <properties>

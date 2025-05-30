@@ -126,13 +126,12 @@ http.authorizeHttpRequests(auth -> auth
 
 ```
 bunny-auth/
-├── auth-api      # Interface Layer
+├── auth-system   # System Module
 ├── auth-core     # Core Module
 │   ├── config    # Security Configuration
-│   └── domain    # Domain
+│   └── exception # exception
 │   └── ......    # And more...
-├── service       # Business Implementation
-└── dao           # Data Persistence Layer
+├── domain        # Domain
 ```
 
 ## 🛠️ Use Cases
