@@ -1,12 +1,12 @@
 package cn.bunny.services.core.utils;
 
 import cn.bunny.core.context.BaseContext;
-import cn.bunny.domain.system.entity.RouterRole;
-import cn.bunny.domain.system.entity.router.Router;
-import cn.bunny.domain.system.entity.router.RouterMeta;
-import cn.bunny.domain.system.views.ViewRolePermission;
-import cn.bunny.domain.system.views.ViewRouterRole;
-import cn.bunny.domain.system.vo.router.WebUserRouterVo;
+import cn.bunny.domain.model.system.entity.RouterRole;
+import cn.bunny.domain.model.system.entity.router.Router;
+import cn.bunny.domain.model.system.entity.router.RouterMeta;
+import cn.bunny.domain.model.system.views.ViewRolePermission;
+import cn.bunny.domain.model.system.views.ViewRouterRole;
+import cn.bunny.domain.model.system.vo.router.WebUserRouterVo;
 import cn.bunny.services.service.system.RouterRoleService;
 import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;

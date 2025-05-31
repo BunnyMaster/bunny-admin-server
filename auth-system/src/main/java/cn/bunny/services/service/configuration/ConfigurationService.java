@@ -1,8 +1,8 @@
 package cn.bunny.services.service.configuration;
 
 
-import cn.bunny.domain.configuration.dto.WebConfigurationDto;
-import cn.bunny.domain.configuration.entity.WebConfiguration;
+import cn.bunny.domain.model.configuration.dto.WebConfigurationDto;
+import cn.bunny.domain.model.configuration.entity.WebConfiguration;
 
 public interface ConfigurationService {
 

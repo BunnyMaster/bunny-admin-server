@@ -1,8 +1,8 @@
 package cn.bunny.services.service.log.impl;
 
-import cn.bunny.domain.log.dto.ScheduleExecuteLogDto;
-import cn.bunny.domain.log.entity.ScheduleExecuteLog;
-import cn.bunny.domain.log.vo.ScheduleExecuteLogVo;
+import cn.bunny.domain.model.log.dto.ScheduleExecuteLogDto;
+import cn.bunny.domain.model.log.entity.ScheduleExecuteLog;
+import cn.bunny.domain.model.log.vo.ScheduleExecuteLogVo;
 import cn.bunny.domain.common.model.vo.result.PageResult;
 import cn.bunny.services.mapper.log.ScheduleExecuteLogMapper;
 import cn.bunny.services.service.log.ScheduleExecuteLogService;

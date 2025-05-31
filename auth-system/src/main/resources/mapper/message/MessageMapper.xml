@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.message.MessageMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.domain.message.entity.Message">
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.model.message.entity.Message">
         <id column="id" property="id"/>
         <id column="create_time" property="createTime"/>
         <id column="update_time" property="updateTime"/>
@@ -28,7 +28,7 @@
     </sql>
 
     <!-- 分页查询发送消息 -->
-    <select id="selectListByPage" resultType="cn.bunny.domain.message.vo.MessageReceivedWithMessageVo">
+    <select id="selectListByPage" resultType="cn.bunny.domain.model.message.vo.MessageReceivedWithMessageVo">
         SELECT
         message.id,
         message.create_time,
@@ -83,7 +83,7 @@
     </select>
 
     <!-- 根据消息id查询消息详情 -->
-    <select id="selectMessageVoById" resultType="cn.bunny.domain.message.vo.MessageDetailVo">
+    <select id="selectMessageVoById" resultType="cn.bunny.domain.model.message.vo.MessageDetailVo">
         SELECT message.*,
                send_user.nickname AS send_nickname
         FROM sys_message message
@@ -95,7 +95,7 @@
 
     <!-- 根据消息id获取接收人信息 -->
     <select id="selectUserinfoListByMessageId"
-            resultType="cn.bunny.domain.message.vo.MessageReceivedWithUserVo">
+            resultType="cn.bunny.domain.model.message.vo.MessageReceivedWithUserVo">
         SELECT message_received.message_id,
                message_received.received_user_id,
                USER.nickname,

@@ -2,9 +2,9 @@ package cn.bunny.services.service.system.impl;
 
 import cn.bunny.domain.common.enums.ResultCodeEnum;
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.system.dto.DeptDto;
-import cn.bunny.domain.system.entity.Dept;
-import cn.bunny.domain.system.vo.DeptVo;
+import cn.bunny.domain.model.system.dto.DeptDto;
+import cn.bunny.domain.model.system.entity.Dept;
+import cn.bunny.domain.model.system.vo.DeptVo;
 import cn.bunny.core.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.DeptMapper;
 import cn.bunny.services.mapper.system.UserDeptMapper;

@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.system;
 
 
-import cn.bunny.domain.system.entity.router.Router;
-import cn.bunny.domain.system.vo.router.RouterVo;
+import cn.bunny.domain.model.system.entity.router.Router;
+import cn.bunny.domain.model.system.vo.router.RouterVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -1,9 +1,9 @@
 package cn.bunny.services.service.configuration.impl;
 
 import cn.bunny.domain.common.enums.ResultCodeEnum;
-import cn.bunny.domain.configuration.dto.I18nTypeDto;
-import cn.bunny.domain.configuration.entity.I18nType;
-import cn.bunny.domain.configuration.vo.I18nTypeVo;
+import cn.bunny.domain.model.configuration.dto.I18nTypeDto;
+import cn.bunny.domain.model.configuration.entity.I18nType;
+import cn.bunny.domain.model.configuration.vo.I18nTypeVo;
 import cn.bunny.core.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.I18nTypeMapper;
 import cn.bunny.services.service.configuration.I18nTypeService;

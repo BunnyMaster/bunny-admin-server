@@ -1,7 +1,7 @@
 package cn.bunny.services.core.event.listener.excel;
 
 import cn.bunny.domain.common.model.dto.excel.PermissionExcel;
-import cn.bunny.domain.system.entity.Permission;
+import cn.bunny.domain.model.system.entity.Permission;
 import cn.bunny.services.service.system.PermissionService;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;

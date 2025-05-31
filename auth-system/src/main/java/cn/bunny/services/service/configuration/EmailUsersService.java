@@ -1,9 +1,9 @@
 package cn.bunny.services.service.configuration;
 
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.configuration.dto.EmailUsersDto;
-import cn.bunny.domain.configuration.entity.EmailUsers;
-import cn.bunny.domain.configuration.vo.EmailUsersVo;
+import cn.bunny.domain.model.configuration.dto.EmailUsersDto;
+import cn.bunny.domain.model.configuration.entity.EmailUsers;
+import cn.bunny.domain.model.configuration.vo.EmailUsersVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 

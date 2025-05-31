@@ -1,8 +1,8 @@
 package cn.bunny.services.core.strategy.login;
 
 
-import cn.bunny.domain.system.dto.user.LoginDto;
-import cn.bunny.domain.system.entity.AdminUser;
+import cn.bunny.domain.model.system.dto.user.LoginDto;
+import cn.bunny.domain.model.system.entity.AdminUser;
 
 /**
  * 登录策略

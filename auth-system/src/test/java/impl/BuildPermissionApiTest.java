@@ -3,7 +3,7 @@ package impl;
 import cn.bunny.services.AuthServiceApplication;
 import cn.bunny.services.aop.scanner.ControllerApiPermissionScanner;
 import cn.bunny.domain.common.model.dto.scanner.ScannerControllerInfoVo;
-import cn.bunny.domain.system.entity.Permission;
+import cn.bunny.domain.model.system.entity.Permission;
 import cn.bunny.services.service.system.PermissionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
 package cn.bunny.services.service.log;
 
-import cn.bunny.domain.log.dto.UserLoginLogDto;
-import cn.bunny.domain.log.entity.UserLoginLog;
-import cn.bunny.domain.log.vo.UserLoginLogLocalVo;
-import cn.bunny.domain.log.vo.UserLoginLogVo;
+import cn.bunny.domain.model.log.dto.UserLoginLogDto;
+import cn.bunny.domain.model.log.entity.UserLoginLog;
+import cn.bunny.domain.model.log.vo.UserLoginLogLocalVo;
+import cn.bunny.domain.model.log.vo.UserLoginLogVo;
 import cn.bunny.domain.common.model.vo.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

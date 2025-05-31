@@ -2,7 +2,7 @@ package cn.bunny.services.core.event.listener.user;
 
 import cn.bunny.services.core.cache.UserCacheCleaner;
 import cn.bunny.domain.common.constant.RedisUserConstant;
-import cn.bunny.domain.system.entity.AdminUser;
+import cn.bunny.domain.model.system.entity.AdminUser;
 import cn.bunny.services.mapper.system.UserMapper;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;

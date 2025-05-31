@@ -1,7 +1,7 @@
 package cn.bunny.services.mapper.system;
 
-import cn.bunny.domain.system.entity.RolePermission;
-import cn.bunny.domain.system.views.ViewRolePermission;
+import cn.bunny.domain.model.system.entity.RolePermission;
+import cn.bunny.domain.model.system.views.ViewRolePermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

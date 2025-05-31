@@ -1,7 +1,7 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.domain.system.dto.AssignPowersToRoleDto;
-import cn.bunny.domain.system.entity.RolePermission;
+import cn.bunny.domain.model.system.dto.AssignPowersToRoleDto;
+import cn.bunny.domain.model.system.entity.RolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

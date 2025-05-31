@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.file;
 
-import cn.bunny.domain.files.dto.FilesParDetailDto;
-import cn.bunny.domain.files.entity.FilesParDetail;
-import cn.bunny.domain.files.vo.FilesParDetailVo;
+import cn.bunny.domain.model.files.dto.FilesParDetailDto;
+import cn.bunny.domain.model.files.entity.FilesParDetail;
+import cn.bunny.domain.model.files.vo.FilesParDetailVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

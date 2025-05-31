@@ -1,32 +1,32 @@
 package cn.bunny.services.service.file.impl;
 
+import cn.bunny.core.exception.AuthCustomerException;
+import cn.bunny.core.utils.FileUtil;
 import cn.bunny.domain.common.constant.FileStorageConstant;
 import cn.bunny.domain.common.enums.ResultCodeEnum;
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.files.dto.FileUploadDto;
-import cn.bunny.domain.files.dto.FilesCreateOrUpdateDto;
-import cn.bunny.domain.files.dto.FilesDto;
-import cn.bunny.domain.files.dto.UploadThumbnail;
-import cn.bunny.domain.files.entity.Files;
-import cn.bunny.domain.files.vo.FileInfoVo;
-import cn.bunny.domain.files.vo.FilesVo;
-import cn.bunny.core.exception.AuthCustomerException;
+import cn.bunny.domain.model.files.dto.FileUploadDto;
+import cn.bunny.domain.model.files.dto.FilesCreateOrUpdateDto;
+import cn.bunny.domain.model.files.dto.FilesDto;
+import cn.bunny.domain.model.files.dto.UploadThumbnail;
+import cn.bunny.domain.model.files.entity.Files;
+import cn.bunny.domain.model.files.vo.FileInfoVo;
+import cn.bunny.domain.model.files.vo.FilesVo;
 import cn.bunny.services.mapper.file.FilesMapper;
 import cn.bunny.services.service.file.FilesService;
-import cn.bunny.core.utils.FileUtil;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.annotation.Resource;
 import org.dromara.x.file.storage.core.FileInfo;
 import org.dromara.x.file.storage.core.FileStorageService;
 import org.dromara.x.file.storage.core.get.ListFilesSupportInfo;
 import org.dromara.x.file.storage.core.get.RemoteDirInfo;
 import org.dromara.x.file.storage.core.upload.UploadPretreatment;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,7 +52,7 @@ import java.util.Objects;
 @Transactional
 public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements FilesService {
 
-    @Resource
+    @Autowired
     private FileStorageService fileStorageService;
 
     /**

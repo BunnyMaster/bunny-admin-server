@@ -1,9 +1,9 @@
 package cn.bunny.services.service.message;
 
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.message.dto.MessageTypeDto;
-import cn.bunny.domain.message.entity.MessageType;
-import cn.bunny.domain.message.vo.MessageTypeVo;
+import cn.bunny.domain.model.message.dto.MessageTypeDto;
+import cn.bunny.domain.model.message.entity.MessageType;
+import cn.bunny.domain.model.message.vo.MessageTypeVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 

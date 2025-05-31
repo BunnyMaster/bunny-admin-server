@@ -3,8 +3,6 @@ package cn.bunny.services.quartz;
 /**
  * WARNING ：
  * 这个只是Demo！！！
- * 这个只是Demo！！！
- * 这个只是Demo！！！
  */
 // @Slf4j
 // @QuartzSchedulers(type = "backup", description = "数据库备份(仅限本地docker中MySQL)")

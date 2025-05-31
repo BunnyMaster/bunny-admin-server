@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.configuration;
 
-import cn.bunny.domain.configuration.dto.EmailTemplateDto;
-import cn.bunny.domain.configuration.entity.EmailTemplate;
-import cn.bunny.domain.configuration.vo.EmailTemplateVo;
+import cn.bunny.domain.model.configuration.dto.EmailTemplateDto;
+import cn.bunny.domain.model.configuration.entity.EmailTemplate;
+import cn.bunny.domain.model.configuration.vo.EmailTemplateVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

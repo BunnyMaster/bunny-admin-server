@@ -33,7 +33,7 @@ bunny:
 
 dromara:
   local-plus:
-    # 访问域名，例如：“http://127.0.0.1:8030/file”，注意后面要和 path-patterns 名字一样
+    # 访问域名，例如：“http://127.0.0.1:8030/{path-patterns}”，注意后面要和 path-patterns 名字一样
     domain: /api/local-file
     # 访问路径，使用本地在SpringSecurity中要配置权限，如果是和我一样就不用修改了，如果不是api开头，上线需要配置nginx
     path-patterns: /api/local-file/**

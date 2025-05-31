@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.log.UserLoginLogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.domain.log.entity.UserLoginLog">
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.model.log.entity.UserLoginLog">
         <id column="id" property="id"/>
         <id column="create_time" property="createTime"/>
         <id column="update_time" property="updateTime"/>
@@ -26,7 +26,7 @@
     </sql>
 
     <!-- 分页查询用户登录日志内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.domain.log.vo.UserLoginLogVo">
+    <select id="selectListByPage" resultType="cn.bunny.domain.model.log.vo.UserLoginLogVo">
         select
         user_login.*,
         create_user.username as create_username,
@@ -55,7 +55,7 @@
     </select>
 
     <!-- 分页查询根据用户Id用户登录日志内容 -->
-    <select id="selectListByPageWithLocalUser" resultType="cn.bunny.domain.log.entity.UserLoginLog">
+    <select id="selectListByPageWithLocalUser" resultType="cn.bunny.domain.model.log.entity.UserLoginLog">
         select
         <include refid="Base_Column_List"/>
         from log_user_login where user_id = #{id}

@@ -1,9 +1,9 @@
 package cn.bunny.services.service.schedule;
 
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.schedule.dto.SchedulersDto;
-import cn.bunny.domain.schedule.entity.Schedulers;
-import cn.bunny.domain.schedule.vo.SchedulersVo;
+import cn.bunny.domain.model.schedule.dto.SchedulersDto;
+import cn.bunny.domain.model.schedule.entity.Schedulers;
+import cn.bunny.domain.model.schedule.vo.SchedulersVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 

@@ -1,9 +1,9 @@
 package cn.bunny.services.service.system;
 
-import cn.bunny.domain.system.dto.RouterDto;
-import cn.bunny.domain.system.entity.router.Router;
-import cn.bunny.domain.system.vo.router.RouterManageVo;
-import cn.bunny.domain.system.vo.router.WebUserRouterVo;
+import cn.bunny.domain.model.system.dto.RouterDto;
+import cn.bunny.domain.model.system.entity.router.Router;
+import cn.bunny.domain.model.system.vo.router.RouterManageVo;
+import cn.bunny.domain.model.system.vo.router.WebUserRouterVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

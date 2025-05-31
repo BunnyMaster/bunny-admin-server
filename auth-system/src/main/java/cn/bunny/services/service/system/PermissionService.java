@@ -1,10 +1,10 @@
 package cn.bunny.services.service.system;
 
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.system.dto.PermissionDto;
-import cn.bunny.domain.system.dto.PermissionUpdateBatchByParentIdDto;
-import cn.bunny.domain.system.entity.Permission;
-import cn.bunny.domain.system.vo.PermissionVo;
+import cn.bunny.domain.model.system.dto.PermissionDto;
+import cn.bunny.domain.model.system.dto.PermissionUpdateBatchByParentIdDto;
+import cn.bunny.domain.model.system.entity.Permission;
+import cn.bunny.domain.model.system.vo.PermissionVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.http.ResponseEntity;

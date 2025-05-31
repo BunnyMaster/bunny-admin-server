@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.system.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.domain.system.entity.AdminUser">
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.model.system.entity.AdminUser">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="nickname" property="nickname"/>
@@ -29,7 +29,7 @@
     </sql>
 
     <!-- 分页查询用户信息内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.domain.system.views.ViewUserDept">
+    <select id="selectListByPage" resultType="cn.bunny.domain.model.system.views.ViewUserDept">
         select
         user.*,
         user_dept.dept_id,
@@ -72,7 +72,7 @@
     </select>
 
     <!-- 查询用户 -->
-    <select id="queryUser" resultType="cn.bunny.domain.system.entity.AdminUser">
+    <select id="queryUser" resultType="cn.bunny.domain.model.system.entity.AdminUser">
         select *
         from sys_user
         <where>

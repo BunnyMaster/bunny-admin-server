@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.configuration;
 
-import cn.bunny.domain.configuration.dto.I18nDto;
-import cn.bunny.domain.configuration.entity.I18n;
-import cn.bunny.domain.configuration.vo.I18nVo;
+import cn.bunny.domain.model.configuration.dto.I18nDto;
+import cn.bunny.domain.model.configuration.entity.I18n;
+import cn.bunny.domain.model.configuration.vo.I18nVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

@@ -1,12 +1,12 @@
 package cn.bunny.services.service.system;
 
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.system.dto.user.AdminUserAddDto;
-import cn.bunny.domain.system.dto.user.AdminUserDto;
-import cn.bunny.domain.system.dto.user.AdminUserUpdateDto;
-import cn.bunny.domain.system.entity.AdminUser;
-import cn.bunny.domain.system.vo.user.AdminUserVo;
-import cn.bunny.domain.system.vo.user.UserVo;
+import cn.bunny.domain.model.system.dto.user.AdminUserAddDto;
+import cn.bunny.domain.model.system.dto.user.AdminUserDto;
+import cn.bunny.domain.model.system.dto.user.AdminUserUpdateDto;
+import cn.bunny.domain.model.system.entity.AdminUser;
+import cn.bunny.domain.model.system.vo.user.AdminUserVo;
+import cn.bunny.domain.model.system.vo.user.UserVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 

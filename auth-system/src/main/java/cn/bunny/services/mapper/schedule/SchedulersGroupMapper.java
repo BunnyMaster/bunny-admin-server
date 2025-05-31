@@ -1,8 +1,8 @@
 package cn.bunny.services.mapper.schedule;
 
-import cn.bunny.domain.schedule.dto.SchedulersGroupDto;
-import cn.bunny.domain.schedule.entity.SchedulersGroup;
-import cn.bunny.domain.schedule.vo.SchedulersGroupVo;
+import cn.bunny.domain.model.schedule.dto.SchedulersGroupDto;
+import cn.bunny.domain.model.schedule.entity.SchedulersGroup;
+import cn.bunny.domain.model.schedule.vo.SchedulersGroupVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

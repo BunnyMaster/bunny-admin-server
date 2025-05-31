@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.configuration.EmailTemplateMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.domain.configuration.entity.EmailTemplate">
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.model.configuration.entity.EmailTemplate">
         <id column="id" property="id"/>
         <id column="create_time" property="createTime"/>
         <id column="update_time" property="updateTime"/>
@@ -25,7 +25,7 @@
     </sql>
 
     <!-- 分页查询邮件模板表内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.domain.configuration.vo.EmailTemplateVo">
+    <select id="selectListByPage" resultType="cn.bunny.domain.model.configuration.vo.EmailTemplateVo">
         select
         template.*,
         create_user.username as create_username,

@@ -2,10 +2,10 @@ package cn.bunny.services.service.configuration;
 
 
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.configuration.dto.I18nDto;
-import cn.bunny.domain.configuration.dto.I18nUpdateByFileDto;
-import cn.bunny.domain.configuration.entity.I18n;
-import cn.bunny.domain.configuration.vo.I18nVo;
+import cn.bunny.domain.model.configuration.dto.I18nDto;
+import cn.bunny.domain.model.configuration.dto.I18nUpdateByFileDto;
+import cn.bunny.domain.model.configuration.entity.I18n;
+import cn.bunny.domain.model.configuration.vo.I18nVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.http.ResponseEntity;

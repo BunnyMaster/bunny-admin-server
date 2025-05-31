@@ -1,7 +1,7 @@
 package cn.bunny.services.service.configuration.impl;
 
-import cn.bunny.domain.configuration.dto.WebConfigurationDto;
-import cn.bunny.domain.configuration.entity.WebConfiguration;
+import cn.bunny.domain.model.configuration.dto.WebConfigurationDto;
+import cn.bunny.domain.model.configuration.entity.WebConfiguration;
 import cn.bunny.domain.common.constant.RedisUserConstant;
 import cn.bunny.domain.common.enums.ResultCodeEnum;
 import cn.bunny.core.exception.AuthCustomerException;

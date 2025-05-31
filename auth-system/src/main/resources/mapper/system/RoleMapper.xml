@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.system.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.domain.system.entity.Role">
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.model.system.entity.Role">
         <id column="id" property="id"/>
         <id column="create_time" property="createTime"/>
         <id column="update_time" property="updateTime"/>
@@ -21,7 +21,7 @@
     </sql>
 
     <!-- 分页查询角色内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.domain.system.vo.RoleVo">
+    <select id="selectListByPage" resultType="cn.bunny.domain.model.system.vo.RoleVo">
         select
         role.*,
         create_user.username as create_username,
@@ -41,7 +41,7 @@
     </select>
 
     <!-- 根据用户id查询当前用户所有角色 -->
-    <select id="selectListByUserId" resultType="cn.bunny.domain.system.entity.Role">
+    <select id="selectListByUserId" resultType="cn.bunny.domain.model.system.entity.Role">
         SELECT r.*
         FROM sys_user u
                  INNER JOIN sys_user_role ur ON u.id = ur.user_id
@@ -51,7 +51,7 @@
     </select>
 
     <!-- 根据用户Id列表查询用户角色 -->
-    <select id="selectListByUserIds" resultType="cn.bunny.domain.system.entity.Role">
+    <select id="selectListByUserIds" resultType="cn.bunny.domain.model.system.entity.Role">
         SELECT r.*
         FROM sys_role r,
         sys_user_role ur

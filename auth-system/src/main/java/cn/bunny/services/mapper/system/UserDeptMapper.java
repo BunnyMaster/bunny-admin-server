@@ -1,6 +1,6 @@
 package cn.bunny.services.mapper.system;
 
-import cn.bunny.domain.system.entity.UserDept;
+import cn.bunny.domain.model.system.entity.UserDept;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

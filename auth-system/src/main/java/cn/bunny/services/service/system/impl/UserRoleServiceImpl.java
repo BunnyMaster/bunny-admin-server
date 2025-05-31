@@ -2,9 +2,9 @@ package cn.bunny.services.service.system.impl;
 
 import cn.bunny.services.core.event.event.UpdateUserinfoByUserIdsEvent;
 import cn.bunny.domain.common.enums.ResultCodeEnum;
-import cn.bunny.domain.system.dto.user.AssignRolesToUsersDto;
-import cn.bunny.domain.system.entity.AdminUser;
-import cn.bunny.domain.system.entity.UserRole;
+import cn.bunny.domain.model.system.dto.user.AssignRolesToUsersDto;
+import cn.bunny.domain.model.system.entity.AdminUser;
+import cn.bunny.domain.model.system.entity.UserRole;
 import cn.bunny.core.exception.AuthCustomerException;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;

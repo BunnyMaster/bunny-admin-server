@@ -2,9 +2,9 @@ package cn.bunny.services.service.schedule.impl;
 
 import cn.bunny.domain.common.enums.ResultCodeEnum;
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.schedule.dto.SchedulersDto;
-import cn.bunny.domain.schedule.entity.Schedulers;
-import cn.bunny.domain.schedule.vo.SchedulersVo;
+import cn.bunny.domain.model.schedule.dto.SchedulersDto;
+import cn.bunny.domain.model.schedule.entity.Schedulers;
+import cn.bunny.domain.model.schedule.vo.SchedulersVo;
 import cn.bunny.core.exception.AuthCustomerException;
 import cn.bunny.services.mapper.schedule.SchedulersMapper;
 import cn.bunny.services.service.schedule.SchedulersService;

@@ -2,9 +2,9 @@ package cn.bunny.services.service.configuration.impl;
 
 import cn.bunny.domain.common.enums.ResultCodeEnum;
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.configuration.dto.EmailUsersDto;
-import cn.bunny.domain.configuration.entity.EmailUsers;
-import cn.bunny.domain.configuration.vo.EmailUsersVo;
+import cn.bunny.domain.model.configuration.dto.EmailUsersDto;
+import cn.bunny.domain.model.configuration.entity.EmailUsers;
+import cn.bunny.domain.model.configuration.vo.EmailUsersVo;
 import cn.bunny.core.exception.AuthCustomerException;
 import cn.bunny.services.mapper.configuration.EmailUsersMapper;
 import cn.bunny.services.service.configuration.EmailUsersService;

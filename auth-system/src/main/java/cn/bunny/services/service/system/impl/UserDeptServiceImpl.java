@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.domain.system.entity.UserDept;
+import cn.bunny.domain.model.system.entity.UserDept;
 import cn.bunny.services.mapper.system.UserDeptMapper;
 import cn.bunny.services.service.system.UserDeptService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

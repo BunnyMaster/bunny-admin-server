@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.file.FilesMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.domain.files.entity.Files">
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.model.files.entity.Files">
         <id column="id" property="id"/>
         <id column="url" property="url"/>
         <id column="size" property="size"/>
@@ -42,7 +42,7 @@
     </resultMap>
 
     <!-- 分页查询系统文件表内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.domain.files.vo.FilesVo">
+    <select id="selectListByPage" resultType="cn.bunny.domain.model.files.vo.FilesVo">
         select
         files.*,
         create_user.username as create_username,

@@ -1,9 +1,9 @@
 package cn.bunny.services.service.configuration;
 
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.configuration.dto.MenuIconDto;
-import cn.bunny.domain.configuration.entity.MenuIcon;
-import cn.bunny.domain.configuration.vo.MenuIconVo;
+import cn.bunny.domain.model.configuration.dto.MenuIconDto;
+import cn.bunny.domain.model.configuration.entity.MenuIcon;
+import cn.bunny.domain.model.configuration.vo.MenuIconVo;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 

@@ -1,8 +1,8 @@
 package cn.bunny.services.service.configuration;
 
-import cn.bunny.domain.configuration.dto.I18nTypeDto;
-import cn.bunny.domain.configuration.entity.I18nType;
-import cn.bunny.domain.configuration.vo.I18nTypeVo;
+import cn.bunny.domain.model.configuration.dto.I18nTypeDto;
+import cn.bunny.domain.model.configuration.entity.I18nType;
+import cn.bunny.domain.model.configuration.vo.I18nTypeVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

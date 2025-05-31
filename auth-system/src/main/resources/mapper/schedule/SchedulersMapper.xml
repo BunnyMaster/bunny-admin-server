@@ -3,7 +3,7 @@
 <mapper namespace="cn.bunny.services.mapper.schedule.SchedulersMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.bunny.domain.schedule.entity.Schedulers">
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.model.schedule.entity.Schedulers">
         <id column="job_name" property="jobName"/>
         <id column="job_group" property="jobGroup"/>
         <id column="description" property="description"/>
@@ -19,7 +19,7 @@
     </sql>
 
     <!-- 分页查询Schedulers视图内容 -->
-    <select id="selectListByPage" resultType="cn.bunny.domain.schedule.entity.Schedulers">
+    <select id="selectListByPage" resultType="cn.bunny.domain.model.schedule.entity.Schedulers">
         select
         <include refid="Base_Column_List"/>
         from view_qrtz_schedulers

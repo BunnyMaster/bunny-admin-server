@@ -2,10 +2,10 @@ package cn.bunny.services.service.log.impl;
 
 import cn.bunny.core.context.BaseContext;
 import cn.bunny.domain.common.model.vo.result.PageResult;
-import cn.bunny.domain.log.dto.UserLoginLogDto;
-import cn.bunny.domain.log.entity.UserLoginLog;
-import cn.bunny.domain.log.vo.UserLoginLogLocalVo;
-import cn.bunny.domain.log.vo.UserLoginLogVo;
+import cn.bunny.domain.model.log.dto.UserLoginLogDto;
+import cn.bunny.domain.model.log.entity.UserLoginLog;
+import cn.bunny.domain.model.log.vo.UserLoginLogLocalVo;
+import cn.bunny.domain.model.log.vo.UserLoginLogVo;
 import cn.bunny.services.mapper.log.UserLoginLogMapper;
 import cn.bunny.services.service.log.UserLoginLogService;
 import cn.bunny.core.utils.IpUtil;

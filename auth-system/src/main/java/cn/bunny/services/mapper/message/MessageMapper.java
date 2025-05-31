@@ -1,10 +1,10 @@
 package cn.bunny.services.mapper.message;
 
-import cn.bunny.domain.message.dto.MessageDto;
-import cn.bunny.domain.message.entity.Message;
-import cn.bunny.domain.message.vo.MessageDetailVo;
-import cn.bunny.domain.message.vo.MessageReceivedWithMessageVo;
-import cn.bunny.domain.message.vo.MessageReceivedWithUserVo;
+import cn.bunny.domain.model.message.dto.MessageDto;
+import cn.bunny.domain.model.message.entity.Message;
+import cn.bunny.domain.model.message.vo.MessageDetailVo;
+import cn.bunny.domain.model.message.vo.MessageReceivedWithMessageVo;
+import cn.bunny.domain.model.message.vo.MessageReceivedWithUserVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
