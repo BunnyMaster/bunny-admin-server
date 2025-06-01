@@ -6,6 +6,8 @@ server:
 spring:
   profiles:
     active: @profiles.active@
+    include:
+      - auth
   # main:
   #   lazy-initialization: true
   application:
