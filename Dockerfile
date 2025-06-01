@@ -30,6 +30,7 @@ EXPOSE 7070
 
 # 生产环境
 # mvn clean package -Pprod -DskipTests
+# mvn clean package -Pdev -DskipTests
 
 # 测试环境
 # mvn clean package -Ptest -DskipTests

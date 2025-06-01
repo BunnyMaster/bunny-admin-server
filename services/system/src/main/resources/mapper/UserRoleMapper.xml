@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.system.mapper.UserRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.system.entity.UserRole">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="role_id" property="roleId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 删除这个用户id下所有的角色信息 -->
+    <delete id="deleteBatchIdsByUserIds">
+        delete
+        from sys_user_role
+        <if test="userIds != null and !userIds.isEmpty()">
+            where user_id in
+            <foreach collection="userIds" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </delete>
+
+    <!-- 根据角色id删除用户和角色 -->
+    <delete id="deleteBatchIdsByRoleIds">
+        delete
+        from sys_user_role
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            where role_id in
+            <foreach collection="roleIds" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </delete>
+
+    <!-- 根据角色id列表查询 -->
+    <select id="selectListByRoleIds" resultType="cn.bunny.domain.system.entity.UserRole">
+        SELECT * FROM sys_user_role
+        <if test="ids != null and !ids.isEmpty()">
+            WHERE role_id IN
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

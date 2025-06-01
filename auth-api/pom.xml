@@ -10,7 +10,7 @@
     <artifactId>auth-api</artifactId>
     <packaging>jar</packaging>
 
-    <name>auh-api</name>
+    <name>auth-api</name>
     <url>https://maven.apache.org</url>
 
     <properties>
@@ -20,34 +20,18 @@
     <dependencies>
         <dependency>
             <groupId>cn.bunny</groupId>
-            <artifactId>service</artifactId>
+            <artifactId>configuration</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.bunny</groupId>
+            <artifactId>schedule</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.bunny</groupId>
+            <artifactId>system</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <!-- <plugin> -->
-            <!--     <groupId>org.apache.maven.plugins</groupId> -->
-            <!--     <artifactId>maven-surefire-plugin</artifactId> -->
-            <!--     <configuration> -->
-            <!--         <skip>true</skip> -->
-            <!--     </configuration> -->
-            <!-- </plugin> -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
-                <configuration>
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar"
-                    </argLine>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

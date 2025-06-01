@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bunny.schedule.mapper.SchedulersGroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.bunny.domain.schedule.entity.SchedulersGroup">
+        <id column="id" property="id"/>
+        <id column="create_time" property="createTime"/>
+        <id column="update_time" property="updateTime"/>
+        <id column="create_user" property="createUser"/>
+        <id column="update_user" property="updateUser"/>
+        <id column="is_deleted" property="isDeleted"/>
+        <id column="group_name" property="groupName"/>
+        <id column="description" property="description"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, update_time, create_user, update_user, is_deleted, group_name, description
+    </sql>
+
+    <!-- 分页查询任务调度分组内容 -->
+    <select id="selectListByPage" resultType="cn.bunny.domain.schedule.vo.SchedulersGroupVo">
+        select
+        schedulers_group.*,
+        create_user.username as create_username,
+        update_user.username as update_username
+        from qrtz_schedulers_group schedulers_group
+        left join sys_user create_user on create_user.id = schedulers_group.create_user
+        left join sys_user update_user on update_user.id = schedulers_group.update_user
+        <where>
+            schedulers_group.is_deleted = 0
+            <if test="dto.groupName != null and dto.groupName != ''">
+                and schedulers_group.group_name like CONCAT('%',#{dto.groupName},'%')
+            </if>
+            <if test="dto.description != null and dto.description != ''">
+                and schedulers_group.description like CONCAT('%',#{dto.description},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

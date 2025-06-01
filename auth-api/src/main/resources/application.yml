@@ -6,6 +6,8 @@ server:
 spring:
   profiles:
     active: @profiles.active@
+    include:
+      - auth
   # main:
   #   lazy-initialization: true
   application:
@@ -107,7 +109,7 @@ dromara:
         base-path: ${dromara.minio.base-path}
 
 mybatis-plus:
-  mapper-locations: classpath:mapper/**/*.xml
+  mapper-locations: classpath*:/mapper/*.xml
   global-config:
     db-config:
       logic-delete-field: isDeleted

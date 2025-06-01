@@ -1,0 +1,16 @@
+auth:
+  annotations:
+    - /
+    - /ws/**
+    - /**.html
+    - /error
+    - /media.ico
+    - /favicon.ico
+    - /webjars/**
+    - /v3/api-docs/**
+    - /swagger-ui/**
+    - /*/*/login
+    - /*/local-file/**
+    - /*/*/public/**
+  user-auths:
+    - private
