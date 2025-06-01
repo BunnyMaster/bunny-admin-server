@@ -130,11 +130,12 @@ http.authorizeHttpRequests(auth -> auth
 ```
 bunny-auth/
 ├── auth-system   # 系统模块
-├── auth-core     # 核心模块
-│   ├── config    # 安全配置
-│   └── exception # exception
+├── core-common   # 配置和基础模块
+│   ├── exception # exception
+│   └── context   # context
 │   └── ......    # 还要很多...
 ├── domain        # domain
+└─services		  # 服务和mapper
 ```
 
 ## 🛠️ 应用场景

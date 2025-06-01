@@ -127,11 +127,12 @@ http.authorizeHttpRequests(auth -> auth
 ```
 bunny-auth/
 ├── auth-system   # System Module
-├── auth-core     # Core Module
-│   ├── config    # Security Configuration
-│   └── exception # exception
+├── core-common   # Core and base...
+│   ├── context   # Context
+│   └── exception # Exception
 │   └── ......    # And more...
 ├── domain        # Domain
+└─services		  # Service and Mapper 
 ```
 
 ## 🛠️ Use Cases
