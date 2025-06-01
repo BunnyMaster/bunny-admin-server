@@ -129,13 +129,13 @@ http.authorizeHttpRequests(auth -> auth
 
 ```
 bunny-auth/
-├── auth-api      # 接口定义层
-├── auth-core     # 核心模块
-│   ├── config    # 安全配置
-│   └── domain    # domain
+├── auth-system   # 系统模块
+├── core-common   # 配置和基础模块
+│   ├── exception # exception
+│   └── context   # context
 │   └── ......    # 还要很多...
-├── service       # 业务实现
-└── dao           # 数据持久层
+├── domain        # domain
+└─services		  # 服务和mapper
 ```
 
 ## 🛠️ 应用场景

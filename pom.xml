@@ -16,10 +16,10 @@
     <description>auth-admin</description>
 
     <modules>
-        <module>service</module>
-        <module>dao</module>
-        <module>auth-core</module>
+        <module>core-common</module>
+        <module>domain</module>
         <module>auth-api</module>
+        <module>services</module>
     </modules>
 
     <properties>
