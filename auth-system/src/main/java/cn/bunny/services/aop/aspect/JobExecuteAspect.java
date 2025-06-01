@@ -101,7 +101,7 @@ public class JobExecuteAspect {
         scheduleExecuteLogMapper.insert(executeLog);
     }
 
-    @Pointcut("execution(* cn.bunny.core.quartz.*.execute(..))")
+    @Pointcut("execution(* cn.bunny.services.quartz.*.execute(..))")
     public void pointCut() {
     }
 }

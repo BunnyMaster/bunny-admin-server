@@ -1,6 +1,6 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.core.utils.RouterServiceHelper;
+import cn.bunny.core.exception.AuthCustomerException;
 import cn.bunny.domain.common.enums.ResultCodeEnum;
 import cn.bunny.domain.model.system.dto.RouterDto;
 import cn.bunny.domain.model.system.entity.router.Router;
@@ -11,7 +11,7 @@ import cn.bunny.domain.model.system.views.ViewRouterRole;
 import cn.bunny.domain.model.system.vo.router.RouterManageVo;
 import cn.bunny.domain.model.system.vo.router.RouterVo;
 import cn.bunny.domain.model.system.vo.router.WebUserRouterVo;
-import cn.bunny.core.exception.AuthCustomerException;
+import cn.bunny.services.core.utils.RouterServiceHelper;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.RouterMapper;
 import cn.bunny.services.mapper.system.RouterRoleMapper;
@@ -78,6 +78,7 @@ public class RouterServiceImpl extends ServiceImpl<RouterMapper, Router> impleme
 
         // 整理web用户所能看到的路由列表，并检查当前用户是否是admin
         List<WebUserRouterVo> webUserRouterVoList = routerServiceHelper.getWebUserRouterVos(routerList, routerRoleList, rolePermissionList);
+        routerServiceHelper.propagateRolesToParents(webUserRouterVoList);
 
         // 添加 admin 管理路由权限
         webUserRouterVoList.forEach(routerVo -> {

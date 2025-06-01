@@ -1,15 +1,15 @@
 package cn.bunny.services.core.event.listener.user;
 
-import cn.bunny.services.core.cache.UserLoginVoBuilderCacheService;
+import cn.bunny.domain.common.constant.RedisUserConstant;
+import cn.bunny.domain.model.system.entity.RolePermission;
+import cn.bunny.domain.model.system.entity.UserRole;
 import cn.bunny.services.core.event.event.ClearAllUserCacheEvent;
 import cn.bunny.services.core.event.event.UpdateUserinfoByPermissionIdsEvent;
 import cn.bunny.services.core.event.event.UpdateUserinfoByRoleIdsEvent;
 import cn.bunny.services.core.event.event.UpdateUserinfoByUserIdsEvent;
-import cn.bunny.domain.common.constant.RedisUserConstant;
-import cn.bunny.domain.model.system.entity.RolePermission;
-import cn.bunny.domain.model.system.entity.UserRole;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
+import cn.bunny.services.security.service.UserLoginVoBuilderCacheService;
 import jakarta.annotation.Resource;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;

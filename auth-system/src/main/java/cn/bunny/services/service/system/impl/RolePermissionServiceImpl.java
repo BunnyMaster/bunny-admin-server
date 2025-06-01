@@ -1,10 +1,10 @@
 package cn.bunny.services.service.system.impl;
 
-import cn.bunny.services.core.event.event.UpdateUserinfoByRoleIdsEvent;
 import cn.bunny.domain.model.system.dto.AssignPowersToRoleDto;
 import cn.bunny.domain.model.system.entity.AdminUser;
 import cn.bunny.domain.model.system.entity.RolePermission;
 import cn.bunny.domain.model.system.entity.UserRole;
+import cn.bunny.services.core.event.event.UpdateUserinfoByRoleIdsEvent;
 import cn.bunny.services.mapper.system.RolePermissionMapper;
 import cn.bunny.services.mapper.system.UserMapper;
 import cn.bunny.services.mapper.system.UserRoleMapper;
@@ -65,8 +65,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
 
         // 删除这个角色下所有权限
         List<Long> ids = List.of(roleId);
-        removeByIds(ids);
-        // baseMapper.deleteBatchRoleIds(ids);
+        baseMapper.deleteBatchRoleIds(ids);
 
         // 保存分配数据
         List<RolePermission> rolePermissionList = powerIds.stream().map(powerId -> {

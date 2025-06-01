@@ -162,4 +162,93 @@ public class RouterServiceHelper {
                 .sorted(Comparator.comparing(routerVo -> routerVo.getMeta().getRank()))
                 .toList();
     }
+
+    /**
+     * 首先构建一个从节点ID到节点对象的映射，方便快速查找父节点。
+     * <p>
+     * 然后遍历所有节点，确保每个父节点包含其直接子节点的所有角色。
+     * <p>
+     * 最后进行多次从下往上的传播，确保角色信息从叶子节点一直传播到根节点。这个过程会重复直到没有新的角色需要添加为止。
+     */
+    public void propagateRolesToParents(List<WebUserRouterVo> webUserRouterVoList) {
+        if (webUserRouterVoList == null || webUserRouterVoList.isEmpty()) return;
+
+        // 首先构建一个id到节点的映射，方便查找父节点
+        Map<Long, WebUserRouterVo> idToNodeMap = new HashMap<>();
+        buildIdMap(webUserRouterVoList, idToNodeMap);
+
+        // 遍历所有节点，将子节点的角色传播到父节点
+        for (WebUserRouterVo node : idToNodeMap.values()) {
+            if (node.getChildren() != null && !node.getChildren().isEmpty()) {
+                // 获取当前节点的所有子节点
+                List<WebUserRouterVo> children = node.getChildren();
+
+                // 收集所有子节点的角色
+                RouterMeta parentMeta = node.getMeta();
+                if (parentMeta == null) {
+                    parentMeta = new RouterMeta();
+                    node.setMeta(parentMeta);
+                }
+
+                Set<String> allRoles = new HashSet<>();
+                if (parentMeta.getRoles() != null) {
+                    allRoles.addAll(parentMeta.getRoles());
+                }
+
+                for (WebUserRouterVo child : children) {
+                    if (child.getMeta() != null && child.getMeta().getRoles() != null) {
+                        allRoles.addAll(child.getMeta().getRoles());
+                    }
+                }
+
+                // 更新父节点的角色
+                if (!allRoles.isEmpty()) {
+                    parentMeta.setRoles(new ArrayList<>(allRoles));
+                }
+            }
+        }
+
+        // 需要从下往上传播角色，所以需要多次遍历直到没有变化
+        boolean changed;
+        do {
+            changed = false;
+            for (WebUserRouterVo node : idToNodeMap.values()) {
+                if (node.getParentId() != null && node.getParentId() != 0) {
+                    WebUserRouterVo parent = idToNodeMap.get(node.getParentId());
+                    if (parent != null) {
+                        RouterMeta parentMeta = parent.getMeta();
+                        RouterMeta childMeta = node.getMeta();
+
+                        if (childMeta != null && childMeta.getRoles() != null) {
+                            if (parentMeta == null) {
+                                parentMeta = new RouterMeta();
+                                parent.setMeta(parentMeta);
+                            }
+
+                            Set<String> parentRoles = parentMeta.getRoles() != null
+                                    ? new HashSet<>(parentMeta.getRoles())
+                                    : new HashSet<>();
+
+                            int originalSize = parentRoles.size();
+                            parentRoles.addAll(childMeta.getRoles());
+
+                            if (parentRoles.size() > originalSize) {
+                                parentMeta.setRoles(new ArrayList<>(parentRoles));
+                                changed = true;
+                            }
+                        }
+                    }
+                }
+            }
+        } while (changed);
+    }
+
+    private void buildIdMap(List<WebUserRouterVo> nodes, Map<Long, WebUserRouterVo> idToNodeMap) {
+        for (WebUserRouterVo node : nodes) {
+            idToNodeMap.put(node.getId(), node);
+            if (node.getChildren() != null && !node.getChildren().isEmpty()) {
+                buildIdMap(node.getChildren(), idToNodeMap);
+            }
+        }
+    }
 }
