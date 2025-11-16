@@ -1,17 +1,17 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : 阿里云
+ Source Server         : 192.168.2.19
  Source Server Type    : MySQL
- Source Server Version : 80036 (8.0.36)
- Source Host           : rm-bp12z6hlv46vi6g8mro.mysql.rds.aliyuncs.com:3306
- Source Schema         : bunny_test
+ Source Server Version : 80033 (8.0.33)
+ Source Host           : 192.168.2.19:3306
+ Source Schema         : auth_admin_prod
 
  Target Server Type    : MySQL
- Target Server Version : 80036 (8.0.36)
+ Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 09/05/2025 19:58:15
+ Date: 16/11/2025 19:06:26
 */
 
 SET NAMES utf8mb4;
@@ -66,7 +66,7 @@ CREATE TABLE `log_user_login`  (
   `x_requested_with` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标识客户端是否是通过Ajax发送请求的',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `create_user` bigint NOT NULL COMMENT '创建用户',
+  `create_user` bigint NULL DEFAULT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '是否被删除',
   PRIMARY KEY (`id`) USING BTREE,
@@ -134,7 +134,7 @@ CREATE TABLE `qrtz_cron_triggers`  (
 -- ----------------------------
 -- Records of qrtz_cron_triggers
 -- ----------------------------
-INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'test', 'hello分组', '0/5 * * * * ?', 'Asia/Shanghai');
+INSERT INTO `qrtz_cron_triggers` VALUES ('quartzScheduler', 'test', 'hello分组', '0/1 * * * * ?', 'Asia/Shanghai');
 
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
@@ -350,7 +350,7 @@ CREATE TABLE `qrtz_triggers`  (
 -- ----------------------------
 -- Records of qrtz_triggers
 -- ----------------------------
-INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'test', 'hello分组', 'test', 'hello分组', 'test', 1746615080000, 1746615075000, 5, 'PAUSED', 'CRON', 1746615063000, 0, NULL, 0, '');
+INSERT INTO `qrtz_triggers` VALUES ('quartzScheduler', 'test', 'hello分组', 'test', 'hello分组', 'test', 1745836407000, 1745836406000, 5, 'PAUSED', 'CRON', 1742823914000, 0, NULL, 0, '');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -434,7 +434,7 @@ CREATE TABLE `sys_email_template`  (
 -- ----------------------------
 -- Records of sys_email_template
 -- ----------------------------
-INSERT INTO `sys_email_template` VALUES (1791870020197625858, 'email-1', 2, '邮箱验证码1s', '<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta content=\"IE=edge\" http-equiv=\"X-UA-Compatible\">\n    <meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\">\n    <title>Email Verification Code</title>\n</head>\n<body style=\"margin: 0; padding: 0; background-color: #f5f5f5;\">\n<div style=\"max-width: 600px; margin: 0 auto;\">\n    <table style=\"width: 100%; border-collapse: collapse; background-color: #ffffff; font-family: Arial, sans-serif;\">\n        <tr>\n            <th style=\"height: 60px; padding: 20px; background-color: #0074d3; border-radius: 5px 5px 0 0;\"\n                valign=\"middle\">\n                <h1 style=\"margin: 0; color: #ffffff; font-size: 24px;\">#title#邮箱验证码</h1>\n            </th>\n        </tr>\n        <tr>\n            <td style=\"padding: 20px;\">\n                <div style=\"background-color: #ffffff; padding: 25px;\">\n                    <h2 style=\"margin: 10px 0; font-size: 18px; color: #333333;\">\n                        尊敬的用户：\n                    </h2>\n                    <p style=\"margin: 10px 0; font-size: 16px; color: #333333;\">\n                        感谢您注册我们的产品. 您的账号正在进行电子邮件验证.\n                    </p>\n                    <p style=\"margin: 10px 0; font-size: 16px; color: #333333;\">\n                        验证码为: <span class=\"button\" style=\"color: #1100ff;\">#verifyCode#</span>\n                    </p>\n                    <p style=\"margin: 10px 0; font-size: 16px; color: #333333;\">\n                        验证码的有效期只有#expires#分钟，请抓紧时间进行验证吧！\n                    </p>\n                    <p style=\"margin: 10px 0; font-size: 16px; color: #dc1818;\">\n                        如果非本人操作,请忽略此邮件\n                    </p>\n                </div>\n            </td>\n        </tr>\n        <tr>\n            <td style=\"text-align: center; padding: 20px; background-color: #f5f5f5;\">\n                <p style=\"margin: 0; font-size: 12px; color: #747474;\">\n                    #title#邮箱验证码<br>\n                    Contact us: #sendEmailUser#\n                </p>\n                <p style=\"margin: 10px 0; font-size: 12px; color: #747474;\">\n                    This is an automated email, please do not reply.<br>\n                    © Company #companyName#\n                </p>\n            </td>\n        </tr>\n    </table>\n</div>\n</body>\n</html>', 'verification_code', 1, '2024-05-18 16:34:38', '2025-05-06 19:50:56', 0, 1, 0);
+INSERT INTO `sys_email_template` VALUES (1791870020197625858, 'email-1', 2, '邮箱验证码1s', '<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta content=\"IE=edge\" http-equiv=\"X-UA-Compatible\">\n    <meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\">\n    <title>Email Verification Code</title>\n</head>\n<body style=\"margin: 0; padding: 0; background-color: #f5f5f5;\">\n<div style=\"max-width: 600px; margin: 0 auto;\">\n    <table style=\"width: 100%; border-collapse: collapse; background-color: #ffffff; font-family: Arial, sans-serif;\">\n        <tr>\n            <th style=\"height: 60px; padding: 20px; background-color: #0074d3; border-radius: 5px 5px 0 0;\"\n                valign=\"middle\">\n                <h1 style=\"margin: 0; color: #ffffff; font-size: 24px;\">#title#邮箱验证码</h1>\n            </th>\n        </tr>\n        <tr>\n            <td style=\"padding: 20px;\">\n                <div style=\"background-color: #ffffff; padding: 25px;\">\n                    <h2 style=\"margin: 10px 0; font-size: 18px; color: #333333;\">\n                        尊敬的用户：\n                    </h2>\n                    <p style=\"margin: 10px 0; font-size: 16px; color: #333333;\">\n                        感谢您注册我们的产品. 您的账号正在进行电子邮件验证.\n                    </p>\n                    <p style=\"margin: 10px 0; font-size: 16px; color: #333333;\">\n                        验证码为: <span class=\"button\" style=\"color: #1100ff;\">#verifyCode#</span>\n                    </p>\n                    <p style=\"margin: 10px 0; font-size: 16px; color: #333333;\">\n                        验证码的有效期只有#expires#分钟，请抓紧时间进行验证吧！\n                    </p>\n                    <p style=\"margin: 10px 0; font-size: 16px; color: #dc1818;\">\n                        如果非本人操作,请忽略此邮件\n                    </p>\n                </div>\n            </td>\n        </tr>\n        <tr>\n            <td style=\"text-align: center; padding: 20px; background-color: #f5f5f5;\">\n                <p style=\"margin: 0; font-size: 12px; color: #747474;\">\n                    #title#邮箱验证码<br>\n                    Contact us: #sendEmailUser#\n                </p>\n                <p style=\"margin: 10px 0; font-size: 12px; color: #747474;\">\n                    This is an automated email, please do not reply.<br>\n                    © Company #companyName#\n                </p>\n            </td>\n        </tr>\n    </table>\n</div>\n</body>\n</html>', 'verification_code', 1, '2024-05-18 16:34:38', '2025-04-27 13:55:12', 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_email_users
@@ -466,94 +466,36 @@ CREATE TABLE `sys_email_users`  (
 -- ----------------------------
 -- Records of sys_email_users
 -- ----------------------------
-INSERT INTO `sys_email_users` VALUES (2, '332411176@qq.com', '111', 'smtp.qq.com', 465, 'smtps', 0, 1, '2024-05-14 18:43:50', '2025-05-09 19:57:40', 0, 1, 0);
+INSERT INTO `sys_email_users` VALUES (2, '3324855376@qq.com', 'fdehkkbmavalcjea', 'smtp.qq.com', 465, 'smtps', 0, 1, '2024-05-14 18:43:50', '2025-05-01 00:09:04', 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_files
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_files`;
 CREATE TABLE `sys_files`  (
-  `id` bigint NOT NULL COMMENT '文件id',
-  `url` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '文件访问地址',
-  `size` bigint NULL DEFAULT NULL COMMENT '文件大小，单位字节',
-  `file_size_str` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件大小（字符串）',
-  `filename` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件名称',
-  `original_filename` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '原始文件名',
-  `base_path` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '基础存储路径',
-  `filepath` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '存储路径',
-  `ext` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件扩展名',
-  `content_type` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'MIME类型',
-  `platform` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '存储平台',
-  `th_url` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '缩略图访问路径',
-  `th_filename` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '缩略图名称',
-  `th_size` bigint NULL DEFAULT NULL COMMENT '缩略图大小，单位字节',
-  `th_content_type` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '缩略图MIME类型',
-  `object_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件所属对象id',
-  `object_type` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件所属对象类型，例如用户头像，评价图片',
-  `metadata` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '文件元数据',
-  `user_metadata` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '文件用户元数据',
-  `th_metadata` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '缩略图元数据',
-  `th_user_metadata` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '缩略图用户元数据',
-  `attr` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '附加属性',
-  `file_acl` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件ACL',
-  `th_file_acl` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '缩略图文件ACL',
-  `hash_info` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '哈希信息',
-  `upload_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '上传ID，仅在手动分片上传时使用',
-  `upload_status` int NULL DEFAULT NULL COMMENT '上传状态，仅在手动分片上传时使用，1：初始化完成，2：上传完成',
+  `id` bigint NOT NULL COMMENT '文件的唯一标识符，自动递增',
+  `filename` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件的名称',
+  `filepath` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件在服务器上的存储路径',
+  `file_size` int NOT NULL COMMENT '文件的大小，以字节为单位',
+  `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '文件的MIME类型',
   `download_count` int NULL DEFAULT 0 COMMENT '下载数量',
   `create_user` bigint NOT NULL COMMENT '创建用户',
   `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录文件最后修改的时间戳',
   `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '文件是否被删除',
-  PRIMARY KEY (`id`) USING BTREE COMMENT '主键索引，用于快速定位文件记录',
-  INDEX `idx_filename`(`filename` ASC) USING BTREE COMMENT '文件名索引，用于按文件名快速查找文件',
-  INDEX `idx_filepath`(`filepath` ASC) USING BTREE COMMENT '文件路径索引，用于按路径快速查找文件',
-  INDEX `idx_content_type`(`content_type` ASC) USING BTREE COMMENT '文件类型索引，用于按MIME类型快速查找文件',
-  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '更新用户索引，用于查找特定用户更新的文件',
-  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '创建用户索引，用于查找特定用户创建的文件',
-  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '联合用户索引，用于同时查询创建和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '时间联合索引，用于按时间范围查询文件',
-  INDEX `idx_url`(`url` ASC) USING BTREE COMMENT '文件URL索引，用于快速访问特定URL的文件',
-  INDEX `idx_size`(`size` ASC) USING BTREE COMMENT '文件大小索引，用于按文件大小范围查询',
-  INDEX `idx_platform`(`platform` ASC) USING BTREE COMMENT '存储平台索引，用于按存储平台查询文件',
-  INDEX `idx_ext`(`ext` ASC) USING BTREE COMMENT '文件扩展名索引，用于按文件扩展名查询',
-  INDEX `idx_object`(`object_id` ASC, `object_type` ASC) USING BTREE COMMENT '对象联合索引，用于查询特定对象关联的文件',
-  INDEX `idx_upload_status`(`upload_status` ASC) USING BTREE COMMENT '上传状态索引，用于查询特定状态的上传文件',
-  INDEX `idx_download_count`(`download_count` ASC) USING BTREE COMMENT '下载次数索引，用于查询热门文件',
-  INDEX `idx_is_deleted`(`is_deleted` ASC) USING BTREE COMMENT '删除状态索引，用于查询已删除或未删除的文件',
-  INDEX `idx_create_time`(`create_time` ASC) USING BTREE COMMENT '创建时间索引，用于按创建时间排序或查询',
-  INDEX `idx_update_time`(`update_time` ASC) USING BTREE COMMENT '更新时间索引，用于按最后修改时间排序或查询',
-  INDEX `idx_th_content_type`(`th_content_type` ASC) USING BTREE COMMENT '缩略图类型索引，用于按缩略图MIME类型查询',
-  INDEX `idx_th_size`(`th_size` ASC) USING BTREE COMMENT '缩略图大小索引，用于按缩略图大小查询'
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '文件记录' ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_filename`(`filename` ASC) USING BTREE COMMENT '索引文件名',
+  INDEX `idx_filepath`(`filepath` ASC) USING BTREE COMMENT '索引文件路径',
+  INDEX `idx_file_type`(`file_type` ASC) USING BTREE COMMENT '索引文件类型',
+  INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
+  INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
+  INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统文件表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_files
--- ----------------------------
-
--- ----------------------------
--- Table structure for sys_files_part_detail
--- ----------------------------
-DROP TABLE IF EXISTS `sys_files_part_detail`;
-CREATE TABLE `sys_files_part_detail`  (
-  `id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '分片id',
-  `platform` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '存储平台',
-  `upload_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '上传ID，仅在手动分片上传时使用',
-  `e_tag` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '分片 ETag',
-  `part_number` int NULL DEFAULT NULL COMMENT '分片号。每一个上传的分片都有一个分片号，一般情况下取值范围是1~10000',
-  `part_size` bigint NULL DEFAULT NULL COMMENT '文件大小，单位字节',
-  `hash_info` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '哈希信息',
-  `create_user` bigint NOT NULL COMMENT '创建用户',
-  `update_user` bigint NULL DEFAULT NULL COMMENT '操作用户',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录文件最后修改的时间戳',
-  `is_deleted` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '文件是否被删除',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '文件分片信息表，仅在手动分片上传时使用' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sys_files_part_detail
 -- ----------------------------
 
 -- ----------------------------
@@ -578,8 +520,7 @@ CREATE TABLE `sys_i18n`  (
   INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
   INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
   INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
-  CONSTRAINT `sys_i18n_ibfk_1` FOREIGN KEY (`type_name`) REFERENCES `sys_i18n_type` (`type_name`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '多语言表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -923,7 +864,7 @@ INSERT INTO `sys_i18n` VALUES (1918966812544946195, 'menuIcon_iconName', '图标
 INSERT INTO `sys_i18n` VALUES (1918966812544946196, 'emailTemplate_type', '模板类型', 'zh', 1, 1, '2025-05-04 17:51:55', '2025-05-04 17:51:55', 0);
 INSERT INTO `sys_i18n` VALUES (1918966812544946197, 'update_information', '更新信息', 'zh', 1, 1, '2025-05-04 17:51:55', '2025-05-04 17:51:55', 0);
 INSERT INTO `sys_i18n` VALUES (1918966812544946198, 'userLoginLog_secChUaModel', '设备模型', 'zh', 1, 1, '2025-05-04 17:51:55', '2025-05-04 17:51:55', 0);
-INSERT INTO `sys_i18n` VALUES (1918966812544946199, 'update_tip', '更新时确保数据备份，以免丢失', 'zh', 1, 1, '2025-05-05 14:04:04', '2025-05-04 17:51:55', 0);
+INSERT INTO `sys_i18n` VALUES (1918966812544946199, 'update_tip', '更新时确保数据备份，以免丢失', 'zh', 1, 1, '2025-05-04 17:51:55', '2025-05-04 17:51:55', 0);
 INSERT INTO `sys_i18n` VALUES (1918966812544946200, 'menus.pureFlowChart', '流程图', 'zh', 1, 1, '2025-05-04 17:51:55', '2025-05-04 17:51:55', 0);
 INSERT INTO `sys_i18n` VALUES (1918966812544946201, 'unread', '未读', 'zh', 1, 1, '2025-05-04 17:51:55', '2025-05-04 17:51:55', 0);
 INSERT INTO `sys_i18n` VALUES (1918966812544946202, 'menus.pureSystemMenu', '菜单管理', 'zh', 1, 1, '2025-05-04 17:51:55', '2025-05-04 17:51:55', 0);
@@ -1794,623 +1735,611 @@ INSERT INTO `sys_i18n` VALUES (1918989651838787620, 'search.pureCollect', 'Colle
 INSERT INTO `sys_i18n` VALUES (1918989651838787621, 'buttons.pureClose', 'Close', 'en', 1, 1, '2025-05-04 19:22:41', '2025-05-04 19:22:41', 0);
 INSERT INTO `sys_i18n` VALUES (1918989651838787622, 'deleteBatchPlaceholder', 'Enter yes/YES/y/Y to confirm', 'en', 1, 1, '2025-05-04 19:22:41', '2025-05-04 19:22:41', 0);
 INSERT INTO `sys_i18n` VALUES (1918989651838787623, 'reset_passwords', 'Reset Password', 'en', 1, 1, '2025-05-04 19:22:41', '2025-05-04 19:22:41', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686894780417, 'cancel', '취소', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686894780418, 'menus.pureVerify', '그래픽 인증 코드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686894780419, 'buttons.pureTagsStyleCardTip', '카드 태그, 효율적인 탐색', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686894780420, 'buttons.pureTagsStyle', '탭 스타일', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686894780421, 'i18n.typeId', '유형 ID', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686894780422, 'menus.pureRole', '역할 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686894780423, 'login.purePhone', '휴대폰 번호', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974722, 'search.purePlaceholder', '메뉴 검색 (한어 병음 검색 지원)', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974723, 'readAlready', '읽음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974724, 'menus.pureCheckCard', '다중 선택 카드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974725, 'menus.pureTimePicker', '시간 선택기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974726, 'overallStyle', '애플리케이션의 전체 스타일', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974727, 'menus.pureButton', '버튼 애니메이션', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974728, 'adminUser_phone', '휴대폰 번호', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974729, 'path', '라우팅 경로', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974730, 'receivedUserIdTip', '비워두면 모든 사용자에게 알림', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974731, 'schedulers', '스케줄링 작업', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974732, 'messageType', '메시지 유형', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974733, 'panel.pureThemeColor', '테마 색상', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974734, 'buttons.pureContentFullScreen', '콘텐츠 영역 전체 화면', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974735, 'buttons.pureCloseText', '닫기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974736, 'emailUsers_host', '호스트 주소', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974737, 'no_default', '기본값 없음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974738, 'returnToHomepage', '홈페이지로 돌아가기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974739, 'cachingAsyncRoutes', '비동기 라우팅 캐시 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974740, 'panel.pureOverallStyleSystem', '자동', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974741, 'panel.pureOverallStyle', '전체 스타일', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974742, 'multilingualManagement', '다국어 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974743, 'userLoginLog_secChUa', '브랜드 및 버전', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974744, 'userLoginLog_ect', '유효 연결 유형', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974745, 'userLoginLog_secChUaBitness', 'CPU 아키텍처 비트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974746, 'version', '버전', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974747, 'menus.pureCascader', '지역 계단식 선택기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974748, 'isDefault', '기본값 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974749, 'menus.purePermissionButtonLogin', '로그인 인터페이스 버튼 권한 반환', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974750, 'multiTagsCache', '여러 태그 캐시 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974751, 'menuNameTip', '메뉴 이름은 필수 항목입니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974752, 'table.createTime', '생성 시간', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974753, 'menus.pureDatePicker', '날짜 선택기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974754, 'receivedUserNickname', '수신자 닉네임', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974755, 'role', '역할 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974756, 'panel.pureOverallStyleDark', '다크', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974757, 'delete_batches', '일괄 삭제', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974758, 'buttons.pureCloseLeftTabs', '왼쪽 탭 닫기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686898974759, 'isRead', '읽음 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363330, 'system_setting', '시스템 설정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363331, 'buttons.pureBackTop', '맨 위로', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363332, 'appTitle', '웹페이지 제목', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363333, 'menus.pureList', '목록 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363334, 'menus.pureTypeit', '타자기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363335, 'logged_in_user', '로그인된 사용자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363336, 'search', '검색', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363337, 'userLoginLog_deviceMemory', '메모리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363338, 'menus.pureEmbeddedDoc', '내장 문서', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363339, 'drop_file_here', '파일을 여기로 드래그하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363340, 'delete_warning', '삭제 경고', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363341, 'nickname', '닉네임', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363342, 'dept_deptName', '부서 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363343, 'buttons.pureClickCollapse', '클릭하여 접기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363344, 'resume', '재개', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363345, 'menus.pureSysManagement', '시스템 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363346, 'userLoginLog_width', '뷰포트 너비', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363347, 'inputRuleMustBeEnglish', '영어로 입력해야 합니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363348, 'sex', '성별', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363349, 'allMarkAsRead', '모두 읽음으로 표시', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363350, 'sorryServerError', '죄송합니다, 서버 오류가 발생했습니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363351, 'routerPath', '라우팅 경로', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363352, 'menus.pureSegmented', '세그먼트 컨트롤러', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363353, 'menus.pureLineTree', '트리 연결선', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363354, 'menus.pureSwiper', 'Swiper 플러그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363355, 'adminUser_username', '사용자 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363356, 'menus.pureDownload', '다운로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363357, 'required_fields', '필수 항목 작성', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363358, 'i18n_summary', '다국어 상세 설명', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363359, 'adminUser_dept', '부서', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363360, 'menuSearchHistory', '메뉴 검색 기록', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363361, 'quartzExecuteLog_executeResult', '실행 결과', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363362, 'click_to_upload', '파일 업로드 클릭', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363363, 'userLoginLog_token', '토큰', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363364, 'added', '추가됨', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363365, 'assignBatchRolesToRouter', '일괄 역할 할당', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363366, 'animationNotExist', '애니메이션이 존재하지 않습니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363367, 'status.pureNoTodo', '할 일 없음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686907363368, 'menus.pureHome', '홈', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557634, 'confirmText', '확인 텍스트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557635, 'inputRequestUrlTip', '요청 URL은 \'/\'로 시작해야 합니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557636, 'menuName', '메뉴 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557637, 'login.password', '비밀번호', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557638, 'fixedHeader', '헤더 고정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557639, 'power_parentId', '권한 상위', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557640, 'menus.pureTableHigh', '고급 사용법', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557641, 'dept_remarks', '비고', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557642, 'warning', '경고', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557643, 'female', '여성', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557644, 'schedulers_jobGroup', '작업 그룹', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557645, 'info', '정보', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557646, 'add', '추가', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557647, 'buttons.pureTagsStyleChromeTip', '구글 스타일, 클래식하고 아름다움', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557648, 'status.pureNoNotify', '알림 없음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557649, 'buttons.pureTagsStyleSmart', '스마트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557650, 'logged_in', '로그인함', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557651, 'quartzExecuteLog_triggerName', '트리거 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557652, 'emailUsers_isDefault', '기본값 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557653, 'menus.pureEmpty', '레이아웃 없는 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557654, 'menus.pureVideoFrame', '비디오 프레임 캡처-wasm 버전', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557655, 'buttons.pureOpenText', '열기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557656, 'menus.pureRipple', '리플(Ripple)', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557657, 'buttons.reset', '재설정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557658, 'adminUser_nickname', '닉네임', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557659, 'search.pureTotal', '총', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557660, 'login.purePassWordDifferentReg', '두 비밀번호가 일치하지 않습니다!', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557661, 'success', '성공', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557662, 'login.pureDefinite', '확인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557663, 'panel.pureOverallStyleLightTip', '상쾌한 출발, 편안한 작업 인터페이스', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557664, 'menus.pureText', '텍스트 생략', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557665, 'messageName', '메시지 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557666, 'sorryNoAccess', '죄송합니다, 이 페이지에 접근할 권한이 없습니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557667, 'menuArrowIconNoTransition', '메뉴 화살표 아이콘 전환 효과 없음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557668, 'assignBatchRolesToRouterTip', '일괄 역할 할당은 이미 할당된 역할을 제거하고 역할을 추가하지 않습니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557669, 'notifyAll', '모두 알림', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557670, 'requestMethod', '요청 방법', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557671, 'for', '위해', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557672, 'back', '뒤로', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557673, 'forced_offline', '강제 오프라인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557674, 'title', '제목', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557675, 'take_back', '회수', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557676, 'content', '내용', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557677, 'stretch', '늘리기 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557678, 'confirm_update_password', '비밀번호 수정을 확인하시겠습니까', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557679, 'emailUsers_password', '비밀번호', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557680, 'pixel', '픽셀', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557681, 'menus.pureColorPicker', '색상 선택기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557682, 'schedulers_cronExpression', 'cron 표현식', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557683, 'menus.pureWatermark', '워터마크', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557684, 'monitor', '시스템 모니터링', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557685, 'userLoginLog_username', '사용자 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686911557686, 'power_powerName', '권한 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946242, 'message', '메시지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946243, 'confirmDelete', '삭제를 확인하시겠습니까', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946244, 'login.pureQRCodeLogin', 'QR 코드 로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946245, 'login.purePassWordSureReg', '비밀번호 확인을 입력하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946246, 'modify', '수정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946247, 'clearAllRolesSelect', '모든 역할 선택 해제', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946248, 'menus.pureMap', '지도', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946249, 'menus.pureOptimize', '디바운스, 스로틀, 복사, 롱 프레스 지시어', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946250, 'i18n.typeName', '유형 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946251, 'menus.pureAnimatecss', 'animate.css 선택기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946252, 'login.pureUsername', '계정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946253, 'pleaseSelectAnimation', '애니메이션을 선택하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946254, 'no_server', '서비스 없음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946255, 'clearAllRolesSelectTip', '이 작업은 할당된 메뉴 역할을 모두 제거하며, 확인 후 복구할 수 없습니다. 메뉴 아래 할당된 역할도 모두 제거됩니다!!!', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946256, 'username', '사용자 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946257, 'copyright', '저작권', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946258, 'menus.pureTableEdit', '편집 가능 사용법', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946259, 'select', '선택', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946260, 'epThemeColor', '테마 색상', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946261, 'userLoginLog_type', '작업 유형', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946262, 'sorryPageNotFound', '죄송합니다, 방문하신 페이지가 존재하지 않습니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946263, 'login.pureVerifyCodeCorrectReg', '올바른 인증 코드를 입력하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946264, 'select_icon', '아이콘 선택', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946265, 'batchUpdates', '일괄 업데이트를 확인하시겠습니까?', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946266, 'menus.pureTabs', '탭 작업', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946267, 'buttons.pureTagsStyleSmartTip', '스마트 태그, 재미 추가', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946268, 'system_menu', '시스템 메뉴', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946269, 'dept_parentId', '부서 상위', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946270, 'i18n_type', '다국어 유형', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946271, 'id', '기본 키', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946272, 'emailUsers_smtpAgreement', 'smtp 프로토콜', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946273, 'status.pureNotify', '알림', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946274, 'power_setting', '권한 설정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946275, 'messageEditing', '메시지 편집', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946276, 'modifyingConfiguration', '구성 수정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946277, 'download_batch', '일괄 다운로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946278, 'menus.purePermissionPage', '페이지 권한', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946279, 'login.pureGetVerifyCode', '인증 코드 받기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946280, 'panel.pureCloseSystemSet', '구성 닫기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946281, 'element_plus', 'Element Plus UI', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946282, 'index', '순번', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946283, 'email_login', '이메일 로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946284, 'menus.pureCardList', '카드 목록 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946285, 'menus.pureAbout', '정보', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946286, 'table.createUser', '생성 사용자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946287, 'account_password', '계정 비밀번호', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946288, 'panel.pureStretchCustomTip', '최소 1280, 최대 1600', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946289, '404', '404', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946290, 'deleteBatches', '일괄 삭제', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946291, 'menus.pureCheckButton', '선택 가능 버튼', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946292, 'menuType', '메뉴 유형', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686919946293, 'buttons.pureContentExitFullScreen', '콘텐츠 영역 전체 화면 종료', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334850, 'status', '상태', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334851, 'external_page', '외부 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334852, 'menus.pureVirtualList', '가상 목록', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334853, 'login.pureRegister', '등록', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334854, 'buttons.pureInterfaceDisplay', '인터페이스 표시', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334855, 'userPassword', '사용자 비밀번호', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334856, 'menuIcon_iconCode', '아이콘 클래스 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334857, 'quartzExecuteLog_endTime', '종료 시간', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334858, 'login', '로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334859, 'menus.pureLoginLog', '로그인 로그', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334860, 'menus.pureExternalLink', 'vue-pure-admin', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334861, 'userLoginLog_rtt', '왕복 시간', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334862, 'schedulers_jobMethodName', '메서드 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334863, 'menus.pureCountTo', '숫자 애니메이션', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334864, 'tooltipEffect', '도구 설명 효과', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334865, 'menus.pureStatistic', '통계 컴포넌트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334866, 'man', '남성', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334867, 'addMultilingual', '다국어 추가', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334868, 'use_json_update', 'JSON으로 업데이트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334869, 'login.purePassWordReg', '비밀번호를 입력하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334870, 'view_user_info', '사용자 정보 보기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334871, 'schedulersGroup', '작업 스케줄링 그룹', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334872, 'avatar', '아바타', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334873, 'deleteBatchTip', '일괄 삭제를 확인하려면 yes/YES/y/Y를 입력하세요. 이 작업은 되돌릴 수 없습니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334874, 'menu', '메뉴', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334875, 'file_size', '파일 크기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334876, 'menus.pureDebounce', '디바운스', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334877, 'use_excel_update', 'Excel로 업데이트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334878, 'sendNickname', '발신자 닉네임', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334879, 'disable', '비활성화', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334880, 'userLoginLog_secChUaPlatformVersion', '운영 체제 버전', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334881, 'responsiveStorageNameSpace', '반응형 저장소 네임스페이스', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334882, 'panel.pureWeakModel', '색약 모드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334883, 'panel.pureInterfaceDisplay', '인터페이스 표시', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334884, 'editorType', '편집기 유형', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686928334885, 'unfold_all', '모두 펼치기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529153, 'Searching_for_router', '라우팅 검색', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529154, 'panel.pureOverallStyleDarkTip', '달빛 서곡, 밤의 고요한 아름다움에 빠지다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529155, 'showLogo', '로고 표시 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529156, 'menuIcon', '메뉴 아이콘', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529157, 'status.pureLoad', '로딩 중...', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529158, 'files_filepath', '파일 저장 경로', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529159, 'quartzExecuteLog_duration', '실행 시간', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529160, 'swagger', 'swagger', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529161, 'format_error', '형식 오류', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529162, 'Searching_for_roles', '역할 검색', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529163, 'menus.pureAbnormal', '예외 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529164, 'download', '다운로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529165, 'quartzExecuteLog_jobGroup', '작업 그룹', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529166, 'menus.pureChildMenuOverflow', '메뉴 오버플로우 툴팁 표시', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529167, 'previousMenu', '상위 메뉴', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529168, 'buttons.pureSwitch', '전환', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529169, 'menus.pureResult', '결과 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529170, 'login.loginSuccess', '로그인 성공', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529171, 'personDescription', '개인 상세 정보', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529172, 'all', '전체', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529173, 'table.updateTime', '업데이트 시간', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529174, 'hideTabs', '탭 숨기기 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529175, 'level', '메시지 레벨', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529176, 'menus.pureSelector', '범위 선택기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529177, 'menus.pureMessage', '메시지 알림', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529178, 'sort', '정렬', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529179, 'buttons.pureReload', '다시 로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529180, 'login.purePrivacyPolicy', '《개인정보 보호정책》', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529181, 'adminUser_password', '비밀번호', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529182, 'doubleCheck', '계속 진행하시겠습니까?!', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529183, 'menus.pureWaterfall', '폭포 스크롤', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529184, 'menus.pureBoard', '아트 보드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529185, 'login.purePassWordUpdateReg', '비밀번호 수정 성공', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529186, 'menus.purePermission', '권한 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529187, 'login.pureVerifyCodeReg', '인증 코드를 입력하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529188, 'emailUsers', '이메일 사용자 구성', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529189, 'menus.pureWavesurfer', '오디오 시각화', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529190, 'login.pureTickPrivacy', '개인정보 보호정책에 동의하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686932529191, 'menus.pureElButton', '버튼', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723457, 'quartzExecuteLog_jobName', '작업 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723458, 'status.systemMessage', '시스템 메시지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723459, 'delete', '삭제', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723460, 'role_description', '역할 상세 정보', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723461, 'formatError', '형식 오류', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723462, 'total', '총계', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723463, 'routerPathTip', '라우팅 경로는 필수 항목이며 \'/\'로 시작해야 합니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723464, 'buttons.pureAccountSettings', '계정 설정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723465, 'login.getCodeInfo', '초 후 인증 코드 받기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723466, 'extra', '메시지 요약', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723467, 'menus.pureSuccess', '성공 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723468, 'login.getEmailCode', '인증 코드 받기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723469, 'status.pureTodo', '할 일', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723470, 'menus.pureFourZeroFour', '404', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723471, 'menus.pureMenu1-1', '메뉴 1-1', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723472, 'menus.pureUser', '사용자 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723473, 'menus.pureMenu1-2', '메뉴 1-2', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723474, 'menus.pureMenu1-3', '메뉴 1-3', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723475, 'buttons.pureClickExpand', '클릭하여 펼치기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723476, 'user_status', '사용자 상태', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723477, 'menus.pureSchemaForm', '양식', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723478, 'buttons.accountSettings', '계정 설정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723479, 'buttons.pureCloseAllTabs', '모든 탭 닫기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723480, 'fold_all', '모두 접기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723481, 'buttons.pureLogin', '로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723482, 'search.pureHistory', '검색 기록', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723483, 'markAsUnread', '읽지 않음으로 표시', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723484, 'korean', '한국어', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723485, 'menus.pureOperationLog', '작업 로그', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723486, 'panel.pureStretchCustom', '사용자 정의', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723487, 'security_log', '보안 로그', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723488, 'greyStyle', '회색 모드 활성화 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723489, 'system_file', '시스템 파일 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723490, 'menus.purePiniaDoc', 'pinia', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723491, 'bytes', '바이트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723492, 'schedulers_description', '스케줄러 상세 정보', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686936723493, 'iconCode', '아이콘 클래스 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917762, 'adminUser_status', '상태', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917763, 'darkMode', '다크 모드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917764, 'menus.pureBarcode', '바코드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917765, 'knife4j', 'knife4j', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917766, 'menus.pureUpload', '파일 업로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917767, 'schedulersGroup_description', '작업 스케줄링 상세 정보', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917768, 'user_details', '사용자 상세 정보', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917769, 'op_time', '작업 시간', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917770, 'menus.pureEditor', '편집기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917771, 'addNew', '새로 추가', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917772, 'quartzExecuteLog', '작업 실행 로그', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917773, 'panel.pureOverallStyleLight', '라이트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917774, 'danger', '위험', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917775, 'cover', '커버', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917776, 'userLoginLog_viewportWidth', '뷰포트 너비', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917777, 'panel.pureGreyModel', '회색 모드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917778, 'routerName', '라우팅 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917779, 'menus.pureCollapse', '접기 패널', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917780, 'menus.pureMenus', '다단계 메뉴', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917781, 'panel.pureTagsStyle', '탭 스타일', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917782, 'upload_avatar', '아바타 업로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917783, 'panel.pureHiddenFooter', '푸터 숨기기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917784, 'adminUser_summary', '요약', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917785, 'sidebarStatus', '사이드바 상태', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917786, 'monitoring', '시스템 모니터링', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917787, 'menus.pureDept', '부서 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917788, 'i18n', '다국어 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917789, 'adminUser_avatar', '아바타', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917790, 'userLoginLog_contentDpr', '장치 픽셀 비율', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917791, 'input', '입력', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917792, 'menus.pureExcel', 'Excel 내보내기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917793, 'login.purePhoneLogin', '휴대폰 로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917794, 'power_requestUrl', '요청 URL', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917795, 'i18n.translation', '번역', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917796, 'menuIcon_iconName', '아이콘 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917797, 'emailTemplate_type', '템플릿 유형', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917798, 'update_information', '정보 업데이트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917799, 'userLoginLog_secChUaModel', '장치 모델', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917800, 'update_tip', '데이터 백업을 확인하여 손실을 방지하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917801, 'menus.pureFlowChart', '플로우 차트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917802, 'unread', '읽지 않음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917803, 'menus.pureSystemMenu', '메뉴 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917804, 'menus.pureTag', '태그', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917805, 'userLoginLog_xRequestedWith', '요청 방식', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917806, 'menus.pureTableBase', '기본 사용법', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917807, 'panel.pureTagsStyleCard', '카드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917808, 'files_fileType', '파일 유형', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917809, 'iconify', 'iconify 아이콘', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917810, 'lastLoginIp', 'IP 주소', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917811, 'default', '기본값', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917812, 'hiddenSideBar', '사이드바 숨기기 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917813, 'assign_roles', '역할 할당', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917814, 'system_i18n', '다국어', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917815, 'download_excel', 'Excel 다운로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917816, 'menus.pureGuide', '가이드 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917817, 'markdown', 'Markdown', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917818, 'panel.pureTagsStyleChromeTip', '구글 스타일, 클래식하고 아름다움', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917819, 'upload_success', '업로드 성공', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917820, 'menus.pureFourZeroOne', '403', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917821, 'userLoginLog_dpr', '장치 픽셀 비율', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917822, 'menus.pureMenu2', '메뉴 2', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917823, 'email', '이메일', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917824, 'menus.pureMenu1', '메뉴 1', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686940917825, 'role_roleCode', '역할 코드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112066, 'delete_success', '삭제 성공', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112067, 'keepAlive', '활성 상태 유지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112068, 'image_size', '이미지 크기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112069, 'messageReceivingManagement', '메시지 수신 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112070, 'login.pureSmsVerifyCode', 'SMS 인증 코드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112071, 'menus.pureJsonEditor', 'JSON 편집기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112072, 'login.purePhoneCorrectReg', '올바른 휴대폰 번호 형식을 입력하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112073, 'buttons.pureTagsStyleCard', '카드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112074, 'cancel_delete', '삭제 취소', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112075, 'dept', '부서 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112076, 'login.pureSure', '비밀번호 확인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112077, 'login.login', '로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112078, 'search.pureEmpty', '검색 결과 없음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112079, 'confirm', '확인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112080, 'login.pureRememberInfo', '로그인 후 지정된 일수 동안 자동으로 시스템에 로그인됩니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112081, 'readMeDay', '기억하기 기간', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112082, 'menus.pureFormDesign', '양식 디자이너', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112083, 'menus.pureMenuTree', '메뉴 트리 구조', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112084, 'login.purePassWordRuleReg', '비밀번호 형식은 8-18자리 숫자, 문자, 기호 중 두 가지 조합이어야 합니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112085, 'logManagement', '로그 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112086, 'i18n_typeName', '다국어 유형 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112087, 'menus.pureExternalDoc', '외부 문서 링크', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112088, 'update_batches_parent', '상위 일괄 업데이트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112089, 'userLoginLog_ipRegion', 'IP 소재지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112090, 'panel.pureStretchFixedTip', '간결한 페이지, 필요한 정보를 쉽게 찾을 수 있습니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112091, 'menus.pureVxeTable', '가상 스크롤', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112092, 'login.pureBack', '뒤로', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112093, 'view', '보기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112094, 'forcedOffline', '관리자 강제 오프라인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112095, 'systemi18n', '다국어', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112096, 'quartzExecuteLog_jobClassName', '작업 클래스 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112097, 'status.pureMessage', '메시지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112098, 'panel.pureTagsStyleSmart', '스마트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112099, 'menus.pureProgress', '진행 표시줄', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112100, 'menus.pureInfiniteScroll', '테이블 무한 스크롤', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112101, 'login.pureWeChatLogin', '위챗 로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112102, 'schedulers_triggerState', '트리거 상태', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112103, 'table.updateUser', '업데이트 사용자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112104, 'menus.pureLogin', '로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112105, 'menus.pureComponents', '컴포넌트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112106, 'iconName', '아이콘 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112107, 'menus.pureCropping', '이미지 자르기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112108, 'dept_manager', '관리자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686945112109, 'no_data', '데이터 없음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306370, 'userLoginLog_userId', '사용자 ID', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306371, 'menus.home', '홈', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306372, 'menus.pureUiGradients', '그라데이션 색상', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306373, 'buttons.pureCloseCurrentTab', '현재 탭 닫기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306374, 'menus.purePrint', '인쇄', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306375, 'knife4j_Interface_documentation', 'knife4j 인터페이스 문서', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306376, 'lastLoginIpAddress', '소재지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306377, 'files_downloadCount', '다운로드 횟수', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306378, 'emailTemplate_subject', '제목', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306379, 'buttons.pureConfirm', '확인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306380, 'menus.pureFive', '500', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306381, 'menus.pureSysMonitor', '시스템 모니터링', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306382, 'userLoginLog_ipAddress', 'IP 주소', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306383, 'expires', '만료 시간', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306384, 'more_actions', '추가 작업', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306385, 'hidden', '숨김', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306386, 'submit', '제출', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306387, 'menus.pureMqtt', 'MQTT 클라이언트(mqtt)', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306388, 'show', '표시', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306389, 'description', '상세 정보', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306390, 'system_files', '백엔드 파일 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306391, 'update', '업데이트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306392, 'menus.pureFail', '실패 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306393, 'receivedUserIds', '수신 사용자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306394, 'userLoginLog', '사용자 로그인 로그', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306395, 'contentTooShortTip', '내용은 30자 이상이어야 합니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306396, 'login.pureThirdLogin', '제3자 로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306397, 'scheduler', '예약 작업', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306398, 'download_configuration', '구성 다운로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306399, 'login.pureInfo', '초 후 다시 받기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306400, 'emailTemplate_templateName', '템플릿 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306401, 'account_management', '계정 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306402, 'continue_adding', '계속 추가', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306403, 'adminUser_email', '이메일', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306404, 'login.pureTip', '스캔 후 \"확인\"을 클릭하면 로그인이 완료됩니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306405, 'userinfo', '사용자 정보', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306406, 'systemCaches', '시스템 캐시', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306407, 'summary', '요약', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306408, 'normal', '정상', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306409, 'menus.purePermissionButton', '버튼 권한', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306410, 'login.pureQQLogin', 'QQ 로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306411, 'table.acceptanceTime', '수신 시간', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306412, 'systemManagement', '시스템 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306413, 'update_multilingual', '다국어 업데이트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306414, 'need_number', '숫자 필요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306415, 'upload_user_avatar_tip', '아바타 업로드 성공 시 자동 저장되지 않습니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306416, 'layout', '애플리케이션 레이아웃', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306417, 'login.pureTest', '모의 테스트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306418, 'webConifg', '웹 구성', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306419, 'adminUser', '백엔드 사용자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306420, 'external_pages', '외부 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306421, 'appLocale', '로컬 언어', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306422, 'quartzExecuteLog_cronExpression', 'cron 표현식', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306423, 'login.pureVerifyCodeSixReg', '6자리 숫자 인증 코드를 입력하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306424, 'menus.pureContextmenu', '오른쪽 클릭 메뉴', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306425, 'panel.pureMixTip', '혼합 메뉴, 유연하고 다양함', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686949306426, 'externalLink', '외부 링크', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694977, 'panel.pureMultiTagsCache', '탭 지속성', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694978, 'hideFooter', '푸터 숨기기 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694979, 'file_import', '파일 가져오기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694980, 'markAsRead', '읽음으로 표시', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694981, 'login.username', '사용자 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694982, 'files_filename', '파일 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694983, 'menus.pureQrcode', 'QR 코드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694984, 'Interface_documentation', '인터페이스 문서', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694985, 'logout', '로그아웃', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694986, 'menus.pureAble', '기능', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694987, 'menus.pureVideo', '비디오', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694988, 'enable', '활성화됨', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694989, 'login.purePassword', '비밀번호', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694990, 'search.pureDragSort', '(드래그 정렬 가능)', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694991, 'menus.pureSplitPane', '분할 패널', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694992, 'menus.pureColorHuntDoc', '색상 팔레트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694993, 'menus.pureGanttastic', '간트 차트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694994, 'menus.pureIconSelect', '아이콘 선택기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694995, 'buttons.pureTagsStyleChrome', '구글', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694996, 'login.pureWeiBoLogin', '웨이보 로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694997, 'emailTemplate', '이메일 템플릿', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694998, 'buttons.pureCloseRightTabs', '오른쪽 탭 닫기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957694999, 'rest_password_tip', '비밀번호를 잊어버리거나 재설정할 경우, 비밀번호 수정 후 로그인 페이지로 이동하여 다시 로그인해야 합니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695000, 'emailUsers_port', '포트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695001, 'phone', '휴대폰 번호', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695002, 'dept_summary', '부서 요약', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695003, 'menus.pureDraggable', '드래그', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695004, 'confirm_update_status', '상태 수정을 확인하시겠습니까', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695005, 'menus.purePinyin', '한어 병음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695006, 'primary', '기본값', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695007, 'power_powerCode', '권한 코드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695008, 'userLoginLog_userAgent', '사용자 에이전트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695009, 'userLoginLog_secChUaMobile', '모바일 장치 여부', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695010, 'userLoginLog_downlink', '대역폭', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695011, 'menus.pureSystemLog', '시스템 로그', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695012, 'login.emailCode', '인증 코드 입력', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695013, 'emailUsers_email', '이메일', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695014, 'portion', '부분', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695015, 'login.pureReadAccept', '나는 주의 깊게 읽고 동의합니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695016, 'i18n.keyName', '다국어 키', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695017, 'table.operation', '작업', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695018, 'external_chaining', '외부 링크', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695019, 'panel.pureHiddenTags', '탭 숨기기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695020, 'login.pureVerifyCode', '인증 코드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695021, 'cropper_preview_tips', '팁: 오른쪽 클릭으로 기능 메뉴를 열 수 있습니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686957695022, 'weakStyle', '색약 모드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083585, 'theme', '테마', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083586, 'menus.pureTimeline', '타임라인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083587, 'power', '권한 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083588, 'messageManagement', '메시지 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083589, 'menus.purePdf', 'PDF 미리보기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083590, 'menus.pureMenu1-2-1', '메뉴 1-2-1', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083591, 'schedulers_triggerName', '트리거 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083592, 'menus.pureRouterDoc', 'vue-router', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083593, 'menus.pureMenu1-2-2', '메뉴 1-2-2', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083594, 'systemMenuIcon.officialWebsite', '메뉴 아이콘 공식 웹사이트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083595, 'login.pureRegisterSuccess', '등록 성공', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083596, 'login.pureRemember', '일 동안 자동 로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083597, 'panel.pureStretchFixed', '고정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083598, 'menus.pureMenuOverflow', '디렉토리 오버플로우 툴팁 표시', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083599, 'not_added', '추가되지 않음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083600, 'pure_admin', '백엔드 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083601, 'emailUsers_emailTemplate', '연관 템플릿', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083602, 'login.pureAlipayLogin', '알리페이 로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083603, 'menus.pureViteDoc', 'vite', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083604, 'componentPath', '컴포넌트 경로', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083605, 'menus.pureMindMap', '마인드 맵', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083606, 'buttons.pureLoginOut', '시스템 로그아웃', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083607, 'embedded_doc', '내장 문서', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083608, 'menus.pureVueDoc', 'vue3', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083609, 'panel.pureOverallStyleSystemTip', '시간 동기화, 인터페이스가 자연스럽게 조화를 이룹니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083610, 'menus.pureOnlineUser', '온라인 사용자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083611, 'menus.pureDrawer', '함수형 서랍', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083612, 'buttons.pureOpenSystemSet', '시스템 구성 열기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083613, 'userLoginLog_secChUaPlatform', '운영 체제/플랫폼', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083614, 'panel.pureTagsStyleChrome', '구글', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083615, 'panel.pureStretch', '페이지 너비', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083616, 'adminUser_sex', '성별', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083617, 'login.usernameRegex', '사용자 이름 형식 오류', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083618, 'userLoginLog_secChUaArch', '플랫폼 아키텍처', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083619, 'panel.pureClearCacheAndToLogin', '캐시 지우고 로그인 페이지로 이동', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083620, 'roleCode', '역할 코드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083621, 'emailTemplate_body', '템플릿 내용', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083622, 'menus.purePermissionButtonRouter', '라우팅 버튼 권한 반환', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083623, 'systemMaintenance', '시스템 유지보수', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083624, 'panel.pureVerticalTip', '왼쪽 메뉴, 친숙하고 익숙함', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083625, 'showModel', '표시할 모델', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083626, 'crop_and_upload_avatars', '아바타 자르기 및 업로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083627, 'visible', '숨김', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083628, 'messageSendManagement', '메시지 발송 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083629, 'login.pureUsernameReg', '계정을 입력하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083630, 'menus.pureSeamless', '끊김 없는 스크롤', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083631, 'richText', '리치 텍스트', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083632, 'external_doc', '외부 문서 링크', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083633, 'pause', '일시 정지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083634, 'panel.pureClearCache', '캐시 지우기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083635, 'menus.pureExternalPage', '외부 페이지', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083636, 'menus.pureSensitive', '민감어 필터링', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083637, 'files', '파일', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083638, 'monitoring_server', '서비스 모니터링', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083639, 'schedulers_jobClassName', '작업 클래스 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083640, 'panel.pureTagsStyleSmartTip', '스마트 태그, 재미 추가', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686966083641, 'admin_user', '사용자 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277889, 'schedulersGroup_groupName', '그룹 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277890, 'buttons.pureCloseOtherTabs', '다른 탭 닫기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277891, 'status.pureNoMessage', '메시지 없음', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277892, 'confirmUpdateConfiguration', '구성 수정을 확인하시겠습니까?', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277893, 'configuration', '시스템 구성', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277894, 'update_success', '수정 성공', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277895, 'schedulers_jobName', '작업 이름', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277896, 'email_user_send_config', '이메일 사용자 발송 구성 관리', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277897, 'routerNameTip', '라우팅 이름은 필수 항목입니다', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277898, 'menus.pureUtilsLink', 'pure-admin-utils', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277899, 'menuIcon_preview', '아이콘 미리보기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277900, 'sendUserId', '발신 사용자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277901, 'panel.pureTagsStyleCardTip', '카드 태그, 효율적인 탐색', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277902, 'menus.pureDateTimePicker', '날짜 시간 선택기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277903, 'confirm_forcedOffline', '이 사용자를 강제로 오프라인하시겠습니까', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277904, 'menus.pureTailwindcssDoc', 'tailwindcss', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277905, 'menus.pureDanmaku', '탄막', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277906, 'menus.pureDialog', '함수형 대화 상자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277907, 'menus.pureTable', '테이블', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277908, 'download_json', 'JSON 다운로드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277909, 'confirm_update_sort', '정렬 업데이트를 확인하시겠습니까', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277910, 'panel.pureLayoutModel', '탐색 모드', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277911, 'login.pureLoginSuccess', '로그인 성공', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277912, 'i18n_type_setting', '다국어 유형', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277913, 'menus.pureEpDoc', 'element-plus', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277914, 'panel.pureSystemSet', '시스템 구성', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277915, 'login.pureLogin', '로그인', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277916, 'panel.pureHorizontalTip', '상단 메뉴, 간결한 개요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277917, 'emailTemplate_emailUser', '이메일 템플릿 사용자', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277918, 'login.pureForget', '비밀번호를 잊으셨나요?', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277919, 'login.purePhoneReg', '휴대폰 번호를 입력하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277920, 'login.pureLoginFail', '로그인 실패', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277921, 'search.pureCollect', '즐겨찾기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277922, 'buttons.pureClose', '닫기', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277923, 'deleteBatchPlaceholder', '확인하려면 yes/YES/y/Y를 입력하세요', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1918989686970277924, 'reset_passwords', '비밀번호 재설정', 'korean', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
-INSERT INTO `sys_i18n` VALUES (1920118261500907521, 'isAppend', '是否追加', 'zh', 1, 1, '2025-05-07 22:07:22', '2025-05-07 22:07:22', 0);
-INSERT INTO `sys_i18n` VALUES (1920118288059240449, 'isAppend', 'Append or not', 'en', 1, 1, '2025-05-07 22:07:29', '2025-05-07 22:07:29', 0);
-INSERT INTO `sys_i18n` VALUES (1920118312507838465, 'isAppend', '추가 여부', 'korean', 1, 1, '2025-05-07 22:07:34', '2025-05-07 22:07:34', 0);
-INSERT INTO `sys_i18n` VALUES (1920119227348455425, 'update_i18n_tip', '更新时先备份数据，避免丢失。若选择追加内容，需先删除原内容，否则会失败。新内容将添加到文件中。', 'zh', 1, 1, '2025-05-07 22:11:13', '2025-05-07 22:11:13', 0);
-INSERT INTO `sys_i18n` VALUES (1920119854090719233, 'update_i18n_tip', 'When updating, back up your data first to avoid loss. If you choose to append content, delete the existing content first; otherwise, it will fail. The new content will be added to the file.', 'en', 1, 1, '2025-05-07 22:13:42', '2025-05-07 22:13:42', 0);
-INSERT INTO `sys_i18n` VALUES (1920119887796146177, 'update_i18n_tip', '업데이트 시 데이터 손실을 방지하려면 먼저 백업하세요. 내용을 추가할 경우 기존 내용을 먼저 삭제해야 합니다. 그렇지 않으면 실패할 수 있습니다. 새 내용은 파일에 추가됩니다.', 'korean', 1, 1, '2025-05-07 22:13:50', '2025-05-07 22:13:50', 0);
-INSERT INTO `sys_i18n` VALUES (1920691632027262977, 'ext', '扩展名', 'zh', 1, 1, '2025-05-09 12:05:44', '2025-05-09 12:05:44', 0);
-INSERT INTO `sys_i18n` VALUES (1920691632035651585, 'platform', '平台', 'zh', 1, 1, '2025-05-09 12:05:44', '2025-05-09 12:05:44', 0);
-INSERT INTO `sys_i18n` VALUES (1920691657432162306, 'ext', 'extension', 'en', 1, 1, '2025-05-09 12:05:51', '2025-05-09 12:05:51', 0);
-INSERT INTO `sys_i18n` VALUES (1920691657432162307, 'platform', 'platform', 'en', 1, 1, '2025-05-09 12:05:51', '2025-05-09 12:05:51', 0);
-INSERT INTO `sys_i18n` VALUES (1920691681763319810, 'ext', '확장자', 'korean', 1, 1, '2025-05-09 12:05:56', '2025-05-09 12:05:56', 0);
-INSERT INTO `sys_i18n` VALUES (1920691681763319811, 'platform', '플랫폼', 'korean', 1, 1, '2025-05-09 12:05:56', '2025-05-09 12:05:56', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686894780417, 'cancel', '취소', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686894780418, 'menus.pureVerify', '그래픽 인증 코드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686894780419, 'buttons.pureTagsStyleCardTip', '카드 태그, 효율적인 탐색', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686894780420, 'buttons.pureTagsStyle', '탭 스타일', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686894780421, 'i18n.typeId', '유형 ID', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686894780422, 'menus.pureRole', '역할 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686894780423, 'login.purePhone', '휴대폰 번호', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974722, 'search.purePlaceholder', '메뉴 검색 (한어 병음 검색 지원)', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974723, 'readAlready', '읽음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974724, 'menus.pureCheckCard', '다중 선택 카드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974725, 'menus.pureTimePicker', '시간 선택기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974726, 'overallStyle', '애플리케이션의 전체 스타일', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974727, 'menus.pureButton', '버튼 애니메이션', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974728, 'adminUser_phone', '휴대폰 번호', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974729, 'path', '라우팅 경로', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974730, 'receivedUserIdTip', '비워두면 모든 사용자에게 알림', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974731, 'schedulers', '스케줄링 작업', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974732, 'messageType', '메시지 유형', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974733, 'panel.pureThemeColor', '테마 색상', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974734, 'buttons.pureContentFullScreen', '콘텐츠 영역 전체 화면', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974735, 'buttons.pureCloseText', '닫기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974736, 'emailUsers_host', '호스트 주소', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974737, 'no_default', '기본값 없음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974738, 'returnToHomepage', '홈페이지로 돌아가기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974739, 'cachingAsyncRoutes', '비동기 라우팅 캐시 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974740, 'panel.pureOverallStyleSystem', '자동', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974741, 'panel.pureOverallStyle', '전체 스타일', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974742, 'multilingualManagement', '다국어 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974743, 'userLoginLog_secChUa', '브랜드 및 버전', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974744, 'userLoginLog_ect', '유효 연결 유형', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974745, 'userLoginLog_secChUaBitness', 'CPU 아키텍처 비트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974746, 'version', '버전', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974747, 'menus.pureCascader', '지역 계단식 선택기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974748, 'isDefault', '기본값 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974749, 'menus.purePermissionButtonLogin', '로그인 인터페이스 버튼 권한 반환', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974750, 'multiTagsCache', '여러 태그 캐시 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974751, 'menuNameTip', '메뉴 이름은 필수 항목입니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974752, 'table.createTime', '생성 시간', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974753, 'menus.pureDatePicker', '날짜 선택기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974754, 'receivedUserNickname', '수신자 닉네임', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974755, 'role', '역할 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974756, 'panel.pureOverallStyleDark', '다크', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974757, 'delete_batches', '일괄 삭제', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974758, 'buttons.pureCloseLeftTabs', '왼쪽 탭 닫기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686898974759, 'isRead', '읽음 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363330, 'system_setting', '시스템 설정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363331, 'buttons.pureBackTop', '맨 위로', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363332, 'appTitle', '웹페이지 제목', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363333, 'menus.pureList', '목록 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363334, 'menus.pureTypeit', '타자기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363335, 'logged_in_user', '로그인된 사용자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363336, 'search', '검색', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363337, 'userLoginLog_deviceMemory', '메모리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363338, 'menus.pureEmbeddedDoc', '내장 문서', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363339, 'drop_file_here', '파일을 여기로 드래그하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363340, 'delete_warning', '삭제 경고', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363341, 'nickname', '닉네임', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363342, 'dept_deptName', '부서 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363343, 'buttons.pureClickCollapse', '클릭하여 접기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363344, 'resume', '재개', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363345, 'menus.pureSysManagement', '시스템 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363346, 'userLoginLog_width', '뷰포트 너비', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363347, 'inputRuleMustBeEnglish', '영어로 입력해야 합니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363348, 'sex', '성별', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363349, 'allMarkAsRead', '모두 읽음으로 표시', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363350, 'sorryServerError', '죄송합니다, 서버 오류가 발생했습니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363351, 'routerPath', '라우팅 경로', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363352, 'menus.pureSegmented', '세그먼트 컨트롤러', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363353, 'menus.pureLineTree', '트리 연결선', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363354, 'menus.pureSwiper', 'Swiper 플러그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363355, 'adminUser_username', '사용자 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363356, 'menus.pureDownload', '다운로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363357, 'required_fields', '필수 항목 작성', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363358, 'i18n_summary', '다국어 상세 설명', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363359, 'adminUser_dept', '부서', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363360, 'menuSearchHistory', '메뉴 검색 기록', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363361, 'quartzExecuteLog_executeResult', '실행 결과', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363362, 'click_to_upload', '파일 업로드 클릭', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363363, 'userLoginLog_token', '토큰', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363364, 'added', '추가됨', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363365, 'assignBatchRolesToRouter', '일괄 역할 할당', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363366, 'animationNotExist', '애니메이션이 존재하지 않습니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363367, 'status.pureNoTodo', '할 일 없음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686907363368, 'menus.pureHome', '홈', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557634, 'confirmText', '확인 텍스트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557635, 'inputRequestUrlTip', '요청 URL은 \'/\'로 시작해야 합니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557636, 'menuName', '메뉴 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557637, 'login.password', '비밀번호', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557638, 'fixedHeader', '헤더 고정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557639, 'power_parentId', '권한 상위', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557640, 'menus.pureTableHigh', '고급 사용법', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557641, 'dept_remarks', '비고', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557642, 'warning', '경고', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557643, 'female', '여성', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557644, 'schedulers_jobGroup', '작업 그룹', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557645, 'info', '정보', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557646, 'add', '추가', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557647, 'buttons.pureTagsStyleChromeTip', '구글 스타일, 클래식하고 아름다움', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557648, 'status.pureNoNotify', '알림 없음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557649, 'buttons.pureTagsStyleSmart', '스마트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557650, 'logged_in', '로그인함', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557651, 'quartzExecuteLog_triggerName', '트리거 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557652, 'emailUsers_isDefault', '기본값 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557653, 'menus.pureEmpty', '레이아웃 없는 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557654, 'menus.pureVideoFrame', '비디오 프레임 캡처-wasm 버전', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557655, 'buttons.pureOpenText', '열기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557656, 'menus.pureRipple', '리플(Ripple)', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557657, 'buttons.reset', '재설정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557658, 'adminUser_nickname', '닉네임', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557659, 'search.pureTotal', '총', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557660, 'login.purePassWordDifferentReg', '두 비밀번호가 일치하지 않습니다!', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557661, 'success', '성공', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557662, 'login.pureDefinite', '확인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557663, 'panel.pureOverallStyleLightTip', '상쾌한 출발, 편안한 작업 인터페이스', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557664, 'menus.pureText', '텍스트 생략', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557665, 'messageName', '메시지 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557666, 'sorryNoAccess', '죄송합니다, 이 페이지에 접근할 권한이 없습니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557667, 'menuArrowIconNoTransition', '메뉴 화살표 아이콘 전환 효과 없음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557668, 'assignBatchRolesToRouterTip', '일괄 역할 할당은 이미 할당된 역할을 제거하고 역할을 추가하지 않습니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557669, 'notifyAll', '모두 알림', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557670, 'requestMethod', '요청 방법', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557671, 'for', '위해', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557672, 'back', '뒤로', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557673, 'forced_offline', '강제 오프라인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557674, 'title', '제목', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557675, 'take_back', '회수', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557676, 'content', '내용', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557677, 'stretch', '늘리기 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557678, 'confirm_update_password', '비밀번호 수정을 확인하시겠습니까', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557679, 'emailUsers_password', '비밀번호', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557680, 'pixel', '픽셀', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557681, 'menus.pureColorPicker', '색상 선택기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557682, 'schedulers_cronExpression', 'cron 표현식', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557683, 'menus.pureWatermark', '워터마크', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557684, 'monitor', '시스템 모니터링', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557685, 'userLoginLog_username', '사용자 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686911557686, 'power_powerName', '권한 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946242, 'message', '메시지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946243, 'confirmDelete', '삭제를 확인하시겠습니까', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946244, 'login.pureQRCodeLogin', 'QR 코드 로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946245, 'login.purePassWordSureReg', '비밀번호 확인을 입력하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946246, 'modify', '수정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946247, 'clearAllRolesSelect', '모든 역할 선택 해제', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946248, 'menus.pureMap', '지도', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946249, 'menus.pureOptimize', '디바운스, 스로틀, 복사, 롱 프레스 지시어', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946250, 'i18n.typeName', '유형 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946251, 'menus.pureAnimatecss', 'animate.css 선택기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946252, 'login.pureUsername', '계정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946253, 'pleaseSelectAnimation', '애니메이션을 선택하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946254, 'no_server', '서비스 없음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946255, 'clearAllRolesSelectTip', '이 작업은 할당된 메뉴 역할을 모두 제거하며, 확인 후 복구할 수 없습니다. 메뉴 아래 할당된 역할도 모두 제거됩니다!!!', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946256, 'username', '사용자 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946257, 'copyright', '저작권', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946258, 'menus.pureTableEdit', '편집 가능 사용법', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946259, 'select', '선택', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946260, 'epThemeColor', '테마 색상', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946261, 'userLoginLog_type', '작업 유형', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946262, 'sorryPageNotFound', '죄송합니다, 방문하신 페이지가 존재하지 않습니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946263, 'login.pureVerifyCodeCorrectReg', '올바른 인증 코드를 입력하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946264, 'select_icon', '아이콘 선택', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946265, 'batchUpdates', '일괄 업데이트를 확인하시겠습니까?', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946266, 'menus.pureTabs', '탭 작업', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946267, 'buttons.pureTagsStyleSmartTip', '스마트 태그, 재미 추가', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946268, 'system_menu', '시스템 메뉴', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946269, 'dept_parentId', '부서 상위', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946270, 'i18n_type', '다국어 유형', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946271, 'id', '기본 키', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946272, 'emailUsers_smtpAgreement', 'smtp 프로토콜', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946273, 'status.pureNotify', '알림', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946274, 'power_setting', '권한 설정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946275, 'messageEditing', '메시지 편집', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946276, 'modifyingConfiguration', '구성 수정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946277, 'download_batch', '일괄 다운로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946278, 'menus.purePermissionPage', '페이지 권한', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946279, 'login.pureGetVerifyCode', '인증 코드 받기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946280, 'panel.pureCloseSystemSet', '구성 닫기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946281, 'element_plus', 'Element Plus UI', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946282, 'index', '순번', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946283, 'email_login', '이메일 로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946284, 'menus.pureCardList', '카드 목록 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946285, 'menus.pureAbout', '정보', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946286, 'table.createUser', '생성 사용자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946287, 'account_password', '계정 비밀번호', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946288, 'panel.pureStretchCustomTip', '최소 1280, 최대 1600', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946289, '404', '404', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946290, 'deleteBatches', '일괄 삭제', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946291, 'menus.pureCheckButton', '선택 가능 버튼', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946292, 'menuType', '메뉴 유형', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686919946293, 'buttons.pureContentExitFullScreen', '콘텐츠 영역 전체 화면 종료', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334850, 'status', '상태', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334851, 'external_page', '외부 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334852, 'menus.pureVirtualList', '가상 목록', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334853, 'login.pureRegister', '등록', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334854, 'buttons.pureInterfaceDisplay', '인터페이스 표시', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334855, 'userPassword', '사용자 비밀번호', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334856, 'menuIcon_iconCode', '아이콘 클래스 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334857, 'quartzExecuteLog_endTime', '종료 시간', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334858, 'login', '로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334859, 'menus.pureLoginLog', '로그인 로그', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334860, 'menus.pureExternalLink', 'vue-pure-admin', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334861, 'userLoginLog_rtt', '왕복 시간', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334862, 'schedulers_jobMethodName', '메서드 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334863, 'menus.pureCountTo', '숫자 애니메이션', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334864, 'tooltipEffect', '도구 설명 효과', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334865, 'menus.pureStatistic', '통계 컴포넌트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334866, 'man', '남성', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334867, 'addMultilingual', '다국어 추가', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334868, 'use_json_update', 'JSON으로 업데이트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334869, 'login.purePassWordReg', '비밀번호를 입력하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334870, 'view_user_info', '사용자 정보 보기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334871, 'schedulersGroup', '작업 스케줄링 그룹', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334872, 'avatar', '아바타', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334873, 'deleteBatchTip', '일괄 삭제를 확인하려면 yes/YES/y/Y를 입력하세요. 이 작업은 되돌릴 수 없습니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334874, 'menu', '메뉴', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334875, 'file_size', '파일 크기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334876, 'menus.pureDebounce', '디바운스', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334877, 'use_excel_update', 'Excel로 업데이트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334878, 'sendNickname', '발신자 닉네임', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334879, 'disable', '비활성화', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334880, 'userLoginLog_secChUaPlatformVersion', '운영 체제 버전', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334881, 'responsiveStorageNameSpace', '반응형 저장소 네임스페이스', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334882, 'panel.pureWeakModel', '색약 모드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334883, 'panel.pureInterfaceDisplay', '인터페이스 표시', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334884, 'editorType', '편집기 유형', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686928334885, 'unfold_all', '모두 펼치기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529153, 'Searching_for_router', '라우팅 검색', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529154, 'panel.pureOverallStyleDarkTip', '달빛 서곡, 밤의 고요한 아름다움에 빠지다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529155, 'showLogo', '로고 표시 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529156, 'menuIcon', '메뉴 아이콘', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529157, 'status.pureLoad', '로딩 중...', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529158, 'files_filepath', '파일 저장 경로', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529159, 'quartzExecuteLog_duration', '실행 시간', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529160, 'swagger', 'swagger', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529161, 'format_error', '형식 오류', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529162, 'Searching_for_roles', '역할 검색', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529163, 'menus.pureAbnormal', '예외 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529164, 'download', '다운로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529165, 'quartzExecuteLog_jobGroup', '작업 그룹', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529166, 'menus.pureChildMenuOverflow', '메뉴 오버플로우 툴팁 표시', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529167, 'previousMenu', '상위 메뉴', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529168, 'buttons.pureSwitch', '전환', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529169, 'menus.pureResult', '결과 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529170, 'login.loginSuccess', '로그인 성공', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529171, 'personDescription', '개인 상세 정보', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529172, 'all', '전체', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529173, 'table.updateTime', '업데이트 시간', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529174, 'hideTabs', '탭 숨기기 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529175, 'level', '메시지 레벨', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529176, 'menus.pureSelector', '범위 선택기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529177, 'menus.pureMessage', '메시지 알림', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529178, 'sort', '정렬', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529179, 'buttons.pureReload', '다시 로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529180, 'login.purePrivacyPolicy', '《개인정보 보호정책》', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529181, 'adminUser_password', '비밀번호', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529182, 'doubleCheck', '계속 진행하시겠습니까?!', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529183, 'menus.pureWaterfall', '폭포 스크롤', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529184, 'menus.pureBoard', '아트 보드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529185, 'login.purePassWordUpdateReg', '비밀번호 수정 성공', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529186, 'menus.purePermission', '권한 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529187, 'login.pureVerifyCodeReg', '인증 코드를 입력하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529188, 'emailUsers', '이메일 사용자 구성', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529189, 'menus.pureWavesurfer', '오디오 시각화', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529190, 'login.pureTickPrivacy', '개인정보 보호정책에 동의하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686932529191, 'menus.pureElButton', '버튼', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723457, 'quartzExecuteLog_jobName', '작업 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723458, 'status.systemMessage', '시스템 메시지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723459, 'delete', '삭제', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723460, 'role_description', '역할 상세 정보', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723461, 'formatError', '형식 오류', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723462, 'total', '총계', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723463, 'routerPathTip', '라우팅 경로는 필수 항목이며 \'/\'로 시작해야 합니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723464, 'buttons.pureAccountSettings', '계정 설정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723465, 'login.getCodeInfo', '초 후 인증 코드 받기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723466, 'extra', '메시지 요약', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723467, 'menus.pureSuccess', '성공 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723468, 'login.getEmailCode', '인증 코드 받기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723469, 'status.pureTodo', '할 일', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723470, 'menus.pureFourZeroFour', '404', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723471, 'menus.pureMenu1-1', '메뉴 1-1', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723472, 'menus.pureUser', '사용자 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723473, 'menus.pureMenu1-2', '메뉴 1-2', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723474, 'menus.pureMenu1-3', '메뉴 1-3', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723475, 'buttons.pureClickExpand', '클릭하여 펼치기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723476, 'user_status', '사용자 상태', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723477, 'menus.pureSchemaForm', '양식', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723478, 'buttons.accountSettings', '계정 설정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723479, 'buttons.pureCloseAllTabs', '모든 탭 닫기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723480, 'fold_all', '모두 접기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723481, 'buttons.pureLogin', '로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723482, 'search.pureHistory', '검색 기록', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723483, 'markAsUnread', '읽지 않음으로 표시', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723484, 'korean', '한국어', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723485, 'menus.pureOperationLog', '작업 로그', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723486, 'panel.pureStretchCustom', '사용자 정의', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723487, 'security_log', '보안 로그', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723488, 'greyStyle', '회색 모드 활성화 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723489, 'system_file', '시스템 파일 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723490, 'menus.purePiniaDoc', 'pinia', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723491, 'bytes', '바이트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723492, 'schedulers_description', '스케줄러 상세 정보', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686936723493, 'iconCode', '아이콘 클래스 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917762, 'adminUser_status', '상태', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917763, 'darkMode', '다크 모드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917764, 'menus.pureBarcode', '바코드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917765, 'knife4j', 'knife4j', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917766, 'menus.pureUpload', '파일 업로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917767, 'schedulersGroup_description', '작업 스케줄링 상세 정보', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917768, 'user_details', '사용자 상세 정보', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917769, 'op_time', '작업 시간', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917770, 'menus.pureEditor', '편집기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917771, 'addNew', '새로 추가', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917772, 'quartzExecuteLog', '작업 실행 로그', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917773, 'panel.pureOverallStyleLight', '라이트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917774, 'danger', '위험', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917775, 'cover', '커버', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917776, 'userLoginLog_viewportWidth', '뷰포트 너비', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917777, 'panel.pureGreyModel', '회색 모드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917778, 'routerName', '라우팅 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917779, 'menus.pureCollapse', '접기 패널', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917780, 'menus.pureMenus', '다단계 메뉴', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917781, 'panel.pureTagsStyle', '탭 스타일', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917782, 'upload_avatar', '아바타 업로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917783, 'panel.pureHiddenFooter', '푸터 숨기기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917784, 'adminUser_summary', '요약', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917785, 'sidebarStatus', '사이드바 상태', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917786, 'monitoring', '시스템 모니터링', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917787, 'menus.pureDept', '부서 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917788, 'i18n', '다국어 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917789, 'adminUser_avatar', '아바타', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917790, 'userLoginLog_contentDpr', '장치 픽셀 비율', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917791, 'input', '입력', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917792, 'menus.pureExcel', 'Excel 내보내기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917793, 'login.purePhoneLogin', '휴대폰 로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917794, 'power_requestUrl', '요청 URL', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917795, 'i18n.translation', '번역', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917796, 'menuIcon_iconName', '아이콘 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917797, 'emailTemplate_type', '템플릿 유형', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917798, 'update_information', '정보 업데이트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917799, 'userLoginLog_secChUaModel', '장치 모델', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917800, 'update_tip', '데이터 백업을 확인하여 손실을 방지하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917801, 'menus.pureFlowChart', '플로우 차트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917802, 'unread', '읽지 않음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917803, 'menus.pureSystemMenu', '메뉴 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917804, 'menus.pureTag', '태그', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917805, 'userLoginLog_xRequestedWith', '요청 방식', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917806, 'menus.pureTableBase', '기본 사용법', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917807, 'panel.pureTagsStyleCard', '카드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917808, 'files_fileType', '파일 유형', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917809, 'iconify', 'iconify 아이콘', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917810, 'lastLoginIp', 'IP 주소', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917811, 'default', '기본값', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917812, 'hiddenSideBar', '사이드바 숨기기 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917813, 'assign_roles', '역할 할당', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917814, 'system_i18n', '다국어', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917815, 'download_excel', 'Excel 다운로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917816, 'menus.pureGuide', '가이드 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917817, 'markdown', 'Markdown', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917818, 'panel.pureTagsStyleChromeTip', '구글 스타일, 클래식하고 아름다움', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917819, 'upload_success', '업로드 성공', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917820, 'menus.pureFourZeroOne', '403', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917821, 'userLoginLog_dpr', '장치 픽셀 비율', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917822, 'menus.pureMenu2', '메뉴 2', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917823, 'email', '이메일', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917824, 'menus.pureMenu1', '메뉴 1', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686940917825, 'role_roleCode', '역할 코드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112066, 'delete_success', '삭제 성공', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112067, 'keepAlive', '활성 상태 유지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112068, 'image_size', '이미지 크기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112069, 'messageReceivingManagement', '메시지 수신 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112070, 'login.pureSmsVerifyCode', 'SMS 인증 코드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112071, 'menus.pureJsonEditor', 'JSON 편집기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112072, 'login.purePhoneCorrectReg', '올바른 휴대폰 번호 형식을 입력하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112073, 'buttons.pureTagsStyleCard', '카드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112074, 'cancel_delete', '삭제 취소', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112075, 'dept', '부서 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112076, 'login.pureSure', '비밀번호 확인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112077, 'login.login', '로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112078, 'search.pureEmpty', '검색 결과 없음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112079, 'confirm', '확인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112080, 'login.pureRememberInfo', '로그인 후 지정된 일수 동안 자동으로 시스템에 로그인됩니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112081, 'readMeDay', '기억하기 기간', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112082, 'menus.pureFormDesign', '양식 디자이너', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112083, 'menus.pureMenuTree', '메뉴 트리 구조', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112084, 'login.purePassWordRuleReg', '비밀번호 형식은 8-18자리 숫자, 문자, 기호 중 두 가지 조합이어야 합니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112085, 'logManagement', '로그 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112086, 'i18n_typeName', '다국어 유형 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112087, 'menus.pureExternalDoc', '외부 문서 링크', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112088, 'update_batches_parent', '상위 일괄 업데이트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112089, 'userLoginLog_ipRegion', 'IP 소재지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112090, 'panel.pureStretchFixedTip', '간결한 페이지, 필요한 정보를 쉽게 찾을 수 있습니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112091, 'menus.pureVxeTable', '가상 스크롤', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112092, 'login.pureBack', '뒤로', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112093, 'view', '보기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112094, 'forcedOffline', '관리자 강제 오프라인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112095, 'systemi18n', '다국어', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112096, 'quartzExecuteLog_jobClassName', '작업 클래스 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112097, 'status.pureMessage', '메시지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112098, 'panel.pureTagsStyleSmart', '스마트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112099, 'menus.pureProgress', '진행 표시줄', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112100, 'menus.pureInfiniteScroll', '테이블 무한 스크롤', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112101, 'login.pureWeChatLogin', '위챗 로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112102, 'schedulers_triggerState', '트리거 상태', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112103, 'table.updateUser', '업데이트 사용자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112104, 'menus.pureLogin', '로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112105, 'menus.pureComponents', '컴포넌트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112106, 'iconName', '아이콘 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112107, 'menus.pureCropping', '이미지 자르기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112108, 'dept_manager', '관리자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686945112109, 'no_data', '데이터 없음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306370, 'userLoginLog_userId', '사용자 ID', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306371, 'menus.home', '홈', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306372, 'menus.pureUiGradients', '그라데이션 색상', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306373, 'buttons.pureCloseCurrentTab', '현재 탭 닫기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306374, 'menus.purePrint', '인쇄', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306375, 'knife4j_Interface_documentation', 'knife4j 인터페이스 문서', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306376, 'lastLoginIpAddress', '소재지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306377, 'files_downloadCount', '다운로드 횟수', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306378, 'emailTemplate_subject', '제목', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306379, 'buttons.pureConfirm', '확인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306380, 'menus.pureFive', '500', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306381, 'menus.pureSysMonitor', '시스템 모니터링', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306382, 'userLoginLog_ipAddress', 'IP 주소', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306383, 'expires', '만료 시간', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306384, 'more_actions', '추가 작업', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306385, 'hidden', '숨김', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306386, 'submit', '제출', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306387, 'menus.pureMqtt', 'MQTT 클라이언트(mqtt)', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306388, 'show', '표시', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306389, 'description', '상세 정보', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306390, 'system_files', '백엔드 파일 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306391, 'update', '업데이트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306392, 'menus.pureFail', '실패 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306393, 'receivedUserIds', '수신 사용자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306394, 'userLoginLog', '사용자 로그인 로그', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306395, 'contentTooShortTip', '내용은 30자 이상이어야 합니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306396, 'login.pureThirdLogin', '제3자 로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306397, 'scheduler', '예약 작업', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306398, 'download_configuration', '구성 다운로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306399, 'login.pureInfo', '초 후 다시 받기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306400, 'emailTemplate_templateName', '템플릿 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306401, 'account_management', '계정 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306402, 'continue_adding', '계속 추가', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306403, 'adminUser_email', '이메일', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306404, 'login.pureTip', '스캔 후 \"확인\"을 클릭하면 로그인이 완료됩니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306405, 'userinfo', '사용자 정보', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306406, 'systemCaches', '시스템 캐시', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306407, 'summary', '요약', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306408, 'normal', '정상', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306409, 'menus.purePermissionButton', '버튼 권한', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306410, 'login.pureQQLogin', 'QQ 로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306411, 'table.acceptanceTime', '수신 시간', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306412, 'systemManagement', '시스템 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306413, 'update_multilingual', '다국어 업데이트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306414, 'need_number', '숫자 필요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306415, 'upload_user_avatar_tip', '아바타 업로드 성공 시 자동 저장되지 않습니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306416, 'layout', '애플리케이션 레이아웃', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306417, 'login.pureTest', '모의 테스트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306418, 'webConifg', '웹 구성', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306419, 'adminUser', '백엔드 사용자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306420, 'external_pages', '외부 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306421, 'appLocale', '로컬 언어', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306422, 'quartzExecuteLog_cronExpression', 'cron 표현식', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306423, 'login.pureVerifyCodeSixReg', '6자리 숫자 인증 코드를 입력하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306424, 'menus.pureContextmenu', '오른쪽 클릭 메뉴', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306425, 'panel.pureMixTip', '혼합 메뉴, 유연하고 다양함', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686949306426, 'externalLink', '외부 링크', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694977, 'panel.pureMultiTagsCache', '탭 지속성', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694978, 'hideFooter', '푸터 숨기기 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694979, 'file_import', '파일 가져오기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694980, 'markAsRead', '읽음으로 표시', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694981, 'login.username', '사용자 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694982, 'files_filename', '파일 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694983, 'menus.pureQrcode', 'QR 코드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694984, 'Interface_documentation', '인터페이스 문서', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694985, 'logout', '로그아웃', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694986, 'menus.pureAble', '기능', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694987, 'menus.pureVideo', '비디오', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694988, 'enable', '활성화됨', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694989, 'login.purePassword', '비밀번호', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694990, 'search.pureDragSort', '(드래그 정렬 가능)', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694991, 'menus.pureSplitPane', '분할 패널', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694992, 'menus.pureColorHuntDoc', '색상 팔레트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694993, 'menus.pureGanttastic', '간트 차트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694994, 'menus.pureIconSelect', '아이콘 선택기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694995, 'buttons.pureTagsStyleChrome', '구글', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694996, 'login.pureWeiBoLogin', '웨이보 로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694997, 'emailTemplate', '이메일 템플릿', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694998, 'buttons.pureCloseRightTabs', '오른쪽 탭 닫기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957694999, 'rest_password_tip', '비밀번호를 잊어버리거나 재설정할 경우, 비밀번호 수정 후 로그인 페이지로 이동하여 다시 로그인해야 합니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695000, 'emailUsers_port', '포트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695001, 'phone', '휴대폰 번호', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695002, 'dept_summary', '부서 요약', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695003, 'menus.pureDraggable', '드래그', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695004, 'confirm_update_status', '상태 수정을 확인하시겠습니까', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695005, 'menus.purePinyin', '한어 병음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695006, 'primary', '기본값', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695007, 'power_powerCode', '권한 코드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695008, 'userLoginLog_userAgent', '사용자 에이전트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695009, 'userLoginLog_secChUaMobile', '모바일 장치 여부', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695010, 'userLoginLog_downlink', '대역폭', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695011, 'menus.pureSystemLog', '시스템 로그', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695012, 'login.emailCode', '인증 코드 입력', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695013, 'emailUsers_email', '이메일', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695014, 'portion', '부분', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695015, 'login.pureReadAccept', '나는 주의 깊게 읽고 동의합니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695016, 'i18n.keyName', '다국어 키', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695017, 'table.operation', '작업', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695018, 'external_chaining', '외부 링크', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695019, 'panel.pureHiddenTags', '탭 숨기기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695020, 'login.pureVerifyCode', '인증 코드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695021, 'cropper_preview_tips', '팁: 오른쪽 클릭으로 기능 메뉴를 열 수 있습니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686957695022, 'weakStyle', '색약 모드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083585, 'theme', '테마', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083586, 'menus.pureTimeline', '타임라인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083587, 'power', '권한 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083588, 'messageManagement', '메시지 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083589, 'menus.purePdf', 'PDF 미리보기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083590, 'menus.pureMenu1-2-1', '메뉴 1-2-1', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083591, 'schedulers_triggerName', '트리거 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083592, 'menus.pureRouterDoc', 'vue-router', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083593, 'menus.pureMenu1-2-2', '메뉴 1-2-2', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083594, 'systemMenuIcon.officialWebsite', '메뉴 아이콘 공식 웹사이트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083595, 'login.pureRegisterSuccess', '등록 성공', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083596, 'login.pureRemember', '일 동안 자동 로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083597, 'panel.pureStretchFixed', '고정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083598, 'menus.pureMenuOverflow', '디렉토리 오버플로우 툴팁 표시', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083599, 'not_added', '추가되지 않음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083600, 'pure_admin', '백엔드 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083601, 'emailUsers_emailTemplate', '연관 템플릿', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083602, 'login.pureAlipayLogin', '알리페이 로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083603, 'menus.pureViteDoc', 'vite', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083604, 'componentPath', '컴포넌트 경로', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083605, 'menus.pureMindMap', '마인드 맵', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083606, 'buttons.pureLoginOut', '시스템 로그아웃', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083607, 'embedded_doc', '내장 문서', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083608, 'menus.pureVueDoc', 'vue3', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083609, 'panel.pureOverallStyleSystemTip', '시간 동기화, 인터페이스가 자연스럽게 조화를 이룹니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083610, 'menus.pureOnlineUser', '온라인 사용자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083611, 'menus.pureDrawer', '함수형 서랍', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083612, 'buttons.pureOpenSystemSet', '시스템 구성 열기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083613, 'userLoginLog_secChUaPlatform', '운영 체제/플랫폼', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083614, 'panel.pureTagsStyleChrome', '구글', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083615, 'panel.pureStretch', '페이지 너비', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083616, 'adminUser_sex', '성별', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083617, 'login.usernameRegex', '사용자 이름 형식 오류', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083618, 'userLoginLog_secChUaArch', '플랫폼 아키텍처', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083619, 'panel.pureClearCacheAndToLogin', '캐시 지우고 로그인 페이지로 이동', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083620, 'roleCode', '역할 코드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083621, 'emailTemplate_body', '템플릿 내용', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083622, 'menus.purePermissionButtonRouter', '라우팅 버튼 권한 반환', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083623, 'systemMaintenance', '시스템 유지보수', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083624, 'panel.pureVerticalTip', '왼쪽 메뉴, 친숙하고 익숙함', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083625, 'showModel', '표시할 모델', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083626, 'crop_and_upload_avatars', '아바타 자르기 및 업로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083627, 'visible', '숨김', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083628, 'messageSendManagement', '메시지 발송 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083629, 'login.pureUsernameReg', '계정을 입력하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083630, 'menus.pureSeamless', '끊김 없는 스크롤', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083631, 'richText', '리치 텍스트', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083632, 'external_doc', '외부 문서 링크', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083633, 'pause', '일시 정지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083634, 'panel.pureClearCache', '캐시 지우기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083635, 'menus.pureExternalPage', '외부 페이지', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083636, 'menus.pureSensitive', '민감어 필터링', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083637, 'files', '파일', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083638, 'monitoring_server', '서비스 모니터링', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083639, 'schedulers_jobClassName', '작업 클래스 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083640, 'panel.pureTagsStyleSmartTip', '스마트 태그, 재미 추가', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686966083641, 'admin_user', '사용자 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277889, 'schedulersGroup_groupName', '그룹 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277890, 'buttons.pureCloseOtherTabs', '다른 탭 닫기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277891, 'status.pureNoMessage', '메시지 없음', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277892, 'confirmUpdateConfiguration', '구성 수정을 확인하시겠습니까?', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277893, 'configuration', '시스템 구성', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277894, 'update_success', '수정 성공', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277895, 'schedulers_jobName', '작업 이름', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277896, 'email_user_send_config', '이메일 사용자 발송 구성 관리', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277897, 'routerNameTip', '라우팅 이름은 필수 항목입니다', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277898, 'menus.pureUtilsLink', 'pure-admin-utils', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277899, 'menuIcon_preview', '아이콘 미리보기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277900, 'sendUserId', '발신 사용자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277901, 'panel.pureTagsStyleCardTip', '카드 태그, 효율적인 탐색', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277902, 'menus.pureDateTimePicker', '날짜 시간 선택기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277903, 'confirm_forcedOffline', '이 사용자를 강제로 오프라인하시겠습니까', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277904, 'menus.pureTailwindcssDoc', 'tailwindcss', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277905, 'menus.pureDanmaku', '탄막', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277906, 'menus.pureDialog', '함수형 대화 상자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277907, 'menus.pureTable', '테이블', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277908, 'download_json', 'JSON 다운로드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277909, 'confirm_update_sort', '정렬 업데이트를 확인하시겠습니까', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277910, 'panel.pureLayoutModel', '탐색 모드', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277911, 'login.pureLoginSuccess', '로그인 성공', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277912, 'i18n_type_setting', '다국어 유형', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277913, 'menus.pureEpDoc', 'element-plus', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277914, 'panel.pureSystemSet', '시스템 구성', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277915, 'login.pureLogin', '로그인', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277916, 'panel.pureHorizontalTip', '상단 메뉴, 간결한 개요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277917, 'emailTemplate_emailUser', '이메일 템플릿 사용자', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277918, 'login.pureForget', '비밀번호를 잊으셨나요?', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277919, 'login.purePhoneReg', '휴대폰 번호를 입력하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277920, 'login.pureLoginFail', '로그인 실패', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277921, 'search.pureCollect', '즐겨찾기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277922, 'buttons.pureClose', '닫기', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277923, 'deleteBatchPlaceholder', '확인하려면 yes/YES/y/Y를 입력하세요', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
+INSERT INTO `sys_i18n` VALUES (1918989686970277924, 'reset_passwords', '비밀번호 재설정', '韩语', 1, 1, '2025-05-04 19:22:49', '2025-05-04 19:22:49', 0);
 
 -- ----------------------------
 -- Table structure for sys_i18n_type
@@ -2440,8 +2369,8 @@ CREATE TABLE `sys_i18n_type`  (
 -- Records of sys_i18n_type
 -- ----------------------------
 INSERT INTO `sys_i18n_type` VALUES (1840386017158090753, 'zh', '简体中文', 1, 1, 1, '2025-05-01 23:08:16', '2024-09-30 05:39:54', 0);
-INSERT INTO `sys_i18n_type` VALUES (1840402418253996034, 'en', 'English', 0, 1, 1, '2025-05-05 14:33:13', '2024-09-30 06:45:04', 0);
-INSERT INTO `sys_i18n_type` VALUES (1917141005942747137, 'korean', '한국어', 0, 1, 1, '2025-05-05 14:33:34', '2025-04-29 16:56:49', 0);
+INSERT INTO `sys_i18n_type` VALUES (1840402418253996034, 'en', 'English', 0, 1, 1, '2025-05-01 23:08:21', '2024-09-30 06:45:04', 0);
+INSERT INTO `sys_i18n_type` VALUES (1917141005942747137, '韩语', '한국어', 0, 1, 1, '2025-05-01 23:08:28', '2025-04-29 16:56:49', 0);
 
 -- ----------------------------
 -- Table structure for sys_menu_icon
@@ -2553,16 +2482,16 @@ CREATE TABLE `sys_message`  (
   INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
   INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
   INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
-  CONSTRAINT `sys_message_ibfk_1` FOREIGN KEY (`message_type`) REFERENCES `sys_message_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统消息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_message
 -- ----------------------------
-INSERT INTO `sys_message` VALUES (1920759649130053634, 'sss', 1, 1851498066518687745, '/api/local-file/message/2025-05-09/681dbe55cdfb33f3a83edaed.jpg', 'sss', 'c3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3NzIVtdKC9hcGkvbG9jYWwtZmlsZS9tZXNzYWdlLzIwMjUtMDUtMDkvNjgxZGJlNjJjZGZiMzNmM2E4M2VkYWVlLnBuZykK', 'markdown', 'info', 'sss', '2025-05-09 16:36:01', '2025-05-09 16:36:01', 1, 1, 0);
-INSERT INTO `sys_message` VALUES (1920762372042866689, 'thUrl', 1, 1851498066518687745, '/api/local-file/message/2025-05-09/681dc1eecdfbce75ed403bd2.jpg.min.jpg', 'thUrl', 'IVtdKC9hcGkvbG9jYWwtZmlsZS9tZXNzYWdlLzIwMjUtMDUtMDkvNjgxZGMwZWVjZGZiY2U3NWVkNDAzYmNmLnBuZy5taW4uanBnKQohW10oL2FwaS9sb2NhbC1maWxlL21lc3NhZ2UvMjAyNS0wNS0wOS82ODFkYzIyMmNkZmJjZTc1ZWQ0MDNiZDMucG5nLm1pbi5qcGcpCiFbXSgvYXBpL2xvY2FsLWZpbGUvbWVzc2FnZS8yMDI1LTA1LTA5LzY4MWRjMjQyY2RmYmNlNzVlZDQwM2JkNC5wbmcpCg==', 'markdown', 'danger', 'thUr', '2025-05-09 16:46:50', '2025-05-09 16:52:23', 1, 1, 0);
-INSERT INTO `sys_message` VALUES (1920763084927746049, '杀杀杀', 1, 1851498066518687745, '/api/local-file/message/2025-05-09/681dc19acdfbce75ed403bd1.png.min.jpg', '杀杀杀', 'IVtdKC9hcGkvbG9jYWwtZmlsZS9tZXNzYWdlLzIwMjUtMDUtMDkvNjgxZGMxOTVjZGZiY2U3NWVkNDAzYmQwLnBuZykK', 'markdown', 'info', '杀杀杀', '2025-05-09 16:49:40', '2025-05-09 16:49:40', 1, 1, 0);
+INSERT INTO `sys_message` VALUES (1873378732024107009, '版本更新版本更新', 1, 1851507850609356802, 'http://192.168.3.137:9000/auth-admin/message/2025/05-01/c59f1d79-0957-45ab-b4d0-5bbc0ca260d3.jpg', '新版更新，同步到线上，将仓库中代码打包到线上新版更新，同步到线上，将仓库中代码打包到线上新版更新，同步到线上，将仓库中代码打包到线上新版更新，同步到线上，将仓库中代码打包到线上', 'PHA+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMjI1LCA2MCwgNTcpOyBmb250LXNpemU6IDQ4cHg7Ij48c3Ryb25nPueJiOacrOabtOaWsCAyLjIuMDwvc3Ryb25nPjwvc3Bhbj48L3A+PHA+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMTQ2LCA4NCwgMjIyKTsiPjEuIDwvc3Bhbj48YSBocmVmPSJodHRwOi8vMTI5LjIxMS4zMS41ODozMDAwL2F1dGgvYXV0aC1zZXJ2ZXItamF2YS9jb21taXQvYjJlMmI4MDY5MjRmNDkyYWUyNGIwMzFkODJhNDY5ZmI4MjFkMDcyNCIgdGFyZ2V0PSIiIHN0eWxlPSJ0ZXh0LWFsaWduOiBzdGFydDsiPjxzcGFuIHN0eWxlPSJjb2xvcjogcmdiKDE0NiwgODQsIDIyMik7Ij7nvLrlsJHmm7TmlrDlrprml7bku7vliqHmjqXlj6M8L3NwYW4+PC9hPjwvcD48cD48c3BhbiBzdHlsZT0iY29sb3I6IHJnYigxNDYsIDg0LCAyMjIpOyI+Mi4gPC9zcGFuPjxhIGhyZWY9Imh0dHA6Ly8xMjkuMjExLjMxLjU4OjMwMDAvYXV0aC9hdXRoLXNlcnZlci1qYXZhL2NvbW1pdC82MTUzMzM3NWY4OGUwODFhOGJkZmEyMmVlMjljZmY5NDRjZGM3MjNkIiB0YXJnZXQ9IiIgc3R5bGU9InRleHQtYWxpZ246IHN0YXJ0OyI+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMTQ2LCA4NCwgMjIyKTsiPuS4u+mimOminOiJsua3u+WKoOagoemqjDwvc3Bhbj48L2E+PC9wPjxwPjxzcGFuIHN0eWxlPSJjb2xvcjogcmdiKDE0NiwgODQsIDIyMik7Ij4zLiA8L3NwYW4+PGEgaHJlZj0iaHR0cDovLzEyOS4yMTEuMzEuNTg6MzAwMC9hdXRoL2F1dGgtd2ViL2NvbW1pdC8wNGVmMGY3MDIwNTQ3NTAwMjg2M2YwNmFmMjk3NDU3NjJkYzkxNjVlIiB0YXJnZXQ9IiIgc3R5bGU9InRleHQtYWxpZ246IHN0YXJ0OyI+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMTQ2LCA4NCwgMjIyKTsiPiDmt7vliqDmtojmga/mj5DnpLo76KGo5qC86Led56a75LyY5YyWPC9zcGFuPjwvYT48L3A+PHA+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMTQ2LCA4NCwgMjIyKTsiPjQuIDwvc3Bhbj48YSBocmVmPSJodHRwOi8vMTI5LjIxMS4zMS41ODozMDAwL2F1dGgvYXV0aC13ZWIvY29tbWl0LzZhNzczODIwOTg4ZjA4MTNjMmU3NGY0YjlhMmJhZTQ2NTE0ZmNhNDgiIHRhcmdldD0iIiBzdHlsZT0idGV4dC1hbGlnbjogc3RhcnQ7Ij48c3BhbiBzdHlsZT0iY29sb3I6IHJnYigxNDYsIDg0LCAyMjIpOyI+5pel5b+X6KGo5qC85pi+56S66Zeu6aKYPC9zcGFuPjwvYT48L3A+', 'rich', 'success', '版本更新', '2024-12-29 22:41:10', '2025-05-01 18:16:33', 1, 1, 0);
+INSERT INTO `sys_message` VALUES (1877006536699645953, '版本更新 2.4.9', 1, 1851507850609356802, 'http://192.168.3.137:9000/auth-admin/message/2025/05-01/c63efe5e-a1aa-412a-8240-5c5ae701e28c.jpg', '版本更新 2.4.9', 'PHA+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMjI1LCA2MCwgNTcpOyBmb250LXNpemU6IDQ4cHg7Ij7niYjmnKzmm7TmlrAgMi40Ljk8L3NwYW4+PC9wPjxoMT48c3BhbiBzdHlsZT0iY29sb3I6IHJnYigxNDYsIDg0LCAyMjIpOyI+MS4g5bCG5YmN56uv6YWN572u5paH5Lu25pS+5YWlUmVkaXPkuK3kuI3lho3ku47mlofku7bns7vnu5/or7vlj5Y8L3NwYW4+PC9oMT48aDEgc3R5bGU9ImxpbmUtaGVpZ2h0OiAxLjU7Ij48c3BhbiBzdHlsZT0iY29sb3I6IHJnYigyNTUsIDc3LCA3OSk7IGZvbnQtZmFtaWx5OiDmpbfkvZM7Ij48c3Ryb25nPuWmguaenOWPkeeOsOe9keermeaJk+W8gOeZveWxj+W+iOacieWPr+iDveaYr+WboOS4uuabtOaWsOmAoOaIkOeahO+8jOWboOS4uumcgOimgee7tOaKpOWIoOmZpOS4jemcgOimgeeahOWKn+iDveWPr+iDveS8muWvvOiHtOi/meS4quaDheWGtTwvc3Ryb25nPjwvc3Bhbj48L2gxPg==', 'rich', 'success', '版本更新', '2025-01-08 22:56:46', '2025-05-01 18:06:13', 1, 1, 0);
+INSERT INTO `sys_message` VALUES (1917886507814604802, '版本更新版本更新', 1, 1851498066518687745, 'http://192.168.3.137:9000/auth-admin/message/2025/05-01/62a82b29-05e1-4419-9137-25c66a17407c.jpg', '版本更新版本更新版本更新版本更新版本更新版本更新版本更新版本更新版本更新版本更新版本更新版本更新版本', '54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw54mI5pys5pu05paw', 'markdown', 'success', '版本更新', '2025-05-01 18:19:11', '2025-05-02 11:39:54', 1, 1, 0);
+INSERT INTO `sys_message` VALUES (1919000102212296706, '版本更新5-4', 1, 1851894134725136386, 'http://129.211.31.58:9000/auth-admin/message/2025/05-04/524180dd-fd5c-42ba-bbd9-67a3008a9bb2.jpg', '新版本更新，添加获取Redis中用户信息，将用户IP地址隐藏一部分', 'PHA+PHNwYW4gc3R5bGU9ImNvbG9yOiByZ2IoMTE0LCAxOTIsIDY0KTsgZm9udC1zaXplOiA0OHB4OyI+54mI5pys5pu05pawNS00PC9zcGFuPjwvcD48cD48aW1nIHNyYz0iaHR0cDovLzEyOS4yMTEuMzEuNTg6OTAwMC9hdXRoLWFkbWluL21lc3NhZ2UvMjAyNS8wNS0wNC8yMzcxYmFiYy03NmNlLTQ2ZmItYmZkYy1iYmYxNDAyMTlmMzkucG5nIiBhbHQ9IiIgZGF0YS1ocmVmPSIiIHN0eWxlPSIiLz48L3A+PHA+PGltZyBzcmM9Imh0dHA6Ly8xMjkuMjExLjMxLjU4OjkwMDAvYXV0aC1hZG1pbi9tZXNzYWdlLzIwMjUvMDUtMDQvYjBhN2FjMmUtNTY4NC00ZjA2LWI5ZGUtODQzYzg1NWMwMDFjLnBuZyIgYWx0PSIiIGRhdGEtaHJlZj0iIiBzdHlsZT0iIi8+PC9wPg==', 'rich', 'success', '版本更新', '2025-05-04 20:04:12', '2025-05-04 20:04:12', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_message_received
@@ -2584,28 +2513,33 @@ CREATE TABLE `sys_message_received`  (
   INDEX `idx_update_user`(`update_user` ASC) USING BTREE COMMENT '索引创更新用户',
   INDEX `idx_create_user`(`create_user` ASC) USING BTREE COMMENT '索引创建用户',
   INDEX `idx_user`(`update_user` ASC, `create_user` ASC) USING BTREE COMMENT '索引创建用户和更新用户',
-  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间',
-  CONSTRAINT `sys_message_received_ibfk_1` FOREIGN KEY (`message_id`) REFERENCES `sys_message` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `idx_time`(`update_time` ASC, `create_time` ASC) USING BTREE COMMENT '索引创建时间和更新时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_message_received
 -- ----------------------------
-INSERT INTO `sys_message_received` VALUES (1920759649146830849, 1, 1920759649130053634, 1, '2025-05-09 16:36:01', '2025-05-09 16:52:49', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920759649146830850, 1849444494908125181, 1920759649130053634, 0, '2025-05-09 16:36:01', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920759649146830851, 1849681227633758210, 1920759649130053634, 0, '2025-05-09 16:36:01', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920759649151025154, 1850080272764211202, 1920759649130053634, 0, '2025-05-09 16:36:01', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920759649151025155, 1850789068551200769, 1920759649130053634, 0, '2025-05-09 16:36:01', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763084927746050, 1, 1920763084927746049, 1, '2025-05-09 16:49:40', '2025-05-09 16:52:47', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763084927746051, 1849444494908125181, 1920763084927746049, 0, '2025-05-09 16:49:40', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763084927746052, 1849681227633758210, 1920763084927746049, 0, '2025-05-09 16:49:40', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763084927746053, 1850080272764211202, 1920763084927746049, 0, '2025-05-09 16:49:40', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763084927746054, 1850789068551200769, 1920763084927746049, 0, '2025-05-09 16:49:40', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763769085837313, 1, 1920762372042866689, 1, '2025-05-09 16:52:23', '2025-05-09 16:52:42', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763769085837314, 1849444494908125181, 1920762372042866689, 0, '2025-05-09 16:52:23', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763769085837315, 1849681227633758210, 1920762372042866689, 0, '2025-05-09 16:52:23', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763769085837316, 1850080272764211202, 1920762372042866689, 0, '2025-05-09 16:52:23', '2025-05-09 16:52:36', 1, 1, 0);
-INSERT INTO `sys_message_received` VALUES (1920763769085837317, 1850789068551200769, 1920762372042866689, 0, '2025-05-09 16:52:23', '2025-05-09 16:52:36', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917883246848102401, 1, 1877006536699645953, 1, '2025-05-01 18:06:13', '2025-05-02 18:59:01', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917883246848102402, 1849444494908125181, 1877006536699645953, 0, '2025-05-01 18:06:13', '2025-05-01 18:06:13', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917883246848102403, 1849681227633758210, 1877006536699645953, 0, '2025-05-01 18:06:13', '2025-05-01 18:06:13', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917883246848102404, 1850075157831454722, 1877006536699645953, 0, '2025-05-01 18:06:13', '2025-05-01 18:06:13', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917883246848102405, 1850080272764211202, 1877006536699645953, 0, '2025-05-01 18:06:13', '2025-05-01 18:06:13', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917883246848102406, 1850789068551200769, 1877006536699645953, 0, '2025-05-01 18:06:13', '2025-05-01 18:06:13', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917885846108622850, 1, 1873378732024107009, 1, '2025-05-01 18:16:33', '2025-05-02 18:58:41', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917885846108622851, 1849444494908125181, 1873378732024107009, 0, '2025-05-01 18:16:33', '2025-05-01 18:16:33', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917885846108622852, 1849681227633758210, 1873378732024107009, 0, '2025-05-01 18:16:33', '2025-05-01 18:16:33', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917885846108622853, 1850080272764211202, 1873378732024107009, 0, '2025-05-01 18:16:33', '2025-05-01 18:16:33', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1917885846108622854, 1850789068551200769, 1873378732024107009, 0, '2025-05-01 18:16:33', '2025-05-01 18:16:33', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1918148413531987969, 1, 1917886507814604802, 1, '2025-05-02 11:39:54', '2025-05-02 18:58:58', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1918148413536182274, 1849444494908125181, 1917886507814604802, 0, '2025-05-02 11:39:54', '2025-05-02 11:39:54', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1918148413536182275, 1849681227633758210, 1917886507814604802, 0, '2025-05-02 11:39:54', '2025-05-02 11:39:54', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1918148413536182276, 1850080272764211202, 1917886507814604802, 0, '2025-05-02 11:39:54', '2025-05-02 11:39:54', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1918148413536182277, 1850789068551200769, 1917886507814604802, 0, '2025-05-02 11:39:54', '2025-05-02 11:39:54', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1919000102489120769, 1, 1919000102212296706, 0, '2025-05-04 20:04:12', '2025-05-04 20:04:12', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1919000102497509378, 1849444494908125181, 1919000102212296706, 0, '2025-05-04 20:04:12', '2025-05-04 20:04:12', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1919000102497509379, 1849681227633758210, 1919000102212296706, 0, '2025-05-04 20:04:12', '2025-05-04 20:04:12', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1919000102497509380, 1850080272764211202, 1919000102212296706, 0, '2025-05-04 20:04:12', '2025-05-04 20:04:12', 1, 1, 0);
+INSERT INTO `sys_message_received` VALUES (1919000102497509381, 1850789068551200769, 1919000102212296706, 0, '2025-05-04 20:04:12', '2025-05-04 20:04:12', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_message_type
@@ -2670,120 +2604,221 @@ CREATE TABLE `sys_permission`  (
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------
-INSERT INTO `sys_permission` VALUES (1920809740222169090, 0, 'i18n:*', '多语言类型', '/api/i18nType', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740272500738, 1920809740222169090, 'i18n:delete', '删除多语言类型', '/api/i18nType', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740272500739, 1920809740222169090, 'i18n:query', '添加多语言类型', '/api/i18nType', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740272500740, 1920809740222169090, 'i18n:update', '更新多语言类型', '/api/i18nType', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740335415298, 0, 'menuIcon:*', '菜单图标', '/api/menuIcon', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740335415299, 1920809740335415298, 'menuIcon:query', '分页查询菜单图标', '/api/menuIcon/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740335415300, 1920809740335415298, 'menuIcon:add', '添加菜单图标', '/api/menuIcon', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740335415301, 1920809740335415298, 'menuIcon:update', '更新菜单图标', '/api/menuIcon', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740335415302, 1920809740335415298, 'menuIcon:delete', '删除菜单图标', '/api/menuIcon', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740398329858, 0, 'schedulers:*', '任务调度', '/api/schedulers', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740398329859, 1920809740398329858, 'schedulers:update', '恢复任务调度', '/api/schedulers/resume', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740398329860, 1920809740398329858, 'schedulers:delete', '删除任务调度', '/api/schedulers', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740398329861, 1920809740398329858, 'schedulers:add', '添加任务调度', '/api/schedulers', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740398329862, 1920809740398329858, 'schedulers:update', '更新任务调度', '/api/schedulers', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740398329863, 1920809740398329858, 'schedulers:query', '分页查询任务调度', '/api/schedulers/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740398329864, 1920809740398329858, 'schedulers:update', '暂停任务调度', '/api/schedulers/pause', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740469633025, 0, 'rolePermission:*', '角色和权限', '/api/rolePermission', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740469633026, 1920809740469633025, 'rolePermission:update', '为角色分配权限', '/api/rolePermission', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740469633027, 0, 'messageType:*', '消息类型', '/api/messageType', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740532547586, 1920809740469633027, 'messageType:query', '分页查询消息类型', '/api/messageType/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740532547587, 1920809740469633027, 'messageType:add', '添加消息类型', '/api/messageType', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740532547588, 1920809740469633027, 'messageType:update', '更新消息类型', '/api/messageType', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740532547589, 1920809740469633027, 'messageType:delete', '删除消息类型', '/api/messageType', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740595462145, 0, 'userLoginLog:*', '用户登录日志', '/api/userLoginLog', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740595462146, 1920809740595462145, 'userLoginLog:delete', '删除用户登录日志', '/api/userLoginLog', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740595462147, 1920809740595462145, 'userLoginLog:query', '分页查询用户登录日志', '/api/userLoginLog/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740595462148, 0, '', '普通用户登录', '/api/user', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740662571010, 0, 'emailUsers:*', '邮箱用户配置', '/api/emailUsers', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740662571011, 1920809740662571010, 'emailUsers:query', '分页查询邮箱用户配置', '/api/emailUsers/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740662571012, 1920809740662571010, 'emailUsers:delete', '删除邮箱用户配置', '/api/emailUsers', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740662571013, 1920809740662571010, 'emailUsers:add', '添加邮箱用户配置', '/api/emailUsers', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740662571014, 1920809740662571010, 'emailUsers:update', '更新邮箱用户配置', '/api/emailUsers', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740729679874, 0, 'i18n:*', '多语言', '/api/i18n', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740729679875, 1920809740729679874, 'i18n:query', '分页查询多语言', '/api/i18n/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740729679876, 1920809740729679874, 'i18n:update', '文件导出多语言', '/api/i18n/file', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740729679877, 1920809740729679874, 'i18n:update', '文件导入多语言', '/api/i18n/file', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740729679878, 1920809740729679874, 'i18n:add', '添加多语言', '/api/i18n', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740729679879, 1920809740729679874, 'i18n:update', '更新多语言', '/api/i18n', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740729679880, 1920809740729679874, 'i18n:delete', '删除多语言', '/api/i18n', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740729679881, 0, 'userRole:*', '用户和角色', '/api/userRole', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740792594434, 1920809740729679881, 'userRole:add', '为用户分配角色', '/api/userRole', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740792594435, 0, 'files:*', '文件', '/api/files', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740792594436, 1920809740792594435, 'files:update', '更新文件', '/api/files', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740792594437, 1920809740792594435, 'files:query', '分页查询文件', '/api/files/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740792594438, 1920809740792594435, 'files:delete', '删除文件', '/api/files', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740792594439, 1920809740792594435, 'files:query', '下载文件', '/api/files/file/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740792594440, 1920809740792594435, 'files:add', '添加文件', '/api/files', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740855508994, 0, 'scheduleExecuteLog:*', '任务调度执行日志', '/api/scheduleExecuteLog', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740855508995, 1920809740855508994, 'scheduleExecuteLog:query', '分页查询任务调度执行日志', '/api/scheduleExecuteLog/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740855508996, 1920809740855508994, 'scheduleExecuteLog:delete', '删除任务调度执行日志', '/api/scheduleExecuteLog', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740922617857, 0, 'filesParDetail:*', '文件分片信息表，仅在手动分片上传时使用', '/api/filesParDetail', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740922617858, 1920809740922617857, 'filesParDetail:add', '添加文件分片信息表，仅在手动分片上传时使用', '/api/filesParDetail', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740922617859, 1920809740922617857, 'filesParDetail:delete', '删除文件分片信息表，仅在手动分片上传时使用', '/api/filesParDetail', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740922617860, 1920809740922617857, 'filesParDetail:update', '更新文件分片信息表，仅在手动分片上传时使用', '/api/filesParDetail', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740922617861, 1920809740922617857, 'filesParDetail:query', '分页查询文件分片信息表，仅在手动分片上传时使用', '/api/filesParDetail/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740922617862, 0, 'message:*', '系统消息', '/api/message', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740989726722, 1920809740922617862, '', '更系统消息', '/api/message', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740989726723, 1920809740922617862, '', '删除系统消息', '/api/message', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740989726724, 1920809740922617862, 'message:query', '分页查询系统消息', '/api/message/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740989726725, 1920809740922617862, '', '添加系统消息', '/api/message', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740989726726, 0, 'messageReceived:*', '消息接收(用户消息)', '/api/messageReceived', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740989726727, 1920809740989726726, 'messageReceived:delete', '删除消息接收', '/api/messageReceived', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740989726728, 1920809740989726726, 'messageReceived:update', '更新消息接收', '/api/messageReceived', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809740989726729, 1920809740989726726, 'messageReceived:query', '分页查询消息接收', '/api/messageReceived/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741052641282, 0, 'routerRole:*', '路由菜单和角色', '/api/routerRole', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741052641283, 1920809741052641282, 'routerRole:delete', '清除选中菜单所有角色', '/api/routerRole/clearRouterRole', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741052641284, 0, 'schedulersGroup:*', '任务调度分组', '/api/schedulersGroup', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741119750145, 1920809741052641284, 'schedulersGroup:add', '添加任务调度分组', '/api/schedulersGroup', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741119750146, 1920809741052641284, 'schedulersGroup:query', '获取所有任务调度分组', '/api/schedulersGroup/getSchedulersGroupList', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741119750147, 1920809741052641284, 'schedulersGroup:update', '更新任务调度分组', '/api/schedulersGroup', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741119750148, 1920809741052641284, 'schedulersGroup:query', '分页查询任务调度分组', '/api/schedulersGroup/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741119750149, 1920809741052641284, 'schedulersGroup:delete', '删除任务调度分组', '/api/schedulersGroup', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741119750150, 0, 'dept:*', '部门', '/api/dept', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664705, 1920809741119750150, 'dept:query', '分页查询部门', '/api/dept/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664706, 1920809741119750150, 'dept:delete', '删除部门', '/api/dept', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664707, 1920809741119750150, 'dept:update', '更新部门', '/api/dept', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664708, 1920809741119750150, 'dept:add', '添加部门', '/api/dept', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664709, 0, 'role:*', '角色', '/api/role', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664710, 1920809741182664709, 'role:update', '更新角色', '/api/role', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664711, 1920809741182664709, 'role:delete', '删除角色', '/api/role', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664712, 1920809741182664709, 'role:add', '添加角色', '/api/role', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664713, 1920809741182664709, 'role:query', '分页查询角色', '/api/role/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664714, 1920809741182664709, 'role:update', '更新角色列表', '/api/role/file/import', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741182664715, 1920809741182664709, 'role:update', '导出角色列表', '/api/role/file/export', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741245579265, 0, 'permission::all', '权限', '/api/permission', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741245579266, 1920809741245579265, 'permission::update', '更新权限', '/api/permission', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741245579267, 1920809741245579265, 'permission::update', '导出权限', '/api/permission/file/export', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741245579268, 1920809741245579265, 'permission::delete', '删除权限', '/api/permission', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741245579269, 1920809741245579265, 'permission::add', '添加权限', '/api/permission', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741245579270, 1920809741245579265, 'permission::update', '导入权限', '/api/permission/file/import', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741245579271, 1920809741245579265, 'permission::page', '分页查询权限', '/api/permission/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741245579272, 1920809741245579265, 'permission::update', '批量修改权', '/api/permission/update/permissionBatch', 'PATCH', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741245579273, 1920809741245579265, 'permission::update', '批量修改权限父级', '/api/permission/update/permissionListByParentId', 'PATCH', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741312688130, 0, 'router:*', '路由菜单', '/api/router', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741312688131, 1920809741312688130, 'router:query', '查询管理路由菜单', '/api/router/routerList', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741312688132, 1920809741312688130, 'router:add', '添加路由菜单', '/api/router', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741312688133, 1920809741312688130, 'router:delete', '删除路由菜单', '/api/router', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741312688134, 1920809741312688130, 'router:update', '更新路由菜单', '/api/router', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741383991297, 0, 'user:*', '用户', '/api/user', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741383991298, 1920809741383991297, 'user:delete', '删除用户', '/api/user', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741383991299, 1920809741383991297, 'user:query', '分页查询用户', '/api/user/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741383991300, 1920809741383991297, 'user:add', '添加用户', '/api/user', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741383991301, 1920809741383991297, 'user:query', '已登录用户', '/api/user/getCacheUserPage/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741383991302, 1920809741383991297, 'user:update', '更新用户', '/api/user', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741383991303, 1920809741383991297, 'user:update', '强制退出用户', '/api/user/forcedOffline', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741451100161, 0, 'config:*', 'web配置文件', '/api/config', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741451100162, 1920809741451100161, 'config::update', '更新web配置文件', '/api/config', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741451100163, 0, 'emailTemplate:*', '邮件模板', '/api/emailTemplate', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741451100164, 1920809741451100163, 'emailTemplate:add', '添加邮件模板', '/api/emailTemplate', 'POST', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741451100165, 1920809741451100163, 'emailTemplate:delete', '删除邮件模板', '/api/emailTemplate', 'DELETE', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741451100166, 1920809741451100163, 'emailTemplate:query', '分页查询邮件模板', '/api/emailTemplate/*/*', 'GET', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741514014722, 1920809741451100163, 'emailTemplate:update', '更新邮件模板', '/api/emailTemplate', 'PUT', '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741514014723, 0, 'admin:actuator', 'actuator端点访问', NULL, NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
-INSERT INTO `sys_permission` VALUES (1920809741514014724, 1920809741514014723, 'actuator:all', 'Springboot端点全部可以访问', '/api/actuator/**', NULL, '2025-05-09 19:55:04', '2025-05-09 19:55:04', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1849471636643618818, 0, 'admin::actuator', 'actuator端点访问', NULL, NULL, '2025-04-28 17:30:04', '2025-04-28 17:30:04', 1, 1, 0);
+INSERT INTO `sys_permission` VALUES (1849471846698557442, 1849471636643618818, 'actuator::all', 'Springboot端点全部可以访问', '/api/actuator/**', NULL, '2025-04-28 17:30:04', '2025-04-28 17:30:04', 1, 1, 0);
+INSERT INTO `sys_permission` VALUES (1916799569930055682, 0, 'user::user', '用户信息', '/api/user/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799569959415809, 1916799569930055682, 'user::delete', '删除用户', '/api/user', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799569967804418, 1916799569930055682, 'user::add', '添加', '/api/user', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799569967804419, 1916799569930055682, 'user::query', '分页查询', '/api/user/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:27', NULL, 1, 0);
+INSERT INTO `sys_permission` VALUES (1916799569967804420, 1916799569930055682, 'user::update', '更新', '/api/user', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799569971998721, 1916799569930055682, 'user::update', '强制退出', '/api/user/forcedOffline', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799569992970241, 1916799569930055682, 'user::menuIcon', '系统菜单图标', '/api/menuIcon/**', NULL, '2025-04-28 18:20:05', '2025-05-02 15:34:32', NULL, 1, 0);
+INSERT INTO `sys_permission` VALUES (1916799570005553153, 1916799569992970241, 'menuIcon::update', '更新', '/api/menuIcon', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570005553154, 1916799569992970241, 'menuIcon::query', '分页查询', '/api/menuIcon/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570005553155, 1916799569992970241, 'menuIcon::add', '添加', '/api/menuIcon', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570005553156, 1916799569992970241, 'menuIcon::delete', '删除', '/api/menuIcon', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570026524674, 1916799570114605057, 'user::routerRole', '路由和角色', '/api/routerRole/**', NULL, '2025-04-28 18:20:05', '2025-05-02 15:34:32', NULL, 1, 0);
+INSERT INTO `sys_permission` VALUES (1916799570039107585, 1916799570026524674, 'routerRole::delete', '清除选中菜单所有角色', '/api/routerRole/clearRouterRole', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570055884802, 0, 'user::config', '系统配置', '/api/config/**', '', '2025-04-28 18:20:05', '2025-05-02 20:35:38', NULL, 1849444494908125181, 0);
+INSERT INTO `sys_permission` VALUES (1916799570064273409, 1916799570055884802, 'config::update', '更新web配置文件', '/api/config', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570085244929, 0, 'user::messageReceived', '消息接收(用户消息)', '/api/messageReceived/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570097827841, 1916799570085244929, 'messageReceived::update', '更新', '/api/messageReceived', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570097827842, 1916799570085244929, 'messageReceived::query', '分页查询', '/api/messageReceived/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570097827843, 1916799570085244929, 'messageReceived::delete', '删除', '/api/messageReceived', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570114605057, 1916799569930055682, 'user::permission', '系统权限', '/api/permission/**', NULL, '2025-04-28 18:20:05', '2025-05-02 15:34:32', NULL, 1, 0);
+INSERT INTO `sys_permission` VALUES (1916799570127187969, 1916799570114605057, 'permission::update', '批量修改权限父级', '/api/permission/update/permissionListByParentId', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570131382274, 1916799570114605057, 'permission::update', '导出权限', '/api/permission/file/export', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570131382275, 1916799570114605057, 'permission::update', '更新', '/api/permission', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570131382276, 1916799570114605057, 'permission::page', '分页查询', '/api/permission/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570131382277, 1916799570114605057, 'permission::delete', '删除', '/api/permission', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570131382278, 1916799570114605057, 'permission::add', '添加', '/api/permission', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570139770881, 1916799570114605057, 'permission::update', '导入权限', '/api/permission/file/import', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570164936706, 0, 'user::rolePermission', '系统角色和权限', '/api/rolePermission/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570173325313, 1916799570164936706, 'rolePermission::update', '为角色分配权限', '/api/rolePermission', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570185908225, 0, 'user::emailUsers', '邮箱用户发送配置', '/api/emailUsers/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570202685441, 1916799570185908225, 'emailUsers::add', '添加', '/api/emailUsers', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570202685442, 1916799570185908225, 'emailUsers::delete', '删除', '/api/emailUsers', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570202685443, 1916799570185908225, 'emailUsers::query', '分页查询', '/api/emailUsers/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570202685444, 1916799570185908225, 'emailUsers::update', '更新', '/api/emailUsers', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570227851265, 0, 'user::i18n', '多语言', '/api/i18n/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570240434177, 1916799570227851265, 'i18n::update', '文件导入多语言', '/api/i18n/file', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570244628481, 1916799570227851265, 'i18n::query', '分页查询', '/api/i18n/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570244628482, 1916799570227851265, 'i18n::update', '文件导出多语言', '/api/i18n/file', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570244628483, 1916799570227851265, 'i18n::update', '更新', '/api/i18n', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570244628484, 1916799570227851265, 'i18n::delete', '删除', '/api/i18n', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570244628485, 1916799570227851265, 'i18n::add', '添加', '/api/i18n', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570269794306, 0, 'user::scheduleExecuteLog', '调度任务执行日志', '/api/scheduleExecuteLog/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570290765825, 1916799570269794306, 'scheduleExecuteLog::query', '分页查询', '/api/scheduleExecuteLog/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570290765826, 1916799570269794306, 'scheduleExecuteLog::delete', '删除', '/api/scheduleExecuteLog', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570307543041, 0, 'user::messageType', '系统消息类型', '/api/messageType/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570320125953, 1916799570307543041, 'messageType::delete', '删除', '/api/messageType', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570324320257, 1916799570307543041, 'messageType::query', '分页查询', '/api/messageType/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570324320258, 1916799570307543041, 'messageType::update', '更新', '/api/messageType', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570324320259, 1916799570307543041, 'messageType::add', '添加', '/api/messageType', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570341097474, 0, 'user::files', '系统文件表', '/api/files/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570357874690, 1916799570341097474, 'files::query', '分页查询', '/api/files/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570362068994, 1916799570341097474, 'files::update', '更新', '/api/files', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570362068995, 1916799570341097474, 'files::delete', '删除', '/api/files', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570362068996, 1916799570341097474, 'files::query', '下载文件', '/api/files/file/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570362068997, 1916799570341097474, 'files::add', '添加', '/api/files', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570383040514, 0, 'user::message', '系统消息', '/api/message/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570395623426, 1916799570383040514, 'message::query', '分页查询', '/api/message/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570404012034, 1916799570383040514, 'message::delete', '删除', '/api/message', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570404012035, 1916799570383040514, 'message::update', '更新', '/api/message', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570404012036, 1916799570383040514, 'message::add', '添加', '/api/message', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570420789250, 0, 'user::schedulers', '调度任务', '/api/schedulers/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570433372162, 1916799570420789250, 'schedulers::update', '恢复任务', '/api/schedulers/resume', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570433372163, 1916799570420789250, 'schedulers::query', '分页查询', '/api/schedulers/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570433372164, 1916799570420789250, 'schedulers::add', '添加', '/api/schedulers', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570433372165, 1916799570420789250, 'schedulers::delete', '删除', '/api/schedulers', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570433372166, 1916799570420789250, 'schedulers::update', '更新', '/api/schedulers', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570437566465, 1916799570420789250, 'schedulers::update', '暂停任务', '/api/schedulers/pause', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570462732290, 0, 'user::dept', '系统部门', '/api/dept/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570466926594, 1916799570462732290, 'dept::query', '分页查询部门', '/api/dept/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:29:47', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570466926595, 1916799570462732290, 'dept::delete', '删除部门', '/api/dept', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:29:17', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570466926596, 1916799570462732290, 'dept::add', '添加部门', '/api/dept', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:29:18', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570466926597, 1916799570462732290, 'dept::update', '更新部门', '/api/dept', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:29:19', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570487898113, 0, 'user::userRole', '用户和角色', '/api/userRole/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570508869634, 1916799570487898113, 'user::add', '为用户分配角色', '/api/userRole', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570521452545, 0, 'user::userLoginLog', '用户登录日志', '/api/userLoginLog/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570534035457, 1916799570521452545, 'userLoginLog::delete', '删除', '/api/userLoginLog', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570534035458, 1916799570521452545, 'userLoginLog::query', '分页查询', '/api/userLoginLog/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570542424065, 0, 'user::router', '系统路由', '/api/router/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570559201281, 1916799570542424065, 'router::update', '更新', '/api/router', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570559201282, 1916799570542424065, 'router::delete', '删除', '/api/router', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570559201283, 1916799570542424065, 'router::add', '添加', '/api/router', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570559201284, 1916799570542424065, 'router::query', '查询管理菜单列表', '/api/router/routerList', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570580172802, 0, 'user::emailTemplate', '邮件模板', '/api/emailTemplate/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570596950017, 1916799570580172802, 'emailTemplate::add', '添加', '/api/emailTemplate', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570596950018, 1916799570580172802, 'emailTemplate::delete', '删除', '/api/emailTemplate', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570596950019, 1916799570580172802, 'emailTemplate::query', '分页查询', '/api/emailTemplate/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570596950020, 1916799570580172802, 'emailTemplate::update', '更新', '/api/emailTemplate', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570613727234, 0, 'user::role', '系统角色', '/api/role/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570617921538, 1916799570613727234, 'role::update', '导出角色列表', '/api/role/file/export', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570617921539, 1916799570613727234, 'role::update', '更新角色列表', '/api/role/file/import', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570622115842, 1916799570613727234, 'role::query', '分页查询角色', '/api/role/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570622115843, 1916799570613727234, 'role::add', '添加', '/api/role', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570622115844, 1916799570613727234, 'role::update', '更新', '/api/role', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570622115845, 1916799570613727234, 'role::delete', '删除', '/api/role', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570634698753, 0, 'user::i18nType', '多语言类型', '/api/i18nType/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570647281665, 1916799570634698753, 'i18nType::query', '添加', '/api/i18nType', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570647281666, 1916799570634698753, 'i18nType::update', '更新', '/api/i18nType', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570647281667, 1916799570634698753, 'i18nType::delete', '删除', '/api/i18nType', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570655670274, 0, 'user::schedulersGroup', '任务调度分组', '/api/schedulersGroup/**', NULL, '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570672447490, 1916799570655670274, 'schedulersGroup::add', '添加', '/api/schedulersGroup', 'POST', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570672447491, 1916799570655670274, 'schedulersGroup::query', '分页查询', '/api/schedulersGroup/*/*', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570672447492, 1916799570655670274, 'schedulersGroup::query', '获取所有任务调度分组', '/api/schedulersGroup/getSchedulersGroupList', 'GET', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570672447493, 1916799570655670274, 'schedulersGroup::delete', '删除', '/api/schedulersGroup', 'DELETE', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1916799570672447494, 1916799570655670274, 'schedulersGroup::update', '更新', '/api/schedulersGroup', 'PUT', '2025-04-28 18:20:05', '2025-04-28 18:20:05', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061246808268802, 0, '', '邮件模板', '/api/emailTemplate/**', NULL, '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061247202533377, 1920061246808268802, 'emailTemplate::add', '添加', '/api/emailTemplate', 'POST', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061247210921985, 1920061246808268802, 'emailTemplate::query', '分页查询', '/api/emailTemplate/*/*', 'GET', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061247210921986, 1920061246808268802, 'emailTemplate::update', '更新', '/api/emailTemplate', 'PUT', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061247210921987, 1920061246808268802, 'emailTemplate::delete', '删除', '/api/emailTemplate', 'DELETE', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061247777153025, 0, '', '任务调度分组', '/api/schedulersGroup/**', NULL, '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248016228354, 1920061247777153025, 'schedulersGroup::query', '获取所有任务调度分组', '/api/schedulersGroup/getSchedulersGroupList', 'GET', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248016228355, 1920061247777153025, 'schedulersGroup::delete', '删除', '/api/schedulersGroup', 'DELETE', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248016228356, 1920061247777153025, 'schedulersGroup::update', '更新', '/api/schedulersGroup', 'PUT', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248016228357, 1920061247777153025, 'schedulersGroup::query', '分页查询', '/api/schedulersGroup/*/*', 'GET', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248016228358, 1920061247777153025, 'schedulersGroup::add', '添加', '/api/schedulersGroup', 'POST', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248657956866, 0, '', '系统用户', '/api/user/**', NULL, '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248901226497, 1920061248657956866, 'user::update', '强制退出用户', '/api/user/forcedOffline', 'PUT', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248901226498, 1920061248657956866, 'user::query', '分页查询', '/api/user/*/*', 'GET', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248901226499, 1920061248657956866, 'user::query', '已登录用户', '/api/user/getCacheUserPage/*/*', 'GET', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248901226500, 1920061248657956866, 'user::delete', '删除用户', '/api/user', 'DELETE', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248905420802, 1920061248657956866, 'user::update', '更新用户', '/api/user', 'PUT', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061248905420803, 1920061248657956866, 'user::add', '添加用户', '/api/user', 'POST', '2025-05-07 18:20:49', '2025-05-07 18:20:49', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061249614258177, 0, '', '系统角色和权限', '/api/rolePermission/**', NULL, '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061249853333505, 1920061249614258177, 'rolePermission::update', '为角色分配权限', '/api/rolePermission', 'POST', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061250176294913, 0, '', 'web配置', '/api/config/**', NULL, '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061250406981634, 1920061250176294913, 'config::update', '更新web配置文件', '/api/config', 'PUT', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061250729943041, 0, '', '系统用户和角色', '/api/userRole/**', NULL, '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061250969018369, 1920061250729943041, 'user::add', '为用户分配角色', '/api/userRole', 'POST', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061251291979777, 0, '', '路由和角色', '/api/routerRole/**', NULL, '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061251539443714, 1920061251291979777, 'routerRole::delete', '清除选中菜单所有角色', '/api/routerRole/clearRouterRole', 'DELETE', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061251854016513, 0, '', '系统部门', '/api/dept/**', NULL, '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061252097286146, 1920061251854016513, 'dept::update', '更新部门', '/api/dept', 'PUT', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061252097286147, 1920061251854016513, 'dept::delete', '删除部门', '/api/dept', 'DELETE', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061252097286148, 1920061251854016513, 'dept::add', '添加部门', '/api/dept', 'POST', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061252097286149, 1920061251854016513, 'dept::query', '分页查询部门', '/api/dept/*/*', 'GET', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061252692877313, 0, '', '邮箱用户发送配置', '/api/emailUsers/**', NULL, '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061252931952642, 1920061252692877313, 'emailUsers::update', '更新', '/api/emailUsers', 'PUT', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061252936146945, 1920061252692877313, 'emailUsers::query', '分页查询', '/api/emailUsers/*/*', 'GET', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061252936146946, 1920061252692877313, 'emailUsers::delete', '删除', '/api/emailUsers', 'DELETE', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061252936146947, 1920061252692877313, 'emailUsers::add', '添加', '/api/emailUsers', 'POST', '2025-05-07 18:20:50', '2025-05-07 18:20:50', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061253493989377, 0, '', '系统消息', '/api/message/**', NULL, '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061253724676098, 1920061253493989377, 'message::add', '添加', '/api/message', 'POST', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061253724676099, 1920061253493989377, 'message::delete', '删除', '/api/message', 'DELETE', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061253724676100, 1920061253493989377, 'message::query', '分页查询', '/api/message/*/*', 'GET', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061253724676101, 1920061253493989377, 'message::update', '更新', '/api/message', 'PUT', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061254278324225, 0, '', 'i18n多语言类型', '/api/i18nType/**', NULL, '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061254521593857, 1920061254278324225, 'i18nType::query', '添加', '/api/i18nType', 'POST', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061254525788161, 1920061254278324225, 'i18nType::update', '更新', '/api/i18nType', 'PUT', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061254525788162, 1920061254278324225, 'i18nType::delete', '删除', '/api/i18nType', 'DELETE', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061255003938818, 0, '', '任务调度执行日志', '/api/scheduleExecuteLog/**', NULL, '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061255243014146, 1920061255003938818, 'scheduleExecuteLog::query', '分页查询', '/api/scheduleExecuteLog/*/*', 'GET', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061255243014147, 1920061255003938818, 'scheduleExecuteLog::delete', '删除', '/api/scheduleExecuteLog', 'DELETE', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061255641473025, 0, '', '系统消息类型', '/api/messageType/**', NULL, '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061255880548353, 1920061255641473025, 'messageType::update', '更新', '/api/messageType', 'PUT', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061255880548354, 1920061255641473025, 'messageType::delete', '删除', '/api/messageType', 'DELETE', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061255880548355, 1920061255641473025, 'messageType::add', '添加', '/api/messageType', 'POST', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061255880548356, 1920061255641473025, 'messageType::query', '分页查询', '/api/messageType/*/*', 'GET', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061256438390785, 0, '', '用户登录', '/api/user/**', NULL, '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061256828461057, 0, '', '消息接收(用户消息)', '/api/messageReceived/**', NULL, '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061257067536386, 1920061256828461057, 'messageReceived::update', '更新', '/api/messageReceived', 'PUT', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061257067536387, 1920061256828461057, 'messageReceived::query', '分页查询', '/api/messageReceived/*/*', 'GET', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061257067536388, 1920061256828461057, 'messageReceived::delete', '删除', '/api/messageReceived', 'DELETE', '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061257541492738, 0, '', '系统文件', '/api/files/**', NULL, '2025-05-07 18:20:51', '2025-05-07 18:20:51', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061257784762369, 1920061257541492738, 'files::add', '添加', '/api/files', 'POST', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061257784762370, 1920061257541492738, 'files::query', '下载文件', '/api/files/file/*', 'GET', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061257784762371, 1920061257541492738, 'files::query', '分页查询', '/api/files/*/*', 'GET', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061257784762372, 1920061257541492738, 'files::update', '更新', '/api/files', 'PUT', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061257784762373, 1920061257541492738, 'files::delete', '删除', '/api/files', 'DELETE', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061258413907969, 0, '', '系统用户登录日志', '/api/userLoginLog/**', NULL, '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061258652983297, 1920061258413907969, 'userLoginLog::query', '分页查询', '/api/userLoginLog/*/*', 'GET', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061258657177602, 1920061258413907969, 'userLoginLog::delete', '删除', '/api/userLoginLog', 'DELETE', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061259051442178, 0, '', '任务调度', '/api/schedulers/**', NULL, '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061259290517505, 1920061259051442178, 'schedulers::update', '恢复任务', '/api/schedulers/resume', 'PUT', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061259290517506, 1920061259051442178, 'schedulers::update', '暂停任务', '/api/schedulers/pause', 'PUT', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061259290517507, 1920061259051442178, 'schedulers::delete', '删除', '/api/schedulers', 'DELETE', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061259290517508, 1920061259051442178, 'schedulers::add', '添加', '/api/schedulers', 'POST', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061259290517509, 1920061259051442178, 'schedulers::query', '分页查询', '/api/schedulers/*/*', 'GET', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061259290517510, 1920061259051442178, 'schedulers::update', '更新', '/api/schedulers', 'PUT', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061259990966273, 0, '', '系统角色', '/api/role/**', NULL, '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061260230041602, 1920061259990966273, 'role::add', '添加', '/api/role', 'POST', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061260230041603, 1920061259990966273, 'role::update', '更新', '/api/role', 'PUT', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061260230041604, 1920061259990966273, 'role::delete', '删除', '/api/role', 'DELETE', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061260230041605, 1920061259990966273, 'role::query', '分页查询角色', '/api/role/*/*', 'GET', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061260230041606, 1920061259990966273, 'role::update', '导出角色列表', '/api/role/file/export', 'GET', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061260230041607, 1920061259990966273, 'role::update', '更新角色列表', '/api/role/file/import', 'PUT', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061260943073281, 0, '', 'i18n多语言', '/api/i18n/**', NULL, '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061261182148610, 1920061260943073281, 'i18n::update', '更新', '/api/i18n', 'PUT', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061261182148611, 1920061260943073281, 'i18n::add', '添加', '/api/i18n', 'POST', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061261182148612, 1920061260943073281, 'i18n::delete', '删除', '/api/i18n', 'DELETE', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061261182148613, 1920061260943073281, 'i18n::query', '分页查询', '/api/i18n/*/*', 'GET', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061261182148614, 1920061260943073281, 'i18n::update', '文件导出多语言', '/api/i18n/file', 'GET', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061261182148615, 1920061260943073281, 'i18n::update', '文件导入多语言', '/api/i18n/file', 'PUT', '2025-05-07 18:20:52', '2025-05-07 18:20:52', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061261886791682, 0, '', '系统权限', '/api/permission/**', NULL, '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061262125867010, 1920061261886791682, 'permission::add', '添加', '/api/permission', 'POST', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061262130061313, 1920061261886791682, 'permission::update', '导出权限', '/api/permission/file/export', 'GET', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061262130061314, 1920061261886791682, 'permission::page', '分页查询', '/api/permission/*/*', 'GET', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061262130061315, 1920061261886791682, 'permission::update', '更新', '/api/permission', 'PUT', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061262130061316, 1920061261886791682, 'permission::delete', '删除', '/api/permission', 'DELETE', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061262130061317, 1920061261886791682, 'permission::update', '导入权限', '/api/permission/file/import', 'PUT', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061262130061318, 1920061261886791682, 'permission::update', '批量修改权限父级', '/api/permission/update/permissionListByParentId', 'PATCH', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061262130061319, 1920061261886791682, 'permission::update', '批量修改权', '/api/permission/update/permissionBatch', 'PATCH', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061263002476546, 0, '', '菜单图标', '/api/menuIcon/**', NULL, '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061263245746178, 1920061263002476546, 'menuIcon::add', '添加', '/api/menuIcon', 'POST', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061263245746179, 1920061263002476546, 'menuIcon::query', '分页查询', '/api/menuIcon/*/*', 'GET', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061263245746180, 1920061263002476546, 'menuIcon::update', '更新', '/api/menuIcon', 'PUT', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061263245746181, 1920061263002476546, 'menuIcon::delete', '删除', '/api/menuIcon', 'DELETE', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061263799394305, 0, '', '系统路由', '/api/router/**', NULL, '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061264038469633, 1920061263799394305, 'router::query', '查询管理菜单列表', '/api/router/routerList', 'GET', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061264038469634, 1920061263799394305, 'router::add', '添加', '/api/router', 'POST', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061264038469635, 1920061263799394305, 'router::delete', '删除', '/api/router', 'DELETE', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061264038469636, 1920061263799394305, 'router::update', '更新', '/api/router', 'PUT', '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061264596312065, 0, 'admin::actuator', 'actuator端点访问', NULL, NULL, '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
+INSERT INTO `sys_permission` VALUES (1920061264826998785, 1920061264596312065, 'actuator::all', 'Springboot端点全部可以访问', '/api/actuator/**', NULL, '2025-05-07 18:20:53', '2025-05-07 18:20:53', NULL, NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -2867,6 +2902,127 @@ CREATE TABLE `sys_role_permission`  (
 -- ----------------------------
 -- Records of sys_role_permission
 -- ----------------------------
+INSERT INTO `sys_role_permission` VALUES (1916794765916864513, 1852621694771773442, 1849471636643618818, '2025-04-28 18:00:59', '2025-04-28 18:00:59', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916794765916864514, 1852621694771773442, 1849471846698557442, '2025-04-28 18:00:59', '2025-04-28 18:00:59', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916795712181207041, 1916789229485903878, 1849471636643618818, '2025-04-28 18:04:45', '2025-04-28 18:04:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916795712181207042, 1916789229485903878, 1849471846698557442, '2025-04-28 18:04:45', '2025-04-28 18:04:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799875044687873, 1915784833780183044, 1916799570341097474, '2025-04-28 18:21:17', '2025-04-28 18:21:17', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799875053076481, 1915784833780183044, 1916799570357874690, '2025-04-28 18:21:17', '2025-04-28 18:21:17', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799875053076482, 1915784833780183044, 1916799570362068994, '2025-04-28 18:21:17', '2025-04-28 18:21:17', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799875053076483, 1915784833780183044, 1916799570362068995, '2025-04-28 18:21:17', '2025-04-28 18:21:17', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799875053076484, 1915784833780183044, 1916799570362068996, '2025-04-28 18:21:17', '2025-04-28 18:21:17', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799875053076485, 1915784833780183044, 1916799570362068997, '2025-04-28 18:21:17', '2025-04-28 18:21:17', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799991184965633, 1915784833780183046, 1916799570164936706, '2025-04-28 18:21:45', '2025-04-28 18:21:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799991184965634, 1915784833780183046, 1916799570173325313, '2025-04-28 18:21:45', '2025-04-28 18:21:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799991184965635, 1915784833780183046, 1916799570613727234, '2025-04-28 18:21:45', '2025-04-28 18:21:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799991184965636, 1915784833780183046, 1916799570617921538, '2025-04-28 18:21:45', '2025-04-28 18:21:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799991184965637, 1915784833780183046, 1916799570617921539, '2025-04-28 18:21:45', '2025-04-28 18:21:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799991184965638, 1915784833780183046, 1916799570622115842, '2025-04-28 18:21:45', '2025-04-28 18:21:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799991184965639, 1915784833780183046, 1916799570622115843, '2025-04-28 18:21:45', '2025-04-28 18:21:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799991184965640, 1915784833780183046, 1916799570622115844, '2025-04-28 18:21:45', '2025-04-28 18:21:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916799991184965641, 1915784833780183046, 1916799570622115845, '2025-04-28 18:21:45', '2025-04-28 18:21:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800021241348097, 1915784833796960257, 1916799570164936706, '2025-04-28 18:21:52', '2025-04-28 18:21:52', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800021241348098, 1915784833796960257, 1916799570173325313, '2025-04-28 18:21:52', '2025-04-28 18:21:52', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800082159419394, 1915784833796960258, 1916799570542424065, '2025-04-28 18:22:07', '2025-04-28 18:22:07', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800082159419395, 1915784833796960258, 1916799570559201281, '2025-04-28 18:22:07', '2025-04-28 18:22:07', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800082159419396, 1915784833796960258, 1916799570559201282, '2025-04-28 18:22:07', '2025-04-28 18:22:07', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800082159419397, 1915784833796960258, 1916799570559201283, '2025-04-28 18:22:07', '2025-04-28 18:22:07', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800082159419398, 1915784833796960258, 1916799570559201284, '2025-04-28 18:22:07', '2025-04-28 18:22:07', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800111800565762, 1915784833796960259, 1916799570026524674, '2025-04-28 18:22:14', '2025-04-28 18:22:14', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800111800565763, 1915784833796960259, 1916799570039107585, '2025-04-28 18:22:14', '2025-04-28 18:22:14', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800308119158785, 1915786941359206410, 1916799570487898113, '2025-04-28 18:23:01', '2025-04-28 18:23:01', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800308119158786, 1915786941359206410, 1916799570508869634, '2025-04-28 18:23:01', '2025-04-28 18:23:01', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800350112530433, 1916789229422989313, 1849471636643618818, '2025-04-28 18:23:11', '2025-04-28 18:23:11', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800350112530434, 1916789229422989313, 1849471846698557442, '2025-04-28 18:23:11', '2025-04-28 18:23:11', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800374699540482, 1916789229485903873, 1916799569992970241, '2025-04-28 18:23:16', '2025-04-28 18:23:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800374699540483, 1916789229485903873, 1916799570005553153, '2025-04-28 18:23:16', '2025-04-28 18:23:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800374699540484, 1916789229485903873, 1916799570005553154, '2025-04-28 18:23:16', '2025-04-28 18:23:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800374699540485, 1916789229485903873, 1916799570005553155, '2025-04-28 18:23:16', '2025-04-28 18:23:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800374699540486, 1916789229485903873, 1916799570005553156, '2025-04-28 18:23:16', '2025-04-28 18:23:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800491376689154, 1916789229485903874, 1916799570185908225, '2025-04-28 18:23:44', '2025-04-28 18:23:44', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800491376689155, 1916789229485903874, 1916799570202685441, '2025-04-28 18:23:44', '2025-04-28 18:23:44', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800491376689156, 1916789229485903874, 1916799570202685442, '2025-04-28 18:23:44', '2025-04-28 18:23:44', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800491376689157, 1916789229485903874, 1916799570202685443, '2025-04-28 18:23:44', '2025-04-28 18:23:44', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800491376689158, 1916789229485903874, 1916799570202685444, '2025-04-28 18:23:44', '2025-04-28 18:23:44', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800533038710785, 1916789229485903875, 1916799570064273409, '2025-04-28 18:23:54', '2025-04-28 18:23:54', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800533038710786, 1916789229485903875, 1916799570055884802, '2025-04-28 18:23:54', '2025-04-28 18:23:54', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800554924589058, 1916789229485903876, 1916799570580172802, '2025-04-28 18:23:59', '2025-04-28 18:23:59', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800554924589059, 1916789229485903876, 1916799570596950017, '2025-04-28 18:23:59', '2025-04-28 18:23:59', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800554924589060, 1916789229485903876, 1916799570596950018, '2025-04-28 18:23:59', '2025-04-28 18:23:59', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800554924589061, 1916789229485903876, 1916799570596950019, '2025-04-28 18:23:59', '2025-04-28 18:23:59', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800554924589062, 1916789229485903876, 1916799570596950020, '2025-04-28 18:23:59', '2025-04-28 18:23:59', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800571827634178, 1916789229485903877, 1849471636643618818, '2025-04-28 18:24:03', '2025-04-28 18:24:03', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800571827634179, 1916789229485903877, 1849471846698557442, '2025-04-28 18:24:03', '2025-04-28 18:24:03', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800644976295937, 1916789229485903879, 1916799570420789250, '2025-04-28 18:24:21', '2025-04-28 18:24:21', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800644976295938, 1916789229485903879, 1916799570433372162, '2025-04-28 18:24:21', '2025-04-28 18:24:21', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800644976295939, 1916789229485903879, 1916799570433372163, '2025-04-28 18:24:21', '2025-04-28 18:24:21', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800644976295940, 1916789229485903879, 1916799570433372164, '2025-04-28 18:24:21', '2025-04-28 18:24:21', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800644976295941, 1916789229485903879, 1916799570433372165, '2025-04-28 18:24:21', '2025-04-28 18:24:21', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800644976295942, 1916789229485903879, 1916799570433372166, '2025-04-28 18:24:21', '2025-04-28 18:24:21', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800644976295943, 1916789229485903879, 1916799570437566465, '2025-04-28 18:24:21', '2025-04-28 18:24:21', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800678174212097, 1916789229485903880, 1916799570655670274, '2025-04-28 18:24:29', '2025-04-28 18:24:29', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800678174212098, 1916789229485903880, 1916799570672447490, '2025-04-28 18:24:29', '2025-04-28 18:24:29', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800678174212099, 1916789229485903880, 1916799570672447491, '2025-04-28 18:24:29', '2025-04-28 18:24:29', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800678174212100, 1916789229485903880, 1916799570672447492, '2025-04-28 18:24:29', '2025-04-28 18:24:29', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800678174212101, 1916789229485903880, 1916799570672447493, '2025-04-28 18:24:29', '2025-04-28 18:24:29', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800678174212102, 1916789229485903880, 1916799570672447494, '2025-04-28 18:24:29', '2025-04-28 18:24:29', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800711170801665, 1916789229485903881, 1916799570227851265, '2025-04-28 18:24:37', '2025-04-28 18:24:37', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800711170801666, 1916789229485903881, 1916799570240434177, '2025-04-28 18:24:37', '2025-04-28 18:24:37', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800711170801667, 1916789229485903881, 1916799570244628481, '2025-04-28 18:24:37', '2025-04-28 18:24:37', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800711170801668, 1916789229485903881, 1916799570244628482, '2025-04-28 18:24:37', '2025-04-28 18:24:37', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800711170801669, 1916789229485903881, 1916799570244628483, '2025-04-28 18:24:37', '2025-04-28 18:24:37', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800711170801670, 1916789229485903881, 1916799570244628484, '2025-04-28 18:24:37', '2025-04-28 18:24:37', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800711170801671, 1916789229485903881, 1916799570244628485, '2025-04-28 18:24:37', '2025-04-28 18:24:37', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800747761909762, 1916789229485903882, 1916799570634698753, '2025-04-28 18:24:45', '2025-04-28 18:24:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800747761909763, 1916789229485903882, 1916799570647281665, '2025-04-28 18:24:45', '2025-04-28 18:24:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800747761909764, 1916789229485903882, 1916799570647281666, '2025-04-28 18:24:45', '2025-04-28 18:24:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800747761909765, 1916789229485903882, 1916799570647281667, '2025-04-28 18:24:45', '2025-04-28 18:24:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800797443440641, 1916789229485903883, 1916799570269794306, '2025-04-28 18:24:57', '2025-04-28 18:24:57', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800797443440642, 1916789229485903883, 1916799570290765825, '2025-04-28 18:24:57', '2025-04-28 18:24:57', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800797443440643, 1916789229485903883, 1916799570290765826, '2025-04-28 18:24:57', '2025-04-28 18:24:57', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800948065091585, 1916789229485903884, 1916799570521452545, '2025-04-28 18:25:33', '2025-04-28 18:25:33', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800948065091586, 1916789229485903884, 1916799570534035457, '2025-04-28 18:25:33', '2025-04-28 18:25:33', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916800948065091587, 1916789229485903884, 1916799570534035458, '2025-04-28 18:25:33', '2025-04-28 18:25:33', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801009553588226, 1916789229485903885, 1916799570307543041, '2025-04-28 18:25:48', '2025-04-28 18:25:48', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801009553588227, 1916789229485903885, 1916799570320125953, '2025-04-28 18:25:48', '2025-04-28 18:25:48', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801009553588228, 1916789229485903885, 1916799570324320257, '2025-04-28 18:25:48', '2025-04-28 18:25:48', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801009553588229, 1916789229485903885, 1916799570324320258, '2025-04-28 18:25:48', '2025-04-28 18:25:48', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801009553588230, 1916789229485903885, 1916799570324320259, '2025-04-28 18:25:48', '2025-04-28 18:25:48', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801128759902209, 1916789229485903886, 1916799570383040514, '2025-04-28 18:26:16', '2025-04-28 18:26:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801128759902210, 1916789229485903886, 1916799570395623426, '2025-04-28 18:26:16', '2025-04-28 18:26:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801128759902211, 1916789229485903886, 1916799570404012034, '2025-04-28 18:26:16', '2025-04-28 18:26:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801128759902212, 1916789229485903886, 1916799570404012035, '2025-04-28 18:26:16', '2025-04-28 18:26:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801128759902213, 1916789229485903886, 1916799570404012036, '2025-04-28 18:26:16', '2025-04-28 18:26:16', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801207122083841, 1916789229485903887, 1916799570383040514, '2025-04-28 18:26:35', '2025-04-28 18:26:35', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801207122083842, 1916789229485903887, 1916799570395623426, '2025-04-28 18:26:35', '2025-04-28 18:26:35', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801207122083843, 1916789229485903887, 1916799570404012034, '2025-04-28 18:26:35', '2025-04-28 18:26:35', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801207122083844, 1916789229485903887, 1916799570404012035, '2025-04-28 18:26:35', '2025-04-28 18:26:35', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801207122083845, 1916789229485903887, 1916799570404012036, '2025-04-28 18:26:35', '2025-04-28 18:26:35', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801249300004866, 1916789229485903888, 1916799570085244929, '2025-04-28 18:26:45', '2025-04-28 18:26:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801249300004867, 1916789229485903888, 1916799570097827841, '2025-04-28 18:26:45', '2025-04-28 18:26:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801249300004868, 1916789229485903888, 1916799570097827842, '2025-04-28 18:26:45', '2025-04-28 18:26:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1916801249300004869, 1916789229485903888, 1916799570097827843, '2025-04-28 18:26:45', '2025-04-28 18:26:45', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917506870714396674, 1915784833780183043, 1916799570462732290, '2025-04-30 17:10:38', '2025-04-30 17:10:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917506870714396675, 1915784833780183043, 1916799570466926594, '2025-04-30 17:10:38', '2025-04-30 17:10:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917506870714396676, 1915784833780183043, 1916799570466926595, '2025-04-30 17:10:38', '2025-04-30 17:10:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917506870714396677, 1915784833780183043, 1916799570466926596, '2025-04-30 17:10:38', '2025-04-30 17:10:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917506870714396678, 1915784833780183043, 1916799570466926597, '2025-04-30 17:10:38', '2025-04-30 17:10:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917817666010955777, 1915786941359206409, 1916799569959415809, '2025-05-01 13:45:38', '2025-05-01 13:45:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917817666010955778, 1915786941359206409, 1916799569967804418, '2025-05-01 13:45:38', '2025-05-01 13:45:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917817666010955779, 1915786941359206409, 1916799569967804420, '2025-05-01 13:45:38', '2025-05-01 13:45:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917817666078064642, 1915786941359206409, 1916799569971998721, '2025-05-01 13:45:38', '2025-05-01 13:45:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917817666078064643, 1915786941359206409, 1916799570487898113, '2025-05-01 13:45:38', '2025-05-01 13:45:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917817666078064644, 1915786941359206409, 1916799570508869634, '2025-05-01 13:45:38', '2025-05-01 13:45:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917817666078064645, 1915786941359206409, 1916799569967804419, '2025-05-01 13:45:38', '2025-05-01 13:45:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1917817666078064646, 1915786941359206409, 1916799569930055682, '2025-05-01 13:45:38', '2025-05-01 13:45:38', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1918284418524221441, 1915784833780183045, 1916799570127187969, '2025-05-02 20:40:20', '2025-05-02 20:40:20', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1918284418524221442, 1915784833780183045, 1916799570131382274, '2025-05-02 20:40:20', '2025-05-02 20:40:20', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1918284418524221443, 1915784833780183045, 1916799570131382275, '2025-05-02 20:40:20', '2025-05-02 20:40:20', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1918284418524221444, 1915784833780183045, 1916799570131382277, '2025-05-02 20:40:20', '2025-05-02 20:40:20', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1918284418524221445, 1915784833780183045, 1916799570131382278, '2025-05-02 20:40:20', '2025-05-02 20:40:20', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1918284418524221446, 1915784833780183045, 1916799570139770881, '2025-05-02 20:40:20', '2025-05-02 20:40:20', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1918284418524221447, 1915784833780183045, 1916799570114605057, '2025-05-02 20:40:20', '2025-05-02 20:40:20', 1, 1, 0);
+INSERT INTO `sys_role_permission` VALUES (1918284418524221448, 1915784833780183045, 1916799570131382276, '2025-05-02 20:40:20', '2025-05-02 20:40:20', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_router
@@ -2920,7 +3076,7 @@ INSERT INTO `sys_router` VALUES (1844276961265557505, 1844900259930243074, '/con
 INSERT INTO `sys_router` VALUES (1844290948342456321, 1844900259930243074, '/configuration/email-template', 'EmailTemplate', '/configuration/email-template/index', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"entypo:email\",\"keepAlive\":false,\"rank\":5,\"roles\":[\"1916789229485903876\"],\"showLink\":true,\"showParent\":true,\"title\":\"emailTemplate\",\"transition\":{\"enterTransition\":\"\",\"leaveTransition\":\"\"}}', 1, 1, '2025-04-28 18:08:17', '2024-10-11 00:16:42', 0);
 INSERT INTO `sys_router` VALUES (1844644093987880962, 0, '/monitor', 'Monitor', '', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"carbon:cloud-monitoring\",\"keepAlive\":false,\"rank\":3,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"monitor\",\"transition\":{\"enterTransition\":\"\",\"leaveTransition\":\"\"}}', 1, 1, '2025-04-26 09:30:47', '2024-10-11 23:39:58', 0);
 INSERT INTO `sys_router` VALUES (1844644779039358978, 1844644093987880962, '/monitor/server', 'MonitorServer', '/monitor/server/index', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"mingcute:server-fill\",\"keepAlive\":false,\"rank\":3,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"monitoring_server\",\"transition\":{\"enterTransition\":\"\",\"leaveTransition\":\"\"}}', 1, 1, '2025-04-26 09:30:52', '2024-10-11 23:42:42', 0);
-INSERT INTO `sys_router` VALUES (1844900259930243074, 0, '/configuration', 'SystemConfiguration', '', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"hugeicons:configuration-01\",\"keepAlive\":false,\"rank\":2,\"roles\":[\"1916789229485903873\",\"1916789229485903874\",\"1916789229485903876\"],\"showLink\":true,\"showParent\":true,\"title\":\"configuration\",\"transition\":{\"enterTransition\":\"\",\"leaveTransition\":\"\"}}', 1, 1, '2025-05-06 20:53:31', '2024-10-12 16:37:53', 0);
+INSERT INTO `sys_router` VALUES (1844900259930243074, 0, '/configuration', 'SystemConfiguration', '', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"hugeicons:configuration-01\",\"keepAlive\":false,\"rank\":2,\"roles\":[\"1916789229485903873\",\"1916789229485903874\",\"1916789229485903876\"],\"showLink\":true,\"showParent\":true,\"title\":\"configuration\",\"transition\":{\"enterTransition\":\"\",\"leaveTransition\":\"\"}}', 1, 1, '2025-04-30 17:13:03', '2024-10-12 16:37:53', 0);
 INSERT INTO `sys_router` VALUES (1844956874037469185, 1841796585525985281, '/iframe/embedded-doc', 'embedded_doc', '', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"mdi:iframe-braces\",\"keepAlive\":false,\"rank\":9,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"embedded_doc\",\"transition\":{\"enterTransition\":\"animate__bounce\",\"leaveTransition\":\"animate__flash\"}}', 1, 1, '2025-04-25 16:34:28', '2024-10-12 20:22:51', 0);
 INSERT INTO `sys_router` VALUES (1844957189138751490, 1841796585525985281, '/ifram/external-doc', 'external_doc', '', NULL, 0, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"line-md:link\",\"keepAlive\":false,\"rank\":8,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"external_doc\",\"transition\":{\"enterTransition\":\"animate__flash\",\"leaveTransition\":\"animate__flash\"}}', 1, 1, '2025-04-25 16:34:42', '2024-10-12 20:24:06', 0);
 INSERT INTO `sys_router` VALUES (1844957830590468097, 1844957189138751490, '/external-doc/element-plus', 'https://element-plus.org/zh-CN/component/overview.html', '', NULL, 2, '{\"auths\":[],\"fixedTag\":false,\"icon\":\"logos:element\",\"keepAlive\":true,\"rank\":9,\"roles\":[],\"showLink\":true,\"showParent\":true,\"title\":\"element_plus\",\"transition\":{\"enterTransition\":\"animate__bounceInRight\",\"leaveTransition\":\"animate__bounceInRight\"}}', 1, 1, '2025-04-25 16:34:32', '2024-10-12 20:26:39', 0);
@@ -2969,6 +3125,37 @@ CREATE TABLE `sys_router_role`  (
 -- ----------------------------
 -- Records of sys_router_role
 -- ----------------------------
+INSERT INTO `sys_router_role` VALUES (1916796535867015169, 1841506924681338881, 1916789229485903873, '2025-04-28 18:08:01', '2025-04-28 18:08:01', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916796567101997058, 1844276961265557505, 1916789229485903874, '2025-04-28 18:08:09', '2025-04-28 18:08:09', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916796603693105153, 1844290948342456321, 1916789229485903876, '2025-04-28 18:08:17', '2025-04-28 18:08:17', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916796650153410561, 1849000501604724738, 1916789229485903875, '2025-04-28 18:08:28', '2025-04-28 18:08:28', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916797101477298178, 1, 1915784833780183043, '2025-04-28 18:10:16', '2025-04-28 18:10:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916797101477298179, 1, 1915784833780183044, '2025-04-28 18:10:16', '2025-04-28 18:10:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916797101477298180, 1, 1915784833780183045, '2025-04-28 18:10:16', '2025-04-28 18:10:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916797101477298181, 1, 1915784833780183046, '2025-04-28 18:10:16', '2025-04-28 18:10:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916797101477298182, 1, 1915784833796960257, '2025-04-28 18:10:16', '2025-04-28 18:10:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916797101477298183, 1, 1915784833796960258, '2025-04-28 18:10:16', '2025-04-28 18:10:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916797101477298184, 1, 1915784833796960259, '2025-04-28 18:10:16', '2025-04-28 18:10:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916797101477298185, 1, 1915786941359206409, '2025-04-28 18:10:16', '2025-04-28 18:10:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916797101477298186, 1, 1915786941359206410, '2025-04-28 18:10:16', '2025-04-28 18:10:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916802565124472834, 1846804024660791298, 1916789229485903879, '2025-04-28 18:31:59', '2025-04-28 18:31:59', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916802565124472835, 1846804024660791298, 1916789229485903880, '2025-04-28 18:31:59', '2025-04-28 18:31:59', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916802595524788225, 1845812113861079042, 1916789229485903879, '2025-04-28 18:32:06', '2025-04-28 18:32:06', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916802629616091138, 1846166163060285441, 1916789229485903880, '2025-04-28 18:32:14', '2025-04-28 18:32:14', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916803323932786689, 1841716459123634177, 1916789229485903882, '2025-04-28 18:35:00', '2025-04-28 18:35:00', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916803323932786690, 1841716459123634177, 1916789229485903881, '2025-04-28 18:35:00', '2025-04-28 18:35:00', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916803366169427970, 1840211412516524034, 1916789229485903881, '2025-04-28 18:35:10', '2025-04-28 18:35:10', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1916803393386266625, 1840292695145963522, 1916789229485903882, '2025-04-28 18:35:16', '2025-04-28 18:35:16', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507025119309826, 1841803086252548097, 1915786941359206409, '2025-04-30 17:11:15', '2025-04-30 17:11:15', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507043867848705, 1841726844983701505, 1915784833780183046, '2025-04-30 17:11:19', '2025-04-30 17:11:19', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507061832052738, 1841750734275416065, 1915784833780183045, '2025-04-30 17:11:24', '2025-04-30 17:11:24', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507084670038017, 1842033245832458241, 1915784833780183043, '2025-04-30 17:11:29', '2025-04-30 17:11:29', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507099316547585, 2, 1915784833796960258, '2025-04-30 17:11:33', '2025-04-30 17:11:33', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507099316547586, 2, 1915784833796960259, '2025-04-30 17:11:33', '2025-04-30 17:11:33', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507124708864001, 1843932804747603970, 1915784833780183044, '2025-04-30 17:11:39', '2025-04-30 17:11:39', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507479093997569, 1844900259930243074, 1916789229485903873, '2025-04-30 17:13:03', '2025-04-30 17:13:03', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507479093997570, 1844900259930243074, 1916789229485903874, '2025-04-30 17:13:03', '2025-04-30 17:13:03', 1, 1, 0);
+INSERT INTO `sys_router_role` VALUES (1917507479093997571, 1844900259930243074, 1916789229485903876, '2025-04-30 17:13:03', '2025-04-30 17:13:03', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -3011,12 +3198,12 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '1864692046', '$2a$10$gD2mTVaqIjfgciN.5vQ7uemf.PYNYLFQL4BZdnYswZEjAuC543Vhe', '/api/local-file/avatar/2025-05-09/681dcc26cdfbce75ed403bd5', 1, 'admin', '127.0.0.1', '内网IP', 0, '2024-10-24 21:35:03', '2025-05-09 17:34:32', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '18012062876', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', '/api/local-file/avatar/2025-05-09/681d8303cdfbef4b8eadacff', 1, 'bunny', '127.0.0.1', '内网IP', 0, '2024-09-26 14:29:33', '2025-05-09 12:22:28', 1849444494908125181, 1, 0);
-INSERT INTO `sys_user` VALUES (1849681227633758210, 'Operation', '系统配置', 'Operation@qq.com', '18012345678', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', NULL, 0, '能看到定时任务和系统配置页面可以发布和更新消息，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-25 13:15:45', '2025-05-09 12:17:51', 1, 1, 0);
-INSERT INTO `sys_user` VALUES (1850075157831454722, 'system', '只能看到系统配置用户1', 'system@Gmail.com', '18012062876', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', NULL, 0, '只能看到系统设置1内容页面，密码：admin123', '113.201.133.129', '陕西省,西安市 联通', 0, '2024-10-26 15:21:05', '2025-05-09 12:17:51', 1, 1849681227633758210, 1);
-INSERT INTO `sys_user` VALUES (1850080272764211202, 'timing', '定时任务', 'timing@163.com', '212122', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', NULL, 0, '只能看到定时任务页面，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-26 15:41:25', '2025-05-09 12:17:51', 1, NULL, 0);
-INSERT INTO `sys_user` VALUES (1850789068551200769, 'i18n', 'i18n', 'i18n@qq.com', '18012345678', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', NULL, 1, '可见i18n，定时任务，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-28 14:37:55', '2025-05-09 12:17:51', 1, NULL, 0);
+INSERT INTO `sys_user` VALUES (1, 'Administrator', 'Administrator', 'admin@qq.com', '123456789', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', '/auth-admin/avatar/2025/05-02/68bc367d-0fcf-42be-a548-88a41568e4e8', 1, 'admin 1', '60.221.230.31', '山西省,临汾市 联通', 0, '2024-10-24 21:35:03', '2025-09-19 20:02:29', 1, 1, 0);
+INSERT INTO `sys_user` VALUES (1849444494908125181, 'bunny', 'bunny', '1319900154@qq.com', '18012062876', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', '/auth-admin/avatar/2025/01-17/b3aba651-bfb1-45dd-a470-0bcaad26f6ef', 1, '搜索', '117.152.144.189', '湖北省,武汉市 移动', 0, '2024-09-26 14:29:33', '2025-06-08 09:59:57', 1849444494908125181, 1, 1);
+INSERT INTO `sys_user` VALUES (1849681227633758210, 'Operation', '系统配置', 'Operation@qq.com', '18012345678', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', '/auth-admin/avatar/2025/03-24/151a11fa-1a11-40c5-9845-202ab0a7f830', 0, '能看到定时任务和系统配置页面可以发布和更新消息，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-25 13:15:45', '2025-06-08 10:31:31', 1, 1, 1);
+INSERT INTO `sys_user` VALUES (1850075157831454722, 'system', '只能看到系统配置用户1', 'system@Gmail.com', '18012062876', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', '/auth-admin/avatar/2024/10-28/057cb028-dea3-4054-ae07-8321eaeceaf1', 0, '只能看到系统设置1内容页面，密码：admin123', '113.201.133.129', '陕西省,西安市 联通', 0, '2024-10-26 15:21:05', '2025-04-28 18:30:54', 1, 1849681227633758210, 1);
+INSERT INTO `sys_user` VALUES (1850080272764211202, 'timing', '定时任务', 'timing@163.com', '212122', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', '/auth-admin/avatar/2024/10-28/6b9cbcd2-31af-4c91-b74e-2d66e5b0558a', 0, '只能看到定时任务页面，密码：admin123', '59.148.59.242', '香港,0 香港宽频', 0, '2024-10-26 15:41:25', '2025-09-17 08:52:39', 1850080272764211202, 1, 1);
+INSERT INTO `sys_user` VALUES (1850789068551200769, 'i18n', 'i18n', 'i18n@qq.com', '18012345678', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', '/auth-admin/avatar/2024/10-28/71a8b92c-ef68-425c-9993-d95292613916', 1, '可见i18n，定时任务，密码：admin123', '127.0.0.1', '内网IP', 0, '2024-10-28 14:37:55', '2025-08-09 04:02:45', 1, 1, 1);
 INSERT INTO `sys_user` VALUES (1853494274437152770, 'test', 'test', 'test@qq.com', '18012062876', '$2a$10$h5BUwmMaVcEuu7Bz0TPPy.PQV8JP6CFJlbHTgT78G1s0YPIu2kfXe', NULL, 0, 'test', '127.0.0.1', '内网IP', 0, '2024-11-05 01:47:26', '2025-02-22 21:21:06', 1, 1, 1);
 
 -- ----------------------------
@@ -3048,10 +3235,6 @@ CREATE TABLE `sys_user_dept`  (
 -- Records of sys_user_dept
 -- ----------------------------
 INSERT INTO `sys_user_dept` VALUES (1849443729225383937, 1, 1842883239493881857, '2024-10-24 21:32:01', '2024-10-24 21:32:01', 1, 1, 0);
-INSERT INTO `sys_user_dept` VALUES (1850080272827125761, 1850080272764211202, 1850077710275153922, '2024-10-26 15:41:25', '2024-10-26 15:41:25', 1, 1, 0);
-INSERT INTO `sys_user_dept` VALUES (1850914498145005569, 1850789068551200769, 1842844360640327682, '2024-10-28 22:56:19', '2024-10-28 22:56:19', 1, 1, 0);
-INSERT INTO `sys_user_dept` VALUES (1916796760199364610, 1849681227633758210, 1842885831187877890, '2025-04-28 18:08:55', '2025-04-28 18:08:55', 1, 1, 0);
-INSERT INTO `sys_user_dept` VALUES (1920695839786622977, 1849444494908125181, 1842844360640327682, '2025-05-09 12:22:28', '2025-05-09 12:22:28', 1, 1, 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
